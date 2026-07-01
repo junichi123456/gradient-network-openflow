@@ -13,7 +13,7 @@ public partial class DummyNPC : HostileEntity
         ActorName = "DummyNPC";
         Speed = 100;
         DebugColor = Colors.SkyBlue;
-        base._Ready(); // creates Stats + the debug ColorRect visual
+        base._Ready(); // creates Stats + Moves + the debug ColorRect visual
 
         Stats.MaxHp = 20;
         Stats.CurrentHp = 20;
@@ -22,5 +22,7 @@ public partial class DummyNPC : HostileEntity
         Stats.SpAttack = 6;
         Stats.SpDefense = 6;
         Stats.Type1 = "Normal";
+
+        Moves.Learn("tackle");
     }
 }

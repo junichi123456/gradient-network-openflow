@@ -1,20 +1,24 @@
 using Godot;
 using MysteryDungeon.Turn;
+using MysteryDungeon.Dungeon;
 
 namespace MysteryDungeon.Entities;
 
 // Reads arrow keys / Enter-Space and submits exactly one action per
 // key press to the TurnManager. Input is ignored while a turn is
-// being processed (NPCs acting) or once an action has been submitted
-// for the current turn.
+// being processed (NPCs acting), once an action has been submitted for
+// the current turn, or permanently once the player has died.
 public partial class Player : Entity
 {
     // Assigned by the composition root (TestScene) after instancing.
     public TurnManager TurnManager { get; set; }
+    public FloorController FloorController { get; set; }
+
+    private bool _inputDisabled;
 
     public override void _Ready()
     {
-        base._Ready(); // creates Stats + the debug ColorRect visual
+        base._Ready(); // creates Stats + Moves + the debug ColorRect visual
 
         Stats.MaxHp = 30;
         Stats.CurrentHp = 30;
@@ -25,10 +29,28 @@ public partial class Player : Entity
         Stats.Type1 = "Normal";
         Stats.MaxBelly = 100;
         Stats.Belly = 100;
+
+        Moves.Learn("tackle");
+        Moves.Learn("ember");
+    }
+
+    public void DisableInput() => _inputDisabled = true;
+
+    // NPCs get removed from the scene on death (see Entity.Die()); the
+    // player stays on screen (no title-screen flow yet) and instead
+    // just stops accepting input. AttackAction calls defender.Die()
+    // uniformly for both cases - this override is what makes that safe.
+    public override void Die()
+    {
+        if (!IsAlive) return;
+        IsAlive = false;
+        DisableInput();
+        GD.Print("[Game] 💀 PLAYER DIED! GAME OVER 💀");
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
+        if (_inputDisabled) return;
         if (TurnManager == null || TurnManager.CurrentState != TurnState.WaitingForPlayerInput)
             return;
 
@@ -48,7 +70,17 @@ public partial class Player : Entity
 
         Vector2I target = GridPosition + direction;
 
-        if (Grid != null && Grid.IsWalkable(target))
+        // Bump-to-attack: moving into an occupied tile attacks instead.
+        var enemy = FloorController?.GetEnemyAt(target);
+        if (enemy != null)
+        {
+            var moveSlot = Moves.GetActiveMove();
+            if (moveSlot != null)
+                TurnManager.SubmitPlayerAction(new AttackAction(this, enemy, moveSlot));
+            else
+                GD.Print("[Player] has no move equipped to attack with.");
+        }
+        else if (Grid != null && Grid.IsWalkable(target))
         {
             TurnManager.SubmitPlayerAction(new MoveAction(this, target));
         }

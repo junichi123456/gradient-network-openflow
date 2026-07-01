@@ -12,7 +12,7 @@ public partial class FastNPC : HostileEntity
         ActorName = "FastNPC";
         Speed = 200;
         DebugColor = Colors.OrangeRed;
-        base._Ready(); // creates Stats + the debug ColorRect visual
+        base._Ready(); // creates Stats + Moves + the debug ColorRect visual
 
         Stats.MaxHp = 14;
         Stats.CurrentHp = 14;
@@ -21,5 +21,7 @@ public partial class FastNPC : HostileEntity
         Stats.SpAttack = 10;
         Stats.SpDefense = 4;
         Stats.Type1 = "Electric";
+
+        Moves.Learn("thunder_shock");
     }
 }

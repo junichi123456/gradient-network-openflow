@@ -1,0 +1,7 @@
+[
+  { "id": "tackle", "name": "たいあたり", "type": "Normal", "category": "Physical", "power": 10, "accuracy": 100, "max_pp": 35, "range": "Adjacent" },
+  { "id": "ember", "name": "ひのこ", "type": "Fire", "category": "Special", "power": 12, "accuracy": 100, "max_pp": 25, "range": "Adjacent" },
+  { "id": "water_gun", "name": "みずでっぽう", "type": "Water", "category": "Special", "power": 12, "accuracy": 100, "max_pp": 25, "range": "Line" },
+  { "id": "vine_whip", "name": "つるのムチ", "type": "Grass", "category": "Physical", "power": 12, "accuracy": 100, "max_pp": 25, "range": "Adjacent" },
+  { "id": "thunder_shock", "name": "でんきショック", "type": "Electric", "category": "Special", "power": 12, "accuracy": 100, "max_pp": 25, "range": "Adjacent" }
+]

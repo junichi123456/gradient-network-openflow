@@ -12,18 +12,22 @@ internal class TypeChartJson
 }
 
 // JSON-driven attack-type -> defender-type damage multiplier lookup.
-// Load() is called once at startup (TestScene._Ready()); GetMultiplier()
-// is a pure data lookup. Only a small illustrative set of types is
-// populated in Data/type_chart.json for now - adding the remaining
-// types later is a JSON-only change, no code changes needed.
+// TestScene._Ready() calls Load() explicitly for clarity/logging, but
+// GetMultiplier() also lazy-loads on first use (see MoveDatabase for
+// why: child nodes' _Ready() can run before the scene root's).  Only a
+// small illustrative set of types is populated in Data/type_chart.json
+// for now - adding the remaining types later is a JSON-only change, no
+// code changes needed.
 public static class TypeChartManager
 {
     private static readonly Dictionary<string, int> _typeIndex = new();
     private static List<List<float>> _matrix = new();
     private static bool _loaded;
+    private static bool _loadAttempted;
 
     public static void Load(string resPath = "res://Data/type_chart.json")
     {
+        _loadAttempted = true;
         _typeIndex.Clear();
         _matrix = new List<List<float>>();
         _loaded = false;
@@ -71,6 +75,7 @@ public static class TypeChartManager
 
     private static float GetSingleMultiplier(string attackType, string defenderType)
     {
+        if (!_loadAttempted) Load();
         if (!_loaded || string.IsNullOrEmpty(defenderType)) return 1f;
         if (!_typeIndex.TryGetValue(attackType, out int atkIdx)) return 1f;
         if (!_typeIndex.TryGetValue(defenderType, out int defIdx)) return 1f;

@@ -27,6 +27,9 @@ public partial class Entity : Node2D, ITurnActor
     // always have a valid Stats reference with no scene setup needed.
     public EntityStats Stats { get; private set; }
 
+    // Up to 4 learned moves. Same auto-attach pattern as Stats.
+    public MoveManager Moves { get; private set; }
+
     public override void _Ready()
     {
         Stats = GetNodeOrNull<EntityStats>("Stats");
@@ -34,6 +37,13 @@ public partial class Entity : Node2D, ITurnActor
         {
             Stats = new EntityStats { Name = "Stats" };
             AddChild(Stats);
+        }
+
+        Moves = GetNodeOrNull<MoveManager>("Moves");
+        if (Moves == null)
+        {
+            Moves = new MoveManager { Name = "Moves" };
+            AddChild(Moves);
         }
 
         var visual = new ColorRect
@@ -61,6 +71,17 @@ public partial class Entity : Node2D, ITurnActor
     public void Wait()
     {
         // Footstep: consumes a turn without changing position.
+    }
+
+    // Called when Stats.CurrentHp reaches 0. NPCs are removed from the
+    // scene entirely; Player overrides this to trigger game-over instead
+    // (see Player.Die()) - AttackAction just calls defender.Die()
+    // uniformly and lets polymorphism pick the right behavior.
+    public virtual void Die()
+    {
+        if (!IsAlive) return; // guards against double-invocation
+        IsAlive = false;
+        QueueFree();
     }
 
     public virtual IAction DecideAction() => new WaitAction(this);

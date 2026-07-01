@@ -44,7 +44,21 @@ public partial class HostileEntity : Entity
 
     private IAction DecideChaseAction()
     {
-        if (_targetPosition == null || Pathfinder == null)
+        if (_targetPosition == null)
+            return DecideWanderAction();
+
+        // In range: attack instead of pathfinding at all.
+        if (TargetPlayer != null && IsAdjacent(GridPosition, TargetPlayer.GridPosition))
+        {
+            var moveSlot = Moves.GetActiveMove();
+            if (moveSlot != null)
+                return new AttackAction(this, TargetPlayer, moveSlot);
+
+            GD.Print($"[AI] {ActorName} is next to the player but has no move equipped - holding position.");
+            return new WaitAction(this);
+        }
+
+        if (Pathfinder == null)
             return DecideWanderAction();
 
         var target = _targetPosition.Value;
@@ -66,14 +80,14 @@ public partial class HostileEntity : Entity
             return DecideWanderAction();
         }
 
-        if (TargetPlayer != null && next.Value == TargetPlayer.GridPosition)
-        {
-            GD.Print($"[AI] {ActorName} is right next to the player - holding position.");
-            return new WaitAction(this);
-        }
-
         GD.Print($"[AI] {ActorName} chasing toward {target}, next step {next.Value}.");
         return new MoveAction(this, next.Value);
+    }
+
+    private static bool IsAdjacent(Vector2I a, Vector2I b)
+    {
+        var diff = (a - b).Abs();
+        return (diff.X == 1 && diff.Y == 0) || (diff.X == 0 && diff.Y == 1);
     }
 
     private IAction DecideWanderAction()

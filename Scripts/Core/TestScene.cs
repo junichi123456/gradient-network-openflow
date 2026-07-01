@@ -26,6 +26,7 @@ public partial class TestScene : Node2D
     public override void _Ready()
     {
         TypeChartManager.Load();
+        MoveDatabase.Load();
 
         var grid = GetNode<GridManager>(GridManagerPath);
         var turnManager = GetNode<TurnManager>(TurnManagerPath);
@@ -35,11 +36,12 @@ public partial class TestScene : Node2D
 
         player.Grid = grid;
         player.TurnManager = turnManager;
+        player.FloorController = floorController;
 
         floorController.Initialize(grid, turnManager, player, DungeonId);
         minimap.Initialize(grid, turnManager, player, floorController);
 
-        GD.Print("=== Phase 3 Test Scene Ready ===");
-        GD.Print("Arrow keys: move / Enter or Space: wait (footstep)");
+        GD.Print("=== Phase 4 Test Scene Ready ===");
+        GD.Print("Arrow keys: move / bump into an enemy to attack / Enter or Space: wait (footstep)");
     }
 }

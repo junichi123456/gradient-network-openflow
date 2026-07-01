@@ -41,6 +41,17 @@ public partial class FloorController : Node2D
     public DungeonObjectManager Objects => _objects;
     public IReadOnlyList<Entity> SpawnedEnemies => _spawnedEnemies;
 
+    // Entity-occupancy lookup for Player's bump-to-attack input.
+    // GridManager only knows about terrain, so this is the closest thing
+    // this project has to a "what's standing here" query.
+    public Entity GetEnemyAt(Vector2I pos)
+    {
+        foreach (var enemy in _spawnedEnemies)
+            if (GodotObject.IsInstanceValid(enemy) && enemy.IsAlive && enemy.GridPosition == pos)
+                return enemy;
+        return null;
+    }
+
     public void Initialize(GridManager grid, TurnManager turnManager, Player player, string dungeonId)
     {
         _grid = grid;
@@ -55,6 +66,17 @@ public partial class FloorController : Node2D
 
     private void OnTurnEnded(int turnNumber)
     {
+        // Enemies killed by the player's own action this turn (bump
+        // attack) are already QueueFree()'d by Entity.Die() - drop them
+        // from our bookkeeping list before anything else touches it.
+        PruneDeadEnemies();
+
+        // The player might have just died too (an adjacent enemy's
+        // AttackAction runs during the NPC tick, right before this
+        // signal fires). Stop here rather than process a dead player's
+        // surroundings.
+        if (CheckPlayerDeath()) return;
+
         if (_objects.IsStairs(_player.GridPosition))
         {
             GD.Print("[Dungeon] Player stepped on stairs. Progressing to next floor...");
@@ -63,10 +85,26 @@ public partial class FloorController : Node2D
         }
 
         _player.Stats.TickBelly();
+        if (CheckPlayerDeath()) return; // ...or from starvation just now
 
         CheckMonsterHouseTrigger(); // may spawn enemies before FOV is recomputed below
 
         RefreshFieldOfView();
+    }
+
+    private void PruneDeadEnemies()
+    {
+        _spawnedEnemies.RemoveAll(e => !GodotObject.IsInstanceValid(e) || !e.IsAlive);
+    }
+
+    // Returns true (and triggers game-over) if the player's HP has
+    // reached 0. Player.Die() is idempotent, so calling this more than
+    // once in the same turn is harmless.
+    private bool CheckPlayerDeath()
+    {
+        if (_player.Stats.IsAlive) return false;
+        _player.Die();
+        return true;
     }
 
     // Recomputes which tiles are currently visible/explored, then syncs
