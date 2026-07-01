@@ -85,6 +85,17 @@ jobs:
           godot --headless --verbose --editor --quit || true
           godot --headless --verbose --build-solutions --quit || exit 0
 
+      # Normally done once via the editor's Project > Install Android
+      # Build Template menu item (extracts android_source.zip from the
+      # export templates into res://android/build). This is the
+      # headless CLI equivalent, required because gradle_build/
+      # use_gradle_build=true (mandatory for C#/.NET Android export)
+      # can't produce an APK without that local Gradle project.
+      - name: Install Android build template
+        run: |
+          cd "$PROJECT_PATH"
+          godot --headless --verbose --install-android-build-template --quit
+
       - name: Export Android debug APK
         env:
           GODOT_ANDROID_KEYSTORE_DEBUG_PATH: ${{ env.DEBUG_KEYSTORE_PATH }}
