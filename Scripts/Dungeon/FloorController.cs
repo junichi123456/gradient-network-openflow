@@ -30,10 +30,15 @@ public partial class FloorController : Node2D
 
     private readonly DungeonObjectManager _objects = new();
     private readonly List<Entity> _spawnedEnemies = new();
-    private readonly List<Node> _spawnedMarkers = new();
+    private readonly List<(Vector2I Pos, ColorRect Rect)> _spawnedMarkers = new();
     private List<Room> _rooms = new();
 
     private int _floorNumber;
+
+    // Read-only access for presentation code (MinimapUI) - FloorController
+    // stays the only thing that mutates these.
+    public DungeonObjectManager Objects => _objects;
+    public IReadOnlyList<Entity> SpawnedEnemies => _spawnedEnemies;
 
     public void Initialize(GridManager grid, TurnManager turnManager, Player player, string dungeonId)
     {
@@ -52,11 +57,27 @@ public partial class FloorController : Node2D
         if (_objects.IsStairs(_player.GridPosition))
         {
             GD.Print("[Dungeon] Player stepped on stairs. Progressing to next floor...");
-            GenerateFloor();
+            GenerateFloor(); // regenerates the floor and refreshes FOV itself
             return;
         }
 
-        CheckMonsterHouseTrigger();
+        CheckMonsterHouseTrigger(); // may spawn enemies before FOV is recomputed below
+
+        RefreshFieldOfView();
+    }
+
+    // Recomputes which tiles are currently visible/explored, then syncs
+    // the Visible flag on every dynamic (enemies) and semi-static
+    // (stairs/item/trap markers) presentation node to match.
+    private void RefreshFieldOfView()
+    {
+        FovManager.UpdateVisibility(_grid, _player.GridPosition);
+
+        foreach (var enemy in _spawnedEnemies)
+            enemy.Visible = _grid.GetTile(enemy.GridPosition).IsVisible;
+
+        foreach (var (pos, rect) in _spawnedMarkers)
+            rect.Visible = _grid.GetTile(pos).IsExplored;
     }
 
     // O(1): the tile the player is standing on already knows which
@@ -102,6 +123,10 @@ public partial class FloorController : Node2D
         PlaceItemsAndTraps(occupied, rng);
         SpawnEnemies(normalRooms, occupied, rng);
 
+        // First reveal of the new floor - without this the player would
+        // see nothing until their first action fires OnTurnEnded.
+        RefreshFieldOfView();
+
         GD.Print($"[Dungeon] Floor {_floorNumber} ready: {_rooms.Count} rooms, {_spawnedEnemies.Count} enemies.");
     }
 
@@ -114,8 +139,8 @@ public partial class FloorController : Node2D
         }
         _spawnedEnemies.Clear();
 
-        foreach (var marker in _spawnedMarkers)
-            marker.QueueFree();
+        foreach (var (_, rect) in _spawnedMarkers)
+            rect.QueueFree();
         _spawnedMarkers.Clear();
 
         _objects.Clear();
@@ -261,6 +286,7 @@ public partial class FloorController : Node2D
         AddChild(enemy);
         enemy.Grid = _grid;
         enemy.PlaceAt(pos);
+        enemy.Visible = false; // hidden until RefreshFieldOfView() reveals it
 
         _turnManager.RegisterActor(enemy);
         _spawnedEnemies.Add(enemy);
@@ -288,8 +314,9 @@ public partial class FloorController : Node2D
             Size = new Vector2(MarkerSize, MarkerSize),
             Position = _grid.GridToWorld(pos) - new Vector2(MarkerSize / 2f, MarkerSize / 2f),
             MouseFilter = Control.MouseFilterEnum.Ignore,
+            Visible = false, // hidden until RefreshFieldOfView() reveals it
         };
         AddChild(marker);
-        _spawnedMarkers.Add(marker);
+        _spawnedMarkers.Add((pos, marker));
     }
 }

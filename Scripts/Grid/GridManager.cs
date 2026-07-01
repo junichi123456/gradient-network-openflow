@@ -56,6 +56,61 @@ public partial class GridManager : Node2D
     // O(1) "which room is this tile in" lookup; -1 if none (wall/corridor).
     public int GetRoomId(Vector2I pos) => InBounds(pos) ? _tiles[pos.X, pos.Y].RoomId : -1;
 
+    // --- Field of view primitives, driven by Dungeon.FovManager. ---
+    // GridManager only knows how to mutate tiles; the room-vs-corridor
+    // policy decision lives in FovManager, not here.
+
+    // Resets "currently seen" for every tile. IsExplored (memory) is
+    // untouched, so previously-seen terrain/markers stay visible.
+    public void ClearVisibility()
+    {
+        for (int x = 0; x < Width; x++)
+            for (int y = 0; y < Height; y++)
+                _tiles[x, y].IsVisible = false;
+    }
+
+    // Reveals every tile belonging to `roomId`, plus any Wall tile
+    // directly adjacent to one of them (the room's boundary walls),
+    // so the room reads as a fully-enclosed space rather than floating
+    // floor tiles with black gaps at the edges.
+    public void RevealRoom(int roomId)
+    {
+        Vector2I[] neighbors = { new(0, -1), new(0, 1), new(-1, 0), new(1, 0) };
+
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                if (_tiles[x, y].RoomId != roomId) continue;
+
+                Reveal(x, y);
+
+                foreach (var dir in neighbors)
+                {
+                    var n = new Vector2I(x + dir.X, y + dir.Y);
+                    if (InBounds(n) && _tiles[n.X, n.Y].Terrain == TerrainType.Wall)
+                        Reveal(n.X, n.Y);
+                }
+            }
+        }
+    }
+
+    // Reveals the (2*radius+1) square centered on `center` (used for
+    // corridors, where RoomId == -1 - a 3x3 window at radius 1).
+    public void RevealAround(Vector2I center, int radius)
+    {
+        for (int x = center.X - radius; x <= center.X + radius; x++)
+            for (int y = center.Y - radius; y <= center.Y + radius; y++)
+                if (InBounds(new Vector2I(x, y)))
+                    Reveal(x, y);
+    }
+
+    private void Reveal(int x, int y)
+    {
+        _tiles[x, y].IsVisible = true;
+        _tiles[x, y].IsExplored = true;
+    }
+
     public bool InBounds(Vector2I pos) =>
         pos.X >= 0 && pos.X < Width && pos.Y >= 0 && pos.Y < Height;
 
@@ -76,6 +131,8 @@ public partial class GridManager : Node2D
         {
             for (int y = 0; y < Height; y++)
             {
+                if (!_tiles[x, y].IsExplored) continue; // unseen = stays black
+
                 var rect = new Rect2(x * TileSize, y * TileSize, TileSize, TileSize);
                 var color = _tiles[x, y].Terrain == TerrainType.Wall
                     ? new Color(0.15f, 0.15f, 0.15f)

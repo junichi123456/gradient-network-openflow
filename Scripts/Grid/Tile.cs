@@ -3,13 +3,20 @@ namespace MysteryDungeon.Grid;
 public struct Tile
 {
     public TerrainType Terrain;
-    public bool Explored;
+
+    // Ever been seen -> terrain/marker memory. Persists once true; only
+    // GridManager.Resize() (i.e. a brand new floor) resets it.
+    public bool IsExplored;
+
+    // Currently in the player's line of sight this turn -> gates dynamic
+    // entities (enemies). Recomputed every turn by FovManager.
+    public bool IsVisible;
 
     // -1 = belongs to no room (wall or corridor). DungeonGenerator stamps
     // a room's Id into every tile it carves via GridManager.SetRoomFloor,
-    // giving an O(1) "which room is this tile in" lookup (used by
-    // FloorController for the Monster House trigger, and later by the
-    // Phase 3 field-of-view system: a whole room is visible at once).
+    // giving an O(1) "which room is this tile in" lookup - used by
+    // FloorController's Monster House trigger and by FovManager to
+    // reveal a whole room at once.
     public int RoomId = -1;
 
     // Phase 1: only Wall blocks movement. Water/Lava/Chasm gain

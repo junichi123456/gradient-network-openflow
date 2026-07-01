@@ -19,4 +19,7 @@ public class DungeonObjectManager
         _objects.TryGetValue(pos, out var type) ? type : MapObjectType.None;
 
     public bool IsStairs(Vector2I pos) => Get(pos) == MapObjectType.Stairs;
+
+    // Read-only enumeration for presentation code (MinimapUI).
+    public IReadOnlyDictionary<Vector2I, MapObjectType> All => _objects;
 }
