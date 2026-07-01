@@ -39,6 +39,16 @@ public class AttackAction : IAction
         var move = _moveSlot.Data;
         if (_moveSlot.CurrentPp > 0) _moveSlot.CurrentPp--;
 
+        // Menu-invoked moves have no manual target (Phase 6: no
+        // direction-picker for moves) - autoaim may still come up empty,
+        // in which case the move just swings at nothing but still costs
+        // the turn/PP, same as a normal miss.
+        if (_defender == null)
+        {
+            GD.Print($"[Combat] {_attacker.ActorName} used {move.Name}, but there was no target! It hit nothing but air.");
+            return;
+        }
+
         if (GD.Randf() * 100f >= move.Accuracy)
         {
             GD.Print($"[Combat] {_attacker.ActorName} used {move.Name} on {_defender.ActorName}! It missed!");
@@ -74,6 +84,14 @@ public class AttackAction : IAction
         if (!defenderStats.IsAlive)
         {
             GD.Print($"[Combat] {_defender.ActorName} fainted!");
+
+            if (_attacker is Player)
+            {
+                int expGained = defenderStats.Level * 10;
+                GD.Print($"[Progression] {_attacker.ActorName} gained {expGained} EXP for defeating {_defender.ActorName}.");
+                attackerStats.AddExp(expGained);
+            }
+
             _defender.Die();
         }
     }

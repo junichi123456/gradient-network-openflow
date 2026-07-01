@@ -36,11 +36,19 @@ public partial class FloorController : Node2D
     private List<Room> _rooms = new();
 
     private int _floorNumber;
+    private Vector2I _lastPlayerPos;
 
-    // Read-only access for presentation code (MinimapUI) - FloorController
-    // stays the only thing that mutates these.
+    // Read-only access for presentation code (MinimapUI/HUD) -
+    // FloorController stays the only thing that mutates these.
     public DungeonObjectManager Objects => _objects;
     public IReadOnlyList<Entity> SpawnedEnemies => _spawnedEnemies;
+    public int FloorNumber => _floorNumber;
+
+    private static readonly Vector2I[] EightDirections =
+    {
+        new(0, -1), new(0, 1), new(-1, 0), new(1, 0),
+        new(-1, -1), new(1, -1), new(-1, 1), new(1, 1),
+    };
 
     // Entity-occupancy lookup for Player's bump-to-attack input.
     // GridManager only knows about terrain, so this is the closest thing
@@ -50,6 +58,26 @@ public partial class FloorController : Node2D
         foreach (var enemy in _spawnedEnemies)
             if (GodotObject.IsInstanceValid(enemy) && enemy.IsAlive && enemy.GridPosition == pos)
                 return enemy;
+        return null;
+    }
+
+    // Auto-aim for menu-invoked moves (Phase 6 dropped the manual
+    // direction-picker for moves so future room-wide/self-buff moves
+    // don't need one): prefers whatever the actor is currently facing,
+    // then falls back to the first enemy found among the 8 surrounding
+    // tiles. Returns null if nothing is adjacent at all - the move then
+    // swings at empty air.
+    public Entity FindAutoAimTarget(Vector2I origin, Vector2I facingDirection)
+    {
+        var facingTarget = GetEnemyAt(origin + facingDirection);
+        if (facingTarget != null) return facingTarget;
+
+        foreach (var dir in EightDirections)
+        {
+            var enemy = GetEnemyAt(origin + dir);
+            if (enemy != null) return enemy;
+        }
+
         return null;
     }
 
@@ -85,7 +113,13 @@ public partial class FloorController : Node2D
             return;
         }
 
-        TryPickupItemAt(_player.GridPosition);
+        // Only auto-pick-up when the player actually stepped onto this
+        // tile this turn (position changed) - otherwise resting on top
+        // of a just-dropped item (DropItemAction) would immediately
+        // re-pick it back up in the same turn.
+        if (_player.GridPosition != _lastPlayerPos)
+            TryPickupItemAt(_player.GridPosition);
+        _lastPlayerPos = _player.GridPosition;
 
         _player.Stats.TickBelly();
         if (CheckPlayerDeath()) return; // ...or from starvation just now
@@ -163,6 +197,7 @@ public partial class FloorController : Node2D
 
         var playerRoom = _rooms[0];
         _player.PlaceAt(playerRoom.Center);
+        _lastPlayerPos = playerRoom.Center;
         occupied.Add(playerRoom.Center);
 
         MarkMonsterHouse(playerRoom, rng);

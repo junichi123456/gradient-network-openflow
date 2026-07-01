@@ -20,6 +20,8 @@ public partial class TestScene : Node2D
     [Export] public NodePath PlayerPath { get; set; }
     [Export] public NodePath FloorControllerPath { get; set; }
     [Export] public NodePath MinimapPath { get; set; }
+    [Export] public NodePath HudPath { get; set; }
+    [Export] public NodePath MenuPath { get; set; }
 
     [Export] public string DungeonId { get; set; } = "beach_cave";
 
@@ -34,15 +36,20 @@ public partial class TestScene : Node2D
         var player = GetNode<Player>(PlayerPath);
         var floorController = GetNode<FloorController>(FloorControllerPath);
         var minimap = GetNode<MinimapUI>(MinimapPath);
+        var hud = GetNode<HUD>(HudPath);
+        var menu = GetNode<MenuUI>(MenuPath);
 
         player.Grid = grid;
         player.TurnManager = turnManager;
         player.FloorController = floorController;
+        player.MenuUI = menu;
 
         floorController.Initialize(grid, turnManager, player, DungeonId);
         minimap.Initialize(grid, turnManager, player, floorController);
+        hud.Initialize(player, turnManager, floorController);
+        menu.Initialize(player, turnManager, floorController);
 
-        GD.Print("=== Phase 4 Test Scene Ready ===");
-        GD.Print("Arrow keys: move / bump into an enemy to attack / Enter or Space: wait (footstep)");
+        GD.Print("=== Phase 6 Test Scene Ready ===");
+        GD.Print("Arrow keys: move / bump into an enemy to attack / Enter or Space: wait (footstep) / Tab: open menu");
     }
 }

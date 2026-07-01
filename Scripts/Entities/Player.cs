@@ -1,23 +1,31 @@
 using Godot;
 using MysteryDungeon.Turn;
 using MysteryDungeon.Dungeon;
+using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Entities;
 
 // Reads arrow keys / Enter-Space and submits exactly one action per
 // key press to the TurnManager. Input is ignored while a turn is
 // being processed (NPCs acting), once an action has been submitted for
-// the current turn, or permanently once the player has died.
+// the current turn, once the player has died, or while MenuUI.IsOpen -
+// see MenuUI for the other half of that input-routing split.
 public partial class Player : Entity
 {
     // Assigned by the composition root (TestScene) after instancing.
     public TurnManager TurnManager { get; set; }
     public FloorController FloorController { get; set; }
+    public MenuUI MenuUI { get; set; }
 
     // Player-only carried items (see InventoryManager); enemies never
     // pick anything up, so this lives here rather than on the Entity
     // base like Stats/Moves.
     public InventoryManager Inventory { get; private set; }
+
+    // Last direction the player pressed - used as the autoaim "facing"
+    // for menu-invoked moves (Phase 6 dropped the direction-picker for
+    // moves, see MenuUI.HandleAccept). Defaults to facing down.
+    public Vector2I LastFacingDirection { get; private set; } = new Vector2I(0, 1);
 
     private bool _inputDisabled;
 
@@ -60,8 +68,16 @@ public partial class Player : Entity
     public override void _UnhandledInput(InputEvent @event)
     {
         if (_inputDisabled) return;
+        if (MenuUI != null && MenuUI.IsOpen) return; // MenuUI owns input while open
         if (TurnManager == null || TurnManager.CurrentState != TurnState.WaitingForPlayerInput)
             return;
+
+        if (@event.IsActionPressed("ui_focus_next")) // Tab: open the command menu
+        {
+            MenuUI?.Open();
+            GetViewport().SetInputAsHandled();
+            return;
+        }
 
         if (@event.IsActionPressed("ui_accept"))
         {
@@ -76,6 +92,8 @@ public partial class Player : Entity
         else if (@event.IsActionPressed("ui_left")) direction = new Vector2I(-1, 0);
         else if (@event.IsActionPressed("ui_right")) direction = new Vector2I(1, 0);
         else return;
+
+        LastFacingDirection = direction;
 
         Vector2I target = GridPosition + direction;
 

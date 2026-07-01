@@ -13,6 +13,8 @@ public partial class EntityStats : Node
     public int CurrentHp { get; set; }
 
     [Export] public int Level { get; set; } = 10;
+    [Export] public int Exp { get; set; } = 0;
+    [Export] public int ExpToNextLevel { get; set; } = 100;
 
     [Export] public int Attack { get; set; } = 10;
     [Export] public int Defense { get; set; } = 10;
@@ -61,5 +63,35 @@ public partial class EntityStats : Node
             TakeDamage(1);
             GD.Print($"[Belly] Starving! Took 1 damage. HP: {CurrentHp}/{MaxHp}");
         }
+    }
+
+    // Only AttackAction's Player-kill branch calls this today, but it's
+    // written generically (reads the owning Entity's name for the log)
+    // so it isn't silently wrong if something else ever levels up too.
+    public void AddExp(int amount)
+    {
+        if (amount <= 0) return;
+
+        Exp += amount;
+        while (Exp >= ExpToNextLevel)
+        {
+            Exp -= ExpToNextLevel;
+            LevelUp();
+        }
+    }
+
+    private void LevelUp()
+    {
+        Level++;
+        MaxHp += 5;
+        Attack += 2;
+        Defense += 2;
+        SpAttack += 2;
+        SpDefense += 2;
+        CurrentHp = MaxHp;
+        ExpToNextLevel = Mathf.RoundToInt(ExpToNextLevel * 1.5f);
+
+        string ownerName = (GetParent() as Entity)?.ActorName ?? Name;
+        GD.Print($"[Progression] {ownerName} leveled up to Lv {Level}! Max HP is now {MaxHp}.");
     }
 }

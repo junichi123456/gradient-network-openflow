@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Core/TestScene.cs" id="1"]
 [ext_resource type="Script" path="res://Scripts/Grid/GridManager.cs" id="2"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://Scripts/Entities/Player.cs" id="4"]
 [ext_resource type="Script" path="res://Scripts/Dungeon/FloorController.cs" id="5"]
 [ext_resource type="Script" path="res://Scripts/UI/MinimapUI.cs" id="6"]
+[ext_resource type="Script" path="res://Scripts/UI/HUD.cs" id="7"]
+[ext_resource type="Script" path="res://Scripts/UI/MenuUI.cs" id="8"]
 
 [node name="TestScene" type="Node2D"]
 script = ExtResource("1")
@@ -14,6 +16,8 @@ TurnManagerPath = NodePath("TurnManager")
 PlayerPath = NodePath("Player")
 FloorControllerPath = NodePath("FloorController")
 MinimapPath = NodePath("UILayer/MinimapUI")
+HudPath = NodePath("UILayer/HUD")
+MenuPath = NodePath("UILayer/MenuUI")
 DungeonId = "beach_cave"
 
 [node name="GridManager" type="Node2D" parent="."]
@@ -40,3 +44,9 @@ script = ExtResource("5")
 
 [node name="MinimapUI" type="Control" parent="UILayer"]
 script = ExtResource("6")
+
+[node name="HUD" type="Control" parent="UILayer"]
+script = ExtResource("7")
+
+[node name="MenuUI" type="Control" parent="UILayer"]
+script = ExtResource("8")
