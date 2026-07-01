@@ -9,13 +9,19 @@
       "min_leaf_size": 8,
       "room_min": [4, 4],
       "room_max": [9, 7],
-      "monster_house_chance": 0.1,
+      "monster_house_chance": 0.2,
       "min_items_per_room": 1,
       "max_items_per_room": 3,
       "min_traps_per_room": 0,
       "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
       "min_enemy_count": 3,
       "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
       "dummy_npc_ratio": 0.7
     }
   }

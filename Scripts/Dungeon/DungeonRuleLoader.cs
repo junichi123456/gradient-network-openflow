@@ -17,8 +17,14 @@ internal class GenerationJson
     [JsonPropertyName("max_items_per_room")] public int MaxItemsPerRoom { get; set; }
     [JsonPropertyName("min_traps_per_room")] public int MinTrapsPerRoom { get; set; }
     [JsonPropertyName("max_traps_per_room")] public int MaxTrapsPerRoom { get; set; }
+    [JsonPropertyName("monster_house_min_items")] public int MonsterHouseMinItems { get; set; }
+    [JsonPropertyName("monster_house_max_items")] public int MonsterHouseMaxItems { get; set; }
+    [JsonPropertyName("monster_house_min_traps")] public int MonsterHouseMinTraps { get; set; }
+    [JsonPropertyName("monster_house_max_traps")] public int MonsterHouseMaxTraps { get; set; }
     [JsonPropertyName("min_enemy_count")] public int MinEnemyCount { get; set; }
     [JsonPropertyName("max_enemy_count")] public int MaxEnemyCount { get; set; }
+    [JsonPropertyName("monster_house_min_enemies")] public int MonsterHouseMinEnemies { get; set; }
+    [JsonPropertyName("monster_house_max_enemies")] public int MonsterHouseMaxEnemies { get; set; }
     [JsonPropertyName("dummy_npc_ratio")] public float DummyNpcRatio { get; set; }
 }
 
@@ -75,13 +81,19 @@ public static class DungeonRuleLoader
             MinLeafSize = g.MinLeafSize > 0 ? g.MinLeafSize : defaults.MinLeafSize,
             RoomMinSize = g.RoomMin is { Length: 2 } ? new Vector2I(g.RoomMin[0], g.RoomMin[1]) : defaults.RoomMinSize,
             RoomMaxSize = g.RoomMax is { Length: 2 } ? new Vector2I(g.RoomMax[0], g.RoomMax[1]) : defaults.RoomMaxSize,
-            MonsterHouseChance = g.MonsterHouseChance,
+            MonsterHouseChance = g.MonsterHouseChance > 0 ? g.MonsterHouseChance : defaults.MonsterHouseChance,
             MinItemsPerRoom = g.MinItemsPerRoom > 0 ? g.MinItemsPerRoom : defaults.MinItemsPerRoom,
             MaxItemsPerRoom = g.MaxItemsPerRoom > 0 ? g.MaxItemsPerRoom : defaults.MaxItemsPerRoom,
             MinTrapsPerRoom = g.MinTrapsPerRoom,
             MaxTrapsPerRoom = g.MaxTrapsPerRoom > 0 ? g.MaxTrapsPerRoom : defaults.MaxTrapsPerRoom,
+            MonsterHouseMinItems = g.MonsterHouseMinItems > 0 ? g.MonsterHouseMinItems : defaults.MonsterHouseMinItems,
+            MonsterHouseMaxItems = g.MonsterHouseMaxItems > 0 ? g.MonsterHouseMaxItems : defaults.MonsterHouseMaxItems,
+            MonsterHouseMinTraps = g.MonsterHouseMinTraps > 0 ? g.MonsterHouseMinTraps : defaults.MonsterHouseMinTraps,
+            MonsterHouseMaxTraps = g.MonsterHouseMaxTraps > 0 ? g.MonsterHouseMaxTraps : defaults.MonsterHouseMaxTraps,
             MinEnemyCount = g.MinEnemyCount > 0 ? g.MinEnemyCount : defaults.MinEnemyCount,
             MaxEnemyCount = g.MaxEnemyCount > 0 ? g.MaxEnemyCount : defaults.MaxEnemyCount,
+            MonsterHouseMinEnemies = g.MonsterHouseMinEnemies > 0 ? g.MonsterHouseMinEnemies : defaults.MonsterHouseMinEnemies,
+            MonsterHouseMaxEnemies = g.MonsterHouseMaxEnemies > 0 ? g.MonsterHouseMaxEnemies : defaults.MonsterHouseMaxEnemies,
             DummyNpcRatio = g.DummyNpcRatio > 0 ? g.DummyNpcRatio : defaults.DummyNpcRatio,
         };
     }

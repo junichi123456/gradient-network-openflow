@@ -25,25 +25,28 @@ public class DungeonGenerator
         var tree = new BspTree(bounds, rule, rng);
 
         var roomLeaves = RoomPlacer.PlaceRooms(tree.Root, rule, rng);
-        foreach (var leaf in roomLeaves)
-            CarveRoom(grid, leaf.RoomRect);
+
+        var result = new DungeonGenerationResult();
+        for (int i = 0; i < roomLeaves.Count; i++)
+        {
+            var room = new Room(i, roomLeaves[i].RoomRect);
+            result.Rooms.Add(room);
+            CarveRoom(grid, room);
+        }
 
         CorridorConnector.Connect(tree.Root, grid, rng);
 
         grid.QueueRedraw();
 
-        var result = new DungeonGenerationResult();
-        foreach (var leaf in roomLeaves)
-            result.Rooms.Add(leaf.RoomRect);
-
         GD.Print($"[DungeonGenerator] done: {result.Rooms.Count} rooms carved");
         return result;
     }
 
-    private static void CarveRoom(GridManager grid, Rect2I room)
+    private static void CarveRoom(GridManager grid, Room room)
     {
-        for (int x = room.Position.X; x < room.Position.X + room.Size.X; x++)
-            for (int y = room.Position.Y; y < room.Position.Y + room.Size.Y; y++)
-                grid.SetTerrain(new Vector2I(x, y), TerrainType.Floor);
+        var bounds = room.Bounds;
+        for (int x = bounds.Position.X; x < bounds.Position.X + bounds.Size.X; x++)
+            for (int y = bounds.Position.Y; y < bounds.Position.Y + bounds.Size.Y; y++)
+                grid.SetRoomFloor(new Vector2I(x, y), room.Id);
     }
 }

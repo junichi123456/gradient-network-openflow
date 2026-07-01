@@ -43,6 +43,19 @@ public partial class GridManager : Node2D
         _tiles[pos.X, pos.Y].Terrain = terrain;
     }
 
+    // Room-carving specific: sets the tile to Floor and stamps which
+    // room it belongs to in one call. Corridor carving (SetTerrain)
+    // deliberately never touches RoomId, so corridors stay RoomId=-1.
+    public void SetRoomFloor(Vector2I pos, int roomId)
+    {
+        if (!InBounds(pos)) return;
+        _tiles[pos.X, pos.Y].Terrain = TerrainType.Floor;
+        _tiles[pos.X, pos.Y].RoomId = roomId;
+    }
+
+    // O(1) "which room is this tile in" lookup; -1 if none (wall/corridor).
+    public int GetRoomId(Vector2I pos) => InBounds(pos) ? _tiles[pos.X, pos.Y].RoomId : -1;
+
     public bool InBounds(Vector2I pos) =>
         pos.X >= 0 && pos.X < Width && pos.Y >= 0 && pos.Y < Height;
 

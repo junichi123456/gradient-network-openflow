@@ -19,8 +19,9 @@ public class DungeonRule
     public Vector2I RoomMinSize { get; set; } = new(4, 4);
     public Vector2I RoomMaxSize { get; set; } = new(9, 7);
 
-    // Consumed starting Phase 2 step 3 (Monster House trigger).
-    public float MonsterHouseChance { get; set; } = 0.1f;
+    // Chance one non-player room is marked as a Monster House at
+    // generation time (hidden until the player steps into it).
+    public float MonsterHouseChance { get; set; } = 0.2f;
 
     // Item/trap placeholder counts, rolled per room independently.
     public int MinItemsPerRoom { get; set; } = 1;
@@ -28,9 +29,21 @@ public class DungeonRule
     public int MinTrapsPerRoom { get; set; } = 0;
     public int MaxTrapsPerRoom { get; set; } = 2;
 
-    // Total enemy count for the floor (excluding the player's room).
+    // A Monster House room gets its own (heavier) item/trap counts
+    // instead of the normal per-room range above.
+    public int MonsterHouseMinItems { get; set; } = 4;
+    public int MonsterHouseMaxItems { get; set; } = 6;
+    public int MonsterHouseMinTraps { get; set; } = 2;
+    public int MonsterHouseMaxTraps { get; set; } = 4;
+
+    // Total enemy count for the floor (excluding the player's room and
+    // any Monster House room - that one stays empty until triggered).
     public int MinEnemyCount { get; set; } = 3;
     public int MaxEnemyCount { get; set; } = 6;
+
+    // Enemies dumped into a Monster House the instant it's triggered.
+    public int MonsterHouseMinEnemies { get; set; } = 5;
+    public int MonsterHouseMaxEnemies { get; set; } = 8;
 
     // Chance a spawned enemy is a DummyNPC rather than a FastNPC.
     // No monster database yet (arrives in Phase 3), so this is the
