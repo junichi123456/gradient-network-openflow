@@ -1,7 +1,7 @@
 [
-  { "id": "tackle", "name": "たいあたり", "type": "Normal", "category": "Physical", "power": 10, "accuracy": 100, "max_pp": 35, "range": "Adjacent" },
-  { "id": "ember", "name": "ひのこ", "type": "Fire", "category": "Special", "power": 12, "accuracy": 100, "max_pp": 25, "range": "Adjacent" },
-  { "id": "water_gun", "name": "みずでっぽう", "type": "Water", "category": "Special", "power": 12, "accuracy": 100, "max_pp": 25, "range": "Line" },
-  { "id": "vine_whip", "name": "つるのムチ", "type": "Grass", "category": "Physical", "power": 12, "accuracy": 100, "max_pp": 25, "range": "Adjacent" },
-  { "id": "thunder_shock", "name": "でんきショック", "type": "Electric", "category": "Special", "power": 12, "accuracy": 100, "max_pp": 25, "range": "Adjacent" }
+  { "id": "power_shot", "name": "パワーショット", "type": "Neutral", "category": "Physical", "power": 35, "accuracy": 100, "max_pp": 20, "range": "Line" },
+  { "id": "flare_arrow", "name": "ファイアーアロー", "type": "Fire", "category": "Special", "power": 30, "accuracy": 100, "max_pp": 15, "range": "Adjacent" },
+  { "id": "aqua_gun", "name": "アクアショット", "type": "Water", "category": "Special", "power": 40, "accuracy": 100, "max_pp": 15, "range": "Line" },
+  { "id": "wind_cutter", "name": "ウィンドカッター", "type": "Grass", "category": "Physical", "power": 30, "accuracy": 100, "max_pp": 20, "range": "Adjacent" },
+  { "id": "spark", "name": "スパーク", "type": "Electric", "category": "Special", "power": 30, "accuracy": 100, "max_pp": 20, "range": "Adjacent" }
 ]

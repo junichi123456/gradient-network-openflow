@@ -21,7 +21,8 @@ public partial class FastNPC : HostileEntity
         Stats.SpAttack = 10;
         Stats.SpDefense = 4;
         Stats.Type1 = "Electric";
+        Stats.Level = 12;
 
-        Moves.Learn("thunder_shock");
+        Moves.Learn("spark");
     }
 }

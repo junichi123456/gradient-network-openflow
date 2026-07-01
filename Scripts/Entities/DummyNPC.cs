@@ -21,8 +21,9 @@ public partial class DummyNPC : HostileEntity
         Stats.Defense = 6;
         Stats.SpAttack = 6;
         Stats.SpDefense = 6;
-        Stats.Type1 = "Normal";
+        Stats.Type1 = "Neutral";
+        Stats.Level = 8;
 
-        Moves.Learn("tackle");
+        Moves.Learn("power_shot");
     }
 }

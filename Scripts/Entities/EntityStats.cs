@@ -4,12 +4,15 @@ namespace MysteryDungeon.Entities;
 
 // Shared combat/survival stats component, attached as a child node of
 // every Entity (see Entity._Ready()). Attack/Defense/SpAttack/SpDefense
-// are pure data until Phase 4's combat system consumes them; HP/Belly
-// are already live (starvation damage below).
+// feed AttackAction's Palworld-style damage formula; SpAttack/SpDefense
+// are kept as data for a possible future physical/special split but
+// aren't consumed by that formula (Palworld itself doesn't split them).
 public partial class EntityStats : Node
 {
     [Export] public int MaxHp { get; set; } = 20;
     public int CurrentHp { get; set; }
+
+    [Export] public int Level { get; set; } = 10;
 
     [Export] public int Attack { get; set; } = 10;
     [Export] public int Defense { get; set; } = 10;
@@ -17,7 +20,7 @@ public partial class EntityStats : Node
     [Export] public int SpDefense { get; set; } = 10;
 
     // Up to two types; Type2 empty means single-typed.
-    [Export] public string Type1 { get; set; } = "Normal";
+    [Export] public string Type1 { get; set; } = "Neutral";
     [Export] public string Type2 { get; set; } = "";
 
     // Hunger - meaningful for Player only. FloorController calls

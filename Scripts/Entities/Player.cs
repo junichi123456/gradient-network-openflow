@@ -26,12 +26,13 @@ public partial class Player : Entity
         Stats.Defense = 10;
         Stats.SpAttack = 10;
         Stats.SpDefense = 10;
-        Stats.Type1 = "Normal";
+        Stats.Type1 = "Neutral";
+        Stats.Level = 10;
         Stats.MaxBelly = 100;
         Stats.Belly = 100;
 
-        Moves.Learn("tackle");
-        Moves.Learn("ember");
+        Moves.Learn("power_shot");
+        Moves.Learn("flare_arrow");
     }
 
     public void DisableInput() => _inputDisabled = true;

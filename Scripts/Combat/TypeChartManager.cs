@@ -14,10 +14,12 @@ internal class TypeChartJson
 // JSON-driven attack-type -> defender-type damage multiplier lookup.
 // TestScene._Ready() calls Load() explicitly for clarity/logging, but
 // GetMultiplier() also lazy-loads on first use (see MoveDatabase for
-// why: child nodes' _Ready() can run before the scene root's).  Only a
-// small illustrative set of types is populated in Data/type_chart.json
-// for now - adding the remaining types later is a JSON-only change, no
-// code changes needed.
+// why: child nodes' _Ready() can run before the scene root's). The
+// 9-type chart in Data/type_chart.json follows the community-datamined
+// Palworld matchup chart (Neutral/Fire/Water/Grass/Electric/Ground/
+// Ice/Dragon/Dark, 2.0x/0.5x/1.0x only - no 0.0x immunities); the
+// lookup logic itself is entirely data-driven, so further rebalancing
+// is a JSON-only change.
 public static class TypeChartManager
 {
     private static readonly Dictionary<string, int> _typeIndex = new();
