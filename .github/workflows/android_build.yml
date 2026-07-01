@@ -1,0 +1,80 @@
+name: Android Debug Build
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GODOT_VERSION: "4.3"
+  EXPORT_NAME: MysteryDungeonRoguelike
+  PROJECT_PATH: "."
+
+jobs:
+  build-android:
+    name: Build Android Debug APK
+    runs-on: ubuntu-24.04
+    # Community image with the Godot 4.x .NET (mono) editor, export
+    # templates, JDK and Android SDK/NDK/Gradle already installed -
+    # this is what satisfies the "Android SDK setup" requirement
+    # without hand-rolling sdkmanager/NDK install steps.
+    container:
+      image: barichello/godot-ci:mono-4.3
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Move Godot export templates into place
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono \
+             ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
+
+      - name: Show Android/Java toolchain (sanity check)
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          java -version
+
+      # Debug-only keystore, regenerated fresh every run (this is fine
+      # for a downloadable debug APK - it just means each build's
+      # signature differs, so testers may need to uninstall the
+      # previous debug build before installing a new one).
+      - name: Generate a debug keystore
+        run: |
+          keytool -genkeypair -v \
+            -keystore "$HOME/debug.keystore" \
+            -storepass android -keypass android \
+            -alias androiddebugkey \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
+          echo "DEBUG_KEYSTORE_PATH=$HOME/debug.keystore" >> "$GITHUB_ENV"
+
+      - name: Import project resources & build the C# solution
+        run: |
+          cd "$PROJECT_PATH"
+          godot --headless --verbose --editor --quit
+          godot --headless --verbose --build-solutions --quit
+
+      - name: Export Android debug APK
+        env:
+          GODOT_ANDROID_KEYSTORE_DEBUG_PATH: ${{ env.DEBUG_KEYSTORE_PATH }}
+          GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
+          GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: android
+        run: |
+          mkdir -v -p build/android
+          EXPORT_DIR="$(readlink -f build)"
+          cd "$PROJECT_PATH"
+          godot --headless --verbose --export-debug "Android" "$EXPORT_DIR/android/${EXPORT_NAME}-debug.apk"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-debug-apk
+          path: build/android/*.apk
+          if-no-files-found: error
+          retention-days: 14
