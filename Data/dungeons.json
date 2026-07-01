@@ -1,0 +1,15 @@
+[
+  {
+    "id": "beach_cave",
+    "name": "ビーチのどうくつ",
+    "floors": 5,
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [4, 4],
+      "room_max": [9, 7],
+      "monster_house_chance": 0.1
+    }
+  }
+]

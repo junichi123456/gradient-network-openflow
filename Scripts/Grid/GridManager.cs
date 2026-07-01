@@ -4,7 +4,12 @@ namespace MysteryDungeon.Grid;
 
 // Owns the logical Tile[,] grid, grid<->world coordinate conversion,
 // and walkability queries. Rendering is a debug placeholder (_Draw)
-// until real tile art / TileMap is introduced in Phase 2.
+// until real tile art / TileMap is introduced later.
+//
+// The grid starts as a solid Width x Height wall block; callers (e.g.
+// Dungeon.DungeonGenerator) call Resize()/SetTerrain() to carve it into
+// an actual floor plan. This keeps GridManager a dumb data holder with
+// no generation logic of its own.
 public partial class GridManager : Node2D
 {
     [Export] public int Width { get; set; } = 15;
@@ -15,41 +20,21 @@ public partial class GridManager : Node2D
 
     public override void _Ready()
     {
-        InitializeGrid();
-        PlaceDebugWalls();
-        QueueRedraw();
+        Resize(Width, Height, TerrainType.Wall);
     }
 
-    private void InitializeGrid()
+    // Reallocates the tile array at the given dimensions, filled entirely
+    // with `fill`. Also updates Width/Height so GridToWorld/_Draw/etc.
+    // stay in sync with the new size.
+    public void Resize(int width, int height, TerrainType fill = TerrainType.Wall)
     {
+        Width = width;
+        Height = height;
         _tiles = new Tile[Width, Height];
         for (int x = 0; x < Width; x++)
             for (int y = 0; y < Height; y++)
-                _tiles[x, y] = Tile.CreateFloor();
-    }
-
-    // Temporary hand-placed obstacles for the Phase 1 test scene.
-    // Real generation arrives in Phase 2 (DungeonGenerator / BSP).
-    private void PlaceDebugWalls()
-    {
-        for (int x = 0; x < Width; x++)
-        {
-            SetTerrain(new Vector2I(x, 0), TerrainType.Wall);
-            SetTerrain(new Vector2I(x, Height - 1), TerrainType.Wall);
-        }
-        for (int y = 0; y < Height; y++)
-        {
-            SetTerrain(new Vector2I(0, y), TerrainType.Wall);
-            SetTerrain(new Vector2I(Width - 1, y), TerrainType.Wall);
-        }
-
-        Vector2I[] interiorWalls =
-        {
-            new(5, 3), new(5, 4), new(5, 5),
-            new(8, 6), new(9, 6), new(9, 5),
-        };
-        foreach (var pos in interiorWalls)
-            SetTerrain(pos, TerrainType.Wall);
+                _tiles[x, y] = new Tile { Terrain = fill };
+        QueueRedraw();
     }
 
     public void SetTerrain(Vector2I pos, TerrainType terrain)
