@@ -9,27 +9,27 @@
 
 [node name="TestScene" type="Node2D"]
 script = ExtResource("1")
-grid_manager_path = NodePath("GridManager")
-turn_manager_path = NodePath("TurnManager")
-player_path = NodePath("Player")
-floor_controller_path = NodePath("FloorController")
-minimap_path = NodePath("UILayer/MinimapUI")
-dungeon_id = "beach_cave"
+GridManagerPath = NodePath("GridManager")
+TurnManagerPath = NodePath("TurnManager")
+PlayerPath = NodePath("Player")
+FloorControllerPath = NodePath("FloorController")
+MinimapPath = NodePath("UILayer/MinimapUI")
+DungeonId = "beach_cave"
 
 [node name="GridManager" type="Node2D" parent="."]
 script = ExtResource("2")
-width = 15
-height = 10
-tile_size = 32
+Width = 15
+Height = 10
+TileSize = 32
 
 [node name="TurnManager" type="Node" parent="."]
 script = ExtResource("3")
 
 [node name="Player" type="Node2D" parent="."]
 script = ExtResource("4")
-actor_name = "Player"
-speed = 100
-debug_color = Color(1, 0.9, 0.1, 1)
+ActorName = "Player"
+Speed = 100
+DebugColor = Color(1, 0.9, 0.1, 1)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 

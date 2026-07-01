@@ -19,6 +19,15 @@ public struct Tile
     // reveal a whole room at once.
     public int RoomId = -1;
 
+    // Required because RoomId has a field initializer above (C# only
+    // synthesizes the parameterless struct constructor implicitly in
+    // some configurations; this project's LangVersion needs it spelled
+    // out). GridManager still explicitly sets Terrain right after
+    // constructing a Tile, so leaving it unset here is fine.
+    public Tile()
+    {
+    }
+
     // Phase 1: only Wall blocks movement. Water/Lava/Chasm gain
     // type-based / event-based rules in later phases (Entities, Dungeon).
     public readonly bool IsWalkable => Terrain != TerrainType.Wall;
