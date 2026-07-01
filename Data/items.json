@@ -1,0 +1,5 @@
+[
+  { "id": "baked_berries", "name": "ベイクドベリー", "type": "Consumable", "effect_target": "Belly", "effect_value": 30 },
+  { "id": "low_grade_medical_supplies", "name": "低品質な医薬品", "type": "Consumable", "effect_target": "Hp", "effect_value": 20 },
+  { "id": "fire_bow_arrow", "name": "火の弓矢", "type": "Throwable", "effect_target": "Damage", "effect_value": 15, "element_type": "Fire" }
+]

@@ -14,11 +14,19 @@ public partial class Player : Entity
     public TurnManager TurnManager { get; set; }
     public FloorController FloorController { get; set; }
 
+    // Player-only carried items (see InventoryManager); enemies never
+    // pick anything up, so this lives here rather than on the Entity
+    // base like Stats/Moves.
+    public InventoryManager Inventory { get; private set; }
+
     private bool _inputDisabled;
 
     public override void _Ready()
     {
         base._Ready(); // creates Stats + Moves + the debug ColorRect visual
+
+        Inventory = new InventoryManager { Name = "Inventory" };
+        AddChild(Inventory);
 
         Stats.MaxHp = 30;
         Stats.CurrentHp = 30;

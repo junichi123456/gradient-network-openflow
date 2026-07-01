@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MysteryDungeon.Grid;
 using MysteryDungeon.Turn;
 using MysteryDungeon.Entities;
+using MysteryDungeon.Combat;
 
 namespace MysteryDungeon.Dungeon;
 
@@ -83,6 +84,8 @@ public partial class FloorController : Node2D
             GenerateFloor(); // regenerates the floor and refreshes FOV itself
             return;
         }
+
+        TryPickupItemAt(_player.GridPosition);
 
         _player.Stats.TickBelly();
         if (CheckPlayerDeath()) return; // ...or from starvation just now
@@ -239,13 +242,15 @@ public partial class FloorController : Node2D
     // just far denser), only the enemies stay hidden until triggered.
     private void PlaceItemsAndTraps(HashSet<Vector2I> occupied, RandomNumberGenerator rng)
     {
+        var itemIds = ItemDatabase.AllIds();
+
         foreach (var room in _rooms)
         {
             int minItems = room.IsMonsterHouse ? _rule.MonsterHouseMinItems : _rule.MinItemsPerRoom;
             int maxItems = room.IsMonsterHouse ? _rule.MonsterHouseMaxItems : _rule.MaxItemsPerRoom;
             int itemCount = rng.RandiRange(minItems, maxItems);
             for (int i = 0; i < itemCount; i++)
-                TryPlaceObject(room.Bounds, occupied, rng, MapObjectType.Item, ItemColor);
+                TryPlaceItem(room.Bounds, occupied, rng, itemIds);
 
             int minTraps = room.IsMonsterHouse ? _rule.MonsterHouseMinTraps : _rule.MinTrapsPerRoom;
             int maxTraps = room.IsMonsterHouse ? _rule.MonsterHouseMaxTraps : _rule.MaxTrapsPerRoom;
@@ -253,6 +258,19 @@ public partial class FloorController : Node2D
             for (int i = 0; i < trapCount; i++)
                 TryPlaceObject(room.Bounds, occupied, rng, MapObjectType.Trap, TrapColor);
         }
+    }
+
+    private void TryPlaceItem(Rect2I roomBounds, HashSet<Vector2I> occupied, RandomNumberGenerator rng, List<string> itemIds)
+    {
+        if (itemIds.Count == 0) return;
+
+        var pos = RandomFreeTileInRoom(roomBounds, occupied, rng);
+        if (pos == null) return;
+
+        var itemId = itemIds[rng.RandiRange(0, itemIds.Count - 1)];
+        _objects.SetItem(pos.Value, itemId);
+        occupied.Add(pos.Value);
+        AddMarker(pos.Value, ItemColor);
     }
 
     private void TryPlaceObject(Rect2I roomBounds, HashSet<Vector2I> occupied, RandomNumberGenerator rng, MapObjectType type, Color color)
@@ -263,6 +281,96 @@ public partial class FloorController : Node2D
         _objects.Set(pos.Value, type);
         occupied.Add(pos.Value);
         AddMarker(pos.Value, color);
+    }
+
+    // Called every turn the player doesn't step onto stairs. Consumes
+    // the floor item into InventoryManager on success; on failure (bag
+    // full) the item is left on the ground for a later attempt.
+    private void TryPickupItemAt(Vector2I pos)
+    {
+        if (_objects.Get(pos) != MapObjectType.Item) return;
+
+        var itemId = _objects.GetItemId(pos);
+        var data = ItemDatabase.Get(itemId);
+        if (data == null) return;
+
+        if (_player.Inventory.AddItem(itemId))
+        {
+            _objects.RemoveAt(pos);
+            RemoveMarkerAt(pos);
+            GD.Print($"[Inventory] Player picked up {data.Name}.");
+        }
+        else
+        {
+            GD.Print($"[Inventory] Inventory full, could not pick up {data.Name}.");
+        }
+    }
+
+    // Places a thrown-and-missed (or dropped) item back onto the floor.
+    // If the landing tile is already occupied by another item, scatters
+    // to a free adjacent walkable tile instead; Lava/Chasm destroy the
+    // item outright, Water leaves it floating (unreachable, but not
+    // destroyed) - only Floor tiles are freely walkable/pickup-able.
+    public void DropItem(Vector2I pos, string itemId)
+    {
+        var data = ItemDatabase.Get(itemId);
+        string itemName = data?.Name ?? itemId;
+
+        var finalPos = FindDropPosition(pos);
+        if (finalPos == null)
+        {
+            GD.Print($"[Item] {itemName} had nowhere to land near ({pos.X}, {pos.Y}) and was lost.");
+            return;
+        }
+
+        var terrain = _grid.GetTile(finalPos.Value).Terrain;
+        if (terrain == TerrainType.Lava || terrain == TerrainType.Chasm)
+        {
+            GD.Print($"[Item] {itemName} fell into {terrain} at ({finalPos.Value.X}, {finalPos.Value.Y}) and was destroyed!");
+            return;
+        }
+
+        if (finalPos.Value != pos)
+            GD.Print($"[Item] ({pos.X}, {pos.Y}) was already occupied, so {itemName} scattered to ({finalPos.Value.X}, {finalPos.Value.Y}).");
+
+        _objects.SetItem(finalPos.Value, itemId);
+        AddMarker(finalPos.Value, ItemColor);
+
+        if (terrain == TerrainType.Water)
+            GD.Print($"[Item] {itemName} landed in the water at ({finalPos.Value.X}, {finalPos.Value.Y}) and floats there.");
+        else
+            GD.Print($"[Item] {itemName} dropped at ({finalPos.Value.X}, {finalPos.Value.Y}).");
+    }
+
+    private Vector2I? FindDropPosition(Vector2I pos)
+    {
+        if (_objects.Get(pos) != MapObjectType.Item) return pos;
+
+        Vector2I[] neighbors =
+        {
+            new(0, -1), new(0, 1), new(-1, 0), new(1, 0),
+            new(-1, -1), new(1, -1), new(-1, 1), new(1, 1),
+        };
+
+        foreach (var dir in neighbors)
+        {
+            var candidate = pos + dir;
+            if (_grid.IsWalkable(candidate) && _objects.Get(candidate) != MapObjectType.Item)
+                return candidate;
+        }
+
+        return null;
+    }
+
+    private void RemoveMarkerAt(Vector2I pos)
+    {
+        for (int i = _spawnedMarkers.Count - 1; i >= 0; i--)
+        {
+            if (_spawnedMarkers[i].Pos != pos) continue;
+            _spawnedMarkers[i].Rect.QueueFree();
+            _spawnedMarkers.RemoveAt(i);
+            return;
+        }
     }
 
     private void SpawnEnemies(List<Room> candidateRooms, HashSet<Vector2I> occupied, RandomNumberGenerator rng)

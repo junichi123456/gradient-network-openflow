@@ -27,6 +27,7 @@ public partial class TestScene : Node2D
     {
         TypeChartManager.Load();
         MoveDatabase.Load();
+        ItemDatabase.Load();
 
         var grid = GetNode<GridManager>(GridManagerPath);
         var turnManager = GetNode<TurnManager>(TurnManagerPath);

@@ -28,9 +28,14 @@ public struct Tile
     {
     }
 
-    // Phase 1: only Wall blocks movement. Water/Lava/Chasm gain
-    // type-based / event-based rules in later phases (Entities, Dungeon).
-    public readonly bool IsWalkable => Terrain != TerrainType.Wall;
+    // Only Floor is walkable by entities - Water/Lava/Chasm block
+    // footsteps but are not full obstacles (see IsProjectilePassable).
+    public readonly bool IsWalkable => Terrain == TerrainType.Floor;
+
+    // Phase 5: a thrown item's line-of-flight passes over anything
+    // except a Wall - Water/Lava/Chasm don't block a projectile even
+    // though they block walking.
+    public readonly bool IsProjectilePassable => Terrain != TerrainType.Wall;
 
     public static Tile CreateFloor() => new() { Terrain = TerrainType.Floor };
 

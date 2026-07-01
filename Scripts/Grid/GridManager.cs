@@ -119,6 +119,12 @@ public partial class GridManager : Node2D
     public bool IsWalkable(Vector2I pos) =>
         InBounds(pos) && _tiles[pos.X, pos.Y].IsWalkable;
 
+    // Water/Lava/Chasm let a thrown item fly over them even though
+    // IsWalkable is false for those tiles - only a Wall (or the map
+    // edge) actually stops a projectile.
+    public bool IsProjectilePassable(Vector2I pos) =>
+        InBounds(pos) && _tiles[pos.X, pos.Y].IsProjectilePassable;
+
     public Vector2 GridToWorld(Vector2I pos) =>
         new(pos.X * TileSize + TileSize / 2f, pos.Y * TileSize + TileSize / 2f);
 
