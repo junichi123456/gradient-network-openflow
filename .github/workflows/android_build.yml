@@ -79,11 +79,21 @@ jobs:
             -dname "CN=Android Debug,O=Android,C=US"
           echo "DEBUG_KEYSTORE_PATH=$HOME/debug.keystore" >> "$GITHUB_ENV"
 
+      # Runs dotnet build directly (rather than only godot
+      # --build-solutions) so any real C# compile error is printed to
+      # the log in full, instead of being hidden inside Godot's own
+      # MSBuild log file.
+      - name: Restore & build the C# project
+        run: |
+          cd "$PROJECT_PATH"
+          dotnet restore
+          dotnet build -c Debug
+
       - name: Import project & generate .NET bindings
         run: |
           cd "$PROJECT_PATH"
           godot --headless --verbose --editor --quit || true
-          godot --headless --verbose --build-solutions --quit || exit 0
+          godot --headless --verbose --build-solutions --quit
 
       # Normally done once via the editor's Project > Install Android
       # Build Template menu item (extracts android_source.zip from the
@@ -94,7 +104,11 @@ jobs:
       - name: Install Android build template
         run: |
           cd "$PROJECT_PATH"
+          echo "--- export_templates dir ---"
+          find ~/.local/share/godot/export_templates -maxdepth 1 || true
           godot --headless --verbose --install-android-build-template --quit
+          echo "--- android/build after install ---"
+          ls -la android/build 2>&1 || echo "android/build was NOT created"
 
       - name: Export Android debug APK
         env:
