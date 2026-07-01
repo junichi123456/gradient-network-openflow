@@ -8,13 +8,16 @@ namespace MysteryDungeon.Dungeon;
 // result directly into the given GridManager. Pure logic class (not a
 // Node) so it stays independently testable and reusable for floor
 // transitions later.
+//
+// Takes an already-seeded RandomNumberGenerator (rather than a seed)
+// so the caller can keep using the same instance afterward to place
+// stairs/items/traps/enemies - the whole floor then reproduces from
+// one seed, not just its terrain.
 public class DungeonGenerator
 {
-    public DungeonGenerationResult Generate(GridManager grid, DungeonRule rule, ulong seed)
+    public DungeonGenerationResult Generate(GridManager grid, DungeonRule rule, RandomNumberGenerator rng)
     {
-        var rng = new RandomNumberGenerator();
-        rng.Seed = seed;
-        GD.Print($"[DungeonGenerator] generating {rule.MapWidth}x{rule.MapHeight} map, seed={seed}");
+        GD.Print($"[DungeonGenerator] generating {rule.MapWidth}x{rule.MapHeight} map (seed={rng.Seed})");
 
         grid.Resize(rule.MapWidth, rule.MapHeight, TerrainType.Wall);
 

@@ -21,4 +21,19 @@ public class DungeonRule
 
     // Consumed starting Phase 2 step 3 (Monster House trigger).
     public float MonsterHouseChance { get; set; } = 0.1f;
+
+    // Item/trap placeholder counts, rolled per room independently.
+    public int MinItemsPerRoom { get; set; } = 1;
+    public int MaxItemsPerRoom { get; set; } = 3;
+    public int MinTrapsPerRoom { get; set; } = 0;
+    public int MaxTrapsPerRoom { get; set; } = 2;
+
+    // Total enemy count for the floor (excluding the player's room).
+    public int MinEnemyCount { get; set; } = 3;
+    public int MaxEnemyCount { get; set; } = 6;
+
+    // Chance a spawned enemy is a DummyNPC rather than a FastNPC.
+    // No monster database yet (arrives in Phase 3), so this is the
+    // only "species" knob until then.
+    public float DummyNpcRatio { get; set; } = 0.7f;
 }
