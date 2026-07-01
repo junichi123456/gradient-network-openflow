@@ -4,6 +4,7 @@ using MysteryDungeon.Turn;
 using MysteryDungeon.Entities;
 using MysteryDungeon.Dungeon;
 using MysteryDungeon.UI;
+using MysteryDungeon.Combat;
 
 namespace MysteryDungeon.Core;
 
@@ -24,6 +25,8 @@ public partial class TestScene : Node2D
 
     public override void _Ready()
     {
+        TypeChartManager.Load();
+
         var grid = GetNode<GridManager>(GridManagerPath);
         var turnManager = GetNode<TurnManager>(TurnManagerPath);
         var player = GetNode<Player>(PlayerPath);
@@ -36,7 +39,7 @@ public partial class TestScene : Node2D
         floorController.Initialize(grid, turnManager, player, DungeonId);
         minimap.Initialize(grid, turnManager, player, floorController);
 
-        GD.Print("=== Phase 2 Step 4 Test Scene Ready ===");
+        GD.Print("=== Phase 3 Test Scene Ready ===");
         GD.Print("Arrow keys: move / Enter or Space: wait (footstep)");
     }
 }

@@ -20,8 +20,22 @@ public partial class Entity : Node2D, ITurnActor
     public Vector2I GridPosition { get; private set; }
     public bool IsAlive { get; protected set; } = true;
 
+    // Combat/survival stats component (HP, Attack/Defense, types,
+    // hunger). Reuses a hand-placed "Stats" child node if the scene
+    // defines one, otherwise creates a default-valued one - so
+    // dynamically spawned entities (FloorController.SpawnEnemyAt)
+    // always have a valid Stats reference with no scene setup needed.
+    public EntityStats Stats { get; private set; }
+
     public override void _Ready()
     {
+        Stats = GetNodeOrNull<EntityStats>("Stats");
+        if (Stats == null)
+        {
+            Stats = new EntityStats { Name = "Stats" };
+            AddChild(Stats);
+        }
+
         var visual = new ColorRect
         {
             Color = DebugColor,

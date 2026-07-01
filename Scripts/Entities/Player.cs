@@ -12,6 +12,21 @@ public partial class Player : Entity
     // Assigned by the composition root (TestScene) after instancing.
     public TurnManager TurnManager { get; set; }
 
+    public override void _Ready()
+    {
+        base._Ready(); // creates Stats + the debug ColorRect visual
+
+        Stats.MaxHp = 30;
+        Stats.CurrentHp = 30;
+        Stats.Attack = 12;
+        Stats.Defense = 10;
+        Stats.SpAttack = 10;
+        Stats.SpDefense = 10;
+        Stats.Type1 = "Normal";
+        Stats.MaxBelly = 100;
+        Stats.Belly = 100;
+    }
+
     public override void _UnhandledInput(InputEvent @event)
     {
         if (TurnManager == null || TurnManager.CurrentState != TurnState.WaitingForPlayerInput)

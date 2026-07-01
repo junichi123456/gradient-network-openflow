@@ -27,6 +27,7 @@ public partial class FloorController : Node2D
     private TurnManager _turnManager;
     private Player _player;
     private DungeonRule _rule;
+    private AStarPathfinder _pathfinder;
 
     private readonly DungeonObjectManager _objects = new();
     private readonly List<Entity> _spawnedEnemies = new();
@@ -60,6 +61,8 @@ public partial class FloorController : Node2D
             GenerateFloor(); // regenerates the floor and refreshes FOV itself
             return;
         }
+
+        _player.Stats.TickBelly();
 
         CheckMonsterHouseTrigger(); // may spawn enemies before FOV is recomputed below
 
@@ -109,6 +112,11 @@ public partial class FloorController : Node2D
             GD.PushError("[FloorController] DungeonGenerator produced no rooms.");
             return;
         }
+
+        // Built once per floor and shared by every chasing enemy - walls
+        // don't change mid-floor, so there's no need to rebuild this per
+        // entity or per turn (see AStarPathfinder for the full rationale).
+        _pathfinder = new AStarPathfinder(_grid);
 
         var occupied = new HashSet<Vector2I>();
 
@@ -282,9 +290,11 @@ public partial class FloorController : Node2D
 
     private void SpawnEnemyAt(Vector2I pos, RandomNumberGenerator rng)
     {
-        Entity enemy = rng.Randf() < _rule.DummyNpcRatio ? new DummyNPC() : new FastNPC();
+        HostileEntity enemy = rng.Randf() < _rule.DummyNpcRatio ? new DummyNPC() : new FastNPC();
         AddChild(enemy);
         enemy.Grid = _grid;
+        enemy.Pathfinder = _pathfinder;
+        enemy.TargetPlayer = _player;
         enemy.PlaceAt(pos);
         enemy.Visible = false; // hidden until RefreshFieldOfView() reveals it
 
