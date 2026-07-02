@@ -2,32 +2,67 @@ using System.Collections.Generic;
 
 namespace MysteryDungeon.Entities;
 
-// Party roster: a fixed partner (always present) plus up to
-// MaxRecruited species recruited via RunTracker.CompleteDungeon().
-// Spawning, positioning, and TargetToFollow chaining are
-// FloorController's job (see FloorController.SpawnPartyMembers) - this
-// class only tracks *what* is in the party, not where its members
-// currently stand.
+// Party roster: a fixed partner (always present, not selectable) plus
+// every species ever recruited via RunTracker.CompleteDungeon()
+// (RecruitedRoster, unbounded), of which up to MaxActiveParty are
+// actually brought along on the next run (ActiveParty, selected via the
+// Hub's Pal Box UI - see PartySetupUI). Spawning, positioning, and
+// TargetToFollow chaining are FloorController's job (see
+// FloorController.SpawnPartyMembers) - this class only tracks *who*,
+// not where they currently stand.
+//
+// Owned by HubUpgradeManager (a project.godot autoload) rather than
+// FloorController: a dungeon-scene-local instance would be destroyed on
+// every Dungeon<->Hub scene transition, silently wiping the recruited
+// roster - see HubUpgradeManager.PartyManager for the persistent one
+// FloorController actually reads from.
 public class PartyManager
 {
-    private const int MaxRecruited = 2;
+    public const int MaxActiveParty = 2;
     private const string FixedPartnerSpeciesId = "Partner";
 
-    private readonly List<string> _recruitedSpeciesIds = new();
+    private readonly List<string> _recruitedRoster = new();
+    private readonly List<string> _activeParty = new();
 
-    // Roster order = follow-chain order: index 0 (the fixed partner)
-    // follows the Player, index 1 follows index 0's AllyEntity, etc.
+    public IReadOnlyList<string> RecruitedRoster => _recruitedRoster;
+    public IReadOnlyList<string> ActiveParty => _activeParty;
+
+    // Spawn order for FloorController.SpawnPartyMembers: fixed partner
+    // first, then the current active-party selection - matches the
+    // conga-line follow chain's Player -> Ally1 -> Ally2 order.
     public IReadOnlyList<string> AllMemberSpeciesIds()
     {
         var all = new List<string> { FixedPartnerSpeciesId };
-        all.AddRange(_recruitedSpeciesIds);
+        all.AddRange(_activeParty);
         return all;
     }
 
-    public bool AddMember(string speciesId)
+    // Called on a successful RunTracker.CompleteDungeon() join roll.
+    // Auto-fills an open active-party slot so a fresh recruit isn't
+    // silently benched until the player visits the Pal Box.
+    public void AddToRoster(string speciesId)
     {
-        if (_recruitedSpeciesIds.Count >= MaxRecruited) return false;
-        _recruitedSpeciesIds.Add(speciesId);
+        _recruitedRoster.Add(speciesId);
+        if (_activeParty.Count < MaxActiveParty)
+            _activeParty.Add(speciesId);
+    }
+
+    public bool IsActive(string speciesId) => _activeParty.Contains(speciesId);
+
+    // Toggles speciesId in/out of the active party (PartySetupUI).
+    // Returns false if trying to activate while already at the
+    // MaxActiveParty cap - the caller stays on the same selection.
+    public bool ToggleActive(string speciesId)
+    {
+        if (_activeParty.Contains(speciesId))
+        {
+            _activeParty.Remove(speciesId);
+            return true;
+        }
+
+        if (_activeParty.Count >= MaxActiveParty) return false;
+
+        _activeParty.Add(speciesId);
         return true;
     }
 }

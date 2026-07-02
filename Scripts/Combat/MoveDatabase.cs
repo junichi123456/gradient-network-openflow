@@ -18,7 +18,7 @@ internal class MoveJson
     [JsonPropertyName("range")] public string Range { get; set; }
 }
 
-// JSON-driven move definitions. TestScene._Ready() calls Load()
+// JSON-driven move definitions. DungeonScene._Ready() calls Load()
 // explicitly for clarity/logging, but Get() also lazy-loads on first
 // use - Godot runs child nodes' _Ready() (e.g. Player learning its
 // starting moves) before the scene root's _Ready(), so anything that

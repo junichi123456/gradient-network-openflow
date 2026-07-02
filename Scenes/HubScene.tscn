@@ -1,9 +1,13 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Hub/HubScene.cs" id="1"]
 [ext_resource type="Script" path="res://Scripts/Hub/HubPlayer.cs" id="2"]
 [ext_resource type="Script" path="res://Scripts/Hub/HubFacility.cs" id="3"]
 [ext_resource type="Script" path="res://Scripts/Hub/HubPalNpc.cs" id="4"]
+[ext_resource type="Script" path="res://Scripts/Hub/HubPalBoxTrigger.cs" id="5"]
+[ext_resource type="Script" path="res://Scripts/Hub/HubDungeonGateTrigger.cs" id="6"]
+[ext_resource type="Script" path="res://Scripts/Hub/PartySetupUI.cs" id="7"]
+[ext_resource type="Script" path="res://Scripts/Hub/DungeonSelectUI.cs" id="8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(28, 28)
@@ -19,6 +23,8 @@ script = ExtResource("1")
 PlayerPath = NodePath("HubPlayer")
 ShopLogLabelPath = NodePath("UILayer/ShopLogLabel")
 DungeonPortalPath = NodePath("DungeonPortal")
+PartySetupUIPath = NodePath("UILayer/PartySetupUI")
+DungeonSelectUIPath = NodePath("UILayer/DungeonSelectUI")
 
 [node name="HubPlayer" type="CharacterBody2D" parent="."]
 position = Vector2(220, 220)
@@ -55,6 +61,22 @@ script = ExtResource("4")
 RequiredFacilityId = "pal_workbench"
 RequiredLevel = 2
 
+[node name="PalBoxTrigger" type="Area2D" parent="."]
+position = Vector2(220, 100)
+script = ExtResource("5")
+PartySetupUIPath = NodePath("../UILayer/PartySetupUI")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PalBoxTrigger"]
+shape = SubResource("RectangleShape2D_facility")
+
+[node name="DungeonGateTrigger" type="Area2D" parent="."]
+position = Vector2(220, 340)
+script = ExtResource("6")
+DungeonSelectUIPath = NodePath("../UILayer/DungeonSelectUI")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DungeonGateTrigger"]
+shape = SubResource("RectangleShape2D_facility")
+
 [node name="DungeonPortal" type="Area2D" parent="."]
 position = Vector2(220, 420)
 
@@ -69,3 +91,9 @@ offset_top = 10.0
 offset_right = 400.0
 offset_top = 30.0
 text = "[パル作業台] 簡素な道具しかありません。"
+
+[node name="PartySetupUI" type="Control" parent="UILayer"]
+script = ExtResource("7")
+
+[node name="DungeonSelectUI" type="Control" parent="UILayer"]
+script = ExtResource("8")

@@ -7,7 +7,7 @@ using MysteryDungeon.Dungeon;
 namespace MysteryDungeon.UI;
 
 // Small overlay map in the top-right corner. Must live under a
-// CanvasLayer (see Scenes/TestScene.tscn) rather than directly under
+// CanvasLayer (see Scenes/DungeonScene.tscn) rather than directly under
 // the world's Node2D tree - Control nodes parented under a plain
 // Node2D would otherwise pan/zoom along with Player's Camera2D instead
 // of staying fixed on screen.

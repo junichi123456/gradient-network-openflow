@@ -42,7 +42,7 @@ public static class DungeonRuleLoader
     // Loads Data/dungeons.json and returns the DungeonRule for `dungeonId`.
     // Falls back to DungeonRule's built-in defaults (with a warning) if
     // the file is missing, malformed, or doesn't contain that id - this
-    // keeps the TestScene runnable even before real dungeon data exists.
+    // keeps DungeonScene runnable even before real dungeon data exists.
     public static DungeonRule Load(string dungeonId, string resPath = "res://Data/dungeons.json")
     {
         if (!FileAccess.FileExists(resPath))

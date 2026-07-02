@@ -2,21 +2,33 @@ using Godot;
 using System.Collections.Generic;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
+using MysteryDungeon.Dungeon;
 
 namespace MysteryDungeon.Hub;
 
 // Persistent meta-progression state: facility levels, the banked
-// material pool spent on upgrades, and the player inventory snapshot
-// used to hand data across the Dungeon<->Hub scene boundary. Registered
-// as a project.godot autoload, so it survives GetTree().
-// ChangeSceneToFile() (autoloads live outside the scene tree that gets
-// swapped) - see FloorController.HandleDungeonCleared for the
-// dungeon-side handoff and TestScene._Ready for the hub-side restore.
+// material pool spent on upgrades, the party roster (PartyManager - see
+// its own doc comment for why it lives here and not on FloorController),
+// and the player inventory snapshot / pending dungeon selection used to
+// hand data across the Dungeon<->Hub scene boundary. Registered as a
+// project.godot autoload, so it survives GetTree().ChangeSceneToFile()
+// (autoloads live outside the scene tree that gets swapped) - see
+// FloorController.HandleDungeonCleared for the dungeon-side handoff and
+// DungeonScene._Ready / DungeonSelectUI for the hub-side round trip.
 public partial class HubUpgradeManager : Node
 {
     [Signal] public delegate void FacilityUpgradedEventHandler(string facilityId, int newLevel);
 
     public static HubUpgradeManager Instance { get; private set; }
+
+    public PartyManager PartyManager { get; } = new();
+
+    // Set by DungeonSelectUI right before ChangeSceneToFile; read (and
+    // consumed - see DungeonScene._Ready) by the next dungeon scene. Null
+    // means "no Hub selection was made" - DungeonScene falls back to its
+    // own [Export] defaults, so it stays launchable standalone.
+    public DungeonConfig PendingDungeonConfig { get; set; }
+    public string PendingDungeonId { get; set; }
 
     // Tiny hardcoded cost table for now (facilityId -> (materialId,
     // cost per level, linear)). Data/facilities.json is a natural

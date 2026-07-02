@@ -12,18 +12,25 @@ public partial class HubScene : Node2D
     [Export] public NodePath PlayerPath { get; set; }
     [Export] public NodePath ShopLogLabelPath { get; set; }
     [Export] public NodePath DungeonPortalPath { get; set; }
+    [Export] public NodePath PartySetupUIPath { get; set; }
+    [Export] public NodePath DungeonSelectUIPath { get; set; }
 
     public override void _Ready()
     {
         var player = GetNode<HubPlayer>(PlayerPath);
         var shopLogLabel = GetNodeOrNull<Label>(ShopLogLabelPath);
         var portal = GetNodeOrNull<Area2D>(DungeonPortalPath);
+        var partySetupUI = GetNode<PartySetupUI>(PartySetupUIPath);
+        var dungeonSelectUI = GetNode<DungeonSelectUI>(DungeonSelectUIPath);
+
+        partySetupUI.Initialize(player);
+        dungeonSelectUI.Initialize(player);
 
         if (portal != null)
         {
             portal.BodyEntered += body =>
             {
-                if (body is HubPlayer) GetTree().ChangeSceneToFile("res://Scenes/TestScene.tscn");
+                if (body is HubPlayer) GetTree().ChangeSceneToFile("res://Scenes/DungeonScene.tscn");
             };
         }
 
@@ -33,11 +40,14 @@ public partial class HubScene : Node2D
 
         GD.Print("=== Hub Scene Ready ===");
         GD.Print($"[Hub] Player spawned at {player.Position}.");
-        GD.Print("Arrow keys: move freely / walk into a facility + Enter to upgrade it / walk into the portal to re-enter a dungeon");
+        GD.Print("Arrow keys: move freely / walk into a facility + Enter to upgrade it / Pal Box or Dungeon Gate + Enter to manage party or depart");
 
         var hub = HubUpgradeManager.Instance;
         if (hub != null)
+        {
             GD.Print($"[Hub] pal_workbench Lv.{hub.GetFacilityLevel("pal_workbench")}, pal_bed Lv.{hub.GetFacilityLevel("pal_bed")}");
+            GD.Print($"[Hub] Party roster: {hub.PartyManager.RecruitedRoster.Count} recruited, {hub.PartyManager.ActiveParty.Count} active.");
+        }
     }
 
     private void RefreshShopLog(Label label)

@@ -12,7 +12,7 @@ namespace MysteryDungeon.Entities;
 // see MenuUI for the other half of that input-routing split.
 public partial class Player : Entity
 {
-    // Assigned by the composition root (TestScene) after instancing.
+    // Assigned by the composition root (DungeonScene) after instancing.
     public TurnManager TurnManager { get; set; }
     public FloorController FloorController { get; set; }
     public MenuUI MenuUI { get; set; }

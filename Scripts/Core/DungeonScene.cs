@@ -9,12 +9,19 @@ using MysteryDungeon.Hub;
 
 namespace MysteryDungeon.Core;
 
-// Composition root for the verification scene. Wires the Player up to
+// Composition root for the dungeon scene. Wires the Player up to
 // GridManager/TurnManager, hands off the whole floor lifecycle
 // (generation, object/enemy placement, stairs transition, cleanup) to
 // FloorController, then wires the read-only MinimapUI overlay last (it
 // needs FloorController's floor-1 dimensions to size itself).
-public partial class TestScene : Node2D
+//
+// DungeonId/MaxFloors below are also used as this scene's standalone
+// defaults - launching DungeonScene.tscn directly (no Hub, no
+// HubUpgradeManager selection) still produces a playable dungeon. When
+// arriving from the Hub's Dungeon Gate, the pending selection on
+// HubUpgradeManager takes priority and is consumed (cleared) here so a
+// later standalone run doesn't accidentally reuse a stale selection.
+public partial class DungeonScene : Node2D
 {
     [Export] public NodePath GridManagerPath { get; set; }
     [Export] public NodePath TurnManagerPath { get; set; }
@@ -50,20 +57,37 @@ public partial class TestScene : Node2D
         player.FloorController = floorController;
         player.MenuUI = menu;
 
+        var hub = HubUpgradeManager.Instance;
+
         // Carries back whatever non-material items survived the last
         // Hub visit (see HubUpgradeManager.SaveInventory, called from
         // FloorController.HandleDungeonCleared). Empty/no-op on a
         // fresh game - the snapshot starts empty.
-        HubUpgradeManager.Instance?.RestoreInventory(player.Inventory);
+        hub?.RestoreInventory(player.Inventory);
 
+        string dungeonId = DungeonId;
         var dungeonConfig = new DungeonConfig { MaxFloors = MaxFloors, EndType = DungeonEndType.FreeDungeonBoss };
 
-        floorController.Initialize(grid, turnManager, player, DungeonId, dungeonConfig);
+        if (hub != null && hub.PendingDungeonConfig != null)
+        {
+            dungeonConfig = hub.PendingDungeonConfig;
+            dungeonId = hub.PendingDungeonId ?? dungeonId;
+
+            // Consumed on read, so a later standalone launch of this
+            // scene (or a Hub session that never visits the Dungeon
+            // Gate again) doesn't silently reuse a stale selection.
+            hub.PendingDungeonConfig = null;
+            hub.PendingDungeonId = null;
+        }
+
+        floorController.Initialize(grid, turnManager, player, dungeonId, dungeonConfig);
         minimap.Initialize(grid, turnManager, player, floorController);
         hud.Initialize(player, turnManager, floorController);
         menu.Initialize(player, turnManager, floorController);
 
-        GD.Print("=== Phase 8 Test Scene Ready ===");
+        GD.Print("=== Dungeon Scene Ready ===");
+        GD.Print($"[Dungeon] Party roster: {floorController.PartyManager.RecruitedRoster.Count} recruited, {floorController.PartyManager.ActiveParty.Count} active.");
+        GD.Print($"[Dungeon] dungeonId={dungeonId}, MaxFloors={dungeonConfig.MaxFloors}, EndType={dungeonConfig.EndType}");
         GD.Print("Arrow keys: move / bump into an enemy to attack / Enter or Space: wait (footstep) / Tab: open menu");
     }
 }

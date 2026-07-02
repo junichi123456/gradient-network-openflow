@@ -19,7 +19,7 @@ public partial class Entity : Node2D, ITurnActor
     // AllyEntity override to Player in their own _Ready().
     [Export] public Faction Faction { get; set; } = Faction.Enemy;
 
-    // Assigned by the composition root (TestScene) after instancing.
+    // Assigned by the composition root (DungeonScene) after instancing.
     public GridManager Grid { get; set; }
 
     public Vector2I GridPosition { get; private set; }

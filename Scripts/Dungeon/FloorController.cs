@@ -45,10 +45,18 @@ public partial class FloorController : Node2D
 
     // Persist for the whole run (NOT cleared in CleanupCurrentFloor,
     // unlike _spawnedEnemies/_objects/_rooms) - RunTracker counts kills
-    // across every floor, and PartyManager's roster survives floor
-    // transitions the same way the player's own stats do.
+    // across every floor.
     private readonly RunTracker _runTracker = new();
-    private readonly PartyManager _partyManager = new();
+
+    // PartyManager's roster must survive Dungeon<->Hub scene transitions
+    // too (not just floor transitions within one dungeon), so it lives
+    // on HubUpgradeManager (a persistent autoload) instead of here - a
+    // FloorController-owned instance would be destroyed and silently
+    // lose every recruited pal the moment the player returned to base.
+    // The local fallback only matters if this scene somehow runs
+    // without the autoload registered (shouldn't happen in practice).
+    private readonly PartyManager _fallbackPartyManager = new();
+    private PartyManager ActivePartyManager => HubUpgradeManager.Instance?.PartyManager ?? _fallbackPartyManager;
 
     private int _floorNumber;
     private Vector2I _lastPlayerPos;
@@ -60,7 +68,7 @@ public partial class FloorController : Node2D
     public IReadOnlyList<AllyEntity> SpawnedAllies => _spawnedAllies;
     public int FloorNumber => _floorNumber;
     public RunTracker RunTracker => _runTracker;
-    public PartyManager PartyManager => _partyManager;
+    public PartyManager PartyManager => ActivePartyManager;
 
     private static readonly Vector2I[] EightDirections =
     {
@@ -276,7 +284,7 @@ public partial class FloorController : Node2D
         rng.Seed = GD.Randi();
 
         foreach (var speciesId in _runTracker.CompleteDungeon(rng))
-            _partyManager.AddMember(speciesId);
+            ActivePartyManager.AddToRoster(speciesId);
     }
 
     // Returns true (and triggers game-over) if the player's HP has
@@ -774,7 +782,7 @@ public partial class FloorController : Node2D
     {
         Entity previous = _player;
 
-        foreach (var speciesId in _partyManager.AllMemberSpeciesIds())
+        foreach (var speciesId in ActivePartyManager.AllMemberSpeciesIds())
         {
             var pos = FindFreeAdjacentTile(previous.GridPosition, occupied);
 

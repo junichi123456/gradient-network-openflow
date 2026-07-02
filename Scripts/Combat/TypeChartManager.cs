@@ -12,7 +12,7 @@ internal class TypeChartJson
 }
 
 // JSON-driven attack-type -> defender-type damage multiplier lookup.
-// TestScene._Ready() calls Load() explicitly for clarity/logging, but
+// DungeonScene._Ready() calls Load() explicitly for clarity/logging, but
 // GetMultiplier() also lazy-loads on first use (see MoveDatabase for
 // why: child nodes' _Ready() can run before the scene root's). The
 // 9-type chart in Data/type_chart.json follows the community-datamined
