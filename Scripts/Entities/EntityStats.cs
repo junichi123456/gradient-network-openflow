@@ -1,4 +1,5 @@
 using Godot;
+using MysteryDungeon.Grid;
 
 namespace MysteryDungeon.Entities;
 
@@ -25,6 +26,11 @@ public partial class EntityStats : Node
     [Export] public string Type1 { get; set; } = "Neutral";
     [Export] public string Type2 { get; set; } = "";
 
+    // Terrain-traversal trait ("Pal skill"): Hover/Glide lets this
+    // entity stand on any hazard tile, on top of whatever its Type1/
+    // Type2 already grants (see GetMovementProfile/CanTraverse).
+    [Export] public PartnerSkill PartnerSkill { get; set; } = PartnerSkill.None;
+
     // Hunger - meaningful for Player only. FloorController calls
     // TickBelly() once per turn on the player's Stats; NPCs simply never
     // have this called, so their Belly just sits unused at MaxBelly.
@@ -32,6 +38,19 @@ public partial class EntityStats : Node
     public int Belly { get; set; }
 
     public bool IsAlive => CurrentHp > 0;
+
+    // Which terrain hazards this entity can stand on. Hover/Glide (from
+    // PartnerSkill) takes priority since it covers everything at once;
+    // otherwise Type1/Type2 grants the matching single-hazard immunity.
+    public MovementProfile GetMovementProfile()
+    {
+        if (PartnerSkill is PartnerSkill.Hover or PartnerSkill.Glide) return MovementProfile.Hover;
+        if (Type1 == "Fire" || Type2 == "Fire") return MovementProfile.FireImmune;
+        if (Type1 == "Water" || Type2 == "Water" || Type1 == "Ice" || Type2 == "Ice") return MovementProfile.WaterIceImmune;
+        return MovementProfile.Normal;
+    }
+
+    public bool CanTraverse(TerrainType terrain) => TerrainTraversalRules.IsWalkable(terrain, GetMovementProfile());
 
     public override void _Ready()
     {

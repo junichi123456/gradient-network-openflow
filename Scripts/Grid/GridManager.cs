@@ -125,6 +125,24 @@ public partial class GridManager : Node2D
     public bool IsProjectilePassable(Vector2I pos) =>
         InBounds(pos) && _tiles[pos.X, pos.Y].IsProjectilePassable;
 
+    // Corner-cutting rule for a diagonal step from `from` to `to`: blocked
+    // only if at least one of the two orthogonal "shoulder" tiles is a
+    // Wall (or off the map). Water/Lava/Chasm never block a diagonal cut
+    // regardless of who's moving - see TerrainTraversalRules for the
+    // separate, entity-specific "can I actually stand there" question.
+    // Non-diagonal steps always return true (the rule doesn't apply).
+    public bool CanCutCorner(Vector2I from, Vector2I to)
+    {
+        var delta = to - from;
+        if (Mathf.Abs(delta.X) != 1 || Mathf.Abs(delta.Y) != 1) return true;
+
+        var shoulderH = new Vector2I(from.X + delta.X, from.Y);
+        var shoulderV = new Vector2I(from.X, from.Y + delta.Y);
+
+        bool BlockedByWall(Vector2I p) => !InBounds(p) || GetTile(p).Terrain == TerrainType.Wall;
+        return !BlockedByWall(shoulderH) && !BlockedByWall(shoulderV);
+    }
+
     public Vector2 GridToWorld(Vector2I pos) =>
         new(pos.X * TileSize + TileSize / 2f, pos.Y * TileSize + TileSize / 2f);
 

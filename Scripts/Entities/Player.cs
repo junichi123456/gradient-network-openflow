@@ -88,12 +88,27 @@ public partial class Player : Entity
             return;
         }
 
-        Vector2I direction;
-        if (@event.IsActionPressed("ui_up")) direction = new Vector2I(0, -1);
-        else if (@event.IsActionPressed("ui_down")) direction = new Vector2I(0, 1);
-        else if (@event.IsActionPressed("ui_left")) direction = new Vector2I(-1, 0);
-        else if (@event.IsActionPressed("ui_right")) direction = new Vector2I(1, 0);
-        else return;
+        // Only react to a fresh press of one of the 4 direction actions
+        // (preserves "one action per key press"); the actual direction
+        // vector below is then derived from ALL 4 actions' currently-held
+        // state, not just the one that fired this event, so a diagonal
+        // combo (e.g. ui_up + ui_right held together) resolves correctly.
+        bool isDirectionEvent = @event.IsActionPressed("ui_up") || @event.IsActionPressed("ui_down")
+            || @event.IsActionPressed("ui_left") || @event.IsActionPressed("ui_right");
+        if (!isDirectionEvent) return;
+
+        // 8-directional movement: derive the full direction vector from
+        // which of the 4 cardinal actions are currently held (not just
+        // the single one that triggered this event), so opposite/diagonal
+        // combos - e.g. ui_up + ui_right held together - resolve to a
+        // single diagonal step instead of only ever moving orthogonally.
+        bool up = Input.IsActionPressed("ui_up");
+        bool down = Input.IsActionPressed("ui_down");
+        bool left = Input.IsActionPressed("ui_left");
+        bool right = Input.IsActionPressed("ui_right");
+
+        var direction = new Vector2I((right ? 1 : 0) - (left ? 1 : 0), (down ? 1 : 0) - (up ? 1 : 0));
+        if (direction == Vector2I.Zero) return; // e.g. ui_up + ui_down held together cancel out
 
         LastFacingDirection = direction;
 
@@ -109,7 +124,7 @@ public partial class Player : Entity
             else
                 GD.Print("[Player] has no move equipped to attack with.");
         }
-        else if (Grid != null && Grid.IsWalkable(target))
+        else if (CanMoveTo(target))
         {
             TurnManager.SubmitPlayerAction(new MoveAction(this, target));
         }

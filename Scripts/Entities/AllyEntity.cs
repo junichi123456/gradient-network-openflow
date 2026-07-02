@@ -85,7 +85,7 @@ public partial class AllyEntity : Entity
 
         if (Pathfinder == null) return new WaitAction(this);
 
-        var next = Pathfinder.GetNextStep(GridPosition, enemy.GridPosition);
+        var next = Pathfinder.GetNextStep(GridPosition, enemy.GridPosition, Stats.GetMovementProfile());
         if (next == null) return new WaitAction(this);
 
         return new MoveAction(this, next.Value);
@@ -99,6 +99,12 @@ public partial class AllyEntity : Entity
         var footprint = TargetToFollow.PreviousPosition.Value;
         if (footprint == GridPosition)
             return new WaitAction(this); // already standing on the latest footprint
+
+        // The leader might have a different terrain profile (e.g. Hover)
+        // than this follower - don't blindly step onto a footprint this
+        // entity can't actually survive/stand on.
+        if (!CanMoveTo(footprint))
+            return new WaitAction(this);
 
         return new MoveAction(this, footprint);
     }

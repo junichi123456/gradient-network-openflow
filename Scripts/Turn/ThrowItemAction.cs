@@ -9,12 +9,16 @@ namespace MysteryDungeon.Turn;
 // Traces a straight line up to MaxRange tiles from the thrower in
 // `direction`. Water/Lava/Chasm are not walkable but are still
 // projectile-passable (GridManager.IsProjectilePassable), so the item
-// flies over them; only a Wall stops it, one tile short of the wall.
-// A trap tile along the path is triggered (log only - no trap-effect
-// system exists yet). Hitting an entity ends the flight immediately and
-// deals a flat Item-power * TypeMultiplier hit, independent of the
-// thrower's own stats; otherwise the item lands and FloorController
-// handles the drop/scatter/destroy rules for wherever it stopped.
+// flies over them; only a Wall stops it, one tile short of the wall. If
+// `direction` is diagonal, each step also has to clear
+// GridManager.CanCutCorner - a Wall on either shoulder stops the flight
+// the same way a Wall dead ahead would (Water/Lava/Chasm shoulders never
+// block it). A trap tile along the path is triggered (log only - no
+// trap-effect system exists yet). Hitting an entity ends the flight
+// immediately and deals a flat Item-power * TypeMultiplier hit,
+// independent of the thrower's own stats; otherwise the item lands and
+// FloorController handles the drop/scatter/destroy rules for wherever
+// it stopped.
 public class ThrowItemAction : IAction
 {
     private const int MaxRange = 12;
@@ -48,23 +52,31 @@ public class ThrowItemAction : IAction
 
         _thrower.Inventory.RemoveItem(_itemId);
 
-        var origin = _thrower.GridPosition;
-        var landingPos = origin;
+        bool isDiagonal = Mathf.Abs(_direction.X) == 1 && Mathf.Abs(_direction.Y) == 1;
+        var current = _thrower.GridPosition;
+        var landingPos = current;
         Entity hitEntity = null;
 
         for (int step = 1; step <= MaxRange; step++)
         {
-            var candidate = origin + _direction * step;
+            var candidate = current + _direction;
 
             if (!_grid.IsProjectilePassable(candidate))
                 break; // stop one tile short of the wall - landingPos keeps the previous step
 
-            landingPos = candidate;
+            if (isDiagonal && !_grid.CanCutCorner(current, candidate))
+            {
+                GD.Print($"[Item] {data.Name} was blocked by a wall at the corner near ({current.X}, {current.Y}) and could not cut through!");
+                break; // stop one tile short - a Wall shoulder blocks the diagonal cut
+            }
 
-            if (_floorController.Objects.Get(candidate) == MapObjectType.Trap)
-                GD.Print($"[Item] {data.Name} triggered a trap at ({candidate.X}, {candidate.Y})!");
+            current = candidate;
+            landingPos = current;
 
-            hitEntity = _floorController.GetEnemyAt(candidate);
+            if (_floorController.Objects.Get(current) == MapObjectType.Trap)
+                GD.Print($"[Item] {data.Name} triggered a trap at ({current.X}, {current.Y})!");
+
+            hitEntity = _floorController.GetEnemyAt(current);
             if (hitEntity != null) break;
         }
 

@@ -71,7 +71,7 @@ public partial class HostileEntity : Entity
             return DecideWanderAction();
         }
 
-        var next = Pathfinder.GetNextStep(GridPosition, target);
+        var next = Pathfinder.GetNextStep(GridPosition, target, Stats.GetMovementProfile());
         if (next == null)
         {
             GD.Print($"[AI] {ActorName} found no path to {target}. Giving up the chase.");
@@ -98,7 +98,7 @@ public partial class HostileEntity : Entity
         foreach (var dir in RandomUtils.ShuffledNeighbors4())
         {
             var target = GridPosition + dir;
-            if (Grid != null && Grid.IsWalkable(target))
+            if (CanWalkTo(target))
                 return new MoveAction(this, target);
         }
 

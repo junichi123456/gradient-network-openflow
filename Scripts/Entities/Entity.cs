@@ -85,6 +85,30 @@ public partial class Entity : Node2D, ITurnActor
         // Footstep: consumes a turn without changing position.
     }
 
+    // Entity-aware walkability: unlike GridManager.IsWalkable (a plain
+    // Floor-only check), this consults Stats.CanTraverse so a Hover/
+    // Fire/Water-Ice mover correctly treats its own hazard tiles as
+    // walkable.
+    public bool CanWalkTo(Vector2I pos) =>
+        Grid != null && Grid.InBounds(pos) && Stats.CanTraverse(Grid.GetTile(pos).Terrain);
+
+    // CanWalkTo plus, for a diagonal step only, the Wall-only corner-
+    // cutting rule (GridManager.CanCutCorner). Used for direct
+    // (non-pathfinding) movement attempts - Player's manual input and
+    // HostileEntity/AllyEntity's non-chase movement. A*-driven chase
+    // movement gets the same corner-cutting guarantee for free from how
+    // AStarPathfinder builds its grid (see AStarPathfinder).
+    public bool CanMoveTo(Vector2I target)
+    {
+        if (!CanWalkTo(target)) return false;
+
+        var delta = target - GridPosition;
+        if (Mathf.Abs(delta.X) == 1 && Mathf.Abs(delta.Y) == 1)
+            return Grid.CanCutCorner(GridPosition, target);
+
+        return true;
+    }
+
     // Called when Stats.CurrentHp reaches 0. NPCs are removed from the
     // scene entirely; Player overrides this to trigger game-over instead
     // (see Player.Die()) - AttackAction just calls defender.Die()
