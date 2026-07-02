@@ -333,7 +333,7 @@ public partial class FloorController : Node2D
         rng.Seed = GD.Randi();
         GD.Print($"[Dungeon] Generating floor {_floorNumber} (seed={rng.Seed})");
 
-        var result = new DungeonGenerator().Generate(_grid, _rule, rng);
+        var result = new DungeonGenerator().Generate(_grid, _rule, rng, _config.GenerateWaterPools, _config.GenerateLavaPools);
         _rooms = result.Rooms;
         if (_rooms.Count == 0)
         {
@@ -785,7 +785,11 @@ public partial class FloorController : Node2D
         return center; // extremely unlikely: no free tile nearby at all
     }
 
-    private static Vector2I? RandomFreeTileInRoom(Rect2I room, HashSet<Vector2I> occupied, RandomNumberGenerator rng)
+    // Instance method (not static) specifically so it can check
+    // _grid.IsWalkable - with Water/Lava pools now possible inside a
+    // room (DungeonGenerator.GenerateHazardBlob), stairs/items/traps/
+    // enemies must never be able to land on a hazard tile.
+    private Vector2I? RandomFreeTileInRoom(Rect2I room, HashSet<Vector2I> occupied, RandomNumberGenerator rng)
     {
         const int maxAttempts = 20;
         for (int attempt = 0; attempt < maxAttempts; attempt++)
@@ -793,7 +797,7 @@ public partial class FloorController : Node2D
             int x = rng.RandiRange(room.Position.X, room.Position.X + room.Size.X - 1);
             int y = rng.RandiRange(room.Position.Y, room.Position.Y + room.Size.Y - 1);
             var pos = new Vector2I(x, y);
-            if (!occupied.Contains(pos))
+            if (!occupied.Contains(pos) && _grid.IsWalkable(pos))
                 return pos;
         }
         return null;

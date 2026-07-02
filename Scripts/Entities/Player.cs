@@ -27,11 +27,26 @@ public partial class Player : Entity
     // moves, see MenuUI.HandleAccept). Defaults to facing down.
     public Vector2I LastFacingDirection { get; private set; } = new Vector2I(0, 1);
 
+    // Diagonal-only movement modifier (Shiren/PMD-style "hold to strafe
+    // diagonally"): while held, a single cardinal key only turns the
+    // player to face that direction instead of moving - this is what
+    // stops a slightly-mistimed 2-key press from turning into an
+    // unwanted 1-tile orthogonal step. Registered at runtime (rather
+    // than hand-editing project.godot's InputMap resource syntax, which
+    // is easy to get subtly wrong) the first time a Player exists.
+    private const string DiagonalLockAction = "diagonal_lock";
+
     private bool _inputDisabled;
 
     public override void _Ready()
     {
         base._Ready(); // creates Stats + Moves + the debug ColorRect visual
+
+        if (!InputMap.HasAction(DiagonalLockAction))
+        {
+            InputMap.AddAction(DiagonalLockAction);
+            InputMap.ActionAddEvent(DiagonalLockAction, new InputEventKey { PhysicalKeycode = Key.Shift });
+        }
 
         Faction = Faction.Player;
 
@@ -109,6 +124,17 @@ public partial class Player : Entity
 
         var direction = new Vector2I((right ? 1 : 0) - (left ? 1 : 0), (down ? 1 : 0) - (up ? 1 : 0));
         if (direction == Vector2I.Zero) return; // e.g. ui_up + ui_down held together cancel out
+
+        // diagonal_lock held + a single cardinal key: turn to face that
+        // direction only - no move, no turn consumed. A genuine 2-key
+        // diagonal combo still moves normally even with the lock held.
+        bool isDiagonal = direction.X != 0 && direction.Y != 0;
+        if (Input.IsActionPressed(DiagonalLockAction) && !isDiagonal)
+        {
+            LastFacingDirection = direction;
+            GetViewport().SetInputAsHandled();
+            return;
+        }
 
         LastFacingDirection = direction;
 

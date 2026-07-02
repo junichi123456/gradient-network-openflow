@@ -9,4 +9,10 @@ public class DungeonConfig
 {
     public int MaxFloors { get; set; } = 5;
     public DungeonEndType EndType { get; set; } = DungeonEndType.FreeDungeonBoss;
+
+    // Room-contained Water/Lava pools (see DungeonGenerator's drunkard's-
+    // walk blob generation) are a per-dungeon biome choice, not a
+    // universal default - off unless a specific dungeon opts in.
+    public bool GenerateWaterPools { get; set; } = false;
+    public bool GenerateLavaPools { get; set; } = false;
 }

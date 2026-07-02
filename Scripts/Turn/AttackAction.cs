@@ -66,7 +66,10 @@ public class AttackAction : IAction
             return;
         }
 
-        if (GD.Randf() * 100f >= move.Accuracy)
+        // Accuracy>=100 skips the roll entirely - GD.Randf()'s [0,1]
+        // range can return exactly 1.0, which would otherwise let a
+        // "guaranteed hit" move miss on a razor-thin edge case.
+        if (move.Accuracy < 100 && GD.Randf() * 100f >= move.Accuracy)
         {
             GD.Print($"[Combat] {_attacker.ActorName} used {move.Name} on {_defender.ActorName}! It missed!");
             return;

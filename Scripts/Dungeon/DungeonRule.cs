@@ -49,4 +49,12 @@ public class DungeonRule
     // No monster database yet (arrives in Phase 3), so this is the
     // only "species" knob until then.
     public float DummyNpcRatio { get; set; } = 0.7f;
+
+    // Per-room roll chance for a Water/Lava pool (see DungeonGenerator's
+    // drunkard's-walk blob generation). Only consulted at all when
+    // DungeonConfig.GenerateWaterPools/GenerateLavaPools is true.
+    public float WaterPoolChance { get; set; } = 0.15f;
+    public float LavaPoolChance { get; set; } = 0.08f;
+    public int PoolMinSize { get; set; } = 2;
+    public int PoolMaxSize { get; set; } = 5;
 }
