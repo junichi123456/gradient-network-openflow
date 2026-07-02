@@ -49,7 +49,7 @@ public partial class TestScene : Node2D
         hud.Initialize(player, turnManager, floorController);
         menu.Initialize(player, turnManager, floorController);
 
-        GD.Print("=== Phase 6 Test Scene Ready ===");
+        GD.Print("=== Phase 7 Test Scene Ready ===");
         GD.Print("Arrow keys: move / bump into an enemy to attack / Enter or Space: wait (footstep) / Tab: open menu");
     }
 }

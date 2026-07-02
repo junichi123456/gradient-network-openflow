@@ -1,6 +1,7 @@
 using Godot;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
+using MysteryDungeon.Dungeon;
 
 namespace MysteryDungeon.Turn;
 
@@ -25,13 +26,19 @@ public class AttackAction : IAction
     private readonly Entity _attacker;
     private readonly Entity _defender;
     private readonly MoveSlot _moveSlot;
+    private readonly FloorController _floorController;
 
-    public AttackAction(Entity attacker, Entity defender, MoveSlot moveSlot)
+    // floorController is optional and only used to record a Player-side
+    // kill into RunTracker (see the death branch below) - HostileEntity's
+    // attacks on the player never need it, since their Faction check
+    // fails regardless.
+    public AttackAction(Entity attacker, Entity defender, MoveSlot moveSlot, FloorController floorController = null)
     {
         Actor = attacker;
         _attacker = attacker;
         _defender = defender;
         _moveSlot = moveSlot;
+        _floorController = floorController;
     }
 
     public void Execute(int turnNumber)
@@ -85,11 +92,16 @@ public class AttackAction : IAction
         {
             GD.Print($"[Combat] {_defender.ActorName} fainted!");
 
-            if (_attacker is Player)
+            if (_attacker.Faction == Faction.Player && _defender.Faction == Faction.Enemy)
             {
-                int expGained = defenderStats.Level * 10;
-                GD.Print($"[Progression] {_attacker.ActorName} gained {expGained} EXP for defeating {_defender.ActorName}.");
-                attackerStats.AddExp(expGained);
+                _floorController?.RunTracker.RecordKill(_defender.ActorName);
+
+                if (_attacker is Player)
+                {
+                    int expGained = defenderStats.Level * 10;
+                    GD.Print($"[Progression] {_attacker.ActorName} gained {expGained} EXP for defeating {_defender.ActorName}.");
+                    attackerStats.AddExp(expGained);
+                }
             }
 
             _defender.Die();

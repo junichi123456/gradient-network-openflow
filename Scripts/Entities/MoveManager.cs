@@ -32,4 +32,19 @@ public partial class MoveManager : Node
     }
 
     public MoveSlot GetActiveMove() => _slots.Count > 0 ? _slots[0] : null;
+
+    // AI-only picker: the first learned move that hasn't been opted out
+    // of automatic use (MoveSlot.IsAutoUseAllowed). Used by
+    // HostileEntity/AllyEntity instead of GetActiveMove() so a move can
+    // be reserved for player-manual use only. Range isn't modeled yet
+    // (every move today is only usable against an adjacent target, and
+    // callers already gate on adjacency before asking for this), so
+    // there's no range filter here beyond that.
+    public MoveSlot GetFirstAutoUsableMove()
+    {
+        foreach (var slot in _slots)
+            if (slot.IsAutoUseAllowed)
+                return slot;
+        return null;
+    }
 }

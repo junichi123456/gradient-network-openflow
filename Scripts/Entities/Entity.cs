@@ -14,11 +14,22 @@ public partial class Entity : Node2D, ITurnActor
     [Export] public int Speed { get; set; } = 100;
     [Export] public Color DebugColor { get; set; } = Colors.White;
 
+    // Which side this entity fights for. Defaults to Enemy so
+    // DummyNPC/FastNPC/HostileEntity need no extra code; Player and
+    // AllyEntity override to Player in their own _Ready().
+    [Export] public Faction Faction { get; set; } = Faction.Enemy;
+
     // Assigned by the composition root (TestScene) after instancing.
     public GridManager Grid { get; set; }
 
     public Vector2I GridPosition { get; private set; }
     public bool IsAlive { get; protected set; } = true;
+
+    // The tile this entity stood on before its most recent MoveTo (null
+    // until it has moved at least once). AllyEntity's Follow state walks
+    // toward its TargetToFollow's PreviousPosition each turn - a "conga
+    // line" that needs no shared queue and no A* (see AllyEntity).
+    public Vector2I? PreviousPosition { get; private set; }
 
     // Combat/survival stats component (HP, Attack/Defense, types,
     // hunger). Reuses a hand-placed "Stats" child node if the scene
@@ -64,6 +75,7 @@ public partial class Entity : Node2D, ITurnActor
 
     public void MoveTo(Vector2I targetPos)
     {
+        PreviousPosition = GridPosition;
         GridPosition = targetPos;
         if (Grid != null) Position = Grid.GridToWorld(targetPos);
     }

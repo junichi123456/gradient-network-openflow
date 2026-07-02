@@ -103,7 +103,7 @@ public partial class Player : Entity
         {
             var moveSlot = Moves.GetActiveMove();
             if (moveSlot != null)
-                TurnManager.SubmitPlayerAction(new AttackAction(this, enemy, moveSlot));
+                TurnManager.SubmitPlayerAction(new AttackAction(this, enemy, moveSlot, FloorController));
             else
                 GD.Print("[Player] has no move equipped to attack with.");
         }

@@ -32,8 +32,16 @@ public partial class FloorController : Node2D
 
     private readonly DungeonObjectManager _objects = new();
     private readonly List<Entity> _spawnedEnemies = new();
+    private readonly List<AllyEntity> _spawnedAllies = new();
     private readonly List<(Vector2I Pos, ColorRect Rect)> _spawnedMarkers = new();
     private List<Room> _rooms = new();
+
+    // Persist for the whole run (NOT cleared in CleanupCurrentFloor,
+    // unlike _spawnedEnemies/_objects/_rooms) - RunTracker counts kills
+    // across every floor, and PartyManager's roster survives floor
+    // transitions the same way the player's own stats do.
+    private readonly RunTracker _runTracker = new();
+    private readonly PartyManager _partyManager = new();
 
     private int _floorNumber;
     private Vector2I _lastPlayerPos;
@@ -42,7 +50,10 @@ public partial class FloorController : Node2D
     // FloorController stays the only thing that mutates these.
     public DungeonObjectManager Objects => _objects;
     public IReadOnlyList<Entity> SpawnedEnemies => _spawnedEnemies;
+    public IReadOnlyList<AllyEntity> SpawnedAllies => _spawnedAllies;
     public int FloorNumber => _floorNumber;
+    public RunTracker RunTracker => _runTracker;
+    public PartyManager PartyManager => _partyManager;
 
     private static readonly Vector2I[] EightDirections =
     {
@@ -99,6 +110,7 @@ public partial class FloorController : Node2D
         // attack) are already QueueFree()'d by Entity.Die() - drop them
         // from our bookkeeping list before anything else touches it.
         PruneDeadEnemies();
+        PruneDeadAllies();
 
         // The player might have just died too (an adjacent enemy's
         // AttackAction runs during the NPC tick, right before this
@@ -134,6 +146,27 @@ public partial class FloorController : Node2D
         _spawnedEnemies.RemoveAll(e => !GodotObject.IsInstanceValid(e) || !e.IsAlive);
     }
 
+    private void PruneDeadAllies()
+    {
+        _spawnedAllies.RemoveAll(a => !GodotObject.IsInstanceValid(a) || !a.IsAlive);
+    }
+
+    // Test/verification-only pseudo-clear trigger (there's no real
+    // dungeon-exit condition yet - dungeons regenerate endlessly via
+    // stairs). Rolls RunTracker's accumulated kills into party-join
+    // attempts and, on success, adds the species to PartyManager's
+    // roster (it'll spawn starting next floor generation).
+    public void CompleteDungeon()
+    {
+        GD.Print("[Dungeon] Dungeon cleared! Calculating recruitment results...");
+
+        var rng = new RandomNumberGenerator();
+        rng.Seed = GD.Randi();
+
+        foreach (var speciesId in _runTracker.CompleteDungeon(rng))
+            _partyManager.AddMember(speciesId);
+    }
+
     // Returns true (and triggers game-over) if the player's HP has
     // reached 0. Player.Die() is idempotent, so calling this more than
     // once in the same turn is harmless.
@@ -153,6 +186,9 @@ public partial class FloorController : Node2D
 
         foreach (var enemy in _spawnedEnemies)
             enemy.Visible = _grid.GetTile(enemy.GridPosition).IsVisible;
+
+        foreach (var ally in _spawnedAllies)
+            ally.Visible = _grid.GetTile(ally.GridPosition).IsVisible;
 
         foreach (var (pos, rect) in _spawnedMarkers)
             rect.Visible = _grid.GetTile(pos).IsExplored;
@@ -206,6 +242,7 @@ public partial class FloorController : Node2D
         PlaceStairs(normalRooms, occupied, rng);
         PlaceItemsAndTraps(occupied, rng);
         SpawnEnemies(normalRooms, occupied, rng);
+        SpawnPartyMembers(occupied);
 
         // First reveal of the new floor - without this the player would
         // see nothing until their first action fires OnTurnEnded.
@@ -222,6 +259,16 @@ public partial class FloorController : Node2D
             enemy.QueueFree();
         }
         _spawnedEnemies.Clear();
+
+        // Allies are rebuilt fresh from PartyManager's roster every
+        // floor (same as enemies) - only the roster itself (who's in
+        // the party) survives the transition, not the live instances.
+        foreach (var ally in _spawnedAllies)
+        {
+            _turnManager.UnregisterActor(ally);
+            ally.QueueFree();
+        }
+        _spawnedAllies.Clear();
 
         foreach (var (_, rect) in _spawnedMarkers)
             rect.QueueFree();
@@ -481,6 +528,46 @@ public partial class FloorController : Node2D
 
         _turnManager.RegisterActor(enemy);
         _spawnedEnemies.Add(enemy);
+    }
+
+    // Spawns PartyManager's whole roster around the player's spawn tile,
+    // in roster order, chaining each ally's TargetToFollow to the
+    // previously-spawned member (Player -> Ally1 -> Ally2 -> Ally3) -
+    // see AllyEntity for how that chain drives the follow behavior.
+    private void SpawnPartyMembers(HashSet<Vector2I> occupied)
+    {
+        Entity previous = _player;
+
+        foreach (var speciesId in _partyManager.AllMemberSpeciesIds())
+        {
+            var pos = FindFreeAdjacentTile(previous.GridPosition, occupied);
+
+            var ally = new AllyEntity { SpeciesId = speciesId };
+            AddChild(ally);
+            ally.Grid = _grid;
+            ally.Pathfinder = _pathfinder;
+            ally.FloorController = this;
+            ally.TargetToFollow = previous;
+            ally.PlaceAt(pos);
+            ally.Visible = false; // hidden until RefreshFieldOfView() reveals it
+
+            _turnManager.RegisterActor(ally);
+            _spawnedAllies.Add(ally);
+            occupied.Add(pos);
+
+            previous = ally;
+        }
+    }
+
+    private Vector2I FindFreeAdjacentTile(Vector2I center, HashSet<Vector2I> occupied)
+    {
+        foreach (var dir in EightDirections)
+        {
+            var candidate = center + dir;
+            if (_grid.IsWalkable(candidate) && !occupied.Contains(candidate))
+                return candidate;
+        }
+        return center; // extremely unlikely: no free tile nearby at all
     }
 
     private static Vector2I? RandomFreeTileInRoom(Rect2I room, HashSet<Vector2I> occupied, RandomNumberGenerator rng)

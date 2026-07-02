@@ -50,11 +50,11 @@ public partial class HostileEntity : Entity
         // In range: attack instead of pathfinding at all.
         if (TargetPlayer != null && IsAdjacent(GridPosition, TargetPlayer.GridPosition))
         {
-            var moveSlot = Moves.GetActiveMove();
+            var moveSlot = Moves.GetFirstAutoUsableMove();
             if (moveSlot != null)
                 return new AttackAction(this, TargetPlayer, moveSlot);
 
-            GD.Print($"[AI] {ActorName} is next to the player but has no move equipped - holding position.");
+            GD.Print($"[AI] {ActorName} is next to the player but has no auto-usable move - holding position.");
             return new WaitAction(this);
         }
 

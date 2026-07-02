@@ -165,7 +165,7 @@ public partial class MenuUI : Control
                     // so future room-wide/self-targeted moves don't need
                     // a direction step at all. A whiff still costs the turn.
                     var target = _floorController.FindAutoAimTarget(_player.GridPosition, _player.LastFacingDirection);
-                    _turnManager.SubmitPlayerAction(new AttackAction(_player, target, moveSlot));
+                    _turnManager.SubmitPlayerAction(new AttackAction(_player, target, moveSlot, _floorController));
                 }
                 break;
 
