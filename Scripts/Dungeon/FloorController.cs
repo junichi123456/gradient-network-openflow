@@ -24,11 +24,17 @@ public partial class FloorController : Node2D
     private static readonly Color ItemColor = new(0.2f, 0.9f, 0.2f);   // green
     private static readonly Color TrapColor = new(0.9f, 0.15f, 0.15f); // red
 
+    private const int BossRoomSize = 20;
+
     private GridManager _grid;
     private TurnManager _turnManager;
     private Player _player;
     private DungeonRule _rule;
+    private DungeonConfig _config;
     private AStarPathfinder _pathfinder;
+    private BossEntity _bossEntity; // non-null only on a FreeDungeonBoss final floor
+    private bool _isGameCleared;
+    private bool _storyEventCompleted; // framework hook for DungeonEndType.StoryNoBossFinalFloor
 
     private readonly DungeonObjectManager _objects = new();
     private readonly List<Entity> _spawnedEnemies = new();
@@ -92,17 +98,25 @@ public partial class FloorController : Node2D
         return null;
     }
 
-    public void Initialize(GridManager grid, TurnManager turnManager, Player player, string dungeonId)
+    public void Initialize(GridManager grid, TurnManager turnManager, Player player, string dungeonId, DungeonConfig config)
     {
         _grid = grid;
         _turnManager = turnManager;
         _player = player;
         _rule = DungeonRuleLoader.Load(dungeonId);
+        _config = config;
 
         _turnManager.TurnEnded += OnTurnEnded;
 
         GenerateFloor();
     }
+
+    // Framework hook for DungeonEndType.StoryNoBossFinalFloor (end
+    // pattern 3): a future scenario/event-flag system calls this once
+    // its trigger condition completes; OnTurnEnded then clears the
+    // dungeon the same way a boss kill or EscapePortal would. No actual
+    // story-event system exists yet, so nothing calls this today.
+    public void CompleteStoryEvent() => _storyEventCompleted = true;
 
     private void OnTurnEnded(int turnNumber)
     {
@@ -118,10 +132,35 @@ public partial class FloorController : Node2D
         // surroundings.
         if (CheckPlayerDeath()) return;
 
+        // Once cleared, nothing else in this method should run again -
+        // HandleDungeonCleared() already disabled player input, but this
+        // is a belt-and-suspenders guard against any further processing.
+        if (_isGameCleared) return;
+
+        // IsAlive flips false the instant Entity.Die() runs (before the
+        // deferred QueueFree()), so this is safe to check every turn
+        // without an IsInstanceValid race.
+        if (_bossEntity != null && !_bossEntity.IsAlive)
+        {
+            HandleDungeonCleared();
+            return;
+        }
+
+        if (_config.EndType == DungeonEndType.StoryNoBossFinalFloor && _storyEventCompleted)
+        {
+            HandleDungeonCleared();
+            return;
+        }
+
+        if (_objects.Get(_player.GridPosition) == MapObjectType.EscapePortal)
+        {
+            HandleDungeonCleared();
+            return;
+        }
+
         if (_objects.IsStairs(_player.GridPosition))
         {
-            GD.Print("[Dungeon] Player stepped on stairs. Progressing to next floor...");
-            GenerateFloor(); // regenerates the floor and refreshes FOV itself
+            NextFloor();
             return;
         }
 
@@ -151,14 +190,34 @@ public partial class FloorController : Node2D
         _spawnedAllies.RemoveAll(a => !GodotObject.IsInstanceValid(a) || !a.IsAlive);
     }
 
-    // Test/verification-only pseudo-clear trigger (there's no real
-    // dungeon-exit condition yet - dungeons regenerate endlessly via
-    // stairs). Rolls RunTracker's accumulated kills into party-join
-    // attempts and, on success, adds the species to PartyManager's
-    // roster (it'll spawn starting next floor generation).
+    private void NextFloor()
+    {
+        GD.Print("[Dungeon] Player stepped on stairs. Progressing to next floor...");
+        GenerateFloor(); // regenerates the floor and refreshes FOV itself
+    }
+
+    // Common "the run is over, in a win" path for every DungeonEndType:
+    // a boss kill, an EscapePortal step, or a completed story event all
+    // funnel through here. Stops further play (mirrors Player.Die()'s
+    // DisableInput() on the loss side) and rolls RunTracker's kills into
+    // CompleteDungeon()'s recruitment results.
+    private void HandleDungeonCleared()
+    {
+        if (_isGameCleared) return;
+        _isGameCleared = true;
+
+        _player.DisableInput();
+        GD.Print("[Game] 🎉 DUNGEON CLEARED! 🎉");
+        CompleteDungeon();
+    }
+
+    // Rolls RunTracker's accumulated kills into party-join attempts and,
+    // on success, adds the species to PartyManager's roster. Also
+    // callable directly for testing/verification without having to
+    // actually reach a win condition.
     public void CompleteDungeon()
     {
-        GD.Print("[Dungeon] Dungeon cleared! Calculating recruitment results...");
+        GD.Print("[Dungeon] Calculating recruitment results...");
 
         var rng = new RandomNumberGenerator();
         rng.Seed = GD.Randi();
@@ -207,11 +266,27 @@ public partial class FloorController : Node2D
         TriggerMonsterHouse(room);
     }
 
+    // Entry point for every floor transition (initial spawn and
+    // NextFloor() alike). Handles the shared cleanup/bookkeeping, then
+    // branches: everything before DungeonConfig.MaxFloors uses the
+    // normal BSP pipeline, the final floor's shape depends on
+    // DungeonConfig.EndType (see GenerateFinalFloor).
     private void GenerateFloor()
     {
         CleanupCurrentFloor();
-
         _floorNumber++;
+
+        if (_floorNumber >= _config.MaxFloors)
+        {
+            GenerateFinalFloor();
+            return;
+        }
+
+        GenerateNormalFloor();
+    }
+
+    private void GenerateNormalFloor()
+    {
         var rng = new RandomNumberGenerator();
         rng.Seed = GD.Randi();
         GD.Print($"[Dungeon] Generating floor {_floorNumber} (seed={rng.Seed})");
@@ -251,6 +326,90 @@ public partial class FloorController : Node2D
         GD.Print($"[Dungeon] Floor {_floorNumber} ready: {_rooms.Count} rooms, {_spawnedEnemies.Count} enemies.");
     }
 
+    // DungeonConfig.MaxFloors reached - which of the 5 end patterns
+    // applies depends on DungeonConfig.EndType. Only FreeDungeonBoss is
+    // implemented as of Phase 8; the others log a placeholder so the
+    // branch point exists for their own future phases.
+    private void GenerateFinalFloor()
+    {
+        GD.Print($"[Dungeon] Reached the final floor (Floor {_floorNumber}, EndType={_config.EndType}).");
+
+        switch (_config.EndType)
+        {
+            case DungeonEndType.FreeDungeonBoss:
+                GenerateFreeDungeonBossFloor();
+                break;
+
+            case DungeonEndType.StoryBoss:
+                GD.PrintErr("[Dungeon] DungeonEndType.StoryBoss final-floor generation: Not implemented yet.");
+                break;
+
+            case DungeonEndType.StoryMultiEnemyBattle:
+                GD.PrintErr("[Dungeon] DungeonEndType.StoryMultiEnemyBattle final-floor generation: Not implemented yet.");
+                break;
+
+            case DungeonEndType.StoryNoBossFinalFloor:
+                // No special floor shape (framework only, per spec) -
+                // the clear itself is driven by CompleteStoryEvent() /
+                // OnTurnEnded's _storyEventCompleted check.
+                GD.PrintErr("[Dungeon] DungeonEndType.StoryNoBossFinalFloor final-floor generation: Not implemented yet.");
+                break;
+
+            case DungeonEndType.FreeDungeonNoBossFinalFloor:
+                // EscapePortal placement isn't implemented yet - only
+                // the MapObjectType.EscapePortal identifier and
+                // OnTurnEnded's step-on-it check exist so far.
+                GD.PrintErr("[Dungeon] DungeonEndType.FreeDungeonNoBossFinalFloor final-floor generation: Not implemented yet.");
+                break;
+
+            default:
+                GD.PrintErr($"[Dungeon] Unhandled DungeonEndType {_config.EndType}.");
+                break;
+        }
+    }
+
+    // End pattern 4: a single BossRoomSize x BossRoomSize room (no BSP
+    // generation, no stairs/items/traps/normal enemies) with one
+    // BossEntity at its center. The party still spawns normally.
+    private void GenerateFreeDungeonBossFloor()
+    {
+        int gridSize = BossRoomSize + 2; // 1-tile wall border
+        _grid.Resize(gridSize, gridSize, TerrainType.Wall);
+
+        var bounds = new Rect2I(1, 1, BossRoomSize, BossRoomSize);
+        var bossRoom = new Room(0, bounds);
+        _rooms = new List<Room> { bossRoom };
+
+        for (int x = bounds.Position.X; x < bounds.Position.X + bounds.Size.X; x++)
+            for (int y = bounds.Position.Y; y < bounds.Position.Y + bounds.Size.Y; y++)
+                _grid.SetRoomFloor(new Vector2I(x, y), bossRoom.Id);
+
+        _pathfinder = new AStarPathfinder(_grid);
+
+        var playerPos = bounds.Position + new Vector2I(1, 1); // corner, away from the boss at center
+        _player.PlaceAt(playerPos);
+        _lastPlayerPos = playerPos;
+
+        var occupied = new HashSet<Vector2I> { playerPos };
+        SpawnPartyMembers(occupied);
+
+        _bossEntity = new BossEntity();
+        AddChild(_bossEntity);
+        _bossEntity.Grid = _grid;
+        _bossEntity.Pathfinder = _pathfinder;
+        _bossEntity.TargetPlayer = _player;
+        _bossEntity.Stats.Level += (_floorNumber - 1) * 2; // same per-floor scaling as normal enemies
+        _bossEntity.PlaceAt(bossRoom.Center);
+        _bossEntity.Visible = false; // hidden until RefreshFieldOfView() reveals it
+
+        _turnManager.RegisterActor(_bossEntity);
+        _spawnedEnemies.Add(_bossEntity);
+
+        RefreshFieldOfView();
+
+        GD.Print($"[Dungeon] Boss floor {_floorNumber} ready: {_bossEntity.ActorName} (Lv {_bossEntity.Stats.Level}, HP {_bossEntity.Stats.MaxHp}) spawned at {bossRoom.Center}.");
+    }
+
     private void CleanupCurrentFloor()
     {
         foreach (var enemy in _spawnedEnemies)
@@ -259,6 +418,7 @@ public partial class FloorController : Node2D
             enemy.QueueFree();
         }
         _spawnedEnemies.Clear();
+        _bossEntity = null;
 
         // Allies are rebuilt fresh from PartyManager's roster every
         // floor (same as enemies) - only the roster itself (who's in
@@ -523,6 +683,7 @@ public partial class FloorController : Node2D
         enemy.Grid = _grid;
         enemy.Pathfinder = _pathfinder;
         enemy.TargetPlayer = _player;
+        enemy.Stats.Level += (_floorNumber - 1) * 2; // deeper floors -> stronger enemies, on top of each species' own base level
         enemy.PlaceAt(pos);
         enemy.Visible = false; // hidden until RefreshFieldOfView() reveals it
 

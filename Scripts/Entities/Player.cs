@@ -33,6 +33,8 @@ public partial class Player : Entity
     {
         base._Ready(); // creates Stats + Moves + the debug ColorRect visual
 
+        Faction = Faction.Player;
+
         Inventory = new InventoryManager { Name = "Inventory" };
         AddChild(Inventory);
 
