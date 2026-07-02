@@ -98,6 +98,18 @@ public class ThrowItemAction : IAction
             if (!hitEntity.Stats.IsAlive)
             {
                 GD.Print($"[Combat] {hitEntity.ActorName} fainted!");
+
+                // Same kill bookkeeping as AttackAction: a thrown-item
+                // kill counts for RunTracker recruitment and player EXP.
+                if (_thrower.Faction == Faction.Player && hitEntity.Faction == Faction.Enemy)
+                {
+                    _floorController.RunTracker.RecordKill(hitEntity.ActorName);
+
+                    int expGained = hitEntity.Stats.Level * 10;
+                    GD.Print($"[Progression] {_thrower.ActorName} gained {expGained} EXP for defeating {hitEntity.ActorName}.");
+                    _thrower.Stats.AddExp(expGained);
+                }
+
                 hitEntity.Die();
             }
         }

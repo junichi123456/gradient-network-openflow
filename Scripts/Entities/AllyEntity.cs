@@ -49,11 +49,17 @@ public partial class AllyEntity : Entity
         var enemy = FindVisibleEnemy();
         if (enemy != null) return DecideCombatAction(enemy);
 
-        if (TargetToFollow != null && IsAdjacent(GridPosition, TargetToFollow.GridPosition))
+        if (IsFollowTargetValid() && IsAdjacent(GridPosition, TargetToFollow.GridPosition))
             return new WaitAction(this); // Idle: already at the target's side
 
         return DecideFollowAction();
     }
+
+    // FloorController re-links the chain when an ally dies
+    // (RelinkFollowChain), but stay defensive against a freed/dead
+    // leader in the window before that runs.
+    private bool IsFollowTargetValid() =>
+        TargetToFollow != null && GodotObject.IsInstanceValid(TargetToFollow) && TargetToFollow.IsAlive;
 
     // Reuses the same FOV-symmetry trick HostileEntity relies on: a
     // currently-visible tile (from the player's viewpoint) is
@@ -73,7 +79,9 @@ public partial class AllyEntity : Entity
 
     private IAction DecideCombatAction(Entity enemy)
     {
-        if (IsAdjacent(GridPosition, enemy.GridPosition))
+        // 8-directional melee reach; a Wall shoulder blocks the diagonal
+        // (CanAttackAdjacent), same rule as every other attacker.
+        if (CanAttackAdjacent(enemy.GridPosition))
         {
             var moveSlot = Moves.GetFirstAutoUsableMove();
             if (moveSlot != null)
@@ -88,13 +96,20 @@ public partial class AllyEntity : Entity
         var next = Pathfinder.GetNextStep(GridPosition, enemy.GridPosition, Stats.GetMovementProfile());
         if (next == null) return new WaitAction(this);
 
+        // Same guards as HostileEntity's chase: never step onto a
+        // profile-impassable hazard the pathfinder only "avoided", and
+        // never stack onto an occupied tile.
+        if (!CanMoveTo(next.Value)) return new WaitAction(this);
+        if (FloorController != null && FloorController.GetEntityAt(next.Value) != null)
+            return new WaitAction(this);
+
         return new MoveAction(this, next.Value);
     }
 
     private IAction DecideFollowAction()
     {
-        if (TargetToFollow == null || TargetToFollow.PreviousPosition == null)
-            return new WaitAction(this); // target hasn't moved yet - nothing to follow
+        if (!IsFollowTargetValid() || TargetToFollow.PreviousPosition == null)
+            return new WaitAction(this); // target hasn't moved yet (or chain is mid-relink) - nothing to follow
 
         var footprint = TargetToFollow.PreviousPosition.Value;
         if (footprint == GridPosition)
@@ -102,16 +117,21 @@ public partial class AllyEntity : Entity
 
         // The leader might have a different terrain profile (e.g. Hover)
         // than this follower - don't blindly step onto a footprint this
-        // entity can't actually survive/stand on.
+        // entity can't actually survive/stand on. Also never stack onto
+        // a tile someone else still occupies.
         if (!CanMoveTo(footprint))
+            return new WaitAction(this);
+        if (FloorController != null && FloorController.GetEntityAt(footprint) != null)
             return new WaitAction(this);
 
         return new MoveAction(this, footprint);
     }
 
+    // Follow-idle proximity: with 8-directional movement, a diagonal
+    // neighbor also counts as "at the leader's side" (Chebyshev == 1).
     private static bool IsAdjacent(Vector2I a, Vector2I b)
     {
         var diff = (a - b).Abs();
-        return (diff.X == 1 && diff.Y == 0) || (diff.X == 0 && diff.Y == 1);
+        return diff.X <= 1 && diff.Y <= 1 && (diff.X + diff.Y) > 0;
     }
 }

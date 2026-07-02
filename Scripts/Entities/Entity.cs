@@ -109,6 +109,22 @@ public partial class Entity : Node2D, ITurnActor
         return true;
     }
 
+    // Melee reach: all 8 surrounding tiles, EXCEPT a diagonal whose
+    // corner is blocked by a Wall shoulder (an attack can't bend around
+    // a wall corner any more than a step or a thrown item can). Shared
+    // by every attacker - Player's bump attack, HostileEntity, and
+    // AllyEntity - so the rule stays symmetric across factions.
+    public bool CanAttackAdjacent(Vector2I targetPos)
+    {
+        var diff = (targetPos - GridPosition).Abs();
+        if (diff.X > 1 || diff.Y > 1 || (diff.X == 0 && diff.Y == 0)) return false;
+
+        if (diff.X == 1 && diff.Y == 1)
+            return Grid == null || Grid.CanCutCorner(GridPosition, targetPos);
+
+        return true;
+    }
+
     // Called when Stats.CurrentHp reaches 0. NPCs are removed from the
     // scene entirely; Player overrides this to trigger game-over instead
     // (see Player.Die()) - AttackAction just calls defender.Die()

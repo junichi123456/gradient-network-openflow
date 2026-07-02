@@ -44,7 +44,17 @@ public class AttackAction : IAction
     public void Execute(int turnNumber)
     {
         var move = _moveSlot.Data;
-        if (_moveSlot.CurrentPp > 0) _moveSlot.CurrentPp--;
+
+        // Out of PP = the move simply fails (turn is still consumed).
+        // AI never reaches this branch - GetFirstAutoUsableMove skips
+        // empty slots - but the player can still manually pick one.
+        if (_moveSlot.CurrentPp <= 0)
+        {
+            GD.Print($"[Combat] {_attacker.ActorName} tried to use {move.Name}, but it has no PP left!");
+            return;
+        }
+
+        _moveSlot.CurrentPp--;
 
         // Menu-invoked moves have no manual target (Phase 6: no
         // direction-picker for moves) - autoaim may still come up empty,

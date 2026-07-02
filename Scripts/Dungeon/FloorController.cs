@@ -78,21 +78,39 @@ public partial class FloorController : Node2D
         return null;
     }
 
+    // Full occupancy lookup across all three groups (player, allies,
+    // enemies). Movement code checks this before stepping so two
+    // entities can never end up stacked on the same tile.
+    public Entity GetEntityAt(Vector2I pos)
+    {
+        if (_player != null && _player.IsAlive && _player.GridPosition == pos) return _player;
+
+        foreach (var ally in _spawnedAllies)
+            if (GodotObject.IsInstanceValid(ally) && ally.IsAlive && ally.GridPosition == pos)
+                return ally;
+
+        return GetEnemyAt(pos);
+    }
+
     // Auto-aim for menu-invoked moves (Phase 6 dropped the manual
     // direction-picker for moves so future room-wide/self-buff moves
     // don't need one): prefers whatever the actor is currently facing,
     // then falls back to the first enemy found among the 8 surrounding
-    // tiles. Returns null if nothing is adjacent at all - the move then
-    // swings at empty air.
+    // tiles. Diagonal candidates blocked by a Wall shoulder
+    // (GridManager.CanCutCorner) are skipped - a move can't bend around
+    // a wall corner. Returns null if nothing reachable is adjacent -
+    // the move then swings at empty air.
     public Entity FindAutoAimTarget(Vector2I origin, Vector2I facingDirection)
     {
-        var facingTarget = GetEnemyAt(origin + facingDirection);
-        if (facingTarget != null) return facingTarget;
+        var facingPos = origin + facingDirection;
+        var facingTarget = GetEnemyAt(facingPos);
+        if (facingTarget != null && _grid.CanCutCorner(origin, facingPos)) return facingTarget;
 
         foreach (var dir in EightDirections)
         {
-            var enemy = GetEnemyAt(origin + dir);
-            if (enemy != null) return enemy;
+            var pos = origin + dir;
+            var enemy = GetEnemyAt(pos);
+            if (enemy != null && _grid.CanCutCorner(origin, pos)) return enemy;
         }
 
         return null;
@@ -146,13 +164,19 @@ public partial class FloorController : Node2D
             return;
         }
 
-        if (_config.EndType == DungeonEndType.StoryNoBossFinalFloor && _storyEventCompleted)
+        // Both no-boss clear conditions only count on the FINAL floor of
+        // their matching EndType - a stray story flag or portal object on
+        // an earlier floor must never end the run.
+        bool onFinalFloor = _floorNumber >= _config.MaxFloors;
+
+        if (onFinalFloor && _config.EndType == DungeonEndType.StoryNoBossFinalFloor && _storyEventCompleted)
         {
             HandleDungeonCleared();
             return;
         }
 
-        if (_objects.Get(_player.GridPosition) == MapObjectType.EscapePortal)
+        if (onFinalFloor && _config.EndType == DungeonEndType.FreeDungeonNoBossFinalFloor
+            && _objects.Get(_player.GridPosition) == MapObjectType.EscapePortal)
         {
             HandleDungeonCleared();
             return;
@@ -187,7 +211,25 @@ public partial class FloorController : Node2D
 
     private void PruneDeadAllies()
     {
+        int before = _spawnedAllies.Count;
         _spawnedAllies.RemoveAll(a => !GodotObject.IsInstanceValid(a) || !a.IsAlive);
+
+        // A fallen ally breaks the conga line - re-link the whole chain
+        // (Player -> survivor 1 -> survivor 2 ...) so the followers
+        // behind the gap don't keep trailing a dead leader's last
+        // footprint forever.
+        if (_spawnedAllies.Count != before)
+            RelinkFollowChain();
+    }
+
+    private void RelinkFollowChain()
+    {
+        Entity previous = _player;
+        foreach (var ally in _spawnedAllies)
+        {
+            ally.TargetToFollow = previous;
+            previous = ally;
+        }
     }
 
     private void NextFloor()
@@ -341,29 +383,34 @@ public partial class FloorController : Node2D
                 break;
 
             case DungeonEndType.StoryBoss:
-                GD.PrintErr("[Dungeon] DungeonEndType.StoryBoss final-floor generation: Not implemented yet.");
+                GD.PrintErr("[Dungeon] DungeonEndType.StoryBoss final-floor generation: Not implemented yet. Falling back to a normal floor.");
+                GenerateNormalFloor();
                 break;
 
             case DungeonEndType.StoryMultiEnemyBattle:
-                GD.PrintErr("[Dungeon] DungeonEndType.StoryMultiEnemyBattle final-floor generation: Not implemented yet.");
+                GD.PrintErr("[Dungeon] DungeonEndType.StoryMultiEnemyBattle final-floor generation: Not implemented yet. Falling back to a normal floor.");
+                GenerateNormalFloor();
                 break;
 
             case DungeonEndType.StoryNoBossFinalFloor:
                 // No special floor shape (framework only, per spec) -
                 // the clear itself is driven by CompleteStoryEvent() /
                 // OnTurnEnded's _storyEventCompleted check.
-                GD.PrintErr("[Dungeon] DungeonEndType.StoryNoBossFinalFloor final-floor generation: Not implemented yet.");
+                GD.PrintErr("[Dungeon] DungeonEndType.StoryNoBossFinalFloor final-floor generation: Not implemented yet. Falling back to a normal floor.");
+                GenerateNormalFloor();
                 break;
 
             case DungeonEndType.FreeDungeonNoBossFinalFloor:
                 // EscapePortal placement isn't implemented yet - only
                 // the MapObjectType.EscapePortal identifier and
                 // OnTurnEnded's step-on-it check exist so far.
-                GD.PrintErr("[Dungeon] DungeonEndType.FreeDungeonNoBossFinalFloor final-floor generation: Not implemented yet.");
+                GD.PrintErr("[Dungeon] DungeonEndType.FreeDungeonNoBossFinalFloor final-floor generation: Not implemented yet. Falling back to a normal floor.");
+                GenerateNormalFloor();
                 break;
 
             default:
-                GD.PrintErr($"[Dungeon] Unhandled DungeonEndType {_config.EndType}.");
+                GD.PrintErr($"[Dungeon] Unhandled DungeonEndType {_config.EndType}. Falling back to a normal floor.");
+                GenerateNormalFloor();
                 break;
         }
     }
@@ -398,6 +445,7 @@ public partial class FloorController : Node2D
         _bossEntity.Grid = _grid;
         _bossEntity.Pathfinder = _pathfinder;
         _bossEntity.TargetPlayer = _player;
+        _bossEntity.FloorController = this;
         _bossEntity.Stats.Level += (_floorNumber - 1) * 2; // same per-floor scaling as normal enemies
         _bossEntity.PlaceAt(bossRoom.Center);
         _bossEntity.Visible = false; // hidden until RefreshFieldOfView() reveals it
@@ -584,9 +632,14 @@ public partial class FloorController : Node2D
             GD.Print($"[Item] {itemName} dropped at ({finalPos.Value.X}, {finalPos.Value.Y}).");
     }
 
+    // A tile can hold an item only if NO map object occupies it - not
+    // just "no item": Stairs/Trap/EscapePortal tiles must scatter the
+    // drop too, or _objects.SetItem would silently overwrite them (a
+    // thrown item landing on the stairs used to delete the stairs and
+    // strand the player on the floor).
     private Vector2I? FindDropPosition(Vector2I pos)
     {
-        if (_objects.Get(pos) != MapObjectType.Item) return pos;
+        if (_objects.Get(pos) == MapObjectType.None) return pos;
 
         Vector2I[] neighbors =
         {
@@ -597,7 +650,7 @@ public partial class FloorController : Node2D
         foreach (var dir in neighbors)
         {
             var candidate = pos + dir;
-            if (_grid.IsWalkable(candidate) && _objects.Get(candidate) != MapObjectType.Item)
+            if (_grid.IsWalkable(candidate) && _objects.Get(candidate) == MapObjectType.None)
                 return candidate;
         }
 
@@ -683,6 +736,7 @@ public partial class FloorController : Node2D
         enemy.Grid = _grid;
         enemy.Pathfinder = _pathfinder;
         enemy.TargetPlayer = _player;
+        enemy.FloorController = this;
         enemy.Stats.Level += (_floorNumber - 1) * 2; // deeper floors -> stronger enemies, on top of each species' own base level
         enemy.PlaceAt(pos);
         enemy.Visible = false; // hidden until RefreshFieldOfView() reveals it

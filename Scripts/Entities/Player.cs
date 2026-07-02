@@ -114,17 +114,27 @@ public partial class Player : Entity
 
         Vector2I target = GridPosition + direction;
 
-        // Bump-to-attack: moving into an occupied tile attacks instead.
+        // Bump-to-attack: moving into an enemy-occupied tile attacks
+        // instead - but a diagonal bump obeys the same Wall corner rule
+        // as movement (CanAttackAdjacent), so you can't hit around a
+        // wall corner.
         var enemy = FloorController?.GetEnemyAt(target);
         if (enemy != null)
         {
-            var moveSlot = Moves.GetActiveMove();
-            if (moveSlot != null)
-                TurnManager.SubmitPlayerAction(new AttackAction(this, enemy, moveSlot, FloorController));
+            if (!CanAttackAdjacent(target))
+            {
+                GD.Print($"[Player] a wall corner blocks the diagonal attack toward ({target.X}, {target.Y}).");
+            }
             else
-                GD.Print("[Player] has no move equipped to attack with.");
+            {
+                var moveSlot = Moves.GetActiveMove();
+                if (moveSlot != null)
+                    TurnManager.SubmitPlayerAction(new AttackAction(this, enemy, moveSlot, FloorController));
+                else
+                    GD.Print("[Player] has no move equipped to attack with.");
+            }
         }
-        else if (CanMoveTo(target))
+        else if (CanMoveTo(target) && FloorController?.GetEntityAt(target) == null)
         {
             TurnManager.SubmitPlayerAction(new MoveAction(this, target));
         }
