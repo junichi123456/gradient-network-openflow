@@ -5,6 +5,7 @@ using MysteryDungeon.Entities;
 using MysteryDungeon.Dungeon;
 using MysteryDungeon.UI;
 using MysteryDungeon.Combat;
+using MysteryDungeon.Hub;
 
 namespace MysteryDungeon.Core;
 
@@ -48,6 +49,12 @@ public partial class TestScene : Node2D
         player.TurnManager = turnManager;
         player.FloorController = floorController;
         player.MenuUI = menu;
+
+        // Carries back whatever non-material items survived the last
+        // Hub visit (see HubUpgradeManager.SaveInventory, called from
+        // FloorController.HandleDungeonCleared). Empty/no-op on a
+        // fresh game - the snapshot starts empty.
+        HubUpgradeManager.Instance?.RestoreInventory(player.Inventory);
 
         var dungeonConfig = new DungeonConfig { MaxFloors = MaxFloors, EndType = DungeonEndType.FreeDungeonBoss };
 

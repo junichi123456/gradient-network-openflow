@@ -1,5 +1,8 @@
 [
   { "id": "baked_berries", "name": "ベイクドベリー", "type": "Consumable", "effect_target": "Belly", "effect_value": 30 },
   { "id": "low_grade_medical_supplies", "name": "低品質な医薬品", "type": "Consumable", "effect_target": "Hp", "effect_value": 20 },
-  { "id": "fire_bow_arrow", "name": "火の弓矢", "type": "Throwable", "effect_target": "Damage", "effect_value": 15, "element_type": "Fire" }
+  { "id": "fire_bow_arrow", "name": "火の弓矢", "type": "Throwable", "effect_target": "Damage", "effect_value": 15, "element_type": "Fire" },
+  { "id": "pal_fluids", "name": "パルの体液", "type": "Material", "effect_target": "None", "effect_value": 0 },
+  { "id": "flame_organ", "name": "発火器官", "type": "Material", "effect_target": "None", "effect_value": 0 },
+  { "id": "wood", "name": "木材", "type": "Material", "effect_target": "None", "effect_value": 0 }
 ]

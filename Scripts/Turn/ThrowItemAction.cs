@@ -108,6 +108,8 @@ public class ThrowItemAction : IAction
                     int expGained = hitEntity.Stats.Level * 10;
                     GD.Print($"[Progression] {_thrower.ActorName} gained {expGained} EXP for defeating {hitEntity.ActorName}.");
                     _thrower.Stats.AddExp(expGained);
+
+                    MaterialDropTable.TryDrop(_floorController, hitEntity.GridPosition, hitEntity.ActorName);
                 }
 
                 hitEntity.Die();

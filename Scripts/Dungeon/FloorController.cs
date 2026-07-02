@@ -4,6 +4,7 @@ using MysteryDungeon.Grid;
 using MysteryDungeon.Turn;
 using MysteryDungeon.Entities;
 using MysteryDungeon.Combat;
+using MysteryDungeon.Hub;
 
 namespace MysteryDungeon.Dungeon;
 
@@ -241,8 +242,10 @@ public partial class FloorController : Node2D
     // Common "the run is over, in a win" path for every DungeonEndType:
     // a boss kill, an EscapePortal step, or a completed story event all
     // funnel through here. Stops further play (mirrors Player.Die()'s
-    // DisableInput() on the loss side) and rolls RunTracker's kills into
-    // CompleteDungeon()'s recruitment results.
+    // DisableInput() on the loss side), rolls RunTracker's kills into
+    // CompleteDungeon()'s recruitment results, banks whatever materials
+    // the player is carrying, hands the rest of the inventory off to
+    // HubUpgradeManager for the trip back, and returns to the Hub scene.
     private void HandleDungeonCleared()
     {
         if (_isGameCleared) return;
@@ -251,6 +254,14 @@ public partial class FloorController : Node2D
         _player.DisableInput();
         GD.Print("[Game] 🎉 DUNGEON CLEARED! 🎉");
         CompleteDungeon();
+
+        var hub = HubUpgradeManager.Instance;
+        if (hub != null)
+        {
+            hub.DepositMaterials(_player.MaterialInventory);
+            hub.SaveInventory(_player.Inventory);
+            GetTree().ChangeSceneToFile("res://Scenes/HubScene.tscn");
+        }
     }
 
     // Rolls RunTracker's accumulated kills into party-join attempts and,
@@ -532,7 +543,9 @@ public partial class FloorController : Node2D
     // just far denser), only the enemies stay hidden until triggered.
     private void PlaceItemsAndTraps(HashSet<Vector2I> occupied, RandomNumberGenerator rng)
     {
-        var itemIds = ItemDatabase.AllIds();
+        // Materials only ever come from Player-side kills
+        // (MaterialDropTable), never from regular floor loot.
+        var itemIds = ItemDatabase.AllIds().FindAll(id => ItemDatabase.Get(id)?.Type != ItemType.Material);
 
         foreach (var room in _rooms)
         {
@@ -573,9 +586,11 @@ public partial class FloorController : Node2D
         AddMarker(pos.Value, color);
     }
 
-    // Called every turn the player doesn't step onto stairs. Consumes
-    // the floor item into InventoryManager on success; on failure (bag
-    // full) the item is left on the ground for a later attempt.
+    // Called every turn the player doesn't step onto stairs. Type
+    // decides which of the two independent inventories it goes into
+    // (Material -> MaterialInventory, everything else -> Inventory); on
+    // failure (that inventory is full) the item is left on the ground
+    // for a later attempt.
     private void TryPickupItemAt(Vector2I pos)
     {
         if (_objects.Get(pos) != MapObjectType.Item) return;
@@ -584,15 +599,21 @@ public partial class FloorController : Node2D
         var data = ItemDatabase.Get(itemId);
         if (data == null) return;
 
-        if (_player.Inventory.AddItem(itemId))
+        bool picked = data.Type == ItemType.Material
+            ? _player.MaterialInventory.AddItem(itemId)
+            : _player.Inventory.AddItem(itemId);
+
+        if (picked)
         {
             _objects.RemoveAt(pos);
             RemoveMarkerAt(pos);
-            GD.Print($"[Inventory] Player picked up {data.Name}.");
+            string destination = data.Type == ItemType.Material ? "Material Inventory" : "Inventory";
+            GD.Print($"[Inventory] Player picked up {data.Name} into the {destination}.");
         }
         else
         {
-            GD.Print($"[Inventory] Inventory full, could not pick up {data.Name}.");
+            string full = data.Type == ItemType.Material ? "Material Inventory full" : "Inventory full";
+            GD.Print($"[Inventory] {full}, could not pick up {data.Name}.");
         }
     }
 

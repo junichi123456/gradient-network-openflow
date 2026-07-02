@@ -115,6 +115,8 @@ public class AttackAction : IAction
                     GD.Print($"[Progression] {_attacker.ActorName} gained {expGained} EXP for defeating {_defender.ActorName}.");
                     attackerStats.AddExp(expGained);
                 }
+
+                MaterialDropTable.TryDrop(_floorController, _defender.GridPosition, _defender.ActorName);
             }
 
             _defender.Die();

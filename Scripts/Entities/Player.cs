@@ -22,6 +22,11 @@ public partial class Player : Entity
     // base like Stats/Moves.
     public InventoryManager Inventory { get; private set; }
 
+    // Fully separate from Inventory - Material-type items only ever go
+    // here (see FloorController.TryPickupItemAt), and only ever leave
+    // via HubUpgradeManager.DepositMaterials on a dungeon return.
+    public MaterialInventory MaterialInventory { get; private set; }
+
     // Last direction the player pressed - used as the autoaim "facing"
     // for menu-invoked moves (Phase 6 dropped the direction-picker for
     // moves, see MenuUI.HandleAccept). Defaults to facing down.
@@ -52,6 +57,9 @@ public partial class Player : Entity
 
         Inventory = new InventoryManager { Name = "Inventory" };
         AddChild(Inventory);
+
+        MaterialInventory = new MaterialInventory { Name = "MaterialInventory" };
+        AddChild(MaterialInventory);
 
         Stats.MaxHp = 30;
         Stats.CurrentHp = 30;

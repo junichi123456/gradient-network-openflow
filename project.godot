@@ -18,3 +18,7 @@ window/size/viewport_height=600
 [dotnet]
 
 project/assembly_name="MysteryDungeonRoguelike"
+
+[autoload]
+
+HubUpgradeManager="*res://Scripts/Hub/HubUpgradeManager.cs"

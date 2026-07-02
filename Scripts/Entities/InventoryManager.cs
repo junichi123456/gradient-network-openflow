@@ -22,6 +22,11 @@ public partial class InventoryManager : Node
         var data = ItemDatabase.Get(itemId);
         if (data == null) return false;
 
+        // Materials only ever go into MaterialInventory (see
+        // FloorController.TryPickupItemAt's type branch) - reject here
+        // too as a defense-in-depth guard against a stray direct call.
+        if (data.Type == ItemType.Material) return false;
+
         int maxStack = data.Type == ItemType.Throwable ? ThrowableMaxStack : 1;
 
         foreach (var slot in _slots)

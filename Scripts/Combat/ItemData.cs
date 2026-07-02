@@ -4,6 +4,12 @@ public enum ItemType
 {
     Consumable,
     Throwable,
+
+    // Hub-upgrade currency (Phase 11). Never usable in-dungeon
+    // (UseItemAction's default branch just logs "no effect" and
+    // doesn't consume it) - only picked up into MaterialInventory
+    // (never InventoryManager) and spent via HubUpgradeManager.
+    Material,
 }
 
 public enum ItemEffectTarget
@@ -11,6 +17,9 @@ public enum ItemEffectTarget
     Hp,
     Belly,
     Damage,
+
+    // Material items carry no direct-use effect.
+    None,
 }
 
 // Immutable item definition, loaded once by ItemDatabase from
