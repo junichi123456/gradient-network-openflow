@@ -304,6 +304,17 @@ public partial class FloorController : Node2D
     {
         FovManager.UpdateVisibility(_grid, _player.GridPosition);
 
+        // AllyEntity trails one tile behind its leader (the "conga line"
+        // - see AllyEntity's follow logic), so an ally can be standing
+        // right on the doorway/corridor tile just outside the room the
+        // player stepped into. That tile isn't part of the new room and
+        // isn't a corridor-radius tile around the player either, so
+        // without this it goes dark and the ally flickers invisible mid-
+        // follow. A party member always reveals its own tile, same as
+        // the player does simply by being there.
+        foreach (var ally in _spawnedAllies)
+            _grid.RevealAround(ally.GridPosition, 0);
+
         foreach (var enemy in _spawnedEnemies)
             enemy.Visible = _grid.GetTile(enemy.GridPosition).IsVisible;
 

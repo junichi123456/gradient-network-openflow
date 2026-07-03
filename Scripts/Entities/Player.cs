@@ -168,6 +168,13 @@ public partial class Player : Entity
                     GD.Print("[Player] has no move equipped to attack with.");
             }
         }
+        else if (CanMoveTo(target) && FloorController?.GetEntityAt(target) is AllyEntity ally)
+        {
+            // Party members never block the player outright - stepping
+            // into an ally's tile swaps places instead, same as passing
+            // a teammate in a corridor.
+            TurnManager.SubmitPlayerAction(new SwapAction(this, ally));
+        }
         else if (CanMoveTo(target) && FloorController?.GetEntityAt(target) == null)
         {
             TurnManager.SubmitPlayerAction(new MoveAction(this, target));
