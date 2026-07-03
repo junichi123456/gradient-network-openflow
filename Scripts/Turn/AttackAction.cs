@@ -67,6 +67,11 @@ public class AttackAction : IAction
             return;
         }
 
+        // Bump animation plays on every attempted attack (hit or miss) -
+        // only "no PP"/"no target" above skip it, since nothing actually
+        // happens in those cases.
+        _attacker.PlayBumpAttack(_defender.GridPosition);
+
         // Accuracy>=100 skips the roll entirely - GD.Randf()'s [0,1]
         // range can return exactly 1.0, which would otherwise let a
         // "guaranteed hit" move miss on a razor-thin edge case.

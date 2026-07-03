@@ -37,6 +37,7 @@ Speed = 100
 DebugColor = Color(1, 0.9, 0.1, 1)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+position_smoothing_enabled = false
 
 [node name="FloorController" type="Node2D" parent="."]
 script = ExtResource("5")

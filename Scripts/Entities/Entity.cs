@@ -45,6 +45,19 @@ public partial class Entity : Node2D, ITurnActor
     // tween its color without a GetNode lookup every hit.
     private ColorRect _visual;
 
+    // Shared by MoveTo's move animation and PlayBumpAttack's nudge -
+    // an entity only ever does one of those at a time, and Kill()ing
+    // whichever is in flight before starting the other lets a second
+    // action (e.g. a Speed=200 actor moving twice in one Tick) chain
+    // smoothly from wherever the visual currently is instead of
+    // fighting the previous tween or snapping.
+    private Tween _visualMoveTween;
+
+    private const double MoveAnimationDuration = 0.12;
+    private const double BumpForwardDuration = 0.05;
+    private const double BumpReturnDuration = 0.05;
+    private const float BumpNudgeRatio = 0.4f;
+
     public override void _Ready()
     {
         Stats = GetNodeOrNull<EntityStats>("Stats");
@@ -108,17 +121,55 @@ public partial class Entity : Node2D, ITurnActor
         };
     }
 
+    // Instant placement (initial spawn, floor regeneration, forced
+    // teleport) - deliberately NOT animated. There's no meaningful
+    // "previous visual position" to interpolate from across a floor
+    // reset, so this snaps the same way it always has; only MoveTo
+    // (an actual step taken during play) animates.
     public void PlaceAt(Vector2I gridPos)
     {
         GridPosition = gridPos;
+        _visualMoveTween?.Kill(); // don't let a stale tween fight this snap
         if (Grid != null) Position = Grid.GridToWorld(gridPos);
     }
 
+    // Logical GridPosition/PreviousPosition update instantly - the turn
+    // engine, AI, and occupancy checks all read GridPosition and must
+    // see the new value immediately, before this call even returns.
+    // Only the visual Position trails behind, via AnimateVisualTo.
     public void MoveTo(Vector2I targetPos)
     {
         PreviousPosition = GridPosition;
         GridPosition = targetPos;
-        if (Grid != null) Position = Grid.GridToWorld(targetPos);
+        AnimateVisualTo(targetPos, MoveAnimationDuration);
+    }
+
+    private void AnimateVisualTo(Vector2I gridPos, double duration)
+    {
+        if (Grid == null) return;
+
+        _visualMoveTween?.Kill();
+        _visualMoveTween = CreateTween();
+        _visualMoveTween.TweenProperty(this, "position", Grid.GridToWorld(gridPos), duration);
+    }
+
+    // "Body slam" bump animation for an adjacent attack: nudge partway
+    // toward the target and back, purely cosmetic (GridPosition never
+    // changes for an attack). `home` is derived from the current
+    // GridPosition rather than whatever Position happens to be right
+    // now, so this always returns to the mathematically correct resting
+    // spot even if a previous animation was interrupted mid-flight.
+    public void PlayBumpAttack(Vector2I towardGridPos)
+    {
+        if (Grid == null) return;
+
+        var home = Grid.GridToWorld(GridPosition);
+        var nudge = home.Lerp(Grid.GridToWorld(towardGridPos), BumpNudgeRatio);
+
+        _visualMoveTween?.Kill();
+        _visualMoveTween = CreateTween();
+        _visualMoveTween.TweenProperty(this, "position", nudge, BumpForwardDuration);
+        _visualMoveTween.TweenProperty(this, "position", home, BumpReturnDuration);
     }
 
     public void Wait()
