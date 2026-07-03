@@ -5,6 +5,7 @@ using MysteryDungeon.Turn;
 using MysteryDungeon.Entities;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Hub;
+using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Dungeon;
 
@@ -243,7 +244,7 @@ public partial class FloorController : Node2D
 
     private void NextFloor()
     {
-        GD.Print("[Dungeon] Player stepped on stairs. Progressing to next floor...");
+        MessageLogger.Log("You descended to the next floor.", MessageLogger.ProgressionColor);
         GenerateFloor(); // regenerates the floor and refreshes FOV itself
     }
 
@@ -260,7 +261,7 @@ public partial class FloorController : Node2D
         _isGameCleared = true;
 
         _player.DisableInput();
-        GD.Print("[Game] 🎉 DUNGEON CLEARED! 🎉");
+        MessageLogger.Log("Dungeon cleared!", MessageLogger.ProgressionColor);
         CompleteDungeon();
 
         var hub = HubUpgradeManager.Instance;
@@ -278,8 +279,6 @@ public partial class FloorController : Node2D
     // actually reach a win condition.
     public void CompleteDungeon()
     {
-        GD.Print("[Dungeon] Calculating recruitment results...");
-
         var rng = new RandomNumberGenerator();
         rng.Seed = GD.Randi();
 
@@ -728,7 +727,7 @@ public partial class FloorController : Node2D
     private void TriggerMonsterHouse(Room room)
     {
         room.IsTriggered = true;
-        GD.Print("[Dungeon] ⚠️ MONSTER HOUSE TRIGGERED! ⚠️");
+        MessageLogger.Log("You sense a horde of enemies nearby!", MessageLogger.FaintColor);
 
         var rng = new RandomNumberGenerator();
         rng.Seed = GD.Randi();

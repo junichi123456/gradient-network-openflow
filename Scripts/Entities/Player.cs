@@ -87,7 +87,7 @@ public partial class Player : Entity
         if (!IsAlive) return;
         IsAlive = false;
         DisableInput();
-        GD.Print("[Game] 💀 PLAYER DIED! GAME OVER 💀");
+        MessageLogger.Log($"{ActorName} fainted... GAME OVER.", MessageLogger.FaintColor);
     }
 
     public override void _UnhandledInput(InputEvent @event)

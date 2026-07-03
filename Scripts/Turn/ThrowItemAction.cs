@@ -3,6 +3,7 @@ using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
 using MysteryDungeon.Grid;
 using MysteryDungeon.Dungeon;
+using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Turn;
 
@@ -46,7 +47,7 @@ public class ThrowItemAction : IAction
         var data = ItemDatabase.Get(_itemId);
         if (data == null || !_thrower.Inventory.HasItem(_itemId))
         {
-            GD.Print($"[Item] {_thrower.ActorName} has no {(data?.Name ?? _itemId)} to throw.");
+            MessageLogger.Log($"{_thrower.ActorName} has no {(data?.Name ?? _itemId)} to throw.", MessageLogger.IneffectiveColor);
             return;
         }
 
@@ -66,7 +67,7 @@ public class ThrowItemAction : IAction
 
             if (isDiagonal && !_grid.CanCutCorner(current, candidate))
             {
-                GD.Print($"[Item] {data.Name} was blocked by a wall at the corner near ({current.X}, {current.Y}) and could not cut through!");
+                MessageLogger.Log($"{data.Name} was blocked by a wall at the corner and could not cut through!", MessageLogger.IneffectiveColor);
                 break; // stop one tile short - a Wall shoulder blocks the diagonal cut
             }
 
@@ -74,7 +75,7 @@ public class ThrowItemAction : IAction
             landingPos = current;
 
             if (_floorController.Objects.Get(current) == MapObjectType.Trap)
-                GD.Print($"[Item] {data.Name} triggered a trap at ({current.X}, {current.Y})!");
+                MessageLogger.Log($"{data.Name} triggered a trap!", MessageLogger.FaintColor);
 
             hitEntity = _floorController.GetEnemyAt(current);
             if (hitEntity != null) break;
@@ -88,16 +89,18 @@ public class ThrowItemAction : IAction
 
             int damage = Mathf.Max(1, Mathf.RoundToInt(data.EffectValue * typeMultiplier));
             hitEntity.Stats.TakeDamage(damage);
-            GD.Print($"[Item] {_thrower.ActorName} threw {data.Name} and hit {hitEntity.ActorName} for {damage} damage.");
+            hitEntity.PlayHitFlash();
+            hitEntity.ShowDamagePopup(damage);
+            MessageLogger.Log($"{_thrower.ActorName} threw {data.Name} and hit {hitEntity.ActorName} for {damage} damage.");
 
             if (typeMultiplier > 1f)
-                GD.Print("[Item] It's super effective!");
+                MessageLogger.Log("It's super effective!", MessageLogger.EffectiveColor);
             else if (typeMultiplier < 1f)
-                GD.Print("[Item] It's not very effective...");
+                MessageLogger.Log("It's not very effective...", MessageLogger.IneffectiveColor);
 
             if (!hitEntity.Stats.IsAlive)
             {
-                GD.Print($"[Combat] {hitEntity.ActorName} fainted!");
+                MessageLogger.Log($"{hitEntity.ActorName} fainted!", MessageLogger.FaintColor);
 
                 // Same kill bookkeeping as AttackAction: a thrown-item
                 // kill counts for RunTracker recruitment and player EXP.
@@ -106,7 +109,7 @@ public class ThrowItemAction : IAction
                     _floorController.RunTracker.RecordKill(hitEntity.ActorName);
 
                     int expGained = hitEntity.Stats.Level * 10;
-                    GD.Print($"[Progression] {_thrower.ActorName} gained {expGained} EXP for defeating {hitEntity.ActorName}.");
+                    MessageLogger.Log($"{_thrower.ActorName} gained {expGained} EXP for defeating {hitEntity.ActorName}.", MessageLogger.ProgressionColor);
                     _thrower.Stats.AddExp(expGained);
 
                     MaterialDropTable.TryDrop(_floorController, hitEntity.GridPosition, hitEntity.ActorName);
@@ -117,7 +120,7 @@ public class ThrowItemAction : IAction
         }
         else
         {
-            GD.Print($"[Item] {_thrower.ActorName} threw {data.Name}, it flew to ({landingPos.X}, {landingPos.Y}) and landed.");
+            MessageLogger.Log($"{_thrower.ActorName} threw {data.Name}, but it flew off and landed somewhere.");
             _floorController.DropItem(landingPos, _itemId);
         }
     }

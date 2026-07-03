@@ -13,6 +13,7 @@ public enum MenuScreen
     Items,
     ItemSubmenu,
     ChooseDirection,
+    Tactics,
 }
 
 // In-game command menu (opened with the "ui_focus_next" action, i.e.
@@ -131,10 +132,11 @@ public partial class MenuUI : Control
     {
         int count = _screen switch
         {
-            MenuScreen.Top => 3,
+            MenuScreen.Top => 4,
             MenuScreen.Moves => Mathf.Max(1, _player.Moves.Slots.Count),
             MenuScreen.Items => Mathf.Max(1, _player.Inventory.Slots.Count),
             MenuScreen.ItemSubmenu => 3,
+            MenuScreen.Tactics => Mathf.Max(1, _floorController.SpawnedAllies.Count),
             _ => 1,
         };
 
@@ -149,7 +151,8 @@ public partial class MenuUI : Control
             case MenuScreen.Top:
                 if (_cursor == 0) { _screen = MenuScreen.Moves; _cursor = 0; Render(); }
                 else if (_cursor == 1) { _screen = MenuScreen.Items; _cursor = 0; Render(); }
-                else if (_cursor == 2) { Close(); _turnManager.SubmitPlayerAction(new WaitAction(_player)); }
+                else if (_cursor == 2) { _screen = MenuScreen.Tactics; _cursor = 0; Render(); }
+                else if (_cursor == 3) { Close(); _turnManager.SubmitPlayerAction(new WaitAction(_player)); }
                 break;
 
             case MenuScreen.Moves:
@@ -201,6 +204,17 @@ public partial class MenuUI : Control
                     _turnManager.SubmitPlayerAction(new DropItemAction(_player, _floorController, itemId));
                 }
                 break;
+
+            case MenuScreen.Tactics:
+                {
+                    var allies = _floorController.SpawnedAllies;
+                    if (allies.Count == 0) return;
+
+                    var ally = allies[_cursor];
+                    ally.CurrentTactics = ally.CurrentTactics == Tactics.ActFreely ? Tactics.FollowOnly : Tactics.ActFreely;
+                    Render(); // stay on this screen - lets the player set several allies in one visit
+                }
+                break;
         }
     }
 
@@ -222,6 +236,11 @@ public partial class MenuUI : Control
                 _cursor = 0;
                 Render();
                 break;
+            case MenuScreen.Tactics:
+                _screen = MenuScreen.Top;
+                _cursor = 0;
+                Render();
+                break;
         }
     }
 
@@ -232,11 +251,12 @@ public partial class MenuUI : Control
 
         List<string> lines = _screen switch
         {
-            MenuScreen.Top => new List<string> { "わざ (Moves)", "どうぐ (Items)", "足踏み (Rest)" },
+            MenuScreen.Top => new List<string> { "わざ (Moves)", "どうぐ (Items)", "さくせん (Tactics)", "足踏み (Rest)" },
             MenuScreen.Moves => BuildMoveLines(),
             MenuScreen.Items => BuildItemLines(),
             MenuScreen.ItemSubmenu => new List<string> { "つかう (Use)", "なげる (Throw)", "おく (Drop)" },
             MenuScreen.ChooseDirection => new List<string> { "Choose a direction (Esc to cancel)" },
+            MenuScreen.Tactics => BuildTacticsLines(),
             _ => new List<string>(),
         };
 
@@ -267,6 +287,20 @@ public partial class MenuUI : Control
         var lines = new List<string>();
         foreach (var slot in slots)
             lines.Add($"{slot.Data.Name} x{slot.Quantity}");
+        return lines;
+    }
+
+    private List<string> BuildTacticsLines()
+    {
+        var allies = _floorController.SpawnedAllies;
+        if (allies.Count == 0) return new List<string> { "(no party members)" };
+
+        var lines = new List<string>();
+        foreach (var ally in allies)
+        {
+            string label = ally.CurrentTactics == Tactics.ActFreely ? "じゆうに動く" : "そばにいて";
+            lines.Add($"{ally.ActorName}: {label}");
+        }
         return lines;
     }
 }

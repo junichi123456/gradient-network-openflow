@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Entities;
 
@@ -30,8 +31,11 @@ public class RunTracker
         {
             int chancePercent = count / 2;
             bool success = rng.RandiRange(1, 100) <= chancePercent;
-            string outcome = success ? $"Success! {speciesId} joined the party." : "Failed.";
-            GD.Print($"[Result] Defeated {count}x {speciesId} (Chance: {chancePercent}%). Roll: {outcome}");
+
+            if (success)
+                MessageLogger.Log($"{speciesId} wants to join your party!", MessageLogger.ProgressionColor);
+            else
+                GD.Print($"[Result] Defeated {count}x {speciesId} (Chance: {chancePercent}%). Roll: Failed.");
 
             if (success) joined.Add(speciesId);
         }

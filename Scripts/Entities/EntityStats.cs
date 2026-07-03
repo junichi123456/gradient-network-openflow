@@ -1,5 +1,6 @@
 using Godot;
 using MysteryDungeon.Grid;
+using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Entities;
 
@@ -111,6 +112,6 @@ public partial class EntityStats : Node
         ExpToNextLevel = Mathf.RoundToInt(ExpToNextLevel * 1.5f);
 
         string ownerName = (GetParent() as Entity)?.ActorName ?? Name;
-        GD.Print($"[Progression] {ownerName} leveled up to Lv {Level}! Max HP is now {MaxHp}.");
+        MessageLogger.Log($"{ownerName} leveled up to Lv {Level}! Max HP is now {MaxHp}.", MessageLogger.ProgressionColor);
     }
 }

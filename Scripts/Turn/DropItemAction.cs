@@ -2,6 +2,7 @@ using Godot;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Dungeon;
 using MysteryDungeon.Entities;
+using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Turn;
 
@@ -29,11 +30,11 @@ public class DropItemAction : IAction
         var data = ItemDatabase.Get(_itemId);
         if (data == null || !_player.Inventory.RemoveItem(_itemId))
         {
-            GD.Print($"[Item] {_player.ActorName} has no {(data?.Name ?? _itemId)} to drop.");
+            MessageLogger.Log($"{_player.ActorName} has no {(data?.Name ?? _itemId)} to drop.", MessageLogger.IneffectiveColor);
             return;
         }
 
-        GD.Print($"[Item] {_player.ActorName} placed {data.Name} on the ground.");
+        MessageLogger.Log($"{_player.ActorName} placed {data.Name} on the ground.");
         _floorController.DropItem(_player.GridPosition, _itemId);
     }
 }

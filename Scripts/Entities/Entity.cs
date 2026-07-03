@@ -41,6 +41,10 @@ public partial class Entity : Node2D, ITurnActor
     // Up to 4 learned moves. Same auto-attach pattern as Stats.
     public MoveManager Moves { get; private set; }
 
+    // The placeholder ColorRect created below - kept so PlayHitFlash can
+    // tween its color without a GetNode lookup every hit.
+    private ColorRect _visual;
+
     public override void _Ready()
     {
         Stats = GetNodeOrNull<EntityStats>("Stats");
@@ -57,14 +61,51 @@ public partial class Entity : Node2D, ITurnActor
             AddChild(Moves);
         }
 
-        var visual = new ColorRect
+        _visual = new ColorRect
         {
             Color = DebugColor,
             Size = new Vector2(28, 28),
             Position = new Vector2(-14, -14),
             MouseFilter = Control.MouseFilterEnum.Ignore,
         };
-        AddChild(visual);
+        AddChild(_visual);
+    }
+
+    // Brief white flash on the entity's own visual, tweened back to its
+    // normal color - the "you got hit" feedback every attacker/thrown
+    // item triggers on its target (see AttackAction/ThrowItemAction).
+    public void PlayHitFlash()
+    {
+        if (_visual == null) return;
+
+        var original = _visual.Color;
+        var tween = CreateTween();
+        tween.TweenProperty(_visual, "color", Colors.White, 0.08);
+        tween.TweenProperty(_visual, "color", original, 0.12);
+    }
+
+    // Floating "-N" damage number that rises and fades out - spawned as
+    // a child so it inherits this entity's position, then frees itself
+    // once the tween finishes.
+    public void ShowDamagePopup(int amount)
+    {
+        var label = new Label
+        {
+            Text = $"-{amount}",
+            Modulate = new Color(1f, 0.9f, 0.2f),
+            Position = new Vector2(-8, -26),
+            ZIndex = 100,
+        };
+        AddChild(label);
+
+        var tween = CreateTween();
+        tween.SetParallel(true);
+        tween.TweenProperty(label, "position", label.Position + new Vector2(0, -20), 0.6);
+        tween.TweenProperty(label, "modulate:a", 0f, 0.6);
+        tween.Finished += () =>
+        {
+            if (GodotObject.IsInstanceValid(label)) label.QueueFree();
+        };
     }
 
     public void PlaceAt(Vector2I gridPos)

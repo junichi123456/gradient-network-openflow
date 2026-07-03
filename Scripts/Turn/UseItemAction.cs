@@ -1,6 +1,7 @@
 using Godot;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
+using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Turn;
 
@@ -26,7 +27,7 @@ public class UseItemAction : IAction
         var data = ItemDatabase.Get(_itemId);
         if (data == null || !_user.Inventory.HasItem(_itemId))
         {
-            GD.Print($"[Item] {_user.ActorName} has no {(data?.Name ?? _itemId)} to use.");
+            MessageLogger.Log($"{_user.ActorName} has no {(data?.Name ?? _itemId)} to use.", MessageLogger.IneffectiveColor);
             return;
         }
 
@@ -37,16 +38,16 @@ public class UseItemAction : IAction
         {
             case ItemEffectTarget.Hp:
                 _user.Stats.Heal(data.EffectValue);
-                GD.Print($"[Item] {_user.ActorName} used {data.Name}. HP +{data.EffectValue} ({_user.Stats.CurrentHp}/{_user.Stats.MaxHp})");
+                MessageLogger.Log($"{_user.ActorName} used {data.Name}. HP +{data.EffectValue} ({_user.Stats.CurrentHp}/{_user.Stats.MaxHp})", MessageLogger.HealColor);
                 _user.Inventory.RemoveItem(_itemId);
                 break;
             case ItemEffectTarget.Belly:
                 _user.Stats.Belly = Mathf.Min(_user.Stats.MaxBelly, _user.Stats.Belly + data.EffectValue);
-                GD.Print($"[Item] {_user.ActorName} used {data.Name}. Belly +{data.EffectValue} ({_user.Stats.Belly}/{_user.Stats.MaxBelly})");
+                MessageLogger.Log($"{_user.ActorName} used {data.Name}. Belly +{data.EffectValue} ({_user.Stats.Belly}/{_user.Stats.MaxBelly})", MessageLogger.HealColor);
                 _user.Inventory.RemoveItem(_itemId);
                 break;
             default:
-                GD.Print($"[Item] {data.Name} has no effect when used directly. It was not consumed.");
+                MessageLogger.Log($"{data.Name} has no effect when used directly. It was not consumed.", MessageLogger.IneffectiveColor);
                 break;
         }
     }
