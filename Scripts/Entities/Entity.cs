@@ -22,6 +22,14 @@ public partial class Entity : Node2D, ITurnActor
     // swap, no script changes required.
     [Export] public string SpriteId { get; set; } = "";
 
+    // Lets a species render larger than its 1-tile footprint (e.g. 1.3
+    // or 1.5 for a bigger pal) without touching occupancy/movement/
+    // attack logic at all - those are all GridPosition-based (integer
+    // tile coordinates) and never look at this. Purely a Sprite2D.Scale
+    // multiplier; see _Ready() for why this doesn't break the feet
+    // anchor Y-Sort depends on.
+    [Export] public float VisualScale { get; set; } = 1.0f;
+
     // Which side this entity fights for. Defaults to Enemy so
     // DummyNPC/FastNPC/HostileEntity need no extra code; Player and
     // AllyEntity override to Player in their own _Ready().
@@ -93,11 +101,22 @@ public partial class Entity : Node2D, ITurnActor
         // correctly (see DungeonScene.tscn/HubScene.tscn's
         // y_sort_enabled), since Y-Sort compares each node's origin, not
         // its visual bounds.
+        //
+        // VisualScale then scales the Sprite2D node itself, which scales
+        // Offset right along with the texture (both are in the node's
+        // own local space). Since Offset.y is exactly -halfHeight, the
+        // bottom edge sits at local Y=0 BEFORE scaling - and scaling
+        // around the node's own origin leaves a point already at 0
+        // fixed, whatever the scale factor. So a bigger pal grows
+        // upward from its feet instead of drifting off its tile, with
+        // zero extra math: the feet anchor (and therefore Y-Sort) stays
+        // correct at any VisualScale.
         _visual = new Sprite2D
         {
             Texture = SpriteTextureLibrary.GetTexture(SpriteId, DebugColor, (int)VisualSize),
             Centered = true,
             Offset = new Vector2(0, -VisualSize / 2f),
+            Scale = new Vector2(VisualScale, VisualScale),
         };
         AddChild(_visual);
     }
