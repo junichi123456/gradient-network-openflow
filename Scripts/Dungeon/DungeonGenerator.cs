@@ -44,7 +44,7 @@ public class DungeonGenerator
         if (generateWaterPools || generateLavaPools)
             GenerateHazardPools(grid, rule, result, rng, generateWaterPools, generateLavaPools);
 
-        grid.QueueRedraw();
+        grid.RefreshTileMap();
 
         GD.Print($"[DungeonGenerator] done: {result.Rooms.Count} rooms carved");
         return result;

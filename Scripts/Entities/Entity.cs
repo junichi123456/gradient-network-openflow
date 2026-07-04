@@ -1,18 +1,26 @@
 using Godot;
 using MysteryDungeon.Grid;
 using MysteryDungeon.Turn;
+using MysteryDungeon.Visuals;
 
 namespace MysteryDungeon.Entities;
 
-// Base actor: a grid position plus a placeholder ColorRect visual.
-// ActorName/Speed/DebugColor are exported so each concrete scene
-// (Player/DummyNPC/FastNPC) configures its own identity from the
+// Base actor: a grid position plus a Sprite2D visual (see
+// SpriteTextureLibrary for the real-art-or-placeholder loading policy).
+// ActorName/Speed/DebugColor/SpriteId are exported so each concrete
+// scene (Player/DummyNPC/FastNPC) configures its own identity from the
 // Godot editor Inspector rather than hard-coding it in script.
 public partial class Entity : Node2D, ITurnActor
 {
     [Export] public string ActorName { get; set; } = "Entity";
     [Export] public int Speed { get; set; } = 100;
     [Export] public Color DebugColor { get; set; } = Colors.White;
+
+    // Empty until real MagicaVoxel-rendered art exists - see
+    // SpriteTextureLibrary. Setting this to e.g. "player_idle" and
+    // dropping res://Assets/Sprites/player_idle.png in is the entire
+    // swap, no script changes required.
+    [Export] public string SpriteId { get; set; } = "";
 
     // Which side this entity fights for. Defaults to Enemy so
     // DummyNPC/FastNPC/HostileEntity need no extra code; Player and
@@ -41,9 +49,14 @@ public partial class Entity : Node2D, ITurnActor
     // Up to 4 learned moves. Same auto-attach pattern as Stats.
     public MoveManager Moves { get; private set; }
 
-    // The placeholder ColorRect created below - kept so PlayHitFlash can
-    // tween its color without a GetNode lookup every hit.
-    private ColorRect _visual;
+    // The Sprite2D created below - kept so PlayHitFlash can tween its
+    // Modulate without a GetNode lookup every hit.
+    private Sprite2D _visual;
+
+    // Native size of the generated fallback texture (see
+    // SpriteTextureLibrary) and thus of the Sprite2D's rendered quad -
+    // also drives the feet-anchor Offset below.
+    private const float VisualSize = 28f;
 
     // Shared by MoveTo's move animation and PlayBumpAttack's nudge -
     // an entity only ever does one of those at a time, and Kill()ing
@@ -74,27 +87,34 @@ public partial class Entity : Node2D, ITurnActor
             AddChild(Moves);
         }
 
-        _visual = new ColorRect
+        // Centered + an upward Offset puts the sprite's bottom edge (its
+        // "feet") at this node's own origin instead of the sprite's
+        // middle - required for Y-Sort to order overlapping characters
+        // correctly (see DungeonScene.tscn/HubScene.tscn's
+        // y_sort_enabled), since Y-Sort compares each node's origin, not
+        // its visual bounds.
+        _visual = new Sprite2D
         {
-            Color = DebugColor,
-            Size = new Vector2(28, 28),
-            Position = new Vector2(-14, -14),
-            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Texture = SpriteTextureLibrary.GetTexture(SpriteId, DebugColor, (int)VisualSize),
+            Centered = true,
+            Offset = new Vector2(0, -VisualSize / 2f),
         };
         AddChild(_visual);
     }
 
     // Brief white flash on the entity's own visual, tweened back to its
-    // normal color - the "you got hit" feedback every attacker/thrown
+    // normal tint - the "you got hit" feedback every attacker/thrown
     // item triggers on its target (see AttackAction/ThrowItemAction).
+    // Sprite2D has no Color property (that was ColorRect-specific), so
+    // this tweens Modulate instead.
     public void PlayHitFlash()
     {
         if (_visual == null) return;
 
-        var original = _visual.Color;
+        var original = _visual.Modulate;
         var tween = CreateTween();
-        tween.TweenProperty(_visual, "color", Colors.White, 0.08);
-        tween.TweenProperty(_visual, "color", original, 0.12);
+        tween.TweenProperty(_visual, "modulate", Colors.White, 0.08);
+        tween.TweenProperty(_visual, "modulate", original, 0.12);
     }
 
     // Floating "-N" damage number that rises and fades out - spawned as

@@ -1,4 +1,5 @@
 using Godot;
+using MysteryDungeon.Visuals;
 
 namespace MysteryDungeon.Hub;
 
@@ -17,14 +18,19 @@ public partial class HubPlayer : CharacterBody2D
     // input) so the player can't wander around behind the panel.
     public bool InputEnabled { get; set; } = true;
 
+    private const float VisualSize = 28f;
+
     public override void _Ready()
     {
-        var visual = new ColorRect
+        // Feet-anchored (Offset shifts the sprite up so its bottom edge
+        // sits at this node's origin) - HubScene has y_sort_enabled too,
+        // so the player needs the same Y-Sort-correct anchor as dungeon
+        // entities (see Entity._Ready()).
+        var visual = new Sprite2D
         {
-            Color = DebugColor,
-            Size = new Vector2(28, 28),
-            Position = new Vector2(-14, -14),
-            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Texture = SpriteTextureLibrary.GetTexture("", DebugColor, (int)VisualSize),
+            Centered = true,
+            Offset = new Vector2(0, -VisualSize / 2f),
         };
         AddChild(visual);
     }

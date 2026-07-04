@@ -3,8 +3,11 @@ using Godot;
 namespace MysteryDungeon.Grid;
 
 // Owns the logical Tile[,] grid, grid<->world coordinate conversion,
-// and walkability queries. Rendering is a debug placeholder (_Draw)
-// until real tile art / TileMap is introduced later.
+// and walkability queries. Terrain is rendered onto a TileMapLayer
+// child (see BuildTileMapLayer/RefreshTileMap) painted from a
+// dynamically-generated 5-color placeholder atlas - a stand-in for real
+// tile art, swappable later without touching the SetCell logic that
+// mirrors _tiles onto it.
 //
 // The grid starts as a solid Width x Height wall block; callers (e.g.
 // Dungeon.DungeonGenerator) call Resize()/SetTerrain() to carve it into
@@ -18,13 +21,68 @@ public partial class GridManager : Node2D
 
     private Tile[,] _tiles;
 
+    private TileMapLayer _tileMapLayer;
+    private int _tileSourceId;
+
+    // Column order in the generated placeholder atlas - swap
+    // BuildPlaceholderAtlasTexture for real tile art later without
+    // touching RefreshTileMap's SetCell logic, since it only ever
+    // refers to these indices.
+    private const int WallAtlasX = 0;
+    private const int FloorAtlasX = 1;
+    private const int WaterAtlasX = 2;
+    private const int LavaAtlasX = 3;
+    private const int ChasmAtlasX = 4;
+    private const int AtlasColumnCount = 5;
+
     public override void _Ready()
     {
+        BuildTileMapLayer();
         Resize(Width, Height, TerrainType.Wall);
     }
 
+    private void BuildTileMapLayer()
+    {
+        var tileSet = new TileSet { TileSize = new Vector2I(TileSize, TileSize) };
+
+        var source = new TileSetAtlasSource
+        {
+            Texture = BuildPlaceholderAtlasTexture(),
+            TextureRegionSize = new Vector2I(TileSize, TileSize),
+        };
+        for (int i = 0; i < AtlasColumnCount; i++)
+            source.CreateTile(new Vector2I(i, 0));
+
+        _tileSourceId = tileSet.AddSource(source);
+
+        _tileMapLayer = new TileMapLayer { TileSet = tileSet };
+        AddChild(_tileMapLayer);
+    }
+
+    // One flat color per TerrainType, laid out left-to-right in a single
+    // row - a placeholder for a real tile atlas PNG later. Wall/Floor
+    // keep the same colors GridManager's old _Draw() used; Water/Lava/
+    // Chasm are new (the old _Draw() collapsed all three into the same
+    // "floor gray" - it only ever distinguished Wall from "everything
+    // else").
+    private Texture2D BuildPlaceholderAtlasTexture()
+    {
+        var image = Image.CreateEmpty(TileSize * AtlasColumnCount, TileSize, false, Image.Format.Rgba8);
+
+        void FillColumn(int index, Color color) =>
+            image.FillRect(new Rect2I(new Vector2I(index * TileSize, 0), new Vector2I(TileSize, TileSize)), color);
+
+        FillColumn(WallAtlasX, new Color(0.15f, 0.15f, 0.15f));
+        FillColumn(FloorAtlasX, new Color(0.35f, 0.35f, 0.35f));
+        FillColumn(WaterAtlasX, new Color(0.2f, 0.4f, 0.9f));
+        FillColumn(LavaAtlasX, new Color(0.9f, 0.35f, 0.1f));
+        FillColumn(ChasmAtlasX, new Color(0.05f, 0.05f, 0.05f));
+
+        return ImageTexture.CreateFromImage(image);
+    }
+
     // Reallocates the tile array at the given dimensions, filled entirely
-    // with `fill`. Also updates Width/Height so GridToWorld/_Draw/etc.
+    // with `fill`. Also updates Width/Height so GridToWorld/RefreshTileMap
     // stay in sync with the new size.
     public void Resize(int width, int height, TerrainType fill = TerrainType.Wall)
     {
@@ -34,7 +92,7 @@ public partial class GridManager : Node2D
         for (int x = 0; x < Width; x++)
             for (int y = 0; y < Height; y++)
                 _tiles[x, y] = new Tile { Terrain = fill };
-        QueueRedraw();
+        RefreshTileMap();
     }
 
     public void SetTerrain(Vector2I pos, TerrainType terrain)
@@ -149,20 +207,37 @@ public partial class GridManager : Node2D
     public Vector2I WorldToGrid(Vector2 world) =>
         new(Mathf.FloorToInt(world.X / TileSize), Mathf.FloorToInt(world.Y / TileSize));
 
-    public override void _Draw()
+    // Mirrors _tiles onto the TileMapLayer: an unexplored tile is erased
+    // (nothing drawn - same "stays black" behavior the old _Draw() gave
+    // via its IsExplored early-continue), an explored tile gets the
+    // atlas cell matching its current Terrain. Called whenever terrain
+    // or visibility changes (Resize, DungeonGenerator.Generate,
+    // FovManager.UpdateVisibility) - the same call sites that used to
+    // call QueueRedraw().
+    public void RefreshTileMap()
     {
         for (int x = 0; x < Width; x++)
         {
             for (int y = 0; y < Height; y++)
             {
-                if (!_tiles[x, y].IsExplored) continue; // unseen = stays black
+                var pos = new Vector2I(x, y);
 
-                var rect = new Rect2(x * TileSize, y * TileSize, TileSize, TileSize);
-                var color = _tiles[x, y].Terrain == TerrainType.Wall
-                    ? new Color(0.15f, 0.15f, 0.15f)
-                    : new Color(0.35f, 0.35f, 0.35f);
-                DrawRect(rect, color, true);
-                DrawRect(rect, new Color(0f, 0f, 0f, 0.3f), false);
+                if (!_tiles[x, y].IsExplored)
+                {
+                    _tileMapLayer.EraseCell(pos);
+                    continue;
+                }
+
+                int atlasX = _tiles[x, y].Terrain switch
+                {
+                    TerrainType.Wall => WallAtlasX,
+                    TerrainType.Floor => FloorAtlasX,
+                    TerrainType.Water => WaterAtlasX,
+                    TerrainType.Lava => LavaAtlasX,
+                    TerrainType.Chasm => ChasmAtlasX,
+                    _ => FloorAtlasX,
+                };
+                _tileMapLayer.SetCell(pos, _tileSourceId, new Vector2I(atlasX, 0));
             }
         }
     }
