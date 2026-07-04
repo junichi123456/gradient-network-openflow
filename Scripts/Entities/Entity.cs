@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using MysteryDungeon.Grid;
 using MysteryDungeon.Turn;
@@ -46,6 +47,14 @@ public partial class Entity : Node2D, ITurnActor
     // toward its TargetToFollow's PreviousPosition each turn - a "conga
     // line" that needs no shared queue and no A* (see AllyEntity).
     public Vector2I? PreviousPosition { get; private set; }
+
+    // Visual-only facing, driven by MoveTo/PlayBumpAttack (see
+    // UpdateFacingDirection) and used to pick the matching 8-direction
+    // sprite (SpriteTextureLibrary). Distinct from Player.
+    // LastFacingDirection, which reflects raw held input (including
+    // diagonal_lock's turn-without-moving) for autoaim purposes - mixing
+    // the two would risk that unrelated feature.
+    public Vector2I FacingDirection { get; private set; } = new Vector2I(0, 1);
 
     // Combat/survival stats component (HP, Attack/Defense, types,
     // hunger). Reuses a hand-placed "Stats" child node if the scene
@@ -113,12 +122,39 @@ public partial class Entity : Node2D, ITurnActor
         // correct at any VisualScale.
         _visual = new Sprite2D
         {
-            Texture = SpriteTextureLibrary.GetTexture(SpriteId, DebugColor, (int)VisualSize),
+            Texture = SpriteTextureLibrary.GetTexture(SpriteId, FacingDirection, DebugColor, (int)VisualSize),
             Centered = true,
             Offset = new Vector2(0, -VisualSize / 2f),
             Scale = new Vector2(VisualScale, VisualScale),
         };
         AddChild(_visual);
+    }
+
+    // Re-resolves the Sprite2D's texture for the current FacingDirection
+    // (see SpriteTextureLibrary's 3-tier fallback) - called only when
+    // FacingDirection actually changes, so a run of steps in the same
+    // direction doesn't redundantly re-lookup/re-cache every turn.
+    private void UpdateSprite()
+    {
+        if (_visual == null) return;
+        _visual.Texture = SpriteTextureLibrary.GetTexture(SpriteId, FacingDirection, DebugColor, (int)VisualSize);
+    }
+
+    // Recomputes FacingDirection from a move/attack target, normalizing
+    // any adjacent-tile delta (including diagonals) to a unit Vector2I.
+    // Must run BEFORE GridPosition is overwritten for a move (the delta
+    // needs the pre-move position) - PlayBumpAttack never changes
+    // GridPosition at all, so its call site isn't order-sensitive.
+    private void UpdateFacingDirection(Vector2I targetPos)
+    {
+        var delta = targetPos - GridPosition;
+        if (delta == Vector2I.Zero) return;
+
+        var newDirection = new Vector2I(Math.Sign(delta.X), Math.Sign(delta.Y));
+        if (newDirection == FacingDirection) return;
+
+        FacingDirection = newDirection;
+        UpdateSprite();
     }
 
     // Brief white flash on the entity's own visual, tweened back to its
@@ -178,6 +214,7 @@ public partial class Entity : Node2D, ITurnActor
     // Only the visual Position trails behind, via AnimateVisualTo.
     public void MoveTo(Vector2I targetPos)
     {
+        UpdateFacingDirection(targetPos); // needs the pre-move GridPosition
         PreviousPosition = GridPosition;
         GridPosition = targetPos;
         AnimateVisualTo(targetPos, MoveAnimationDuration);
@@ -200,6 +237,8 @@ public partial class Entity : Node2D, ITurnActor
     // spot even if a previous animation was interrupted mid-flight.
     public void PlayBumpAttack(Vector2I towardGridPos)
     {
+        UpdateFacingDirection(towardGridPos); // GridPosition never changes for an attack, so order doesn't matter here
+
         if (Grid == null) return;
 
         var home = Grid.GridToWorld(GridPosition);

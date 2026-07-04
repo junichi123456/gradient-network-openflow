@@ -34,6 +34,41 @@ public static class SpriteTextureLibrary
         return GetFallbackTexture(fallbackColor, size);
     }
 
+    // 3-tier fallback for an 8-direction-aware sprite (see Entity.
+    // FacingDirection): a per-direction image (e.g. "hinokojika_front.png")
+    // takes priority, then the direction-less single image, then the
+    // solid-color placeholder - reuses the 3-arg overload above for the
+    // last two tiers so there's exactly one place that knows the
+    // placeholder policy.
+    public static Texture2D GetTexture(string spriteId, Vector2I direction, Color fallbackColor, int size)
+    {
+        if (!string.IsNullOrEmpty(spriteId))
+        {
+            string directionalPath = string.Format(AssetPathFormat, spriteId + GetDirectionSuffix(direction));
+            if (ResourceLoader.Exists(directionalPath))
+                return GD.Load<Texture2D>(directionalPath);
+        }
+
+        return GetTexture(spriteId, fallbackColor, size);
+    }
+
+    // Y-down = "front" (matches this project's GridToWorld convention,
+    // where +Y is downward on screen). Any direction outside this set
+    // (only (0,0) in practice, which Entity.UpdateFacingDirection never
+    // actually produces) safely falls back to "_front".
+    private static string GetDirectionSuffix(Vector2I direction) => (direction.X, direction.Y) switch
+    {
+        (0, 1) => "_front",
+        (0, -1) => "_back",
+        (-1, 0) => "_left",
+        (1, 0) => "_right",
+        (-1, 1) => "_fl",
+        (1, 1) => "_fr",
+        (-1, -1) => "_bl",
+        (1, -1) => "_br",
+        _ => "_front",
+    };
+
     private static Texture2D GetFallbackTexture(Color color, int size)
     {
         var key = (color, size);
