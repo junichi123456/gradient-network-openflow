@@ -3,12 +3,19 @@ using System.Collections.Generic;
 
 namespace MysteryDungeon.Visuals;
 
-// Single load path for every sprite in the project, real or placeholder:
-// tries res://Assets/Sprites/{spriteId}.png first (the eventual
-// MagicaVoxel-rendered art drop-in point - just add the PNG there and
-// set SpriteId, no code changes needed), and falls back to a flat-color
+// Single load path for every sprite in the project, real or placeholder.
+//
+// Non-directional callers (static props: Hub facilities/gates, dungeon
+// stairs/item/trap markers) use the flat res://Assets/Sprites/{id}.png
+// convention. Direction-aware callers (Entity, via FacingDirection) use
+// a per-species folder instead: res://Assets/Sprites/{id}/{name}.png,
+// e.g. Assets/Sprites/03/front.png or Assets/Sprites/03/1.png for
+// chiqipi (Paldex #03). There is no direction-less single image inside
+// that folder - a missing direction re-tries the front-facing file
+// (front.png, then 1.png) before giving up, so a species with only one
+// drawn pose just always shows that pose. Falls back to a flat-color
 // square ImageTexture tinted with `fallbackColor` when spriteId is
-// empty or the file doesn't exist yet.
+// empty or no matching file exists yet.
 //
 // PlaceholderTexture2D was considered and rejected: in Godot 4 it
 // renders fully transparent at runtime (it's an editor-only "missing
@@ -31,7 +38,11 @@ namespace MysteryDungeon.Visuals;
 // verification path.
 public static class SpriteTextureLibrary
 {
-    private const string AssetPathFormat = "res://Assets/Sprites/{0}.png";
+    private const string FlatFileFormat = "res://Assets/Sprites/{0}.png";
+    private const string DirectionalFileFormat = "res://Assets/Sprites/{0}/{1}.png";
+
+    private static readonly Vector2I FrontDirection = new(0, 1);
+
     private static readonly Dictionary<(Color Color, int Size), ImageTexture> _fallbackCache = new();
     private static readonly Dictionary<string, Texture2D> _imageTextureCache = new();
 
@@ -39,7 +50,7 @@ public static class SpriteTextureLibrary
     {
         if (!string.IsNullOrEmpty(spriteId))
         {
-            string path = string.Format(AssetPathFormat, spriteId);
+            string path = string.Format(FlatFileFormat, spriteId);
             if (TryLoadImageTexture(path, out var texture))
                 return texture;
         }
@@ -47,39 +58,32 @@ public static class SpriteTextureLibrary
         return GetFallbackTexture(fallbackColor, size);
     }
 
-    // 3-tier fallback for an 8-direction-aware sprite (see Entity.
-    // FacingDirection): a per-direction image takes priority, then the
-    // direction-less single image, then the solid-color placeholder -
-    // reuses the 3-arg overload above for the last two tiers so there's
-    // exactly one place that knows the placeholder policy.
-    //
-    // The directional tier tries every naming convention an artist might
-    // reasonably use for `direction` in order (see GetDirectionSuffixCandidates):
-    // the canonical letter suffix, then - for a diagonal only - the same
-    // two letters reversed (an "fl" vs "lf" mix-up is a naming mistake
-    // that's easy to make and otherwise fails completely silently, since
-    // it just falls all the way through to the placeholder), then the
-    // numeric direction suffix (no letters to reorder, so no ambiguity
-    // at all).
+    // Direction-aware fallback for an 8-direction sprite (see Entity.
+    // FacingDirection): tries every naming convention an artist might
+    // reasonably use for `direction` inside the spriteId's folder (see
+    // GetDirectionIdentifierCandidates), then - if none of those exist -
+    // retries the same candidates for the front-facing direction, so a
+    // species drawn in only one pose still renders instead of falling
+    // all the way to the solid-color placeholder.
     public static Texture2D GetTexture(string spriteId, Vector2I direction, Color fallbackColor, int size)
     {
         if (!string.IsNullOrEmpty(spriteId))
         {
-            foreach (string suffix in GetDirectionSuffixCandidates(direction))
+            foreach (string identifier in GetDirectionIdentifierCandidates(direction))
             {
-                string directionalPath = string.Format(AssetPathFormat, spriteId + suffix);
-                if (TryLoadImageTexture(directionalPath, out var texture))
+                string path = string.Format(DirectionalFileFormat, spriteId, identifier);
+                if (TryLoadImageTexture(path, out var texture))
                     return texture;
             }
         }
 
-        return GetTexture(spriteId, fallbackColor, size);
+        return GetFallbackTexture(fallbackColor, size);
     }
 
     // Y-down = "front" (matches this project's GridToWorld convention,
     // where +Y is downward on screen). Numbers 1-8 mirror the same
     // front/back/left/right/fl/fr/bl/br order, for artists who'd rather
-    // name files "03_5.png" than spell out "fl"/"lf".
+    // name files "5.png" than spell out "fl"/"lf".
     private static readonly Dictionary<Vector2I, string> _directionNames = new()
     {
         [new Vector2I(0, 1)] = "front",
@@ -114,16 +118,28 @@ public static class SpriteTextureLibrary
         [new Vector2I(1, -1)] = "rb",
     };
 
-    private static IEnumerable<string> GetDirectionSuffixCandidates(Vector2I direction)
+    // This direction's own name/reversed-name/number, then - only if
+    // `direction` isn't already front - front's own three, as the
+    // "at least draw something" fallback pose.
+    private static IEnumerable<string> GetDirectionIdentifierCandidates(Vector2I direction)
     {
-        string name = _directionNames.GetValueOrDefault(direction, "front"); // (0,0) etc. safely default to front
-        yield return "_" + name;
+        foreach (string id in GetOwnIdentifiers(direction))
+            yield return id;
+
+        if (direction != FrontDirection)
+            foreach (string id in GetOwnIdentifiers(FrontDirection))
+                yield return id;
+    }
+
+    private static IEnumerable<string> GetOwnIdentifiers(Vector2I direction)
+    {
+        yield return _directionNames.GetValueOrDefault(direction, "front"); // (0,0) etc. safely default to front
 
         if (_reversedDiagonalNames.TryGetValue(direction, out string reversed))
-            yield return "_" + reversed;
+            yield return reversed;
 
         if (_directionNumbers.TryGetValue(direction, out int number))
-            yield return "_" + number;
+            yield return number.ToString();
     }
 
     // Direct file-system read (see the class-level comment for why this
