@@ -33,7 +33,12 @@ public partial class AllyEntity : Entity
         ActorName = SpeciesId;
         DebugColor = Colors.LightGreen;
 
-        base._Ready(); // creates Stats + Moves + the debug ColorRect visual
+        // Paldex #001 - see Assets/Sprites/001/. Only the fixed partner
+        // has a real sprite assigned so far; other recruited species
+        // still fall back to the placeholder until they get their own.
+        if (SpeciesId == "Partner") SpriteId = "001";
+
+        base._Ready(); // creates Stats + Moves + the Sprite2D visual
 
         Faction = Faction.Player;
 
