@@ -45,7 +45,8 @@ public partial class Player : Entity
 
     public override void _Ready()
     {
-        base._Ready(); // creates Stats + Moves + the debug ColorRect visual
+        SpriteId = "009"; // Paldex #009 - see Assets/Sprites/009/
+        base._Ready(); // creates Stats + Moves + the Sprite2D visual
 
         if (!InputMap.HasAction(DiagonalLockAction))
         {
