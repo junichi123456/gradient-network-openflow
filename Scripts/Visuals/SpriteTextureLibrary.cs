@@ -25,17 +25,22 @@ namespace MysteryDungeon.Visuals;
 // artists the exact same GetTexture(spriteId, color) call site to
 // target later.
 //
-// Sprite files are loaded via Image.Load (a raw file read), not
-// ResourceLoader/GD.Load. A dropped-in PNG has no .import metadata
-// until the Godot editor has opened the project at least once and
-// auto-imported it - until then, ResourceLoader.Exists() reports false
-// even though the file genuinely exists on disk (confirmed via
-// FileAccess.FileExists returning true for the same path), so GD.Load
-// would silently and permanently fall through to the placeholder.
-// Image.Load reads the file directly regardless of import state, so a
-// brand new asset works immediately - including in a --headless run
-// that has never opened the editor, which is this project's main
-// verification path.
+// Sprite files load through a two-tier path (see TryLoadImageTexture):
+// ResourceLoader/GD.Load first (the standard, export-safe way to load a
+// Godot resource, available once {path}.import metadata exists), then
+// Image.Load (a raw file read) as a fallback for a brand new PNG that
+// hasn't been through the editor's import pass yet. A dropped-in PNG
+// has no .import metadata until the Godot editor has opened the
+// project at least once and auto-imported it - until then,
+// ResourceLoader.Exists() reports false even though the file genuinely
+// exists on disk (confirmed via FileAccess.FileExists returning true
+// for the same path). Image.Load reads the file directly regardless of
+// import state, so a brand new asset still works immediately in a
+// --headless run that has never opened the editor (this project's main
+// verification path) - but Godot itself warns that path "will not work
+// on export", so it's strictly a fallback: a real export always goes
+// through the editor first, so .import metadata always exists by then
+// and the primary ResourceLoader/GD.Load path takes over.
 public static class SpriteTextureLibrary
 {
     private const string FlatFileFormat = "res://Assets/Sprites/{0}.png";
@@ -142,10 +147,12 @@ public static class SpriteTextureLibrary
             yield return number.ToString();
     }
 
-    // Direct file-system read (see the class-level comment for why this
-    // is Image.Load rather than ResourceLoader/GD.Load). Cached by path
-    // so repeated calls (every direction change, every entity of the
-    // same species) don't reload/re-decode the same PNG from disk.
+    // Two-tier load (see the class-level comment): ResourceLoader/GD.Load
+    // first (export-safe, needs {path}.import to exist), Image.Load
+    // (raw file read, not export-safe but needs no import metadata) as
+    // the fallback. Cached by path either way, so repeated calls (every
+    // direction change, every entity of the same species) don't re-hit
+    // the resource system or re-decode the same PNG from disk.
     // Deliberately doesn't cache a *missing* path, so an asset added
     // mid-session (e.g. iterating in the editor) is picked up on the
     // very next call instead of staying stuck on the placeholder.
@@ -153,6 +160,16 @@ public static class SpriteTextureLibrary
     {
         if (_imageTextureCache.TryGetValue(path, out texture))
             return true;
+
+        if (ResourceLoader.Exists(path))
+        {
+            texture = GD.Load<Texture2D>(path);
+            if (texture != null)
+            {
+                _imageTextureCache[path] = texture;
+                return true;
+            }
+        }
 
         if (!FileAccess.FileExists(path))
         {
