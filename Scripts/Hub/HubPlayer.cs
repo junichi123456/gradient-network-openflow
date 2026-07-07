@@ -30,8 +30,12 @@ public partial class HubPlayer : CharacterBody2D
         {
             Texture = SpriteTextureLibrary.GetTexture("", DebugColor, (int)VisualSize),
             Centered = true,
-            Offset = new Vector2(0, -VisualSize / 2f),
         };
+        // Offset.y must be -halfHeight of the ACTUAL loaded texture (not
+        // the VisualSize placeholder constant) - a real, non-VisualSize
+        // asset sized off VisualSize would put its bottom edge away from
+        // local Y=0, breaking the feet anchor Y-Sort depends on.
+        visual.Offset = new Vector2(0, -visual.Texture.GetHeight() / 2f);
         AddChild(visual);
     }
 

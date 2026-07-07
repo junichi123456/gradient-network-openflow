@@ -22,8 +22,10 @@ public partial class HubPalNpc : Node2D
         {
             Texture = SpriteTextureLibrary.GetTexture("", DebugColor, (int)VisualSize),
             Centered = true,
-            Offset = new Vector2(0, -VisualSize / 2f),
         };
+        // See HubPlayer._Ready(): Offset must track the actual loaded
+        // texture's height, not the VisualSize placeholder constant.
+        visual.Offset = new Vector2(0, -visual.Texture.GetHeight() / 2f);
         AddChild(visual);
 
         RefreshVisibility();

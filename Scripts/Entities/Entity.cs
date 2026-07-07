@@ -109,7 +109,12 @@ public partial class Entity : Node2D, ITurnActor
         // middle - required for Y-Sort to order overlapping characters
         // correctly (see DungeonScene.tscn/HubScene.tscn's
         // y_sort_enabled), since Y-Sort compares each node's origin, not
-        // its visual bounds.
+        // its visual bounds. Offset.y must be -halfHeight of the ACTUAL
+        // loaded texture, not the VisualSize placeholder constant - a
+        // real (non-square, non-28px) sprite sized off VisualSize would
+        // put its bottom edge well away from local Y=0, which is exactly
+        // what made a real 960x800 asset appear to float with its
+        // vertical center (not its feet) sitting on the tile.
         //
         // VisualScale then scales the Sprite2D node itself, which scales
         // Offset right along with the texture (both are in the node's
@@ -124,9 +129,9 @@ public partial class Entity : Node2D, ITurnActor
         {
             Texture = SpriteTextureLibrary.GetTexture(SpriteId, FacingDirection, DebugColor, (int)VisualSize),
             Centered = true,
-            Offset = new Vector2(0, -VisualSize / 2f),
             Scale = new Vector2(VisualScale, VisualScale),
         };
+        _visual.Offset = new Vector2(0, -_visual.Texture.GetHeight() / 2f);
         AddChild(_visual);
     }
 
@@ -134,10 +139,14 @@ public partial class Entity : Node2D, ITurnActor
     // (see SpriteTextureLibrary's 3-tier fallback) - called only when
     // FacingDirection actually changes, so a run of steps in the same
     // direction doesn't redundantly re-lookup/re-cache every turn.
+    // Offset is recomputed too in case a differently-sized image loads
+    // for the new direction (shouldn't happen for one species' own art,
+    // but defensive against a mismatched drop-in).
     private void UpdateSprite()
     {
         if (_visual == null) return;
         _visual.Texture = SpriteTextureLibrary.GetTexture(SpriteId, FacingDirection, DebugColor, (int)VisualSize);
+        _visual.Offset = new Vector2(0, -_visual.Texture.GetHeight() / 2f);
     }
 
     // Recomputes FacingDirection from a move/attack target, normalizing
