@@ -13,7 +13,15 @@ public partial class DummyNPC : HostileEntity
         ActorName = "DummyNPC";
         Speed = 100;
         DebugColor = Colors.SkyBlue;
-        base._Ready(); // creates Stats + Moves + the debug ColorRect visual
+
+        // TEMP: visual smoke test for the real chiqipi (Paldex #003)
+        // sprite set (Assets/Sprites/003/) - source art is 960x800, so
+        // VisualScale brings it down to roughly tile-sized. Remove/
+        // reassign once a real species database picks its own sprite.
+        SpriteId = "003";
+        VisualScale = 0.05f;
+
+        base._Ready(); // creates Stats + Moves + the Sprite2D visual
 
         Stats.MaxHp = 20;
         Stats.CurrentHp = 20;
