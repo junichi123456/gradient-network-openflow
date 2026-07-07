@@ -5,6 +5,8 @@ using MysteryDungeon.Turn;
 using MysteryDungeon.Entities;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Hub;
+using MysteryDungeon.UI;
+using MysteryDungeon.Visuals;
 
 namespace MysteryDungeon.Dungeon;
 
@@ -40,7 +42,7 @@ public partial class FloorController : Node2D
     private readonly DungeonObjectManager _objects = new();
     private readonly List<Entity> _spawnedEnemies = new();
     private readonly List<AllyEntity> _spawnedAllies = new();
-    private readonly List<(Vector2I Pos, ColorRect Rect)> _spawnedMarkers = new();
+    private readonly List<(Vector2I Pos, Sprite2D Sprite)> _spawnedMarkers = new();
     private List<Room> _rooms = new();
 
     // Persist for the whole run (NOT cleared in CleanupCurrentFloor,
@@ -243,7 +245,7 @@ public partial class FloorController : Node2D
 
     private void NextFloor()
     {
-        GD.Print("[Dungeon] Player stepped on stairs. Progressing to next floor...");
+        MessageLogger.Log("You descended to the next floor.", MessageLogger.ProgressionColor);
         GenerateFloor(); // regenerates the floor and refreshes FOV itself
     }
 
@@ -260,7 +262,7 @@ public partial class FloorController : Node2D
         _isGameCleared = true;
 
         _player.DisableInput();
-        GD.Print("[Game] 🎉 DUNGEON CLEARED! 🎉");
+        MessageLogger.Log("Dungeon cleared!", MessageLogger.ProgressionColor);
         CompleteDungeon();
 
         var hub = HubUpgradeManager.Instance;
@@ -278,8 +280,6 @@ public partial class FloorController : Node2D
     // actually reach a win condition.
     public void CompleteDungeon()
     {
-        GD.Print("[Dungeon] Calculating recruitment results...");
-
         var rng = new RandomNumberGenerator();
         rng.Seed = GD.Randi();
 
@@ -321,8 +321,8 @@ public partial class FloorController : Node2D
         foreach (var ally in _spawnedAllies)
             ally.Visible = _grid.GetTile(ally.GridPosition).IsVisible;
 
-        foreach (var (pos, rect) in _spawnedMarkers)
-            rect.Visible = _grid.GetTile(pos).IsExplored;
+        foreach (var (pos, sprite) in _spawnedMarkers)
+            sprite.Visible = _grid.GetTile(pos).IsExplored;
     }
 
     // O(1): the tile the player is standing on already knows which
@@ -508,8 +508,8 @@ public partial class FloorController : Node2D
         }
         _spawnedAllies.Clear();
 
-        foreach (var (_, rect) in _spawnedMarkers)
-            rect.QueueFree();
+        foreach (var (_, sprite) in _spawnedMarkers)
+            sprite.QueueFree();
         _spawnedMarkers.Clear();
 
         _objects.Clear();
@@ -702,7 +702,7 @@ public partial class FloorController : Node2D
         for (int i = _spawnedMarkers.Count - 1; i >= 0; i--)
         {
             if (_spawnedMarkers[i].Pos != pos) continue;
-            _spawnedMarkers[i].Rect.QueueFree();
+            _spawnedMarkers[i].Sprite.QueueFree();
             _spawnedMarkers.RemoveAt(i);
             return;
         }
@@ -728,7 +728,7 @@ public partial class FloorController : Node2D
     private void TriggerMonsterHouse(Room room)
     {
         room.IsTriggered = true;
-        GD.Print("[Dungeon] ⚠️ MONSTER HOUSE TRIGGERED! ⚠️");
+        MessageLogger.Log("You sense a horde of enemies nearby!", MessageLogger.FaintColor);
 
         var rng = new RandomNumberGenerator();
         rng.Seed = GD.Randi();
@@ -845,12 +845,13 @@ public partial class FloorController : Node2D
 
     private void AddMarker(Vector2I pos, Color color)
     {
-        var marker = new ColorRect
+        // Ground decoration, not a character - center-anchored on the
+        // tile (no feet Offset), unlike Entity's Sprite2D visual.
+        var marker = new Sprite2D
         {
-            Color = color,
-            Size = new Vector2(MarkerSize, MarkerSize),
-            Position = _grid.GridToWorld(pos) - new Vector2(MarkerSize / 2f, MarkerSize / 2f),
-            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Texture = SpriteTextureLibrary.GetTexture("", color, (int)MarkerSize),
+            Centered = true,
+            Position = _grid.GridToWorld(pos),
             Visible = false, // hidden until RefreshFieldOfView() reveals it
         };
         AddChild(marker);

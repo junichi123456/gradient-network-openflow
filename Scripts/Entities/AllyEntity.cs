@@ -23,6 +23,11 @@ public partial class AllyEntity : Entity
     public FloorController FloorController { get; set; }
     public Entity TargetToFollow { get; set; }
 
+    // Player-assigned via MenuUI's Tactics screen. ActFreely is this
+    // class's original always-engage AI; FollowOnly skips combat
+    // entirely (see DecideAction below).
+    public Tactics CurrentTactics { get; set; } = Tactics.ActFreely;
+
     public override void _Ready()
     {
         ActorName = SpeciesId;
@@ -46,8 +51,11 @@ public partial class AllyEntity : Entity
 
     public override IAction DecideAction()
     {
-        var enemy = FindVisibleEnemy();
-        if (enemy != null) return DecideCombatAction(enemy);
+        if (CurrentTactics == Tactics.ActFreely)
+        {
+            var enemy = FindVisibleEnemy();
+            if (enemy != null) return DecideCombatAction(enemy);
+        }
 
         if (IsFollowTargetValid() && IsAdjacent(GridPosition, TargetToFollow.GridPosition))
             return new WaitAction(this); // Idle: already at the target's side

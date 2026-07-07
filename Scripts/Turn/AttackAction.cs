@@ -2,6 +2,7 @@ using Godot;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
 using MysteryDungeon.Dungeon;
+using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Turn;
 
@@ -50,7 +51,7 @@ public class AttackAction : IAction
         // empty slots - but the player can still manually pick one.
         if (_moveSlot.CurrentPp <= 0)
         {
-            GD.Print($"[Combat] {_attacker.ActorName} tried to use {move.Name}, but it has no PP left!");
+            MessageLogger.Log($"{_attacker.ActorName} tried to use {move.Name}, but it has no PP left!", MessageLogger.IneffectiveColor);
             return;
         }
 
@@ -62,16 +63,21 @@ public class AttackAction : IAction
         // the turn/PP, same as a normal miss.
         if (_defender == null)
         {
-            GD.Print($"[Combat] {_attacker.ActorName} used {move.Name}, but there was no target! It hit nothing but air.");
+            MessageLogger.Log($"{_attacker.ActorName} used {move.Name}, but there was no target! It hit nothing but air.", MessageLogger.IneffectiveColor);
             return;
         }
+
+        // Bump animation plays on every attempted attack (hit or miss) -
+        // only "no PP"/"no target" above skip it, since nothing actually
+        // happens in those cases.
+        _attacker.PlayBumpAttack(_defender.GridPosition);
 
         // Accuracy>=100 skips the roll entirely - GD.Randf()'s [0,1]
         // range can return exactly 1.0, which would otherwise let a
         // "guaranteed hit" move miss on a razor-thin edge case.
         if (move.Accuracy < 100 && GD.Randf() * 100f >= move.Accuracy)
         {
-            GD.Print($"[Combat] {_attacker.ActorName} used {move.Name} on {_defender.ActorName}! It missed!");
+            MessageLogger.Log($"{_attacker.ActorName} used {move.Name} on {_defender.ActorName}! It missed!", MessageLogger.IneffectiveColor);
             return;
         }
 
@@ -94,16 +100,18 @@ public class AttackAction : IAction
         int damage = Mathf.Max(1, Mathf.RoundToInt(rawDamage));
 
         defenderStats.TakeDamage(damage);
-        GD.Print($"[Combat] {_attacker.ActorName} used {move.Name} on {_defender.ActorName}! It hit for {damage} damage.");
+        _defender.PlayHitFlash();
+        _defender.ShowDamagePopup(damage);
+        MessageLogger.Log($"{_attacker.ActorName} used {move.Name} on {_defender.ActorName}! It hit for {damage} damage.");
 
         if (typeMultiplier > 1f)
-            GD.Print("[Combat] It's super effective!");
+            MessageLogger.Log("It's super effective!", MessageLogger.EffectiveColor);
         else if (typeMultiplier < 1f)
-            GD.Print("[Combat] It's not very effective...");
+            MessageLogger.Log("It's not very effective...", MessageLogger.IneffectiveColor);
 
         if (!defenderStats.IsAlive)
         {
-            GD.Print($"[Combat] {_defender.ActorName} fainted!");
+            MessageLogger.Log($"{_defender.ActorName} fainted!", MessageLogger.FaintColor);
 
             if (_attacker.Faction == Faction.Player && _defender.Faction == Faction.Enemy)
             {
@@ -112,7 +120,7 @@ public class AttackAction : IAction
                 if (_attacker is Player)
                 {
                     int expGained = defenderStats.Level * 10;
-                    GD.Print($"[Progression] {_attacker.ActorName} gained {expGained} EXP for defeating {_defender.ActorName}.");
+                    MessageLogger.Log($"{_attacker.ActorName} gained {expGained} EXP for defeating {_defender.ActorName}.", MessageLogger.ProgressionColor);
                     attackerStats.AddExp(expGained);
                 }
 

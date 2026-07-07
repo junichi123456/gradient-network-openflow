@@ -22,3 +22,4 @@ project/assembly_name="MysteryDungeonRoguelike"
 [autoload]
 
 HubUpgradeManager="*res://Scripts/Hub/HubUpgradeManager.cs"
+MessageLogger="*res://Scripts/UI/MessageLogger.cs"

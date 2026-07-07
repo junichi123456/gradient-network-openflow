@@ -1,4 +1,5 @@
 using Godot;
+using MysteryDungeon.Visuals;
 
 namespace MysteryDungeon.Hub;
 
@@ -14,14 +15,15 @@ public partial class HubPalBoxTrigger : Area2D
     private PartySetupUI _ui;
     private bool _playerInside;
 
+    private const float VisualSize = 36f;
+
     public override void _Ready()
     {
-        var visual = new ColorRect
+        // A static box, not a character - center-anchored.
+        var visual = new Sprite2D
         {
-            Color = DebugColor,
-            Size = new Vector2(36, 36),
-            Position = new Vector2(-18, -18),
-            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Texture = SpriteTextureLibrary.GetTexture("", DebugColor, (int)VisualSize),
+            Centered = true,
         };
         AddChild(visual);
 

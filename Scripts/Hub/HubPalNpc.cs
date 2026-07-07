@@ -1,4 +1,5 @@
 using Godot;
+using MysteryDungeon.Visuals;
 
 namespace MysteryDungeon.Hub;
 
@@ -11,14 +12,17 @@ public partial class HubPalNpc : Node2D
     [Export] public int RequiredLevel { get; set; } = 2;
     [Export] public Color DebugColor { get; set; } = Colors.HotPink;
 
+    private const float VisualSize = 24f;
+
     public override void _Ready()
     {
-        var visual = new ColorRect
+        // A pal NPC is a character, not a static prop - feet-anchored
+        // like HubPlayer, for correct Y-Sort ordering against it.
+        var visual = new Sprite2D
         {
-            Color = DebugColor,
-            Size = new Vector2(24, 24),
-            Position = new Vector2(-12, -12),
-            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Texture = SpriteTextureLibrary.GetTexture("", DebugColor, (int)VisualSize),
+            Centered = true,
+            Offset = new Vector2(0, -VisualSize / 2f),
         };
         AddChild(visual);
 

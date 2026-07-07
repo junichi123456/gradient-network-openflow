@@ -19,6 +19,7 @@ size = Vector2(36, 36)
 size = Vector2(32, 32)
 
 [node name="HubScene" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1")
 PlayerPath = NodePath("HubPlayer")
 ShopLogLabelPath = NodePath("UILayer/ShopLogLabel")

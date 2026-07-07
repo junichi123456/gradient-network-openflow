@@ -22,6 +22,6 @@ public static class FovManager
         else
             grid.RevealAround(playerPos, CorridorRadius);
 
-        grid.QueueRedraw();
+        grid.RefreshTileMap();
     }
 }
