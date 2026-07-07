@@ -75,6 +75,13 @@ public partial class Entity : Node2D, ITurnActor
     // also drives the feet-anchor Offset below.
     private const float VisualSize = 28f;
 
+    // Matches GridManager.TileSize (32 in every scene in this project).
+    // Grid isn't assigned yet when _Ready() runs - composition roots set
+    // Entity.Grid right after AddChild(entity), and AddChild is exactly
+    // what triggers _Ready() - so the feet-anchor math below can't read
+    // Grid.TileSize directly at sprite-creation time.
+    private const float TileWorldSize = 32f;
+
     // Shared by MoveTo's move animation and PlayBumpAttack's nudge -
     // an entity only ever does one of those at a time, and Kill()ing
     // whichever is in flight before starting the other lets a second
@@ -131,8 +138,25 @@ public partial class Entity : Node2D, ITurnActor
             Centered = true,
             Scale = new Vector2(VisualScale, VisualScale),
         };
-        _visual.Offset = new Vector2(0, -_visual.Texture.GetHeight() / 2f);
+        _visual.Offset = ComputeFeetOffset(_visual.Texture);
         AddChild(_visual);
+    }
+
+    // Bottom edge at local Y=0 (see _Ready()'s comment) is "feet at this
+    // tile's CENTER" - GridToWorld() places Position there, not at the
+    // tile's bottom edge. That leaves a half-tile gap of visible floor
+    // between a character's feet and, say, a wall tile directly below
+    // it. Nudging the offset down by half a tile (converted into the
+    // sprite's own pre-Scale local space, so it still lands as exactly
+    // half a tile in world space after Scale is applied) moves the feet
+    // to the tile's bottom edge instead, closing that gap - purely
+    // cosmetic, GridPosition/Position (and therefore Y-Sort/occupancy)
+    // are untouched.
+    private Vector2 ComputeFeetOffset(Texture2D texture)
+    {
+        float scale = Mathf.Max(VisualScale, 0.0001f); // guard against a stray 0 producing Infinity/NaN
+        float halfTileInLocalSpace = (TileWorldSize / 2f) / scale;
+        return new Vector2(0, -texture.GetHeight() / 2f + halfTileInLocalSpace);
     }
 
     // Re-resolves the Sprite2D's texture for the current FacingDirection
@@ -146,7 +170,7 @@ public partial class Entity : Node2D, ITurnActor
     {
         if (_visual == null) return;
         _visual.Texture = SpriteTextureLibrary.GetTexture(SpriteId, FacingDirection, DebugColor, (int)VisualSize);
-        _visual.Offset = new Vector2(0, -_visual.Texture.GetHeight() / 2f);
+        _visual.Offset = ComputeFeetOffset(_visual.Texture);
     }
 
     // Recomputes FacingDirection from a move/attack target, normalizing
