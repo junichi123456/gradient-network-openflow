@@ -6,22 +6,15 @@ using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Turn;
 
-// Palworld-style damage formula (per FightingBread's v0.7.0 community
-// datamining):
-//
-//   Damage = 0.8 * sqrt(Level + 1) * (Attack / Defense) * Power
-//            * STAB * TypeMultiplier * Random(0.9-1.1)
-//
-// STAB (Same Type Attack Bonus, x1.2) applies when the move's type
-// matches either of the attacker's own types. Applies to both Player
-// and AI attackers/defenders uniformly.
+// Damage is computed by DamageCalculator (Phase 16's DamageContext
+// pipeline) - see that class for the formula itself. TypeEffectiveness
+// is still the real value from TypeChartManager (a system multiplier,
+// not a "buff"); every buff field on the DamageContext stays at its
+// default (no skill database exists yet to source real values from),
+// so today's damage is exactly DamageCalculator's benchmark case scaled
+// by type effectiveness alone.
 public class AttackAction : IAction
 {
-    private const float BaseCoefficient = 0.8f;
-    private const float StabMultiplier = 1.2f;
-    private const float RandomMin = 0.9f;
-    private const float RandomMax = 1.1f;
-
     public ITurnActor Actor { get; }
 
     private readonly Entity _attacker;
@@ -85,19 +78,22 @@ public class AttackAction : IAction
         var defenderStats = _defender.Stats;
 
         float typeMultiplier = TypeChartManager.GetMultiplier(move.Type, defenderStats.Type1, defenderStats.Type2);
-        bool hasStab = move.Type == attackerStats.Type1 || move.Type == attackerStats.Type2;
-        float stab = hasStab ? StabMultiplier : 1f;
-        float randomRoll = (float)GD.RandRange(RandomMin, RandomMax);
 
-        float rawDamage = BaseCoefficient
-            * Mathf.Sqrt(attackerStats.Level + 1)
-            * ((float)attackerStats.Attack / Mathf.Max(1, defenderStats.Defense))
-            * move.Power
-            * stab
-            * typeMultiplier
-            * randomRoll;
+        var damageContext = new DamageContext
+        {
+            BaseAtk = attackerStats.Attack,
+            BaseDef = defenderStats.Defense,
+            BasePower = move.Power,
+            AttackElement = move.Type,
+            DefenderElement = defenderStats.Type1,
+            TypeEffectiveness = typeMultiplier,
+            // AtkFlatBuff/AtkMultiplier/PowerFlatBuff/PowerMultiplier/
+            // DefFlatBuff/DefMultiplier/ElementResistCut/PartyElementCut
+            // all stay at DamageContext's own defaults (0 / 1.0) - no
+            // skill database exists yet to source real buff values from.
+        };
 
-        int damage = Mathf.Max(1, Mathf.RoundToInt(rawDamage));
+        int damage = DamageCalculator.Calculate(damageContext);
 
         defenderStats.TakeDamage(damage);
         _defender.PlayHitFlash();
