@@ -62,10 +62,9 @@ public partial class Player : Entity
         MaterialInventory = new MaterialInventory { Name = "MaterialInventory" };
         AddChild(MaterialInventory);
 
-        Stats.MaxHp = 30;
-        Stats.CurrentHp = 30;
-        Stats.Attack = 12;
-        Stats.Defense = 10;
+        Stats.BaseMaxHp = 30;
+        Stats.BaseAtk = 12;
+        Stats.BaseDef = 10;
         Stats.SpAttack = 10;
         Stats.SpDefense = 10;
         Stats.Type1 = "Neutral";

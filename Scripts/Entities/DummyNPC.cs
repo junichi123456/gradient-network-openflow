@@ -23,10 +23,9 @@ public partial class DummyNPC : HostileEntity
 
         base._Ready(); // creates Stats + Moves + the Sprite2D visual
 
-        Stats.MaxHp = 20;
-        Stats.CurrentHp = 20;
-        Stats.Attack = 8;
-        Stats.Defense = 6;
+        Stats.BaseMaxHp = 20;
+        Stats.BaseAtk = 8;
+        Stats.BaseDef = 6;
         Stats.SpAttack = 6;
         Stats.SpDefense = 6;
         Stats.Type1 = "Neutral";

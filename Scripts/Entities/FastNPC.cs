@@ -14,10 +14,9 @@ public partial class FastNPC : HostileEntity
         DebugColor = Colors.OrangeRed;
         base._Ready(); // creates Stats + Moves + the debug ColorRect visual
 
-        Stats.MaxHp = 14;
-        Stats.CurrentHp = 14;
-        Stats.Attack = 6;
-        Stats.Defense = 4;
+        Stats.BaseMaxHp = 14;
+        Stats.BaseAtk = 6;
+        Stats.BaseDef = 4;
         Stats.SpAttack = 10;
         Stats.SpDefense = 4;
         Stats.Type1 = "Electric";

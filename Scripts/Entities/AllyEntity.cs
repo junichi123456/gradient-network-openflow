@@ -42,10 +42,9 @@ public partial class AllyEntity : Entity
 
         Faction = Faction.Player;
 
-        Stats.MaxHp = 25;
-        Stats.CurrentHp = 25;
-        Stats.Attack = 10;
-        Stats.Defense = 8;
+        Stats.BaseMaxHp = 25;
+        Stats.BaseAtk = 10;
+        Stats.BaseDef = 8;
         Stats.SpAttack = 8;
         Stats.SpDefense = 8;
         Stats.Type1 = "Neutral";

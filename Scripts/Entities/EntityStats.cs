@@ -5,21 +5,69 @@ using MysteryDungeon.UI;
 namespace MysteryDungeon.Entities;
 
 // Shared combat/survival stats component, attached as a child node of
-// every Entity (see Entity._Ready()). Attack/Defense/SpAttack/SpDefense
-// feed AttackAction's Palworld-style damage formula; SpAttack/SpDefense
-// are kept as data for a possible future physical/special split but
-// aren't consumed by that formula (Palworld itself doesn't split them).
+// every Entity (see Entity._Ready()). Attack/Defense feed AttackAction's
+// damage formula (via DamageCalculator - see Phase 16); SpAttack/
+// SpDefense are kept as data for a possible future physical/special
+// split but aren't consumed anywhere yet.
+//
+// Phase 17: Attack/Defense/MaxHp are no longer flat designer-set values.
+// Each is derived on demand from a HAD-style formula (species BaseXxx +
+// individual BreakthroughXxx, scaled by Level) - see MaxHp/Attack/
+// Defense below. A concrete Entity subclass (Player/BossEntity/etc.)
+// configures BaseMaxHp/BaseAtk/BaseDef/Level in its own _Ready() instead
+// of assigning the real stats directly.
 public partial class EntityStats : Node
 {
-    [Export] public int MaxHp { get; set; } = 20;
+    private int _level = 1;
+    private int _baseMaxHp = 70;
+    private int _breakthroughHp = 0;
+
+    // Level and the two HP-affecting base/breakthrough fields all feed
+    // MaxHp, so each setter re-syncs CurrentHp by the same delta the
+    // change just applied to MaxHp (see ApplyMaxHpAffectingChange) -
+    // this is what keeps CurrentHp valid across Godot's object-creation
+    // order (an Entity's _Ready() only sets these AFTER EntityStats'
+    // own _Ready() already computed an initial CurrentHp from the
+    // pre-override defaults) and across post-spawn rescaling (e.g.
+    // FloorController's per-floor Level bump on an already-spawned
+    // enemy).
+    [Export]
+    public int Level
+    {
+        get => _level;
+        set => ApplyMaxHpAffectingChange(ref _level, value);
+    }
+
+    [Export]
+    public int BaseMaxHp
+    {
+        get => _baseMaxHp;
+        set => ApplyMaxHpAffectingChange(ref _baseMaxHp, value);
+    }
+
+    [Export]
+    public int BreakthroughHP
+    {
+        get => _breakthroughHp;
+        set => ApplyMaxHpAffectingChange(ref _breakthroughHp, value);
+    }
+
+    [Export] public int BaseAtk { get; set; } = 70;
+    [Export] public int BaseDef { get; set; } = 70;
+    [Export] public int BreakthroughAtk { get; set; } = 0;
+    [Export] public int BreakthroughDef { get; set; } = 0;
+
+    // Real (calculated) stats - Phase 17's HAD formula. Read-only: set
+    // BaseXxx/BreakthroughXxx/Level instead, never these directly.
+    public int MaxHp => Mathf.FloorToInt((BaseMaxHp * 2 + BreakthroughHP) * Level / 100.0f) + Level + 10;
+    public int Attack => Mathf.FloorToInt((BaseAtk * 2 + BreakthroughAtk) * Level / 100.0f) + 5;
+    public int Defense => Mathf.FloorToInt((BaseDef * 2 + BreakthroughDef) * Level / 100.0f) + 5;
+
     public int CurrentHp { get; set; }
 
-    [Export] public int Level { get; set; } = 10;
     [Export] public int Exp { get; set; } = 0;
     [Export] public int ExpToNextLevel { get; set; } = 100;
 
-    [Export] public int Attack { get; set; } = 10;
-    [Export] public int Defense { get; set; } = 10;
     [Export] public int SpAttack { get; set; } = 10;
     [Export] public int SpDefense { get; set; } = 10;
 
@@ -69,6 +117,24 @@ public partial class EntityStats : Node
         CurrentHp = Mathf.Min(MaxHp, CurrentHp + amount);
     }
 
+    public void HealToFull() => CurrentHp = MaxHp;
+
+    // Whenever Level/BaseMaxHp/BreakthroughHP changes, MaxHp is
+    // recalculated - shift CurrentHp by exactly the same delta so an
+    // already-full entity stays full (a spawned-then-rescaled enemy, see
+    // FloorController) and an already-damaged entity keeps the same
+    // *missing* HP, then clamp into [0, MaxHp] as a final safety net
+    // (also covers construction-time transients, before _Ready's own
+    // CurrentHp = MaxHp sync runs).
+    private void ApplyMaxHpAffectingChange(ref int field, int value)
+    {
+        if (field == value) return;
+        int oldMaxHp = MaxHp;
+        field = value;
+        int delta = MaxHp - oldMaxHp;
+        CurrentHp = Mathf.Clamp(CurrentHp + delta, 0, MaxHp);
+    }
+
     // Decrements hunger; once it hits empty, deals 1 starvation damage
     // per turn instead of decrementing further.
     public void TickBelly()
@@ -102,13 +168,10 @@ public partial class EntityStats : Node
 
     private void LevelUp()
     {
-        Level++;
-        MaxHp += 5;
-        Attack += 2;
-        Defense += 2;
+        Level++; // MaxHp/Attack/Defense follow automatically (HAD formula); Level's setter already keeps CurrentHp in sync
         SpAttack += 2;
         SpDefense += 2;
-        CurrentHp = MaxHp;
+        HealToFull(); // level-up is still an explicit full-heal reward, on top of the generic delta-shift above
         ExpToNextLevel = Mathf.RoundToInt(ExpToNextLevel * 1.5f);
 
         string ownerName = (GetParent() as Entity)?.ActorName ?? Name;

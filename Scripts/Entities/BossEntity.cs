@@ -18,10 +18,9 @@ public partial class BossEntity : HostileEntity
 
         // 5x HP / 1.5x Attack relative to a nominal 20 HP / 10 Attack
         // baseline (roughly DummyNPC's tier), per the Phase 8 spec.
-        Stats.MaxHp = 100;
-        Stats.CurrentHp = 100;
-        Stats.Attack = 15;
-        Stats.Defense = 12;
+        Stats.BaseMaxHp = 100;
+        Stats.BaseAtk = 15;
+        Stats.BaseDef = 12;
         Stats.SpAttack = 15;
         Stats.SpDefense = 12;
         Stats.Type1 = "Dragon";
