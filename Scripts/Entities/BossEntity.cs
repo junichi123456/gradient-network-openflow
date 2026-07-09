@@ -16,11 +16,13 @@ public partial class BossEntity : HostileEntity
 
         base._Ready(); // creates Stats + Moves + the debug ColorRect visual
 
-        // 5x HP / 1.5x Attack relative to a nominal 20 HP / 10 Attack
-        // baseline (roughly DummyNPC's tier), per the Phase 8 spec.
+        // Upper-mid-tier species values (100-100-95; cf. the 60-60-60
+        // floor and Shadowbeak's 140-140-135 ceiling) - the boss's real
+        // edge comes from these plus FloorController's floor-based Level
+        // bump on top of the Lv15 base below.
         Stats.BaseMaxHp = 100;
-        Stats.BaseAtk = 15;
-        Stats.BaseDef = 12;
+        Stats.BaseAtk = 100;
+        Stats.BaseDef = 95;
         Stats.SpAttack = 15;
         Stats.SpDefense = 12;
         Stats.Type1 = "Dragon";

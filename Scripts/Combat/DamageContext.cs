@@ -6,8 +6,10 @@ namespace MysteryDungeon.Combat;
 // write into instead of being folded into an opaque running total.
 public class DamageContext
 {
-    // Base stats - a normal attack's BasePower is always 20 for now
-    // (see AttackAction; a move's own Power isn't wired in yet).
+    // Base stats. BasePower comes from the attacking move's own Power
+    // (AttackAction wires move.Power in); power_shot's 35 is the
+    // reference "standard attack" the balance benchmarks anchor on
+    // (see DamageCalculator).
     public float BaseAtk { get; set; }
     public float BaseDef { get; set; }
     public float BasePower { get; set; }

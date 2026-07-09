@@ -42,9 +42,13 @@ public partial class AllyEntity : Entity
 
         Faction = Faction.Player;
 
-        Stats.BaseMaxHp = 25;
-        Stats.BaseAtk = 10;
-        Stats.BaseDef = 8;
+        // Official floor-tier species values (Lamball/Chikipi's 60-60-60,
+        // the lowest legal total) - the fixed Partner is Paldex #001
+        // (Lamball), and every other recruit shares this placeholder tier
+        // until a species database assigns per-species values.
+        Stats.BaseMaxHp = 60;
+        Stats.BaseAtk = 60;
+        Stats.BaseDef = 60;
         Stats.SpAttack = 8;
         Stats.SpDefense = 8;
         Stats.Type1 = "Neutral";

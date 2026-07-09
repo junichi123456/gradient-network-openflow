@@ -62,9 +62,13 @@ public partial class Player : Entity
         MaterialInventory = new MaterialInventory { Name = "MaterialInventory" };
         AddChild(MaterialInventory);
 
-        Stats.BaseMaxHp = 30;
-        Stats.BaseAtk = 12;
-        Stats.BaseDef = 10;
+        // Benchmark-anchor placeholder species values (the 70-70-70 tier
+        // both damage benchmarks are defined against - see
+        // DamageCalculator) until a real species database assigns Paldex
+        // #009's own HAD values.
+        Stats.BaseMaxHp = 70;
+        Stats.BaseAtk = 70;
+        Stats.BaseDef = 70;
         Stats.SpAttack = 10;
         Stats.SpDefense = 10;
         Stats.Type1 = "Neutral";

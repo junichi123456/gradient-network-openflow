@@ -14,6 +14,16 @@ namespace MysteryDungeon.Combat;
 // exactly 7 (Player and enemy trading 70/70/70 stats settles in exactly
 // 10 hits). See DungeonScene's temporary verification harness during
 // Phase 16 development for the proof.
+//
+// Second, HAD-integrated benchmark (Phase 16 adjustment): species
+// values 70-70-70 at Lv50 with breakthrough 0 give real stats
+// HP130/Atk75/Def75 (see EntityStats' HAD formula); the standard
+// Power-35 move (power_shot) then deals exactly 13 per hit, so a
+// mirror match settles on exactly the 10th hit (13 x 10 = 130). This
+// "mirror match takes ~10 hits" property holds across the whole legal
+// species-value band (60-60-60 floor: 11 per hit, 11 hits; 140-140-135
+// ceiling: 25 per hit, 8 hits) and is nearly level-invariant thanks to
+// the HAD formula's flat +5/+10 terms.
 public static class DamageCalculator
 {
     // Step 2's zero-division failsafe target - EffDef can't legally be

@@ -23,9 +23,11 @@ public partial class DummyNPC : HostileEntity
 
         base._Ready(); // creates Stats + Moves + the Sprite2D visual
 
-        Stats.BaseMaxHp = 20;
-        Stats.BaseAtk = 8;
-        Stats.BaseDef = 6;
+        // Chikipi's official species values (60-60-60, the floor tier) -
+        // matches this entity's Paldex #003 sprite.
+        Stats.BaseMaxHp = 60;
+        Stats.BaseAtk = 60;
+        Stats.BaseDef = 60;
         Stats.SpAttack = 6;
         Stats.SpDefense = 6;
         Stats.Type1 = "Neutral";
