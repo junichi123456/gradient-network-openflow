@@ -1,5 +1,6 @@
 using Godot;
 using MysteryDungeon.Grid;
+using MysteryDungeon.Progression;
 using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Entities;
@@ -71,10 +72,23 @@ public partial class EntityStats : Node
     // consumes these new fields instead and retires the legacy pair.
     public const int LevelCap = 100;
 
-    // Lifetime cumulative EXP on the cubic curve (see ExpCurve, next
-    // step). long per spec: Lv100 alone needs 1,000,000 and future
-    // yield multipliers must never overflow.
-    public long CurrentExp { get; set; }
+    // Lifetime cumulative EXP on the cubic curve (see ExpCurve). long
+    // per spec: Lv100 alone needs 1,000,000 and future yield multipliers
+    // must never overflow.
+    //
+    // Lazily seeded to TotalExpForLevel(Level) on first read - the
+    // spec's "initialize to the spawn level's cumulative EXP" rule.
+    // Eager init can't work here: an Entity subclass assigns its spawn
+    // Level in its own _Ready() AFTER this component's _Ready() already
+    // ran, and FloorController bumps enemy Level even later (per-floor
+    // scaling, post-AddChild). Nothing reads CurrentExp until combat is
+    // underway, so first-read is always after the spawn level settled.
+    private long? _currentExp;
+    public long CurrentExp
+    {
+        get => _currentExp ??= ExpCurve.TotalExpForLevel(Level);
+        set => _currentExp = value;
+    }
 
     // Species value: how much EXP defeating THIS entity awards, before
     // victim-level scaling (Gained = floor(BaseExpYield * Level / K),
