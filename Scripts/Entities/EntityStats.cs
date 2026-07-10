@@ -65,6 +65,23 @@ public partial class EntityStats : Node
 
     public int CurrentHp { get; set; }
 
+    // ---- Phase 18-A: EXP/level-up scaffolding ----
+    // The legacy Exp/ExpToNextLevel pair below is still what AddExp/
+    // LevelUp run on today; ExperienceSystem (a later Phase 18-A step)
+    // consumes these new fields instead and retires the legacy pair.
+    public const int LevelCap = 100;
+
+    // Lifetime cumulative EXP on the cubic curve (see ExpCurve, next
+    // step). long per spec: Lv100 alone needs 1,000,000 and future
+    // yield multipliers must never overflow.
+    public long CurrentExp { get; set; }
+
+    // Species value: how much EXP defeating THIS entity awards, before
+    // victim-level scaling (Gained = floor(BaseExpYield * Level / K),
+    // K = 10). 55 is the confirmed "standard enemy" baseline (r = 5.5:
+    // at Lv10, ~6 same-level standard kills = 1 level).
+    [Export] public int BaseExpYield { get; set; } = 55;
+
     [Export] public int Exp { get; set; } = 0;
     [Export] public int ExpToNextLevel { get; set; } = 100;
 
