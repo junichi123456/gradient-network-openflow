@@ -814,12 +814,16 @@ public partial class FloorController : Node2D
     private void SpawnPartyMembers(HashSet<Vector2I> occupied)
     {
         Entity previous = _player;
+        int memberId = 0;
 
         foreach (var speciesId in ActivePartyManager.AllMemberSpeciesIds())
         {
+            int id = memberId++;
+            _partyState.EnsureRecord(id, speciesId);
+
             var pos = FindFreeAdjacentTile(previous.GridPosition, occupied);
 
-            var ally = new AllyEntity { SpeciesId = speciesId };
+            var ally = new AllyEntity { SpeciesId = speciesId, PartyMemberId = id };
             AddChild(ally);
             ally.Grid = _grid;
             ally.Pathfinder = _pathfinder;
@@ -831,6 +835,15 @@ public partial class FloorController : Node2D
             _turnManager.RegisterActor(ally);
             _spawnedAllies.Add(ally);
             occupied.Add(pos);
+
+            // Phase 19 hydrate - deliberately the LAST stat-touching
+            // step of the spawn: _Ready()'s species defaults are set
+            // by AddChild above, and allies are never part of the
+            // per-floor Level scaling (that only targets SpawnEnemies/
+            // boss), so the record is the final authority on
+            // Level/CurrentExp/CurrentHp. No-op on floor 1 (no
+            // snapshot yet - the fresh defaults ARE the start state).
+            _partyState.TryHydrate(ally);
 
             previous = ally;
         }
