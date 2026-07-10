@@ -5,6 +5,7 @@ using MysteryDungeon.Turn;
 using MysteryDungeon.Entities;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Hub;
+using MysteryDungeon.Progression;
 using MysteryDungeon.UI;
 using MysteryDungeon.Visuals;
 
@@ -72,6 +73,11 @@ public partial class FloorController : Node2D
     public RunTracker RunTracker => _runTracker;
     public PartyManager PartyManager => ActivePartyManager;
 
+    // Phase 18-A: defeat -> EXP -> level-up coordinator. Created in
+    // Initialize (needs the player reference), childed here so it lives
+    // and dies with the dungeon run.
+    public ExperienceSystem Experience { get; private set; }
+
     private static readonly Vector2I[] EightDirections =
     {
         new(0, -1), new(0, 1), new(-1, 0), new(1, 0),
@@ -134,6 +140,10 @@ public partial class FloorController : Node2D
         _player = player;
         _rule = DungeonRuleLoader.Load(dungeonId);
         _config = config;
+
+        Experience = new ExperienceSystem { Name = "ExperienceSystem" };
+        AddChild(Experience);
+        Experience.Initialize(player, this);
 
         _turnManager.TurnEnded += OnTurnEnded;
 

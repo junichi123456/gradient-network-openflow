@@ -109,6 +109,11 @@ public class AttackAction : IAction
         {
             MessageLogger.Log($"{_defender.ActorName} fainted!", MessageLogger.FaintColor);
 
+            // Phase 18-A defeat detection point - fired before Die() so
+            // the victim node is still fully readable. EXP distribution
+            // hangs off this notification (see ExperienceSystem).
+            _floorController?.Experience?.NotifyDefeated(_defender, _attacker);
+
             if (_attacker.Faction == Faction.Player && _defender.Faction == Faction.Enemy)
             {
                 _floorController?.RunTracker.RecordKill(_defender.ActorName);

@@ -102,6 +102,10 @@ public class ThrowItemAction : IAction
             {
                 MessageLogger.Log($"{hitEntity.ActorName} fainted!", MessageLogger.FaintColor);
 
+                // Phase 18-A defeat detection point (same contract as
+                // AttackAction's - see ExperienceSystem.NotifyDefeated).
+                _floorController?.Experience?.NotifyDefeated(hitEntity, _thrower);
+
                 // Same kill bookkeeping as AttackAction: a thrown-item
                 // kill counts for RunTracker recruitment and player EXP.
                 if (_thrower.Faction == Faction.Player && hitEntity.Faction == Faction.Enemy)
