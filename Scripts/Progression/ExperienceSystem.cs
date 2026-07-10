@@ -44,12 +44,16 @@ public partial class ExperienceSystem : Node
     // stays Variant-compatible.
     [Signal] public delegate void LeveledUpEventHandler(Entity entity, int oldLevel, int newLevel, Vector3I statDeltas);
 
+    // Global scaling constant K: Gained = floor(BaseExpYield * Level / K).
+    // K only matters as the ratio r = BaseExpYield / K (the per-victim-
+    // level EXP rate); it exists purely so BaseExpYield stays a readable
+    // integer species value (standard 55 / K 10 -> r = 5.5).
+    public const int ExpDivisorK = 10;
+
     // The combat layer's single defeat-detection entry point -
     // AttackAction/ThrowItemAction call this the moment a victim's HP
     // check comes up dead, before victim.Die() runs (the victim node is
-    // still valid for reading Level/BaseExpYield/position). EXP
-    // distribution hangs off this in the next Phase 18-A step; for now
-    // it only rebroadcasts the defeat as a signal.
+    // still valid for reading Level/BaseExpYield/position).
     //
     // Enemy-on-player kills never reach this method (HostileEntity's
     // AttackActions carry no FloorController, so their call site
@@ -58,5 +62,58 @@ public partial class ExperienceSystem : Node
     public void NotifyDefeated(Entity victim, Entity attacker)
     {
         EmitSignal(SignalName.EntityDefeated, victim, attacker);
+
+        // PMD-style distribution: only the player side earns EXP, and
+        // ANY player-side kill (player or ally) pays every living member
+        // in full - so the enemy-vs-enemy crossfire case and the
+        // "enemy killed an ally" case both distribute nothing.
+        if (victim == null || victim.Faction != Faction.Enemy) return;
+        if (attacker == null || attacker.Faction != Faction.Player) return;
+
+        long gained = CalculateGained(victim.Stats.BaseExpYield, victim.Stats.Level);
+        if (gained <= 0) return;
+
+        if (_player != null && _player.IsAlive)
+            Grant(_player, gained);
+
+        foreach (var ally in _floorController.SpawnedAllies)
+            if (GodotObject.IsInstanceValid(ally) && ally.IsAlive)
+                Grant(ally, gained);
+    }
+
+    // Pure and static so the confirmed benchmark table (floor(5.5 x Lv))
+    // is directly verifiable without staging a real kill. Integer
+    // division IS floor here - every operand is non-negative.
+    public static long CalculateGained(int baseExpYield, int victimLevel) =>
+        (long)Mathf.Max(0, baseExpYield) * Mathf.Max(0, victimLevel) / ExpDivisorK;
+
+    private void Grant(Entity member, long gained)
+    {
+        var stats = member.Stats;
+
+        // Cap clamp (spec 5-5): whatever would overflow Lv100's total
+        // is silently discarded, and a member already at the cap total
+        // gains nothing at all (no signal, no popup).
+        long capTotal = ExpCurve.TotalExpForLevel(EntityStats.LevelCap);
+        long credited = System.Math.Min(gained, capTotal - stats.CurrentExp);
+        if (credited <= 0) return;
+
+        stats.CurrentExp += credited;
+        EmitSignal(SignalName.ExpGained, member, credited);
+
+        // Threshold loop (spec 5-4): one iteration per level so a
+        // multi-level windfall still yields ordered per-level signals.
+        // Level++ goes through Phase 17's setter, which IS the
+        // "Recompute()" path - HAD stats re-derive on read and the
+        // setter's diff mechanism preserves missing HP (level-up is
+        // deliberately NOT a heal, per PMD-style spec 9-5).
+        while (stats.Level < EntityStats.LevelCap && stats.CurrentExp >= ExpCurve.TotalExpForLevel(stats.Level + 1))
+        {
+            int oldLevel = stats.Level;
+            var before = new Vector3I(stats.MaxHp, stats.Attack, stats.Defense);
+            stats.Level++;
+            var deltas = new Vector3I(stats.MaxHp, stats.Attack, stats.Defense) - before;
+            EmitSignal(SignalName.LeveledUp, member, oldLevel, stats.Level, deltas);
+        }
     }
 }

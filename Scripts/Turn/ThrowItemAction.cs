@@ -106,16 +106,12 @@ public class ThrowItemAction : IAction
                 // AttackAction's - see ExperienceSystem.NotifyDefeated).
                 _floorController?.Experience?.NotifyDefeated(hitEntity, _thrower);
 
-                // Same kill bookkeeping as AttackAction: a thrown-item
-                // kill counts for RunTracker recruitment and player EXP.
+                // Same kill bookkeeping as AttackAction: RunTracker +
+                // drops here; EXP comes from NotifyDefeated above
+                // (Phase 18-A party-wide distribution).
                 if (_thrower.Faction == Faction.Player && hitEntity.Faction == Faction.Enemy)
                 {
                     _floorController.RunTracker.RecordKill(hitEntity.ActorName);
-
-                    int expGained = hitEntity.Stats.Level * 10;
-                    MessageLogger.Log($"{_thrower.ActorName} gained {expGained} EXP for defeating {hitEntity.ActorName}.", MessageLogger.ProgressionColor);
-                    _thrower.Stats.AddExp(expGained);
-
                     MaterialDropTable.TryDrop(_floorController, hitEntity.GridPosition, hitEntity.ActorName);
                 }
 

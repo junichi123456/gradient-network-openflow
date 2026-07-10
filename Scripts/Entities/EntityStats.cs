@@ -1,7 +1,6 @@
 using Godot;
 using MysteryDungeon.Grid;
 using MysteryDungeon.Progression;
-using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Entities;
 
@@ -66,10 +65,10 @@ public partial class EntityStats : Node
 
     public int CurrentHp { get; set; }
 
-    // ---- Phase 18-A: EXP/level-up scaffolding ----
-    // The legacy Exp/ExpToNextLevel pair below is still what AddExp/
-    // LevelUp run on today; ExperienceSystem (a later Phase 18-A step)
-    // consumes these new fields instead and retires the legacy pair.
+    // ---- Phase 18-A: EXP/level-up data ----
+    // Consumed by ExperienceSystem (defeat -> distribution -> threshold
+    // loop); this component only stores the numbers. The old
+    // Exp/ExpToNextLevel/AddExp/LevelUp machinery is fully retired.
     public const int LevelCap = 100;
 
     // Lifetime cumulative EXP on the cubic curve (see ExpCurve). long
@@ -95,9 +94,6 @@ public partial class EntityStats : Node
     // K = 10). 55 is the confirmed "standard enemy" baseline (r = 5.5:
     // at Lv10, ~6 same-level standard kills = 1 level).
     [Export] public int BaseExpYield { get; set; } = 55;
-
-    [Export] public int Exp { get; set; } = 0;
-    [Export] public int ExpToNextLevel { get; set; } = 100;
 
     [Export] public int SpAttack { get; set; } = 10;
     [Export] public int SpDefense { get; set; } = 10;
@@ -182,30 +178,4 @@ public partial class EntityStats : Node
         }
     }
 
-    // Only AttackAction's Player-kill branch calls this today, but it's
-    // written generically (reads the owning Entity's name for the log)
-    // so it isn't silently wrong if something else ever levels up too.
-    public void AddExp(int amount)
-    {
-        if (amount <= 0) return;
-
-        Exp += amount;
-        while (Exp >= ExpToNextLevel)
-        {
-            Exp -= ExpToNextLevel;
-            LevelUp();
-        }
-    }
-
-    private void LevelUp()
-    {
-        Level++; // MaxHp/Attack/Defense follow automatically (HAD formula); Level's setter already keeps CurrentHp in sync
-        SpAttack += 2;
-        SpDefense += 2;
-        HealToFull(); // level-up is still an explicit full-heal reward, on top of the generic delta-shift above
-        ExpToNextLevel = Mathf.RoundToInt(ExpToNextLevel * 1.5f);
-
-        string ownerName = (GetParent() as Entity)?.ActorName ?? Name;
-        MessageLogger.Log($"{ownerName} leveled up to Lv {Level}! Max HP is now {MaxHp}.", MessageLogger.ProgressionColor);
-    }
 }

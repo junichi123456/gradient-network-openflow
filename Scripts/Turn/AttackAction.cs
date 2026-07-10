@@ -114,17 +114,12 @@ public class AttackAction : IAction
             // hangs off this notification (see ExperienceSystem).
             _floorController?.Experience?.NotifyDefeated(_defender, _attacker);
 
+            // EXP is handled by NotifyDefeated above (Phase 18-A: full
+            // amount to every living party member, PMD-style) - only
+            // kill-tracking and drops remain faction-gated here.
             if (_attacker.Faction == Faction.Player && _defender.Faction == Faction.Enemy)
             {
                 _floorController?.RunTracker.RecordKill(_defender.ActorName);
-
-                if (_attacker is Player)
-                {
-                    int expGained = defenderStats.Level * 10;
-                    MessageLogger.Log($"{_attacker.ActorName} gained {expGained} EXP for defeating {_defender.ActorName}.", MessageLogger.ProgressionColor);
-                    attackerStats.AddExp(expGained);
-                }
-
                 MaterialDropTable.TryDrop(_floorController, _defender.GridPosition, _defender.ActorName);
             }
 
