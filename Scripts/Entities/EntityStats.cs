@@ -146,6 +146,37 @@ public partial class EntityStats : Node
 
     public void HealToFull() => CurrentHp = MaxHp;
 
+    // ---- Phase 19: persistence seams ----
+    // The only two entry points PartyState's hydrate/dehydrate go
+    // through, so the persistence layer never touches internal fields
+    // or has to know about setter side effects.
+
+    public (int Level, long CurrentExp, int CurrentHp) CapturePersistedState() => (Level, CurrentExp, CurrentHp);
+
+    // Restore order is load-bearing:
+    // 1. Level first - runs the Phase 17 setter (HAD recompute + the
+    //    CurrentHp diff shift). Whatever the diff mechanism does to
+    //    CurrentHp here is deliberately DISCARDED by step 3: the diff
+    //    exists to preserve relative damage across level-up increments,
+    //    but a hydrate restores an absolute recorded HP, so relative
+    //    adjustment would be wrong. Not a bug - intended.
+    // 2. CurrentExp next - assigning through the setter fills the
+    //    nullable backing field, which is exactly what disarms the
+    //    lazy first-read seed (it only fires while the backing field
+    //    is still null). Skipping this would let the next read clobber
+    //    the carried-over EXP with TotalExpForLevel(Level).
+    // 3. CurrentHp last, as an absolute value clamped to [1, MaxHp] -
+    //    MaxHp is only correct once step 1 settled the Level. Lower
+    //    bound 1, not 0: a hydrated member is by definition alive
+    //    (downed records never hydrate - see PartyState.TryHydrate),
+    //    so a 0 here would spawn an instantly-dead ghost.
+    public void ApplyPersistedState(int level, long currentExp, int currentHp)
+    {
+        Level = level;
+        CurrentExp = currentExp;
+        CurrentHp = Mathf.Clamp(currentHp, 1, MaxHp);
+    }
+
     // Whenever Level/BaseMaxHp/BreakthroughHP changes, MaxHp is
     // recalculated - shift CurrentHp by exactly the same delta so an
     // already-full entity stays full (a spawned-then-rescaled enemy, see

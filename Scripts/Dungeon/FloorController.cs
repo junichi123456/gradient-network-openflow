@@ -51,6 +51,12 @@ public partial class FloorController : Node2D
     // across every floor.
     private readonly RunTracker _runTracker = new();
 
+    // Phase 19: run-scoped party persistence (same lifetime pattern as
+    // RunTracker above). Ally Level/EXP/HP dehydrate into this before
+    // each floor teardown and hydrate back after each floor's spawn -
+    // see PartyState for the full contract.
+    private readonly PartyState _partyState = new();
+
     // PartyManager's roster must survive Dungeon<->Hub scene transitions
     // too (not just floor transitions within one dungeon), so it lives
     // on HubUpgradeManager (a persistent autoload) instead of here - a
@@ -72,6 +78,7 @@ public partial class FloorController : Node2D
     public int FloorNumber => _floorNumber;
     public RunTracker RunTracker => _runTracker;
     public PartyManager PartyManager => ActivePartyManager;
+    public PartyState PartyState => _partyState;
 
     // Phase 18-A: defeat -> EXP -> level-up coordinator. Created in
     // Initialize (needs the player reference), childed here so it lives

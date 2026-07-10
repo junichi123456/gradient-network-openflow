@@ -17,6 +17,11 @@ public partial class AllyEntity : Entity
 {
     public string SpeciesId { get; set; } = "Ally";
 
+    // Phase 19: this member's PartyMemberRecord key (roster index at
+    // spawn time - see PartyMemberRecord.MemberId). -1 = "no roster
+    // slot" (hand-spawned test instances), which PartyState ignores.
+    public int PartyMemberId { get; set; } = -1;
+
     // Assigned by FloorController at spawn time (same pattern as
     // HostileEntity's Grid/Pathfinder).
     public AStarPathfinder Pathfinder { get; set; }
