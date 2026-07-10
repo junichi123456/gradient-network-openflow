@@ -498,7 +498,7 @@ public partial class FloorController : Node2D
         _bossEntity.Pathfinder = _pathfinder;
         _bossEntity.TargetPlayer = _player;
         _bossEntity.FloorController = this;
-        _bossEntity.Stats.Level += (_floorNumber - 1) * 2; // same per-floor scaling as normal enemies
+        _bossEntity.Stats.Level += (_floorNumber - 1) * 2; // same per-floor scaling as normal enemies (enemies/boss ONLY - see SpawnEnemyAt's note on the ally exclusion)
         _bossEntity.PlaceAt(bossRoom.Center);
         _bossEntity.Visible = false; // hidden until RefreshFieldOfView() reveals it
 
@@ -799,7 +799,12 @@ public partial class FloorController : Node2D
         enemy.Pathfinder = _pathfinder;
         enemy.TargetPlayer = _player;
         enemy.FloorController = this;
-        enemy.Stats.Level += (_floorNumber - 1) * 2; // deeper floors -> stronger enemies, on top of each species' own base level
+        // Deeper floors -> stronger enemies, on top of each species' own
+        // base level. ENEMIES ONLY - allies must never receive this bump:
+        // their Level authority is PartyState's hydrate (Phase 19), and
+        // extending this scaling to allies would clobber the carried-over
+        // Level (PartyState.TryHydrate's tripwire would fire).
+        enemy.Stats.Level += (_floorNumber - 1) * 2;
         enemy.PlaceAt(pos);
         enemy.Visible = false; // hidden until RefreshFieldOfView() reveals it
 

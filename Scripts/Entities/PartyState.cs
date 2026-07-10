@@ -68,6 +68,18 @@ public class PartyState
         if (record == null || !record.HasSnapshot || record.IsDowned) return false;
 
         ally.Stats.ApplyPersistedState(record.Level, record.CurrentExp, record.CurrentHp);
+
+        // Invariant tripwires, not control flow - these can only fire
+        // if a future change breaks one of the Phase 19 ordering rules:
+        // something re-touching Level after hydrate (e.g. extending the
+        // enemy-only per-floor Level bump to allies), or a regression
+        // in the lazy-seed disarming (CurrentExp read-back would then
+        // report TotalExpForLevel(Level) instead of the record value).
+        if (ally.Stats.Level != record.Level)
+            GD.PushError($"[PartyState] Hydrate invariant broken: {ally.SpeciesId}(member {ally.PartyMemberId}) Level={ally.Stats.Level}, record says {record.Level}. Something overrode Level after hydrate.");
+        if (ally.Stats.CurrentExp != record.CurrentExp)
+            GD.PushError($"[PartyState] Hydrate invariant broken: {ally.SpeciesId}(member {ally.PartyMemberId}) CurrentExp={ally.Stats.CurrentExp}, record says {record.CurrentExp}. Lazy seed clobbered the carried EXP.");
+
         return true;
     }
 
