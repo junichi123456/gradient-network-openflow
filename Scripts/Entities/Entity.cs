@@ -229,6 +229,33 @@ public partial class Entity : Node2D, ITurnActor
         };
     }
 
+    // Floating "+N EXP" number, the gain-side sibling of
+    // ShowDamagePopup - green instead of yellow, and spawned slightly
+    // lower so a simultaneous damage popup on the same entity (hit
+    // then leveled from a party kill the same turn) doesn't overlap.
+    // Same fire-and-forget tween contract: purely visual, no await in
+    // the turn loop.
+    public void ShowExpPopup(long amount)
+    {
+        var label = new Label
+        {
+            Text = $"+{amount} EXP",
+            Modulate = new Color(0.45f, 1f, 0.5f),
+            Position = new Vector2(-14, -12),
+            ZIndex = 100,
+        };
+        AddChild(label);
+
+        var tween = CreateTween();
+        tween.SetParallel(true);
+        tween.TweenProperty(label, "position", label.Position + new Vector2(0, -20), 0.7);
+        tween.TweenProperty(label, "modulate:a", 0f, 0.7);
+        tween.Finished += () =>
+        {
+            if (GodotObject.IsInstanceValid(label)) label.QueueFree();
+        };
+    }
+
     // Instant placement (initial spawn, floor regeneration, forced
     // teleport) - deliberately NOT animated. There's no meaningful
     // "previous visual position" to interpolate from across a floor

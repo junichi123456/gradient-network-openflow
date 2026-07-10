@@ -1,6 +1,7 @@
 using Godot;
 using MysteryDungeon.Dungeon;
 using MysteryDungeon.Entities;
+using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Progression;
 
@@ -73,6 +74,11 @@ public partial class ExperienceSystem : Node
         long gained = CalculateGained(victim.Stats.BaseExpYield, victim.Stats.Level);
         if (gained <= 0) return;
 
+        // One party-level log line per defeat (per-member lines would
+        // flood the 6-line MessageLogUI on every kill); per-member
+        // feedback is the floating +EXP popup in Grant instead.
+        MessageLogger.Log($"The party gained {gained} EXP for defeating {victim.ActorName}!", MessageLogger.ProgressionColor);
+
         if (_player != null && _player.IsAlive)
             Grant(_player, gained);
 
@@ -100,6 +106,7 @@ public partial class ExperienceSystem : Node
 
         stats.CurrentExp += credited;
         EmitSignal(SignalName.ExpGained, member, credited);
+        member.ShowExpPopup(credited);
 
         // Threshold loop (spec 5-4): one iteration per level so a
         // multi-level windfall still yields ordered per-level signals.
@@ -114,6 +121,7 @@ public partial class ExperienceSystem : Node
             stats.Level++;
             var deltas = new Vector3I(stats.MaxHp, stats.Attack, stats.Defense) - before;
             EmitSignal(SignalName.LeveledUp, member, oldLevel, stats.Level, deltas);
+            MessageLogger.Log($"{member.ActorName} leveled up to Lv {stats.Level}! (HP +{deltas.X}, Atk +{deltas.Y}, Def +{deltas.Z})", MessageLogger.ProgressionColor);
         }
     }
 }
