@@ -362,6 +362,11 @@ public partial class FloorController : Node2D
     // DungeonConfig.EndType (see GenerateFinalFloor).
     private void GenerateFloor()
     {
+        // Phase 19 dehydrate: snapshot every living ally's progress
+        // BEFORE CleanupCurrentFloor QueueFrees their nodes. On the very
+        // first floor (Initialize -> here) the list is empty - no-op.
+        _partyState.Dehydrate(_spawnedAllies);
+
         CleanupCurrentFloor();
         _floorNumber++;
 
