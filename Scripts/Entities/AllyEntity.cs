@@ -62,6 +62,18 @@ public partial class AllyEntity : Entity
         Moves.Learn("power_shot");
     }
 
+    // Phase 19 downed policy (PMD-style): a fainted ally leaves the
+    // run. The mark must happen HERE, at death time, not at the next
+    // floor's dehydrate - base.Die() QueueFrees this node immediately,
+    // so by floor-transition time there is no node left to inspect.
+    // PartyState ignores PartyMemberId -1 (hand-spawned test allies).
+    public override void Die()
+    {
+        if (!IsAlive) return; // base guards too, but don't double-mark
+        FloorController?.PartyState.MarkDowned(PartyMemberId);
+        base.Die();
+    }
+
     public override IAction DecideAction()
     {
         if (CurrentTactics == Tactics.ActFreely)

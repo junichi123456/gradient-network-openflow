@@ -826,6 +826,12 @@ public partial class FloorController : Node2D
             int id = memberId++;
             _partyState.EnsureRecord(id, speciesId);
 
+            // Phase 19 downed policy: a fainted member sits out the rest
+            // of the run - no node, no turn slot, no EXP share. The
+            // record itself is kept (IsDowned), so the roster slot stays
+            // reserved and a future revive mechanic has data to work on.
+            if (_partyState.IsDowned(id)) continue;
+
             var pos = FindFreeAdjacentTile(previous.GridPosition, occupied);
 
             var ally = new AllyEntity { SpeciesId = speciesId, PartyMemberId = id };
