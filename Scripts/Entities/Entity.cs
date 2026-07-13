@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using MysteryDungeon.Grid;
+using MysteryDungeon.Species;
 using MysteryDungeon.Turn;
 using MysteryDungeon.Visuals;
 
@@ -17,10 +18,17 @@ public partial class Entity : Node2D, ITurnActor
     [Export] public int Speed { get; set; } = 100;
     [Export] public Color DebugColor { get; set; } = Colors.White;
 
-    // Empty until real MagicaVoxel-rendered art exists - see
-    // SpriteTextureLibrary. Setting this to e.g. "player_idle" and
-    // dropping res://Assets/Sprites/player_idle.png in is the entire
-    // swap, no script changes required.
+    // Phase 20: which SpeciesData to pull species constants from (see
+    // SpeciesDatabase). A concrete entity sets this before base._Ready();
+    // _Ready then fills SpriteId/VisualScale + Stats' Base*/BaseExpYield/
+    // Types from the DB. Empty = "no species" (a bare Entity / a
+    // hand-spawned test instance) - keeps its inline defaults, no DB
+    // lookup.
+    public string SpeciesId { get; set; } = "";
+
+    // Normally derived from the species (SpriteKey) in _Ready. Left
+    // public/settable for the rare non-species visual (Hub props set it
+    // directly). See SpriteTextureLibrary for the texture resolution.
     [Export] public string SpriteId { get; set; } = "";
 
     // Lets a species render larger than its 1-tile footprint (e.g. 1.3
@@ -97,11 +105,35 @@ public partial class Entity : Node2D, ITurnActor
 
     public override void _Ready()
     {
+        // Phase 20: resolve species constants up front. The visual half
+        // (SpriteId/VisualScale) has to be set BEFORE the Sprite2D is
+        // built at the bottom of this method; the stat half is applied
+        // right after Stats is created below. Require() fails loud on an
+        // undefined SpeciesId (a spawn-wiring bug), rather than letting a
+        // zero-stat entity spawn silently.
+        SpeciesData species = null;
+        if (!string.IsNullOrEmpty(SpeciesId))
+        {
+            species = SpeciesDatabase.Instance.Require(SpeciesId);
+            SpriteId = species.SpriteKey;
+            VisualScale = species.DefaultVisualScale;
+        }
+
         Stats = GetNodeOrNull<EntityStats>("Stats");
         if (Stats == null)
         {
             Stats = new EntityStats { Name = "Stats" };
             AddChild(Stats);
+        }
+
+        // Species constants land before the subclass sets its own spawn
+        // Level (which happens after base._Ready returns), so the Level
+        // setter's CurrentHp sync still runs last and lands on the right
+        // MaxHp.
+        if (species != null)
+        {
+            Stats.SpeciesId = SpeciesId;
+            Stats.FillFromSpecies(species);
         }
 
         Moves = GetNodeOrNull<MoveManager>("Moves");

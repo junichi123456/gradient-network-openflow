@@ -15,7 +15,9 @@ namespace MysteryDungeon.Entities;
 // used in Combat, to close the last few tiles on a spotted enemy.
 public partial class AllyEntity : Entity
 {
-    public string SpeciesId { get; set; } = "Ally";
+    // SpeciesId is inherited from Entity now (Phase 20) - FloorController
+    // sets it per roster slot; Entity._Ready fills this ally's Base*/
+    // SpriteKey/Type from that species' DB entry.
 
     // Phase 19: this member's PartyMemberRecord key (roster index at
     // spawn time - see PartyMemberRecord.MemberId). -1 = "no roster
@@ -38,25 +40,16 @@ public partial class AllyEntity : Entity
         ActorName = SpeciesId;
         DebugColor = Colors.LightGreen;
 
-        // Paldex #001 - see Assets/Sprites/001/. Only the fixed partner
-        // has a real sprite assigned so far; other recruited species
-        // still fall back to the placeholder until they get their own.
-        if (SpeciesId == "Partner") SpriteId = "001";
-
-        base._Ready(); // creates Stats + Moves + the Sprite2D visual
+        // Base*/SpriteKey/Type now come from this ally's species
+        // (Data/species.json) via Entity._Ready - the fixed Partner is
+        // 60/60/60 + SpriteKey 001, and a recruited species brings its
+        // OWN stats/look instead of the old uniform placeholder tier.
+        base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
 
         Faction = Faction.Player;
 
-        // Official floor-tier species values (Lamball/Chikipi's 60-60-60,
-        // the lowest legal total) - the fixed Partner is Paldex #001
-        // (Lamball), and every other recruit shares this placeholder tier
-        // until a species database assigns per-species values.
-        Stats.BaseMaxHp = 60;
-        Stats.BaseAtk = 60;
-        Stats.BaseDef = 60;
         Stats.SpAttack = 8;
         Stats.SpDefense = 8;
-        Stats.Type1 = "Neutral";
         Stats.Level = 8;
 
         Moves.Learn("power_shot");

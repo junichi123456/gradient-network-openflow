@@ -14,18 +14,15 @@ public partial class BossEntity : HostileEntity
         Speed = 100;
         DebugColor = Colors.Purple;
 
-        base._Ready(); // creates Stats + Moves + the debug ColorRect visual
-
-        // Upper-mid-tier species values (100-100-95; cf. the 60-60-60
-        // floor and Shadowbeak's 140-140-135 ceiling) - the boss's real
+        // Base 100/100/95 (upper-mid tier) + Type Dragon come from
+        // species "DungeonBoss" (Data/species.json). The boss's real
         // edge comes from these plus FloorController's floor-based Level
         // bump on top of the Lv15 base below.
-        Stats.BaseMaxHp = 100;
-        Stats.BaseAtk = 100;
-        Stats.BaseDef = 95;
+        SpeciesId = "DungeonBoss";
+        base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
+
         Stats.SpAttack = 15;
         Stats.SpDefense = 12;
-        Stats.Type1 = "Dragon";
         Stats.Level = 15;
 
         // Fixed 3-move boss kit (FloorController still applies the same

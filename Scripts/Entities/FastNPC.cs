@@ -12,17 +12,16 @@ public partial class FastNPC : HostileEntity
         ActorName = "FastNPC";
         Speed = 200;
         DebugColor = Colors.OrangeRed;
-        base._Ready(); // creates Stats + Moves + the debug ColorRect visual
 
-        // Speedy glass cannon: above-average Atk, the legal Def floor
-        // (50, cf. Depresso-tier), low HP - its real threat is Speed 200
-        // acting twice per player turn, so the stats stay frail.
-        Stats.BaseMaxHp = 60;
-        Stats.BaseAtk = 75;
-        Stats.BaseDef = 50;
+        // Base 60/75/50 (speedy glass cannon) + Type Electric come from
+        // species "FastNPC" (Data/species.json). No SpriteKey yet
+        // (placeholder). Its real threat is Speed 200 acting twice per
+        // player turn.
+        SpeciesId = "FastNPC";
+        base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
+
         Stats.SpAttack = 10;
         Stats.SpDefense = 4;
-        Stats.Type1 = "Electric";
         Stats.Level = 12;
 
         Moves.Learn("spark");

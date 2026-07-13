@@ -14,23 +14,14 @@ public partial class DummyNPC : HostileEntity
         Speed = 100;
         DebugColor = Colors.SkyBlue;
 
-        // TEMP: visual smoke test for the real chiqipi (Paldex #003)
-        // sprite set (Assets/Sprites/003/) - source art is 960x800, so
-        // VisualScale brings it down to roughly tile-sized. Remove/
-        // reassign once a real species database picks its own sprite.
-        SpriteId = "003";
-        VisualScale = 0.05f;
+        // Base 60/60/60 (Chikipi's floor tier) + SpriteKey 003 (@0.05
+        // scale) + Type Neutral all come from species "DummyNPC"
+        // (Data/species.json).
+        SpeciesId = "DummyNPC";
+        base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
 
-        base._Ready(); // creates Stats + Moves + the Sprite2D visual
-
-        // Chikipi's official species values (60-60-60, the floor tier) -
-        // matches this entity's Paldex #003 sprite.
-        Stats.BaseMaxHp = 60;
-        Stats.BaseAtk = 60;
-        Stats.BaseDef = 60;
         Stats.SpAttack = 6;
         Stats.SpDefense = 6;
-        Stats.Type1 = "Neutral";
         Stats.Level = 8;
 
         Moves.Learn("power_shot");

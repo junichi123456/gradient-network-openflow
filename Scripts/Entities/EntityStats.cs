@@ -52,6 +52,12 @@ public partial class EntityStats : Node
         set => ApplyMaxHpAffectingChange(ref _breakthroughHp, value);
     }
 
+    // Phase 20: which species these constants came from (filled by
+    // FillFromSpecies). The individual-progression counterpart to
+    // PartyMemberRecord.SpeciesId - together with Level/CurrentExp/
+    // CurrentHp it's enough to fully reconstruct a member.
+    public string SpeciesId { get; set; } = "";
+
     [Export] public int BaseAtk { get; set; } = 70;
     [Export] public int BaseDef { get; set; } = 70;
     [Export] public int BreakthroughAtk { get; set; } = 0;
@@ -150,6 +156,22 @@ public partial class EntityStats : Node
     // The only two entry points PartyState's hydrate/dehydrate go
     // through, so the persistence layer never touches internal fields
     // or has to know about setter side effects.
+
+    // Phase 20: fill the species-constant stat block from the DB. Only
+    // touches species constants (Base*/BaseExpYield/Types) - never the
+    // individual progression (Level/CurrentExp/CurrentHp/Breakthrough*),
+    // which stays with the entity/record. Called from Entity._Ready
+    // right after Stats is created, before the entity applies its own
+    // spawn Level, so the Level setter's CurrentHp sync still lands last.
+    public void FillFromSpecies(Species.SpeciesData species)
+    {
+        BaseMaxHp = species.BaseHP;
+        BaseAtk = species.BaseAtk;
+        BaseDef = species.BaseDef;
+        BaseExpYield = species.BaseExpYield;
+        Type1 = species.Types.Count > 0 ? species.Types[0].ToString() : "Neutral";
+        Type2 = species.Types.Count > 1 ? species.Types[1].ToString() : "";
+    }
 
     public (int Level, long CurrentExp, int CurrentHp) CapturePersistedState() => (Level, CurrentExp, CurrentHp);
 

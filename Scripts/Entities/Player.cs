@@ -45,8 +45,8 @@ public partial class Player : Entity
 
     public override void _Ready()
     {
-        SpriteId = "009"; // Paldex #009 - see Assets/Sprites/009/
-        base._Ready(); // creates Stats + Moves + the Sprite2D visual
+        SpeciesId = "player"; // fills SpriteKey 009 + Base 70/70/70 from the DB
+        base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
 
         if (!InputMap.HasAction(DiagonalLockAction))
         {
@@ -62,16 +62,11 @@ public partial class Player : Entity
         MaterialInventory = new MaterialInventory { Name = "MaterialInventory" };
         AddChild(MaterialInventory);
 
-        // Benchmark-anchor placeholder species values (the 70-70-70 tier
-        // both damage benchmarks are defined against - see
-        // DamageCalculator) until a real species database assigns Paldex
-        // #009's own HAD values.
-        Stats.BaseMaxHp = 70;
-        Stats.BaseAtk = 70;
-        Stats.BaseDef = 70;
+        // Base 70/70/70 + Type Neutral now come from species "player"
+        // (Data/species.json) via Entity._Ready. Level/belly/SpAtk-SpDef
+        // stay here - individual/non-species values.
         Stats.SpAttack = 10;
         Stats.SpDefense = 10;
-        Stats.Type1 = "Neutral";
         Stats.Level = 10;
         Stats.MaxBelly = 100;
         Stats.Belly = 100;
