@@ -97,6 +97,27 @@ public class AttackAction : IAction
 
         float typeMultiplier = TypeChartManager.GetMultiplier(move.Type, defenderStats.Type1, defenderStats.Type2);
 
+        // Crit roll (after the hit is confirmed - a miss can't crit).
+        // rank 5 gives chance 1.0, and GD.Randf() is [0,1), so "< 1.0"
+        // is always true there = guaranteed crit.
+        bool isCrit = GD.Randf() < _attacker.StatusEffects.GetCritChance();
+
+        // The three rank multipliers. On a crit, each is clamped to
+        // "at least neutral for the attacker" so DISADVANTAGEOUS rank
+        // corrections are ignored (treated as 1.0), while advantageous
+        // ones still apply (confirmed rule): Atk/Power keep their upside
+        // (Max with 1.0), Def keeps its downside for the attacker (Min
+        // with 1.0, since a lower defense multiplier means more damage).
+        float atkMul = _attacker.StatusEffects.GetAtkMultiplier();
+        float defMul = _defender.StatusEffects.GetDefMultiplier();
+        float powerMul = _attacker.StatusEffects.GetElementPowerMultiplier(move.Type);
+        if (isCrit)
+        {
+            atkMul = Mathf.Max(1f, atkMul);
+            defMul = Mathf.Min(1f, defMul);
+            powerMul = Mathf.Max(1f, powerMul);
+        }
+
         var damageContext = new DamageContext
         {
             BaseAtk = attackerStats.Attack,
@@ -105,9 +126,10 @@ public class AttackAction : IAction
             AttackElement = move.Type,
             DefenderElement = defenderStats.Type1,
             TypeEffectiveness = typeMultiplier,
-            AtkMultiplier = _attacker.StatusEffects.GetAtkMultiplier(),
-            DefMultiplier = _defender.StatusEffects.GetDefMultiplier(),
-            PowerMultiplier = _attacker.StatusEffects.GetElementPowerMultiplier(move.Type),
+            AtkMultiplier = atkMul,
+            DefMultiplier = defMul,
+            PowerMultiplier = powerMul,
+            CritMultiplier = isCrit ? 1.5f : 1.0f,
             // AtkFlatBuff/PowerFlatBuff/DefFlatBuff/ElementResistCut/
             // PartyElementCut stay at DamageContext's own defaults - no
             // skill database exists yet to source those from.
@@ -137,6 +159,9 @@ public class AttackAction : IAction
         _defender.PlayHitFlash();
         _defender.ShowDamagePopup(damage);
         MessageLogger.Log($"{_attacker.ActorName} used {move.Name} on {_defender.ActorName}! It hit for {damage} damage.");
+
+        if (isCrit)
+            MessageLogger.Log("A critical hit!", MessageLogger.EffectiveColor);
 
         if (typeMultiplier > 1f)
             MessageLogger.Log("It's super effective!", MessageLogger.EffectiveColor);
