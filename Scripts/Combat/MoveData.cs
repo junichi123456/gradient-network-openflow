@@ -28,6 +28,7 @@ public enum RankStat
     Accuracy,
     Evasion,
     ElementPower,
+    Crit,
 }
 
 // Phase 21: who a RankEffect/AilmentEffect lands on.

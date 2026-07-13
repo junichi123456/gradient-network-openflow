@@ -52,9 +52,13 @@ public static class DamageCalculator
         float rawDamage = baseCalc * (effPower / 100f);
 
         // Step 4: every multiplicative modifier applies independently,
-        // after the base/raw damage is fully resolved.
+        // after the base/raw damage is fully resolved. CritMultiplier
+        // (default 1.0) joins the same list so a crit stays inside the
+        // single final floor below - benchmarks are unchanged because
+        // their contexts leave it at 1.0.
         float finalDamageFloat = rawDamage
             * ctx.TypeEffectiveness
+            * ctx.CritMultiplier
             * (1f - ctx.ElementResistCut)
             * (1f - ctx.PartyElementCut);
 

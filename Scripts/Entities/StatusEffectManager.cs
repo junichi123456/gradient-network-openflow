@@ -71,6 +71,19 @@ public partial class StatusEffectManager : Node
         return ElementPowerTable[ElementPowerRank - ElementPowerRankMin];
     }
 
+    // ---- Crit rank: 6 states (0..+5), POSITIVE-ONLY (crit rate can be
+    // raised, never lowered - confirmed). rank 0 = base 1/30, then
+    // 1/15, 1/8, 1/4, 1/2, and 1/1 (guaranteed crit) at rank +5. The
+    // per-hit crit roll and the "ignore disadvantageous rank
+    // corrections" damage rule live in AttackAction; this component only
+    // stores the rate.
+    public int CritRank { get; private set; }
+    private const int CritRankMin = 0;
+    private const int CritRankMax = 5;
+    private static readonly float[] CritChanceTable = { 1f / 30f, 1f / 15f, 1f / 8f, 1f / 4f, 1f / 2f, 1f }; // index = rank
+
+    public float GetCritChance() => CritChanceTable[CritRank];
+
     // moveElement is only consulted for RankStat.ElementPower; callers
     // pass default(Element) (Neutral) for the other four stats, where
     // it's simply unused.
@@ -95,6 +108,9 @@ public partial class StatusEffectManager : Node
                 ElementPowerElement = moveElement;
                 ElementPowerRank = Mathf.Clamp(ElementPowerRank + delta, ElementPowerRankMin, ElementPowerRankMax);
                 break;
+            case RankStat.Crit:
+                CritRank = Mathf.Clamp(CritRank + delta, CritRankMin, CritRankMax); // positive-only, clamps at 0
+                break;
         }
     }
 
@@ -117,6 +133,7 @@ public partial class StatusEffectManager : Node
         DefRank = StepTowardZero(DefRank);
         AccuracyRank = StepTowardZero(AccuracyRank);
         EvasionRank = StepTowardZero(EvasionRank);
+        CritRank = StepTowardZero(CritRank); // positive-only, so this only ever steps down toward 0
 
         if (ElementPowerElement != null)
         {
@@ -184,6 +201,7 @@ public partial class StatusEffectManager : Node
         EvasionRank = 0;
         ElementPowerElement = null;
         ElementPowerRank = 0;
+        CritRank = 0;
         _turnsSinceLastDamageEvent = 0;
         Ailment = AilmentType.None;
         _ailmentTurnsElapsed = 0;
