@@ -1,0 +1,80 @@
+[
+  {
+    "species_id": "player",
+    "display_name": "Player",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 55,
+    "sprite_key": "009",
+    "default_visual_scale": 1.0,
+    "types": ["Neutral"],
+    "learnset": [
+      { "level": 1, "move_id": "power_shot" },
+      { "level": 1, "move_id": "flare_arrow" }
+    ],
+    "evolution": null
+  },
+  {
+    "species_id": "Partner",
+    "display_name": "Partner",
+    "base_hp": 60,
+    "base_atk": 60,
+    "base_def": 60,
+    "base_exp_yield": 55,
+    "sprite_key": "001",
+    "default_visual_scale": 1.0,
+    "types": ["Neutral"],
+    "learnset": [
+      { "level": 1, "move_id": "power_shot" }
+    ],
+    "evolution": null
+  },
+  {
+    "species_id": "DummyNPC",
+    "display_name": "Dummy",
+    "base_hp": 60,
+    "base_atk": 60,
+    "base_def": 60,
+    "base_exp_yield": 55,
+    "sprite_key": "003",
+    "default_visual_scale": 0.05,
+    "types": ["Neutral"],
+    "learnset": [
+      { "level": 1, "move_id": "power_shot" }
+    ],
+    "evolution": null
+  },
+  {
+    "species_id": "FastNPC",
+    "display_name": "Sparky",
+    "base_hp": 60,
+    "base_atk": 75,
+    "base_def": 50,
+    "base_exp_yield": 55,
+    "sprite_key": "",
+    "default_visual_scale": 1.0,
+    "types": ["Electric"],
+    "learnset": [
+      { "level": 1, "move_id": "spark" }
+    ],
+    "evolution": null
+  },
+  {
+    "species_id": "DungeonBoss",
+    "display_name": "Dungeon Boss",
+    "base_hp": 100,
+    "base_atk": 100,
+    "base_def": 95,
+    "base_exp_yield": 55,
+    "sprite_key": "",
+    "default_visual_scale": 1.0,
+    "types": ["Dragon"],
+    "learnset": [
+      { "level": 1, "move_id": "aqua_gun" },
+      { "level": 1, "move_id": "wind_cutter" },
+      { "level": 1, "move_id": "spark" }
+    ],
+    "evolution": null
+  }
+]

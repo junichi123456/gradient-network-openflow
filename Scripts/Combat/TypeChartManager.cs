@@ -64,6 +64,15 @@ public static class TypeChartManager
         GD.Print($"[TypeChart] Loaded {data.Types.Count} types from {resPath}.");
     }
 
+    // Whether a type name is a known column/row in the loaded chart.
+    // Phase 20 uses this to cross-check that every Element enum value
+    // has a matching entry in type_chart.json (SpeciesDatabase.Validate).
+    public static bool HasType(string typeName)
+    {
+        if (!_loadAttempted) Load();
+        return typeName != null && _typeIndex.ContainsKey(typeName);
+    }
+
     // Combined multiplier across a defender's types (empty/null/unknown
     // entries are treated as neutral 1.0x, so single-typed defenders -
     // just pass "" for the second type - work without special-casing).
