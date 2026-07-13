@@ -52,8 +52,25 @@ public class TurnScheduler
 
                 if (!actor.IsAlive) break;
 
-                IAction action = actor.DecideAction();
-                action?.Execute(turnNumber);
+                // Phase 21: Freeze/Stun fully skip this action-cycle (no
+                // DecideAction/Execute call); Paralyze instead gets a
+                // chance to filter whatever action DecideAction picks
+                // (movement -> forced Wait, attacks untouched). The
+                // after-action status tick always runs regardless, so a
+                // Stunned-and-Poisoned actor still takes poison damage
+                // even on a skipped cycle.
+                if (actor.IsActionLocked())
+                {
+                    GD.Print($"[Turn {turnNumber}] {actor.ActorName} cannot act this cycle (frozen/stunned).");
+                }
+                else
+                {
+                    IAction action = actor.DecideAction();
+                    action = actor.FilterActionForStatus(action);
+                    action?.Execute(turnNumber);
+                }
+
+                actor.ResolveStatusTick();
             }
         }
     }

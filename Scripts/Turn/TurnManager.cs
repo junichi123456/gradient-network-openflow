@@ -1,4 +1,5 @@
 using Godot;
+using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Turn;
 
@@ -29,7 +30,23 @@ public partial class TurnManager : Node
         EmitSignal(SignalName.TurnStarted, TurnCount);
         GD.Print($"--- [Turn {TurnCount}] player action submitted ---");
 
-        playerAction.Execute(TurnCount);
+        // Phase 21: the exact same before/filter/after sequence
+        // TurnScheduler.Tick runs for NPCs (see there for the full
+        // rationale) - Player._UnhandledInput needs no freeze/stun/
+        // paralyze-awareness of its own, since every submitted action
+        // funnels through here.
+        var actor = playerAction.Actor;
+        if (actor.IsActionLocked())
+        {
+            GD.Print($"[Turn {TurnCount}] {actor.ActorName} cannot act this turn (frozen/stunned).");
+            MessageLogger.Log($"{actor.ActorName} can't move!", MessageLogger.IneffectiveColor);
+        }
+        else
+        {
+            var action = actor.FilterActionForStatus(playerAction);
+            action.Execute(TurnCount);
+        }
+        actor.ResolveStatusTick();
 
         _scheduler.Tick(TurnCount);
 

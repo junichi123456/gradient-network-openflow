@@ -409,8 +409,22 @@ public partial class Entity : Node2D, ITurnActor
 
     // Paralyze-only check: callers use this to swap a chosen MoveAction/
     // SwapAction for a WaitAction while leaving AttackAction untouched
-    // (see TurnScheduler.Tick / Player._UnhandledInput).
+    // (see FilterActionForStatus, TurnScheduler.Tick, TurnManager.
+    // SubmitPlayerAction).
     public bool IsMovementBlocked => StatusEffects.IsMovementLocked;
+
+    // ITurnActor.FilterActionForStatus: the single place Paralyze's
+    // movement lock actually takes effect, shared by both the AI path
+    // (TurnScheduler.Tick, after DecideAction()) and the player path
+    // (TurnManager.SubmitPlayerAction, on whatever action Player._Ready's
+    // input handler already built) - neither call site needs its own
+    // paralyze-awareness.
+    public IAction FilterActionForStatus(IAction action)
+    {
+        if (IsMovementBlocked && (action is MoveAction || action is SwapAction))
+            return new WaitAction(this);
+        return action;
+    }
 
     // Phase 21 after-action hook: called once per action-cycle for every
     // entity, whether or not that cycle's action was actually skipped by
