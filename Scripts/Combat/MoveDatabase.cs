@@ -16,6 +16,18 @@ internal class MoveJson
     [JsonPropertyName("accuracy")] public int Accuracy { get; set; }
     [JsonPropertyName("max_pp")] public int MaxPp { get; set; }
     [JsonPropertyName("range")] public string Range { get; set; }
+
+    // Phase 21: all optional - a missing key leaves these C# defaults in
+    // place, so the existing 96 non-status moves.json entries need no
+    // edits (only poison_fog gets the new keys).
+    [JsonPropertyName("rank_effect_stat")] public string RankEffectStat { get; set; } = "None";
+    [JsonPropertyName("rank_effect_delta")] public int RankEffectDelta { get; set; }
+    [JsonPropertyName("rank_effect_target")] public string RankEffectTarget { get; set; } = "Self";
+    [JsonPropertyName("ailment_effect")] public string AilmentEffect { get; set; } = "None";
+    [JsonPropertyName("ailment_chance")] public int AilmentChance { get; set; } = 100;
+    [JsonPropertyName("ailment_target")] public string AilmentTarget { get; set; } = "Enemy";
+    [JsonPropertyName("is_contact")] public bool IsContact { get; set; }
+    [JsonPropertyName("is_guaranteed_hit")] public bool IsGuaranteedHit { get; set; }
 }
 
 // JSON-driven move definitions. DungeonScene._Ready() calls Load()
@@ -69,6 +81,14 @@ public static class MoveDatabase
                 Accuracy = entry.Accuracy,
                 MaxPp = entry.MaxPp,
                 Range = Enum.TryParse<MoveRange>(entry.Range, out var range) ? range : MoveRange.Adjacent,
+                RankEffectStat = Enum.TryParse<RankStat>(entry.RankEffectStat, out var rankStat) ? rankStat : RankStat.None,
+                RankEffectDelta = entry.RankEffectDelta,
+                RankEffectTarget = Enum.TryParse<StatusTarget>(entry.RankEffectTarget, out var rankTarget) ? rankTarget : StatusTarget.Self,
+                AilmentEffect = Enum.TryParse<AilmentType>(entry.AilmentEffect, out var ailment) ? ailment : AilmentType.None,
+                AilmentChance = entry.AilmentChance,
+                AilmentTarget = Enum.TryParse<StatusTarget>(entry.AilmentTarget, out var ailmentTarget) ? ailmentTarget : StatusTarget.Enemy,
+                IsContact = entry.IsContact,
+                IsGuaranteedHit = entry.IsGuaranteedHit,
             };
         }
 

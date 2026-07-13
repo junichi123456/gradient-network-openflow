@@ -95,5 +95,5 @@
   { "id": "water_jet", "name": "ウォータージェット", "type": "Water", "category": "Special", "power": 30, "accuracy": 100, "max_pp": 30, "range": "Line" },
   { "id": "thunder_spear", "name": "サンダースピア", "type": "Electric", "category": "Special", "power": 30, "accuracy": 100, "max_pp": 30, "range": "Line" },
   { "id": "air_cannon", "name": "エアーキャノン", "type": "Neutral", "category": "Special", "power": 25, "accuracy": 100, "max_pp": 30, "range": "Adjacent" },
-  { "id": "poison_fog", "name": "ポイズンフォグ", "type": "Dark", "category": "Status", "power": 0, "accuracy": 100, "max_pp": 10, "range": "Room" }
+  { "id": "poison_fog", "name": "ポイズンフォグ", "type": "Dark", "category": "Status", "power": 0, "accuracy": 100, "max_pp": 10, "range": "Room", "ailment_effect": "Poison", "ailment_chance": 100, "ailment_target": "Enemy" }
 ]
