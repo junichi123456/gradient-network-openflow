@@ -3,6 +3,7 @@ using Godot;
 using MysteryDungeon.Grid;
 using MysteryDungeon.Species;
 using MysteryDungeon.Turn;
+using MysteryDungeon.UI;
 using MysteryDungeon.Visuals;
 
 namespace MysteryDungeon.Entities;
@@ -74,6 +75,10 @@ public partial class Entity : Node2D, ITurnActor
     // Up to 4 learned moves. Same auto-attach pattern as Stats.
     public MoveManager Moves { get; private set; }
 
+    // Phase 21: rank buffs/debuffs and ailments (poison/toxic/burn/
+    // paralyze/freeze/stun). Same auto-attach pattern as Stats/Moves.
+    public StatusEffectManager StatusEffects { get; private set; }
+
     // The Sprite2D created below - kept so PlayHitFlash can tween its
     // Modulate without a GetNode lookup every hit.
     private Sprite2D _visual;
@@ -141,6 +146,13 @@ public partial class Entity : Node2D, ITurnActor
         {
             Moves = new MoveManager { Name = "Moves" };
             AddChild(Moves);
+        }
+
+        StatusEffects = GetNodeOrNull<StatusEffectManager>("StatusEffects");
+        if (StatusEffects == null)
+        {
+            StatusEffects = new StatusEffectManager { Name = "StatusEffects" };
+            AddChild(StatusEffects);
         }
 
         // Centered + an upward Offset puts the sprite's bottom edge (its
@@ -385,6 +397,42 @@ public partial class Entity : Node2D, ITurnActor
             return Grid == null || Grid.CanCutCorner(GridPosition, targetPos);
 
         return true;
+    }
+
+    // Phase 21 before-action hook: TurnScheduler (for AI) and Player's
+    // input handler (for the player) call this before deciding/executing
+    // an action each action-cycle. True = Frozen or Stunned - the whole
+    // cycle is skipped (no DecideAction/Execute call at all this cycle).
+    // Paralyze never triggers this (it only blocks movement, not the
+    // action itself - see IsMovementBlocked).
+    public bool IsActionLocked() => StatusEffects.TryConsumeActionLock();
+
+    // Paralyze-only check: callers use this to swap a chosen MoveAction/
+    // SwapAction for a WaitAction while leaving AttackAction untouched
+    // (see TurnScheduler.Tick / Player._UnhandledInput).
+    public bool IsMovementBlocked => StatusEffects.IsMovementLocked;
+
+    // Phase 21 after-action hook: called once per action-cycle for every
+    // entity, whether or not that cycle's action was actually skipped by
+    // IsActionLocked() (see StatusEffectManager.AdvanceTurn - a Stunned-
+    // and-Poisoned entity still takes poison damage on a skipped cycle).
+    // Applies DoT damage (never below 1 HP, matching the project's
+    // poison-can't-kill convention) with the same visual/log feedback
+    // AttackAction gives a normal hit, and advances Paralyze's clear
+    // check + rank decay internally.
+    public void ResolveStatusTick()
+    {
+        int damage = StatusEffects.AdvanceTurn(Stats.MaxHp);
+        if (damage <= 0) return;
+
+        int before = Stats.CurrentHp;
+        Stats.CurrentHp = Mathf.Max(1, Stats.CurrentHp - damage);
+        int actualLoss = before - Stats.CurrentHp;
+        if (actualLoss <= 0) return;
+
+        PlayHitFlash();
+        ShowDamagePopup(actualLoss);
+        MessageLogger.Log($"{ActorName} is hurt by {StatusEffects.Ailment}! ({actualLoss} damage)", MessageLogger.IneffectiveColor);
     }
 
     // Called when Stats.CurrentHp reaches 0. NPCs are removed from the
