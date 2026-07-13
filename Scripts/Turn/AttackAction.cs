@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
@@ -9,10 +10,11 @@ namespace MysteryDungeon.Turn;
 // Damage is computed by DamageCalculator (Phase 16's DamageContext
 // pipeline) - see that class for the formula itself. TypeEffectiveness
 // is still the real value from TypeChartManager (a system multiplier,
-// not a "buff"); every buff field on the DamageContext stays at its
-// default (no skill database exists yet to source real values from),
-// so today's damage is exactly DamageCalculator's benchmark case scaled
-// by type effectiveness alone.
+// not a "buff"). AtkMultiplier/DefMultiplier/PowerMultiplier are now fed
+// by Phase 21's rank system (StatusEffectManager); the remaining buff
+// fields (AtkFlatBuff/PowerFlatBuff/DefFlatBuff/ElementResistCut/
+// PartyElementCut) stay at DamageContext's own defaults - no skill
+// database exists yet to source those specific values from.
 public class AttackAction : IAction
 {
     public ITurnActor Actor { get; }
@@ -65,12 +67,28 @@ public class AttackAction : IAction
         // happens in those cases.
         _attacker.PlayBumpAttack(_defender.GridPosition);
 
-        // Accuracy>=100 skips the roll entirely - GD.Randf()'s [0,1]
-        // range can return exactly 1.0, which would otherwise let a
-        // "guaranteed hit" move miss on a razor-thin edge case.
-        if (move.Accuracy < 100 && GD.Randf() * 100f >= move.Accuracy)
+        // Phase 21: IsGuaranteedHit ("必中") bypasses the roll AND the
+        // defender's evasion rank entirely; otherwise both the
+        // attacker's accuracy rank and the defender's evasion rank
+        // multiply onto the move's base Accuracy before the roll.
+        bool hits = move.IsGuaranteedHit
+            || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplier() * _defender.StatusEffects.GetEvasionMultiplier();
+
+        if (!hits)
         {
             MessageLogger.Log($"{_attacker.ActorName} used {move.Name} on {_defender.ActorName}! It missed!", MessageLogger.IneffectiveColor);
+            return;
+        }
+
+        // Phase 21: a pure Status-category move (e.g. poison_fog) never
+        // deals damage - it only ever carries a RankEffect and/or an
+        // AilmentEffect, applied below and shared with the secondary-
+        // effect path damaging moves use further down.
+        if (move.Category == MoveCategory.Status)
+        {
+            MessageLogger.Log($"{_attacker.ActorName} used {move.Name}!");
+            ApplyRankEffectIfAny(move, defenderAlive: true);
+            ApplyAilmentEffectIfAny(move, defenderAlive: true);
             return;
         }
 
@@ -87,15 +105,35 @@ public class AttackAction : IAction
             AttackElement = move.Type,
             DefenderElement = defenderStats.Type1,
             TypeEffectiveness = typeMultiplier,
-            // AtkFlatBuff/AtkMultiplier/PowerFlatBuff/PowerMultiplier/
-            // DefFlatBuff/DefMultiplier/ElementResistCut/PartyElementCut
-            // all stay at DamageContext's own defaults (0 / 1.0) - no
-            // skill database exists yet to source real buff values from.
+            AtkMultiplier = _attacker.StatusEffects.GetAtkMultiplier(),
+            DefMultiplier = _defender.StatusEffects.GetDefMultiplier(),
+            PowerMultiplier = _attacker.StatusEffects.GetElementPowerMultiplier(move.Type),
+            // AtkFlatBuff/PowerFlatBuff/DefFlatBuff/ElementResistCut/
+            // PartyElementCut stay at DamageContext's own defaults - no
+            // skill database exists yet to source those from.
         };
 
         int damage = DamageCalculator.Calculate(damageContext);
 
+        // Burn's contact-damage penalty ("接触技の与ダメージ*50%",
+        // confirmed as a x0.5 output halving): applied as a flat post-hoc
+        // adjustment to the final integer damage, outside DamageCalculator
+        // entirely (Phase 16's pipeline stays untouched) - this is a
+        // damage-OUTPUT penalty, not a stat-based modifier like the rank
+        // multipliers above. IsContact defaults false, so none of the
+        // current 97 (all ranged) moves trigger this yet.
+        if (_attacker.StatusEffects.Ailment == AilmentType.Burn && move.IsContact)
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.5f));
+
         defenderStats.TakeDamage(damage);
+
+        // Rank decay's "10 turns since last damage" clock resets on
+        // REAL damage only (dealt or received) - confirmed explicitly
+        // NOT to include DoT ticks (see Entity.ResolveStatusTick, which
+        // never touches this).
+        _attacker.StatusEffects.ResetDamageTimer();
+        _defender.StatusEffects.ResetDamageTimer();
+
         _defender.PlayHitFlash();
         _defender.ShowDamagePopup(damage);
         MessageLogger.Log($"{_attacker.ActorName} used {move.Name} on {_defender.ActorName}! It hit for {damage} damage.");
@@ -105,7 +143,19 @@ public class AttackAction : IAction
         else if (typeMultiplier < 1f)
             MessageLogger.Log("It's not very effective...", MessageLogger.IneffectiveColor);
 
-        if (!defenderStats.IsAlive)
+        bool defenderAliveAfterDamage = defenderStats.IsAlive;
+
+        // Phase 21 secondary effects: a damaging move can ALSO carry a
+        // RankEffect/AilmentEffect (e.g. a future "10% chance to poison"
+        // move) - applied after damage resolves. Guarded by
+        // defenderAliveAfterDamage so a defeated target isn't afflicted
+        // post-mortem; a Self-targeted effect always applies regardless
+        // (the attacker is still alive here by construction). None of
+        // the current 97 moves set either field, so this is inert today.
+        ApplyRankEffectIfAny(move, defenderAliveAfterDamage);
+        ApplyAilmentEffectIfAny(move, defenderAliveAfterDamage);
+
+        if (!defenderAliveAfterDamage)
         {
             MessageLogger.Log($"{_defender.ActorName} fainted!", MessageLogger.FaintColor);
 
@@ -125,5 +175,35 @@ public class AttackAction : IAction
 
             _defender.Die();
         }
+    }
+
+    // Shared by the pure-Status branch and a damaging move's optional
+    // secondary effect. defenderAlive gates Enemy-targeted effects only -
+    // a Self-targeted effect (e.g. the attacker powering up) still lands
+    // even if the defender was just defeated.
+    private void ApplyRankEffectIfAny(MoveData move, bool defenderAlive)
+    {
+        if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
+        if (move.RankEffectTarget == StatusTarget.Enemy && !defenderAlive) return;
+
+        var target = move.RankEffectTarget == StatusTarget.Self ? _attacker : _defender;
+        var moveElement = Enum.TryParse<Element>(move.Type, out var parsed) ? parsed : Element.Neutral;
+        target.StatusEffects.ApplyRankDelta(move.RankEffectStat, move.RankEffectDelta, moveElement);
+
+        string direction = move.RankEffectDelta > 0 ? "rose" : "fell";
+        MessageLogger.Log($"{target.ActorName}'s {move.RankEffectStat} {direction}!", MessageLogger.NeutralColor);
+    }
+
+    private void ApplyAilmentEffectIfAny(MoveData move, bool defenderAlive)
+    {
+        if (move.AilmentEffect == AilmentType.None) return;
+        if (move.AilmentTarget == StatusTarget.Enemy && !defenderAlive) return;
+        if (GD.Randf() * 100f >= move.AilmentChance) return; // chance roll failed - silently no effect
+
+        var target = move.AilmentTarget == StatusTarget.Self ? _attacker : _defender;
+        if (target.StatusEffects.TryApplyAilment(move.AilmentEffect))
+            MessageLogger.Log($"{target.ActorName} was afflicted with {move.AilmentEffect}!", MessageLogger.IneffectiveColor);
+        else
+            MessageLogger.Log($"{target.ActorName} is unaffected - already under a status condition.", MessageLogger.NeutralColor);
     }
 }
