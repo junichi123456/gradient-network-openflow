@@ -169,6 +169,28 @@ public partial class StatusEffectManager : Node
         _toxicStacks = 0;
     }
 
+    // Floor-transition reset. Allies/enemies get this "for free" every
+    // floor (FloorController.CleanupCurrentFloor QueueFrees their nodes
+    // and SpawnPartyMembers/SpawnEnemyAt build fresh StatusEffectManagers
+    // via Entity._Ready) - the Player's node is the one exception (it
+    // survives every floor transition, unlike everything else), so
+    // FloorController calls this explicitly on the player to keep battle
+    // effects floor-local for everyone uniformly.
+    public void Reset()
+    {
+        AtkRank = 0;
+        DefRank = 0;
+        AccuracyRank = 0;
+        EvasionRank = 0;
+        ElementPowerElement = null;
+        ElementPowerRank = 0;
+        _turnsSinceLastDamageEvent = 0;
+        Ailment = AilmentType.None;
+        _ailmentTurnsElapsed = 0;
+        _toxicStacks = 0;
+        IsStunned = false;
+    }
+
     // Before-action hook (Freeze/Stun only - Paralyze never reaches this,
     // it only gates movement, see IsMovementLocked). Returns true = this
     // action-cycle is skipped entirely (no DecideAction/Execute call).

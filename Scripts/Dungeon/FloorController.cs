@@ -370,6 +370,14 @@ public partial class FloorController : Node2D
         CleanupCurrentFloor();
         _floorNumber++;
 
+        // Phase 21: battle effects (ranks/ailments) are floor-local.
+        // Allies/enemies get this for free every floor (their nodes are
+        // QueueFree()'d above and rebuilt fresh below/on next spawn) -
+        // the Player's node is the one exception, since it's never
+        // destroyed between floors, so it needs an explicit reset here
+        // to stay symmetric with everyone else.
+        _player.StatusEffects.Reset();
+
         if (_floorNumber >= _config.MaxFloors)
         {
             GenerateFinalFloor();
