@@ -98,9 +98,10 @@ public class AttackAction : IAction
         float typeMultiplier = TypeChartManager.GetMultiplier(move.Type, defenderStats.Type1, defenderStats.Type2);
 
         // Crit roll (after the hit is confirmed - a miss can't crit).
-        // rank 5 gives chance 1.0, and GD.Randf() is [0,1), so "< 1.0"
-        // is always true there = guaranteed crit.
-        bool isCrit = GD.Randf() < _attacker.StatusEffects.GetCritChance();
+        // The move's own CritRankBonus is folded into the attacker's crit
+        // rank first (300-move import). rank 5 gives chance 1.0, and
+        // GD.Randf() is [0,1), so "< 1.0" is always true = guaranteed crit.
+        bool isCrit = GD.Randf() < _attacker.StatusEffects.GetCritChanceWithBonus(move.CritRankBonus);
 
         // The three rank multipliers. On a crit, each is clamped to
         // "at least neutral for the attacker" so DISADVANTAGEOUS rank
@@ -210,6 +211,10 @@ public class AttackAction : IAction
     {
         if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
         if (move.RankEffectTarget == StatusTarget.Enemy && !defenderAlive) return;
+        // 300-move import: gate on the move's rank-effect probability
+        // (default 1.0 = always, so every existing rank-effect move is
+        // unchanged; GD.Randf() is [0,1), so ">= 1.0" never fires).
+        if (GD.Randf() >= move.RankEffectChance) return;
 
         var target = move.RankEffectTarget == StatusTarget.Self ? _attacker : _defender;
         var moveElement = Enum.TryParse<Element>(move.Type, out var parsed) ? parsed : Element.Neutral;

@@ -28,6 +28,13 @@ internal class MoveJson
     [JsonPropertyName("ailment_target")] public string AilmentTarget { get; set; } = "Enemy";
     [JsonPropertyName("is_contact")] public bool IsContact { get; set; }
     [JsonPropertyName("is_guaranteed_hit")] public bool IsGuaranteedHit { get; set; }
+
+    // 300-move import additions (all optional; missing keys keep the C#
+    // defaults, so the existing minimal entries need no new keys).
+    [JsonPropertyName("crit_rank_bonus")] public int CritRankBonus { get; set; }
+    [JsonPropertyName("rank_effect_chance")] public float RankEffectChance { get; set; } = 1.0f;
+    [JsonPropertyName("recoil_hp_percent")] public int RecoilHpPercent { get; set; }
+    [JsonPropertyName("self_stun_next_turn")] public bool SelfStunNextTurn { get; set; }
 }
 
 // JSON-driven move definitions. DungeonScene._Ready() calls Load()
@@ -89,6 +96,10 @@ public static class MoveDatabase
                 AilmentTarget = Enum.TryParse<StatusTarget>(entry.AilmentTarget, out var ailmentTarget) ? ailmentTarget : StatusTarget.Enemy,
                 IsContact = entry.IsContact,
                 IsGuaranteedHit = entry.IsGuaranteedHit,
+                CritRankBonus = entry.CritRankBonus,
+                RankEffectChance = entry.RankEffectChance,
+                RecoilHpPercent = entry.RecoilHpPercent,
+                SelfStunNextTurn = entry.SelfStunNextTurn,
             };
         }
 

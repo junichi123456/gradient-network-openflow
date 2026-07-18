@@ -84,6 +84,12 @@ public partial class StatusEffectManager : Node
 
     public float GetCritChance() => CritChanceTable[CritRank];
 
+    // Crit chance with a move-specific CritRankBonus folded in (see
+    // MoveData.CritRankBonus) - the bonus is added to this entity's own
+    // crit rank, clamped into the same [0,5] band, before the lookup.
+    public float GetCritChanceWithBonus(int moveCritRankBonus) =>
+        CritChanceTable[Mathf.Clamp(CritRank + moveCritRankBonus, CritRankMin, CritRankMax)];
+
     // moveElement is only consulted for RankStat.ElementPower; callers
     // pass default(Element) (Neutral) for the other four stats, where
     // it's simply unused.

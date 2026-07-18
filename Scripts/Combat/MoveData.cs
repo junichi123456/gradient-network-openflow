@@ -8,12 +8,17 @@ public enum MoveCategory
 }
 
 // Not yet consumed by AttackAction's simplified damage formula - reserved
-// for the real targeting/AoE logic a future phase will add.
+// for the real targeting/AoE logic a future phase will add. TwoTile and
+// FullFloor were added with the 300-move import (data declaration only -
+// an unrecognised range in JSON still falls back to Adjacent via
+// MoveDatabase, matching "未実装の射程は単体扱い").
 public enum MoveRange
 {
     Adjacent,
     Line,
+    TwoTile,
     Room,
+    FullFloor,
 }
 
 // Phase 21: which rank track a move's RankEffect touches. ElementPower
@@ -91,4 +96,22 @@ public class MoveData
     // Phase 21: bypasses both the attacker's accuracy roll and the
     // defender's evasion rank entirely ("必中"). Defaults false.
     public bool IsGuaranteedHit { get; set; } = false;
+
+    // ---- 300-move import: additional per-move fields ----
+
+    // Move-specific crit-rank bonus, ADDED to the attacker's own crit
+    // rank before the crit chance is looked up (see StatusEffectManager.
+    // GetCritChanceWithBonus). Consumed - a "high crit ratio" move.
+    public int CritRankBonus { get; set; } = 0;
+
+    // Probability (0.0-1.0) that this move's RankEffect fires. Phase 21
+    // rank effects were always-on; this gates them (e.g. 0.2 = 20%).
+    // Default 1.0 keeps every existing rank-effect move deterministic.
+    public float RankEffectChance { get; set; } = 1.0f;
+
+    // Data-declaration only (consumed in a later phase): recoil damage
+    // as a percent of the damage dealt, and whether the user is stunned
+    // on its next turn after using this move.
+    public int RecoilHpPercent { get; set; } = 0;
+    public bool SelfStunNextTurn { get; set; } = false;
 }
