@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
@@ -10,11 +11,15 @@ namespace MysteryDungeon.Turn;
 // Damage is computed by DamageCalculator (Phase 16's DamageContext
 // pipeline) - see that class for the formula itself. TypeEffectiveness
 // is still the real value from TypeChartManager (a system multiplier,
-// not a "buff"). AtkMultiplier/DefMultiplier/PowerMultiplier are now fed
-// by Phase 21's rank system (StatusEffectManager); the remaining buff
-// fields (AtkFlatBuff/PowerFlatBuff/DefFlatBuff/ElementResistCut/
-// PartyElementCut) stay at DamageContext's own defaults - no skill
-// database exists yet to source those specific values from.
+// not a "buff"). AtkMultiplier/DefMultiplier/PowerMultiplier are fed by
+// Phase 21's rank system; crit and the 300-move mechanics (recoil, self-
+// stun, AoE ranges) layer on top.
+//
+// Range dispatch: Adjacent stays the single-target/bump path (unchanged
+// - regression 0). Every other range routes through the AoE path, which
+// resolves a target list (TargetResolver) and applies the SAME per-
+// target strike to each, with friendly-fire (see the move-consumption
+// proposal §4).
 public class AttackAction : IAction
 {
     public ITurnActor Actor { get; }
@@ -24,10 +29,6 @@ public class AttackAction : IAction
     private readonly MoveSlot _moveSlot;
     private readonly FloorController _floorController;
 
-    // floorController is optional and only used to record a Player-side
-    // kill into RunTracker (see the death branch below) - HostileEntity's
-    // attacks on the player never need it, since their Faction check
-    // fails regardless.
     public AttackAction(Entity attacker, Entity defender, MoveSlot moveSlot, FloorController floorController = null)
     {
         Actor = attacker;
@@ -41,9 +42,7 @@ public class AttackAction : IAction
     {
         var move = _moveSlot.Data;
 
-        // Out of PP = the move simply fails (turn is still consumed).
-        // AI never reaches this branch - GetFirstAutoUsableMove skips
-        // empty slots - but the player can still manually pick one.
+        // Out of PP = the move simply fails (turn still consumed).
         if (_moveSlot.CurrentPp <= 0)
         {
             MessageLogger.Log($"{_attacker.ActorName} tried to use {move.Name}, but it has no PP left!", MessageLogger.IneffectiveColor);
@@ -53,47 +52,36 @@ public class AttackAction : IAction
         _moveSlot.CurrentPp--;
 
         // Self-stun (大技の隙): applied at USE time, regardless of hit or
-        // miss (confirmed §9-4) - the move has now fired, so the attacker
-        // eats a skipped next turn even on a whiff. Reuses Phase 21's Stun
-        // (consumed at the start of the attacker's next action-cycle).
+        // miss (§9-4). Reuses Phase 21's Stun (consumed at the start of
+        // the attacker's next action-cycle).
         if (move.SelfStunNextTurn)
         {
             _attacker.StatusEffects.TryApplyAilment(AilmentType.Stun);
             MessageLogger.Log($"{_attacker.ActorName} must recharge after {move.Name}!", MessageLogger.IneffectiveColor);
         }
 
-        // Menu-invoked moves have no manual target (Phase 6: no
-        // direction-picker for moves) - autoaim may still come up empty,
-        // in which case the move just swings at nothing but still costs
-        // the turn/PP, same as a normal miss.
+        // AoE needs the floor (actor enumeration) and the grid; without
+        // them (shouldn't happen in-dungeon) fall back to the single path.
+        bool canAoe = move.Range != MoveRange.Adjacent && _floorController != null && _attacker.Grid != null;
+        if (canAoe)
+            ExecuteAoe(move);
+        else
+            ExecuteSingle(move);
+    }
+
+    // ---- Single-target / bump path (Adjacent) - Phase 6..21 behaviour ----
+    private void ExecuteSingle(MoveData move)
+    {
+        // Menu-invoked moves may auto-aim to nothing - still costs the turn.
         if (_defender == null)
         {
             MessageLogger.Log($"{_attacker.ActorName} used {move.Name}, but there was no target! It hit nothing but air.", MessageLogger.IneffectiveColor);
             return;
         }
 
-        // Bump animation plays on every attempted attack (hit or miss) -
-        // only "no PP"/"no target" above skip it, since nothing actually
-        // happens in those cases.
         _attacker.PlayBumpAttack(_defender.GridPosition);
 
-        // Phase 21: IsGuaranteedHit ("必中") bypasses the roll AND the
-        // defender's evasion rank entirely; otherwise both the
-        // attacker's accuracy rank and the defender's evasion rank
-        // multiply onto the move's base Accuracy before the roll.
-        bool hits = move.IsGuaranteedHit
-            || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplier() * _defender.StatusEffects.GetEvasionMultiplier();
-
-        if (!hits)
-        {
-            MessageLogger.Log($"{_attacker.ActorName} used {move.Name} on {_defender.ActorName}! It missed!", MessageLogger.IneffectiveColor);
-            return;
-        }
-
-        // Phase 21: a pure Status-category move (e.g. poison_fog) never
-        // deals damage - it only ever carries a RankEffect and/or an
-        // AilmentEffect, applied below and shared with the secondary-
-        // effect path damaging moves use further down.
+        // Pure Status move: no damage, only rank/ailment effects.
         if (move.Category == MoveCategory.Status)
         {
             MessageLogger.Log($"{_attacker.ActorName} used {move.Name}!");
@@ -102,25 +90,95 @@ public class AttackAction : IAction
             return;
         }
 
-        var attackerStats = _attacker.Stats;
-        var defenderStats = _defender.Stats;
+        int damage = StrikeTarget(move, _defender);
+        if (damage > 0)
+        {
+            bool alive = _defender.Stats.IsAlive;
+            ApplyRankEffectIfAny(move, alive);
+            ApplyAilmentEffectIfAny(move, alive);
+            if (!alive) HandleFaint(_defender);
+        }
 
+        ApplyRecoil(move, damage);
+    }
+
+    // ---- Multi-target path (Line/TwoTile/Area/Room/FullFloor) ----
+    private void ExecuteAoe(MoveData move)
+    {
+        // Area centres on the primary defender's tile; without one, on the
+        // tile the user faces. Room's corridor fallback uses the same aim.
+        var aim = _defender != null ? _defender.GridPosition : _attacker.GridPosition + _attacker.FacingDirection;
+        _attacker.PlayBumpAttack(aim);
+
+        var targets = TargetResolver.Resolve(move.Range, _attacker, aim, _attacker.Grid, _floorController);
+        if (targets.Count == 0)
+        {
+            MessageLogger.Log($"{_attacker.ActorName} used {move.Name}, but nothing was in range!", MessageLogger.IneffectiveColor);
+            return; // §6: no damage, no recoil (self-stun already applied)
+        }
+
+        MessageLogger.Log($"{_attacker.ActorName} used {move.Name}!");
+
+        // Self-targeted rank effect fires once, not per target (§4-2).
+        ApplySelfRankOnce(move);
+
+        int totalDamage = 0;
+        // Snapshot the list - HandleFaint QueueFree's dead targets, and a
+        // Room/FullFloor list can include entities that die mid-loop.
+        foreach (var target in new List<Entity>(targets))
+        {
+            if (!GodotObject.IsInstanceValid(target) || !target.IsAlive) continue;
+
+            if (move.Category == MoveCategory.Status)
+            {
+                ApplyAoeAilment(move, target);
+                ApplyEnemyRankToTarget(move, target);
+                continue;
+            }
+
+            int damage = StrikeTarget(move, target);
+            if (damage <= 0) continue; // missed this target
+
+            totalDamage += damage;
+            if (target.Stats.IsAlive)
+            {
+                ApplyAoeAilment(move, target);
+                ApplyEnemyRankToTarget(move, target);
+            }
+            else
+            {
+                HandleFaint(target);
+            }
+        }
+
+        ApplyRecoil(move, totalDamage);
+    }
+
+    // Core per-target strike: hit roll -> crit -> Phase 16 damage -> burn
+    // penalty -> apply. Returns damage dealt (0 = missed). Shared verbatim
+    // by the single and AoE paths so both roll accuracy/crit/damage
+    // identically. Does NOT apply secondary rank/ailment or death - the
+    // caller sequences those (secondary effects run on a still-alive
+    // target before death processing).
+    private int StrikeTarget(MoveData move, Entity target)
+    {
+        // IsGuaranteedHit bypasses the roll and the target's evasion rank.
+        bool hits = move.IsGuaranteedHit
+            || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplier() * target.StatusEffects.GetEvasionMultiplier();
+        if (!hits)
+        {
+            MessageLogger.Log($"{_attacker.ActorName}'s {move.Name} missed {target.ActorName}!", MessageLogger.IneffectiveColor);
+            return 0;
+        }
+
+        var defenderStats = target.Stats;
         float typeMultiplier = TypeChartManager.GetMultiplier(move.Type, defenderStats.Type1, defenderStats.Type2);
 
-        // Crit roll (after the hit is confirmed - a miss can't crit).
-        // The move's own CritRankBonus is folded into the attacker's crit
-        // rank first (300-move import). rank 5 gives chance 1.0, and
-        // GD.Randf() is [0,1), so "< 1.0" is always true = guaranteed crit.
+        // Crit rolled per target (§4-3), with the move's CritRankBonus.
         bool isCrit = GD.Randf() < _attacker.StatusEffects.GetCritChanceWithBonus(move.CritRankBonus);
 
-        // The three rank multipliers. On a crit, each is clamped to
-        // "at least neutral for the attacker" so DISADVANTAGEOUS rank
-        // corrections are ignored (treated as 1.0), while advantageous
-        // ones still apply (confirmed rule): Atk/Power keep their upside
-        // (Max with 1.0), Def keeps its downside for the attacker (Min
-        // with 1.0, since a lower defense multiplier means more damage).
         float atkMul = _attacker.StatusEffects.GetAtkMultiplier();
-        float defMul = _defender.StatusEffects.GetDefMultiplier();
+        float defMul = target.StatusEffects.GetDefMultiplier();
         float powerMul = _attacker.StatusEffects.GetElementPowerMultiplier(move.Type);
         if (isCrit)
         {
@@ -129,9 +187,9 @@ public class AttackAction : IAction
             powerMul = Mathf.Max(1f, powerMul);
         }
 
-        var damageContext = new DamageContext
+        var ctx = new DamageContext
         {
-            BaseAtk = attackerStats.Attack,
+            BaseAtk = _attacker.Stats.Attack,
             BaseDef = defenderStats.Defense,
             BasePower = move.Power,
             AttackElement = move.Type,
@@ -141,89 +199,54 @@ public class AttackAction : IAction
             DefMultiplier = defMul,
             PowerMultiplier = powerMul,
             CritMultiplier = isCrit ? 1.5f : 1.0f,
-            // AtkFlatBuff/PowerFlatBuff/DefFlatBuff/ElementResistCut/
-            // PartyElementCut stay at DamageContext's own defaults - no
-            // skill database exists yet to source those from.
         };
 
-        int damage = DamageCalculator.Calculate(damageContext);
+        int damage = DamageCalculator.Calculate(ctx);
 
-        // Burn's contact-damage penalty ("接触技の与ダメージ*50%",
-        // confirmed as a x0.5 output halving): applied as a flat post-hoc
-        // adjustment to the final integer damage, outside DamageCalculator
-        // entirely (Phase 16's pipeline stays untouched) - this is a
-        // damage-OUTPUT penalty, not a stat-based modifier like the rank
-        // multipliers above. IsContact defaults false, so none of the
-        // current 97 (all ranged) moves trigger this yet.
+        // Burn's contact-damage penalty (x0.5 output halving), outside
+        // DamageCalculator - a damage-output penalty, not a stat modifier.
         if (_attacker.StatusEffects.Ailment == AilmentType.Burn && move.IsContact)
             damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.5f));
 
         defenderStats.TakeDamage(damage);
-
-        // Rank decay's "10 turns since last damage" clock resets on
-        // REAL damage only (dealt or received) - confirmed explicitly
-        // NOT to include DoT ticks (see Entity.ResolveStatusTick, which
-        // never touches this).
         _attacker.StatusEffects.ResetDamageTimer();
-        _defender.StatusEffects.ResetDamageTimer();
+        target.StatusEffects.ResetDamageTimer();
 
-        _defender.PlayHitFlash();
-        _defender.ShowDamagePopup(damage);
-        MessageLogger.Log($"{_attacker.ActorName} used {move.Name} on {_defender.ActorName}! It hit for {damage} damage.");
+        target.PlayHitFlash();
+        target.ShowDamagePopup(damage);
+        MessageLogger.Log($"{_attacker.ActorName} used {move.Name} on {target.ActorName}! It hit for {damage} damage.");
 
         if (isCrit)
             MessageLogger.Log("A critical hit!", MessageLogger.EffectiveColor);
-
         if (typeMultiplier > 1f)
             MessageLogger.Log("It's super effective!", MessageLogger.EffectiveColor);
         else if (typeMultiplier < 1f)
             MessageLogger.Log("It's not very effective...", MessageLogger.IneffectiveColor);
 
-        bool defenderAliveAfterDamage = defenderStats.IsAlive;
-
-        // Phase 21 secondary effects: a damaging move can ALSO carry a
-        // RankEffect/AilmentEffect (e.g. a future "10% chance to poison"
-        // move) - applied after damage resolves. Guarded by
-        // defenderAliveAfterDamage so a defeated target isn't afflicted
-        // post-mortem; a Self-targeted effect always applies regardless
-        // (the attacker is still alive here by construction). None of
-        // the current 97 moves set either field, so this is inert today.
-        ApplyRankEffectIfAny(move, defenderAliveAfterDamage);
-        ApplyAilmentEffectIfAny(move, defenderAliveAfterDamage);
-
-        if (!defenderAliveAfterDamage)
-        {
-            MessageLogger.Log($"{_defender.ActorName} fainted!", MessageLogger.FaintColor);
-
-            // Phase 18-A defeat detection point - fired before Die() so
-            // the victim node is still fully readable. EXP distribution
-            // hangs off this notification (see ExperienceSystem).
-            _floorController?.Experience?.NotifyDefeated(_defender, _attacker);
-
-            // EXP is handled by NotifyDefeated above (Phase 18-A: full
-            // amount to every living party member, PMD-style) - only
-            // kill-tracking and drops remain faction-gated here.
-            if (_attacker.Faction == Faction.Player && _defender.Faction == Faction.Enemy)
-            {
-                _floorController?.RunTracker.RecordKill(_defender.ActorName);
-                MaterialDropTable.TryDrop(_floorController, _defender.GridPosition, _defender.ActorName);
-            }
-
-            _defender.Die();
-        }
-
-        // Recoil (§2): on a hit, the user loses floor(damage dealt x
-        // RecoilHpPercent/100) - self-inflicted, no attacker, so NOT an
-        // EXP source and can self-KO (no clamp beyond HP floor 0). Only
-        // reached on a landed hit, so "all miss -> no recoil" holds. The
-        // multi-target loop (a later commit) sums damage across targets
-        // before calling this; for the single-target path it's just this
-        // one hit's damage.
-        ApplyRecoil(move, damage);
+        return damage;
     }
 
-    // Self-inflicted recoil damage, shared by the single- and multi-
-    // target paths. totalDamageDealt is the sum across every target hit.
+    // Death processing shared by both paths: EXP notification (before
+    // Die() so the victim is still readable), then faction-gated kill
+    // tracking + drops, then Die().
+    private void HandleFaint(Entity victim)
+    {
+        MessageLogger.Log($"{victim.ActorName} fainted!", MessageLogger.FaintColor);
+
+        _floorController?.Experience?.NotifyDefeated(victim, _attacker);
+
+        if (_attacker.Faction == Faction.Player && victim.Faction == Faction.Enemy)
+        {
+            _floorController?.RunTracker.RecordKill(victim.ActorName);
+            MaterialDropTable.TryDrop(_floorController, victim.GridPosition, victim.ActorName);
+        }
+
+        victim.Die();
+    }
+
+    // Self-inflicted recoil, shared by both paths. totalDamageDealt is the
+    // sum across every target hit (§2/§4-3: recoil fires once, on the
+    // combined damage). Self-KO -> normal death, no EXP (no attacker).
     private void ApplyRecoil(MoveData move, int totalDamageDealt)
     {
         if (move.RecoilHpPercent <= 0 || totalDamageDealt <= 0) return;
@@ -234,8 +257,6 @@ public class AttackAction : IAction
         _attacker.Stats.TakeDamage(recoil);
         MessageLogger.Log($"{_attacker.ActorName} is hit by recoil! ({recoil} damage)", MessageLogger.IneffectiveColor);
 
-        // Self-KO: normal death processing, but NO NotifyDefeated (a
-        // recoil death has no attacker, so it awards no EXP - §2/§6).
         if (!_attacker.Stats.IsAlive)
         {
             MessageLogger.Log($"{_attacker.ActorName} fainted from the recoil!", MessageLogger.FaintColor);
@@ -243,36 +264,70 @@ public class AttackAction : IAction
         }
     }
 
-    // Shared by the pure-Status branch and a damaging move's optional
-    // secondary effect. defenderAlive gates Enemy-targeted effects only -
-    // a Self-targeted effect (e.g. the attacker powering up) still lands
-    // even if the defender was just defeated.
+    // ---- Single-target secondary-effect helpers (unchanged Phase 21) ----
     private void ApplyRankEffectIfAny(MoveData move, bool defenderAlive)
     {
         if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
         if (move.RankEffectTarget == StatusTarget.Enemy && !defenderAlive) return;
-        // 300-move import: gate on the move's rank-effect probability
-        // (default 1.0 = always, so every existing rank-effect move is
-        // unchanged; GD.Randf() is [0,1), so ">= 1.0" never fires).
         if (GD.Randf() >= move.RankEffectChance) return;
 
         var target = move.RankEffectTarget == StatusTarget.Self ? _attacker : _defender;
-        var moveElement = Enum.TryParse<Element>(move.Type, out var parsed) ? parsed : Element.Neutral;
-        target.StatusEffects.ApplyRankDelta(move.RankEffectStat, move.RankEffectDelta, moveElement);
-
-        string direction = move.RankEffectDelta > 0 ? "rose" : "fell";
-        MessageLogger.Log($"{target.ActorName}'s {move.RankEffectStat} {direction}!", MessageLogger.NeutralColor);
+        ApplyRankTo(move, target);
     }
 
     private void ApplyAilmentEffectIfAny(MoveData move, bool defenderAlive)
     {
         if (move.AilmentEffect == AilmentType.None) return;
         if (move.AilmentTarget == StatusTarget.Enemy && !defenderAlive) return;
-        if (GD.Randf() * 100f >= move.AilmentChance) return; // chance roll failed - silently no effect
+        if (GD.Randf() * 100f >= move.AilmentChance) return;
 
         var target = move.AilmentTarget == StatusTarget.Self ? _attacker : _defender;
-        if (target.StatusEffects.TryApplyAilment(move.AilmentEffect))
-            MessageLogger.Log($"{target.ActorName} was afflicted with {move.AilmentEffect}!", MessageLogger.IneffectiveColor);
+        ApplyAilmentTo(target, move.AilmentEffect);
+    }
+
+    // ---- AoE secondary-effect helpers ----
+    // Ailment lands on every hit target (§4-2 "状態異常は全対象へ通常判定"),
+    // rolled per target - ignores AilmentTarget's Self/Enemy split, since
+    // in AoE every hit actor IS a target (no current AoE move self-ailments).
+    private void ApplyAoeAilment(MoveData move, Entity target)
+    {
+        if (move.AilmentEffect == AilmentType.None) return;
+        if (GD.Randf() * 100f >= move.AilmentChance) return;
+        ApplyAilmentTo(target, move.AilmentEffect);
+    }
+
+    // Enemy-targeted rank effect: only opposing-faction hit targets, per
+    // target (§4-2 "Target=Enemy なら敵対勢力の被弾者のみ").
+    private void ApplyEnemyRankToTarget(MoveData move, Entity target)
+    {
+        if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
+        if (move.RankEffectTarget != StatusTarget.Enemy) return;
+        if (target.Faction == _attacker.Faction) return; // opposing only
+        if (GD.Randf() >= move.RankEffectChance) return;
+        ApplyRankTo(move, target);
+    }
+
+    // Self-targeted rank effect: the user, once (§4-2 "Target=Self は使用者に1回").
+    private void ApplySelfRankOnce(MoveData move)
+    {
+        if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
+        if (move.RankEffectTarget != StatusTarget.Self) return;
+        if (GD.Randf() >= move.RankEffectChance) return;
+        ApplyRankTo(move, _attacker);
+    }
+
+    private void ApplyRankTo(MoveData move, Entity target)
+    {
+        var moveElement = Enum.TryParse<Element>(move.Type, out var parsed) ? parsed : Element.Neutral;
+        target.StatusEffects.ApplyRankDelta(move.RankEffectStat, move.RankEffectDelta, moveElement);
+        string direction = move.RankEffectDelta > 0 ? "rose" : "fell";
+        MessageLogger.Log($"{target.ActorName}'s {move.RankEffectStat} {direction}!", MessageLogger.NeutralColor);
+    }
+
+    private void ApplyAilmentTo(Entity target, AilmentType ailment)
+    {
+        if (target.StatusEffects.TryApplyAilment(ailment))
+            MessageLogger.Log($"{target.ActorName} was afflicted with {ailment}!", MessageLogger.IneffectiveColor);
         else
             MessageLogger.Log($"{target.ActorName} is unaffected - already under a status condition.", MessageLogger.NeutralColor);
     }

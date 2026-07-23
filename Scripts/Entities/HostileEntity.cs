@@ -114,7 +114,7 @@ public partial class HostileEntity : Entity
         {
             var moveSlot = Moves.GetFirstAutoUsableMove();
             if (moveSlot != null)
-                return new AttackAction(this, _currentTarget, moveSlot);
+                return new AttackAction(this, _currentTarget, moveSlot, FloorController);
 
             GD.Print($"[AI] {ActorName} is next to {_currentTarget.ActorName} but has no auto-usable move - holding position.");
             return new WaitAction(this);
