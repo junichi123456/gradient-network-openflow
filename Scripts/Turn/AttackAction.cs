@@ -52,6 +52,16 @@ public class AttackAction : IAction
 
         _moveSlot.CurrentPp--;
 
+        // Self-stun (大技の隙): applied at USE time, regardless of hit or
+        // miss (confirmed §9-4) - the move has now fired, so the attacker
+        // eats a skipped next turn even on a whiff. Reuses Phase 21's Stun
+        // (consumed at the start of the attacker's next action-cycle).
+        if (move.SelfStunNextTurn)
+        {
+            _attacker.StatusEffects.TryApplyAilment(AilmentType.Stun);
+            MessageLogger.Log($"{_attacker.ActorName} must recharge after {move.Name}!", MessageLogger.IneffectiveColor);
+        }
+
         // Menu-invoked moves have no manual target (Phase 6: no
         // direction-picker for moves) - autoaim may still come up empty,
         // in which case the move just swings at nothing but still costs
@@ -200,6 +210,36 @@ public class AttackAction : IAction
             }
 
             _defender.Die();
+        }
+
+        // Recoil (§2): on a hit, the user loses floor(damage dealt x
+        // RecoilHpPercent/100) - self-inflicted, no attacker, so NOT an
+        // EXP source and can self-KO (no clamp beyond HP floor 0). Only
+        // reached on a landed hit, so "all miss -> no recoil" holds. The
+        // multi-target loop (a later commit) sums damage across targets
+        // before calling this; for the single-target path it's just this
+        // one hit's damage.
+        ApplyRecoil(move, damage);
+    }
+
+    // Self-inflicted recoil damage, shared by the single- and multi-
+    // target paths. totalDamageDealt is the sum across every target hit.
+    private void ApplyRecoil(MoveData move, int totalDamageDealt)
+    {
+        if (move.RecoilHpPercent <= 0 || totalDamageDealt <= 0) return;
+
+        int recoil = Mathf.FloorToInt(totalDamageDealt * move.RecoilHpPercent / 100f);
+        if (recoil <= 0) return;
+
+        _attacker.Stats.TakeDamage(recoil);
+        MessageLogger.Log($"{_attacker.ActorName} is hit by recoil! ({recoil} damage)", MessageLogger.IneffectiveColor);
+
+        // Self-KO: normal death processing, but NO NotifyDefeated (a
+        // recoil death has no attacker, so it awards no EXP - §2/§6).
+        if (!_attacker.Stats.IsAlive)
+        {
+            MessageLogger.Log($"{_attacker.ActorName} fainted from the recoil!", MessageLogger.FaintColor);
+            _attacker.Die();
         }
     }
 
