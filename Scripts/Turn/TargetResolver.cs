@@ -1,0 +1,99 @@
+using System.Collections.Generic;
+using System.Linq;
+using Godot;
+using MysteryDungeon.Combat;
+using MysteryDungeon.Dungeon;
+using MysteryDungeon.Entities;
+using MysteryDungeon.Grid;
+
+namespace MysteryDungeon.Turn;
+
+// Move-consumption phase: turns a MoveRange shape into the concrete list
+// of actors an AoE move hits. Pure/immediate, no side effects - callers
+// (AttackAction's multi-target loop) apply damage/status themselves.
+//
+// Friendly-fire is intentional (confirmed §9-2): every actor EXCEPT the
+// user is a candidate, allies included; only the user is excluded, and
+// downed actors are already absent from FloorController.AllActors().
+public static class TargetResolver
+{
+    // Adjacent is the single-target/bump path (handled by AttackAction
+    // directly, never routed here). Everything else collects a tile set
+    // and returns the live actors standing on it.
+    //
+    // aimTile centres an Area blast and is the corridor fallback for a
+    // Room move - AttackAction passes the primary defender's tile (or the
+    // tile the user faces when there's no primary defender).
+    public static List<Entity> Resolve(MoveRange range, Entity user, Vector2I aimTile, GridManager grid, FloorController floor)
+    {
+        var candidates = floor.AllActors().Where(e => e != user);
+
+        // FullFloor ignores geometry entirely - everyone but the user.
+        if (range == MoveRange.FullFloor)
+            return candidates.ToList();
+
+        var tiles = ResolveTiles(range, user.GridPosition, user.FacingDirection, aimTile, grid, floor);
+        var tileSet = new HashSet<Vector2I>(tiles);
+        return candidates.Where(e => tileSet.Contains(e.GridPosition)).ToList();
+    }
+
+    // The tile set a shape covers. Pure geometry - exposed for testing.
+    public static List<Vector2I> ResolveTiles(MoveRange range, Vector2I userPos, Vector2I facing, Vector2I aimTile, GridManager grid, FloorController floor)
+    {
+        var tiles = new List<Vector2I>();
+
+        switch (range)
+        {
+            case MoveRange.Line:
+                CastRay(userPos, facing, int.MaxValue, grid, tiles);
+                break;
+
+            case MoveRange.TwoTile:
+                CastRay(userPos, facing, 2, grid, tiles);
+                break;
+
+            case MoveRange.Area: // 3x3 centred on the impact tile
+                for (int dx = -1; dx <= 1; dx++)
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        var t = aimTile + new Vector2I(dx, dy);
+                        if (grid.InBounds(t)) tiles.Add(t);
+                    }
+                break;
+
+            case MoveRange.Room:
+                var bounds = floor.GetRoomBoundsAt(userPos);
+                if (bounds == null)
+                {
+                    tiles.Add(aimTile); // corridor -> single-target fallback (§4-1)
+                }
+                else
+                {
+                    var r = bounds.Value;
+                    for (int x = r.Position.X; x < r.Position.X + r.Size.X; x++)
+                        for (int y = r.Position.Y; y < r.Position.Y + r.Size.Y; y++)
+                            tiles.Add(new Vector2I(x, y));
+                }
+                break;
+        }
+
+        return tiles;
+    }
+
+    // Steps from userPos along `facing`, adding each tile until it leaves
+    // bounds or hits a Wall (the projectile stops AT the wall - the wall
+    // tile itself isn't added). maxSteps caps the length (TwoTile = 2).
+    private static void CastRay(Vector2I userPos, Vector2I facing, int maxSteps, GridManager grid, List<Vector2I> tiles)
+    {
+        if (facing == Vector2I.Zero) return;
+
+        var pos = userPos;
+        for (int step = 0; step < maxSteps; step++)
+        {
+            pos += facing;
+            if (!grid.InBounds(pos)) break;
+            if (grid.GetTile(pos).Terrain == TerrainType.Wall) break; // stops at the wall
+            tiles.Add(pos);
+        }
+    }
+}

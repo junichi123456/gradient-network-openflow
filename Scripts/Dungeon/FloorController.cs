@@ -116,6 +116,31 @@ public partial class FloorController : Node2D
         return GetEnemyAt(pos);
     }
 
+    // Every live actor on the floor (player + allies + enemies/boss).
+    // Downed allies/enemies are already pruned from their lists and
+    // QueueFree'd on death, so this is naturally "the living roster" -
+    // used by TargetResolver for AoE target collection.
+    public IEnumerable<Entity> AllActors()
+    {
+        if (_player != null && _player.IsAlive) yield return _player;
+
+        foreach (var ally in _spawnedAllies)
+            if (GodotObject.IsInstanceValid(ally) && ally.IsAlive) yield return ally;
+
+        foreach (var enemy in _spawnedEnemies)
+            if (GodotObject.IsInstanceValid(enemy) && enemy.IsAlive) yield return enemy;
+    }
+
+    // The Rect2I of the room containing `pos`, or null if `pos` is in a
+    // corridor (RoomId < 0) - TargetResolver falls back to single-target
+    // for a Room-range move fired from a corridor (§4-1).
+    public Rect2I? GetRoomBoundsAt(Vector2I pos)
+    {
+        int roomId = _grid.GetRoomId(pos);
+        if (roomId < 0 || roomId >= _rooms.Count) return null;
+        return _rooms[roomId].Bounds;
+    }
+
     // Auto-aim for menu-invoked moves (Phase 6 dropped the manual
     // direction-picker for moves so future room-wide/self-buff moves
     // don't need one): prefers whatever the actor is currently facing,

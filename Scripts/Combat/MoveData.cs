@@ -14,11 +14,12 @@ public enum MoveCategory
 // MoveDatabase, matching "未実装の射程は単体扱い").
 public enum MoveRange
 {
-    Adjacent,
-    Line,
-    TwoTile,
-    Room,
-    FullFloor,
+    Adjacent,   // 単体: the bumped/auto-aimed single target
+    Line,       // 直線: straight in the user's facing, stops at a wall
+    TwoTile,    // 2マス: two tiles ahead in the facing, stops at a wall
+    Area,       // 範囲: 3x3 centred on the impact tile
+    Room,       // 部屋: every tile of the user's room (corridor -> single)
+    FullFloor,  // フロア全体: every actor on the floor
 }
 
 // Phase 21: which rank track a move's RankEffect touches. ElementPower
