@@ -2,6 +2,7 @@ using Godot;
 using MysteryDungeon.Grid;
 using MysteryDungeon.Turn;
 using MysteryDungeon.Dungeon;
+using MysteryDungeon.Species;
 
 namespace MysteryDungeon.Entities;
 
@@ -37,14 +38,17 @@ public partial class AllyEntity : Entity
 
     public override void _Ready()
     {
-        ActorName = SpeciesId;
         DebugColor = Colors.LightGreen;
 
         // Base*/SpriteKey/Type now come from this ally's species
         // (Data/species.json) via Entity._Ready - the fixed Partner is
-        // 60/60/60 + SpriteKey 001, and a recruited species brings its
-        // OWN stats/look instead of the old uniform placeholder tier.
+        // 001 モコロン (70/70/70 + SpriteKey 001), and a recruited species
+        // brings its OWN stats/look instead of the old uniform tier.
         base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
+
+        // SpeciesId is a canonical numeric id now (Phase 20 unification),
+        // so use the DB's DisplayName for logs/UI rather than the raw id.
+        ActorName = SpeciesDatabase.Instance?.Get(SpeciesId)?.DisplayName ?? SpeciesId;
 
         Faction = Faction.Player;
 

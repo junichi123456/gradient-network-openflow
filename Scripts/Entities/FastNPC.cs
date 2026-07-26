@@ -13,11 +13,10 @@ public partial class FastNPC : HostileEntity
         Speed = 200;
         DebugColor = Colors.OrangeRed;
 
-        // Base 60/75/50 (speedy glass cannon) + Type Electric come from
-        // species "FastNPC" (Data/species.json). No SpriteKey yet
-        // (placeholder). Its real threat is Speed 200 acting twice per
-        // player turn.
-        SpeciesId = "FastNPC";
+        // Base 60/75/70 (ボルトラ) + Type Electric + SpriteKey 042 come
+        // from species "042" (Data/species.json). Its real threat is
+        // Speed 200 acting twice per player turn.
+        SpeciesId = "042";
         base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
 
         Stats.SpAttack = 10;

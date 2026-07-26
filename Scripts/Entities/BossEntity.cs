@@ -14,11 +14,11 @@ public partial class BossEntity : HostileEntity
         Speed = 100;
         DebugColor = Colors.Purple;
 
-        // Base 100/100/95 (upper-mid tier) + Type Dragon come from
-        // species "DungeonBoss" (Data/species.json). The boss's real
-        // edge comes from these plus FloorController's floor-based Level
-        // bump on top of the Lv15 base below.
-        SpeciesId = "DungeonBoss";
+        // Base 105/100/100 (フェスキー) + Type Dragon + SpriteKey 124 come
+        // from species "124" (Data/species.json). The boss's real edge
+        // comes from these plus FloorController's floor-based Level bump
+        // on top of the Lv15 base below.
+        SpeciesId = "124";
         base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
 
         Stats.SpAttack = 15;

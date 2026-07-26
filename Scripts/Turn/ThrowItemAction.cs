@@ -111,7 +111,7 @@ public class ThrowItemAction : IAction
                 // (Phase 18-A party-wide distribution).
                 if (_thrower.Faction == Faction.Player && hitEntity.Faction == Faction.Enemy)
                 {
-                    _floorController.RunTracker.RecordKill(hitEntity.ActorName);
+                    _floorController.RunTracker.RecordKill(hitEntity.SpeciesId);
                     MaterialDropTable.TryDrop(_floorController, hitEntity.GridPosition, hitEntity.ActorName);
                 }
 

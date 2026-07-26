@@ -237,7 +237,7 @@ public class AttackAction : IAction
 
         if (_attacker.Faction == Faction.Player && victim.Faction == Faction.Enemy)
         {
-            _floorController?.RunTracker.RecordKill(victim.ActorName);
+            _floorController?.RunTracker.RecordKill(victim.SpeciesId);
             MaterialDropTable.TryDrop(_floorController, victim.GridPosition, victim.ActorName);
         }
 

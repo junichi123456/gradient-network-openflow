@@ -45,7 +45,7 @@ public partial class Player : Entity
 
     public override void _Ready()
     {
-        SpeciesId = "player"; // fills SpriteKey 009 + Base 70/70/70 from the DB
+        SpeciesId = "009"; // ブシガエル: fills SpriteKey 009 + Base 80/100/85 + Type Water from the DB
         base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
 
         if (!InputMap.HasAction(DiagonalLockAction))
@@ -62,7 +62,7 @@ public partial class Player : Entity
         MaterialInventory = new MaterialInventory { Name = "MaterialInventory" };
         AddChild(MaterialInventory);
 
-        // Base 70/70/70 + Type Neutral now come from species "player"
+        // Base 80/100/85 + Type Water now come from species "009"
         // (Data/species.json) via Entity._Ready. Level/belly/SpAtk-SpDef
         // stay here - individual/non-species values.
         Stats.SpAttack = 10;

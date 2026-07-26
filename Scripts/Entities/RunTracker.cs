@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using MysteryDungeon.Species;
 using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Entities;
@@ -32,10 +33,14 @@ public class RunTracker
             int chancePercent = count / 2;
             bool success = rng.RandiRange(1, 100) <= chancePercent;
 
+            // speciesId is a canonical numeric id (Phase 20); show the
+            // human-readable species name in the player-facing log.
+            string displayName = SpeciesDatabase.Instance?.Get(speciesId)?.DisplayName ?? speciesId;
+
             if (success)
-                MessageLogger.Log($"{speciesId} wants to join your party!", MessageLogger.ProgressionColor);
+                MessageLogger.Log($"{displayName} wants to join your party!", MessageLogger.ProgressionColor);
             else
-                GD.Print($"[Result] Defeated {count}x {speciesId} (Chance: {chancePercent}%). Roll: Failed.");
+                GD.Print($"[Result] Defeated {count}x {displayName} (Chance: {chancePercent}%). Roll: Failed.");
 
             if (success) joined.Add(speciesId);
         }

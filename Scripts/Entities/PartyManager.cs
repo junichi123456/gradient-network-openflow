@@ -19,7 +19,7 @@ namespace MysteryDungeon.Entities;
 public class PartyManager
 {
     public const int MaxActiveParty = 2;
-    private const string FixedPartnerSpeciesId = "Partner";
+    private const string FixedPartnerSpeciesId = "001"; // モコロン
 
     private readonly List<string> _recruitedRoster = new();
     private readonly List<string> _activeParty = new();

@@ -14,10 +14,9 @@ public partial class DummyNPC : HostileEntity
         Speed = 100;
         DebugColor = Colors.SkyBlue;
 
-        // Base 60/60/60 (Chikipi's floor tier) + SpriteKey 003 (@0.05
-        // scale) + Type Neutral all come from species "DummyNPC"
-        // (Data/species.json).
-        SpeciesId = "DummyNPC";
+        // Base 60/60/60 (タマコッコ's floor tier) + SpriteKey 003 + Type
+        // Neutral all come from species "003" (Data/species.json).
+        SpeciesId = "003";
         base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
 
         Stats.SpAttack = 6;
