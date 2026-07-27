@@ -67,6 +67,12 @@ public class AttackAction : IAction
             ExecuteAoe(move);
         else
             ExecuteSingle(move);
+
+        // Self-destruct (メガトン自爆): the user faints once the move has
+        // fully resolved, hit or miss (§ self_guaranteed_death). Applied
+        // here - after both paths, after their recoil/drain - so the
+        // damage the move dealt still lands first.
+        ApplySelfDestruct(move);
     }
 
     // ---- Single-target / bump path (Adjacent) - Phase 6..21 behaviour ----
@@ -99,6 +105,7 @@ public class AttackAction : IAction
             if (!alive) HandleFaint(_defender);
         }
 
+        ApplyDrain(move, damage);
         ApplyRecoil(move, damage);
     }
 
@@ -151,6 +158,7 @@ public class AttackAction : IAction
             }
         }
 
+        ApplyDrain(move, totalDamage);
         ApplyRecoil(move, totalDamage);
     }
 
@@ -199,6 +207,7 @@ public class AttackAction : IAction
             DefMultiplier = defMul,
             PowerMultiplier = powerMul,
             CritMultiplier = isCrit ? 1.5f : 1.0f,
+            DragonMultiplier = move.DragonMultiplier,
         };
 
         int damage = DamageCalculator.Calculate(ctx);
@@ -262,6 +271,35 @@ public class AttackAction : IAction
             MessageLogger.Log($"{_attacker.ActorName} fainted from the recoil!", MessageLogger.FaintColor);
             _attacker.Die();
         }
+    }
+
+    // HP drain (DrainHalf kit): the user recovers DrainHpPercent of the
+    // combined damage dealt, once - the healing sibling of ApplyRecoil.
+    // Clamped to MaxHp by Stats.Heal; a dead attacker (self-KO'd by a
+    // simultaneous mechanic) never heals.
+    private void ApplyDrain(MoveData move, int totalDamageDealt)
+    {
+        if (move.DrainHpPercent <= 0 || totalDamageDealt <= 0) return;
+        if (!_attacker.Stats.IsAlive) return;
+
+        int heal = Mathf.FloorToInt(totalDamageDealt * move.DrainHpPercent / 100f);
+        if (heal <= 0) return;
+
+        _attacker.Stats.Heal(heal);
+        MessageLogger.Log($"{_attacker.ActorName} drained {heal} HP!", MessageLogger.ProgressionColor);
+    }
+
+    // Self-destruct (メガトン自爆): the user always faints after the move
+    // resolves. Routed through the same Die() path recoil self-KO uses,
+    // so NPC removal / Player game-over both behave correctly.
+    private void ApplySelfDestruct(MoveData move)
+    {
+        if (!move.SelfGuaranteedDeath) return;
+        if (!_attacker.IsAlive) return; // already down (recoil/other) - don't double-mark
+
+        _attacker.Stats.TakeDamage(_attacker.Stats.CurrentHp);
+        MessageLogger.Log($"{_attacker.ActorName} self-destructed!", MessageLogger.FaintColor);
+        _attacker.Die();
     }
 
     // ---- Single-target secondary-effect helpers (unchanged Phase 21) ----

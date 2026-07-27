@@ -35,6 +35,11 @@ internal class MoveJson
     [JsonPropertyName("rank_effect_chance")] public float RankEffectChance { get; set; } = 1.0f;
     [JsonPropertyName("recoil_hp_percent")] public int RecoilHpPercent { get; set; }
     [JsonPropertyName("self_stun_next_turn")] public bool SelfStunNextTurn { get; set; }
+
+    // 400-move import additions (all optional; missing keys keep defaults).
+    [JsonPropertyName("dragon_multiplier")] public float DragonMultiplier { get; set; } = 1.0f;
+    [JsonPropertyName("drain_hp_percent")] public int DrainHpPercent { get; set; }
+    [JsonPropertyName("self_guaranteed_death")] public bool SelfGuaranteedDeath { get; set; }
 }
 
 // JSON-driven move definitions. DungeonScene._Ready() calls Load()
@@ -100,6 +105,9 @@ public static class MoveDatabase
                 RankEffectChance = entry.RankEffectChance,
                 RecoilHpPercent = entry.RecoilHpPercent,
                 SelfStunNextTurn = entry.SelfStunNextTurn,
+                DragonMultiplier = entry.DragonMultiplier,
+                DrainHpPercent = entry.DrainHpPercent,
+                SelfGuaranteedDeath = entry.SelfGuaranteedDeath,
             };
         }
 

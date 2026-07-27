@@ -48,4 +48,10 @@ public class DamageContext
     // PowerMultiplier before they reach here) - this field is only the
     // final 1.5x damage boost.
     public float CritMultiplier { get; set; } = 1.0f;
+
+    // System multiplier - a move's own unconditional DragonMultiplier
+    // (400-move import). Default 1.0 so every existing benchmark and the
+    // whole non-dragon path is unchanged; AttackAction sets it from
+    // move.DragonMultiplier. Joins the Step-4 chain like CritMultiplier.
+    public float DragonMultiplier { get; set; } = 1.0f;
 }

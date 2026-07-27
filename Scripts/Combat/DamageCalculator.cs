@@ -59,6 +59,7 @@ public static class DamageCalculator
         float finalDamageFloat = rawDamage
             * ctx.TypeEffectiveness
             * ctx.CritMultiplier
+            * ctx.DragonMultiplier
             * (1f - ctx.ElementResistCut)
             * (1f - ctx.PartyElementCut);
 

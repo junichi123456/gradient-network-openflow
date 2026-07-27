@@ -110,9 +110,26 @@ public class MoveData
     // Default 1.0 keeps every existing rank-effect move deterministic.
     public float RankEffectChance { get; set; } = 1.0f;
 
-    // Data-declaration only (consumed in a later phase): recoil damage
-    // as a percent of the damage dealt, and whether the user is stunned
-    // on its next turn after using this move.
+    // Recoil damage as a percent of the damage dealt (consumed by
+    // AttackAction.ApplyRecoil), and whether the user is stunned on its
+    // next turn after using this move.
     public int RecoilHpPercent { get; set; } = 0;
     public bool SelfStunNextTurn { get; set; } = false;
+
+    // ---- 400-move import (new_moves_100) additional mechanics ----
+
+    // Unconditional move-level damage multiplier (a power/recoil
+    // tradeoff on the 竜 recoil kit - 1.25/1.5). Slots into
+    // DamageCalculator's Step-4 multiplier chain as a default-1.0 factor,
+    // so a move without it (the overwhelming majority) is unaffected.
+    public float DragonMultiplier { get; set; } = 1.0f;
+
+    // HP drain: the user recovers this percent of the damage dealt (50 =
+    // "half of damage dealt", the DrainHalf kit). 0 = no drain. Fires
+    // once on the combined damage, same contract as RecoilHpPercent.
+    public int DrainHpPercent { get; set; } = 0;
+
+    // Self-destruct (メガトン自爆): the user faints after the move fully
+    // resolves, whether or not it connected. Default false.
+    public bool SelfGuaranteedDeath { get; set; } = false;
 }
