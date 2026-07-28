@@ -1137,16 +1137,6 @@
     "is_contact": true
   },
   {
-    "id": "MV_113",
-    "name": "竜息弾",
-    "type": "Dragon",
-    "category": "Special",
-    "power": 70,
-    "accuracy": 100,
-    "max_pp": 18,
-    "range": "Adjacent"
-  },
-  {
     "id": "MV_114",
     "name": "螺旋竜波",
     "type": "Dragon",
