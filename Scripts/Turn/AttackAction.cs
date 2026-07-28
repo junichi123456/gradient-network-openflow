@@ -54,13 +54,21 @@ public class AttackAction : IAction
         // Self-stun (大技の隙): applied at USE time, regardless of hit or
         // miss (§9-4). Reuses Phase 21's Stun (consumed at the start of
         // the attacker's next action-cycle). Blocked entirely while the
-        // user is MudCaked (泥まみれ blocks SelfStunNextTurn along with
-        // every other move-level secondary effect - status-redesign §4-5).
-        if (move.SelfStunNextTurn && !_attacker.StatusEffects.IsMudCaked)
+        // user is MudCaked, or the (primary) target holds きょうじんなから
+        // だ - trait_catalog_v2 §3 reuses MudCaked's whole block-list
+        // wholesale ("泥まみれの実装を流用"), see DefenderBlocksSecondaryEffects.
+        if (move.SelfStunNextTurn && !DefenderBlocksSecondaryEffects)
         {
             _attacker.StatusEffects.TryApplyAilment(AilmentType.Stun);
             MessageLogger.Log($"{_attacker.ActorName} must recharge after {move.Name}!", MessageLogger.IneffectiveColor);
         }
+
+        // きぬぬい: arms on USE (hit or miss - "氷技使用後"), regardless of
+        // MudCaked/toughness blocking (this is the USER's own trait firing
+        // off their own move choice, not a secondary effect being done TO
+        // anyone - trait_catalog_v2 §3).
+        if (move.Type == "Ice" && HasTrait(_attacker, "kinuinui"))
+            _attacker.StatusEffects.ArmDamageReduction();
 
         // AoE needs the floor (actor enumeration) and the grid; without
         // them (shouldn't happen in-dungeon) fall back to the single path.
@@ -178,9 +186,13 @@ public class AttackAction : IAction
         // already are, when IsGuaranteedHit short-circuits the roll.
         float darknessMul = _attacker.StatusEffects.IsInDarkness ? 0.7f : 1.0f;
 
+        // クイックステップ (§3): always +1 evasion rank, folded into the
+        // same table lookup the ordinary Evasion rank uses.
+        int evasionBonus = HasTrait(target, "quick_step") ? 1 : 0;
+
         // IsGuaranteedHit bypasses the roll and the target's evasion rank.
         bool hits = move.IsGuaranteedHit
-            || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplier() * target.StatusEffects.GetEvasionMultiplier() * darknessMul;
+            || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplier() * target.StatusEffects.GetEvasionMultiplierWithBonus(evasionBonus) * darknessMul;
         if (!hits)
         {
             MessageLogger.Log($"{_attacker.ActorName}'s {move.Name} missed {target.ActorName}!", MessageLogger.IneffectiveColor);
@@ -205,15 +217,21 @@ public class AttackAction : IAction
         // double-counting to guard.
         var (atkType1, atkType2) = CombatTypes(_attacker);
         bool stabApplies = move.Type == atkType1 || (!string.IsNullOrEmpty(atkType2) && move.Type == atkType2);
-        float stabMultiplier = stabApplies ? 1.2f : 1.0f;
+        // 〇〇派 (§3): when STAB already applies, a matching stab-template
+        // trait replaces the usual 1.2x with 1.5x ("差し替え" - it's not an
+        // additional stack, STAB just becomes stronger for this holder).
+        float stabMultiplier = stabApplies
+            ? (HasMatchingTemplateTrait(_attacker, move.Type, TraitTemplateKind.Stab) ? 1.5f : 1.2f)
+            : 1.0f;
 
-        // MudCaked (泥まみれ) neuters the move's OWN CritRankBonus/
-        // DragonMultiplier for its user (status-redesign §4-5) - the
-        // attacker's own CritRank and the base formula are untouched,
-        // only the move-level kickers are blocked.
-        bool userMudCaked = _attacker.StatusEffects.IsMudCaked;
-        int effectiveCritRankBonus = userMudCaked ? 0 : move.CritRankBonus;
-        float effectiveDragonMultiplier = userMudCaked ? 1.0f : move.DragonMultiplier;
+        // MudCaked (泥まみれ) OR the target holding きょうじんなからだ (§3,
+        // reuses MudCaked's block-list wholesale) neuters the move's OWN
+        // CritRankBonus/DragonMultiplier for this strike - the attacker's
+        // own CritRank and the base formula are untouched, only the
+        // move-level kickers are blocked.
+        bool blocked = BlocksSecondaryEffectsFor(target);
+        int effectiveCritRankBonus = blocked ? 0 : move.CritRankBonus;
+        float effectiveDragonMultiplier = blocked ? 1.0f : move.DragonMultiplier;
 
         // Crit rolled per target (§4-3), with the move's CritRankBonus.
         bool isCrit = GD.Randf() < _attacker.StatusEffects.GetCritChanceWithBonus(effectiveCritRankBonus);
@@ -251,6 +269,18 @@ public class AttackAction : IAction
         if (_attacker.StatusEffects.Ailment == AilmentType.Burn && move.IsContact)
             damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.5f));
 
+        // 〇〇流 (§3): the DEFENDER holding a resist-template trait matching
+        // the incoming move's own element takes only 15% damage (85%
+        // reduction) - keyed on the trait's declared element, independent
+        // of the holder's real Type1/Type2.
+        if (HasMatchingTemplateTrait(target, move.Type, TraitTemplateKind.Resist))
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.15f));
+
+        // きぬぬい (§3): one-time -10% on the next damage this entity takes,
+        // armed by their own prior Ice-move use (see Execute()).
+        if (target.StatusEffects.ConsumeDamageReductionIfArmed())
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.9f));
+
         defenderStats.TakeDamage(damage);
         _attacker.StatusEffects.ResetDamageTimer();
         target.StatusEffects.ResetDamageTimer();
@@ -282,6 +312,40 @@ public class AttackAction : IAction
     private static (string Type1, string Type2) CombatTypes(Entity entity) =>
         entity.StatusEffects.IsSoaked ? ("Water", "") : (entity.Stats.Type1, entity.Stats.Type2);
 
+    // ---- trait_catalog_v2 helpers ----
+
+    private static bool HasTrait(Entity entity, string traitId) =>
+        entity != null && entity.Stats.Trait == traitId;
+
+    // Does `entity` hold a Template-category trait of `kind` whose own
+    // Element matches `moveType` (e.g. an entity holding "fire_stab" and
+    // moveType=="Fire")? Used by 派/流 (§3) - templates are keyed by their
+    // OWN declared element, independent of the holder's real Type1/Type2.
+    private static bool HasMatchingTemplateTrait(Entity entity, string moveType, TraitTemplateKind kind)
+    {
+        var trait = TraitDatabase.Get(entity.Stats.Trait);
+        return trait != null && trait.Category == TraitCategory.Template
+            && trait.TemplateKind == kind && trait.Element?.ToString() == moveType;
+    }
+
+    // きょうじんなからだ (§3): reuses MudCaked's ENTIRE block-list wholesale
+    // ("泥まみれの実装を流用") whenever the (primary) defender holds it -
+    // the move behaves, for every one of MudCaked's gates, as if the
+    // ATTACKER were MudCaked for this one strike. _defender is this
+    // class's existing "primary target/aim reference" (already used for
+    // AoE's aim tile) - reused here as the one well-defined reference for
+    // the attacker-self-effect gates (Recoil/Drain/SelfStun/SelfRankOnce),
+    // which have no natural "which of several AoE targets" answer.
+    private bool DefenderBlocksSecondaryEffects =>
+        _attacker.StatusEffects.IsMudCaked || HasTrait(_defender, "kyoujin_na_karada");
+
+    // Per-target version for gates that already have a specific target in
+    // hand (StrikeTarget's crit/dragon neutering, AoE's per-target
+    // ailment/enemy-rank) - strictly more precise than the _defender-based
+    // check above when a single AttackAction hits several AoE targets.
+    private bool BlocksSecondaryEffectsFor(Entity target) =>
+        _attacker.StatusEffects.IsMudCaked || HasTrait(target, "kyoujin_na_karada");
+
     // Death processing shared by both paths: EXP notification (before
     // Die() so the victim is still readable), then faction-gated kill
     // tracking + drops, then Die().
@@ -303,10 +367,11 @@ public class AttackAction : IAction
     // Self-inflicted recoil, shared by both paths. totalDamageDealt is the
     // sum across every target hit (§2/§4-3: recoil fires once, on the
     // combined damage). Self-KO -> normal death, no EXP (no attacker).
-    // Blocked entirely while the user is MudCaked (status-redesign §4-5).
+    // Blocked while the user is MudCaked, or the (primary) target holds
+    // きょうじんなからだ (status-redesign §4-5 / trait_catalog_v2 §3).
     private void ApplyRecoil(MoveData move, int totalDamageDealt)
     {
-        if (_attacker.StatusEffects.IsMudCaked) return;
+        if (DefenderBlocksSecondaryEffects) return;
         if (move.RecoilHpPercent <= 0 || totalDamageDealt <= 0) return;
 
         int recoil = Mathf.FloorToInt(totalDamageDealt * move.RecoilHpPercent / 100f);
@@ -326,11 +391,13 @@ public class AttackAction : IAction
     // combined damage dealt, once - the healing sibling of ApplyRecoil.
     // Clamped to MaxHp by Stats.Heal; a dead attacker (self-KO'd by a
     // simultaneous mechanic) never heals. Blocked while the user is
-    // MudCaked (§4-5, DrainHalf is in the blocked-effects list) OR
-    // VineBound (§4-3, "あらゆる回復を無効化" - drain is a recovery path).
+    // MudCaked (§4-5, DrainHalf is in the blocked-effects list), the
+    // (primary) target holds きょうじんなからだ (trait_catalog_v2 §3), OR
+    // the user is VineBound (§4-3, "あらゆる回復を無効化" - drain is a
+    // recovery path).
     private void ApplyDrain(MoveData move, int totalDamageDealt)
     {
-        if (_attacker.StatusEffects.IsMudCaked || _attacker.StatusEffects.IsVineBound) return;
+        if (DefenderBlocksSecondaryEffects || _attacker.StatusEffects.IsVineBound) return;
         if (move.DrainHpPercent <= 0 || totalDamageDealt <= 0) return;
         if (!_attacker.Stats.IsAlive) return;
 
@@ -355,11 +422,14 @@ public class AttackAction : IAction
     }
 
     // ---- Single-target secondary-effect helpers ----
-    // RankEffect is entirely blocked while the user is MudCaked
-    // (status-redesign §4-5), regardless of Self/Enemy target.
+    // RankEffect is entirely blocked while the user is MudCaked, OR the
+    // (primary) defender holds きょうじんなからだ (trait_catalog_v2 §3's
+    // "全ブロック（泥まみれの実装を流用）" - an unconditional top-of-method
+    // guard, exactly mirroring how the attacker's OWN IsMudCaked already
+    // blocks Self-targeted effects too, not just Enemy-targeted ones).
     private void ApplyRankEffectIfAny(MoveData move, bool defenderAlive)
     {
-        if (_attacker.StatusEffects.IsMudCaked) return;
+        if (DefenderBlocksSecondaryEffects) return;
         if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
         if (move.RankEffectTarget == StatusTarget.Enemy && !defenderAlive) return;
         if (GD.Randf() >= move.RankEffectChance) return;
@@ -372,11 +442,12 @@ public class AttackAction : IAction
     // probability roll (except Stun, unchanged/out of scope per §3) -
     // instead it feeds the target's accumulation trackers (§2), which
     // fire the real ailment once a tracker crosses 1000. Entirely blocked
-    // while the user is MudCaked (§4-5, covers both the declared-ailment
-    // bonus AND the baseline accumulation itself).
+    // while the user is MudCaked (§4-5) OR the (primary) defender holds
+    // きょうじんなからだ (trait_catalog_v2 §3 - same unconditional-guard
+    // reasoning as ApplyRankEffectIfAny above).
     private void ApplyAilmentEffectIfAny(MoveData move, bool defenderAlive)
     {
-        if (_attacker.StatusEffects.IsMudCaked) return;
+        if (DefenderBlocksSecondaryEffects) return;
         if (move.AilmentTarget == StatusTarget.Enemy && !defenderAlive) return;
 
         var target = move.AilmentTarget == StatusTarget.Self ? _attacker : _defender;
@@ -399,7 +470,7 @@ public class AttackAction : IAction
     // split as the single-target path above.
     private void ApplyAoeAilment(MoveData move, Entity target)
     {
-        if (_attacker.StatusEffects.IsMudCaked) return;
+        if (BlocksSecondaryEffectsFor(target)) return;
 
         if (move.AilmentEffect == AilmentType.Stun)
         {
@@ -413,10 +484,11 @@ public class AttackAction : IAction
 
     // Enemy-targeted rank effect: only opposing-faction hit targets, per
     // target (§4-2 "Target=Enemy なら敵対勢力の被弾者のみ"). Blocked while
-    // the user is MudCaked (§4-5).
+    // the user is MudCaked (§4-5) or that specific target holds きょうじん
+    // なからだ (trait_catalog_v2 §3).
     private void ApplyEnemyRankToTarget(MoveData move, Entity target)
     {
-        if (_attacker.StatusEffects.IsMudCaked) return;
+        if (BlocksSecondaryEffectsFor(target)) return;
         if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
         if (move.RankEffectTarget != StatusTarget.Enemy) return;
         if (target.Faction == _attacker.Faction) return; // opposing only
@@ -425,10 +497,11 @@ public class AttackAction : IAction
     }
 
     // Self-targeted rank effect: the user, once (§4-2 "Target=Self は使用者に1回").
-    // Blocked while the user is MudCaked (§4-5).
+    // Blocked while the user is MudCaked, or the (primary) target holds
+    // きょうじんなからだ (§4-5 / trait_catalog_v2 §3's "全ブロック" reuse).
     private void ApplySelfRankOnce(MoveData move)
     {
-        if (_attacker.StatusEffects.IsMudCaked) return;
+        if (DefenderBlocksSecondaryEffects) return;
         if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
         if (move.RankEffectTarget != StatusTarget.Self) return;
         if (GD.Randf() >= move.RankEffectChance) return;

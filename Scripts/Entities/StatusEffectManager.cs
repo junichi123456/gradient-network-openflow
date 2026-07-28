@@ -54,6 +54,11 @@ public partial class StatusEffectManager : Node
 
     public float GetEvasionMultiplier() => EvasionTable[EvasionRank];
 
+    // Evasion with a flat rank bonus folded in (クイックステップ: always
+    // +1) - same pattern as GetCritChanceWithBonus's move-level bonus.
+    public float GetEvasionMultiplierWithBonus(int bonus) =>
+        EvasionTable[Mathf.Clamp(EvasionRank + bonus, EvasionRankMin, EvasionRankMax)];
+
     // ---- Element power rank: 4 states (-2..-1, +1..+2), single slot ----
     // Only one element's correction can be active at a time; applying a
     // correction for a DIFFERENT element fully overwrites the slot (see
@@ -251,8 +256,10 @@ public partial class StatusEffectManager : Node
     public bool IsStunned { get; private set; }
 
     // Paralyze blocks movement only - AttackAction/bump-attacks still
-    // work (see TurnScheduler/Player's use of this).
-    public bool IsMovementLocked => Ailment == AilmentType.Paralyze;
+    // work (see TurnScheduler/Player's use of this). バッテリー holders
+    // occupy this same Ailment value permanently but are exempt from the
+    // movement lock itself (trait_catalog_v2 §3 - see MarkAsBattery).
+    public bool IsMovementLocked => Ailment == AilmentType.Paralyze && !_isBatteryHolder;
 
     // Convenience checks for the 4 new ailments' engine hooks (see
     // AttackAction/UseItemAction) - same pattern as IsMovementLocked.
@@ -260,6 +267,38 @@ public partial class StatusEffectManager : Node
     public bool IsMudCaked => Ailment == AilmentType.MudCaked;
     public bool IsVineBound => Ailment == AilmentType.VineBound;
     public bool IsInDarkness => Ailment == AilmentType.Darkness;
+
+    // ---- trait_catalog_v2 stage 1 traits ----
+
+    // バッテリー: permanently occupies the Ailment slot with Paralyze (帯電)
+    // via the ordinary mutual-exclusion rule, so no other primary ailment
+    // can ever be applied - but Paralyze's own effect (movement lock, see
+    // IsMovementLocked above) is suppressed for this holder, and its
+    // AdvanceTurn clear-countdown never fires (see the Paralyze case
+    // below), so the occupation never lapses. Called once at spawn
+    // (Entity._Ready) and re-asserted by Reset() (floor transitions), since
+    // Reset() would otherwise wipe the occupying Ailment.
+    private bool _isBatteryHolder;
+
+    public void MarkAsBattery()
+    {
+        _isBatteryHolder = true;
+        TryApplyAilment(AilmentType.Paralyze);
+    }
+
+    // きぬぬい: armed after this entity uses an Ice-type move (see
+    // AttackAction.Execute), consumed on the next hit THIS entity takes
+    // (see AttackAction.StrikeTarget) for a one-time 10% damage reduction.
+    private bool _damageReductionArmed;
+
+    public void ArmDamageReduction() => _damageReductionArmed = true;
+
+    public bool ConsumeDamageReductionIfArmed()
+    {
+        if (!_damageReductionArmed) return false;
+        _damageReductionArmed = false;
+        return true;
+    }
 
     // Re-applying while already afflicted with one of the 5 is a no-op
     // (confirmed: re-poisoning a Poisoned target does NOT escalate it to
@@ -312,6 +351,13 @@ public partial class StatusEffectManager : Node
         _toxicStacks = 0;
         IsStunned = false;
         _accumulation.Clear();
+        _damageReductionArmed = false;
+
+        // バッテリー's permanent occupation must survive a floor-transition
+        // Reset() (the player is the one entity that persists across
+        // floors and calls this explicitly) - re-assert it right after
+        // clearing, same as the initial MarkAsBattery() call.
+        if (_isBatteryHolder) TryApplyAilment(AilmentType.Paralyze);
     }
 
     // Before-action hook (Freeze/Stun only - Paralyze never reaches this,
@@ -378,6 +424,9 @@ public partial class StatusEffectManager : Node
                 break;
 
             case AilmentType.Paralyze:
+                // バッテリー holders never roll for the clear - their
+                // occupation of this slot is permanent (trait_catalog_v2 §3).
+                if (_isBatteryHolder) break;
                 _ailmentTurnsElapsed++;
                 if (_ailmentTurnsElapsed >= 5 || GD.Randf() < 0.20f) ClearAilment();
                 break;

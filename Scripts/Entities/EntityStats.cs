@@ -58,6 +58,11 @@ public partial class EntityStats : Node
     // CurrentHp it's enough to fully reconstruct a member.
     public string SpeciesId { get; set; } = "";
 
+    // trait_catalog_v2: which Data/traits.json entry this species has
+    // (single slot, filled by FillFromSpecies). "" = unassigned (stage 9
+    // hasn't run the 287-species assignment yet - see SpeciesData.Trait).
+    public string Trait { get; set; } = "";
+
     [Export] public int BaseAtk { get; set; } = 70;
     [Export] public int BaseDef { get; set; } = 70;
     [Export] public int BreakthroughAtk { get; set; } = 0;
@@ -171,6 +176,7 @@ public partial class EntityStats : Node
         BaseExpYield = species.BaseExpYield;
         Type1 = species.Types.Count > 0 ? species.Types[0].ToString() : "Neutral";
         Type2 = species.Types.Count > 1 ? species.Types[1].ToString() : "";
+        Trait = species.Trait;
     }
 
     public (int Level, long CurrentExp, int CurrentHp) CapturePersistedState() => (Level, CurrentExp, CurrentHp);

@@ -155,6 +155,13 @@ public partial class Entity : Node2D, ITurnActor
             AddChild(StatusEffects);
         }
 
+        // trait_catalog_v2 stage 1: バッテリー permanently occupies the
+        // Ailment slot (帯電/Paralyze) via the mutual-exclusion rule, with
+        // Paralyze's own movement-lock effect suppressed for its holder -
+        // see StatusEffectManager.MarkAsBattery.
+        if (Stats.Trait == "battery")
+            StatusEffects.MarkAsBattery();
+
         // Centered + an upward Offset puts the sprite's bottom edge (its
         // "feet") at this node's own origin instead of the sprite's
         // middle - required for Y-Sort to order overlapping characters
