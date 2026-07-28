@@ -21,6 +21,11 @@ internal class SpeciesJson
     [JsonPropertyName("types")] public List<string> Types { get; set; } = new();
     [JsonPropertyName("learnset")] public List<LearnsetJson> Learnset { get; set; } = new();
     [JsonPropertyName("evolution")] public EvolutionJson Evolution { get; set; }
+
+    // trait_catalog_v2 stage 2: both optional for now (data model only -
+    // the actual 287-species assignment is stage 9). "" = unassigned.
+    [JsonPropertyName("trait")] public string Trait { get; set; } = "";
+    [JsonPropertyName("ecology")] public string Ecology { get; set; } = "";
 }
 
 internal class LearnsetJson
@@ -138,6 +143,8 @@ public partial class SpeciesDatabase : Node
             Types = types,
             Learnset = learnset,
             Evolution = evolution,
+            Trait = j.Trait ?? "",
+            Ecology = j.Ecology ?? "",
         };
     }
 
@@ -189,6 +196,19 @@ public partial class SpeciesDatabase : Node
         foreach (Element element in Enum.GetValues<Element>())
             if (!TypeChartManager.HasType(element.ToString()))
                 errors.Add($"Element '{element}' is missing from type_chart.json - the chart and enum are out of sync.");
+
+        // trait_catalog_v2 stage 2: Trait/Ecology are soft-checked only -
+        // a non-empty id must resolve against its catalog, but an EMPTY
+        // Trait is not (yet) an error, since the real 287-species
+        // assignment is stage 9, landing after this data-model stage.
+        foreach (var species in _species.Values)
+        {
+            if (!string.IsNullOrEmpty(species.Trait) && TraitDatabase.Get(species.Trait) == null)
+                errors.Add($"Species '{species.SpeciesId}' has trait '{species.Trait}' not found in traits.json.");
+
+            if (!string.IsNullOrEmpty(species.Ecology) && EcologyDatabase.Get(species.Ecology) == null)
+                errors.Add($"Species '{species.SpeciesId}' has ecology '{species.Ecology}' not found in ecology.json.");
+        }
 
         return errors;
     }

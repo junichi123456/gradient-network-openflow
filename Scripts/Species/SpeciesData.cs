@@ -48,6 +48,19 @@ public class SpeciesData
     // Definition-only this phase. null = this species does not evolve.
     // ToSpeciesId existence IS validated at startup (see SpeciesDatabase).
     public EvolutionData Evolution { get; set; }
+
+    // trait_catalog_v2: Trait is single/required BY DESIGN (every species
+    // ultimately has exactly one - a species-specific Unique trait, or a
+    // Template fallback if it has none of its own), but stage 2's data
+    // model lands ahead of stage 9's actual 287-species assignment, so
+    // "" (unassigned) is a valid transitional value - SpeciesDatabase.
+    // Validate() only checks a NON-EMPTY Trait resolves against
+    // TraitDatabase, it does not yet require every species to have one.
+    public string Trait { get; set; } = "";
+
+    // Ecology is a separate, OPTIONAL slot (independent of Trait - a
+    // species can hold both, or neither). null/"" = no ecology.
+    public string Ecology { get; set; } = "";
 }
 
 public class LearnsetEntry

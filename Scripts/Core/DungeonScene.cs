@@ -43,6 +43,8 @@ public partial class DungeonScene : Node2D
         TypeChartManager.Load();
         MoveDatabase.Load();
         ItemDatabase.Load();
+        TraitDatabase.Load();
+        EcologyDatabase.Load();
 
         var grid = GetNode<GridManager>(GridManagerPath);
         var turnManager = GetNode<TurnManager>(TurnManagerPath);
