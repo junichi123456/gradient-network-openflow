@@ -182,6 +182,16 @@ public class AttackAction : IAction
         var defenderStats = target.Stats;
         float typeMultiplier = TypeChartManager.GetMultiplier(move.Type, defenderStats.Type1, defenderStats.Type2);
 
+        // STAB (same-type attack bonus): x1.2 when the move's Type
+        // matches either of the attacker's own Types. A move is always
+        // single-typed and an attacker has at most 2 Types, so this is a
+        // strict either/or - "both Types match" can't structurally occur
+        // (multitype_stab_proposal §7-1), no double-counting to guard.
+        var attackerStats = _attacker.Stats;
+        bool stabApplies = move.Type == attackerStats.Type1
+            || (!string.IsNullOrEmpty(attackerStats.Type2) && move.Type == attackerStats.Type2);
+        float stabMultiplier = stabApplies ? 1.2f : 1.0f;
+
         // Crit rolled per target (§4-3), with the move's CritRankBonus.
         bool isCrit = GD.Randf() < _attacker.StatusEffects.GetCritChanceWithBonus(move.CritRankBonus);
 
@@ -203,6 +213,7 @@ public class AttackAction : IAction
             AttackElement = move.Type,
             DefenderElement = defenderStats.Type1,
             TypeEffectiveness = typeMultiplier,
+            StabMultiplier = stabMultiplier,
             AtkMultiplier = atkMul,
             DefMultiplier = defMul,
             PowerMultiplier = powerMul,

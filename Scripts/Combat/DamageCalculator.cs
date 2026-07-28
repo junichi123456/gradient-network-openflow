@@ -5,10 +5,11 @@ namespace MysteryDungeon.Combat;
 // Phase 16 damage pipeline - replaces the old Palworld-datamined formula
 // (0.8 * sqrt(Level+1) * (Atk/Def) * Power * STAB * TypeMultiplier *
 // Random(0.9-1.1)). Level scaling is unnecessary now (the new formula
-// scales naturally from Atk/Def growth alone), STAB is dropped from the
-// calculator itself (reintroduce later via AtkMultiplier/PowerMultiplier
-// from a skill database), and damage is fully deterministic (no random
-// roll) so it stays benchmarkable.
+// scales naturally from Atk/Def growth alone), and damage is fully
+// deterministic (no random roll) so it stays benchmarkable. STAB
+// returned as a proper Step-4 multiplier (DamageContext.StabMultiplier,
+// wired by AttackAction) in the multitype/STAB phase - every benchmark
+// below is unaffected since a dummy context leaves it at the 1.0 default.
 //
 // Benchmark: Atk=70, Def=70, Power=20, no buffs -> damage must be
 // exactly 7 (Player and enemy trading 70/70/70 stats settles in exactly
@@ -58,6 +59,7 @@ public static class DamageCalculator
         // their contexts leave it at 1.0.
         float finalDamageFloat = rawDamage
             * ctx.TypeEffectiveness
+            * ctx.StabMultiplier
             * ctx.CritMultiplier
             * ctx.DragonMultiplier
             * (1f - ctx.ElementResistCut)

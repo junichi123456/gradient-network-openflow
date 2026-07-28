@@ -37,8 +37,20 @@ public class DamageContext
 
     // System multiplier - real type-chart effectiveness (TypeChartManager),
     // not a "buff": always computed for real even while the buff fields
-    // above are still dummy defaults (see AttackAction).
+    // above are still dummy defaults (see AttackAction). Already
+    // multi-type-aware: TypeChartManager.GetMultiplier multiplies across
+    // the defender's Type1/Type2 (empty Type2 = neutral 1.0), so a
+    // dual-typed defender's combined effectiveness lands here as one
+    // resolved value with no change needed on this side.
     public float TypeEffectiveness { get; set; } = 1.0f;
+
+    // System multiplier - STAB (same-type attack bonus): x1.2 when the
+    // move's Type is one of the attacker's own Types. Default 1.0 so
+    // every existing benchmark is unchanged; AttackAction sets this from
+    // attacker.Stats.Type1/Type2. Not a rank multiplier (like
+    // TypeEffectiveness/DragonMultiplier), so it is NOT touched by the
+    // crit rule's "ignore disadvantageous rank corrections" clamp.
+    public float StabMultiplier { get; set; } = 1.0f;
 
     // System multiplier - critical hit (crit). Default 1.0 (no crit) so
     // every existing benchmark and the whole non-crit path is unchanged;
