@@ -53,8 +53,10 @@ public class AttackAction : IAction
 
         // Self-stun (大技の隙): applied at USE time, regardless of hit or
         // miss (§9-4). Reuses Phase 21's Stun (consumed at the start of
-        // the attacker's next action-cycle).
-        if (move.SelfStunNextTurn)
+        // the attacker's next action-cycle). Blocked entirely while the
+        // user is MudCaked (泥まみれ blocks SelfStunNextTurn along with
+        // every other move-level secondary effect - status-redesign §4-5).
+        if (move.SelfStunNextTurn && !_attacker.StatusEffects.IsMudCaked)
         {
             _attacker.StatusEffects.TryApplyAilment(AilmentType.Stun);
             MessageLogger.Log($"{_attacker.ActorName} must recharge after {move.Name}!", MessageLogger.IneffectiveColor);
@@ -170,9 +172,15 @@ public class AttackAction : IAction
     // target before death processing).
     private int StrikeTarget(MoveData move, Entity target)
     {
+        // Darkness (暗闇): a direct x0.7 on the afflicted attacker's own
+        // outgoing hit chance, separate from the AccuracyRank ladder
+        // (status-redesign §4-4). Skipped, like the rank multipliers
+        // already are, when IsGuaranteedHit short-circuits the roll.
+        float darknessMul = _attacker.StatusEffects.IsInDarkness ? 0.7f : 1.0f;
+
         // IsGuaranteedHit bypasses the roll and the target's evasion rank.
         bool hits = move.IsGuaranteedHit
-            || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplier() * target.StatusEffects.GetEvasionMultiplier();
+            || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplier() * target.StatusEffects.GetEvasionMultiplier() * darknessMul;
         if (!hits)
         {
             MessageLogger.Log($"{_attacker.ActorName}'s {move.Name} missed {target.ActorName}!", MessageLogger.IneffectiveColor);
@@ -180,20 +188,35 @@ public class AttackAction : IAction
         }
 
         var defenderStats = target.Stats;
-        float typeMultiplier = TypeChartManager.GetMultiplier(move.Type, defenderStats.Type1, defenderStats.Type2);
+
+        // Soaked (ずぶ濡れ) overrides an entity's COMBAT-relevant Types to
+        // single Water - scoped narrowly to type-effectiveness (here) and
+        // STAB (below) only, per status-redesign §4-2; GetMovementProfile
+        // and everything else keeps reading the real Type1/Type2 (out of
+        // scope - see CombatTypes).
+        var (defType1, defType2) = CombatTypes(target);
+        float typeMultiplier = TypeChartManager.GetMultiplier(move.Type, defType1, defType2);
 
         // STAB (same-type attack bonus): x1.2 when the move's Type
-        // matches either of the attacker's own Types. A move is always
-        // single-typed and an attacker has at most 2 Types, so this is a
-        // strict either/or - "both Types match" can't structurally occur
-        // (multitype_stab_proposal §7-1), no double-counting to guard.
-        var attackerStats = _attacker.Stats;
-        bool stabApplies = move.Type == attackerStats.Type1
-            || (!string.IsNullOrEmpty(attackerStats.Type2) && move.Type == attackerStats.Type2);
+        // matches either of the attacker's own (possibly Soaked-overridden)
+        // Types. A move is always single-typed and an attacker has at most
+        // 2 Types, so this is a strict either/or - "both Types match"
+        // can't structurally occur (multitype_stab_proposal §7-1), no
+        // double-counting to guard.
+        var (atkType1, atkType2) = CombatTypes(_attacker);
+        bool stabApplies = move.Type == atkType1 || (!string.IsNullOrEmpty(atkType2) && move.Type == atkType2);
         float stabMultiplier = stabApplies ? 1.2f : 1.0f;
 
+        // MudCaked (泥まみれ) neuters the move's OWN CritRankBonus/
+        // DragonMultiplier for its user (status-redesign §4-5) - the
+        // attacker's own CritRank and the base formula are untouched,
+        // only the move-level kickers are blocked.
+        bool userMudCaked = _attacker.StatusEffects.IsMudCaked;
+        int effectiveCritRankBonus = userMudCaked ? 0 : move.CritRankBonus;
+        float effectiveDragonMultiplier = userMudCaked ? 1.0f : move.DragonMultiplier;
+
         // Crit rolled per target (§4-3), with the move's CritRankBonus.
-        bool isCrit = GD.Randf() < _attacker.StatusEffects.GetCritChanceWithBonus(move.CritRankBonus);
+        bool isCrit = GD.Randf() < _attacker.StatusEffects.GetCritChanceWithBonus(effectiveCritRankBonus);
 
         float atkMul = _attacker.StatusEffects.GetAtkMultiplier();
         float defMul = target.StatusEffects.GetDefMultiplier();
@@ -211,14 +234,14 @@ public class AttackAction : IAction
             BaseDef = defenderStats.Defense,
             BasePower = move.Power,
             AttackElement = move.Type,
-            DefenderElement = defenderStats.Type1,
+            DefenderElement = defType1,
             TypeEffectiveness = typeMultiplier,
             StabMultiplier = stabMultiplier,
             AtkMultiplier = atkMul,
             DefMultiplier = defMul,
             PowerMultiplier = powerMul,
             CritMultiplier = isCrit ? 1.5f : 1.0f,
-            DragonMultiplier = move.DragonMultiplier,
+            DragonMultiplier = effectiveDragonMultiplier,
         };
 
         int damage = DamageCalculator.Calculate(ctx);
@@ -231,6 +254,11 @@ public class AttackAction : IAction
         defenderStats.TakeDamage(damage);
         _attacker.StatusEffects.ResetDamageTimer();
         target.StatusEffects.ResetDamageTimer();
+
+        // Darkness clears on a landed Special-category hit, from any
+        // source (status-redesign §4-6 "発生源は問わない").
+        if (move.Category == MoveCategory.Special)
+            target.StatusEffects.ClearAilmentIfType(AilmentType.Darkness);
 
         target.PlayHitFlash();
         target.ShowDamagePopup(damage);
@@ -245,6 +273,14 @@ public class AttackAction : IAction
 
         return damage;
     }
+
+    // Soaked (ずぶ濡れ) override, scoped to combat-type resolution only
+    // (TypeEffectiveness + STAB) - see StrikeTarget. GetMovementProfile
+    // and every other Type1/Type2 reader is untouched (status-redesign
+    // §4-2's explicit (a)/(b) scope; (c) - ally elemental buffs - has no
+    // system to hook into yet and is a declared no-op for now).
+    private static (string Type1, string Type2) CombatTypes(Entity entity) =>
+        entity.StatusEffects.IsSoaked ? ("Water", "") : (entity.Stats.Type1, entity.Stats.Type2);
 
     // Death processing shared by both paths: EXP notification (before
     // Die() so the victim is still readable), then faction-gated kill
@@ -267,8 +303,10 @@ public class AttackAction : IAction
     // Self-inflicted recoil, shared by both paths. totalDamageDealt is the
     // sum across every target hit (§2/§4-3: recoil fires once, on the
     // combined damage). Self-KO -> normal death, no EXP (no attacker).
+    // Blocked entirely while the user is MudCaked (status-redesign §4-5).
     private void ApplyRecoil(MoveData move, int totalDamageDealt)
     {
+        if (_attacker.StatusEffects.IsMudCaked) return;
         if (move.RecoilHpPercent <= 0 || totalDamageDealt <= 0) return;
 
         int recoil = Mathf.FloorToInt(totalDamageDealt * move.RecoilHpPercent / 100f);
@@ -287,9 +325,12 @@ public class AttackAction : IAction
     // HP drain (DrainHalf kit): the user recovers DrainHpPercent of the
     // combined damage dealt, once - the healing sibling of ApplyRecoil.
     // Clamped to MaxHp by Stats.Heal; a dead attacker (self-KO'd by a
-    // simultaneous mechanic) never heals.
+    // simultaneous mechanic) never heals. Blocked while the user is
+    // MudCaked (§4-5, DrainHalf is in the blocked-effects list) OR
+    // VineBound (§4-3, "あらゆる回復を無効化" - drain is a recovery path).
     private void ApplyDrain(MoveData move, int totalDamageDealt)
     {
+        if (_attacker.StatusEffects.IsMudCaked || _attacker.StatusEffects.IsVineBound) return;
         if (move.DrainHpPercent <= 0 || totalDamageDealt <= 0) return;
         if (!_attacker.Stats.IsAlive) return;
 
@@ -313,9 +354,12 @@ public class AttackAction : IAction
         _attacker.Die();
     }
 
-    // ---- Single-target secondary-effect helpers (unchanged Phase 21) ----
+    // ---- Single-target secondary-effect helpers ----
+    // RankEffect is entirely blocked while the user is MudCaked
+    // (status-redesign §4-5), regardless of Self/Enemy target.
     private void ApplyRankEffectIfAny(MoveData move, bool defenderAlive)
     {
+        if (_attacker.StatusEffects.IsMudCaked) return;
         if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
         if (move.RankEffectTarget == StatusTarget.Enemy && !defenderAlive) return;
         if (GD.Randf() >= move.RankEffectChance) return;
@@ -324,31 +368,55 @@ public class AttackAction : IAction
         ApplyRankTo(move, target);
     }
 
+    // Status-redesign: AilmentEffect no longer applies via a per-hit
+    // probability roll (except Stun, unchanged/out of scope per §3) -
+    // instead it feeds the target's accumulation trackers (§2), which
+    // fire the real ailment once a tracker crosses 1000. Entirely blocked
+    // while the user is MudCaked (§4-5, covers both the declared-ailment
+    // bonus AND the baseline accumulation itself).
     private void ApplyAilmentEffectIfAny(MoveData move, bool defenderAlive)
     {
-        if (move.AilmentEffect == AilmentType.None) return;
+        if (_attacker.StatusEffects.IsMudCaked) return;
         if (move.AilmentTarget == StatusTarget.Enemy && !defenderAlive) return;
-        if (GD.Randf() * 100f >= move.AilmentChance) return;
 
         var target = move.AilmentTarget == StatusTarget.Self ? _attacker : _defender;
-        ApplyAilmentTo(target, move.AilmentEffect);
+
+        if (move.AilmentEffect == AilmentType.Stun)
+        {
+            if (GD.Randf() * 100f >= move.AilmentChance) return;
+            ApplyAilmentTo(target, AilmentType.Stun);
+            return;
+        }
+
+        target.StatusEffects.AccumulateOnHit(move.Type, move.AilmentEffect, move.AilmentChance);
     }
 
     // ---- AoE secondary-effect helpers ----
-    // Ailment lands on every hit target (§4-2 "状態異常は全対象へ通常判定"),
-    // rolled per target - ignores AilmentTarget's Self/Enemy split, since
-    // in AoE every hit actor IS a target (no current AoE move self-ailments).
+    // Ailment/accumulation lands on every hit target (§4-2 "状態異常は全対象
+    // へ通常判定"), per target - ignores AilmentTarget's Self/Enemy split,
+    // since in AoE every hit actor IS a target (no current AoE move
+    // self-ailments). Same Stun-stays-probabilistic / MudCaked-blocks-all
+    // split as the single-target path above.
     private void ApplyAoeAilment(MoveData move, Entity target)
     {
-        if (move.AilmentEffect == AilmentType.None) return;
-        if (GD.Randf() * 100f >= move.AilmentChance) return;
-        ApplyAilmentTo(target, move.AilmentEffect);
+        if (_attacker.StatusEffects.IsMudCaked) return;
+
+        if (move.AilmentEffect == AilmentType.Stun)
+        {
+            if (GD.Randf() * 100f >= move.AilmentChance) return;
+            ApplyAilmentTo(target, AilmentType.Stun);
+            return;
+        }
+
+        target.StatusEffects.AccumulateOnHit(move.Type, move.AilmentEffect, move.AilmentChance);
     }
 
     // Enemy-targeted rank effect: only opposing-faction hit targets, per
-    // target (§4-2 "Target=Enemy なら敵対勢力の被弾者のみ").
+    // target (§4-2 "Target=Enemy なら敵対勢力の被弾者のみ"). Blocked while
+    // the user is MudCaked (§4-5).
     private void ApplyEnemyRankToTarget(MoveData move, Entity target)
     {
+        if (_attacker.StatusEffects.IsMudCaked) return;
         if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
         if (move.RankEffectTarget != StatusTarget.Enemy) return;
         if (target.Faction == _attacker.Faction) return; // opposing only
@@ -357,8 +425,10 @@ public class AttackAction : IAction
     }
 
     // Self-targeted rank effect: the user, once (§4-2 "Target=Self は使用者に1回").
+    // Blocked while the user is MudCaked (§4-5).
     private void ApplySelfRankOnce(MoveData move)
     {
+        if (_attacker.StatusEffects.IsMudCaked) return;
         if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
         if (move.RankEffectTarget != StatusTarget.Self) return;
         if (GD.Randf() >= move.RankEffectChance) return;

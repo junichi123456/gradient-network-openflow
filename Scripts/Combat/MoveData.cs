@@ -44,9 +44,15 @@ public enum StatusTarget
     Enemy,
 }
 
-// Phase 21: the 5 mutually-exclusive primary ailments (Poison/Toxic/
-// Burn/Paralyze/Freeze - see StatusEffectManager) plus Stun, which is
-// independent and does NOT compete with the other 5.
+// Phase 21 + the accumulation-status proposal: 9 mutually-exclusive
+// primary ailments sharing one slot (Poison/Toxic/Burn/Paralyze/Freeze,
+// plus Soaked/MudCaked/VineBound/Darkness added for the 蓄積値1000
+// system - see StatusEffectManager), plus Stun, which is independent and
+// does NOT compete with the other 9. Paralyze=帯電(雷) and Freeze=凍結
+// (氷) are the pre-existing elemental ailments for Electric/Ice; Soaked=
+// ずぶ濡れ(水), MudCaked=泥まみれ(地), VineBound=ツタまみれ(草),
+// Darkness=暗闇(闇) are new. Neutral and Dragon have no elemental ailment
+// (excluded from the accumulation system entirely).
 public enum AilmentType
 {
     None,
@@ -56,6 +62,10 @@ public enum AilmentType
     Paralyze,
     Freeze,
     Stun,
+    Soaked,
+    MudCaked,
+    VineBound,
+    Darkness,
 }
 
 // Immutable move definition, loaded once by MoveDatabase from

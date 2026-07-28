@@ -37,8 +37,19 @@ public class UseItemAction : IAction
         switch (data.EffectTarget)
         {
             case ItemEffectTarget.Hp:
-                _user.Stats.Heal(data.EffectValue);
-                MessageLogger.Log($"{_user.ActorName} used {data.Name}. HP +{data.EffectValue} ({_user.Stats.CurrentHp}/{_user.Stats.MaxHp})", MessageLogger.HealColor);
+                // VineBound (ツタまみれ) blocks ALL recovery paths, items
+                // included (status-redesign §4-3) - the item is still
+                // consumed (matches the existing "used at full HP still
+                // consumes" precedent below), it just does nothing.
+                if (_user.StatusEffects.IsVineBound)
+                {
+                    MessageLogger.Log($"{_user.ActorName} used {data.Name}, but the vines block all recovery!", MessageLogger.IneffectiveColor);
+                }
+                else
+                {
+                    _user.Stats.Heal(data.EffectValue);
+                    MessageLogger.Log($"{_user.ActorName} used {data.Name}. HP +{data.EffectValue} ({_user.Stats.CurrentHp}/{_user.Stats.MaxHp})", MessageLogger.HealColor);
+                }
                 _user.Inventory.RemoveItem(_itemId);
                 break;
             case ItemEffectTarget.Belly:

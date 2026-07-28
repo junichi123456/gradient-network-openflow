@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 using MysteryDungeon.Combat;
 
 namespace MysteryDungeon.Entities;
@@ -150,9 +151,99 @@ public partial class StatusEffectManager : Node
 
     private static int StepTowardZero(int value) => value > 0 ? value - 1 : (value < 0 ? value + 1 : 0);
 
-    // ---- Ailments: Poison/Toxic/Burn/Paralyze/Freeze are mutually
-    // exclusive (one slot); Stun is independent and can coexist with any
-    // of them (e.g. a Poisoned entity can also be Stunned).
+    // ---- Accumulation-status system (状態異常の再設計 proposal): every
+    // primary ailment except Stun now triggers via a per-entity 0-1000
+    // accumulator per tracked ailment, rather than a per-hit probability
+    // roll. AilmentChance (still the same 400-move data field, values
+    // unchanged) is reinterpreted as an accumulation multiplier instead
+    // of a hit-chance: chancePercent*10 per declared hit (10%->+100).
+    private readonly Dictionary<AilmentType, int> _accumulation = new();
+    private const int AccumulationThreshold = 1000;
+    private const int BaselineAccumulation = 25;
+
+    // Which ailment a move's own element feeds (§2). Neutral/Dragon
+    // (null) and anything outside the 7-element accumulation set never
+    // accumulate at all - those moves' hits are simply inert here.
+    private static AilmentType? ElementalAilment(string moveType) => moveType switch
+    {
+        "Fire" => AilmentType.Burn,
+        "Water" => AilmentType.Soaked,
+        "Electric" => AilmentType.Paralyze,
+        "Ground" => AilmentType.MudCaked,
+        "Grass" => AilmentType.VineBound,
+        "Ice" => AilmentType.Freeze,
+        "Dark" => AilmentType.Darkness,
+        _ => null,
+    };
+
+    // Called on THIS entity (the one hit) once per successful strike of a
+    // move whose element/ailment could accumulate. declaredAilment/
+    // declaredChancePercent come straight from the move's own
+    // AilmentEffect/AilmentChance fields (Stun is handled separately by
+    // the caller - see AttackAction - and never reaches here).
+    //
+    // Baseline: any hit of a tracked-element move adds a flat +25 to
+    // that element's own tracker, unconditionally. Bonus: if the move's
+    // OWN declared ailment matches that same elemental tracker (e.g. a
+    // Fire move explicitly declaring Burn), or the declared ailment is
+    // Poison/Toxic (which never get a baseline of their own, and accrue
+    // ONLY via a declaring move, on their own independent tracker,
+    // regardless of the move's element), the declared chance is added
+    // on top (chancePercent*10 - a 100%-chance declared move therefore
+    // always maxes a fresh tracker in exactly one hit, same as its old
+    // "always applies" behaviour).
+    //
+    // Accumulation is fully paused while ANY primary ailment is already
+    // active on this entity (§2 "発現中は停止") - the mutual-exclusion
+    // Ailment slot already guarantees at most one can be active, so a
+    // single top-of-method guard covers every tracker at once.
+    public void AccumulateOnHit(string moveType, AilmentType declaredAilment, int declaredChancePercent)
+    {
+        if (Ailment != AilmentType.None) return;
+
+        var elemental = ElementalAilment(moveType);
+        bool declaredMatchesElemental = declaredAilment != AilmentType.None && elemental != null && declaredAilment == elemental.Value;
+
+        if (elemental != null)
+        {
+            int amount = BaselineAccumulation + (declaredMatchesElemental ? declaredChancePercent * 10 : 0);
+            Add(elemental.Value, amount);
+        }
+
+        bool declaredIsPoisonOrToxic = declaredAilment == AilmentType.Poison || declaredAilment == AilmentType.Toxic;
+        if (declaredIsPoisonOrToxic && Ailment == AilmentType.None) // re-check: the elemental Add above may have just triggered
+            Add(declaredAilment, declaredChancePercent * 10);
+    }
+
+    private void Add(AilmentType type, int amount)
+    {
+        if (amount <= 0) return;
+
+        int newValue = _accumulation.GetValueOrDefault(type) + amount;
+        if (newValue >= AccumulationThreshold)
+        {
+            TryApplyAilment(type); // Ailment is guaranteed None here (caller-checked), so this always succeeds
+            _accumulation.Clear(); // §2: ALL trackers reset the instant any one fires
+        }
+        else
+        {
+            _accumulation[type] = newValue;
+        }
+    }
+
+    // Darkness's clear condition ("受けると確定解除、発生源は問わない") is
+    // driven externally by AttackAction on a landed Special-category hit,
+    // not by this component's own turn-based checks - this is the public
+    // seam for that. A no-op if the entity isn't currently under `type`.
+    public void ClearAilmentIfType(AilmentType type)
+    {
+        if (Ailment == type) ClearAilment();
+    }
+
+    // ---- Ailments: Poison/Toxic/Burn/Paralyze/Freeze/Soaked/MudCaked/
+    // VineBound/Darkness are mutually exclusive (one slot); Stun is
+    // independent and can coexist with any of them (e.g. a Poisoned
+    // entity can also be Stunned).
     public AilmentType Ailment { get; private set; } = AilmentType.None;
     private int _ailmentTurnsElapsed;
     private int _toxicStacks; // "n" in the Toxic formula, only meaningful while Ailment == Toxic
@@ -162,6 +253,13 @@ public partial class StatusEffectManager : Node
     // Paralyze blocks movement only - AttackAction/bump-attacks still
     // work (see TurnScheduler/Player's use of this).
     public bool IsMovementLocked => Ailment == AilmentType.Paralyze;
+
+    // Convenience checks for the 4 new ailments' engine hooks (see
+    // AttackAction/UseItemAction) - same pattern as IsMovementLocked.
+    public bool IsSoaked => Ailment == AilmentType.Soaked;
+    public bool IsMudCaked => Ailment == AilmentType.MudCaked;
+    public bool IsVineBound => Ailment == AilmentType.VineBound;
+    public bool IsInDarkness => Ailment == AilmentType.Darkness;
 
     // Re-applying while already afflicted with one of the 5 is a no-op
     // (confirmed: re-poisoning a Poisoned target does NOT escalate it to
@@ -213,6 +311,7 @@ public partial class StatusEffectManager : Node
         _ailmentTurnsElapsed = 0;
         _toxicStacks = 0;
         IsStunned = false;
+        _accumulation.Clear();
     }
 
     // Before-action hook (Freeze/Stun only - Paralyze never reaches this,
@@ -282,6 +381,31 @@ public partial class StatusEffectManager : Node
                 _ailmentTurnsElapsed++;
                 if (_ailmentTurnsElapsed >= 5 || GD.Randf() < 0.20f) ClearAilment();
                 break;
+
+            // Soaked: no DoT, no action lock - just a turn-gated probabilistic
+            // clear. Turns 1-2 never roll; from turn 3 onward, 66% per
+            // action-end (§4-6).
+            case AilmentType.Soaked:
+                _ailmentTurnsElapsed++;
+                if (_ailmentTurnsElapsed >= 3 && GD.Randf() < 0.66f) ClearAilment();
+                break;
+
+            // MudCaked: no DoT, no action lock - deterministic clear at the
+            // end of the 2nd action-cycle under it (§4-6).
+            case AilmentType.MudCaked:
+                _ailmentTurnsElapsed++;
+                if (_ailmentTurnsElapsed >= 2) ClearAilment();
+                break;
+
+            // VineBound: no DoT, no action lock - deterministic clear at the
+            // end of the 4th action-cycle under it (§4-6).
+            case AilmentType.VineBound:
+                _ailmentTurnsElapsed++;
+                if (_ailmentTurnsElapsed >= 4) ClearAilment();
+                break;
+
+            // Darkness has no turn-based clear at all - only AttackAction's
+            // ClearAilmentIfType on a landed Special-category hit (§4-6).
         }
 
         AdvanceRankDecay();
