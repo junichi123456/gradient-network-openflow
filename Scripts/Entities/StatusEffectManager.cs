@@ -28,8 +28,27 @@ public partial class StatusEffectManager : Node
     private const int AtkDefRankMin = -6;
     private const int AtkDefRankMax = 6;
 
-    public float GetAtkMultiplier() => RankMultiplier(AtkRank);
-    public float GetDefMultiplier() => RankMultiplier(DefRank);
+    // 期間限定ランクバフ (攻守一体, trait_catalog_v2 §4 stage 2-c): a
+    // SEPARATE bonus from AtkRank/DefRank, on its own fixed-length
+    // countdown rather than the shared 10-turn step-toward-zero decay
+    // below - it reverts to exactly 0 the instant the countdown reaches
+    // 0 (a hard cutoff), not a gradual step. Folded transparently into
+    // GetAtkMultiplier/GetDefMultiplier (clamped into the same -6..+6
+    // ladder as the permanent rank) so no call site needs to know it
+    // exists separately.
+    private int _tempAtkRankBonus;
+    private int _tempDefRankBonus;
+    private int _tempRankTurnsRemaining;
+
+    public void ArmTemporaryRankBuff(int atkBonus, int defBonus, int turns)
+    {
+        _tempAtkRankBonus = atkBonus;
+        _tempDefRankBonus = defBonus;
+        _tempRankTurnsRemaining = turns;
+    }
+
+    public float GetAtkMultiplier() => RankMultiplier(Mathf.Clamp(AtkRank + _tempAtkRankBonus, AtkDefRankMin, AtkDefRankMax));
+    public float GetDefMultiplier() => RankMultiplier(Mathf.Clamp(DefRank + _tempDefRankBonus, AtkDefRankMin, AtkDefRankMax));
 
     private static float RankMultiplier(int rank) => rank >= 0 ? (2f + rank) / 2f : 2f / (2f - rank);
 
@@ -138,6 +157,19 @@ public partial class StatusEffectManager : Node
 
     private void AdvanceRankDecay()
     {
+        // 期間限定ランクバフ's own independent 2-turn hard-cutoff countdown
+        // - ticks every action-cycle unconditionally, unlike the shared
+        // 10-turn decay below (which early-returns on 9 out of 10 calls).
+        if (_tempRankTurnsRemaining > 0)
+        {
+            _tempRankTurnsRemaining--;
+            if (_tempRankTurnsRemaining <= 0)
+            {
+                _tempAtkRankBonus = 0;
+                _tempDefRankBonus = 0;
+            }
+        }
+
         _turnsSinceLastDamageEvent++;
         if (_turnsSinceLastDamageEvent % DecayIntervalTurns != 0) return;
 
@@ -359,6 +391,9 @@ public partial class StatusEffectManager : Node
         ElementPowerRank = 0;
         CritRank = 0;
         _turnsSinceLastDamageEvent = 0;
+        _tempAtkRankBonus = 0;
+        _tempDefRankBonus = 0;
+        _tempRankTurnsRemaining = 0;
         Ailment = AilmentType.None;
         _ailmentTurnsElapsed = 0;
         _toxicStacks = 0;

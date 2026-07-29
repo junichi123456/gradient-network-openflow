@@ -344,6 +344,46 @@ public class AttackAction : IAction
         if (target.StatusEffects.ConsumeDamageReductionIfArmed())
             damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.9f));
 
+        // わたほうし (§4, stage 2-c): the DEFENDER holding this trait
+        // checks the ATTACKER's own ailment (VineBound) - the reverse
+        // reference direction from every other defensive trait, which
+        // normally checks only its own holder's state ("通常と逆方向の参照").
+        // 50% reduction, per the confirmed magnitude.
+        if (HasTrait(target, "watahoushi") && _attacker.StatusEffects.IsVineBound)
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.5f));
+
+        // あくむのひとみ (§4, stage 2-c): drains 50% of the damage dealt,
+        // but ONLY when the exact named move (ナイトメアボール/パルス) is
+        // used - a direct move-id reference, independent of the move's
+        // own (currently unset) DrainHpPercent field. MudCaked/きょうじん
+        // なからだ still block it (same reasoning as DrainHalf).
+        if (HasTrait(_attacker, "akumu_no_hitomi") && (move.Id == "nightmare_ball" || move.Id == "MV_131")
+            && !BlocksSecondaryEffectsFor(target) && _attacker.Stats.IsAlive)
+        {
+            int akumuHeal = Mathf.Max(1, Mathf.FloorToInt(damage * 0.5f));
+            _attacker.Stats.Heal(akumuHeal);
+            MessageLogger.Log($"{_attacker.ActorName} drained {akumuHeal} HP with {move.Name}!", MessageLogger.ProgressionColor);
+        }
+
+        // 攻守一体 (§4, stage 2-c): triggers on the DEFENDER being hit -
+        // arms a 2-turn Atk+1/Def+1 buff on THEMSELVES, independent of
+        // the normal 10-turn-decay rank system.
+        if (HasTrait(target, "koushu_ittai"))
+            target.StatusEffects.ArmTemporaryRankBuff(atkBonus: 1, defBonus: 1, turns: 2);
+
+        // 瞬間冷凍 (§4, stage 2-c): the ATTACKER's own trait, landing a hit
+        // on a Soaked target bypasses the accumulation system entirely and
+        // inflicts Freeze immediately. Same MudCaked/きょうじんなからだ
+        // block as every other secondary effect. TryApplyAilment alone
+        // would silently no-op here - the Ailment slot is already occupied
+        // by Soaked (both share the same 9-way mutually-exclusive slot),
+        // so Soaked must be cleared first to free the slot for Freeze.
+        if (HasTrait(_attacker, "shunkan_reitou") && target.StatusEffects.IsSoaked && !BlocksSecondaryEffectsFor(target))
+        {
+            target.StatusEffects.ClearAilmentIfType(AilmentType.Soaked);
+            target.StatusEffects.TryApplyAilment(AilmentType.Freeze);
+        }
+
         defenderStats.TakeDamage(damage);
         _attacker.StatusEffects.ResetDamageTimer();
         target.StatusEffects.ResetDamageTimer();
