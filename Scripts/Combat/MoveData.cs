@@ -53,6 +53,12 @@ public enum WeaponTag
     None,
     Slash,    // 斬る系
     ClawFist, // ツメ・こぶし系
+
+    // ブレス/息系 - stage 9 §1.5's 発煙器官 keys off this. Unlike Slash/
+    // ClawFist (still unassigned), this one IS populated in moves.json:
+    // the 5 moves whose names contain "ブレス" or "息" (Ice x2, Dragon x2,
+    // Fire x1), which is the identification rule the spec gives.
+    Breath,
 }
 
 // Phase 21 + the accumulation-status proposal: 9 mutually-exclusive

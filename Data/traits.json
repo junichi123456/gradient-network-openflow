@@ -630,5 +630,141 @@
     "element": "Dark",
     "template_kind": "oshie",
     "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "takane_no_hana",
+    "name": "たかねのはな",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手の技が急所に当たらない(被弾側で会心を強制不発)。"
+  },
+  {
+    "id": "kyoushinzou",
+    "name": "きょうしんぞう",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手の技を急所に受けたとき、自分の攻撃ランクが最大(+6)まで上昇する。"
+  },
+  {
+    "id": "hatsuen_kikan",
+    "name": "発煙器官",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "ブレス/息系の技(WeaponTag=Breath)の威力+10。"
+  },
+  {
+    "id": "blitz_beat",
+    "name": "ブリッツビート",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "(ダンジョン)回避ランクが低下しない。(対戦)優先順位+1 - PvP未実装のため宣言のみ。"
+  },
+  {
+    "id": "moeru_kobushi",
+    "name": "燃えるこぶし",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "接触技の使用時、技本来の属性に加えて炎属性の相性も乗算する。技が既に炎属性なら乗算せず威力+5。"
+  },
+  {
+    "id": "needle_armor",
+    "name": "ニードルアーマー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "接触技を受けたとき、ダメージ処理後に攻撃者へ攻撃者の最大HPの5%のダメージを与える。"
+  },
+  {
+    "id": "hard_block",
+    "name": "ハードブロック",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "特殊技を受けるとき、自分の防御力を2倍にしてダメージ計算を行う。"
+  },
+  {
+    "id": "hard_armor",
+    "name": "ハードアーマー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "物理技を受けるとき、自分の防御力を2倍にしてダメージ計算を行う。"
+  },
+  {
+    "id": "dokusen_body",
+    "name": "どくせんボディ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "物理技を受けると攻撃者へ毒蓄積+250。自分の物理技を当てると相手へ毒蓄積+75(いずれも技データ非依存)。"
+  },
+  {
+    "id": "bakugeki",
+    "name": "ばくげき",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "自分の竜属性技がすべて固定技「ばくげき」(命中100/威力120/PP10、命中・回避ランクの影響を受けない)に置き換わる。"
+  },
+  {
+    "id": "keikaikan",
+    "name": "けいかいかん",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手の遠距離技(非接触技)を受けるとき、防御力+10。"
+  },
+  {
+    "id": "koufun",
+    "name": "こうふん",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "隣接している相手(チェビシェフ距離1)への攻撃技の威力+15。"
+  },
+  {
+    "id": "free_fall",
+    "name": "フリーフォール",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "生態「グライド」を持つ相手への攻撃技の威力+25。"
+  },
+  {
+    "id": "zetsuentai",
+    "name": "ぜつえんたい",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "敵の電属性技を完全に無効化する(ダメージ・追加効果とも0)。"
+  },
+  {
+    "id": "over_heal",
+    "name": "オーバーヒール",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "技によってHPを回復したとき、追加で最大HPの6%を回復する。"
+  },
+  {
+    "id": "akui",
+    "name": "あくい",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手の闇属性技を受けたとき、本来受けるダメージの半分を回復する。"
+  },
+  {
+    "id": "deep_dive",
+    "name": "ディープダイブ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手の水属性技を無効化し、次に自分が使う水属性技の威力+25(1回限定)。"
   }
 ]

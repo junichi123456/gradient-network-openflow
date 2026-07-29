@@ -1,289 +1,4417 @@
 [
-  { "species_id": "001", "display_name": "モコロン", "base_hp": 70, "base_atk": 70, "base_def": 70, "base_exp_yield": 63, "sprite_key": "001", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "002", "display_name": "ツッパニャン", "base_hp": 70, "base_atk": 70, "base_def": 70, "base_exp_yield": 63, "sprite_key": "002", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "003", "display_name": "タマコッコ", "base_hp": 60, "base_atk": 60, "base_def": 60, "base_exp_yield": 54, "sprite_key": "003", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "004", "display_name": "クルリス", "base_hp": 75, "base_atk": 70, "base_def": 70, "base_exp_yield": 64, "sprite_key": "004", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "005", "display_name": "カモノスケ", "base_hp": 60, "base_atk": 80, "base_def": 60, "base_exp_yield": 60, "sprite_key": "005", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "005B", "display_name": "モモノスケ", "base_hp": 60, "base_atk": 85, "base_def": 60, "base_exp_yield": 62, "sprite_key": "005B", "default_visual_scale": 1.0, "types": ["Water", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "006", "display_name": "タマモ", "base_hp": 70, "base_atk": 70, "base_def": 70, "base_exp_yield": 63, "sprite_key": "006", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "007", "display_name": "ルミカイト", "base_hp": 80, "base_atk": 70, "base_def": 80, "base_exp_yield": 69, "sprite_key": "007", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "007B", "display_name": "エレカイト", "base_hp": 80, "base_atk": 75, "base_def": 80, "base_exp_yield": 70, "sprite_key": "007B", "default_visual_scale": 1.0, "types": ["Water", "Electric"], "learnset": [], "evolution": null },
-  { "species_id": "008", "display_name": "ミルフィー", "base_hp": 70, "base_atk": 70, "base_def": 75, "base_exp_yield": 64, "sprite_key": "008", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "009", "display_name": "ブシガエル", "base_hp": 80, "base_atk": 100, "base_def": 85, "base_exp_yield": 80, "sprite_key": "009", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "009B", "display_name": "ドスガエル", "base_hp": 85, "base_atk": 110, "base_def": 90, "base_exp_yield": 86, "sprite_key": "009B", "default_visual_scale": 1.0, "types": ["Water", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "010", "display_name": "モモンパ", "base_hp": 80, "base_atk": 75, "base_def": 75, "base_exp_yield": 69, "sprite_key": "010", "default_visual_scale": 1.0, "types": ["Grass", "Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "011", "display_name": "チョロゾウ", "base_hp": 70, "base_atk": 60, "base_def": 70, "base_exp_yield": 60, "sprite_key": "011", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "012", "display_name": "ナエモチ", "base_hp": 70, "base_atk": 70, "base_def": 70, "base_exp_yield": 63, "sprite_key": "012", "default_visual_scale": 1.0, "types": ["Grass", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "013", "display_name": "ポチムネ", "base_hp": 70, "base_atk": 80, "base_def": 70, "base_exp_yield": 66, "sprite_key": "013", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "014", "display_name": "ポワワ", "base_hp": 80, "base_atk": 65, "base_def": 65, "base_exp_yield": 63, "sprite_key": "014", "default_visual_scale": 1.0, "types": ["Grass", "Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "015", "display_name": "パチグリ", "base_hp": 70, "base_atk": 75, "base_def": 70, "base_exp_yield": 64, "sprite_key": "015", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "015B", "display_name": "コチグリ", "base_hp": 70, "base_atk": 75, "base_def": 80, "base_exp_yield": 68, "sprite_key": "015B", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "016", "display_name": "ンダコアラ", "base_hp": 70, "base_atk": 70, "base_def": 70, "base_exp_yield": 63, "sprite_key": "016", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "017", "display_name": "ペンタマ", "base_hp": 70, "base_atk": 75, "base_def": 70, "base_exp_yield": 64, "sprite_key": "017", "default_visual_scale": 1.0, "types": ["Water", "Ice"], "learnset": [], "evolution": null },
-  { "species_id": "017B", "display_name": "デンタマ", "base_hp": 70, "base_atk": 80, "base_def": 70, "base_exp_yield": 66, "sprite_key": "017B", "default_visual_scale": 1.0, "types": ["Water", "Electric"], "learnset": [], "evolution": null },
-  { "species_id": "018", "display_name": "キャプペン", "base_hp": 95, "base_atk": 95, "base_def": 95, "base_exp_yield": 86, "sprite_key": "018", "default_visual_scale": 1.0, "types": ["Water", "Ice"], "learnset": [], "evolution": null },
-  { "species_id": "018B", "display_name": "ペンキッド", "base_hp": 100, "base_atk": 100, "base_def": 100, "base_exp_yield": 90, "sprite_key": "018B", "default_visual_scale": 1.0, "types": ["Water", "Electric"], "learnset": [], "evolution": null },
-  { "species_id": "019", "display_name": "ホウロック", "base_hp": 70, "base_atk": 70, "base_def": 80, "base_exp_yield": 66, "sprite_key": "019", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "020", "display_name": "メルパカ", "base_hp": 90, "base_atk": 75, "base_def": 90, "base_exp_yield": 76, "sprite_key": "020", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "021", "display_name": "アルパオー", "base_hp": 120, "base_atk": 85, "base_def": 90, "base_exp_yield": 88, "sprite_key": "021", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "021B", "display_name": "アオパオー", "base_hp": 120, "base_atk": 85, "base_def": 90, "base_exp_yield": 88, "sprite_key": "021B", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "022", "display_name": "ネムラム", "base_hp": 70, "base_atk": 75, "base_def": 60, "base_exp_yield": 62, "sprite_key": "022", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "023", "display_name": "エテッパ", "base_hp": 80, "base_atk": 70, "base_def": 70, "base_exp_yield": 66, "sprite_key": "023", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "023B", "display_name": "カレッパ", "base_hp": 80, "base_atk": 75, "base_def": 70, "base_exp_yield": 68, "sprite_key": "023B", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "024", "display_name": "ルナティ", "base_hp": 75, "base_atk": 85, "base_def": 70, "base_exp_yield": 69, "sprite_key": "024", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "025", "display_name": "ラヴィ", "base_hp": 60, "base_atk": 70, "base_def": 80, "base_exp_yield": 63, "sprite_key": "025", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "026", "display_name": "ヒノコジカ", "base_hp": 75, "base_atk": 70, "base_def": 75, "base_exp_yield": 66, "sprite_key": "026", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "027", "display_name": "ニャオテト", "base_hp": 70, "base_atk": 60, "base_def": 70, "base_exp_yield": 60, "sprite_key": "027", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "027B", "display_name": "チルテト", "base_hp": 70, "base_atk": 65, "base_def": 70, "base_exp_yield": 62, "sprite_key": "027B", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "028", "display_name": "イノボウ", "base_hp": 80, "base_atk": 70, "base_def": 70, "base_exp_yield": 66, "sprite_key": "028", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "029", "display_name": "キツネビ", "base_hp": 65, "base_atk": 75, "base_def": 70, "base_exp_yield": 63, "sprite_key": "029", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "029B", "display_name": "ユキツネ", "base_hp": 65, "base_atk": 80, "base_def": 70, "base_exp_yield": 64, "sprite_key": "029B", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "030", "display_name": "ヤミイカ", "base_hp": 60, "base_atk": 60, "base_def": 70, "base_exp_yield": 57, "sprite_key": "030", "default_visual_scale": 1.0, "types": ["Dark", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "030B", "display_name": "ユメイカ", "base_hp": 70, "base_atk": 60, "base_def": 70, "base_exp_yield": 60, "sprite_key": "030B", "default_visual_scale": 1.0, "types": ["Neutral", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "031", "display_name": "モグルン", "base_hp": 65, "base_atk": 80, "base_def": 50, "base_exp_yield": 58, "sprite_key": "031", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "032", "display_name": "ツノガミ", "base_hp": 95, "base_atk": 80, "base_def": 80, "base_exp_yield": 76, "sprite_key": "032", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "032B", "display_name": "ヤマガミ", "base_hp": 95, "base_atk": 80, "base_def": 80, "base_exp_yield": 76, "sprite_key": "032B", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "033", "display_name": "ガウルフ", "base_hp": 80, "base_atk": 90, "base_def": 75, "base_exp_yield": 74, "sprite_key": "033", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "034", "display_name": "ベリゴート", "base_hp": 100, "base_atk": 70, "base_def": 90, "base_exp_yield": 78, "sprite_key": "034", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "034B", "display_name": "ベノゴート", "base_hp": 100, "base_atk": 75, "base_def": 90, "base_exp_yield": 80, "sprite_key": "034B", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "035", "display_name": "コモップ", "base_hp": 60, "base_atk": 60, "base_def": 60, "base_exp_yield": 54, "sprite_key": "035", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "036", "display_name": "ドンモップ", "base_hp": 100, "base_atk": 90, "base_def": 90, "base_exp_yield": 84, "sprite_key": "036", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "037", "display_name": "ヘルメッコ", "base_hp": 75, "base_atk": 75, "base_def": 115, "base_exp_yield": 80, "sprite_key": "037", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "037B", "display_name": "ゴルメッコ", "base_hp": 85, "base_atk": 85, "base_def": 125, "base_exp_yield": 88, "sprite_key": "037B", "default_visual_scale": 1.0, "types": ["Water", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "038", "display_name": "シメナワ", "base_hp": 80, "base_atk": 70, "base_def": 70, "base_exp_yield": 66, "sprite_key": "038", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "038B", "display_name": "オバケナワ", "base_hp": 80, "base_atk": 80, "base_def": 70, "base_exp_yield": 69, "sprite_key": "038B", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "039", "display_name": "メリポップ", "base_hp": 70, "base_atk": 70, "base_def": 90, "base_exp_yield": 69, "sprite_key": "039", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "039B", "display_name": "メリコロネ", "base_hp": 70, "base_atk": 70, "base_def": 95, "base_exp_yield": 70, "sprite_key": "039B", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "040", "display_name": "ミルカルビ", "base_hp": 90, "base_atk": 50, "base_def": 80, "base_exp_yield": 66, "sprite_key": "040", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "041", "display_name": "アズレーン", "base_hp": 110, "base_atk": 100, "base_def": 100, "base_exp_yield": 93, "sprite_key": "041", "default_visual_scale": 1.0, "types": ["Water", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "041B", "display_name": "アズルーナ", "base_hp": 115, "base_atk": 105, "base_def": 105, "base_exp_yield": 98, "sprite_key": "041B", "default_visual_scale": 1.0, "types": ["Ice", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "042", "display_name": "ボルトラ", "base_hp": 60, "base_atk": 75, "base_def": 70, "base_exp_yield": 62, "sprite_key": "042", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "043", "display_name": "ケルピス", "base_hp": 70, "base_atk": 70, "base_def": 70, "base_exp_yield": 63, "sprite_key": "043", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "043B", "display_name": "マグピス", "base_hp": 70, "base_atk": 70, "base_def": 70, "base_exp_yield": 63, "sprite_key": "043B", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "044", "display_name": "ヒメウサ", "base_hp": 75, "base_atk": 65, "base_def": 70, "base_exp_yield": 63, "sprite_key": "044", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "044B", "display_name": "ヨモギウサ", "base_hp": 80, "base_atk": 65, "base_def": 70, "base_exp_yield": 64, "sprite_key": "044B", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "045", "display_name": "クララン", "base_hp": 75, "base_atk": 90, "base_def": 70, "base_exp_yield": 70, "sprite_key": "045", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "046", "display_name": "ユララン", "base_hp": 90, "base_atk": 75, "base_def": 75, "base_exp_yield": 72, "sprite_key": "046", "default_visual_scale": 1.0, "types": ["Water", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "047", "display_name": "リオリネ", "base_hp": 65, "base_atk": 70, "base_def": 65, "base_exp_yield": 60, "sprite_key": "047", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "048", "display_name": "ヒメンダコ", "base_hp": 70, "base_atk": 85, "base_def": 70, "base_exp_yield": 68, "sprite_key": "048", "default_visual_scale": 1.0, "types": ["Water", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "048B", "display_name": "ユメンダコ", "base_hp": 75, "base_atk": 85, "base_def": 70, "base_exp_yield": 69, "sprite_key": "048B", "default_visual_scale": 1.0, "types": ["Water", "Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "049", "display_name": "エアムルグ", "base_hp": 75, "base_atk": 85, "base_def": 60, "base_exp_yield": 66, "sprite_key": "049", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "050", "display_name": "ニャンシー", "base_hp": 85, "base_atk": 95, "base_def": 70, "base_exp_yield": 75, "sprite_key": "050", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "051", "display_name": "ホークウィン", "base_hp": 100, "base_atk": 95, "base_def": 80, "base_exp_yield": 82, "sprite_key": "051", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "052", "display_name": "ニャンバット", "base_hp": 95, "base_atk": 95, "base_def": 80, "base_exp_yield": 81, "sprite_key": "052", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "053", "display_name": "クルットリ", "base_hp": 60, "base_atk": 75, "base_def": 70, "base_exp_yield": 62, "sprite_key": "053", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "054", "display_name": "ライコーン", "base_hp": 80, "base_atk": 105, "base_def": 105, "base_exp_yield": 87, "sprite_key": "054", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "054B", "display_name": "レイコーン", "base_hp": 80, "base_atk": 105, "base_def": 110, "base_exp_yield": 88, "sprite_key": "054B", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "055", "display_name": "シャーキッド", "base_hp": 90, "base_atk": 90, "base_def": 75, "base_exp_yield": 76, "sprite_key": "055", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "055B", "display_name": "シャーマンダー", "base_hp": 90, "base_atk": 90, "base_def": 75, "base_exp_yield": 76, "sprite_key": "055B", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "056", "display_name": "ツキカゲ", "base_hp": 80, "base_atk": 100, "base_def": 80, "base_exp_yield": 78, "sprite_key": "056", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "056B", "display_name": "ユキカゲ", "base_hp": 80, "base_atk": 105, "base_def": 80, "base_exp_yield": 80, "sprite_key": "056B", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "057", "display_name": "マスクロウ", "base_hp": 75, "base_atk": 95, "base_def": 80, "base_exp_yield": 75, "sprite_key": "057", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "058", "display_name": "ブルフェルノ", "base_hp": 85, "base_atk": 95, "base_def": 95, "base_exp_yield": 82, "sprite_key": "058", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "059", "display_name": "モコチッチ", "base_hp": 60, "base_atk": 80, "base_def": 55, "base_exp_yield": 58, "sprite_key": "059", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "060", "display_name": "イバラヒメ", "base_hp": 80, "base_atk": 80, "base_def": 80, "base_exp_yield": 72, "sprite_key": "060", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "061", "display_name": "パピテフ", "base_hp": 70, "base_atk": 80, "base_def": 80, "base_exp_yield": 69, "sprite_key": "061", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "062", "display_name": "パチマル", "base_hp": 75, "base_atk": 80, "base_def": 70, "base_exp_yield": 68, "sprite_key": "062", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "063", "display_name": "シルフィア", "base_hp": 110, "base_atk": 80, "base_def": 90, "base_exp_yield": 84, "sprite_key": "063", "default_visual_scale": 1.0, "types": ["Dragon"], "learnset": [], "evolution": null },
-  { "species_id": "063B", "display_name": "シルティア", "base_hp": 115, "base_atk": 80, "base_def": 95, "base_exp_yield": 87, "sprite_key": "063B", "default_visual_scale": 1.0, "types": ["Dragon", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "064", "display_name": "カバネドリ", "base_hp": 90, "base_atk": 115, "base_def": 90, "base_exp_yield": 88, "sprite_key": "064", "default_visual_scale": 1.0, "types": ["Fire", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "064B", "display_name": "シロカバネ", "base_hp": 90, "base_atk": 120, "base_def": 95, "base_exp_yield": 92, "sprite_key": "064B", "default_visual_scale": 1.0, "types": ["Ice", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "065", "display_name": "ヤミトバリ", "base_hp": 100, "base_atk": 105, "base_def": 110, "base_exp_yield": 94, "sprite_key": "065", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "066", "display_name": "ヴィオレッタ", "base_hp": 100, "base_atk": 100, "base_def": 120, "base_exp_yield": 96, "sprite_key": "066", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "067", "display_name": "ビーナイト", "base_hp": 80, "base_atk": 90, "base_def": 90, "base_exp_yield": 78, "sprite_key": "067", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "068", "display_name": "クインビーナ", "base_hp": 90, "base_atk": 105, "base_def": 100, "base_exp_yield": 88, "sprite_key": "068", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "069", "display_name": "ラブマンダー", "base_hp": 120, "base_atk": 70, "base_def": 70, "base_exp_yield": 78, "sprite_key": "069", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "070", "display_name": "ニャンギマリ", "base_hp": 110, "base_atk": 80, "base_def": 80, "base_exp_yield": 81, "sprite_key": "070", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "071", "display_name": "モモンチュラ", "base_hp": 110, "base_atk": 100, "base_def": 100, "base_exp_yield": 93, "sprite_key": "071", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "072", "display_name": "バニザラシ", "base_hp": 95, "base_atk": 105, "base_def": 105, "base_exp_yield": 92, "sprite_key": "072", "default_visual_scale": 1.0, "types": ["Ice", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "072B", "display_name": "チョコザラシ", "base_hp": 95, "base_atk": 105, "base_def": 110, "base_exp_yield": 93, "sprite_key": "072B", "default_visual_scale": 1.0, "types": ["Ice", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "073", "display_name": "ダリザード", "base_hp": 80, "base_atk": 80, "base_def": 50, "base_exp_yield": 63, "sprite_key": "073", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "073B", "display_name": "チリザード", "base_hp": 80, "base_atk": 80, "base_def": 50, "base_exp_yield": 63, "sprite_key": "073B", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "074", "display_name": "ゴリレイジ", "base_hp": 90, "base_atk": 95, "base_def": 90, "base_exp_yield": 82, "sprite_key": "074", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "074B", "display_name": "ゴリガイア", "base_hp": 90, "base_atk": 100, "base_def": 90, "base_exp_yield": 84, "sprite_key": "074B", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "075", "display_name": "シーペント", "base_hp": 90, "base_atk": 90, "base_def": 80, "base_exp_yield": 78, "sprite_key": "075", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "075B", "display_name": "スナペント", "base_hp": 90, "base_atk": 90, "base_def": 100, "base_exp_yield": 84, "sprite_key": "075B", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "076", "display_name": "フェザーロ", "base_hp": 90, "base_atk": 105, "base_def": 80, "base_exp_yield": 82, "sprite_key": "076", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "076B", "display_name": "サンドロ", "base_hp": 90, "base_atk": 105, "base_def": 80, "base_exp_yield": 82, "sprite_key": "076B", "default_visual_scale": 1.0, "types": ["Grass", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "077", "display_name": "ポプリーナ", "base_hp": 75, "base_atk": 65, "base_def": 70, "base_exp_yield": 63, "sprite_key": "077", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "078", "display_name": "フォレーナ", "base_hp": 90, "base_atk": 110, "base_def": 80, "base_exp_yield": 84, "sprite_key": "078", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "078B", "display_name": "フォレーオ", "base_hp": 90, "base_atk": 110, "base_def": 85, "base_exp_yield": 86, "sprite_key": "078B", "default_visual_scale": 1.0, "types": ["Fire", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "079", "display_name": "クレメーオ", "base_hp": 90, "base_atk": 105, "base_def": 90, "base_exp_yield": 86, "sprite_key": "079", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "079B", "display_name": "クレメーナ", "base_hp": 95, "base_atk": 105, "base_def": 90, "base_exp_yield": 87, "sprite_key": "079B", "default_visual_scale": 1.0, "types": ["Dark", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "080", "display_name": "ヘルガルダ", "base_hp": 100, "base_atk": 125, "base_def": 100, "base_exp_yield": 98, "sprite_key": "080", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "080B", "display_name": "ライガルダ", "base_hp": 105, "base_atk": 125, "base_def": 100, "base_exp_yield": 99, "sprite_key": "080B", "default_visual_scale": 1.0, "types": ["Dark", "Electric"], "learnset": [], "evolution": null },
-  { "species_id": "081", "display_name": "モリタロス", "base_hp": 110, "base_atk": 105, "base_def": 105, "base_exp_yield": 96, "sprite_key": "081", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "081B", "display_name": "ユキタロス", "base_hp": 120, "base_atk": 100, "base_def": 105, "base_exp_yield": 98, "sprite_key": "081B", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "082", "display_name": "ミステリア", "base_hp": 90, "base_atk": 100, "base_def": 90, "base_exp_yield": 84, "sprite_key": "082", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "083", "display_name": "ムラクモ", "base_hp": 110, "base_atk": 110, "base_def": 90, "base_exp_yield": 93, "sprite_key": "083", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "083B", "display_name": "ムラサメ", "base_hp": 110, "base_atk": 115, "base_def": 90, "base_exp_yield": 94, "sprite_key": "083B", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "084", "display_name": "アロアリュー", "base_hp": 110, "base_atk": 85, "base_def": 90, "base_exp_yield": 86, "sprite_key": "084", "default_visual_scale": 1.0, "types": ["Grass", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "084B", "display_name": "ビリビリュー", "base_hp": 110, "base_atk": 90, "base_def": 90, "base_exp_yield": 87, "sprite_key": "084B", "default_visual_scale": 1.0, "types": ["Electric", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "085", "display_name": "ツジギリ", "base_hp": 80, "base_atk": 125, "base_def": 80, "base_exp_yield": 86, "sprite_key": "085", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "085B", "display_name": "ヤミウチ", "base_hp": 80, "base_atk": 130, "base_def": 80, "base_exp_yield": 87, "sprite_key": "085B", "default_visual_scale": 1.0, "types": ["Fire", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "086", "display_name": "コチワニ", "base_hp": 75, "base_atk": 80, "base_def": 85, "base_exp_yield": 72, "sprite_key": "086", "default_visual_scale": 1.0, "types": ["Ice", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "087", "display_name": "グランモス", "base_hp": 150, "base_atk": 85, "base_def": 90, "base_exp_yield": 98, "sprite_key": "087", "default_visual_scale": 1.0, "types": ["Grass", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "087B", "display_name": "ブリザモス", "base_hp": 150, "base_atk": 85, "base_def": 90, "base_exp_yield": 98, "sprite_key": "087B", "default_visual_scale": 1.0, "types": ["Ice", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "088", "display_name": "ガブルミ", "base_hp": 75, "base_atk": 85, "base_def": 80, "base_exp_yield": 72, "sprite_key": "088", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "088B", "display_name": "ヒグルミ", "base_hp": 75, "base_atk": 90, "base_def": 80, "base_exp_yield": 74, "sprite_key": "088B", "default_visual_scale": 1.0, "types": ["Water", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "089", "display_name": "フラリーナ", "base_hp": 100, "base_atk": 95, "base_def": 100, "base_exp_yield": 88, "sprite_key": "089", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "089B", "display_name": "チェリーナ", "base_hp": 95, "base_atk": 105, "base_def": 100, "base_exp_yield": 90, "sprite_key": "089B", "default_visual_scale": 1.0, "types": ["Grass", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "090", "display_name": "リーファン", "base_hp": 100, "base_atk": 115, "base_def": 95, "base_exp_yield": 93, "sprite_key": "090", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "091", "display_name": "ヘルゴート", "base_hp": 95, "base_atk": 100, "base_def": 85, "base_exp_yield": 84, "sprite_key": "091", "default_visual_scale": 1.0, "types": ["Fire", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "091B", "display_name": "アビスゴート", "base_hp": 95, "base_atk": 105, "base_def": 85, "base_exp_yield": 86, "sprite_key": "091B", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "092", "display_name": "カミナラシ", "base_hp": 70, "base_atk": 80, "base_def": 70, "base_exp_yield": 66, "sprite_key": "092", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "092B", "display_name": "ヤミナラシ", "base_hp": 70, "base_atk": 80, "base_def": 75, "base_exp_yield": 68, "sprite_key": "092B", "default_visual_scale": 1.0, "types": ["Dark", "Electric"], "learnset": [], "evolution": null },
-  { "species_id": "093", "display_name": "サラブレイズ", "base_hp": 100, "base_atk": 95, "base_def": 90, "base_exp_yield": 86, "sprite_key": "093", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "093B", "display_name": "サラブラック", "base_hp": 100, "base_atk": 95, "base_def": 90, "base_exp_yield": 86, "sprite_key": "093B", "default_visual_scale": 1.0, "types": ["Fire", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "094", "display_name": "ペコドン", "base_hp": 120, "base_atk": 115, "base_def": 110, "base_exp_yield": 104, "sprite_key": "094", "default_visual_scale": 1.0, "types": ["Dragon", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "094B", "display_name": "パリピドン", "base_hp": 120, "base_atk": 120, "base_def": 110, "base_exp_yield": 105, "sprite_key": "094B", "default_visual_scale": 1.0, "types": ["Dragon", "Electric"], "learnset": [], "evolution": null },
-  { "species_id": "095", "display_name": "フブキツネ", "base_hp": 90, "base_atk": 95, "base_def": 105, "base_exp_yield": 87, "sprite_key": "095", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "096", "display_name": "ライバード", "base_hp": 105, "base_atk": 115, "base_def": 80, "base_exp_yield": 90, "sprite_key": "096", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "096B", "display_name": "チルバード", "base_hp": 105, "base_atk": 115, "base_def": 85, "base_exp_yield": 92, "sprite_key": "096B", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "097", "display_name": "アンドーン", "base_hp": 90, "base_atk": 125, "base_def": 105, "base_exp_yield": 96, "sprite_key": "097", "default_visual_scale": 1.0, "types": ["Dark", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "097B", "display_name": "メラドーン", "base_hp": 90, "base_atk": 130, "base_def": 105, "base_exp_yield": 98, "sprite_key": "097B", "default_visual_scale": 1.0, "types": ["Fire", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "098", "display_name": "イヌズマ", "base_hp": 90, "base_atk": 100, "base_def": 80, "base_exp_yield": 81, "sprite_key": "098", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "098B", "display_name": "フリーズマ", "base_hp": 90, "base_atk": 105, "base_def": 80, "base_exp_yield": 82, "sprite_key": "098B", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "099", "display_name": "デスティング", "base_hp": 100, "base_atk": 100, "base_def": 130, "base_exp_yield": 99, "sprite_key": "099", "default_visual_scale": 1.0, "types": ["Dark", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "099B", "display_name": "ゴルディング", "base_hp": 100, "base_atk": 105, "base_def": 130, "base_exp_yield": 100, "sprite_key": "099B", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "100", "display_name": "ハグミー", "base_hp": 75, "base_atk": 85, "base_def": 70, "base_exp_yield": 69, "sprite_key": "100", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "100B", "display_name": "ハグユー", "base_hp": 75, "base_atk": 90, "base_def": 70, "base_exp_yield": 70, "sprite_key": "100B", "default_visual_scale": 1.0, "types": ["Dark", "Grass"], "learnset": [], "evolution": null },
-  { "species_id": "101", "display_name": "ツララジカ", "base_hp": 100, "base_atk": 85, "base_def": 110, "base_exp_yield": 88, "sprite_key": "101", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "102", "display_name": "ササゾー", "base_hp": 100, "base_atk": 90, "base_def": 90, "base_exp_yield": 84, "sprite_key": "102", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "102B", "display_name": "ライゾー", "base_hp": 100, "base_atk": 100, "base_def": 100, "base_exp_yield": 90, "sprite_key": "102B", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "103", "display_name": "オコチョ", "base_hp": 90, "base_atk": 80, "base_def": 80, "base_exp_yield": 75, "sprite_key": "103", "default_visual_scale": 1.0, "types": ["Ice", "Dragon"], "learnset": [], "evolution": null },
-  { "species_id": "103B", "display_name": "モモチョ", "base_hp": 90, "base_atk": 85, "base_def": 80, "base_exp_yield": 76, "sprite_key": "103B", "default_visual_scale": 1.0, "types": ["Fire", "Dragon"], "learnset": [], "evolution": null },
-  { "species_id": "104", "display_name": "イグニクス", "base_hp": 95, "base_atk": 105, "base_def": 120, "base_exp_yield": 96, "sprite_key": "104", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "105", "display_name": "マグマンダー", "base_hp": 110, "base_atk": 125, "base_def": 115, "base_exp_yield": 105, "sprite_key": "105", "default_visual_scale": 1.0, "types": ["Fire", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "105B", "display_name": "ブリザンダー", "base_hp": 110, "base_atk": 125, "base_def": 120, "base_exp_yield": 106, "sprite_key": "105B", "default_visual_scale": 1.0, "types": ["Ice", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "106", "display_name": "ココヤンバ", "base_hp": 105, "base_atk": 110, "base_def": 115, "base_exp_yield": 99, "sprite_key": "106", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "107", "display_name": "ドリタス", "base_hp": 80, "base_atk": 95, "base_def": 120, "base_exp_yield": 88, "sprite_key": "107", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "108", "display_name": "ラブラドン", "base_hp": 120, "base_atk": 90, "base_def": 100, "base_exp_yield": 93, "sprite_key": "108", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "108B", "display_name": "スプラドン", "base_hp": 120, "base_atk": 95, "base_def": 100, "base_exp_yield": 94, "sprite_key": "108B", "default_visual_scale": 1.0, "types": ["Grass", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "109", "display_name": "トドドドン", "base_hp": 100, "base_atk": 70, "base_def": 95, "base_exp_yield": 80, "sprite_key": "109", "default_visual_scale": 1.0, "types": ["Ground", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "109B", "display_name": "ゴルドドン", "base_hp": 105, "base_atk": 75, "base_def": 100, "base_exp_yield": 84, "sprite_key": "109B", "default_visual_scale": 1.0, "types": ["Ground", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "110", "display_name": "トコナッツ", "base_hp": 130, "base_atk": 95, "base_def": 120, "base_exp_yield": 104, "sprite_key": "110", "default_visual_scale": 1.0, "types": ["Grass", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "111", "display_name": "シラヌイ", "base_hp": 100, "base_atk": 115, "base_def": 100, "base_exp_yield": 94, "sprite_key": "111", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "111B", "display_name": "カゲヌイ", "base_hp": 100, "base_atk": 115, "base_def": 105, "base_exp_yield": 96, "sprite_key": "111B", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "112", "display_name": "ゴクエンオ", "base_hp": 105, "base_atk": 110, "base_def": 80, "base_exp_yield": 88, "sprite_key": "112", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "112B", "display_name": "シンエンオ", "base_hp": 105, "base_atk": 115, "base_def": 80, "base_exp_yield": 90, "sprite_key": "112B", "default_visual_scale": 1.0, "types": ["Fire", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "113", "display_name": "グラクレス", "base_hp": 120, "base_atk": 100, "base_def": 120, "base_exp_yield": 102, "sprite_key": "113", "default_visual_scale": 1.0, "types": ["Ground", "Grass"], "learnset": [], "evolution": null },
-  { "species_id": "113B", "display_name": "ゴルクレス", "base_hp": 120, "base_atk": 105, "base_def": 120, "base_exp_yield": 104, "sprite_key": "113B", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "114", "display_name": "クジャンナ", "base_hp": 110, "base_atk": 100, "base_def": 100, "base_exp_yield": 93, "sprite_key": "114", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "115", "display_name": "マジョルナ", "base_hp": 110, "base_atk": 115, "base_def": 90, "base_exp_yield": 94, "sprite_key": "115", "default_visual_scale": 1.0, "types": ["Dark", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "116", "display_name": "シルキーヌ", "base_hp": 110, "base_atk": 90, "base_def": 100, "base_exp_yield": 90, "sprite_key": "116", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "116B", "display_name": "ソワレーヌ", "base_hp": 115, "base_atk": 90, "base_def": 100, "base_exp_yield": 92, "sprite_key": "116B", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "117", "display_name": "ソルレイス", "base_hp": 75, "base_atk": 105, "base_def": 80, "base_exp_yield": 78, "sprite_key": "117", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "118", "display_name": "キノッポ", "base_hp": 110, "base_atk": 80, "base_def": 90, "base_exp_yield": 84, "sprite_key": "118", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "118B", "display_name": "ベノッポ", "base_hp": 110, "base_atk": 85, "base_def": 90, "base_exp_yield": 86, "sprite_key": "118B", "default_visual_scale": 1.0, "types": ["Grass", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "119", "display_name": "チルウィッチ", "base_hp": 95, "base_atk": 115, "base_def": 105, "base_exp_yield": 94, "sprite_key": "119", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "120", "display_name": "ヨミーラ", "base_hp": 105, "base_atk": 120, "base_def": 105, "base_exp_yield": 99, "sprite_key": "120", "default_visual_scale": 1.0, "types": ["Dark", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "121", "display_name": "レヴィドラ", "base_hp": 130, "base_atk": 120, "base_def": 100, "base_exp_yield": 105, "sprite_key": "121", "default_visual_scale": 1.0, "types": ["Dragon", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "121B", "display_name": "アグニドラ", "base_hp": 130, "base_atk": 130, "base_def": 100, "base_exp_yield": 108, "sprite_key": "121B", "default_visual_scale": 1.0, "types": ["Dragon", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "122", "display_name": "スザク", "base_hp": 120, "base_atk": 105, "base_def": 105, "base_exp_yield": 99, "sprite_key": "122", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "122B", "display_name": "シヴァ", "base_hp": 125, "base_atk": 105, "base_def": 105, "base_exp_yield": 100, "sprite_key": "122B", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "123", "display_name": "トリステップ", "base_hp": 95, "base_atk": 90, "base_def": 80, "base_exp_yield": 80, "sprite_key": "123", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "124", "display_name": "フェスキー", "base_hp": 105, "base_atk": 100, "base_def": 100, "base_exp_yield": 92, "sprite_key": "124", "default_visual_scale": 1.0, "types": ["Dragon"], "learnset": [], "evolution": null },
-  { "species_id": "124B", "display_name": "フォレスキー", "base_hp": 105, "base_atk": 105, "base_def": 100, "base_exp_yield": 93, "sprite_key": "124B", "default_visual_scale": 1.0, "types": ["Dragon", "Grass"], "learnset": [], "evolution": null },
-  { "species_id": "125", "display_name": "フワフラワ", "base_hp": 90, "base_atk": 90, "base_def": 80, "base_exp_yield": 78, "sprite_key": "125", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "126", "display_name": "コロマジロ", "base_hp": 75, "base_atk": 70, "base_def": 90, "base_exp_yield": 70, "sprite_key": "126", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "127", "display_name": "ヤクモマル", "base_hp": 85, "base_atk": 85, "base_def": 85, "base_exp_yield": 76, "sprite_key": "127", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "128", "display_name": "オオタチウオ", "base_hp": 70, "base_atk": 100, "base_def": 80, "base_exp_yield": 75, "sprite_key": "128", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "128B", "display_name": "ヒノタチウオ", "base_hp": 70, "base_atk": 105, "base_def": 80, "base_exp_yield": 76, "sprite_key": "128B", "default_visual_scale": 1.0, "types": ["Water", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "129", "display_name": "ボルカノン", "base_hp": 110, "base_atk": 105, "base_def": 120, "base_exp_yield": 100, "sprite_key": "129", "default_visual_scale": 1.0, "types": ["Fire", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "129B", "display_name": "フロスカノン", "base_hp": 110, "base_atk": 105, "base_def": 130, "base_exp_yield": 104, "sprite_key": "129B", "default_visual_scale": 1.0, "types": ["Ice", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "130", "display_name": "ナイトロット", "base_hp": 110, "base_atk": 100, "base_def": 100, "base_exp_yield": 93, "sprite_key": "130", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "130B", "display_name": "ライトロット", "base_hp": 110, "base_atk": 105, "base_def": 100, "base_exp_yield": 94, "sprite_key": "130B", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "131", "display_name": "ジオルドン", "base_hp": 100, "base_atk": 105, "base_def": 120, "base_exp_yield": 98, "sprite_key": "131", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "131B", "display_name": "フロスドン", "base_hp": 100, "base_atk": 110, "base_def": 120, "base_exp_yield": 99, "sprite_key": "131B", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "132", "display_name": "ツンドラー", "base_hp": 100, "base_atk": 100, "base_def": 110, "base_exp_yield": 93, "sprite_key": "132", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "132B", "display_name": "グランドラー", "base_hp": 100, "base_atk": 105, "base_def": 110, "base_exp_yield": 94, "sprite_key": "132B", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "133", "display_name": "ユキボウ", "base_hp": 80, "base_atk": 75, "base_def": 85, "base_exp_yield": 72, "sprite_key": "133", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "134", "display_name": "ヒエティ", "base_hp": 140, "base_atk": 80, "base_def": 100, "base_exp_yield": 96, "sprite_key": "134", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "134B", "display_name": "トロピティ", "base_hp": 140, "base_atk": 80, "base_def": 110, "base_exp_yield": 99, "sprite_key": "134B", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "135", "display_name": "オドロクロ", "base_hp": 105, "base_atk": 125, "base_def": 90, "base_exp_yield": 96, "sprite_key": "135", "default_visual_scale": 1.0, "types": ["Dark", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "136", "display_name": "カプリリス", "base_hp": 85, "base_atk": 90, "base_def": 85, "base_exp_yield": 78, "sprite_key": "136", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "137", "display_name": "ボルカイザー", "base_hp": 100, "base_atk": 125, "base_def": 120, "base_exp_yield": 104, "sprite_key": "137", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "137B", "display_name": "ボルドラゴ", "base_hp": 105, "base_atk": 130, "base_def": 125, "base_exp_yield": 108, "sprite_key": "137B", "default_visual_scale": 1.0, "types": ["Dragon", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "138", "display_name": "ウゴクゾー", "base_hp": 110, "base_atk": 105, "base_def": 125, "base_exp_yield": 102, "sprite_key": "138", "default_visual_scale": 1.0, "types": ["Ground", "Grass"], "learnset": [], "evolution": null },
-  { "species_id": "138B", "display_name": "ノロウゾー", "base_hp": 110, "base_atk": 110, "base_def": 125, "base_exp_yield": 104, "sprite_key": "138B", "default_visual_scale": 1.0, "types": ["Ground", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "139", "display_name": "アヌビス", "base_hp": 120, "base_atk": 130, "base_def": 100, "base_exp_yield": 105, "sprite_key": "139", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "140", "display_name": "セクメト", "base_hp": 110, "base_atk": 115, "base_def": 100, "base_exp_yield": 98, "sprite_key": "140", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "141", "display_name": "ブッサソリ", "base_hp": 90, "base_atk": 110, "base_def": 90, "base_exp_yield": 87, "sprite_key": "141", "default_visual_scale": 1.0, "types": ["Dark", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "141B", "display_name": "ブッサンダー", "base_hp": 90, "base_atk": 115, "base_def": 90, "base_exp_yield": 88, "sprite_key": "141B", "default_visual_scale": 1.0, "types": ["Electric", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "142", "display_name": "オモシガメ", "base_hp": 95, "base_atk": 100, "base_def": 135, "base_exp_yield": 99, "sprite_key": "142", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "142B", "display_name": "オシロガメ", "base_hp": 95, "base_atk": 100, "base_def": 140, "base_exp_yield": 100, "sprite_key": "142B", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "143", "display_name": "ニャニミテ", "base_hp": 110, "base_atk": 100, "base_def": 100, "base_exp_yield": 93, "sprite_key": "143", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "144", "display_name": "ミミドッグ", "base_hp": 60, "base_atk": 60, "base_def": 130, "base_exp_yield": 75, "sprite_key": "144", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "145", "display_name": "ゼノベーダ", "base_hp": 90, "base_atk": 125, "base_def": 85, "base_exp_yield": 90, "sprite_key": "145", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "146", "display_name": "ゼノルーダ", "base_hp": 110, "base_atk": 120, "base_def": 130, "base_exp_yield": 108, "sprite_key": "146", "default_visual_scale": 1.0, "types": ["Dragon"], "learnset": [], "evolution": null },
-  { "species_id": "147", "display_name": "プラムルリム", "base_hp": 105, "base_atk": 95, "base_def": 100, "base_exp_yield": 90, "sprite_key": "147", "default_visual_scale": 1.0, "types": ["Grass", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "148", "display_name": "ナイトメアリ", "base_hp": 105, "base_atk": 95, "base_def": 105, "base_exp_yield": 92, "sprite_key": "148", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "148B", "display_name": "グラスメアリ", "base_hp": 110, "base_atk": 95, "base_def": 105, "base_exp_yield": 93, "sprite_key": "148B", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "149", "display_name": "クロマル", "base_hp": 85, "base_atk": 90, "base_def": 85, "base_exp_yield": 78, "sprite_key": "149", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "149B", "display_name": "フユマル", "base_hp": 85, "base_atk": 90, "base_def": 90, "base_exp_yield": 80, "sprite_key": "149B", "default_visual_scale": 1.0, "types": ["Dark", "Ice"], "learnset": [], "evolution": null },
-  { "species_id": "150", "display_name": "オーメン", "base_hp": 95, "base_atk": 105, "base_def": 100, "base_exp_yield": 90, "sprite_key": "150", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "151", "display_name": "コゴエール", "base_hp": 105, "base_atk": 115, "base_def": 110, "base_exp_yield": 99, "sprite_key": "151", "default_visual_scale": 1.0, "types": ["Ice", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "151B", "display_name": "モモエール", "base_hp": 105, "base_atk": 120, "base_def": 110, "base_exp_yield": 100, "sprite_key": "151B", "default_visual_scale": 1.0, "types": ["Ice", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "152", "display_name": "ラベロット", "base_hp": 90, "base_atk": 115, "base_def": 90, "base_exp_yield": 88, "sprite_key": "152", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "153", "display_name": "ヤンデリナ", "base_hp": 95, "base_atk": 115, "base_def": 105, "base_exp_yield": 94, "sprite_key": "153", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "154", "display_name": "キンガゼル", "base_hp": 120, "base_atk": 110, "base_def": 110, "base_exp_yield": 102, "sprite_key": "154", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "155", "display_name": "ワンフー", "base_hp": 90, "base_atk": 100, "base_def": 100, "base_exp_yield": 87, "sprite_key": "155", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "156", "display_name": "ドスコイヌ", "base_hp": 115, "base_atk": 95, "base_def": 100, "base_exp_yield": 93, "sprite_key": "156", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "157", "display_name": "セレスディア", "base_hp": 120, "base_atk": 110, "base_def": 100, "base_exp_yield": 99, "sprite_key": "157", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "157B", "display_name": "コスモディア", "base_hp": 120, "base_atk": 115, "base_def": 100, "base_exp_yield": 100, "sprite_key": "157B", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "158", "display_name": "ジオラーヴァ", "base_hp": 100, "base_atk": 125, "base_def": 125, "base_exp_yield": 105, "sprite_key": "158", "default_visual_scale": 1.0, "types": ["Dragon", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "159", "display_name": "テラナイト", "base_hp": 105, "base_atk": 110, "base_def": 135, "base_exp_yield": 105, "sprite_key": "159", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "159B", "display_name": "マグナイト", "base_hp": 105, "base_atk": 115, "base_def": 135, "base_exp_yield": 106, "sprite_key": "159B", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "160", "display_name": "アイギルガ", "base_hp": 120, "base_atk": 110, "base_def": 115, "base_exp_yield": 104, "sprite_key": "160", "default_visual_scale": 1.0, "types": ["Dragon"], "learnset": [], "evolution": null },
-  { "species_id": "161", "display_name": "オーマサンダ", "base_hp": 130, "base_atk": 120, "base_def": 110, "base_exp_yield": 108, "sprite_key": "161", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "162", "display_name": "ニャルル", "base_hp": 75, "base_atk": 80, "base_def": 70, "base_exp_yield": 68, "sprite_key": "162", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "163", "display_name": "デンツム", "base_hp": 65, "base_atk": 70, "base_def": 75, "base_exp_yield": 63, "sprite_key": "163", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "163B", "display_name": "ドンツム", "base_hp": 65, "base_atk": 70, "base_def": 80, "base_exp_yield": 64, "sprite_key": "163B", "default_visual_scale": 1.0, "types": ["Electric", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "164", "display_name": "ポポフィア", "base_hp": 70, "base_atk": 75, "base_def": 60, "base_exp_yield": 62, "sprite_key": "164", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "165", "display_name": "バトラビー", "base_hp": 70, "base_atk": 75, "base_def": 80, "base_exp_yield": 68, "sprite_key": "165", "default_visual_scale": 1.0, "types": ["Ground"], "learnset": [], "evolution": null },
-  { "species_id": "166", "display_name": "フードール", "base_hp": 70, "base_atk": 85, "base_def": 80, "base_exp_yield": 70, "sprite_key": "166", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "167", "display_name": "ノンビリリ", "base_hp": 80, "base_atk": 75, "base_def": 70, "base_exp_yield": 68, "sprite_key": "167", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "168", "display_name": "ウラミィ", "base_hp": 70, "base_atk": 85, "base_def": 80, "base_exp_yield": 70, "sprite_key": "168", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "169", "display_name": "オーマンボ", "base_hp": 90, "base_atk": 90, "base_def": 85, "base_exp_yield": 80, "sprite_key": "169", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "169B", "display_name": "トノサマンボ", "base_hp": 90, "base_atk": 95, "base_def": 85, "base_exp_yield": 81, "sprite_key": "169B", "default_visual_scale": 1.0, "types": ["Water", "Electric"], "learnset": [], "evolution": null },
-  { "species_id": "170", "display_name": "ネモフィ", "base_hp": 105, "base_atk": 100, "base_def": 100, "base_exp_yield": 92, "sprite_key": "170", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "171", "display_name": "レイバーン", "base_hp": 115, "base_atk": 125, "base_def": 120, "base_exp_yield": 108, "sprite_key": "171", "default_visual_scale": 1.0, "types": ["Dragon", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "171B", "display_name": "ヘルバーン", "base_hp": 115, "base_atk": 130, "base_def": 120, "base_exp_yield": 110, "sprite_key": "171B", "default_visual_scale": 1.0, "types": ["Dragon", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "172", "display_name": "ダイナモフ", "base_hp": 75, "base_atk": 85, "base_def": 80, "base_exp_yield": 72, "sprite_key": "172", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "173", "display_name": "フラペック", "base_hp": 85, "base_atk": 85, "base_def": 90, "base_exp_yield": 78, "sprite_key": "173", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "174", "display_name": "センコ", "base_hp": 110, "base_atk": 125, "base_def": 105, "base_exp_yield": 102, "sprite_key": "174", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "175", "display_name": "ハナミズチ", "base_hp": 130, "base_atk": 115, "base_def": 120, "base_exp_yield": 110, "sprite_key": "175", "default_visual_scale": 1.0, "types": ["Grass", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "176", "display_name": "ラピエール", "base_hp": 100, "base_atk": 110, "base_def": 100, "base_exp_yield": 93, "sprite_key": "176", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "177", "display_name": "アルセーヴ", "base_hp": 110, "base_atk": 115, "base_def": 95, "base_exp_yield": 96, "sprite_key": "177", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "178", "display_name": "メドゥーナ", "base_hp": 80, "base_atk": 85, "base_def": 90, "base_exp_yield": 76, "sprite_key": "178", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "179", "display_name": "マシュリー", "base_hp": 105, "base_atk": 95, "base_def": 90, "base_exp_yield": 87, "sprite_key": "179", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "180", "display_name": "ヴィランタン", "base_hp": 90, "base_atk": 100, "base_def": 95, "base_exp_yield": 86, "sprite_key": "180", "default_visual_scale": 1.0, "types": ["Dark", "Fire"], "learnset": [], "evolution": null },
-  { "species_id": "181", "display_name": "ホシノコ", "base_hp": 80, "base_atk": 90, "base_def": 60, "base_exp_yield": 69, "sprite_key": "181", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "182", "display_name": "モノクローナ", "base_hp": 110, "base_atk": 115, "base_def": 115, "base_exp_yield": 102, "sprite_key": "182", "default_visual_scale": 1.0, "types": ["Dark", "Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "183", "display_name": "ゴウカブキ", "base_hp": 105, "base_atk": 120, "base_def": 100, "base_exp_yield": 98, "sprite_key": "183", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "184", "display_name": "シェルガドラ", "base_hp": 105, "base_atk": 125, "base_def": 140, "base_exp_yield": 111, "sprite_key": "184", "default_visual_scale": 1.0, "types": ["Dragon", "Ground"], "learnset": [], "evolution": null },
-  { "species_id": "185", "display_name": "エレパンダ", "base_hp": 120, "base_atk": 105, "base_def": 105, "base_exp_yield": 99, "sprite_key": "185", "default_visual_scale": 1.0, "types": ["Electric"], "learnset": [], "evolution": null },
-  { "species_id": "186", "display_name": "リリクイン", "base_hp": 120, "base_atk": 120, "base_def": 110, "base_exp_yield": 105, "sprite_key": "186", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "186B", "display_name": "ルナクイン", "base_hp": 115, "base_atk": 120, "base_def": 115, "base_exp_yield": 105, "sprite_key": "186B", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "187", "display_name": "ボルゼクス", "base_hp": 120, "base_atk": 130, "base_def": 115, "base_exp_yield": 110, "sprite_key": "187", "default_visual_scale": 1.0, "types": ["Dragon", "Electric"], "learnset": [], "evolution": null },
-  { "species_id": "188", "display_name": "ホルス", "base_hp": 105, "base_atk": 110, "base_def": 115, "base_exp_yield": 99, "sprite_key": "188", "default_visual_scale": 1.0, "types": ["Fire"], "learnset": [], "evolution": null },
-  { "species_id": "188B", "display_name": "イシス", "base_hp": 110, "base_atk": 110, "base_def": 115, "base_exp_yield": 100, "sprite_key": "188B", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "189", "display_name": "ゼノグリフ", "base_hp": 120, "base_atk": 120, "base_def": 140, "base_exp_yield": 114, "sprite_key": "189", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "190", "display_name": "セレムーン", "base_hp": 130, "base_atk": 115, "base_def": 110, "base_exp_yield": 106, "sprite_key": "190", "default_visual_scale": 1.0, "types": ["Dark", "Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "191", "display_name": "ヒョウガオー", "base_hp": 140, "base_atk": 130, "base_def": 120, "base_exp_yield": 117, "sprite_key": "191", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "192", "display_name": "シャオロン", "base_hp": 140, "base_atk": 135, "base_def": 120, "base_exp_yield": 118, "sprite_key": "192", "default_visual_scale": 1.0, "types": ["Dragon", "Water"], "learnset": [], "evolution": null },
-  { "species_id": "193", "display_name": "モスローン", "base_hp": 140, "base_atk": 120, "base_def": 110, "base_exp_yield": 111, "sprite_key": "193", "default_visual_scale": 1.0, "types": ["Grass"], "learnset": [], "evolution": null },
-  { "species_id": "194", "display_name": "ノクサージュ", "base_hp": 125, "base_atk": 135, "base_def": 110, "base_exp_yield": 111, "sprite_key": "194", "default_visual_scale": 1.0, "types": ["Grass", "Dark"], "learnset": [], "evolution": null },
-  { "species_id": "195", "display_name": "ベラノワール", "base_hp": 120, "base_atk": 150, "base_def": 100, "base_exp_yield": 111, "sprite_key": "195", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "195B", "display_name": "ベラルージュ", "base_hp": 120, "base_atk": 150, "base_def": 100, "base_exp_yield": 111, "sprite_key": "195B", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "196", "display_name": "ゼノドラン", "base_hp": 130, "base_atk": 120, "base_def": 120, "base_exp_yield": 111, "sprite_key": "196", "default_visual_scale": 1.0, "types": ["Dark", "Dragon"], "learnset": [], "evolution": null },
-  { "species_id": "197", "display_name": "レジェンディア", "base_hp": 135, "base_atk": 130, "base_def": 110, "base_exp_yield": 112, "sprite_key": "197", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "198", "display_name": "セイントール", "base_hp": 130, "base_atk": 120, "base_def": 145, "base_exp_yield": 118, "sprite_key": "198", "default_visual_scale": 1.0, "types": ["Neutral"], "learnset": [], "evolution": null },
-  { "species_id": "199", "display_name": "ベイントール", "base_hp": 130, "base_atk": 145, "base_def": 120, "base_exp_yield": 118, "sprite_key": "199", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "200", "display_name": "グレイシャル", "base_hp": 140, "base_atk": 140, "base_def": 120, "base_exp_yield": 120, "sprite_key": "200", "default_visual_scale": 1.0, "types": ["Ice"], "learnset": [], "evolution": null },
-  { "species_id": "200B", "display_name": "グレイシャドウ", "base_hp": 140, "base_atk": 140, "base_def": 135, "base_exp_yield": 124, "sprite_key": "200B", "default_visual_scale": 1.0, "types": ["Dark"], "learnset": [], "evolution": null },
-  { "species_id": "201", "display_name": "ネプティオス", "base_hp": 105, "base_atk": 145, "base_def": 125, "base_exp_yield": 112, "sprite_key": "201", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null },
-  { "species_id": "202", "display_name": "ジェッドラン", "base_hp": 115, "base_atk": 140, "base_def": 120, "base_exp_yield": 112, "sprite_key": "202", "default_visual_scale": 1.0, "types": ["Dragon"], "learnset": [], "evolution": null },
-  { "species_id": "203", "display_name": "グランジーラ", "base_hp": 200, "base_atk": 120, "base_def": 180, "base_exp_yield": 150, "sprite_key": "203", "default_visual_scale": 1.0, "types": ["Water"], "learnset": [], "evolution": null }
+  {
+    "species_id": "001",
+    "display_name": "モコロン",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 63,
+    "sprite_key": "001",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "002",
+    "display_name": "ツッパニャン",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 63,
+    "sprite_key": "002",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "003",
+    "display_name": "タマコッコ",
+    "base_hp": 60,
+    "base_atk": 60,
+    "base_def": 60,
+    "base_exp_yield": 54,
+    "sprite_key": "003",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "004",
+    "display_name": "クルリス",
+    "base_hp": 75,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 64,
+    "sprite_key": "004",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "005",
+    "display_name": "カモノスケ",
+    "base_hp": 60,
+    "base_atk": 80,
+    "base_def": 60,
+    "base_exp_yield": 60,
+    "sprite_key": "005",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "005B",
+    "display_name": "モモノスケ",
+    "base_hp": 60,
+    "base_atk": 85,
+    "base_def": 60,
+    "base_exp_yield": 62,
+    "sprite_key": "005B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "006",
+    "display_name": "タマモ",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 63,
+    "sprite_key": "006",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "007",
+    "display_name": "ルミカイト",
+    "base_hp": 80,
+    "base_atk": 70,
+    "base_def": 80,
+    "base_exp_yield": 69,
+    "sprite_key": "007",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "007B",
+    "display_name": "エレカイト",
+    "base_hp": 80,
+    "base_atk": 75,
+    "base_def": 80,
+    "base_exp_yield": 70,
+    "sprite_key": "007B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "008",
+    "display_name": "ミルフィー",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 75,
+    "base_exp_yield": 64,
+    "sprite_key": "008",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "009",
+    "display_name": "ブシガエル",
+    "base_hp": 80,
+    "base_atk": 100,
+    "base_def": 85,
+    "base_exp_yield": 80,
+    "sprite_key": "009",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "009B",
+    "display_name": "ドスガエル",
+    "base_hp": 85,
+    "base_atk": 110,
+    "base_def": 90,
+    "base_exp_yield": 86,
+    "sprite_key": "009B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "dokusen_body"
+  },
+  {
+    "species_id": "010",
+    "display_name": "モモンパ",
+    "base_hp": 80,
+    "base_atk": 75,
+    "base_def": 75,
+    "base_exp_yield": 69,
+    "sprite_key": "010",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "011",
+    "display_name": "チョロゾウ",
+    "base_hp": 70,
+    "base_atk": 60,
+    "base_def": 70,
+    "base_exp_yield": 60,
+    "sprite_key": "011",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "012",
+    "display_name": "ナエモチ",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 63,
+    "sprite_key": "012",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "013",
+    "display_name": "ポチムネ",
+    "base_hp": 70,
+    "base_atk": 80,
+    "base_def": 70,
+    "base_exp_yield": 66,
+    "sprite_key": "013",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "014",
+    "display_name": "ポワワ",
+    "base_hp": 80,
+    "base_atk": 65,
+    "base_def": 65,
+    "base_exp_yield": 63,
+    "sprite_key": "014",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "015",
+    "display_name": "パチグリ",
+    "base_hp": 70,
+    "base_atk": 75,
+    "base_def": 70,
+    "base_exp_yield": 64,
+    "sprite_key": "015",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "015B",
+    "display_name": "コチグリ",
+    "base_hp": 70,
+    "base_atk": 75,
+    "base_def": 80,
+    "base_exp_yield": 68,
+    "sprite_key": "015B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "016",
+    "display_name": "ンダコアラ",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 63,
+    "sprite_key": "016",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "dokusen_body"
+  },
+  {
+    "species_id": "017",
+    "display_name": "ペンタマ",
+    "base_hp": 70,
+    "base_atk": 75,
+    "base_def": 70,
+    "base_exp_yield": 64,
+    "sprite_key": "017",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "017B",
+    "display_name": "デンタマ",
+    "base_hp": 70,
+    "base_atk": 80,
+    "base_def": 70,
+    "base_exp_yield": 66,
+    "sprite_key": "017B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "018",
+    "display_name": "キャプペン",
+    "base_hp": 95,
+    "base_atk": 95,
+    "base_def": 95,
+    "base_exp_yield": 86,
+    "sprite_key": "018",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "018B",
+    "display_name": "ペンキッド",
+    "base_hp": 100,
+    "base_atk": 100,
+    "base_def": 100,
+    "base_exp_yield": 90,
+    "sprite_key": "018B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "019",
+    "display_name": "ホウロック",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 80,
+    "base_exp_yield": 66,
+    "sprite_key": "019",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "020",
+    "display_name": "メルパカ",
+    "base_hp": 90,
+    "base_atk": 75,
+    "base_def": 90,
+    "base_exp_yield": 76,
+    "sprite_key": "020",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "021",
+    "display_name": "アルパオー",
+    "base_hp": 120,
+    "base_atk": 85,
+    "base_def": 90,
+    "base_exp_yield": 88,
+    "sprite_key": "021",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "021B",
+    "display_name": "アオパオー",
+    "base_hp": 120,
+    "base_atk": 85,
+    "base_def": 90,
+    "base_exp_yield": 88,
+    "sprite_key": "021B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "022",
+    "display_name": "ネムラム",
+    "base_hp": 70,
+    "base_atk": 75,
+    "base_def": 60,
+    "base_exp_yield": 62,
+    "sprite_key": "022",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "023",
+    "display_name": "エテッパ",
+    "base_hp": 80,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 66,
+    "sprite_key": "023",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "023B",
+    "display_name": "カレッパ",
+    "base_hp": 80,
+    "base_atk": 75,
+    "base_def": 70,
+    "base_exp_yield": 68,
+    "sprite_key": "023B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "024",
+    "display_name": "ルナティ",
+    "base_hp": 75,
+    "base_atk": 85,
+    "base_def": 70,
+    "base_exp_yield": 69,
+    "sprite_key": "024",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "025",
+    "display_name": "ラヴィ",
+    "base_hp": 60,
+    "base_atk": 70,
+    "base_def": 80,
+    "base_exp_yield": 63,
+    "sprite_key": "025",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "026",
+    "display_name": "ヒノコジカ",
+    "base_hp": 75,
+    "base_atk": 70,
+    "base_def": 75,
+    "base_exp_yield": 66,
+    "sprite_key": "026",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "027",
+    "display_name": "ニャオテト",
+    "base_hp": 70,
+    "base_atk": 60,
+    "base_def": 70,
+    "base_exp_yield": 60,
+    "sprite_key": "027",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "027B",
+    "display_name": "チルテト",
+    "base_hp": 70,
+    "base_atk": 65,
+    "base_def": 70,
+    "base_exp_yield": 62,
+    "sprite_key": "027B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "028",
+    "display_name": "イノボウ",
+    "base_hp": 80,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 66,
+    "sprite_key": "028",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "029",
+    "display_name": "キツネビ",
+    "base_hp": 65,
+    "base_atk": 75,
+    "base_def": 70,
+    "base_exp_yield": 63,
+    "sprite_key": "029",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "029B",
+    "display_name": "ユキツネ",
+    "base_hp": 65,
+    "base_atk": 80,
+    "base_def": 70,
+    "base_exp_yield": 64,
+    "sprite_key": "029B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "030",
+    "display_name": "ヤミイカ",
+    "base_hp": 60,
+    "base_atk": 60,
+    "base_def": 70,
+    "base_exp_yield": 57,
+    "sprite_key": "030",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "dokusen_body"
+  },
+  {
+    "species_id": "030B",
+    "display_name": "ユメイカ",
+    "base_hp": 70,
+    "base_atk": 60,
+    "base_def": 70,
+    "base_exp_yield": 60,
+    "sprite_key": "030B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "031",
+    "display_name": "モグルン",
+    "base_hp": 65,
+    "base_atk": 80,
+    "base_def": 50,
+    "base_exp_yield": 58,
+    "sprite_key": "031",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "032",
+    "display_name": "ツノガミ",
+    "base_hp": 95,
+    "base_atk": 80,
+    "base_def": 80,
+    "base_exp_yield": 76,
+    "sprite_key": "032",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "032B",
+    "display_name": "ヤマガミ",
+    "base_hp": 95,
+    "base_atk": 80,
+    "base_def": 80,
+    "base_exp_yield": 76,
+    "sprite_key": "032B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "033",
+    "display_name": "ガウルフ",
+    "base_hp": 80,
+    "base_atk": 90,
+    "base_def": 75,
+    "base_exp_yield": 74,
+    "sprite_key": "033",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "034",
+    "display_name": "ベリゴート",
+    "base_hp": 100,
+    "base_atk": 70,
+    "base_def": 90,
+    "base_exp_yield": 78,
+    "sprite_key": "034",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "034B",
+    "display_name": "ベノゴート",
+    "base_hp": 100,
+    "base_atk": 75,
+    "base_def": 90,
+    "base_exp_yield": 80,
+    "sprite_key": "034B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "dokusen_body"
+  },
+  {
+    "species_id": "035",
+    "display_name": "コモップ",
+    "base_hp": 60,
+    "base_atk": 60,
+    "base_def": 60,
+    "base_exp_yield": 54,
+    "sprite_key": "035",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "036",
+    "display_name": "ドンモップ",
+    "base_hp": 100,
+    "base_atk": 90,
+    "base_def": 90,
+    "base_exp_yield": 84,
+    "sprite_key": "036",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "037",
+    "display_name": "ヘルメッコ",
+    "base_hp": 75,
+    "base_atk": 75,
+    "base_def": 115,
+    "base_exp_yield": 80,
+    "sprite_key": "037",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "037B",
+    "display_name": "ゴルメッコ",
+    "base_hp": 85,
+    "base_atk": 85,
+    "base_def": 125,
+    "base_exp_yield": 88,
+    "sprite_key": "037B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "038",
+    "display_name": "シメナワ",
+    "base_hp": 80,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 66,
+    "sprite_key": "038",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "038B",
+    "display_name": "オバケナワ",
+    "base_hp": 80,
+    "base_atk": 80,
+    "base_def": 70,
+    "base_exp_yield": 69,
+    "sprite_key": "038B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "039",
+    "display_name": "メリポップ",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 90,
+    "base_exp_yield": 69,
+    "sprite_key": "039",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "039B",
+    "display_name": "メリコロネ",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 95,
+    "base_exp_yield": 70,
+    "sprite_key": "039B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "040",
+    "display_name": "ミルカルビ",
+    "base_hp": 90,
+    "base_atk": 50,
+    "base_def": 80,
+    "base_exp_yield": 66,
+    "sprite_key": "040",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "041",
+    "display_name": "アズレーン",
+    "base_hp": 110,
+    "base_atk": 100,
+    "base_def": 100,
+    "base_exp_yield": 93,
+    "sprite_key": "041",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "041B",
+    "display_name": "アズルーナ",
+    "base_hp": 115,
+    "base_atk": 105,
+    "base_def": 105,
+    "base_exp_yield": 98,
+    "sprite_key": "041B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "042",
+    "display_name": "ボルトラ",
+    "base_hp": 60,
+    "base_atk": 75,
+    "base_def": 70,
+    "base_exp_yield": 62,
+    "sprite_key": "042",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "043",
+    "display_name": "ケルピス",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 63,
+    "sprite_key": "043",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "043B",
+    "display_name": "マグピス",
+    "base_hp": 70,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 63,
+    "sprite_key": "043B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "044",
+    "display_name": "ヒメウサ",
+    "base_hp": 75,
+    "base_atk": 65,
+    "base_def": 70,
+    "base_exp_yield": 63,
+    "sprite_key": "044",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "044B",
+    "display_name": "ヨモギウサ",
+    "base_hp": 80,
+    "base_atk": 65,
+    "base_def": 70,
+    "base_exp_yield": 64,
+    "sprite_key": "044B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "045",
+    "display_name": "クララン",
+    "base_hp": 75,
+    "base_atk": 90,
+    "base_def": 70,
+    "base_exp_yield": 70,
+    "sprite_key": "045",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "046",
+    "display_name": "ユララン",
+    "base_hp": 90,
+    "base_atk": 75,
+    "base_def": 75,
+    "base_exp_yield": 72,
+    "sprite_key": "046",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "047",
+    "display_name": "リオリネ",
+    "base_hp": 65,
+    "base_atk": 70,
+    "base_def": 65,
+    "base_exp_yield": 60,
+    "sprite_key": "047",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "048",
+    "display_name": "ヒメンダコ",
+    "base_hp": 70,
+    "base_atk": 85,
+    "base_def": 70,
+    "base_exp_yield": 68,
+    "sprite_key": "048",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "048B",
+    "display_name": "ユメンダコ",
+    "base_hp": 75,
+    "base_atk": 85,
+    "base_def": 70,
+    "base_exp_yield": 69,
+    "sprite_key": "048B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "049",
+    "display_name": "エアムルグ",
+    "base_hp": 75,
+    "base_atk": 85,
+    "base_def": 60,
+    "base_exp_yield": 66,
+    "sprite_key": "049",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "050",
+    "display_name": "ニャンシー",
+    "base_hp": 85,
+    "base_atk": 95,
+    "base_def": 70,
+    "base_exp_yield": 75,
+    "sprite_key": "050",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "051",
+    "display_name": "ホークウィン",
+    "base_hp": 100,
+    "base_atk": 95,
+    "base_def": 80,
+    "base_exp_yield": 82,
+    "sprite_key": "051",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "052",
+    "display_name": "ニャンバット",
+    "base_hp": 95,
+    "base_atk": 95,
+    "base_def": 80,
+    "base_exp_yield": 81,
+    "sprite_key": "052",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "053",
+    "display_name": "クルットリ",
+    "base_hp": 60,
+    "base_atk": 75,
+    "base_def": 70,
+    "base_exp_yield": 62,
+    "sprite_key": "053",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "054",
+    "display_name": "ライコーン",
+    "base_hp": 80,
+    "base_atk": 105,
+    "base_def": 105,
+    "base_exp_yield": 87,
+    "sprite_key": "054",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "054B",
+    "display_name": "レイコーン",
+    "base_hp": 80,
+    "base_atk": 105,
+    "base_def": 110,
+    "base_exp_yield": 88,
+    "sprite_key": "054B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "055",
+    "display_name": "シャーキッド",
+    "base_hp": 90,
+    "base_atk": 90,
+    "base_def": 75,
+    "base_exp_yield": 76,
+    "sprite_key": "055",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "055B",
+    "display_name": "シャーマンダー",
+    "base_hp": 90,
+    "base_atk": 90,
+    "base_def": 75,
+    "base_exp_yield": 76,
+    "sprite_key": "055B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "056",
+    "display_name": "ツキカゲ",
+    "base_hp": 80,
+    "base_atk": 100,
+    "base_def": 80,
+    "base_exp_yield": 78,
+    "sprite_key": "056",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "056B",
+    "display_name": "ユキカゲ",
+    "base_hp": 80,
+    "base_atk": 105,
+    "base_def": 80,
+    "base_exp_yield": 80,
+    "sprite_key": "056B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "057",
+    "display_name": "マスクロウ",
+    "base_hp": 75,
+    "base_atk": 95,
+    "base_def": 80,
+    "base_exp_yield": 75,
+    "sprite_key": "057",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "dokusen_body"
+  },
+  {
+    "species_id": "058",
+    "display_name": "ブルフェルノ",
+    "base_hp": 85,
+    "base_atk": 95,
+    "base_def": 95,
+    "base_exp_yield": 82,
+    "sprite_key": "058",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "059",
+    "display_name": "モコチッチ",
+    "base_hp": 60,
+    "base_atk": 80,
+    "base_def": 55,
+    "base_exp_yield": 58,
+    "sprite_key": "059",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "060",
+    "display_name": "イバラヒメ",
+    "base_hp": 80,
+    "base_atk": 80,
+    "base_def": 80,
+    "base_exp_yield": 72,
+    "sprite_key": "060",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "061",
+    "display_name": "パピテフ",
+    "base_hp": 70,
+    "base_atk": 80,
+    "base_def": 80,
+    "base_exp_yield": 69,
+    "sprite_key": "061",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "062",
+    "display_name": "パチマル",
+    "base_hp": 75,
+    "base_atk": 80,
+    "base_def": 70,
+    "base_exp_yield": 68,
+    "sprite_key": "062",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "063",
+    "display_name": "シルフィア",
+    "base_hp": 110,
+    "base_atk": 80,
+    "base_def": 90,
+    "base_exp_yield": 84,
+    "sprite_key": "063",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "063B",
+    "display_name": "シルティア",
+    "base_hp": 115,
+    "base_atk": 80,
+    "base_def": 95,
+    "base_exp_yield": 87,
+    "sprite_key": "063B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "064",
+    "display_name": "カバネドリ",
+    "base_hp": 90,
+    "base_atk": 115,
+    "base_def": 90,
+    "base_exp_yield": 88,
+    "sprite_key": "064",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "064B",
+    "display_name": "シロカバネ",
+    "base_hp": 90,
+    "base_atk": 120,
+    "base_def": 95,
+    "base_exp_yield": 92,
+    "sprite_key": "064B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "065",
+    "display_name": "ヤミトバリ",
+    "base_hp": 100,
+    "base_atk": 105,
+    "base_def": 110,
+    "base_exp_yield": 94,
+    "sprite_key": "065",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "066",
+    "display_name": "ヴィオレッタ",
+    "base_hp": 100,
+    "base_atk": 100,
+    "base_def": 120,
+    "base_exp_yield": 96,
+    "sprite_key": "066",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "067",
+    "display_name": "ビーナイト",
+    "base_hp": 80,
+    "base_atk": 90,
+    "base_def": 90,
+    "base_exp_yield": 78,
+    "sprite_key": "067",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "068",
+    "display_name": "クインビーナ",
+    "base_hp": 90,
+    "base_atk": 105,
+    "base_def": 100,
+    "base_exp_yield": 88,
+    "sprite_key": "068",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "069",
+    "display_name": "ラブマンダー",
+    "base_hp": 120,
+    "base_atk": 70,
+    "base_def": 70,
+    "base_exp_yield": 78,
+    "sprite_key": "069",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "070",
+    "display_name": "ニャンギマリ",
+    "base_hp": 110,
+    "base_atk": 80,
+    "base_def": 80,
+    "base_exp_yield": 81,
+    "sprite_key": "070",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "071",
+    "display_name": "モモンチュラ",
+    "base_hp": 110,
+    "base_atk": 100,
+    "base_def": 100,
+    "base_exp_yield": 93,
+    "sprite_key": "071",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "072",
+    "display_name": "バニザラシ",
+    "base_hp": 95,
+    "base_atk": 105,
+    "base_def": 105,
+    "base_exp_yield": 92,
+    "sprite_key": "072",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "072B",
+    "display_name": "チョコザラシ",
+    "base_hp": 95,
+    "base_atk": 105,
+    "base_def": 110,
+    "base_exp_yield": 93,
+    "sprite_key": "072B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "073",
+    "display_name": "ダリザード",
+    "base_hp": 80,
+    "base_atk": 80,
+    "base_def": 50,
+    "base_exp_yield": 63,
+    "sprite_key": "073",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "073B",
+    "display_name": "チリザード",
+    "base_hp": 80,
+    "base_atk": 80,
+    "base_def": 50,
+    "base_exp_yield": 63,
+    "sprite_key": "073B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "074",
+    "display_name": "ゴリレイジ",
+    "base_hp": 90,
+    "base_atk": 95,
+    "base_def": 90,
+    "base_exp_yield": 82,
+    "sprite_key": "074",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "074B",
+    "display_name": "ゴリガイア",
+    "base_hp": 90,
+    "base_atk": 100,
+    "base_def": 90,
+    "base_exp_yield": 84,
+    "sprite_key": "074B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "075",
+    "display_name": "シーペント",
+    "base_hp": 90,
+    "base_atk": 90,
+    "base_def": 80,
+    "base_exp_yield": 78,
+    "sprite_key": "075",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "075B",
+    "display_name": "スナペント",
+    "base_hp": 90,
+    "base_atk": 90,
+    "base_def": 100,
+    "base_exp_yield": 84,
+    "sprite_key": "075B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "076",
+    "display_name": "フェザーロ",
+    "base_hp": 90,
+    "base_atk": 105,
+    "base_def": 80,
+    "base_exp_yield": 82,
+    "sprite_key": "076",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "076B",
+    "display_name": "サンドロ",
+    "base_hp": 90,
+    "base_atk": 105,
+    "base_def": 80,
+    "base_exp_yield": 82,
+    "sprite_key": "076B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "077",
+    "display_name": "ポプリーナ",
+    "base_hp": 75,
+    "base_atk": 65,
+    "base_def": 70,
+    "base_exp_yield": 63,
+    "sprite_key": "077",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "078",
+    "display_name": "フォレーナ",
+    "base_hp": 90,
+    "base_atk": 110,
+    "base_def": 80,
+    "base_exp_yield": 84,
+    "sprite_key": "078",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "078B",
+    "display_name": "フォレーオ",
+    "base_hp": 90,
+    "base_atk": 110,
+    "base_def": 85,
+    "base_exp_yield": 86,
+    "sprite_key": "078B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "079",
+    "display_name": "クレメーオ",
+    "base_hp": 90,
+    "base_atk": 105,
+    "base_def": 90,
+    "base_exp_yield": 86,
+    "sprite_key": "079",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "079B",
+    "display_name": "クレメーナ",
+    "base_hp": 95,
+    "base_atk": 105,
+    "base_def": 90,
+    "base_exp_yield": 87,
+    "sprite_key": "079B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "080",
+    "display_name": "ヘルガルダ",
+    "base_hp": 100,
+    "base_atk": 125,
+    "base_def": 100,
+    "base_exp_yield": 98,
+    "sprite_key": "080",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "080B",
+    "display_name": "ライガルダ",
+    "base_hp": 105,
+    "base_atk": 125,
+    "base_def": 100,
+    "base_exp_yield": 99,
+    "sprite_key": "080B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "081",
+    "display_name": "モリタロス",
+    "base_hp": 110,
+    "base_atk": 105,
+    "base_def": 105,
+    "base_exp_yield": 96,
+    "sprite_key": "081",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "081B",
+    "display_name": "ユキタロス",
+    "base_hp": 120,
+    "base_atk": 100,
+    "base_def": 105,
+    "base_exp_yield": 98,
+    "sprite_key": "081B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "082",
+    "display_name": "ミステリア",
+    "base_hp": 90,
+    "base_atk": 100,
+    "base_def": 90,
+    "base_exp_yield": 84,
+    "sprite_key": "082",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "083",
+    "display_name": "ムラクモ",
+    "base_hp": 110,
+    "base_atk": 110,
+    "base_def": 90,
+    "base_exp_yield": 93,
+    "sprite_key": "083",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "083B",
+    "display_name": "ムラサメ",
+    "base_hp": 110,
+    "base_atk": 115,
+    "base_def": 90,
+    "base_exp_yield": 94,
+    "sprite_key": "083B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "084",
+    "display_name": "アロアリュー",
+    "base_hp": 110,
+    "base_atk": 85,
+    "base_def": 90,
+    "base_exp_yield": 86,
+    "sprite_key": "084",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "084B",
+    "display_name": "ビリビリュー",
+    "base_hp": 110,
+    "base_atk": 90,
+    "base_def": 90,
+    "base_exp_yield": 87,
+    "sprite_key": "084B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "085",
+    "display_name": "ツジギリ",
+    "base_hp": 80,
+    "base_atk": 125,
+    "base_def": 80,
+    "base_exp_yield": 86,
+    "sprite_key": "085",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "085B",
+    "display_name": "ヤミウチ",
+    "base_hp": 80,
+    "base_atk": 130,
+    "base_def": 80,
+    "base_exp_yield": 87,
+    "sprite_key": "085B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "086",
+    "display_name": "コチワニ",
+    "base_hp": 75,
+    "base_atk": 80,
+    "base_def": 85,
+    "base_exp_yield": 72,
+    "sprite_key": "086",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "087",
+    "display_name": "グランモス",
+    "base_hp": 150,
+    "base_atk": 85,
+    "base_def": 90,
+    "base_exp_yield": 98,
+    "sprite_key": "087",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "087B",
+    "display_name": "ブリザモス",
+    "base_hp": 150,
+    "base_atk": 85,
+    "base_def": 90,
+    "base_exp_yield": 98,
+    "sprite_key": "087B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "088",
+    "display_name": "ガブルミ",
+    "base_hp": 75,
+    "base_atk": 85,
+    "base_def": 80,
+    "base_exp_yield": 72,
+    "sprite_key": "088",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "088B",
+    "display_name": "ヒグルミ",
+    "base_hp": 75,
+    "base_atk": 90,
+    "base_def": 80,
+    "base_exp_yield": 74,
+    "sprite_key": "088B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "089",
+    "display_name": "フラリーナ",
+    "base_hp": 100,
+    "base_atk": 95,
+    "base_def": 100,
+    "base_exp_yield": 88,
+    "sprite_key": "089",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "089B",
+    "display_name": "チェリーナ",
+    "base_hp": 95,
+    "base_atk": 105,
+    "base_def": 100,
+    "base_exp_yield": 90,
+    "sprite_key": "089B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "090",
+    "display_name": "リーファン",
+    "base_hp": 100,
+    "base_atk": 115,
+    "base_def": 95,
+    "base_exp_yield": 93,
+    "sprite_key": "090",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "091",
+    "display_name": "ヘルゴート",
+    "base_hp": 95,
+    "base_atk": 100,
+    "base_def": 85,
+    "base_exp_yield": 84,
+    "sprite_key": "091",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "091B",
+    "display_name": "アビスゴート",
+    "base_hp": 95,
+    "base_atk": 105,
+    "base_def": 85,
+    "base_exp_yield": 86,
+    "sprite_key": "091B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "092",
+    "display_name": "カミナラシ",
+    "base_hp": 70,
+    "base_atk": 80,
+    "base_def": 70,
+    "base_exp_yield": 66,
+    "sprite_key": "092",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "092B",
+    "display_name": "ヤミナラシ",
+    "base_hp": 70,
+    "base_atk": 80,
+    "base_def": 75,
+    "base_exp_yield": 68,
+    "sprite_key": "092B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "093",
+    "display_name": "サラブレイズ",
+    "base_hp": 100,
+    "base_atk": 95,
+    "base_def": 90,
+    "base_exp_yield": 86,
+    "sprite_key": "093",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "093B",
+    "display_name": "サラブラック",
+    "base_hp": 100,
+    "base_atk": 95,
+    "base_def": 90,
+    "base_exp_yield": 86,
+    "sprite_key": "093B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "094",
+    "display_name": "ペコドン",
+    "base_hp": 120,
+    "base_atk": 115,
+    "base_def": 110,
+    "base_exp_yield": 104,
+    "sprite_key": "094",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "094B",
+    "display_name": "パリピドン",
+    "base_hp": 120,
+    "base_atk": 120,
+    "base_def": 110,
+    "base_exp_yield": 105,
+    "sprite_key": "094B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "hard_armor"
+  },
+  {
+    "species_id": "095",
+    "display_name": "フブキツネ",
+    "base_hp": 90,
+    "base_atk": 95,
+    "base_def": 105,
+    "base_exp_yield": 87,
+    "sprite_key": "095",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "096",
+    "display_name": "ライバード",
+    "base_hp": 105,
+    "base_atk": 115,
+    "base_def": 80,
+    "base_exp_yield": 90,
+    "sprite_key": "096",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "096B",
+    "display_name": "チルバード",
+    "base_hp": 105,
+    "base_atk": 115,
+    "base_def": 85,
+    "base_exp_yield": 92,
+    "sprite_key": "096B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "097",
+    "display_name": "アンドーン",
+    "base_hp": 90,
+    "base_atk": 125,
+    "base_def": 105,
+    "base_exp_yield": 96,
+    "sprite_key": "097",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "097B",
+    "display_name": "メラドーン",
+    "base_hp": 90,
+    "base_atk": 130,
+    "base_def": 105,
+    "base_exp_yield": 98,
+    "sprite_key": "097B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "098",
+    "display_name": "イヌズマ",
+    "base_hp": 90,
+    "base_atk": 100,
+    "base_def": 80,
+    "base_exp_yield": 81,
+    "sprite_key": "098",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "098B",
+    "display_name": "フリーズマ",
+    "base_hp": 90,
+    "base_atk": 105,
+    "base_def": 80,
+    "base_exp_yield": 82,
+    "sprite_key": "098B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "099",
+    "display_name": "デスティング",
+    "base_hp": 100,
+    "base_atk": 100,
+    "base_def": 130,
+    "base_exp_yield": 99,
+    "sprite_key": "099",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "099B",
+    "display_name": "ゴルディング",
+    "base_hp": 100,
+    "base_atk": 105,
+    "base_def": 130,
+    "base_exp_yield": 100,
+    "sprite_key": "099B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "100",
+    "display_name": "ハグミー",
+    "base_hp": 75,
+    "base_atk": 85,
+    "base_def": 70,
+    "base_exp_yield": 69,
+    "sprite_key": "100",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "100B",
+    "display_name": "ハグユー",
+    "base_hp": 75,
+    "base_atk": 90,
+    "base_def": 70,
+    "base_exp_yield": 70,
+    "sprite_key": "100B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "101",
+    "display_name": "ツララジカ",
+    "base_hp": 100,
+    "base_atk": 85,
+    "base_def": 110,
+    "base_exp_yield": 88,
+    "sprite_key": "101",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "102",
+    "display_name": "ササゾー",
+    "base_hp": 100,
+    "base_atk": 90,
+    "base_def": 90,
+    "base_exp_yield": 84,
+    "sprite_key": "102",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "102B",
+    "display_name": "ライゾー",
+    "base_hp": 100,
+    "base_atk": 100,
+    "base_def": 100,
+    "base_exp_yield": 90,
+    "sprite_key": "102B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "hard_armor"
+  },
+  {
+    "species_id": "103",
+    "display_name": "オコチョ",
+    "base_hp": 90,
+    "base_atk": 80,
+    "base_def": 80,
+    "base_exp_yield": 75,
+    "sprite_key": "103",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice",
+      "Dragon"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "103B",
+    "display_name": "モモチョ",
+    "base_hp": 90,
+    "base_atk": 85,
+    "base_def": 80,
+    "base_exp_yield": 76,
+    "sprite_key": "103B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire",
+      "Dragon"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "104",
+    "display_name": "イグニクス",
+    "base_hp": 95,
+    "base_atk": 105,
+    "base_def": 120,
+    "base_exp_yield": 96,
+    "sprite_key": "104",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "105",
+    "display_name": "マグマンダー",
+    "base_hp": 110,
+    "base_atk": 125,
+    "base_def": 115,
+    "base_exp_yield": 105,
+    "sprite_key": "105",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "105B",
+    "display_name": "ブリザンダー",
+    "base_hp": 110,
+    "base_atk": 125,
+    "base_def": 120,
+    "base_exp_yield": 106,
+    "sprite_key": "105B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "106",
+    "display_name": "ココヤンバ",
+    "base_hp": 105,
+    "base_atk": 110,
+    "base_def": 115,
+    "base_exp_yield": 99,
+    "sprite_key": "106",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "107",
+    "display_name": "ドリタス",
+    "base_hp": 80,
+    "base_atk": 95,
+    "base_def": 120,
+    "base_exp_yield": 88,
+    "sprite_key": "107",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "needle_armor"
+  },
+  {
+    "species_id": "108",
+    "display_name": "ラブラドン",
+    "base_hp": 120,
+    "base_atk": 90,
+    "base_def": 100,
+    "base_exp_yield": 93,
+    "sprite_key": "108",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "108B",
+    "display_name": "スプラドン",
+    "base_hp": 120,
+    "base_atk": 95,
+    "base_def": 100,
+    "base_exp_yield": 94,
+    "sprite_key": "108B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "109",
+    "display_name": "トドドドン",
+    "base_hp": 100,
+    "base_atk": 70,
+    "base_def": 95,
+    "base_exp_yield": 80,
+    "sprite_key": "109",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "109B",
+    "display_name": "ゴルドドン",
+    "base_hp": 105,
+    "base_atk": 75,
+    "base_def": 100,
+    "base_exp_yield": 84,
+    "sprite_key": "109B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "110",
+    "display_name": "トコナッツ",
+    "base_hp": 130,
+    "base_atk": 95,
+    "base_def": 120,
+    "base_exp_yield": 104,
+    "sprite_key": "110",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "111",
+    "display_name": "シラヌイ",
+    "base_hp": 100,
+    "base_atk": 115,
+    "base_def": 100,
+    "base_exp_yield": 94,
+    "sprite_key": "111",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "111B",
+    "display_name": "カゲヌイ",
+    "base_hp": 100,
+    "base_atk": 115,
+    "base_def": 105,
+    "base_exp_yield": 96,
+    "sprite_key": "111B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "112",
+    "display_name": "ゴクエンオ",
+    "base_hp": 105,
+    "base_atk": 110,
+    "base_def": 80,
+    "base_exp_yield": 88,
+    "sprite_key": "112",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "112B",
+    "display_name": "シンエンオ",
+    "base_hp": 105,
+    "base_atk": 115,
+    "base_def": 80,
+    "base_exp_yield": 90,
+    "sprite_key": "112B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "113",
+    "display_name": "グラクレス",
+    "base_hp": 120,
+    "base_atk": 100,
+    "base_def": 120,
+    "base_exp_yield": 102,
+    "sprite_key": "113",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground",
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "113B",
+    "display_name": "ゴルクレス",
+    "base_hp": 120,
+    "base_atk": 105,
+    "base_def": 120,
+    "base_exp_yield": 104,
+    "sprite_key": "113B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "114",
+    "display_name": "クジャンナ",
+    "base_hp": 110,
+    "base_atk": 100,
+    "base_def": 100,
+    "base_exp_yield": 93,
+    "sprite_key": "114",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "115",
+    "display_name": "マジョルナ",
+    "base_hp": 110,
+    "base_atk": 115,
+    "base_def": 90,
+    "base_exp_yield": 94,
+    "sprite_key": "115",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "116",
+    "display_name": "シルキーヌ",
+    "base_hp": 110,
+    "base_atk": 90,
+    "base_def": 100,
+    "base_exp_yield": 90,
+    "sprite_key": "116",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "116B",
+    "display_name": "ソワレーヌ",
+    "base_hp": 115,
+    "base_atk": 90,
+    "base_def": 100,
+    "base_exp_yield": 92,
+    "sprite_key": "116B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "117",
+    "display_name": "ソルレイス",
+    "base_hp": 75,
+    "base_atk": 105,
+    "base_def": 80,
+    "base_exp_yield": 78,
+    "sprite_key": "117",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "118",
+    "display_name": "キノッポ",
+    "base_hp": 110,
+    "base_atk": 80,
+    "base_def": 90,
+    "base_exp_yield": 84,
+    "sprite_key": "118",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "118B",
+    "display_name": "ベノッポ",
+    "base_hp": 110,
+    "base_atk": 85,
+    "base_def": 90,
+    "base_exp_yield": 86,
+    "sprite_key": "118B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "dokusen_body"
+  },
+  {
+    "species_id": "119",
+    "display_name": "チルウィッチ",
+    "base_hp": 95,
+    "base_atk": 115,
+    "base_def": 105,
+    "base_exp_yield": 94,
+    "sprite_key": "119",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "120",
+    "display_name": "ヨミーラ",
+    "base_hp": 105,
+    "base_atk": 120,
+    "base_def": 105,
+    "base_exp_yield": 99,
+    "sprite_key": "120",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "121",
+    "display_name": "レヴィドラ",
+    "base_hp": 130,
+    "base_atk": 120,
+    "base_def": 100,
+    "base_exp_yield": 105,
+    "sprite_key": "121",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "121B",
+    "display_name": "アグニドラ",
+    "base_hp": 130,
+    "base_atk": 130,
+    "base_def": 100,
+    "base_exp_yield": 108,
+    "sprite_key": "121B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "122",
+    "display_name": "スザク",
+    "base_hp": 120,
+    "base_atk": 105,
+    "base_def": 105,
+    "base_exp_yield": 99,
+    "sprite_key": "122",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "122B",
+    "display_name": "シヴァ",
+    "base_hp": 125,
+    "base_atk": 105,
+    "base_def": 105,
+    "base_exp_yield": 100,
+    "sprite_key": "122B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "123",
+    "display_name": "トリステップ",
+    "base_hp": 95,
+    "base_atk": 90,
+    "base_def": 80,
+    "base_exp_yield": 80,
+    "sprite_key": "123",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "124",
+    "display_name": "フェスキー",
+    "base_hp": 105,
+    "base_atk": 100,
+    "base_def": 100,
+    "base_exp_yield": 92,
+    "sprite_key": "124",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "124B",
+    "display_name": "フォレスキー",
+    "base_hp": 105,
+    "base_atk": 105,
+    "base_def": 100,
+    "base_exp_yield": 93,
+    "sprite_key": "124B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "125",
+    "display_name": "フワフラワ",
+    "base_hp": 90,
+    "base_atk": 90,
+    "base_def": 80,
+    "base_exp_yield": 78,
+    "sprite_key": "125",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "126",
+    "display_name": "コロマジロ",
+    "base_hp": 75,
+    "base_atk": 70,
+    "base_def": 90,
+    "base_exp_yield": 70,
+    "sprite_key": "126",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "hard_block"
+  },
+  {
+    "species_id": "127",
+    "display_name": "ヤクモマル",
+    "base_hp": 85,
+    "base_atk": 85,
+    "base_def": 85,
+    "base_exp_yield": 76,
+    "sprite_key": "127",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "128",
+    "display_name": "オオタチウオ",
+    "base_hp": 70,
+    "base_atk": 100,
+    "base_def": 80,
+    "base_exp_yield": 75,
+    "sprite_key": "128",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "128B",
+    "display_name": "ヒノタチウオ",
+    "base_hp": 70,
+    "base_atk": 105,
+    "base_def": 80,
+    "base_exp_yield": 76,
+    "sprite_key": "128B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "129",
+    "display_name": "ボルカノン",
+    "base_hp": 110,
+    "base_atk": 105,
+    "base_def": 120,
+    "base_exp_yield": 100,
+    "sprite_key": "129",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "129B",
+    "display_name": "フロスカノン",
+    "base_hp": 110,
+    "base_atk": 105,
+    "base_def": 130,
+    "base_exp_yield": 104,
+    "sprite_key": "129B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "130",
+    "display_name": "ナイトロット",
+    "base_hp": 110,
+    "base_atk": 100,
+    "base_def": 100,
+    "base_exp_yield": 93,
+    "sprite_key": "130",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "130B",
+    "display_name": "ライトロット",
+    "base_hp": 110,
+    "base_atk": 105,
+    "base_def": 100,
+    "base_exp_yield": 94,
+    "sprite_key": "130B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "131",
+    "display_name": "ジオルドン",
+    "base_hp": 100,
+    "base_atk": 105,
+    "base_def": 120,
+    "base_exp_yield": 98,
+    "sprite_key": "131",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "hard_block"
+  },
+  {
+    "species_id": "131B",
+    "display_name": "フロスドン",
+    "base_hp": 100,
+    "base_atk": 110,
+    "base_def": 120,
+    "base_exp_yield": 99,
+    "sprite_key": "131B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "132",
+    "display_name": "ツンドラー",
+    "base_hp": 100,
+    "base_atk": 100,
+    "base_def": 110,
+    "base_exp_yield": 93,
+    "sprite_key": "132",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "132B",
+    "display_name": "グランドラー",
+    "base_hp": 100,
+    "base_atk": 105,
+    "base_def": 110,
+    "base_exp_yield": 94,
+    "sprite_key": "132B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "133",
+    "display_name": "ユキボウ",
+    "base_hp": 80,
+    "base_atk": 75,
+    "base_def": 85,
+    "base_exp_yield": 72,
+    "sprite_key": "133",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "134",
+    "display_name": "ヒエティ",
+    "base_hp": 140,
+    "base_atk": 80,
+    "base_def": 100,
+    "base_exp_yield": 96,
+    "sprite_key": "134",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "134B",
+    "display_name": "トロピティ",
+    "base_hp": 140,
+    "base_atk": 80,
+    "base_def": 110,
+    "base_exp_yield": 99,
+    "sprite_key": "134B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "135",
+    "display_name": "オドロクロ",
+    "base_hp": 105,
+    "base_atk": 125,
+    "base_def": 90,
+    "base_exp_yield": 96,
+    "sprite_key": "135",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "136",
+    "display_name": "カプリリス",
+    "base_hp": 85,
+    "base_atk": 90,
+    "base_def": 85,
+    "base_exp_yield": 78,
+    "sprite_key": "136",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "137",
+    "display_name": "ボルカイザー",
+    "base_hp": 100,
+    "base_atk": 125,
+    "base_def": 120,
+    "base_exp_yield": 104,
+    "sprite_key": "137",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "137B",
+    "display_name": "ボルドラゴ",
+    "base_hp": 105,
+    "base_atk": 130,
+    "base_def": 125,
+    "base_exp_yield": 108,
+    "sprite_key": "137B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "138",
+    "display_name": "ウゴクゾー",
+    "base_hp": 110,
+    "base_atk": 105,
+    "base_def": 125,
+    "base_exp_yield": 102,
+    "sprite_key": "138",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground",
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "hard_block"
+  },
+  {
+    "species_id": "138B",
+    "display_name": "ノロウゾー",
+    "base_hp": 110,
+    "base_atk": 110,
+    "base_def": 125,
+    "base_exp_yield": 104,
+    "sprite_key": "138B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "hard_block"
+  },
+  {
+    "species_id": "139",
+    "display_name": "アヌビス",
+    "base_hp": 120,
+    "base_atk": 130,
+    "base_def": 100,
+    "base_exp_yield": 105,
+    "sprite_key": "139",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "140",
+    "display_name": "セクメト",
+    "base_hp": 110,
+    "base_atk": 115,
+    "base_def": 100,
+    "base_exp_yield": 98,
+    "sprite_key": "140",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "141",
+    "display_name": "ブッサソリ",
+    "base_hp": 90,
+    "base_atk": 110,
+    "base_def": 90,
+    "base_exp_yield": 87,
+    "sprite_key": "141",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "dokusen_body"
+  },
+  {
+    "species_id": "141B",
+    "display_name": "ブッサンダー",
+    "base_hp": 90,
+    "base_atk": 115,
+    "base_def": 90,
+    "base_exp_yield": 88,
+    "sprite_key": "141B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "142",
+    "display_name": "オモシガメ",
+    "base_hp": 95,
+    "base_atk": 100,
+    "base_def": 135,
+    "base_exp_yield": 99,
+    "sprite_key": "142",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "hard_block"
+  },
+  {
+    "species_id": "142B",
+    "display_name": "オシロガメ",
+    "base_hp": 95,
+    "base_atk": 100,
+    "base_def": 140,
+    "base_exp_yield": 100,
+    "sprite_key": "142B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "143",
+    "display_name": "ニャニミテ",
+    "base_hp": 110,
+    "base_atk": 100,
+    "base_def": 100,
+    "base_exp_yield": 93,
+    "sprite_key": "143",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "144",
+    "display_name": "ミミドッグ",
+    "base_hp": 60,
+    "base_atk": 60,
+    "base_def": 130,
+    "base_exp_yield": 75,
+    "sprite_key": "144",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "145",
+    "display_name": "ゼノベーダ",
+    "base_hp": 90,
+    "base_atk": 125,
+    "base_def": 85,
+    "base_exp_yield": 90,
+    "sprite_key": "145",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "146",
+    "display_name": "ゼノルーダ",
+    "base_hp": 110,
+    "base_atk": 120,
+    "base_def": 130,
+    "base_exp_yield": 108,
+    "sprite_key": "146",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "147",
+    "display_name": "プラムルリム",
+    "base_hp": 105,
+    "base_atk": 95,
+    "base_def": 100,
+    "base_exp_yield": 90,
+    "sprite_key": "147",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "148",
+    "display_name": "ナイトメアリ",
+    "base_hp": 105,
+    "base_atk": 95,
+    "base_def": 105,
+    "base_exp_yield": 92,
+    "sprite_key": "148",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "148B",
+    "display_name": "グラスメアリ",
+    "base_hp": 110,
+    "base_atk": 95,
+    "base_def": 105,
+    "base_exp_yield": 93,
+    "sprite_key": "148B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "149",
+    "display_name": "クロマル",
+    "base_hp": 85,
+    "base_atk": 90,
+    "base_def": 85,
+    "base_exp_yield": 78,
+    "sprite_key": "149",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "149B",
+    "display_name": "フユマル",
+    "base_hp": 85,
+    "base_atk": 90,
+    "base_def": 90,
+    "base_exp_yield": 80,
+    "sprite_key": "149B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "150",
+    "display_name": "オーメン",
+    "base_hp": 95,
+    "base_atk": 105,
+    "base_def": 100,
+    "base_exp_yield": 90,
+    "sprite_key": "150",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "hard_armor"
+  },
+  {
+    "species_id": "151",
+    "display_name": "コゴエール",
+    "base_hp": 105,
+    "base_atk": 115,
+    "base_def": 110,
+    "base_exp_yield": 99,
+    "sprite_key": "151",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "151B",
+    "display_name": "モモエール",
+    "base_hp": 105,
+    "base_atk": 120,
+    "base_def": 110,
+    "base_exp_yield": 100,
+    "sprite_key": "151B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "152",
+    "display_name": "ラベロット",
+    "base_hp": 90,
+    "base_atk": 115,
+    "base_def": 90,
+    "base_exp_yield": 88,
+    "sprite_key": "152",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "153",
+    "display_name": "ヤンデリナ",
+    "base_hp": 95,
+    "base_atk": 115,
+    "base_def": 105,
+    "base_exp_yield": 94,
+    "sprite_key": "153",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "154",
+    "display_name": "キンガゼル",
+    "base_hp": 120,
+    "base_atk": 110,
+    "base_def": 110,
+    "base_exp_yield": 102,
+    "sprite_key": "154",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "155",
+    "display_name": "ワンフー",
+    "base_hp": 90,
+    "base_atk": 100,
+    "base_def": 100,
+    "base_exp_yield": 87,
+    "sprite_key": "155",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "156",
+    "display_name": "ドスコイヌ",
+    "base_hp": 115,
+    "base_atk": 95,
+    "base_def": 100,
+    "base_exp_yield": 93,
+    "sprite_key": "156",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "157",
+    "display_name": "セレスディア",
+    "base_hp": 120,
+    "base_atk": 110,
+    "base_def": 100,
+    "base_exp_yield": 99,
+    "sprite_key": "157",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "157B",
+    "display_name": "コスモディア",
+    "base_hp": 120,
+    "base_atk": 115,
+    "base_def": 100,
+    "base_exp_yield": 100,
+    "sprite_key": "157B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "158",
+    "display_name": "ジオラーヴァ",
+    "base_hp": 100,
+    "base_atk": 125,
+    "base_def": 125,
+    "base_exp_yield": 105,
+    "sprite_key": "158",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "159",
+    "display_name": "テラナイト",
+    "base_hp": 105,
+    "base_atk": 110,
+    "base_def": 135,
+    "base_exp_yield": 105,
+    "sprite_key": "159",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "159B",
+    "display_name": "マグナイト",
+    "base_hp": 105,
+    "base_atk": 115,
+    "base_def": 135,
+    "base_exp_yield": 106,
+    "sprite_key": "159B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "160",
+    "display_name": "アイギルガ",
+    "base_hp": 120,
+    "base_atk": 110,
+    "base_def": 115,
+    "base_exp_yield": 104,
+    "sprite_key": "160",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "161",
+    "display_name": "オーマサンダ",
+    "base_hp": 130,
+    "base_atk": 120,
+    "base_def": 110,
+    "base_exp_yield": 108,
+    "sprite_key": "161",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "162",
+    "display_name": "ニャルル",
+    "base_hp": 75,
+    "base_atk": 80,
+    "base_def": 70,
+    "base_exp_yield": 68,
+    "sprite_key": "162",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "163",
+    "display_name": "デンツム",
+    "base_hp": 65,
+    "base_atk": 70,
+    "base_def": 75,
+    "base_exp_yield": 63,
+    "sprite_key": "163",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "163B",
+    "display_name": "ドンツム",
+    "base_hp": 65,
+    "base_atk": 70,
+    "base_def": 80,
+    "base_exp_yield": 64,
+    "sprite_key": "163B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "164",
+    "display_name": "ポポフィア",
+    "base_hp": 70,
+    "base_atk": 75,
+    "base_def": 60,
+    "base_exp_yield": 62,
+    "sprite_key": "164",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "165",
+    "display_name": "バトラビー",
+    "base_hp": 70,
+    "base_atk": 75,
+    "base_def": 80,
+    "base_exp_yield": 68,
+    "sprite_key": "165",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "166",
+    "display_name": "フードール",
+    "base_hp": 70,
+    "base_atk": 85,
+    "base_def": 80,
+    "base_exp_yield": 70,
+    "sprite_key": "166",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "167",
+    "display_name": "ノンビリリ",
+    "base_hp": 80,
+    "base_atk": 75,
+    "base_def": 70,
+    "base_exp_yield": 68,
+    "sprite_key": "167",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "168",
+    "display_name": "ウラミィ",
+    "base_hp": 70,
+    "base_atk": 85,
+    "base_def": 80,
+    "base_exp_yield": 70,
+    "sprite_key": "168",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "169",
+    "display_name": "オーマンボ",
+    "base_hp": 90,
+    "base_atk": 90,
+    "base_def": 85,
+    "base_exp_yield": 80,
+    "sprite_key": "169",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "169B",
+    "display_name": "トノサマンボ",
+    "base_hp": 90,
+    "base_atk": 95,
+    "base_def": 85,
+    "base_exp_yield": 81,
+    "sprite_key": "169B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water",
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "170",
+    "display_name": "ネモフィ",
+    "base_hp": 105,
+    "base_atk": 100,
+    "base_def": 100,
+    "base_exp_yield": 92,
+    "sprite_key": "170",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "171",
+    "display_name": "レイバーン",
+    "base_hp": 115,
+    "base_atk": 125,
+    "base_def": 120,
+    "base_exp_yield": 108,
+    "sprite_key": "171",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "171B",
+    "display_name": "ヘルバーン",
+    "base_hp": 115,
+    "base_atk": 130,
+    "base_def": 120,
+    "base_exp_yield": 110,
+    "sprite_key": "171B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "172",
+    "display_name": "ダイナモフ",
+    "base_hp": 75,
+    "base_atk": 85,
+    "base_def": 80,
+    "base_exp_yield": 72,
+    "sprite_key": "172",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "173",
+    "display_name": "フラペック",
+    "base_hp": 85,
+    "base_atk": 85,
+    "base_def": 90,
+    "base_exp_yield": 78,
+    "sprite_key": "173",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "174",
+    "display_name": "センコ",
+    "base_hp": 110,
+    "base_atk": 125,
+    "base_def": 105,
+    "base_exp_yield": 102,
+    "sprite_key": "174",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "175",
+    "display_name": "ハナミズチ",
+    "base_hp": 130,
+    "base_atk": 115,
+    "base_def": 120,
+    "base_exp_yield": 110,
+    "sprite_key": "175",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "176",
+    "display_name": "ラピエール",
+    "base_hp": 100,
+    "base_atk": 110,
+    "base_def": 100,
+    "base_exp_yield": 93,
+    "sprite_key": "176",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "177",
+    "display_name": "アルセーヴ",
+    "base_hp": 110,
+    "base_atk": 115,
+    "base_def": 95,
+    "base_exp_yield": 96,
+    "sprite_key": "177",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "178",
+    "display_name": "メドゥーナ",
+    "base_hp": 80,
+    "base_atk": 85,
+    "base_def": 90,
+    "base_exp_yield": 76,
+    "sprite_key": "178",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "179",
+    "display_name": "マシュリー",
+    "base_hp": 105,
+    "base_atk": 95,
+    "base_def": 90,
+    "base_exp_yield": 87,
+    "sprite_key": "179",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "180",
+    "display_name": "ヴィランタン",
+    "base_hp": 90,
+    "base_atk": 100,
+    "base_def": 95,
+    "base_exp_yield": 86,
+    "sprite_key": "180",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "181",
+    "display_name": "ホシノコ",
+    "base_hp": 80,
+    "base_atk": 90,
+    "base_def": 60,
+    "base_exp_yield": 69,
+    "sprite_key": "181",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "182",
+    "display_name": "モノクローナ",
+    "base_hp": 110,
+    "base_atk": 115,
+    "base_def": 115,
+    "base_exp_yield": 102,
+    "sprite_key": "182",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "183",
+    "display_name": "ゴウカブキ",
+    "base_hp": 105,
+    "base_atk": 120,
+    "base_def": 100,
+    "base_exp_yield": 98,
+    "sprite_key": "183",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "184",
+    "display_name": "シェルガドラ",
+    "base_hp": 105,
+    "base_atk": 125,
+    "base_def": 140,
+    "base_exp_yield": 111,
+    "sprite_key": "184",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Ground"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "hard_block"
+  },
+  {
+    "species_id": "185",
+    "display_name": "エレパンダ",
+    "base_hp": 120,
+    "base_atk": 105,
+    "base_def": 105,
+    "base_exp_yield": 99,
+    "sprite_key": "185",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "hard_armor"
+  },
+  {
+    "species_id": "186",
+    "display_name": "リリクイン",
+    "base_hp": 120,
+    "base_atk": 120,
+    "base_def": 110,
+    "base_exp_yield": 105,
+    "sprite_key": "186",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "186B",
+    "display_name": "ルナクイン",
+    "base_hp": 115,
+    "base_atk": 120,
+    "base_def": 115,
+    "base_exp_yield": 105,
+    "sprite_key": "186B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "187",
+    "display_name": "ボルゼクス",
+    "base_hp": 120,
+    "base_atk": 130,
+    "base_def": 115,
+    "base_exp_yield": 110,
+    "sprite_key": "187",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Electric"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "188",
+    "display_name": "ホルス",
+    "base_hp": 105,
+    "base_atk": 110,
+    "base_def": 115,
+    "base_exp_yield": 99,
+    "sprite_key": "188",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Fire"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "188B",
+    "display_name": "イシス",
+    "base_hp": 110,
+    "base_atk": 110,
+    "base_def": 115,
+    "base_exp_yield": 100,
+    "sprite_key": "188B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "189",
+    "display_name": "ゼノグリフ",
+    "base_hp": 120,
+    "base_atk": 120,
+    "base_def": 140,
+    "base_exp_yield": 114,
+    "sprite_key": "189",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "190",
+    "display_name": "セレムーン",
+    "base_hp": 130,
+    "base_atk": 115,
+    "base_def": 110,
+    "base_exp_yield": 106,
+    "sprite_key": "190",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "191",
+    "display_name": "ヒョウガオー",
+    "base_hp": 140,
+    "base_atk": 130,
+    "base_def": 120,
+    "base_exp_yield": 117,
+    "sprite_key": "191",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "hyouten_ma"
+  },
+  {
+    "species_id": "192",
+    "display_name": "シャオロン",
+    "base_hp": 140,
+    "base_atk": 135,
+    "base_def": 120,
+    "base_exp_yield": 118,
+    "sprite_key": "192",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon",
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "193",
+    "display_name": "モスローン",
+    "base_hp": 140,
+    "base_atk": 120,
+    "base_def": 110,
+    "base_exp_yield": 111,
+    "sprite_key": "193",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "194",
+    "display_name": "ノクサージュ",
+    "base_hp": 125,
+    "base_atk": 135,
+    "base_def": 110,
+    "base_exp_yield": 111,
+    "sprite_key": "194",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Grass",
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "dokusen_body"
+  },
+  {
+    "species_id": "195",
+    "display_name": "ベラノワール",
+    "base_hp": 120,
+    "base_atk": 150,
+    "base_def": 100,
+    "base_exp_yield": 111,
+    "sprite_key": "195",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "195B",
+    "display_name": "ベラルージュ",
+    "base_hp": 120,
+    "base_atk": 150,
+    "base_def": 100,
+    "base_exp_yield": 111,
+    "sprite_key": "195B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "196",
+    "display_name": "ゼノドラン",
+    "base_hp": 130,
+    "base_atk": 120,
+    "base_def": 120,
+    "base_exp_yield": 111,
+    "sprite_key": "196",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark",
+      "Dragon"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "197",
+    "display_name": "レジェンディア",
+    "base_hp": 135,
+    "base_atk": 130,
+    "base_def": 110,
+    "base_exp_yield": 112,
+    "sprite_key": "197",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "198",
+    "display_name": "セイントール",
+    "base_hp": 130,
+    "base_atk": 120,
+    "base_def": 145,
+    "base_exp_yield": 118,
+    "sprite_key": "198",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Neutral"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "issen"
+  },
+  {
+    "species_id": "199",
+    "display_name": "ベイントール",
+    "base_hp": 130,
+    "base_atk": 145,
+    "base_def": 120,
+    "base_exp_yield": 118,
+    "sprite_key": "199",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "issen"
+  },
+  {
+    "species_id": "200",
+    "display_name": "グレイシャル",
+    "base_hp": 140,
+    "base_atk": 140,
+    "base_def": 120,
+    "base_exp_yield": 120,
+    "sprite_key": "200",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Ice"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "200B",
+    "display_name": "グレイシャドウ",
+    "base_hp": 140,
+    "base_atk": 140,
+    "base_def": 135,
+    "base_exp_yield": 124,
+    "sprite_key": "200B",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dark"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "201",
+    "display_name": "ネプティオス",
+    "base_hp": 105,
+    "base_atk": 145,
+    "base_def": 125,
+    "base_exp_yield": 112,
+    "sprite_key": "201",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  },
+  {
+    "species_id": "202",
+    "display_name": "ジェッドラン",
+    "base_hp": 115,
+    "base_atk": 140,
+    "base_def": 120,
+    "base_exp_yield": 112,
+    "sprite_key": "202",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Dragon"
+    ],
+    "learnset": [],
+    "evolution": null,
+    "trait": "bakugeki"
+  },
+  {
+    "species_id": "203",
+    "display_name": "グランジーラ",
+    "base_hp": 200,
+    "base_atk": 120,
+    "base_def": 180,
+    "base_exp_yield": 150,
+    "sprite_key": "203",
+    "default_visual_scale": 1.0,
+    "types": [
+      "Water"
+    ],
+    "learnset": [],
+    "evolution": null
+  }
 ]

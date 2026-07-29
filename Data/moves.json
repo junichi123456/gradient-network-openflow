@@ -488,7 +488,8 @@
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "Breath"
   },
   {
     "id": "tri_thunder",
@@ -618,7 +619,8 @@
     "power": 55,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "Breath"
   },
   {
     "id": "iceberg",
@@ -648,7 +650,8 @@
     "power": 55,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "Breath"
   },
   {
     "id": "seed_mine",
@@ -2130,7 +2133,8 @@
     "max_pp": 26,
     "range": "Line",
     "ailment_effect": "Freeze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "weapon_tag": "Breath"
   },
   {
     "id": "MV_204",
@@ -4118,7 +4122,8 @@
     "max_pp": 30,
     "range": "Adjacent",
     "recoil_hp_percent": 25,
-    "dragon_multiplier": 1.25
+    "dragon_multiplier": 1.25,
+    "weapon_tag": "Breath"
   },
   {
     "id": "mvn_082",
@@ -4335,5 +4340,16 @@
     "accuracy": 100,
     "max_pp": 18,
     "range": "Adjacent"
+  },
+  {
+    "id": "bakugeki",
+    "name": "ばくげき",
+    "type": "Dragon",
+    "category": "Physical",
+    "power": 120,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "is_guaranteed_hit": true
   }
 ]
