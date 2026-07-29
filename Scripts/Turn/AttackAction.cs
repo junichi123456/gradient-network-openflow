@@ -558,10 +558,16 @@ public class AttackAction : IAction
         var guardian = FindGuardian(victim, _floorController?.AllActors());
         if (guardian == null) return damage;
 
-        // Floors to 0 for damage <= 6, in which case there's nothing to
-        // shoulder and the victim simply takes the hit unchanged.
-        int shouldered = Mathf.FloorToInt(damage * 0.15f);
-        if (shouldered <= 0) return damage;
+        // 15% of the hit, but never a silent no-op: floor(damage*0.15) is 0
+        // for damage <= 6, which would disable the guardian in exactly the
+        // low-power early-game fights where a shield matters most. Hence the
+        // Max(1). The Min(damage-1) is the other half of that guarantee -
+        // the victim must still take at least 1 (a landed hit always deals
+        // >= 1, per DamageCalculator's own floor), so the guardian can never
+        // absorb a hit outright. Behaviour for damage >= 7 is unchanged,
+        // where floor(damage*0.15) is already >= 1.
+        int shouldered = Mathf.Min(damage - 1, Mathf.Max(1, Mathf.FloorToInt(damage * 0.15f)));
+        if (shouldered <= 0) return damage; // damage == 1: nothing left to split
 
         guardian.Stats.TakeDamage(shouldered);
         guardian.PlayHitFlash();
