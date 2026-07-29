@@ -107,6 +107,9 @@ public partial class Entity : Node2D, ITurnActor
     // (Data/ecology.json: "水源にいる間、状態異常の蓄積値が毎ターン-100").
     private const int WaterAccumulationDecayPerTurn = 100;
 
+    // オーバーヒール: extra 6% of MaxHp on top of any move-driven heal.
+    private const float OverHealBonusRate = 0.06f;
+
     private const double MoveAnimationDuration = 0.12;
     private const double BumpForwardDuration = 0.05;
     private const double BumpReturnDuration = 0.05;
@@ -163,8 +166,7 @@ public partial class Entity : Node2D, ITurnActor
         // Ailment slot (帯電/Paralyze) via the mutual-exclusion rule, with
         // Paralyze's own movement-lock effect suppressed for its holder -
         // see StatusEffectManager.MarkAsBattery.
-        if (Stats.Trait == "battery")
-            StatusEffects.MarkAsBattery();
+        ApplyTraitFlags();
 
         // Centered + an upward Offset puts the sprite's bottom edge (its
         // "feet") at this node's own origin instead of the sprite's
@@ -195,6 +197,30 @@ public partial class Entity : Node2D, ITurnActor
         };
         _visual.Offset = ComputeFeetOffset(_visual.Texture);
         AddChild(_visual);
+    }
+
+    // Latches the permanent, trait-driven flags onto StatusEffects. These
+    // are resolved once from Stats.Trait rather than re-checked per event,
+    // because StatusEffectManager owns no back-reference to its Stats.
+    //
+    // Called from _Ready() after FillFromSpecies has populated Stats.Trait.
+    // Public and idempotent so anything that assigns Trait AFTER spawn
+    // (test harnesses, a future trait-swap item) can re-latch instead of
+    // silently ending up with a trait whose flags never fired - the failure
+    // mode is invisible, since the trait id itself still reads correctly.
+    public void ApplyTraitFlags()
+    {
+        // バッテリー permanently occupies the Ailment slot (帯電/Paralyze)
+        // with Paralyze's own movement-lock suppressed for its holder -
+        // see StatusEffectManager.MarkAsBattery.
+        if (Stats.Trait == "battery")
+            StatusEffects.MarkAsBattery();
+
+        if (Stats.Trait == "blitz_beat")
+            StatusEffects.MarkBlocksEvasionDrop();
+
+        if (Stats.Trait == "over_heal")
+            StatusEffects.MarkHealBonusRate(OverHealBonusRate);
     }
 
     // Bottom edge at local Y=0 (see _Ready()'s comment) is "feet at this

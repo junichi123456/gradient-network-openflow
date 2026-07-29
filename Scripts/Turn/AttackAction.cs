@@ -40,7 +40,7 @@ public class AttackAction : IAction
 
     public void Execute(int turnNumber)
     {
-        var move = _moveSlot.Data;
+        var move = ResolveMove(_moveSlot.Data);
 
         // Out of PP = the move simply fails (turn still consumed).
         if (_moveSlot.CurrentPp <= 0)
@@ -221,6 +221,32 @@ public class AttackAction : IAction
 
         var defenderStats = target.Stats;
 
+        // ぜつえんたい / ディープダイブ (stage 9 §1.9): full nullification of
+        // an incoming element. Returns BEFORE any damage or secondary-effect
+        // work, which is what makes it "ダメージ・追加効果とも0" - the caller
+        // reads 0 and therefore skips rank/ailment application and death
+        // handling exactly as it does for a miss.
+        //
+        // Uses the move's RAW Type, not EffectiveMoveType: おしえ retargets
+        // what a Neutral move counts AS, and a move converted into Electric
+        // by the attacker's own trait is still an Electric move arriving at
+        // the defender. Both readings coincide for a natively-typed move,
+        // which is every case that exists today.
+        if (HasTrait(target, "zetsuentai") && move.Type == "Electric")
+        {
+            MessageLogger.Log($"{target.ActorName} is insulated - {move.Name} has no effect!", MessageLogger.IneffectiveColor);
+            return 0;
+        }
+
+        if (HasTrait(target, "deep_dive") && move.Type == "Water")
+        {
+            // Nullified AND banked: the next Water move this entity uses
+            // gets +25 power (see the powerFlatBuff block below).
+            target.StatusEffects.ArmDeepDiveCharge();
+            MessageLogger.Log($"{target.ActorName} absorbed {move.Name} and is charged up!", MessageLogger.EffectiveColor);
+            return 0;
+        }
+
         // 〇〇のおしえ (§4, stage 2-b): a Neutral-type move's EFFECTIVE
         // element is overridden to the attacker's own oshie-template
         // element, if they hold one - affects type-effectiveness/STAB/
@@ -236,6 +262,19 @@ public class AttackAction : IAction
         // scope - see CombatTypes).
         var (defType1, defType2) = CombatTypes(target);
         float typeMultiplier = TypeChartManager.GetMultiplier(effectiveType, defType1, defType2);
+
+        // 燃えるこぶし (stage 9 §1.5): the holder's CONTACT moves additionally
+        // carry Fire, so the defender's Fire effectiveness is multiplied in
+        // on top of the move's own. This is the same product TypeChartManager
+        // already forms for a dual-typed DEFENDER, just applied from the
+        // attacking side - hence the spec's "防御側複属性乗算の反転利用".
+        //
+        // A move that is ALREADY Fire would be multiplying its own element in
+        // twice, so that case takes a flat +5 power instead (see powerFlatBuff
+        // below). Placed here, before グロリアスミスト/式, so the composed
+        // value is what those two subsequently inspect.
+        if (HasTrait(_attacker, "moeru_kobushi") && move.IsContact && effectiveType != "Fire")
+            typeMultiplier *= TypeChartManager.GetMultiplier("Fire", defType1, defType2);
 
         // STAB (same-type attack bonus): x1.2 when the move's (effective)
         // Type matches either of the attacker's own (possibly Soaked-
@@ -294,7 +333,22 @@ public class AttackAction : IAction
         float effectiveDragonMultiplier = blocked ? 1.0f : move.DragonMultiplier;
 
         // Crit rolled per target (§4-3), with the move's CritRankBonus.
+        // たかねのはな (stage 9 §1.5): the DEFENDER holding it can never be
+        // crit - a hard suppression on the roll's RESULT rather than a
+        // chance reduction, so even a guaranteed-crit CritRank +5 attacker
+        // is denied. Applied here so every downstream consumer (the damage
+        // multiplier, the crit clamps, きょうしんぞう below, the log line)
+        // uniformly sees "no crit happened".
         bool isCrit = GD.Randf() < _attacker.StatusEffects.GetCritChanceWithBonus(effectiveCritRankBonus);
+        if (HasTrait(target, "takane_no_hana")) isCrit = false;
+
+        // きょうしんぞう (stage 9 §1.5): taking a crit maxes the VICTIM's own
+        // Atk rank. Fires on the crit landing, before damage resolves, so
+        // the buff is already standing when they next swing (it does not
+        // retroactively boost the hit they are currently taking - that is
+        // the attacker's damage, not theirs).
+        if (isCrit && HasTrait(target, "kyoushinzou"))
+            target.StatusEffects.ApplyRankDelta(RankStat.Atk, AtkRankMaxDelta);
 
         float atkMul = _attacker.StatusEffects.GetAtkMultiplier();
         float defMul = target.StatusEffects.GetDefMultiplier();
@@ -359,6 +413,56 @@ public class AttackAction : IAction
         // existence-only, so "重複不可" holds unchanged.
         if (HasPartyGuard(target)) defFlatBuff += Mathf.FloorToInt(target.Stats.BaseDef * 0.10f);
 
+        // ---- stage 9 §1.5/§1.9: further DamageContext-input traits ----
+
+        // けいかいかん: +10 Defense against a RANGED move. "遠距離" is read as
+        // !IsContact (the spec's own stated interpretation) - no separate
+        // melee/ranged flag is introduced. A plain +10, not a species-value
+        // percentage, so it lands on the same flat seam as まもり and is
+        // likewise level-invariant.
+        if (HasTrait(target, "keikaikan") && !move.IsContact) defFlatBuff += 10;
+
+        // ハードブロック / ハードアーマー: the defender doubles their own
+        // Defense against one damage category. These stay MULTIPLIERS on the
+        // computed stat (the x2 family is explicitly exempted from §1.7's
+        // species-value rework), so they ride defMul, not defFlatBuff.
+        if ((HasTrait(target, "hard_block") && move.Category == MoveCategory.Special)
+            || (HasTrait(target, "hard_armor") && move.Category == MoveCategory.Physical))
+            defMul *= 2.0f;
+
+        // Power addends (威力+N) - these add to the move's Power BEFORE
+        // PowerMultiplier, which is what DamageContext.PowerFlatBuff is for.
+        // Additive with each other, unlike the x1.1 power traits above.
+        float powerFlatBuff = 0f;
+
+        // こうふん: +15 against an ADJACENT target. Chebyshev distance 1, the
+        // same reach rule melee/CanAttackAdjacent already uses.
+        if (HasTrait(_attacker, "koufun"))
+        {
+            var reach = (_attacker.GridPosition - target.GridPosition).Abs();
+            if (Mathf.Max(reach.X, reach.Y) <= 1) powerFlatBuff += 15f;
+        }
+
+        // フリーフォール: +25 against a target whose ECOLOGY is グライド -
+        // the first trait to key off the ecology slot rather than a trait.
+        if (HasTrait(_attacker, "free_fall") && target.Stats.Ecology == "glide")
+            powerFlatBuff += 25f;
+
+        // 発煙器官: +10 on ブレス/息系 moves (WeaponTag.Breath, populated in
+        // moves.json for the 5 qualifying moves).
+        if (HasTrait(_attacker, "hatsuen_kikan") && move.WeaponTag == WeaponTag.Breath)
+            powerFlatBuff += 10f;
+
+        // 燃えるこぶし's already-Fire branch: no second Fire multiplication
+        // (that would square the holder's own element), a flat +5 instead.
+        if (HasTrait(_attacker, "moeru_kobushi") && move.IsContact && effectiveType == "Fire")
+            powerFlatBuff += 5f;
+
+        // ディープダイブ: consumes the one-shot charge armed by nullifying a
+        // Water move (see the nullification block earlier in this method).
+        if (move.Type == "Water" && _attacker.StatusEffects.ConsumeDeepDiveChargeIfArmed())
+            powerFlatBuff += 25f;
+
         if (isCrit)
         {
             atkMul = Mathf.Max(1f, atkMul);
@@ -374,6 +478,10 @@ public class AttackAction : IAction
             // clamp is a no-op (it only ever adds), kept for symmetry.
             atkFlatBuff = Mathf.Max(0f, atkFlatBuff);
             defFlatBuff = Mathf.Min(0f, defFlatBuff);
+
+            // Power addends are the ATTACKER's own advantage, so they
+            // survive a crit for the same reason powerMul's Max(1f) does.
+            powerFlatBuff = Mathf.Max(0f, powerFlatBuff);
         }
 
         var ctx = new DamageContext
@@ -383,6 +491,7 @@ public class AttackAction : IAction
             BasePower = move.Power,
             AtkFlatBuff = atkFlatBuff,
             DefFlatBuff = defFlatBuff,
+            PowerFlatBuff = powerFlatBuff,
             AttackElement = effectiveType,
             DefenderElement = defType1,
             TypeEffectiveness = typeMultiplier,
@@ -481,6 +590,49 @@ public class AttackAction : IAction
         _attacker.StatusEffects.ResetDamageTimer();
         target.StatusEffects.ResetDamageTimer();
 
+        // ---- stage 9 §1.5/§1.9: post-damage reactions on the DEFENDER ----
+
+        // あくい: a Dark move still connects in full, then gives back half
+        // of what it dealt ("本来受けるダメージの数値の半分を回復") - a net
+        // halving expressed as damage-then-heal, not as a reduction, so the
+        // attacker's own drain/recoil still see the undiminished number.
+        if (HasTrait(target, "akui") && move.Type == "Dark" && damage > 0)
+        {
+            int akuiHeal = Mathf.FloorToInt(damage * 0.5f);
+            if (akuiHeal > 0)
+            {
+                defenderStats.Heal(akuiHeal);
+                MessageLogger.Log($"{target.ActorName} feeds on the darkness and recovers {akuiHeal} HP!", MessageLogger.ProgressionColor);
+            }
+        }
+
+        // ニードルアーマー: a CONTACT move fires spikes back at the attacker
+        // for 5% of the ATTACKER's own MaxHP, "ダメージ処理後" - i.e. after
+        // TakeDamage above, so a defender who dies to the hit still retaliates.
+        if (HasTrait(target, "needle_armor") && move.IsContact && !BlocksSecondaryEffectsFor(target))
+        {
+            int spikes = Mathf.Max(1, Mathf.FloorToInt(_attacker.Stats.MaxHp * 0.05f));
+            _attacker.Stats.TakeDamage(spikes);
+            _attacker.PlayHitFlash();
+            _attacker.ShowDamagePopup(spikes);
+            MessageLogger.Log($"{_attacker.ActorName} is hurt by {target.ActorName}'s spikes! ({spikes} damage)", MessageLogger.IneffectiveColor);
+            if (!_attacker.Stats.IsAlive) HandleFaint(_attacker);
+        }
+
+        // どくせんボディ: poison accumulation in BOTH directions, entirely
+        // trait-driven (AccumulateFlat bypasses the move's own element/
+        // AilmentChance matching, same as レッツハギング/ひょうてんま).
+        // - holder is hit by a Physical move  -> attacker gains +250
+        // - holder LANDS a Physical move      -> target gains +75
+        if (move.Category == MoveCategory.Physical)
+        {
+            if (HasTrait(target, "dokusen_body") && !_attacker.StatusEffects.IsMudCaked)
+                _attacker.StatusEffects.AccumulateFlat(AilmentType.Poison, 250);
+
+            if (HasTrait(_attacker, "dokusen_body") && !BlocksSecondaryEffectsFor(target))
+                target.StatusEffects.AccumulateFlat(AilmentType.Poison, 75);
+        }
+
         // Darkness clears on a landed Special-category hit, from any
         // source (status-redesign §4-6 "発生源は問わない").
         if (move.Category == MoveCategory.Special)
@@ -559,6 +711,28 @@ public class AttackAction : IAction
     // check above when a single AttackAction hits several AoE targets.
     private bool BlocksSecondaryEffectsFor(Entity target) =>
         _attacker.StatusEffects.IsMudCaked || HasTrait(target, "kyoujin_na_karada");
+
+    // きょうしんぞう raises the victim's Atk rank to its MAXIMUM in one go.
+    // ApplyRankDelta clamps into [-6, +6] internally, so passing the full
+    // span (+12) lands on +6 from any starting rank, including -6 - which
+    // is what "最大まで上がる" means, rather than a mere +N step.
+    private const int AtkRankMaxDelta = 12;
+
+    // ばくげき (stage 9 §1.9): the holder's every DRAGON move is swapped for
+    // the fixed ばくげき move at use time. Resolved once at the top of
+    // Execute so the whole pipeline below - PP (still spent from the slot
+    // the player actually chose), range, damage, logging - sees only the
+    // replacement, with no per-site special-casing.
+    //
+    // A missing moves.json entry falls back to the original rather than
+    // crashing; the swap is a buff, not a correctness requirement.
+    private MoveData ResolveMove(MoveData move)
+    {
+        if (move == null || move.Type != "Dragon") return move;
+        if (!HasTrait(_attacker, "bakugeki")) return move;
+
+        return MoveDatabase.Get("bakugeki") ?? move;
+    }
 
     // The 8 surrounding tiles, in the same order FloorController's own
     // auto-aim scans them - reused by チェイサー's landing-tile search.
@@ -778,6 +952,19 @@ public class AttackAction : IAction
 
         _attacker.Stats.Heal(heal);
         MessageLogger.Log($"{_attacker.ActorName} drained {heal} HP!", MessageLogger.ProgressionColor);
+
+        // オーバーヒール (stage 9 §1.9): "技によってHPを回復すると" - this
+        // drain is the only move-driven heal an over_heal holder can ever
+        // receive. The other two Heal() sites in this file are あくむのひとみ
+        // and あくい, both trait-driven, and a species holds exactly ONE
+        // trait, so an over_heal holder is structurally excluded from both.
+        // Item healing (UseItemAction) is not "技による" and stays untouched.
+        int bonus = _attacker.StatusEffects.GetHealBonus(_attacker.Stats.MaxHp);
+        if (bonus > 0)
+        {
+            _attacker.Stats.Heal(bonus);
+            MessageLogger.Log($"{_attacker.ActorName} overheals for {bonus} more HP!", MessageLogger.ProgressionColor);
+        }
     }
 
     // Self-destruct (メガトン自爆): the user always faints after the move

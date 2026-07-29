@@ -132,6 +132,12 @@ public partial class StatusEffectManager : Node
                 AccuracyRank = Mathf.Clamp(AccuracyRank + delta, AccuracyRankMin, AccuracyRankMax);
                 break;
             case RankStat.Evasion:
+                // ブリッツビート (stage 9 §1.5): "回避率が下がらない" - the
+                // holder's Evasion rank is floored against any DECREASE.
+                // The [0,3] clamp alone isn't enough: a debuff from rank 3
+                // would still drop them to 2 without this guard. Increases
+                // are untouched.
+                if (delta < 0 && _blocksEvasionDrop) break;
                 EvasionRank = Mathf.Clamp(EvasionRank + delta, EvasionRankMin, EvasionRankMax);
                 break;
             case RankStat.ElementPower:
@@ -373,6 +379,38 @@ public partial class StatusEffectManager : Node
         return true;
     }
 
+    // ディープダイブ (stage 9 §1.9): armed when this entity nullifies an
+    // incoming Water move, consumed by the NEXT Water move they use for
+    // +25 power. Same one-shot arm/consume shape as きぬぬい above - a
+    // second nullification before spending it simply re-arms the same
+    // single charge rather than stacking.
+    private bool _deepDiveCharged;
+
+    // ブリッツビート's evasion-drop immunity, and オーバーヒール's heal
+    // top-up rate. Both are set once from the species trait at spawn
+    // (Entity._Ready) rather than looked up per event - the same posture
+    // MarkAsBattery already takes for a permanent trait-driven flag.
+    private bool _blocksEvasionDrop;
+    private float _healBonusRate;
+
+    public void MarkBlocksEvasionDrop() => _blocksEvasionDrop = true;
+    public void MarkHealBonusRate(float rate) => _healBonusRate = rate;
+
+    // オーバーヒール (stage 9 §1.9): extra HP on top of any move-driven
+    // heal, as a fraction of MaxHp. Returns the ADDITIONAL amount only -
+    // the caller has already applied the base heal.
+    public int GetHealBonus(int maxHp) =>
+        _healBonusRate <= 0f ? 0 : Mathf.FloorToInt(maxHp * _healBonusRate);
+
+    public void ArmDeepDiveCharge() => _deepDiveCharged = true;
+
+    public bool ConsumeDeepDiveChargeIfArmed()
+    {
+        if (!_deepDiveCharged) return false;
+        _deepDiveCharged = false;
+        return true;
+    }
+
     // Re-applying while already afflicted with one of the 5 is a no-op
     // (confirmed: re-poisoning a Poisoned target does NOT escalate it to
     // Toxic) - Stun always succeeds regardless, since it doesn't touch
@@ -428,6 +466,7 @@ public partial class StatusEffectManager : Node
         IsStunned = false;
         _accumulation.Clear();
         _damageReductionArmed = false;
+        _deepDiveCharged = false;
 
         // バッテリー's permanent occupation must survive a floor-transition
         // Reset() (the player is the one entity that persists across
