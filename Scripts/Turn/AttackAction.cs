@@ -224,6 +224,16 @@ public class AttackAction : IAction
             ? (HasMatchingTemplateTrait(_attacker, move.Type, TraitTemplateKind.Stab) ? 1.5f : 1.2f)
             : 1.0f;
 
+        // 〇〇式 (§4, party census): when this hit is exactly a single
+        // weakness (2.0x - the doc's literal "2.0→2.5", not a general
+        // "+25% to any weakness" rule, so a double-weakness 4.0 is left
+        // untouched), a party-wide weakness-template trait matching the
+        // move's own element upgrades it to 2.5x. Self-inclusive (no "他"
+        // qualifier in the source text, unlike ちから below).
+        if (typeMultiplier == 2.0f && Enum.TryParse<Element>(move.Type, out var weaknessElement)
+            && PartyElementCensus.AnyAllyHasTemplateTrait(_attacker, _floorController?.AllActors(), TraitTemplateKind.Weakness, weaknessElement, includeSelf: true))
+            typeMultiplier = 2.5f;
+
         // MudCaked (泥まみれ) OR the target holding きょうじんなからだ (§3,
         // reuses MudCaked's block-list wholesale) neuters the move's OWN
         // CritRankBonus/DragonMultiplier for this strike - the attacker's
@@ -239,6 +249,35 @@ public class AttackAction : IAction
         float atkMul = _attacker.StatusEffects.GetAtkMultiplier();
         float defMul = target.StatusEffects.GetDefMultiplier();
         float powerMul = _attacker.StatusEffects.GetElementPowerMultiplier(move.Type);
+
+        // 〇〇のきずな (§4, party census): the attacker's OWN bond-template
+        // trait (if any) scales their own Attack by 8% per matching-
+        // element ally, capped at 3 bodies (24%) - not move.Type-dependent
+        // at all, a standing buff active on every attack. Folds into the
+        // same "individual passive / party skill" slot AtkMultiplier was
+        // already documented for.
+        var bondTrait = TraitDatabase.Get(_attacker.Stats.Trait);
+        if (bondTrait != null && bondTrait.Category == TraitCategory.Template
+            && bondTrait.TemplateKind == TraitTemplateKind.Bond && bondTrait.Element.HasValue)
+        {
+            int allyCount = Mathf.Min(3, PartyElementCensus.CountAlliesWithType(_attacker, _floorController?.AllActors(), bondTrait.Element.Value));
+            atkMul *= 1.0f + allyCount * 0.08f;
+        }
+
+        // 〇〇のちから (§4, party census): if some OTHER party member holds
+        // a power-template trait matching this move's own element, +10%
+        // power. Existence-only check ("重複不可" - multiple holders still
+        // only grant +10% once, no extra dedup needed).
+        if (Enum.TryParse<Element>(move.Type, out var powerElement)
+            && PartyElementCensus.AnyAllyHasTemplateTrait(_attacker, _floorController?.AllActors(), TraitTemplateKind.Power, powerElement, includeSelf: false))
+            powerMul *= 1.1f;
+
+        // 〇〇のまもり (§4, party census): if a guard-template trait matching
+        // either of the DEFENDER's own Types exists anywhere in their
+        // party (holder included - "全員" covers the holder too, unlike
+        // ちから's "他パルの"), +10% defense.
+        if (HasPartyGuard(target)) defMul *= 1.1f;
+
         if (isCrit)
         {
             atkMul = Mathf.Max(1f, atkMul);
@@ -345,6 +384,21 @@ public class AttackAction : IAction
     // check above when a single AttackAction hits several AoE targets.
     private bool BlocksSecondaryEffectsFor(Entity target) =>
         _attacker.StatusEffects.IsMudCaked || HasTrait(target, "kyoujin_na_karada");
+
+    // 〇〇のまもり (§4): does a guard-template trait matching EITHER of
+    // `defender`'s own Types exist anywhere in their party (self
+    // included)? Checked against both Types since a dual-typed defender
+    // benefits from a guard trait matching either one.
+    private bool HasPartyGuard(Entity defender)
+    {
+        if (Enum.TryParse<Element>(defender.Stats.Type1, out var type1)
+            && PartyElementCensus.AnyAllyHasTemplateTrait(defender, _floorController?.AllActors(), TraitTemplateKind.Guard, type1, includeSelf: true))
+            return true;
+
+        return !string.IsNullOrEmpty(defender.Stats.Type2)
+            && Enum.TryParse<Element>(defender.Stats.Type2, out var type2)
+            && PartyElementCensus.AnyAllyHasTemplateTrait(defender, _floorController?.AllActors(), TraitTemplateKind.Guard, type2, includeSelf: true);
+    }
 
     // Death processing shared by both paths: EXP notification (before
     // Die() so the victim is still readable), then faction-gated kill
