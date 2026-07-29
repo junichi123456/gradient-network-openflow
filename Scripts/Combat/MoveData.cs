@@ -44,6 +44,17 @@ public enum StatusTarget
     Enemy,
 }
 
+// trait_catalog_v2 §4 stage 2-b: move-group tags いっせん/ツメのかりうど
+// key off (斬る系/ツメ・こぶし系). Unset (None) on every move today - no
+// per-move assignment has been authored yet, same "schema now, data
+// later" posture as Trait/Ecology's stage-9 species assignment.
+public enum WeaponTag
+{
+    None,
+    Slash,    // 斬る系
+    ClawFist, // ツメ・こぶし系
+}
+
 // Phase 21 + the accumulation-status proposal: 9 mutually-exclusive
 // primary ailments sharing one slot (Poison/Toxic/Burn/Paralyze/Freeze,
 // plus Soaked/MudCaked/VineBound/Darkness added for the 蓄積値1000
@@ -142,4 +153,10 @@ public class MoveData
     // Self-destruct (メガトン自爆): the user faints after the move fully
     // resolves, whether or not it connected. Default false.
     public bool SelfGuaranteedDeath { get; set; } = false;
+
+    // ---- trait_catalog_v2 stage 2-b ----
+
+    // Which weapon-group いっせん/ツメのかりうど key off (§4). None on
+    // every move today - see the enum's own comment.
+    public WeaponTag WeaponTag { get; set; } = WeaponTag.None;
 }

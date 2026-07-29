@@ -40,6 +40,9 @@ internal class MoveJson
     [JsonPropertyName("dragon_multiplier")] public float DragonMultiplier { get; set; } = 1.0f;
     [JsonPropertyName("drain_hp_percent")] public int DrainHpPercent { get; set; }
     [JsonPropertyName("self_guaranteed_death")] public bool SelfGuaranteedDeath { get; set; }
+
+    // trait_catalog_v2 stage 2-b (optional; unset on every current move).
+    [JsonPropertyName("weapon_tag")] public string WeaponTag { get; set; } = "None";
 }
 
 // JSON-driven move definitions. DungeonScene._Ready() calls Load()
@@ -108,6 +111,7 @@ public static class MoveDatabase
                 DragonMultiplier = entry.DragonMultiplier,
                 DrainHpPercent = entry.DrainHpPercent,
                 SelfGuaranteedDeath = entry.SelfGuaranteedDeath,
+                WeaponTag = Enum.TryParse<WeaponTag>(entry.WeaponTag, out var weaponTag) ? weaponTag : WeaponTag.None,
             };
         }
 

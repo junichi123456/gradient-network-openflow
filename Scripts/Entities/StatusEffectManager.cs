@@ -245,6 +245,19 @@ public partial class StatusEffectManager : Node
         if (Ailment == type) ClearAilment();
     }
 
+    // Trait-driven accumulation (レッツハギング/ひょうてんま, trait_catalog_v2
+    // §4 stage 2-b): a flat bonus toward a SPECIFIC ailment, entirely
+    // independent of the move's own element/AilmentEffect matching logic
+    // that AccumulateOnHit uses - the trait dictates the target ailment
+    // directly ("技のAilmentChanceとは別に"). Same "paused while any
+    // ailment already active" guard as AccumulateOnHit, so it composes
+    // safely alongside the normal move-driven accumulation on the same hit.
+    public void AccumulateFlat(AilmentType type, int amount)
+    {
+        if (Ailment != AilmentType.None) return;
+        Add(type, amount);
+    }
+
     // ---- Ailments: Poison/Toxic/Burn/Paralyze/Freeze/Soaked/MudCaked/
     // VineBound/Darkness are mutually exclusive (one slot); Stun is
     // independent and can coexist with any of them (e.g. a Poisoned

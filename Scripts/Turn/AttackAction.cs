@@ -201,27 +201,35 @@ public class AttackAction : IAction
 
         var defenderStats = target.Stats;
 
+        // 〇〇のおしえ (§4, stage 2-b): a Neutral-type move's EFFECTIVE
+        // element is overridden to the attacker's own oshie-template
+        // element, if they hold one - affects type-effectiveness/STAB/
+        // ElementPower/ちから/式/accumulation uniformly, anywhere the
+        // move's Type would otherwise be consulted for element-resolution.
+        // A non-Neutral move (the overwhelming majority) is untouched.
+        string effectiveType = EffectiveMoveType(_attacker, move);
+
         // Soaked (ずぶ濡れ) overrides an entity's COMBAT-relevant Types to
         // single Water - scoped narrowly to type-effectiveness (here) and
         // STAB (below) only, per status-redesign §4-2; GetMovementProfile
         // and everything else keeps reading the real Type1/Type2 (out of
         // scope - see CombatTypes).
         var (defType1, defType2) = CombatTypes(target);
-        float typeMultiplier = TypeChartManager.GetMultiplier(move.Type, defType1, defType2);
+        float typeMultiplier = TypeChartManager.GetMultiplier(effectiveType, defType1, defType2);
 
-        // STAB (same-type attack bonus): x1.2 when the move's Type
-        // matches either of the attacker's own (possibly Soaked-overridden)
-        // Types. A move is always single-typed and an attacker has at most
-        // 2 Types, so this is a strict either/or - "both Types match"
-        // can't structurally occur (multitype_stab_proposal §7-1), no
-        // double-counting to guard.
+        // STAB (same-type attack bonus): x1.2 when the move's (effective)
+        // Type matches either of the attacker's own (possibly Soaked-
+        // overridden) Types. A move is always single-typed and an attacker
+        // has at most 2 Types, so this is a strict either/or - "both Types
+        // match" can't structurally occur (multitype_stab_proposal §7-1),
+        // no double-counting to guard.
         var (atkType1, atkType2) = CombatTypes(_attacker);
-        bool stabApplies = move.Type == atkType1 || (!string.IsNullOrEmpty(atkType2) && move.Type == atkType2);
+        bool stabApplies = effectiveType == atkType1 || (!string.IsNullOrEmpty(atkType2) && effectiveType == atkType2);
         // 〇〇派 (§3): when STAB already applies, a matching stab-template
         // trait replaces the usual 1.2x with 1.5x ("差し替え" - it's not an
         // additional stack, STAB just becomes stronger for this holder).
         float stabMultiplier = stabApplies
-            ? (HasMatchingTemplateTrait(_attacker, move.Type, TraitTemplateKind.Stab) ? 1.5f : 1.2f)
+            ? (HasMatchingTemplateTrait(_attacker, effectiveType, TraitTemplateKind.Stab) ? 1.5f : 1.2f)
             : 1.0f;
 
         // 〇〇式 (§4, party census): when this hit is exactly a single
@@ -239,7 +247,7 @@ public class AttackAction : IAction
         // two tier (e.g. 1.5x/0.75x), switch this to an epsilon compare
         // (Mathf.Abs(typeMultiplier - 2.0f) < 1e-6f) - it would no longer
         // be safe as a strict equality.
-        if (typeMultiplier == 2.0f && Enum.TryParse<Element>(move.Type, out var weaknessElement)
+        if (typeMultiplier == 2.0f && Enum.TryParse<Element>(effectiveType, out var weaknessElement)
             && PartyElementCensus.AnyAllyHasTemplateTrait(_attacker, _floorController?.AllActors(), TraitTemplateKind.Weakness, weaknessElement, includeSelf: true))
             typeMultiplier = 2.5f;
 
@@ -257,7 +265,14 @@ public class AttackAction : IAction
 
         float atkMul = _attacker.StatusEffects.GetAtkMultiplier();
         float defMul = target.StatusEffects.GetDefMultiplier();
-        float powerMul = _attacker.StatusEffects.GetElementPowerMultiplier(move.Type);
+        float powerMul = _attacker.StatusEffects.GetElementPowerMultiplier(effectiveType);
+
+        // いっせん／ツメのかりうど (§4, stage 2-b): this move's own
+        // WeaponTag matching the attacker's held trait grants +10% power.
+        // Self-based (not party census) - a direct trait+move-data check.
+        if ((HasTrait(_attacker, "issen") && move.WeaponTag == WeaponTag.Slash)
+            || (HasTrait(_attacker, "tsume_no_kariudo") && move.WeaponTag == WeaponTag.ClawFist))
+            powerMul *= 1.1f;
 
         // 〇〇のきずな (§4, party census): the attacker's OWN bond-template
         // trait (if any) scales their own Attack by 8% per matching-
@@ -277,7 +292,7 @@ public class AttackAction : IAction
         // a power-template trait matching this move's own element, +10%
         // power. Existence-only check ("重複不可" - multiple holders still
         // only grant +10% once, no extra dedup needed).
-        if (Enum.TryParse<Element>(move.Type, out var powerElement)
+        if (Enum.TryParse<Element>(effectiveType, out var powerElement)
             && PartyElementCensus.AnyAllyHasTemplateTrait(_attacker, _floorController?.AllActors(), TraitTemplateKind.Power, powerElement, includeSelf: false))
             powerMul *= 1.1f;
 
@@ -299,7 +314,7 @@ public class AttackAction : IAction
             BaseAtk = _attacker.Stats.Attack,
             BaseDef = defenderStats.Defense,
             BasePower = move.Power,
-            AttackElement = move.Type,
+            AttackElement = effectiveType,
             DefenderElement = defType1,
             TypeEffectiveness = typeMultiplier,
             StabMultiplier = stabMultiplier,
@@ -321,7 +336,7 @@ public class AttackAction : IAction
         // the incoming move's own element takes only 15% damage (85%
         // reduction) - keyed on the trait's declared element, independent
         // of the holder's real Type1/Type2.
-        if (HasMatchingTemplateTrait(target, move.Type, TraitTemplateKind.Resist))
+        if (HasMatchingTemplateTrait(target, effectiveType, TraitTemplateKind.Resist))
             damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.15f));
 
         // きぬぬい (§3): one-time -10% on the next damage this entity takes,
@@ -359,6 +374,24 @@ public class AttackAction : IAction
     // system to hook into yet and is a declared no-op for now).
     private static (string Type1, string Type2) CombatTypes(Entity entity) =>
         entity.StatusEffects.IsSoaked ? ("Water", "") : (entity.Stats.Type1, entity.Stats.Type2);
+
+    // 〇〇のおしえ (§4, stage 2-b): a Neutral-type move's effective element
+    // becomes `attacker`'s own oshie-template element, if they hold one -
+    // everything else keeps its real Type unchanged. Called once per
+    // strike (StrikeTarget) and independently wherever the ailment-
+    // accumulation dispatch also needs it (ApplyAilmentEffectIfAny/
+    // ApplyAoeAilment), since those are separate methods with no shared
+    // local to thread it through.
+    private static string EffectiveMoveType(Entity attacker, MoveData move)
+    {
+        if (move.Type != "Neutral") return move.Type;
+
+        var trait = TraitDatabase.Get(attacker.Stats.Trait);
+        return trait != null && trait.Category == TraitCategory.Template
+            && trait.TemplateKind == TraitTemplateKind.Oshie && trait.Element.HasValue
+            ? trait.Element.Value.ToString()
+            : move.Type;
+    }
 
     // ---- trait_catalog_v2 helpers ----
 
@@ -513,6 +546,10 @@ public class AttackAction : IAction
         if (DefenderBlocksSecondaryEffects) return;
         if (move.AilmentTarget == StatusTarget.Enemy && !defenderAlive) return;
 
+        // レッツハギング／ひょうてんま (§4): independent of the move's own
+        // AilmentTarget - always lands on the actual defender being hit.
+        ApplyTraitDrivenAccumulation(move, _defender);
+
         var target = move.AilmentTarget == StatusTarget.Self ? _attacker : _defender;
 
         if (move.AilmentEffect == AilmentType.Stun)
@@ -522,7 +559,7 @@ public class AttackAction : IAction
             return;
         }
 
-        target.StatusEffects.AccumulateOnHit(move.Type, move.AilmentEffect, move.AilmentChance);
+        target.StatusEffects.AccumulateOnHit(EffectiveMoveType(_attacker, move), move.AilmentEffect, move.AilmentChance);
     }
 
     // ---- AoE secondary-effect helpers ----
@@ -535,6 +572,10 @@ public class AttackAction : IAction
     {
         if (BlocksSecondaryEffectsFor(target)) return;
 
+        // レッツハギング／ひょうてんま (§4): per hit target, same as the
+        // single-target path above.
+        ApplyTraitDrivenAccumulation(move, target);
+
         if (move.AilmentEffect == AilmentType.Stun)
         {
             if (GD.Randf() * 100f >= move.AilmentChance) return;
@@ -542,7 +583,22 @@ public class AttackAction : IAction
             return;
         }
 
-        target.StatusEffects.AccumulateOnHit(move.Type, move.AilmentEffect, move.AilmentChance);
+        target.StatusEffects.AccumulateOnHit(EffectiveMoveType(_attacker, move), move.AilmentEffect, move.AilmentChance);
+    }
+
+    // レッツハギング／ひょうてんま (§4, stage 2-b): a trait-driven
+    // accumulation path entirely separate from the move's own
+    // AilmentChance - fires whenever the attacker holds the matching
+    // trait and the move used is Physical-category, regardless of what
+    // (if anything) the move itself declares. 500 = the same chance*10
+    // conversion (50%) used everywhere else in the accumulation system.
+    private void ApplyTraitDrivenAccumulation(MoveData move, Entity target)
+    {
+        if (target == null || !target.IsAlive) return;
+        if (move.Category != MoveCategory.Physical) return;
+
+        if (HasTrait(_attacker, "let_us_hug")) target.StatusEffects.AccumulateFlat(AilmentType.VineBound, 500);
+        if (HasTrait(_attacker, "hyouten_ma")) target.StatusEffects.AccumulateFlat(AilmentType.Freeze, 500);
     }
 
     // Enemy-targeted rank effect: only opposing-faction hit targets, per

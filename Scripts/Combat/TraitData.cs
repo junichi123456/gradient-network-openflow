@@ -2,8 +2,8 @@ namespace MysteryDungeon.Combat;
 
 // Which family a trait belongs to - Unique traits are species-specific
 // (shared by a small 1-5 species group per the catalog's own design);
-// Template traits are the 54 elemental fallbacks (きずな/ちから/まもり/
-// 流/派/式 x 9 elements) handed to any species without a unique trait of
+// Template traits are the elemental fallbacks (きずな/ちから/まもり/流/派/
+// 式/おしえ x 9 elements) handed to any species without a unique trait of
 // its own (trait_catalog_v2 §0/§2).
 public enum TraitCategory
 {
@@ -11,7 +11,7 @@ public enum TraitCategory
     Template,
 }
 
-// Which of the 6 template families a Template-category trait is (null
+// Which of the 7 template families a Template-category trait is (null
 // for Unique traits). Consumption stages (2-a onward) dispatch on this
 // rather than re-parsing the Id string.
 public enum TraitTemplateKind
@@ -22,6 +22,13 @@ public enum TraitTemplateKind
     Resist,   // 流
     Stab,     // 派
     Weakness, // 式
+
+    // 〇〇のおしえ (§4, stage 2-b): uses the same "〇〇の..." placeholder
+    // notation as Bond/Power/Guard in the source doc, so it's a template
+    // family like them (not the standalone Unique trait stage 2
+    // originally catalogued it as - corrected here, before any species
+    // ever referenced it, since stage 9's assignment hadn't run yet).
+    Oshie,
 }
 
 // Immutable trait definition, loaded once by TraitDatabase from

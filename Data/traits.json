@@ -480,14 +480,6 @@
     "description": "ツメ・こぶし系の技の与ダメージ+10%。"
   },
   {
-    "id": "oshie",
-    "name": "〇〇のおしえ",
-    "category": "unique",
-    "element": null,
-    "template_kind": null,
-    "description": "無属性技を使用したとき、その技の実効属性を自分の指定属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き)。上書き先の属性は種族ごとに個別設定。"
-  },
-  {
     "id": "let_us_hug",
     "name": "レッツハギング",
     "category": "unique",
@@ -574,5 +566,77 @@
     "element": null,
     "template_kind": null,
     "description": "パーティ内の他の味方が使う接触技の威力+10%(きずな系と同じパーティ全体参照の応用)。"
+  },
+  {
+    "id": "neutral_oshie",
+    "name": "無のおしえ",
+    "category": "template",
+    "element": "Neutral",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "fire_oshie",
+    "name": "炎のおしえ",
+    "category": "template",
+    "element": "Fire",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "water_oshie",
+    "name": "水のおしえ",
+    "category": "template",
+    "element": "Water",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "grass_oshie",
+    "name": "草のおしえ",
+    "category": "template",
+    "element": "Grass",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "electric_oshie",
+    "name": "雷のおしえ",
+    "category": "template",
+    "element": "Electric",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "ground_oshie",
+    "name": "地のおしえ",
+    "category": "template",
+    "element": "Ground",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "ice_oshie",
+    "name": "氷のおしえ",
+    "category": "template",
+    "element": "Ice",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "dragon_oshie",
+    "name": "竜のおしえ",
+    "category": "template",
+    "element": "Dragon",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "dark_oshie",
+    "name": "闇のおしえ",
+    "category": "template",
+    "element": "Dark",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
   }
 ]
