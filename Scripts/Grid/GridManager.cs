@@ -169,6 +169,20 @@ public partial class GridManager : Node2D
         _tiles[x, y].IsExplored = true;
     }
 
+    // Marks a single tile as REMEMBERED without marking it currently seen -
+    // the distinction matters: IsVisible is recomputed from scratch every
+    // FovManager.UpdateVisibility (ClearVisibility wipes it), so a sensed
+    // tile flagged visible would blink out on the player's very next step,
+    // whereas IsExplored is persistent memory and survives.
+    //
+    // Added for ecology ひらめきのよかん (trait_catalog_v2 §6 stage 4), whose
+    // "階段の位置を感知する" is exactly map memory the player never walked to.
+    public void MarkExplored(Vector2I pos)
+    {
+        if (!InBounds(pos)) return;
+        _tiles[pos.X, pos.Y].IsExplored = true;
+    }
+
     public bool InBounds(Vector2I pos) =>
         pos.X >= 0 && pos.X < Width && pos.Y >= 0 && pos.Y < Height;
 

@@ -103,6 +103,10 @@ public partial class Entity : Node2D, ITurnActor
     // fighting the previous tween or snapping.
     private Tween _visualMoveTween;
 
+    // 潜航's per-action-cycle accumulation drain while standing in Water
+    // (Data/ecology.json: "水源にいる間、状態異常の蓄積値が毎ターン-100").
+    private const int WaterAccumulationDecayPerTurn = 100;
+
     private const double MoveAnimationDuration = 0.12;
     private const double BumpForwardDuration = 0.05;
     private const double BumpReturnDuration = 0.05;
@@ -443,6 +447,18 @@ public partial class Entity : Node2D, ITurnActor
     // check + rank decay internally.
     public void ResolveStatusTick()
     {
+        // 潜航 (trait_catalog_v2 §6 stage 4): standing in Water drains this
+        // entity's accumulation trackers each action-cycle. Applied BEFORE
+        // AdvanceTurn so a tracker drained to 0 this cycle can't also be
+        // pushed over the threshold by the same cycle's other effects.
+        // Terrain is read here rather than inside StatusEffectManager,
+        // which owns no grid reference by design.
+        if (Grid != null
+            && Stats.HasEcologyHook("water_accumulation_decay")
+            && Grid.InBounds(GridPosition)
+            && Grid.GetTile(GridPosition).Terrain == TerrainType.Water)
+            StatusEffects.DecayAccumulation(WaterAccumulationDecayPerTurn);
+
         int damage = StatusEffects.AdvanceTurn(Stats.MaxHp);
         if (damage <= 0) return;
 

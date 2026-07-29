@@ -70,6 +70,11 @@ public partial class FloorController : Node2D
     private int _floorNumber;
     private Vector2I _lastPlayerPos;
 
+    // Where PlaceStairs put this floor's stairs - kept so ひらめきのよかん
+    // can point at them without re-scanning the object map. Null on a floor
+    // that has no stairs (the boss/final floor).
+    private Vector2I? _stairsPos;
+
     // Read-only access for presentation code (MinimapUI/HUD) -
     // FloorController stays the only thing that mutates these.
     public DungeonObjectManager Objects => _objects;
@@ -446,6 +451,10 @@ public partial class FloorController : Node2D
         SpawnEnemies(normalRooms, occupied, rng);
         SpawnPartyMembers(occupied);
 
+        // After SpawnPartyMembers so allies exist to be polled, before the
+        // FOV refresh below so a sensed tile is drawn in the same frame.
+        TryStairsSense(rng);
+
         // First reveal of the new floor - without this the player would
         // see nothing until their first action fires OnTurnEnded.
         RefreshFieldOfView();
@@ -569,6 +578,11 @@ public partial class FloorController : Node2D
 
         _objects.Clear();
         _rooms = new List<Room>();
+
+        // Cleared with the rest of the floor state so a stairs-less floor
+        // (the boss/final floor) can't inherit the previous floor's stairs
+        // tile and have ひらめきのよかん sense a position that no longer exists.
+        _stairsPos = null;
     }
 
     // Rolls once per floor for a single Monster House, chosen from any
@@ -609,6 +623,37 @@ public partial class FloorController : Node2D
         _objects.Set(pos, MapObjectType.Stairs);
         occupied.Add(pos);
         AddMarker(pos, StairsColor);
+        _stairsPos = pos;
+    }
+
+    // ひらめきのよかん (trait_catalog_v2 §6 stage 4): on arriving at a new
+    // floor, each party member holding the ecology rolls its own Level/120
+    // to sense where the stairs are; one success is enough. Level 120+ is a
+    // guaranteed sense, which is why the roll is written as a < compare
+    // against a ratio rather than a percentage lookup.
+    //
+    // "Sensing" marks the tile explored (map memory) rather than visible -
+    // see GridManager.MarkExplored for why the distinction is load-bearing.
+    // The whole party is polled, not just the player: nothing in the source
+    // text scopes it to the leader, and every other party-wide effect in
+    // this project (きずな/ちから/まもり) already reads the full roster.
+    private void TryStairsSense(RandomNumberGenerator rng)
+    {
+        if (_stairsPos == null) return;
+
+        foreach (var actor in AllActors())
+        {
+            if (actor.Faction != Faction.Player) continue;
+            if (!actor.Stats.HasEcologyHook("stairs_sense_on_floor_start")) continue;
+
+            float chance = actor.Stats.Level / 120f;
+            if (rng.Randf() >= chance) continue;
+
+            _grid.MarkExplored(_stairsPos.Value);
+            _grid.RefreshTileMap();
+            MessageLogger.Log($"{actor.ActorName} senses where the stairs are!", MessageLogger.ProgressionColor);
+            return; // one success is enough - no reason to keep rolling
+        }
     }
 
     // Every room gets its normal item/trap counts, except a Monster

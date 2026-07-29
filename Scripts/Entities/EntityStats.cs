@@ -1,4 +1,5 @@
 using Godot;
+using MysteryDungeon.Combat;
 using MysteryDungeon.Grid;
 using MysteryDungeon.Progression;
 
@@ -62,6 +63,11 @@ public partial class EntityStats : Node
     // (single slot, filled by FillFromSpecies). "" = unassigned (stage 9
     // hasn't run the 287-species assignment yet - see SpeciesData.Trait).
     public string Trait { get; set; } = "";
+
+    // trait_catalog_v2: the INDEPENDENT ecology slot (Data/ecology.json).
+    // Separate from Trait on purpose - a species can hold both at once.
+    // "" = unassigned (same stage-9 caveat as Trait above).
+    public string Ecology { get; set; } = "";
 
     [Export] public int BaseAtk { get; set; } = 70;
     [Export] public int BaseDef { get; set; } = 70;
@@ -129,12 +135,47 @@ public partial class EntityStats : Node
     // Which terrain hazards this entity can stand on. Hover/Glide (from
     // PartnerSkill) takes priority since it covers everything at once;
     // otherwise Type1/Type2 grants the matching single-hazard immunity.
+    // Resolved as a UNION of every source (PartnerSkill, Ecology, Type)
+    // rather than a first-match-wins ladder - trait_catalog_v2 stage 4
+    // added Ecology as a third source, and the old ladder would have let
+    // whichever source came first mask the others (a 放熱器官 Water-type
+    // would have kept only one of its two immunities).
+    //
+    // Routed through the profile - NOT bolted onto CanTraverse below -
+    // because AStarPathfinder keys its per-profile grid cache off this
+    // exact value. Granting traversal anywhere else would let manual
+    // movement onto a tile that pathfinding still refuses to route
+    // through, which is precisely the drift TerrainTraversalRules exists
+    // to prevent.
     public MovementProfile GetMovementProfile()
     {
+        // Chasm is all-or-nothing and implies the other two, so any source
+        // granting it settles the answer outright.
         if (PartnerSkill is PartnerSkill.Hover or PartnerSkill.Glide) return MovementProfile.Hover;
-        if (Type1 == "Fire" || Type2 == "Fire") return MovementProfile.FireImmune;
-        if (Type1 == "Water" || Type2 == "Water" || Type1 == "Ice" || Type2 == "Ice") return MovementProfile.WaterIceImmune;
+
+        var ecology = EcologyDatabase.Get(Ecology);
+        bool ecologyChasm = ecology != null && ecology.Hooks.Contains("chasm_walk");
+        if (ecologyChasm) return MovementProfile.Hover;
+
+        bool lava = Type1 == "Fire" || Type2 == "Fire"
+            || (ecology != null && ecology.Hooks.Contains("lava_walk"));
+        bool water = Type1 == "Water" || Type2 == "Water" || Type1 == "Ice" || Type2 == "Ice"
+            || (ecology != null && ecology.Hooks.Contains("water_walk"));
+
+        if (lava && water) return MovementProfile.FireWaterImmune;
+        if (lava) return MovementProfile.FireImmune;
+        if (water) return MovementProfile.WaterIceImmune;
         return MovementProfile.Normal;
+    }
+
+    // Does this entity's ecology declare `hook`? The single read point for
+    // the non-movement ecology hooks (see Entity.ResolveStatusTick and
+    // FloorController's stairs sense) - movement hooks go through
+    // GetMovementProfile above instead.
+    public bool HasEcologyHook(string hook)
+    {
+        var ecology = EcologyDatabase.Get(Ecology);
+        return ecology != null && ecology.Hooks.Contains(hook);
     }
 
     public bool CanTraverse(TerrainType terrain) => TerrainTraversalRules.IsWalkable(terrain, GetMovementProfile());
@@ -177,6 +218,7 @@ public partial class EntityStats : Node
         Type1 = species.Types.Count > 0 ? species.Types[0].ToString() : "Neutral";
         Type2 = species.Types.Count > 1 ? species.Types[1].ToString() : "";
         Trait = species.Trait;
+        Ecology = species.Ecology;
     }
 
     public (int Level, long CurrentExp, int CurrentHp) CapturePersistedState() => (Level, CurrentExp, CurrentHp);

@@ -12,8 +12,8 @@ public static class TerrainTraversalRules
         {
             TerrainType.Wall => false,
             TerrainType.Floor => true,
-            TerrainType.Water => profile is MovementProfile.Hover or MovementProfile.WaterIceImmune,
-            TerrainType.Lava => profile is MovementProfile.Hover or MovementProfile.FireImmune,
+            TerrainType.Water => profile is MovementProfile.Hover or MovementProfile.WaterIceImmune or MovementProfile.FireWaterImmune,
+            TerrainType.Lava => profile is MovementProfile.Hover or MovementProfile.FireImmune or MovementProfile.FireWaterImmune,
             TerrainType.Chasm => profile is MovementProfile.Hover,
             _ => false,
         };

@@ -268,6 +268,34 @@ public partial class StatusEffectManager : Node
         }
     }
 
+    // 潜航 (trait_catalog_v2 §6 stage 4): while the holder stands in Water,
+    // every accumulation tracker drains by `amount` per action-cycle. Drains
+    // ALL trackers, not just the water one - the source text is "状態異常の
+    // 蓄積値が毎ターン-100" with no per-ailment qualifier, and the trackers
+    // are a single pool conceptually (any one firing already clears them all).
+    //
+    // Clamped at 0 and the entry dropped entirely, so a drained tracker is
+    // indistinguishable from one that never accumulated - GetValueOrDefault
+    // on the Add path treats a missing key as 0 either way.
+    // Current tracker value for `type` (0 when absent). Read-only window
+    // onto the accumulator - HUD/debug/verification read it, nothing
+    // mutates through it.
+    public int GetAccumulation(AilmentType type) => _accumulation.GetValueOrDefault(type);
+
+    public void DecayAccumulation(int amount)
+    {
+        if (amount <= 0 || _accumulation.Count == 0) return;
+
+        // Materialised first: the loop writes to/removes from the same
+        // dictionary it reads.
+        foreach (var type in new List<AilmentType>(_accumulation.Keys))
+        {
+            int reduced = _accumulation[type] - amount;
+            if (reduced <= 0) _accumulation.Remove(type);
+            else _accumulation[type] = reduced;
+        }
+    }
+
     // Darkness's clear condition ("受けると確定解除、発生源は問わない") is
     // driven externally by AttackAction on a landed Special-category hit,
     // not by this component's own turn-based checks - this is the public
