@@ -49,6 +49,20 @@ public class AttackAction : IAction
             return;
         }
 
+        // ざんきょうのしゅごしゃ (§4, stage 3): the holder is barred from
+        // using ATTACK moves at all (Physical/Special) - the standing cost
+        // of its ally-shielding half (see StrikeTarget). Status moves stay
+        // available, so the holder isn't reduced to a pure Wait. Gated here
+        // rather than at the 4 AttackAction construction sites (Player/
+        // MenuUI/HostileEntity/AllyEntity) so a single choke point covers
+        // every path, exactly like the PP check above. Placed BEFORE the
+        // decrement: a forbidden move must not silently burn PP.
+        if (move.Category != MoveCategory.Status && HasTrait(_attacker, "zankyou_no_shugosha"))
+        {
+            MessageLogger.Log($"{_attacker.ActorName} cannot attack - it stands guard instead!", MessageLogger.IneffectiveColor);
+            return;
+        }
+
         _moveSlot.CurrentPp--;
 
         // Self-stun (大技の隙): applied at USE time, regardless of hit or
@@ -77,6 +91,12 @@ public class AttackAction : IAction
             ExecuteAoe(move);
         else
             ExecuteSingle(move);
+
+        // チェイサー (§4, stage 3): fires off ANOTHER party member's attack,
+        // so it hangs here (after the strike fully resolved) rather than
+        // inside the per-target loop - it's one reaction per attack, not
+        // one per target hit.
+        TriggerChasers(move);
 
         // Self-destruct (メガトン自爆): the user faints once the move has
         // fully resolved, hit or miss (§ self_guaranteed_death). Applied
@@ -232,6 +252,19 @@ public class AttackAction : IAction
             ? (HasMatchingTemplateTrait(_attacker, effectiveType, TraitTemplateKind.Stab) ? 1.5f : 1.2f)
             : 1.0f;
 
+        // グロリアスミスト (§4, stage 3): a Water move against a Soaked
+        // target is FORCED to weakness (2.0x). Soaked already rewrote the
+        // defender's combat Types to single Water above, and the real chart
+        // has Water vs Water = 1.0 (verified) - which is exactly the
+        // "通常は水vs水で中立になるところを上書き" this overrides.
+        //
+        // Deliberately placed BEFORE the 式 check below so the two compose:
+        // 式 looks for "exactly 2.0", finds this forced 2.0, and upgrades it
+        // to 2.5. A party running both traits is rewarded, per the confirmed
+        // stacking decision.
+        if (HasTrait(_attacker, "glorious_mist") && effectiveType == "Water" && target.StatusEffects.IsSoaked)
+            typeMultiplier = 2.0f;
+
         // 〇〇式 (§4, party census): when this hit is exactly a single
         // weakness (2.0x - the doc's literal "2.0→2.5", not a general
         // "+25% to any weakness" rule, so a double-weakness 4.0 is left
@@ -272,6 +305,15 @@ public class AttackAction : IAction
         // Self-based (not party census) - a direct trait+move-data check.
         if ((HasTrait(_attacker, "issen") && move.WeaponTag == WeaponTag.Slash)
             || (HasTrait(_attacker, "tsume_no_kariudo") && move.WeaponTag == WeaponTag.ClawFist))
+            powerMul *= 1.1f;
+
+        // がんばりサポート (§4, stage 3): a party-census trait that buffs
+        // OTHERS, not its holder - "他の味方が使う接触技の威力+10%", so this
+        // is the ちから shape (includeSelf: false) keyed on a bare unique
+        // trait id instead of an element-matched template. First real
+        // consumer of AnyAllyHasUniqueTrait, the hook split out in stage 2-a.
+        if (move.IsContact
+            && PartyElementCensus.AnyAllyHasUniqueTrait(_attacker, _floorController?.AllActors(), "ganbari_support", includeSelf: false))
             powerMul *= 1.1f;
 
         // 〇〇のきずな (§4, party census): the attacker's OWN bond-template
@@ -352,6 +394,20 @@ public class AttackAction : IAction
         if (HasTrait(target, "watahoushi") && _attacker.StatusEffects.IsVineBound)
             damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.5f));
 
+        // ばくせん (§4, stage 3): a Fire hit on an already-Burning target
+        // adds a FLAT target-Level*0.8, in "相性倍率の影響を受けない別枠" -
+        // hence its position here, after every multiplicative modifier
+        // (type/STAB/crit/流/きぬぬい/わたほうし) has already resolved, so
+        // nothing scales it. Additive, so no second-stage floor concern:
+        // the addend is floored once on its own.
+        //
+        // Not gated by MudCaked/きょうじんなからだ - like いっせん/ツメのかり
+        // うど, this is the attacker's own damage-output trait, not a
+        // secondary effect being done TO the target (that block-list covers
+        // the move's own kickers and status riders, see BlocksSecondaryEffectsFor).
+        if (HasTrait(_attacker, "bakusen") && effectiveType == "Fire" && target.StatusEffects.Ailment == AilmentType.Burn)
+            damage += Mathf.FloorToInt(target.Stats.Level * 0.8f);
+
         // あくむのひとみ (§4, stage 2-c): drains 50% of the damage dealt,
         // but ONLY when the exact named move (ナイトメアボール/パルス) is
         // used - a direct move-id reference, independent of the move's
@@ -383,6 +439,16 @@ public class AttackAction : IAction
             target.StatusEffects.ClearAilmentIfType(AilmentType.Soaked);
             target.StatusEffects.TryApplyAilment(AilmentType.Freeze);
         }
+
+        // ざんきょうのしゅごしゃ (§4, stage 3): a same-faction guardian within
+        // 2 tiles of the victim shoulders 15% of this hit - the victim's
+        // damage drops by that amount and the guardian takes it as REAL
+        // damage (the confirmed "肩代わり" reading, not a free negation).
+        // Resolved last, immediately before the victim is dealt damage, so
+        // it splits the FINAL number - everything above (multipliers, ばく
+        // せん's flat add) is already baked in, and the attacker's own
+        // drain/recoil still key off the full damage they dealt.
+        damage = ApplyGuardianShoulder(target, damage);
 
         defenderStats.TakeDamage(damage);
         _attacker.StatusEffects.ResetDamageTimer();
@@ -466,6 +532,143 @@ public class AttackAction : IAction
     // check above when a single AttackAction hits several AoE targets.
     private bool BlocksSecondaryEffectsFor(Entity target) =>
         _attacker.StatusEffects.IsMudCaked || HasTrait(target, "kyoujin_na_karada");
+
+    // The 8 surrounding tiles, in the same order FloorController's own
+    // auto-aim scans them - reused by チェイサー's landing-tile search.
+    private static readonly Vector2I[] EightDirections =
+    {
+        new(0, -1), new(0, 1), new(-1, 0), new(1, 0),
+        new(-1, -1), new(1, -1), new(-1, 1), new(1, 1),
+    };
+
+    // ざんきょうのしゅごしゃ (§4, stage 3): returns the damage `victim`
+    // should actually take, after any qualifying guardian has shouldered
+    // its 15% share (and been dealt that share themselves).
+    //
+    // Chebyshev distance, not Manhattan: this project is 8-directional
+    // everywhere (movement, melee reach, Area blasts), so "2マス以内" is the
+    // 5x5 box around the victim, consistent with every other range rule.
+    // Only the FIRST qualifying guardian fires - the 15% is a flat share,
+    // not a per-holder stack, matching the "重複不可" posture the other
+    // party-wide traits already take.
+    private int ApplyGuardianShoulder(Entity victim, int damage)
+    {
+        if (damage <= 0) return damage;
+
+        var guardian = FindGuardian(victim, _floorController?.AllActors());
+        if (guardian == null) return damage;
+
+        // Floors to 0 for damage <= 6, in which case there's nothing to
+        // shoulder and the victim simply takes the hit unchanged.
+        int shouldered = Mathf.FloorToInt(damage * 0.15f);
+        if (shouldered <= 0) return damage;
+
+        guardian.Stats.TakeDamage(shouldered);
+        guardian.PlayHitFlash();
+        guardian.ShowDamagePopup(shouldered);
+        MessageLogger.Log($"{guardian.ActorName} shielded {victim.ActorName}, taking {shouldered} damage!", MessageLogger.EffectiveColor);
+
+        // The guardian can shoulder itself to death - the confirmed reading
+        // takes REAL damage with no death guard, so route it through the
+        // same faint handling any other lethal hit gets.
+        if (!guardian.Stats.IsAlive) HandleFaint(guardian);
+
+        return damage - shouldered;
+    }
+
+    // The guardian-selection half of ざんきょうのしゅごしゃ, split out as a
+    // pure function over a plain actor enumerable (no FloorController, no
+    // grid) for the same reason PartyElementCensus takes one - the search
+    // rules are the interesting part and this keeps them unit-testable
+    // against a hand-built roster. Returns null when nobody qualifies.
+    public static Entity FindGuardian(Entity victim, IEnumerable<Entity> actors)
+    {
+        if (actors == null) return null;
+
+        foreach (var actor in actors)
+        {
+            if (actor == victim || actor.Faction != victim.Faction) continue;
+            if (!HasTrait(actor, "zankyou_no_shugosha")) continue;
+            if (!actor.Stats.IsAlive) continue;
+
+            var delta = (actor.GridPosition - victim.GridPosition).Abs();
+            if (Mathf.Max(delta.X, delta.Y) > 2) continue; // Chebyshev "2マス以内" = the 5x5 box
+
+            return actor;
+        }
+
+        return null;
+    }
+
+    // チェイサー (§4, stage 3): every same-faction holder standing in the
+    // SAME ROOM as the attacker warps to a free tile adjacent to the enemy
+    // that was just attacked, and self-stuns as the cost.
+    //
+    // Skipped entirely when the holder is already adjacent to that enemy
+    // (the confirmed reading) - warping nowhere while still eating a stun
+    // would just be a self-inflicted lockout every time an ally swings.
+    private void TriggerChasers(MoveData move)
+    {
+        // "攻撃した際" - a pure Status move isn't an attack. A friendly-fire
+        // hit has no "敵" to chase either, so the target must be hostile.
+        if (move.Category == MoveCategory.Status) return;
+        if (_floorController == null || _defender == null || _attacker.Grid == null) return;
+        if (_defender.Faction == _attacker.Faction) return;
+
+        var grid = _attacker.Grid;
+        int attackerRoom = grid.GetRoomId(_attacker.GridPosition);
+        if (attackerRoom < 0) return; // attacker is in a corridor: "同室" is undefined
+
+        // Snapshotted - PlaceAt mutates positions while we walk the roster.
+        foreach (var actor in new List<Entity>(_floorController.AllActors()))
+        {
+            if (!IsChaseCandidate(actor, _attacker, _defender, grid.GetRoomId(actor.GridPosition), attackerRoom)) continue;
+
+            var landing = FindFreeTileAdjacentTo(_defender, actor);
+            if (landing == null) continue; // fully boxed in: no warp, and no stun either
+
+            actor.PlaceAt(landing.Value);
+            actor.StatusEffects.TryApplyAilment(AilmentType.Stun);
+            MessageLogger.Log($"{actor.ActorName} chased in on {_defender.ActorName} and must recover!", MessageLogger.ProgressionColor);
+        }
+    }
+
+    // Whether `actor` reacts to `attacker`'s strike on `enemy`. Room ids are
+    // passed in rather than a GridManager so this stays a pure predicate
+    // (same testability split as FindGuardian above): the caller does the
+    // one grid lookup, this owns all the rules.
+    public static bool IsChaseCandidate(Entity actor, Entity attacker, Entity enemy, int actorRoom, int attackerRoom)
+    {
+        if (actor == attacker || actor.Faction != attacker.Faction) return false;
+        if (!HasTrait(actor, "chaser")) return false;
+        if (actorRoom < 0 || actorRoom != attackerRoom) return false;
+
+        // Already in melee reach of the enemy: no warp AND no stun (the
+        // confirmed reading - a stun for a zero-distance move is pure loss).
+        var gap = (actor.GridPosition - enemy.GridPosition).Abs();
+        return Mathf.Max(gap.X, gap.Y) > 1;
+    }
+
+    // First free, terrain-legal tile adjacent to `enemy` that `mover` could
+    // stand on. Respects the mover's own hazard immunities (Stats.CanTraverse,
+    // same rule its ordinary movement uses) and never lands on an occupied
+    // tile, so a warp can't stack two actors.
+    private Vector2I? FindFreeTileAdjacentTo(Entity enemy, Entity mover)
+    {
+        var grid = mover.Grid;
+        if (grid == null) return null;
+
+        foreach (var dir in EightDirections)
+        {
+            var pos = enemy.GridPosition + dir;
+            if (!grid.InBounds(pos)) continue;
+            if (!mover.Stats.CanTraverse(grid.GetTile(pos).Terrain)) continue;
+            if (_floorController.GetEntityAt(pos) != null) continue;
+            return pos;
+        }
+
+        return null;
+    }
 
     // 〇〇のまもり (§4): does a guard-template trait matching EITHER of
     // `defender`'s own Types exist anywhere in their party (self
