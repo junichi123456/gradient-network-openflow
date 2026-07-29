@@ -230,6 +230,15 @@ public class AttackAction : IAction
         // untouched), a party-wide weakness-template trait matching the
         // move's own element upgrades it to 2.5x. Self-inclusive (no "他"
         // qualifier in the source text, unlike ちから below).
+        //
+        // The exact "== 2.0f" below relies on Data/type_chart.json's
+        // value set being {0.5, 1.0, 2.0} ONLY - all exact powers of two,
+        // so TypeChartManager.GetMultiplier's (at most 2-way) product is
+        // always bit-exact, empirically verified against the real chart
+        // (729 combos, 0 drift). If the chart ever gains a non-power-of-
+        // two tier (e.g. 1.5x/0.75x), switch this to an epsilon compare
+        // (Mathf.Abs(typeMultiplier - 2.0f) < 1e-6f) - it would no longer
+        // be safe as a strict equality.
         if (typeMultiplier == 2.0f && Enum.TryParse<Element>(move.Type, out var weaknessElement)
             && PartyElementCensus.AnyAllyHasTemplateTrait(_attacker, _floorController?.AllActors(), TraitTemplateKind.Weakness, weaknessElement, includeSelf: true))
             typeMultiplier = 2.5f;
