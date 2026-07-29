@@ -322,12 +322,24 @@ public class AttackAction : IAction
         // at all, a standing buff active on every attack. Folds into the
         // same "individual passive / party skill" slot AtkMultiplier was
         // already documented for.
+        // Reworked in stage 9 §1.7 from a MULTIPLIER on the attacker's
+        // computed Attack to a FLAT addend derived from the SPECIES value
+        // (Stats.BaseAtk), so the bonus no longer scales with the holder's
+        // level - two members of the same species contribute the same
+        // +N at Lv5 and Lv95. DamageContext.AtkFlatBuff/DefFlatBuff are
+        // the pre-existing seam for exactly this (Step 1 of the pipeline
+        // adds them before any multiplier runs).
+        float atkFlatBuff = 0f;
+        float defFlatBuff = 0f;
+
         var bondTrait = TraitDatabase.Get(_attacker.Stats.Trait);
         if (bondTrait != null && bondTrait.Category == TraitCategory.Template
             && bondTrait.TemplateKind == TraitTemplateKind.Bond && bondTrait.Element.HasValue)
         {
             int allyCount = Mathf.Min(3, PartyElementCensus.CountAlliesWithType(_attacker, _floorController?.AllActors(), bondTrait.Element.Value));
-            atkMul *= 1.0f + allyCount * 0.08f;
+            // Floor(BaseAtk * 0.08 * allies) - one floor over the whole
+            // product, not per ally, per the spec's literal formula.
+            atkFlatBuff += Mathf.FloorToInt(_attacker.Stats.BaseAtk * 0.08f * allyCount);
         }
 
         // 〇〇のちから (§4, party census): if some OTHER party member holds
@@ -342,13 +354,26 @@ public class AttackAction : IAction
         // either of the DEFENDER's own Types exists anywhere in their
         // party (holder included - "全員" covers the holder too, unlike
         // ちから's "他パルの"), +10% defense.
-        if (HasPartyGuard(target)) defMul *= 1.1f;
+        // Also reworked in stage 9 §1.7: Floor(BaseDef * 0.10) as a flat
+        // addend instead of the old x1.1 on computed Defense. Still
+        // existence-only, so "重複不可" holds unchanged.
+        if (HasPartyGuard(target)) defFlatBuff += Mathf.FloorToInt(target.Stats.BaseDef * 0.10f);
 
         if (isCrit)
         {
             atkMul = Mathf.Max(1f, atkMul);
             defMul = Mathf.Min(1f, defMul);
             powerMul = Mathf.Max(1f, powerMul);
+
+            // Same "a crit ignores corrections that disadvantage the
+            // attacker" rule the three clamps above apply, extended to the
+            // new flat buffs so the rework doesn't quietly change crit
+            // behaviour: まもり used to ride defMul and was therefore
+            // already cancelled by the Min(1f) clamp, so it must still be
+            // cancelled now that it rides defFlatBuff instead. きずな's
+            // clamp is a no-op (it only ever adds), kept for symmetry.
+            atkFlatBuff = Mathf.Max(0f, atkFlatBuff);
+            defFlatBuff = Mathf.Min(0f, defFlatBuff);
         }
 
         var ctx = new DamageContext
@@ -356,6 +381,8 @@ public class AttackAction : IAction
             BaseAtk = _attacker.Stats.Attack,
             BaseDef = defenderStats.Defense,
             BasePower = move.Power,
+            AtkFlatBuff = atkFlatBuff,
+            DefFlatBuff = defFlatBuff,
             AttackElement = effectiveType,
             DefenderElement = defType1,
             TypeEffectiveness = typeMultiplier,
