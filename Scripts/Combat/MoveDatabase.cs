@@ -47,6 +47,10 @@ internal class MoveJson
     // Trap-move kit (optional; only the 7 trap moves set these).
     [JsonPropertyName("field_effect")] public string FieldEffect { get; set; } = "None";
     [JsonPropertyName("field_placement")] public string FieldPlacement { get; set; } = "None";
+
+    // Multi-hit kit (optional; only the multi-hit moves set these).
+    [JsonPropertyName("multi_hit")] public string MultiHit { get; set; } = "None";
+    [JsonPropertyName("multi_hit_count")] public int MultiHitCount { get; set; }
 }
 
 // JSON-driven move definitions. DungeonScene._Ready() calls Load()
@@ -118,10 +122,20 @@ public static class MoveDatabase
                 WeaponTag = Enum.TryParse<WeaponTag>(entry.WeaponTag, out var weaponTag) ? weaponTag : WeaponTag.None,
                 FieldEffect = Enum.TryParse<Dungeon.FieldType>(entry.FieldEffect, out var fieldEffect) ? fieldEffect : Dungeon.FieldType.None,
                 FieldPlacement = Enum.TryParse<Dungeon.FieldPlacement>(entry.FieldPlacement, out var fieldPlacement) ? fieldPlacement : Dungeon.FieldPlacement.None,
+                MultiHit = Enum.TryParse<MultiHitMode>(entry.MultiHit, out var multiHit) ? multiHit : MultiHitMode.None,
+                MultiHitCount = entry.MultiHitCount,
             };
         }
 
         GD.Print($"[MoveDatabase] Loaded {_moves.Count} moves from {resPath}.");
+    }
+
+    // Every loaded move id. Used by tooling/verification that needs to sweep
+    // the whole pool rather than look up one move.
+    public static List<string> AllIds()
+    {
+        if (!_loaded) Load();
+        return new List<string>(_moves.Keys);
     }
 
     public static MoveData Get(string moveId)

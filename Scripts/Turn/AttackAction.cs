@@ -132,7 +132,7 @@ public class AttackAction : IAction
             return;
         }
 
-        int damage = StrikeTarget(move, _defender);
+        int damage = Strike(move, _defender);
         if (damage > 0)
         {
             bool alive = _defender.Stats.IsAlive;
@@ -180,7 +180,7 @@ public class AttackAction : IAction
                 continue;
             }
 
-            int damage = StrikeTarget(move, target);
+            int damage = Strike(move, target);
             if (damage <= 0) continue; // missed this target
 
             totalDamage += damage;
@@ -206,7 +206,10 @@ public class AttackAction : IAction
     // identically. Does NOT apply secondary rank/ailment or death - the
     // caller sequences those (secondary effects run on a still-alive
     // target before death processing).
-    private int StrikeTarget(MoveData move, Entity target)
+    // forceHit skips the accuracy roll entirely. Only Variable2To5's
+    // follow-up hits pass true: that shape rolls accuracy ONCE for the whole
+    // move, so hits 2..N must not each get another chance to miss.
+    private int StrikeTarget(MoveData move, Entity target, bool forceHit = false)
     {
         // Darkness (暗闇): a direct x0.7 on the afflicted attacker's own
         // outgoing hit chance, separate from the AccuracyRank ladder
@@ -225,7 +228,7 @@ public class AttackAction : IAction
             ? Mathf.Min(2, PartyElementCensus.CountAlliesWithEitherType(_attacker, _floorController?.AllActors(), Element.Dragon, Element.Dark))
             : 0;
 
-        bool hits = move.IsGuaranteedHit
+        bool hits = forceHit || move.IsGuaranteedHit
             || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplierWithBonus(accuracyBonus) * target.StatusEffects.GetEvasionMultiplierWithBonus(evasionBonus) * darknessMul;
         if (!hits)
         {
@@ -822,6 +825,68 @@ public class AttackAction : IAction
     // span (+12) lands on +6 from any starting rank, including -6 - which
     // is what "最大まで上がる" means, rather than a mere +N step.
     private const int AtkRankMaxDelta = 12;
+
+    // Resolves a multi-hit move against one target and returns the TOTAL
+    // damage, so every caller (recoil, drain, faint handling) keeps working
+    // off one combined number exactly as it does for a single strike.
+    //
+    // Accumulation: the spec is "1発ごとに状態異常値の基礎蓄積値を加算".
+    // The caller already runs ApplyAilmentEffectIfAny once for the whole
+    // move, which contributes the FIRST hit's baseline - so this adds one
+    // baseline per EXTRA landed hit rather than one per hit, or the first
+    // would be counted twice. AilmentType.None/0 is passed deliberately:
+    // that path adds the flat baseline only, never the move's declared
+    // chance bonus, which stays a once-per-move effect.
+    private int StrikeMultiHit(MoveData move, Entity target)
+    {
+        int total = 0, landed = 0;
+
+        if (move.MultiHit == MultiHitMode.Variable2To5)
+        {
+            // One accuracy roll for the move as a whole: if the opening hit
+            // misses, the move misses outright and no count is rolled.
+            int first = StrikeTarget(move, target);
+            if (first <= 0) return 0;
+            total = first; landed = 1;
+
+            float r = GD.Randf();
+            int hits = r < 1f / 3f ? 2 : r < 2f / 3f ? 3 : r < 5f / 6f ? 4 : 5;
+            for (int i = 1; i < hits; i++)
+            {
+                if (!GodotObject.IsInstanceValid(target) || !target.Stats.IsAlive) break;
+                int d = StrikeTarget(move, target, forceHit: true);
+                if (d > 0) { total += d; landed++; }
+            }
+        }
+        else // RepeatPerHit: accuracy is rolled again for every hit
+        {
+            int hits = Mathf.Max(1, move.MultiHitCount);
+            for (int i = 0; i < hits; i++)
+            {
+                if (!GodotObject.IsInstanceValid(target) || !target.Stats.IsAlive) break;
+                int d = StrikeTarget(move, target);
+                if (d > 0) { total += d; landed++; }
+            }
+        }
+
+        if (landed > 0)
+            MessageLogger.Log($"{move.Name} hit {landed} time(s) for {total} total damage!");
+
+        if (GodotObject.IsInstanceValid(target) && target.Stats.IsAlive)
+        {
+            string elem = EffectiveMoveType(_attacker, move);
+            for (int i = 1; i < landed; i++)
+                target.StatusEffects.AccumulateOnHit(elem, AilmentType.None, 0);
+        }
+
+        return total;
+    }
+
+    // One entry point for "hit this target with this move", so the single
+    // and AoE paths both pick up multi-hit without duplicating the branch.
+    private int Strike(MoveData move, Entity target) =>
+        move.MultiHit == MultiHitMode.None ? StrikeTarget(move, target) : StrikeMultiHit(move, target);
+
 
     // 5x5 centred on the user = 25 tiles; "半分(端数切り捨て)" = 12.
     private const int HalfAreaTiles = 12;

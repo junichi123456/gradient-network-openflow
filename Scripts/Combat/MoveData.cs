@@ -61,6 +61,23 @@ public enum WeaponTag
     Breath,
 }
 
+// Multi-hit moves. Two shapes were specified and both exist because they
+// fail differently, which is the point of having both:
+//
+//   Variable2To5  - ONE accuracy roll for the whole move; if it lands, the
+//                   hit count is rolled 2/3/4/5 at 1/3, 1/3, 1/6, 1/6. All
+//                   or nothing on accuracy, variable on output.
+//   RepeatPerHit  - accuracy is re-rolled for EVERY hit, so a "3-hit" move
+//                   routinely lands 2. Fixed count, variable connection.
+//
+// MoveData.Power is the PER-HIT power in both shapes, not the total.
+public enum MultiHitMode
+{
+    None,
+    Variable2To5,
+    RepeatPerHit,
+}
+
 // Phase 21 + the accumulation-status proposal: 9 mutually-exclusive
 // primary ailments sharing one slot (Poison/Toxic/Burn/Paralyze/Freeze,
 // plus Soaked/MudCaked/VineBound/Darkness added for the 蓄積値1000
@@ -174,4 +191,14 @@ public class MoveData
     // removes fields instead of placing them, and ignores FieldEffect.
     public Dungeon.FieldType FieldEffect { get; set; } = Dungeon.FieldType.None;
     public Dungeon.FieldPlacement FieldPlacement { get; set; } = Dungeon.FieldPlacement.None;
+
+    // ---- Multi-hit kit ----
+
+    // Which multi-hit shape this move uses (None on every pre-existing move).
+    // Power above is PER HIT when this is set.
+    public MultiHitMode MultiHit { get; set; } = MultiHitMode.None;
+
+    // How many hits RepeatPerHit attempts. Unused by Variable2To5, which
+    // rolls its own count.
+    public int MultiHitCount { get; set; } = 0;
 }
