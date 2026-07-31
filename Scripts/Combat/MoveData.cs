@@ -165,4 +165,13 @@ public class MoveData
     // Which weapon-group いっせん/ツメのかりうど key off (§4). None on
     // every move today - see the enum's own comment.
     public WeaponTag WeaponTag { get; set; } = WeaponTag.None;
+
+    // ---- Trap-move kit: persistent field overlays ----
+
+    // Which field this move lays down (Dungeon.FieldType) and how it picks
+    // its tiles. Default None on every pre-existing move, so nothing else
+    // changes. FieldPlacement.ClearRadiusFour is the げきりゅう case - it
+    // removes fields instead of placing them, and ignores FieldEffect.
+    public Dungeon.FieldType FieldEffect { get; set; } = Dungeon.FieldType.None;
+    public Dungeon.FieldPlacement FieldPlacement { get; set; } = Dungeon.FieldPlacement.None;
 }

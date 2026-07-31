@@ -21,5 +21,11 @@ public class MoveAction : IAction
     {
         _entity.MoveTo(_targetPos);
         GD.Print($"[Turn {turnNumber}] {Actor.ActorName} moved to ({_targetPos.X}, {_targetPos.Y})");
+
+        // Trap-move fields that react to being stepped on (うすらひ's slide,
+        // クレバス/じわれ's bite). Kept out of MoveTo itself so forced
+        // relocations that are not a "step" (spawns, floor placement) stay
+        // inert - see Entity.ResolveTileEntry.
+        _entity.ResolveTileEntry();
     }
 }

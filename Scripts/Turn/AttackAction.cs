@@ -84,6 +84,12 @@ public class AttackAction : IAction
         if (move.Type == "Ice" && HasTrait(_attacker, "kinuinui"))
             _attacker.StatusEffects.ArmDamageReduction();
 
+        // Trap-move field placement (みずたまり/ブルームガーデン/もうどくのきり/
+        // うすらひのうえ/クレバス/じわれ/げきりゅう). Resolved at USE time and
+        // centred on the USER, so it neither needs nor consults a target -
+        // these are Status moves that shape the ground, not attacks.
+        if (ApplyFieldEffect(move)) return;
+
         // AoE needs the floor (actor enumeration) and the grid; without
         // them (shouldn't happen in-dungeon) fall back to the single path.
         bool canAoe = move.Range != MoveRange.Adjacent && _floorController != null && _attacker.Grid != null;
@@ -475,6 +481,22 @@ public class AttackAction : IAction
         if (move.Type == "Water" && _attacker.StatusEffects.ConsumeDeepDiveChargeIfArmed())
             powerFlatBuff += 25f;
 
+        // みずたまり (trap-move kit): a Pal standing in a puddle takes 1.25x
+        // from Electric, and its OWN Fire moves lose 25% power. Two
+        // independent halves - the defender's tile drives the first, the
+        // attacker's tile the second - so a puddle can be helping and
+        // hurting different actors in the same strike.
+        if (_floorController != null)
+        {
+            if (effectiveType == "Electric"
+                && _floorController.Fields.Get(target.GridPosition) == Dungeon.FieldType.Puddle)
+                typeMultiplier *= 1.25f;
+
+            if (effectiveType == "Fire"
+                && _floorController.Fields.Get(_attacker.GridPosition) == Dungeon.FieldType.Puddle)
+                powerMul *= 0.75f;
+        }
+
         // ---- stage 9 §1: the 12 transcribed catalogue traits ----
 
         // ふんどのつばさ: +5 power per OTHER Dragon-or-Fire party member.
@@ -800,6 +822,34 @@ public class AttackAction : IAction
     // span (+12) lands on +6 from any starting rank, including -6 - which
     // is what "最大まで上がる" means, rather than a mere +N step.
     private const int AtkRankMaxDelta = 12;
+
+    // 5x5 centred on the user = 25 tiles; "半分(端数切り捨て)" = 12.
+    private const int HalfAreaTiles = 12;
+    private const int FourEmptyTiles = 4;
+    private const int GekiryuuRadius = 4;
+
+    // Lays down (or, for げきりゅう, wipes) this move's field. Returns true
+    // when the move was a field move and has now fully resolved - the caller
+    // returns immediately, since these do no damage and have no target.
+    private bool ApplyFieldEffect(MoveData move)
+    {
+        if (move.FieldPlacement == Dungeon.FieldPlacement.None) return false;
+        if (_floorController == null) return false; // no floor (tests/Hub): inert
+
+        var origin = _attacker.GridPosition;
+
+        if (move.FieldPlacement == Dungeon.FieldPlacement.ClearRadiusFour)
+        {
+            int cleared = _floorController.ClearFieldsAround(origin, GekiryuuRadius);
+            MessageLogger.Log($"{_attacker.ActorName} used {move.Name}! {cleared} field(s) were swept away.");
+            return true;
+        }
+
+        int want = move.FieldPlacement == Dungeon.FieldPlacement.FourEmptyTiles ? FourEmptyTiles : HalfAreaTiles;
+        int placed = _floorController.PlaceField(origin, move.FieldEffect, want);
+        MessageLogger.Log($"{_attacker.ActorName} used {move.Name}! ({placed} tile(s) affected)");
+        return true;
+    }
 
     private static bool IsBelowHalfHp(Entity e) => e.Stats.CurrentHp * 2 < e.Stats.MaxHp;
 

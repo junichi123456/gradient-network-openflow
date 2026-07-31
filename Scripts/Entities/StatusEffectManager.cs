@@ -421,10 +421,30 @@ public partial class StatusEffectManager : Node
 
     public void SetBuildUpShield(bool active) => HasBuildUpShield = active;
 
+    // もうどくのきり (trap-move kit): the mist applies Toxic while stood in
+    // and clears it on leaving. The flag records that THIS Toxic came from
+    // the mist - without it, walking off a mist tile would also cure a
+    // Toxic inflicted by a move, which the field has no business undoing.
+    private bool _toxicFromMist;
+
+    public void ApplyMistToxic()
+    {
+        if (Ailment == AilmentType.Toxic) return; // already toxic: nothing to re-apply
+        if (TryApplyAilment(AilmentType.Toxic)) _toxicFromMist = true;
+    }
+
+    public void ClearMistToxicIfAny()
+    {
+        if (!_toxicFromMist) return;
+        _toxicFromMist = false;
+        ClearAilmentIfType(AilmentType.Toxic);
+    }
+
     public bool ConsumeDeepDiveChargeIfArmed()
     {
         if (!_deepDiveCharged) return false;
         _deepDiveCharged = false;
+        _toxicFromMist = false;
         return true;
     }
 

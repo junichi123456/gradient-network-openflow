@@ -41,6 +41,10 @@ public partial class FloorController : Node2D
     private bool _storyEventCompleted; // framework hook for DungeonEndType.StoryNoBossFinalFloor
 
     private readonly DungeonObjectManager _objects = new();
+
+    // Trap-move field overlays (see FieldManager). Cleared with the rest of
+    // the floor state, which is what makes fields "floor-permanent".
+    private readonly FieldManager _fields = new();
     private readonly List<Entity> _spawnedEnemies = new();
     private readonly List<AllyEntity> _spawnedAllies = new();
     private readonly List<(Vector2I Pos, Sprite2D Sprite)> _spawnedMarkers = new();
@@ -78,6 +82,7 @@ public partial class FloorController : Node2D
     // Read-only access for presentation code (MinimapUI/HUD) -
     // FloorController stays the only thing that mutates these.
     public DungeonObjectManager Objects => _objects;
+    public FieldManager Fields => _fields;
     public IReadOnlyList<Entity> SpawnedEnemies => _spawnedEnemies;
     public IReadOnlyList<AllyEntity> SpawnedAllies => _spawnedAllies;
     public int FloorNumber => _floorNumber;
@@ -135,6 +140,51 @@ public partial class FloorController : Node2D
         foreach (var enemy in _spawnedEnemies)
             if (GodotObject.IsInstanceValid(enemy) && enemy.IsAlive) yield return enemy;
     }
+
+    // ---- Trap-move field placement ----
+
+    // Tiles of the 5x5 centred on `centre` that a field may be placed on:
+    // in bounds, not a Wall, and Pal-free (the confirmed "パルがいないマス
+    // のみ" rule). Returned unshuffled; callers draw from it at random.
+    private List<Vector2I> FieldCandidates(Vector2I centre, int radius = 2)
+    {
+        var list = new List<Vector2I>();
+        for (int dx = -radius; dx <= radius; dx++)
+        {
+            for (int dy = -radius; dy <= radius; dy++)
+            {
+                var pos = centre + new Vector2I(dx, dy);
+                if (!_grid.InBounds(pos)) continue;
+                if (_grid.GetTile(pos).Terrain == TerrainType.Wall) continue;
+                if (GetEntityAt(pos) != null) continue;
+                list.Add(pos);
+            }
+        }
+        return list;
+    }
+
+    // Places `type` on up to `count` randomly drawn candidate tiles around
+    // `centre`. Returns how many actually landed - fewer than requested when
+    // the area is crowded, which is a legitimate outcome, not an error.
+    public int PlaceField(Vector2I centre, FieldType type, int count)
+    {
+        var candidates = FieldCandidates(centre);
+        var rng = new RandomNumberGenerator();
+        rng.Randomize();
+
+        int placed = 0;
+        while (placed < count && candidates.Count > 0)
+        {
+            int i = rng.RandiRange(0, candidates.Count - 1);
+            _fields.Set(candidates[i], type);
+            candidates.RemoveAt(i);
+            placed++;
+        }
+        return placed;
+    }
+
+    // げきりゅう.
+    public int ClearFieldsAround(Vector2I centre, int radius) => _fields.ClearWithinRadius(centre, radius);
 
     // The Rect2I of the room containing `pos`, or null if `pos` is in a
     // corridor (RoomId < 0) - TargetResolver falls back to single-target
@@ -577,6 +627,7 @@ public partial class FloorController : Node2D
         _spawnedMarkers.Clear();
 
         _objects.Clear();
+        _fields.Clear();
         _rooms = new List<Room>();
 
         // Cleared with the rest of the floor state so a stairs-less floor

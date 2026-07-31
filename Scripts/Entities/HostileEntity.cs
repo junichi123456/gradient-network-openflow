@@ -30,7 +30,6 @@ public partial class HostileEntity : Entity
     // Assigned by FloorController at spawn time (same pattern as Grid).
     public AStarPathfinder Pathfinder { get; set; }
     public Player TargetPlayer { get; set; }
-    public FloorController FloorController { get; set; }
 
     // DummyNPC adds an idle chance to its wander; FastNPC doesn't.
     protected virtual float WanderWaitChance => 0f;

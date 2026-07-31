@@ -48,6 +48,15 @@ public partial class Entity : Node2D, ITurnActor
     // Assigned by the composition root (DungeonScene) after instancing.
     public GridManager Grid { get; set; }
 
+    // The floor this actor is on. Hoisted here from Player/AllyEntity/
+    // HostileEntity (which each declared their own identical property)
+    // when the field layer landed: per-action effects resolved on the base
+    // class - はなばたけ's heal, もうどくのきり's toxic - need to reach
+    // FloorController.Fields, and duplicating the reference three ways
+    // would have left the base blind to it. Nullable: a bare hand-spawned
+    // Entity (tests, Hub props) has no floor.
+    public Dungeon.FloorController FloorController { get; set; }
+
     public Vector2I GridPosition { get; private set; }
     public bool IsAlive { get; protected set; } = true;
 
@@ -116,6 +125,15 @@ public partial class Entity : Node2D, ITurnActor
     // Lava terrain damage per action-cycle, as a fraction of MaxHp, for a
     // Pal standing on lava without the aptitude for it.
     private const float LavaDamageRate = 0.20f;
+
+    // はなばたけ's per-action heal, and クレバス/じわれ's bite (a fraction of
+    // CURRENT HP, so it never finishes a Pal off on its own).
+    private const float FlowerBedHealRate = 0.09f;
+    private const float PitfallCurrentHpRate = 0.5f;
+
+    // Hard stop for うすらひ's slide loop - a slide can never legitimately
+    // exceed the map's own span, so this only ever catches a logic error.
+    private const int MaxSlideSteps = 64;
 
     private const double MoveAnimationDuration = 0.12;
     private const double BumpForwardDuration = 0.05;
@@ -398,6 +416,79 @@ public partial class Entity : Node2D, ITurnActor
         _visualMoveTween.TweenProperty(this, "position", home, BumpReturnDuration);
     }
 
+    // Called by MoveAction right after a step lands. Resolves the field the
+    // mover just stepped onto: うすらひ slides them onward, クレバス/じわれ
+    // bite whoever STOPS on them.
+    //
+    // Slide first, pitfall second, because the slide decides where the step
+    // actually ends - and per the confirmed rule a slide that reaches lava or
+    // a pitfall "stops there and triggers", so the pitfall check runs against
+    // the final resting tile, not the tile originally stepped on.
+    public void ResolveTileEntry()
+    {
+        if (FloorController == null || Grid == null) return;
+
+        SlideOnThinIce();
+
+        var landed = FloorController.Fields.Get(GridPosition);
+        if (landed is Dungeon.FieldType.Crevasse or Dungeon.FieldType.Fissure)
+        {
+            int bite = Mathf.Max(1, Mathf.FloorToInt(Stats.CurrentHp * PitfallCurrentHpRate));
+            Stats.TakeDamage(bite);
+            PlayHitFlash();
+            ShowDamagePopup(bite);
+            MessageLogger.Log($"{ActorName} fell into a hidden pit! ({bite} damage)", MessageLogger.IneffectiveColor);
+            if (!Stats.IsAlive) Die();
+        }
+    }
+
+    // うすらひ: keeps the mover going in the direction they entered from
+    // until something stops them - a wall, another Pal, the map edge, or a
+    // tile that must resolve where they stand (lava / a pitfall).
+    //
+    // Exempt: Fire and Ice types, and ecology 飛行.
+    private void SlideOnThinIce()
+    {
+        if (FloorController.Fields.Get(GridPosition) != Dungeon.FieldType.ThinIce) return;
+        if (Stats.Type1 is "Fire" or "Ice" || Stats.Type2 is "Fire" or "Ice") return;
+        if (Stats.Ecology == "flight") return;
+        if (PreviousPosition == null) return;
+
+        var dir = GridPosition - PreviousPosition.Value;
+        if (dir == Vector2I.Zero) return;
+        dir = new Vector2I(Math.Sign(dir.X), Math.Sign(dir.Y));
+
+        for (int step = 0; step < MaxSlideSteps; step++)
+        {
+            if (FloorController.Fields.Get(GridPosition) != Dungeon.FieldType.ThinIce) return;
+
+            var next = GridPosition + dir;
+            if (!Grid.InBounds(next)) return;
+            if (!Stats.CanTraverse(Grid.GetTile(next).Terrain)
+                && Grid.GetTile(next).Terrain != TerrainType.Lava) return; // wall/impassable: stop before it
+            if (FloorController.GetEntityAt(next) != null) return;         // blocked by a Pal
+
+            PlaceAtSliding(next);
+            MessageLogger.Log($"{ActorName} slips across the ice!", MessageLogger.IneffectiveColor);
+
+            // Lava and the two pitfalls end the slide where the mover lands -
+            // the confirmed "そこで止まって発動" rule. Lava's own damage is
+            // applied by ResolveStatusTick at the end of this action-cycle.
+            if (Grid.GetTile(next).Terrain == TerrainType.Lava) return;
+            var f = FloorController.Fields.Get(next);
+            if (f is Dungeon.FieldType.Crevasse or Dungeon.FieldType.Fissure) return;
+        }
+    }
+
+    // A slide hop: same instant-logical/animated-visual split MoveTo uses,
+    // but it must NOT overwrite PreviousPosition with each hop - the slide
+    // direction is derived from the step that started it.
+    private void PlaceAtSliding(Vector2I pos)
+    {
+        GridPosition = pos;
+        AnimateVisualTo(pos, MoveAnimationDuration);
+    }
+
     public void Wait()
     {
         // Footstep: consumes a turn without changing position.
@@ -523,6 +614,26 @@ public partial class Entity : Node2D, ITurnActor
                 Die();
                 return;
             }
+        }
+
+        // ---- Trap-move field effects resolved per action-cycle ----
+        var field = FloorController?.Fields.Get(GridPosition) ?? Dungeon.FieldType.None;
+
+        // もうどくのきり: Toxic while stood in, cured on leaving. The cure is
+        // driven from the NOT-on-mist branch rather than from a movement
+        // hook, so it also covers being displaced off the mist by a slide or
+        // any other forced relocation.
+        if (field == Dungeon.FieldType.ToxicMist) StatusEffects.ApplyMistToxic();
+        else StatusEffects.ClearMistToxicIfAny();
+
+        // はなばたけ: heals 9% MaxHp per action to anyone standing on it
+        // EXCEPT ecology 飛行 (which never touches the ground).
+        if (field == Dungeon.FieldType.FlowerBed && Stats.IsAlive && Stats.Ecology != "flight")
+        {
+            int hpBeforeHeal = Stats.CurrentHp;
+            Stats.Heal(Mathf.Max(1, Mathf.FloorToInt(Stats.MaxHp * FlowerBedHealRate)));
+            int healed = Stats.CurrentHp - hpBeforeHeal;
+            if (healed > 0) MessageLogger.Log($"{ActorName} is soothed by the flowers (+{healed} HP).", MessageLogger.ProgressionColor);
         }
 
         // こんとんのしゅくふく (stage 9 §1): the holder pays 15% of MaxHp per

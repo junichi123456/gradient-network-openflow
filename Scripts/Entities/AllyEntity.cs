@@ -28,7 +28,6 @@ public partial class AllyEntity : Entity
     // Assigned by FloorController at spawn time (same pattern as
     // HostileEntity's Grid/Pathfinder).
     public AStarPathfinder Pathfinder { get; set; }
-    public FloorController FloorController { get; set; }
     public Entity TargetToFollow { get; set; }
 
     // Player-assigned via MenuUI's Tactics screen. ActFreely is this

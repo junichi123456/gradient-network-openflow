@@ -43,6 +43,10 @@ internal class MoveJson
 
     // trait_catalog_v2 stage 2-b (optional; unset on every current move).
     [JsonPropertyName("weapon_tag")] public string WeaponTag { get; set; } = "None";
+
+    // Trap-move kit (optional; only the 7 trap moves set these).
+    [JsonPropertyName("field_effect")] public string FieldEffect { get; set; } = "None";
+    [JsonPropertyName("field_placement")] public string FieldPlacement { get; set; } = "None";
 }
 
 // JSON-driven move definitions. DungeonScene._Ready() calls Load()
@@ -112,6 +116,8 @@ public static class MoveDatabase
                 DrainHpPercent = entry.DrainHpPercent,
                 SelfGuaranteedDeath = entry.SelfGuaranteedDeath,
                 WeaponTag = Enum.TryParse<WeaponTag>(entry.WeaponTag, out var weaponTag) ? weaponTag : WeaponTag.None,
+                FieldEffect = Enum.TryParse<Dungeon.FieldType>(entry.FieldEffect, out var fieldEffect) ? fieldEffect : Dungeon.FieldType.None,
+                FieldPlacement = Enum.TryParse<Dungeon.FieldPlacement>(entry.FieldPlacement, out var fieldPlacement) ? fieldPlacement : Dungeon.FieldPlacement.None,
             };
         }
 
