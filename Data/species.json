@@ -364,6 +364,10 @@
       },
       {
         "level": 9,
+        "move_id": "MVP_141"
+      },
+      {
+        "level": 9,
         "move_id": "MV_148"
       },
       {
@@ -775,8 +779,84 @@
         "move_id": "mvn_046"
       },
       {
+        "level": 7,
+        "move_id": "spark"
+      },
+      {
+        "level": 7,
+        "move_id": "thunder_spear"
+      },
+      {
+        "level": 8,
+        "move_id": "MV_256"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_021"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_041"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_061"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_081"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_022"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_023"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_042"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_043"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_062"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_063"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_082"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_083"
+      },
+      {
         "level": 10,
         "move_id": "MV_182"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_024"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_044"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_064"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_084"
       },
       {
         "level": 11,
@@ -792,51 +872,47 @@
       },
       {
         "level": 11,
-        "move_id": "MV_236"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_246"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_250"
-      },
-      {
-        "level": 11,
         "move_id": "MV_258"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_222"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_230"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_237"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_245"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_253"
       },
       {
         "level": 12,
         "move_id": "MV_272"
       },
       {
+        "level": 13,
+        "move_id": "MVP_065"
+      },
+      {
+        "level": 13,
+        "move_id": "MVP_085"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_066"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_086"
+      },
+      {
         "level": 14,
         "move_id": "MV_263"
       },
       {
+        "level": 15,
+        "move_id": "MVP_067"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_087"
+      },
+      {
         "level": 16,
         "move_id": "MV_274"
+      },
+      {
+        "level": 17,
+        "move_id": "MVP_068"
       }
     ],
     "evolution": null,
@@ -7088,7 +7164,15 @@
       },
       {
         "level": 1,
+        "move_id": "MV_300"
+      },
+      {
+        "level": 1,
         "move_id": "mizutamari"
+      },
+      {
+        "level": 1,
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -7169,14 +7253,6 @@
       {
         "level": 9,
         "move_id": "stone_blast"
-      },
-      {
-        "level": 10,
-        "move_id": "MV_261"
-      },
-      {
-        "level": 10,
-        "move_id": "MV_267"
       }
     ],
     "evolution": null,
@@ -7257,6 +7333,10 @@
         "move_id": "mizutamari"
       },
       {
+        "level": 1,
+        "move_id": "poison_fog"
+      },
+      {
         "level": 6,
         "move_id": "mvn_012"
       },
@@ -7327,14 +7407,6 @@
       {
         "level": 9,
         "move_id": "mvn_015"
-      },
-      {
-        "level": 10,
-        "move_id": "MV_235"
-      },
-      {
-        "level": 10,
-        "move_id": "MV_247"
       }
     ],
     "evolution": null,
@@ -7925,14 +7997,6 @@
       {
         "level": 9,
         "move_id": "mvn_015"
-      },
-      {
-        "level": 10,
-        "move_id": "MV_235"
-      },
-      {
-        "level": 10,
-        "move_id": "MV_247"
       }
     ],
     "evolution": null,
@@ -8085,19 +8149,11 @@
       },
       {
         "level": 10,
-        "move_id": "MV_117"
-      },
-      {
-        "level": 10,
         "move_id": "MV_149"
       },
       {
         "level": 10,
         "move_id": "MV_150"
-      },
-      {
-        "level": 10,
-        "move_id": "mvn_082"
       }
     ],
     "evolution": null,
@@ -10827,11 +10883,55 @@
       },
       {
         "level": 6,
-        "move_id": "mvn_023"
+        "move_id": "mvn_045"
       },
       {
-        "level": 6,
-        "move_id": "mvn_045"
+        "level": 7,
+        "move_id": "mvn_046"
+      },
+      {
+        "level": 8,
+        "move_id": "MV_256"
+      },
+      {
+        "level": 8,
+        "move_id": "MV_260"
+      },
+      {
+        "level": 8,
+        "move_id": "mud_shot"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_041"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_081"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_042"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_043"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_082"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_083"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_044"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_084"
       },
       {
         "level": 11,
@@ -10858,8 +10958,24 @@
         "move_id": "MV_272"
       },
       {
+        "level": 13,
+        "move_id": "MVP_045"
+      },
+      {
+        "level": 13,
+        "move_id": "MVP_085"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_086"
+      },
+      {
         "level": 14,
         "move_id": "MV_263"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_087"
       },
       {
         "level": 16,
@@ -10892,15 +11008,55 @@
       },
       {
         "level": 6,
-        "move_id": "mvn_012"
+        "move_id": "mvn_034"
       },
       {
-        "level": 6,
-        "move_id": "mvn_034"
+        "level": 7,
+        "move_id": "mvn_035"
+      },
+      {
+        "level": 7,
+        "move_id": "spark"
+      },
+      {
+        "level": 7,
+        "move_id": "thunder_spear"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_021"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_061"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_022"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_023"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_062"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_063"
       },
       {
         "level": 10,
         "move_id": "MV_182"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_024"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_064"
       },
       {
         "level": 11,
@@ -10927,16 +11083,20 @@
         "move_id": "MV_245"
       },
       {
-        "level": 12,
-        "move_id": "MV_253"
+        "level": 13,
+        "move_id": "MVP_065"
       },
       {
-        "level": 13,
-        "move_id": "MV_238"
+        "level": 14,
+        "move_id": "MVP_066"
       },
       {
-        "level": 13,
-        "move_id": "MV_252"
+        "level": 15,
+        "move_id": "MVP_067"
+      },
+      {
+        "level": 17,
+        "move_id": "MVP_068"
       }
     ],
     "evolution": null,
@@ -10969,8 +11129,56 @@
         "move_id": "mvn_067"
       },
       {
+        "level": 7,
+        "move_id": "ice_missile"
+      },
+      {
+        "level": 7,
+        "move_id": "mvn_068"
+      },
+      {
         "level": 8,
         "move_id": "MV_123"
+      },
+      {
+        "level": 8,
+        "move_id": "MV_187"
+      },
+      {
+        "level": 8,
+        "move_id": "mvn_069"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_121"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_161"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_122"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_123"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_162"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_163"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_124"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_164"
       },
       {
         "level": 11,
@@ -10986,6 +11194,14 @@
       },
       {
         "level": 13,
+        "move_id": "MVP_125"
+      },
+      {
+        "level": 13,
+        "move_id": "MVP_165"
+      },
+      {
+        "level": 13,
         "move_id": "MV_192"
       },
       {
@@ -10993,8 +11209,20 @@
         "move_id": "MV_200"
       },
       {
-        "level": 19,
-        "move_id": "MV_135"
+        "level": 14,
+        "move_id": "MVP_126"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_166"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_127"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_167"
       }
     ],
     "evolution": null,
@@ -11026,8 +11254,52 @@
         "move_id": "mvn_023"
       },
       {
-        "level": 6,
-        "move_id": "mvn_067"
+        "level": 7,
+        "move_id": "mvn_024"
+      },
+      {
+        "level": 7,
+        "move_id": "water_jet"
+      },
+      {
+        "level": 8,
+        "move_id": "MV_212"
+      },
+      {
+        "level": 8,
+        "move_id": "MV_225"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_041"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_121"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_042"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_043"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_122"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_123"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_044"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_124"
       },
       {
         "level": 11,
@@ -11055,6 +11327,14 @@
       },
       {
         "level": 13,
+        "move_id": "MVP_045"
+      },
+      {
+        "level": 13,
+        "move_id": "MVP_125"
+      },
+      {
+        "level": 13,
         "move_id": "MV_192"
       },
       {
@@ -11062,8 +11342,12 @@
         "move_id": "MV_200"
       },
       {
-        "level": 20,
-        "move_id": "MV_207"
+        "level": 14,
+        "move_id": "MVP_046"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_047"
       }
     ],
     "evolution": null,
@@ -12236,8 +12520,68 @@
         "move_id": "ice_missile"
       },
       {
+        "level": 7,
+        "move_id": "mvn_035"
+      },
+      {
+        "level": 7,
+        "move_id": "mvn_068"
+      },
+      {
+        "level": 7,
+        "move_id": "spark"
+      },
+      {
         "level": 8,
         "move_id": "MV_123"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_021"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_061"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_121"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_161"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_022"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_023"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_062"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_063"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_122"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_123"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_162"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_163"
       },
       {
         "level": 10,
@@ -12245,7 +12589,19 @@
       },
       {
         "level": 11,
-        "move_id": "MV_128"
+        "move_id": "MVP_024"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_064"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_124"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_164"
       },
       {
         "level": 11,
@@ -12256,32 +12612,16 @@
         "move_id": "MV_211"
       },
       {
-        "level": 11,
-        "move_id": "MV_236"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_246"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_250"
-      },
-      {
         "level": 12,
         "move_id": "MV_195"
       },
       {
-        "level": 12,
-        "move_id": "MV_237"
+        "level": 13,
+        "move_id": "MVP_065"
       },
       {
-        "level": 12,
-        "move_id": "MV_245"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_253"
+        "level": 13,
+        "move_id": "MVP_125"
       },
       {
         "level": 13,
@@ -12292,8 +12632,12 @@
         "move_id": "MV_200"
       },
       {
-        "level": 13,
-        "move_id": "MV_238"
+        "level": 14,
+        "move_id": "MVP_066"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_126"
       }
     ],
     "evolution": null,
@@ -16626,15 +16970,55 @@
       },
       {
         "level": 6,
-        "move_id": "mvn_012"
+        "move_id": "mvn_034"
       },
       {
-        "level": 6,
-        "move_id": "mvn_034"
+        "level": 7,
+        "move_id": "mvn_035"
+      },
+      {
+        "level": 7,
+        "move_id": "spark"
+      },
+      {
+        "level": 7,
+        "move_id": "thunder_spear"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_021"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_061"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_022"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_023"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_062"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_063"
       },
       {
         "level": 10,
         "move_id": "MV_182"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_024"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_064"
       },
       {
         "level": 11,
@@ -16661,16 +17045,20 @@
         "move_id": "MV_245"
       },
       {
-        "level": 12,
-        "move_id": "MV_253"
+        "level": 13,
+        "move_id": "MVP_065"
       },
       {
-        "level": 13,
-        "move_id": "MV_238"
+        "level": 14,
+        "move_id": "MVP_066"
       },
       {
-        "level": 13,
-        "move_id": "MV_252"
+        "level": 15,
+        "move_id": "MVP_067"
+      },
+      {
+        "level": 17,
+        "move_id": "MVP_068"
       }
     ],
     "evolution": null,
@@ -16712,8 +17100,68 @@
         "move_id": "ice_missile"
       },
       {
+        "level": 7,
+        "move_id": "mvn_035"
+      },
+      {
+        "level": 7,
+        "move_id": "mvn_068"
+      },
+      {
+        "level": 7,
+        "move_id": "spark"
+      },
+      {
         "level": 8,
         "move_id": "MV_123"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_021"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_061"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_121"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_161"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_022"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_023"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_062"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_063"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_122"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_123"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_162"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_163"
       },
       {
         "level": 10,
@@ -16721,7 +17169,19 @@
       },
       {
         "level": 11,
-        "move_id": "MV_128"
+        "move_id": "MVP_024"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_064"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_124"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_164"
       },
       {
         "level": 11,
@@ -16732,32 +17192,16 @@
         "move_id": "MV_211"
       },
       {
-        "level": 11,
-        "move_id": "MV_236"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_246"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_250"
-      },
-      {
         "level": 12,
         "move_id": "MV_195"
       },
       {
-        "level": 12,
-        "move_id": "MV_237"
+        "level": 13,
+        "move_id": "MVP_065"
       },
       {
-        "level": 12,
-        "move_id": "MV_245"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_253"
+        "level": 13,
+        "move_id": "MVP_125"
       },
       {
         "level": 13,
@@ -16768,8 +17212,12 @@
         "move_id": "MV_200"
       },
       {
-        "level": 13,
-        "move_id": "MV_238"
+        "level": 14,
+        "move_id": "MVP_066"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_126"
       }
     ],
     "evolution": null,
@@ -17898,8 +18346,68 @@
         "move_id": "ice_missile"
       },
       {
+        "level": 7,
+        "move_id": "mvn_035"
+      },
+      {
+        "level": 7,
+        "move_id": "mvn_068"
+      },
+      {
+        "level": 7,
+        "move_id": "spark"
+      },
+      {
         "level": 8,
         "move_id": "MV_123"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_021"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_061"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_121"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_161"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_022"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_023"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_062"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_063"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_122"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_123"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_162"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_163"
       },
       {
         "level": 10,
@@ -17907,7 +18415,19 @@
       },
       {
         "level": 11,
-        "move_id": "MV_128"
+        "move_id": "MVP_024"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_064"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_124"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_164"
       },
       {
         "level": 11,
@@ -17918,32 +18438,16 @@
         "move_id": "MV_211"
       },
       {
-        "level": 11,
-        "move_id": "MV_236"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_246"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_250"
-      },
-      {
         "level": 12,
         "move_id": "MV_195"
       },
       {
-        "level": 12,
-        "move_id": "MV_237"
+        "level": 13,
+        "move_id": "MVP_065"
       },
       {
-        "level": 12,
-        "move_id": "MV_245"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_253"
+        "level": 13,
+        "move_id": "MVP_125"
       },
       {
         "level": 13,
@@ -17954,8 +18458,12 @@
         "move_id": "MV_200"
       },
       {
-        "level": 13,
-        "move_id": "MV_238"
+        "level": 14,
+        "move_id": "MVP_066"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_126"
       }
     ],
     "evolution": null,
@@ -17988,8 +18496,56 @@
         "move_id": "mvn_067"
       },
       {
+        "level": 7,
+        "move_id": "ice_missile"
+      },
+      {
+        "level": 7,
+        "move_id": "mvn_068"
+      },
+      {
         "level": 8,
         "move_id": "MV_123"
+      },
+      {
+        "level": 8,
+        "move_id": "MV_187"
+      },
+      {
+        "level": 8,
+        "move_id": "mvn_069"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_121"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_161"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_122"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_123"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_162"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_163"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_124"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_164"
       },
       {
         "level": 11,
@@ -18005,6 +18561,14 @@
       },
       {
         "level": 13,
+        "move_id": "MVP_125"
+      },
+      {
+        "level": 13,
+        "move_id": "MVP_165"
+      },
+      {
+        "level": 13,
         "move_id": "MV_192"
       },
       {
@@ -18012,8 +18576,20 @@
         "move_id": "MV_200"
       },
       {
-        "level": 19,
-        "move_id": "MV_135"
+        "level": 14,
+        "move_id": "MVP_126"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_166"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_127"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_167"
       }
     ],
     "evolution": null,
@@ -22030,14 +22606,6 @@
       {
         "level": 9,
         "move_id": "mvn_015"
-      },
-      {
-        "level": 10,
-        "move_id": "MV_235"
-      },
-      {
-        "level": 10,
-        "move_id": "MV_247"
       }
     ],
     "evolution": null,
@@ -22118,6 +22686,10 @@
         "move_id": "jiware"
       },
       {
+        "level": 1,
+        "move_id": "poison_fog"
+      },
+      {
         "level": 6,
         "move_id": "mvn_012"
       },
@@ -22188,14 +22760,6 @@
       {
         "level": 9,
         "move_id": "mvn_015"
-      },
-      {
-        "level": 10,
-        "move_id": "MV_235"
-      },
-      {
-        "level": 10,
-        "move_id": "MV_247"
       }
     ],
     "evolution": null,
@@ -29210,15 +29774,7 @@
       },
       {
         "level": 10,
-        "move_id": "MV_117"
-      },
-      {
-        "level": 10,
         "move_id": "MV_149"
-      },
-      {
-        "level": 10,
-        "move_id": "mvn_082"
       }
     ],
     "evolution": null,
@@ -37547,8 +38103,24 @@
         "move_id": "MV_120"
       },
       {
+        "level": 7,
+        "move_id": "dragon_cannon"
+      },
+      {
         "level": 8,
         "move_id": "MV_137"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_001"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_021"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_141"
       },
       {
         "level": 9,
@@ -37575,8 +38147,28 @@
         "move_id": "MV_143"
       },
       {
-        "level": 9,
-        "move_id": "MV_145"
+        "level": 10,
+        "move_id": "MVP_022"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_023"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_142"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_143"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_024"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_144"
       },
       {
         "level": 11,
@@ -37601,18 +38193,6 @@
       {
         "level": 12,
         "move_id": "MV_245"
-      },
-      {
-        "level": 15,
-        "move_id": "MV_112"
-      },
-      {
-        "level": 16,
-        "move_id": "MV_110"
-      },
-      {
-        "level": 17,
-        "move_id": "MV_109"
       }
     ],
     "evolution": null,
@@ -37652,16 +38232,24 @@
         "move_id": "mvn_067"
       },
       {
-        "level": 6,
-        "move_id": "mvn_089"
-      },
-      {
         "level": 8,
         "move_id": "MV_123"
       },
       {
         "level": 8,
         "move_id": "MV_137"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_001"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_121"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_161"
       },
       {
         "level": 9,
@@ -37693,39 +38281,43 @@
       },
       {
         "level": 10,
+        "move_id": "MVP_002"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_003"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_122"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_123"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_162"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_163"
+      },
+      {
+        "level": 10,
         "move_id": "MV_144"
       },
       {
         "level": 11,
-        "move_id": "MV_128"
+        "move_id": "MVP_004"
       },
       {
         "level": 11,
-        "move_id": "MV_146"
+        "move_id": "MVP_124"
       },
       {
         "level": 11,
-        "move_id": "MV_166"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_211"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_195"
-      },
-      {
-        "level": 13,
-        "move_id": "MV_192"
-      },
-      {
-        "level": 13,
-        "move_id": "MV_200"
-      },
-      {
-        "level": 19,
-        "move_id": "MV_135"
+        "move_id": "MVP_164"
       }
     ],
     "evolution": null,
@@ -38111,16 +38703,20 @@
         "move_id": "mvn_012"
       },
       {
-        "level": 6,
-        "move_id": "mvn_078"
-      },
-      {
-        "level": 7,
-        "move_id": "MV_119"
-      },
-      {
         "level": 8,
         "move_id": "MV_137"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_001"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_021"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_141"
       },
       {
         "level": 9,
@@ -38152,7 +38748,43 @@
       },
       {
         "level": 10,
+        "move_id": "MVP_002"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_003"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_022"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_023"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_142"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_143"
+      },
+      {
+        "level": 10,
         "move_id": "MV_144"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_004"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_024"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_144"
       },
       {
         "level": 11,
@@ -38161,54 +38793,6 @@
       {
         "level": 11,
         "move_id": "MV_146"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_166"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_236"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_246"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_250"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_237"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_245"
-      },
-      {
-        "level": 12,
-        "move_id": "MV_253"
-      },
-      {
-        "level": 13,
-        "move_id": "MV_238"
-      },
-      {
-        "level": 13,
-        "move_id": "MV_252"
-      },
-      {
-        "level": 15,
-        "move_id": "MV_112"
-      },
-      {
-        "level": 16,
-        "move_id": "MV_110"
-      },
-      {
-        "level": 17,
-        "move_id": "MV_109"
       }
     ],
     "evolution": null,
