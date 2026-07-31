@@ -113,6 +113,10 @@ public partial class Entity : Node2D, ITurnActor
     // こんとんのしゅくふく: HP paid per action for the party-wide Atk aura.
     private const float KontonHpCostRate = 0.15f;
 
+    // Lava terrain damage per action-cycle, as a fraction of MaxHp, for a
+    // Pal standing on lava without the aptitude for it.
+    private const float LavaDamageRate = 0.20f;
+
     private const double MoveAnimationDuration = 0.12;
     private const double BumpForwardDuration = 0.05;
     private const double BumpReturnDuration = 0.05;
@@ -488,8 +492,40 @@ public partial class Entity : Node2D, ITurnActor
             && Grid.GetTile(GridPosition).Terrain == TerrainType.Water)
             StatusEffects.DecayAccumulation(WaterAccumulationDecayPerTurn);
 
+        // Lava terrain damage (地形ダメージ): a Pal standing on Lava without
+        // the aptitude for it takes 20% of MaxHp per action-cycle and is set
+        // ablaze. This is the effect ecology グライド's terrain_damage_immune
+        // hook was declared for in stage 4 but had nothing to attach to -
+        // it is now live, and that hook exempts its holders.
+        //
+        // "適正のない" is read as Stats.CanTraverse(Lava) being false, which
+        // already unifies every source of lava aptitude (Fire typing,
+        // PartnerSkill Hover/Glide, ecology 飛行/放熱器官) behind one check.
+        // Normal movement cannot step onto lava without that aptitude, so in
+        // practice this fires on forced relocation onto it.
+        //
+        // Unlike DoT this is NOT clamped away from 0: it is terrain, not a
+        // status ailment, and the spec gives no survival guarantee.
+        if (Grid != null && Stats.IsAlive
+            && Grid.InBounds(GridPosition)
+            && Grid.GetTile(GridPosition).Terrain == TerrainType.Lava
+            && !Stats.CanTraverse(TerrainType.Lava)
+            && !Stats.HasEcologyHook("terrain_damage_immune"))
+        {
+            int burn = Mathf.Max(1, Mathf.FloorToInt(Stats.MaxHp * LavaDamageRate));
+            Stats.TakeDamage(burn);
+            StatusEffects.TryApplyAilment(Combat.AilmentType.Burn);
+            PlayHitFlash();
+            ShowDamagePopup(burn);
+            MessageLogger.Log($"{ActorName} is scorched by the lava! ({burn} damage)", MessageLogger.IneffectiveColor);
+            if (!Stats.IsAlive)
+            {
+                Die();
+                return;
+            }
+        }
+
         // こんとんのしゅくふく (stage 9 §1): the holder pays 15% of MaxHp per
-        // action for the party-wide x1.2 Atk aura. Clamped so it can never
         // kill outright, matching the project's standing convention that
         // per-turn self-damage (poison/toxic/burn) leaves the holder at 1.
         if (Stats.Trait == "konton_no_shukufuku" && Stats.IsAlive)
