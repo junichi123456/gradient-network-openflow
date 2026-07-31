@@ -766,5 +766,101 @@
     "element": null,
     "template_kind": null,
     "description": "相手の水属性技を無効化し、次に自分が使う水属性技の威力+25(1回限定)。"
+  },
+  {
+    "id": "konton_no_shukufuku",
+    "name": "こんとんのしゅくふく",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "パーティにいる間、味方全員の攻撃力1.2倍。保有者は行動後に最大HPの15%を失う。"
+  },
+  {
+    "id": "guardian_mode",
+    "name": "ガーディアンモード",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "自分のHPが最大値の1/2未満の間、攻撃力・防御力が2倍(現在値基準の倍率系)。"
+  },
+  {
+    "id": "jiyuu_no_tsubasa",
+    "name": "じゆうのつばさ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "パーティにいる他の竜または闇属性のパル1体につき命中ランク+1(最大2)。"
+  },
+  {
+    "id": "fundo_no_tsubasa",
+    "name": "ふんどのつばさ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "パーティにいる他の竜または炎属性のパル1体につき技威力+5。与ダメージの33%の反動を追加で受ける。"
+  },
+  {
+    "id": "build_up",
+    "name": "ビルドアップ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "自分の次に行動する味方1体は、その行動を完了するまで被ダメージ-25%(反動は対象外)。"
+  },
+  {
+    "id": "mure_no_ichiin",
+    "name": "むれのいちいん",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "『〇〇のリーダー』保有パルがパーティにいる間、自分のHPが満タンなら被ダメージ-15%。"
+  },
+  {
+    "id": "reikyaku_leader",
+    "name": "冷却のリーダー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "『むれのいちいん』保有パル1体につき防御力+10%(上限30%・種族値基準の固定加算)、氷技の与ダメージ+5%(上限15%)。"
+  },
+  {
+    "id": "chikaramochi_leader",
+    "name": "力持ちのリーダー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "『むれのいちいん』保有パル1体につき防御力+10%(上限30%・種族値基準)、無属性技の与ダメージ+5%(上限15%)。"
+  },
+  {
+    "id": "mofumofu_leader",
+    "name": "もふもふのリーダー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "『むれのいちいん』保有パル1体につき攻撃力・防御力+10%(上限30%・ともに種族値基準)。"
+  },
+  {
+    "id": "tousotsu_leader",
+    "name": "とうそつのリーダー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "『むれのいちいん』保有パル1体につき攻撃力+15%(上限45%・種族値基準)。"
+  },
+  {
+    "id": "okorinbo",
+    "name": "おこりんぼ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "接触技の与ダメージ+10%。"
+  },
+  {
+    "id": "eisou",
+    "name": "えいそう",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "接触技の急所ランク+1。"
   }
 ]

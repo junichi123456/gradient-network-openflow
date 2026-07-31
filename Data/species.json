@@ -88,7 +88,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "006",
@@ -118,7 +119,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "glide"
   },
   {
     "species_id": "007B",
@@ -134,7 +136,8 @@
       "Electric"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "glide"
   },
   {
     "species_id": "008",
@@ -399,7 +402,8 @@
       "Neutral"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "mure_no_ichiin"
   },
   {
     "species_id": "021",
@@ -414,7 +418,8 @@
       "Neutral"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "chikaramochi_leader"
   },
   {
     "species_id": "021B",
@@ -429,7 +434,8 @@
       "Ice"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "reikyaku_leader"
   },
   {
     "species_id": "022",
@@ -474,7 +480,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "024",
@@ -504,7 +511,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "026",
@@ -519,7 +527,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "027",
@@ -579,7 +588,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "029B",
@@ -611,7 +621,8 @@
     ],
     "learnset": [],
     "evolution": null,
-    "trait": "dokusen_body"
+    "trait": "dokusen_body",
+    "ecology": "glide"
   },
   {
     "species_id": "030B",
@@ -627,7 +638,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "glide"
   },
   {
     "species_id": "031",
@@ -733,7 +745,8 @@
       "Ice"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "mure_no_ichiin"
   },
   {
     "species_id": "036",
@@ -748,7 +761,8 @@
       "Ice"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "mofumofu_leader"
   },
   {
     "species_id": "037",
@@ -794,7 +808,8 @@
       "Ground"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "glide"
   },
   {
     "species_id": "038B",
@@ -809,7 +824,8 @@
       "Ice"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "glide"
   },
   {
     "species_id": "039",
@@ -870,7 +886,9 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "water_oshie",
+    "ecology": "submerge"
   },
   {
     "species_id": "041B",
@@ -886,7 +904,9 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "ice_oshie",
+    "ecology": "submerge"
   },
   {
     "species_id": "042",
@@ -931,7 +951,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "044",
@@ -1054,7 +1075,8 @@
       "Neutral"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "glide"
   },
   {
     "species_id": "050",
@@ -1084,7 +1106,8 @@
       "Neutral"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "052",
@@ -1144,7 +1167,8 @@
       "Ice"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "ice_oshie"
   },
   {
     "species_id": "055",
@@ -1159,7 +1183,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "okorinbo"
   },
   {
     "species_id": "055B",
@@ -1174,7 +1199,9 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "okorinbo",
+    "ecology": "heat_organ"
   },
   {
     "species_id": "056",
@@ -1189,7 +1216,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "eisou"
   },
   {
     "species_id": "056B",
@@ -1204,7 +1232,8 @@
       "Ice"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "eisou"
   },
   {
     "species_id": "057",
@@ -1235,7 +1264,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "059",
@@ -1310,7 +1340,8 @@
       "Dragon"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "063B",
@@ -1342,7 +1373,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "064B",
@@ -1358,7 +1390,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "065",
@@ -1403,7 +1436,8 @@
       "Grass"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "mure_no_ichiin"
   },
   {
     "species_id": "068",
@@ -1418,7 +1452,8 @@
       "Grass"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "tousotsu_leader"
   },
   {
     "species_id": "069",
@@ -1463,7 +1498,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "stairs_sense"
   },
   {
     "species_id": "072",
@@ -1479,7 +1515,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "submerge"
   },
   {
     "species_id": "072B",
@@ -1525,7 +1562,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "074",
@@ -1570,7 +1608,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "submerge"
   },
   {
     "species_id": "075B",
@@ -1646,7 +1685,9 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "fire_oshie",
+    "ecology": "heat_organ"
   },
   {
     "species_id": "078B",
@@ -1662,7 +1703,9 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "fire_oshie",
+    "ecology": "heat_organ"
   },
   {
     "species_id": "079",
@@ -1693,7 +1736,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "080",
@@ -1708,7 +1752,9 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "dark_oshie",
+    "ecology": "flight"
   },
   {
     "species_id": "080B",
@@ -1724,7 +1770,9 @@
       "Electric"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "dark_oshie",
+    "ecology": "flight"
   },
   {
     "species_id": "081",
@@ -1739,7 +1787,8 @@
       "Grass"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "grass_oshie"
   },
   {
     "species_id": "081B",
@@ -1846,7 +1895,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "085B",
@@ -1862,7 +1912,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "086",
@@ -1925,7 +1976,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "water_oshie"
   },
   {
     "species_id": "088B",
@@ -1941,7 +1993,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "089",
@@ -1972,7 +2025,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "090",
@@ -2003,7 +2057,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "091B",
@@ -2064,7 +2119,9 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "fire_oshie",
+    "ecology": "heat_organ"
   },
   {
     "species_id": "093B",
@@ -2080,7 +2137,9 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "fire_oshie",
+    "ecology": "heat_organ"
   },
   {
     "species_id": "094",
@@ -2096,7 +2155,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "submerge"
   },
   {
     "species_id": "094B",
@@ -2143,7 +2203,9 @@
       "Electric"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "electric_oshie",
+    "ecology": "flight"
   },
   {
     "species_id": "096B",
@@ -2158,7 +2220,9 @@
       "Ice"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "ice_oshie",
+    "ecology": "flight"
   },
   {
     "species_id": "097",
@@ -2174,7 +2238,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "submerge"
   },
   {
     "species_id": "097B",
@@ -2344,7 +2409,9 @@
       "Dragon"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "ice_oshie",
+    "ecology": "submerge"
   },
   {
     "species_id": "103B",
@@ -2360,7 +2427,9 @@
       "Dragon"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "fire_oshie",
+    "ecology": "heat_organ"
   },
   {
     "species_id": "104",
@@ -2375,7 +2444,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "fire_oshie"
   },
   {
     "species_id": "105",
@@ -2391,7 +2461,8 @@
       "Ground"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "105B",
@@ -2469,7 +2540,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "submerge"
   },
   {
     "species_id": "109",
@@ -2532,7 +2604,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "111B",
@@ -2547,7 +2620,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "112",
@@ -2562,7 +2636,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "112B",
@@ -2578,7 +2653,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "113",
@@ -2640,7 +2716,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "116",
@@ -2732,7 +2809,8 @@
       "Ice"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "ice_oshie"
   },
   {
     "species_id": "120",
@@ -2764,7 +2842,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "submerge"
   },
   {
     "species_id": "121B",
@@ -2780,7 +2859,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "122",
@@ -2795,7 +2875,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "122B",
@@ -2810,7 +2891,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "123",
@@ -2840,7 +2922,8 @@
       "Dragon"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "124B",
@@ -2856,7 +2939,9 @@
       "Grass"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "dragon_oshie",
+    "ecology": "flight"
   },
   {
     "species_id": "125",
@@ -2933,7 +3018,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "129",
@@ -2949,7 +3035,8 @@
       "Ground"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "129B",
@@ -3117,7 +3204,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "136",
@@ -3147,7 +3235,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "137B",
@@ -3163,7 +3252,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "138",
@@ -3260,7 +3350,8 @@
       "Ground"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "electric_oshie"
   },
   {
     "species_id": "142",
@@ -3460,7 +3551,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "submerge"
   },
   {
     "species_id": "151B",
@@ -3521,7 +3613,8 @@
       "Ground"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "ground_oshie"
   },
   {
     "species_id": "155",
@@ -3536,7 +3629,8 @@
       "Neutral"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "stairs_sense"
   },
   {
     "species_id": "156",
@@ -3581,7 +3675,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "konton_no_shukufuku"
   },
   {
     "species_id": "158",
@@ -3597,7 +3692,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "159",
@@ -3612,7 +3708,8 @@
       "Ground"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "guardian_mode"
   },
   {
     "species_id": "159B",
@@ -3627,7 +3724,9 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "guardian_mode",
+    "ecology": "heat_organ"
   },
   {
     "species_id": "160",
@@ -3657,7 +3756,8 @@
       "Electric"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "stairs_sense"
   },
   {
     "species_id": "162",
@@ -3793,7 +3893,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "submerge"
   },
   {
     "species_id": "169B",
@@ -3809,7 +3910,9 @@
       "Electric"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "water_oshie",
+    "ecology": "submerge"
   },
   {
     "species_id": "170",
@@ -3840,7 +3943,9 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "jiyuu_no_tsubasa",
+    "ecology": "flight"
   },
   {
     "species_id": "171B",
@@ -3856,7 +3961,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "fundo_no_tsubasa"
   },
   {
     "species_id": "172",
@@ -3871,7 +3977,8 @@
       "Electric"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "173",
@@ -3901,7 +4008,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "175",
@@ -3917,7 +4025,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "submerge"
   },
   {
     "species_id": "176",
@@ -3932,7 +4041,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "177",
@@ -3947,7 +4057,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "178",
@@ -3993,7 +4104,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "181",
@@ -4039,7 +4151,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "heat_organ"
   },
   {
     "species_id": "184",
@@ -4118,7 +4231,8 @@
       "Electric"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "trait": "build_up"
   },
   {
     "species_id": "188",
@@ -4133,7 +4247,8 @@
       "Fire"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "188B",
@@ -4148,7 +4263,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "189",
@@ -4163,7 +4279,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "190",
@@ -4179,7 +4296,8 @@
       "Neutral"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "191",
@@ -4211,7 +4329,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "193",
@@ -4289,7 +4408,8 @@
       "Dragon"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "197",
@@ -4351,7 +4471,8 @@
       "Ice"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "200B",
@@ -4366,7 +4487,8 @@
       "Dark"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   },
   {
     "species_id": "201",
@@ -4381,7 +4503,8 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "submerge"
   },
   {
     "species_id": "202",
@@ -4397,7 +4520,8 @@
     ],
     "learnset": [],
     "evolution": null,
-    "trait": "bakugeki"
+    "trait": "bakugeki",
+    "ecology": "flight"
   },
   {
     "species_id": "203",
@@ -4412,6 +4536,7 @@
       "Water"
     ],
     "learnset": [],
-    "evolution": null
+    "evolution": null,
+    "ecology": "flight"
   }
 ]

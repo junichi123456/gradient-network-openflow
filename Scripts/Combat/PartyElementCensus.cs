@@ -65,6 +65,41 @@ public static class PartyElementCensus
     // the hook がんばりサポート/群れの一員-style "does someone in my party
     // hold trait X" mechanics reuse (stage 3, not consumed yet - added
     // here now so the census layer doesn't need revisiting later).
+    // How many OTHER same-faction members carry EITHER of two elements -
+    // the shape じゆうのつばさ (竜 or 闇) and ふんどのつばさ (竜 or 炎) need.
+    // A dual-typed ally matching both still counts once, so the count is
+    // "bodies", not "matching types".
+    public static int CountAlliesWithEitherType(Entity self, IEnumerable<Entity> actors, Element a, Element b)
+    {
+        if (actors == null) return 0;
+
+        string an = a.ToString(), bn = b.ToString();
+        int count = 0;
+        foreach (var actor in actors)
+        {
+            if (actor == self || actor.Faction != self.Faction) continue;
+            string t1 = actor.Stats.Type1, t2 = actor.Stats.Type2;
+            if (t1 == an || t2 == an || t1 == bn || t2 == bn) count++;
+        }
+        return count;
+    }
+
+    // How many OTHER same-faction members hold `traitId` - the counting
+    // sibling of AnyAllyHasUniqueTrait, for the リーダー traits, which scale
+    // "per むれのいちいん holder" rather than checking mere existence.
+    public static int CountAlliesWithUniqueTrait(Entity self, IEnumerable<Entity> actors, string traitId)
+    {
+        if (actors == null) return 0;
+
+        int count = 0;
+        foreach (var actor in actors)
+        {
+            if (actor == self || actor.Faction != self.Faction) continue;
+            if (actor.Stats.Trait == traitId) count++;
+        }
+        return count;
+    }
+
     public static bool AnyAllyHasUniqueTrait(Entity self, IEnumerable<Entity> actors, string traitId, bool includeSelf)
     {
         if (actors == null) return false;

@@ -110,6 +110,9 @@ public partial class Entity : Node2D, ITurnActor
     // オーバーヒール: extra 6% of MaxHp on top of any move-driven heal.
     private const float OverHealBonusRate = 0.06f;
 
+    // こんとんのしゅくふく: HP paid per action for the party-wide Atk aura.
+    private const float KontonHpCostRate = 0.15f;
+
     private const double MoveAnimationDuration = 0.12;
     private const double BumpForwardDuration = 0.05;
     private const double BumpReturnDuration = 0.05;
@@ -484,6 +487,24 @@ public partial class Entity : Node2D, ITurnActor
             && Grid.InBounds(GridPosition)
             && Grid.GetTile(GridPosition).Terrain == TerrainType.Water)
             StatusEffects.DecayAccumulation(WaterAccumulationDecayPerTurn);
+
+        // こんとんのしゅくふく (stage 9 §1): the holder pays 15% of MaxHp per
+        // action for the party-wide x1.2 Atk aura. Clamped so it can never
+        // kill outright, matching the project's standing convention that
+        // per-turn self-damage (poison/toxic/burn) leaves the holder at 1.
+        if (Stats.Trait == "konton_no_shukufuku" && Stats.IsAlive)
+        {
+            int cost = Mathf.Max(1, Mathf.FloorToInt(Stats.MaxHp * KontonHpCostRate));
+            int hpBeforeCost = Stats.CurrentHp;
+            Stats.CurrentHp = Mathf.Max(1, Stats.CurrentHp - cost);
+            int paid = hpBeforeCost - Stats.CurrentHp;
+            if (paid > 0)
+            {
+                PlayHitFlash();
+                ShowDamagePopup(paid);
+                MessageLogger.Log($"{ActorName} pays {paid} HP to sustain the blessing of chaos.", MessageLogger.IneffectiveColor);
+            }
+        }
 
         int damage = StatusEffects.AdvanceTurn(Stats.MaxHp);
         if (damage <= 0) return;

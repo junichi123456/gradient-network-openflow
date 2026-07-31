@@ -583,6 +583,10 @@ public partial class FloorController : Node2D
         // (the boss/final floor) can't inherit the previous floor's stairs
         // tile and have ひらめきのよかん sense a position that no longer exists.
         _stairsPos = null;
+
+        // A ビルドアップ token armed on the floor just left has no valid
+        // recipient here - every ally instance is rebuilt on the new floor.
+        Turn.BuildUpRelay.Reset();
     }
 
     // Rolls once per floor for a single Monster House, chosen from any

@@ -63,6 +63,12 @@ public partial class StatusEffectManager : Node
 
     public float GetAccuracyMultiplier() => AccuracyTable[AccuracyRank - AccuracyRankMin];
 
+    // Accuracy with a flat rank bonus folded in (じゆうのつばさ: +1 per
+    // qualifying ally, capped at +2) - the same shape as
+    // GetEvasionMultiplierWithBonus/GetCritChanceWithBonus.
+    public float GetAccuracyMultiplierWithBonus(int bonus) =>
+        AccuracyTable[Mathf.Clamp(AccuracyRank + bonus, AccuracyRankMin, AccuracyRankMax) - AccuracyRankMin];
+
     // ---- Evasion rank: 3 states (0..+3), defense-only (no "evasion
     // down" was specified - only 7/8, 6/8, 5/8 exist, all <1). Applied
     // as an extra multiplier against the ATTACKER's hit chance.
@@ -403,6 +409,17 @@ public partial class StatusEffectManager : Node
         _healBonusRate <= 0f ? 0 : Mathf.FloorToInt(maxHp * _healBonusRate);
 
     public void ArmDeepDiveCharge() => _deepDiveCharged = true;
+
+    // ビルドアップ (stage 9 §1): -25% damage taken, scoped to ONE action of
+    // the recipient rather than to a turn count. Deliberately NOT reusing
+    // the 期間限定ランクバフ countdown (攻守一体) - that expires on
+    // action-CYCLES elapsed, whereas this expires on the recipient's single
+    // action completing, so the two have genuinely different lifetimes and
+    // sharing one mechanism would misrepresent both. Set and cleared by the
+    // turn loop around the Execute call (see BuildUpRelay).
+    public bool HasBuildUpShield { get; private set; }
+
+    public void SetBuildUpShield(bool active) => HasBuildUpShield = active;
 
     public bool ConsumeDeepDiveChargeIfArmed()
     {

@@ -137,6 +137,7 @@ public class AttackAction : IAction
 
         ApplyDrain(move, damage);
         ApplyRecoil(move, damage);
+        ApplyFundoRecoil(damage);
     }
 
     // ---- Multi-target path (Line/TwoTile/Area/Room/FullFloor) ----
@@ -190,6 +191,7 @@ public class AttackAction : IAction
 
         ApplyDrain(move, totalDamage);
         ApplyRecoil(move, totalDamage);
+        ApplyFundoRecoil(totalDamage);
     }
 
     // Core per-target strike: hit roll -> crit -> Phase 16 damage -> burn
@@ -211,8 +213,14 @@ public class AttackAction : IAction
         int evasionBonus = HasTrait(target, "quick_step") ? 1 : 0;
 
         // IsGuaranteedHit bypasses the roll and the target's evasion rank.
+        // じゆうのつばさ (stage 9 §1): +1 accuracy rank per OTHER Dragon-or-
+        // Dark party member, capped at +2 ranks.
+        int accuracyBonus = HasTrait(_attacker, "jiyuu_no_tsubasa")
+            ? Mathf.Min(2, PartyElementCensus.CountAlliesWithEitherType(_attacker, _floorController?.AllActors(), Element.Dragon, Element.Dark))
+            : 0;
+
         bool hits = move.IsGuaranteedHit
-            || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplier() * target.StatusEffects.GetEvasionMultiplierWithBonus(evasionBonus) * darknessMul;
+            || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplierWithBonus(accuracyBonus) * target.StatusEffects.GetEvasionMultiplierWithBonus(evasionBonus) * darknessMul;
         if (!hits)
         {
             MessageLogger.Log($"{_attacker.ActorName}'s {move.Name} missed {target.ActorName}!", MessageLogger.IneffectiveColor);
@@ -329,7 +337,11 @@ public class AttackAction : IAction
         // own CritRank and the base formula are untouched, only the
         // move-level kickers are blocked.
         bool blocked = BlocksSecondaryEffectsFor(target);
-        int effectiveCritRankBonus = blocked ? 0 : move.CritRankBonus;
+        // えいそう (stage 9 §1): +1 crit rank on the holder's CONTACT moves.
+        // Added to the move's own bonus, then subject to the same MudCaked/
+        // きょうじんなからだ neutering - it rides the move-level kicker slot.
+        int eisouBonus = (HasTrait(_attacker, "eisou") && move.IsContact) ? 1 : 0;
+        int effectiveCritRankBonus = blocked ? 0 : move.CritRankBonus + eisouBonus;
         float effectiveDragonMultiplier = blocked ? 1.0f : move.DragonMultiplier;
 
         // Crit rolled per target (§4-3), with the move's CritRankBonus.
@@ -463,6 +475,61 @@ public class AttackAction : IAction
         if (move.Type == "Water" && _attacker.StatusEffects.ConsumeDeepDiveChargeIfArmed())
             powerFlatBuff += 25f;
 
+        // ---- stage 9 §1: the 12 transcribed catalogue traits ----
+
+        // ふんどのつばさ: +5 power per OTHER Dragon-or-Fire party member.
+        // Uncapped (unlike じゆうのつばさ's +2 rank ceiling) - the spec gives
+        // no limit, and the 33% recoil in ApplyRecoil is the counterweight.
+        if (HasTrait(_attacker, "fundo_no_tsubasa"))
+            powerFlatBuff += 5f * PartyElementCensus.CountAlliesWithEitherType(
+                _attacker, _floorController?.AllActors(), Element.Dragon, Element.Fire);
+
+        // おこりんぼ: +10% damage on contact moves - the same 与ダメージ+10%
+        // shape as いっせん, so it rides powerMul for consistency.
+        if (HasTrait(_attacker, "okorinbo") && move.IsContact) powerMul *= 1.1f;
+
+        // ガーディアンモード: below half HP, Atk AND Def double. Explicitly
+        // exempt from §1.7's species-value rework (it is a x2 multiplier),
+        // so it stays on the computed stat. Checked per side: the holder
+        // gets the Atk half when attacking, the Def half when defending.
+        if (HasTrait(_attacker, "guardian_mode") && IsBelowHalfHp(_attacker)) atkMul *= 2.0f;
+        if (HasTrait(target, "guardian_mode") && IsBelowHalfHp(target)) defMul *= 2.0f;
+
+        // こんとんのしゅくふく: a party-wide x1.2 Atk aura. A multiplier, not
+        // a constant, so §1.7's species-value rule does not apply. Existence
+        // check including self - the holder benefits from their own aura,
+        // and pays for it with the 15% HP drain in ResolveStatusTick.
+        if (PartyElementCensus.AnyAllyHasUniqueTrait(_attacker, _floorController?.AllActors(), "konton_no_shukufuku", includeSelf: true))
+            atkMul *= 1.2f;
+
+        // リーダー系4種: scale with how many むれのいちいん holders are in the
+        // party. The stat halves are species-value flat addends per §1.7
+        // ("％の能力値部分のみ種族値基準"); the move-power halves stay as
+        // multipliers, since those are not 能力値 at all.
+        int attackerFollowers = CountFollowers(_attacker);
+        if (attackerFollowers > 0)
+        {
+            // もふもふ: Atk +10%/follower (cap 30%). とうそつ: Atk +15% (cap 45%).
+            if (HasTrait(_attacker, "mofumofu_leader"))
+                atkFlatBuff += SpeciesPercent(_attacker.Stats.BaseAtk, 0.10f, attackerFollowers, 0.30f);
+            if (HasTrait(_attacker, "tousotsu_leader"))
+                atkFlatBuff += SpeciesPercent(_attacker.Stats.BaseAtk, 0.15f, attackerFollowers, 0.45f);
+
+            // 冷却: Ice moves +5%/follower (cap 15%). 力持ち: Neutral moves ditto.
+            if (HasTrait(_attacker, "reikyaku_leader") && effectiveType == "Ice")
+                powerMul *= 1f + Mathf.Min(0.15f, 0.05f * attackerFollowers);
+            if (HasTrait(_attacker, "chikaramochi_leader") && effectiveType == "Neutral")
+                powerMul *= 1f + Mathf.Min(0.15f, 0.05f * attackerFollowers);
+        }
+
+        int targetFollowers = CountFollowers(target);
+        if (targetFollowers > 0)
+        {
+            // 冷却/力持ち/もふもふ all give Def +10%/follower (cap 30%).
+            if (HasTrait(target, "reikyaku_leader") || HasTrait(target, "chikaramochi_leader") || HasTrait(target, "mofumofu_leader"))
+                defFlatBuff += SpeciesPercent(target.Stats.BaseDef, 0.10f, targetFollowers, 0.30f);
+        }
+
         if (isCrit)
         {
             atkMul = Mathf.Max(1f, atkMul);
@@ -529,6 +596,22 @@ public class AttackAction : IAction
         // 50% reduction, per the confirmed magnitude.
         if (HasTrait(target, "watahoushi") && _attacker.StatusEffects.IsVineBound)
             damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.5f));
+
+        // むれのいちいん (stage 9 §1): -15% while a リーダー holder is in the
+        // party AND this entity is at FULL HP - a "first hit only" shield in
+        // practice, since the first hit that lands breaks the full-HP
+        // condition for every hit after it.
+        if (HasTrait(target, "mure_no_ichiin")
+            && defenderStats.CurrentHp >= defenderStats.MaxHp
+            && HasAnyLeaderAlly(target))
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.85f));
+
+        // ビルドアップ (stage 9 §1): -25% for the duration of the recipient's
+        // one action. Recoil is explicitly NOT reduced, which is automatic
+        // here: ApplyRecoil computes from the damage DEALT and never routes
+        // through this defender-side path.
+        if (target.StatusEffects.HasBuildUpShield)
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.75f));
 
         // ばくせん (§4, stage 3): a Fire hit on an already-Burning target
         // adds a FLAT target-Level*0.8, in "相性倍率の影響を受けない別枠" -
@@ -717,6 +800,30 @@ public class AttackAction : IAction
     // span (+12) lands on +6 from any starting rank, including -6 - which
     // is what "最大まで上がる" means, rather than a mere +N step.
     private const int AtkRankMaxDelta = 12;
+
+    private static bool IsBelowHalfHp(Entity e) => e.Stats.CurrentHp * 2 < e.Stats.MaxHp;
+
+    // A リーダー trait's scaling term: `rate` per follower, capped at `cap`,
+    // taken against the SPECIES value and floored once - §1.7's rule for the
+    // "％の能力値部分". Level-invariant by construction, same as きずな/まもり.
+    private static int SpeciesPercent(int speciesStat, float rate, int followers, float cap) =>
+        Mathf.FloorToInt(speciesStat * Mathf.Min(cap, rate * followers));
+
+    // How many OTHER party members hold むれのいちいん - the term every
+    // リーダー trait scales on.
+    private int CountFollowers(Entity leader) =>
+        PartyElementCensus.CountAlliesWithUniqueTrait(leader, _floorController?.AllActors(), "mure_no_ichiin");
+
+    // Does any party member hold one of the four リーダー traits? The
+    // condition むれのいちいん keys off (the mirror of CountFollowers).
+    private bool HasAnyLeaderAlly(Entity follower)
+    {
+        var actors = _floorController?.AllActors();
+        return PartyElementCensus.AnyAllyHasUniqueTrait(follower, actors, "reikyaku_leader", includeSelf: false)
+            || PartyElementCensus.AnyAllyHasUniqueTrait(follower, actors, "chikaramochi_leader", includeSelf: false)
+            || PartyElementCensus.AnyAllyHasUniqueTrait(follower, actors, "mofumofu_leader", includeSelf: false)
+            || PartyElementCensus.AnyAllyHasUniqueTrait(follower, actors, "tousotsu_leader", includeSelf: false);
+    }
 
     // ばくげき (stage 9 §1.9): the holder's every DRAGON move is swapped for
     // the fixed ばくげき move at use time. Resolved once at the top of
@@ -915,6 +1022,25 @@ public class AttackAction : IAction
     // combined damage). Self-KO -> normal death, no EXP (no attacker).
     // Blocked while the user is MudCaked, or the (primary) target holds
     // きょうじんなからだ (status-redesign §4-5 / trait_catalog_v2 §3).
+    // ふんどのつばさ (stage 9 §1): an EXTRA 33% of damage dealt as recoil,
+    // on top of whatever the move's own RecoilHpPercent already inflicts.
+    // Read as a flat 33%, NOT 33% per qualifying ally - the per-ally term in
+    // the source text scales the +5 power; compounding the recoil the same
+    // way would reach ~99% self-damage at three allies, which no kit could
+    // sustain. Flagged as an interpretation in the stage-9 report.
+    private void ApplyFundoRecoil(int totalDamageDealt)
+    {
+        if (!HasTrait(_attacker, "fundo_no_tsubasa")) return;
+        if (totalDamageDealt <= 0 || !_attacker.Stats.IsAlive) return;
+
+        int recoil = Mathf.Max(1, Mathf.FloorToInt(totalDamageDealt * 0.33f));
+        _attacker.Stats.TakeDamage(recoil);
+        _attacker.PlayHitFlash();
+        _attacker.ShowDamagePopup(recoil);
+        MessageLogger.Log($"{_attacker.ActorName} is battered by its own fury! ({recoil} damage)", MessageLogger.IneffectiveColor);
+        if (!_attacker.Stats.IsAlive) HandleFaint(_attacker);
+    }
+
     private void ApplyRecoil(MoveData move, int totalDamageDealt)
     {
         if (DefenderBlocksSecondaryEffects) return;

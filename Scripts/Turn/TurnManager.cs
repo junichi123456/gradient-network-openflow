@@ -43,8 +43,17 @@ public partial class TurnManager : Node
         }
         else
         {
+            // Same ビルドアップ bracket TurnScheduler.Tick runs for NPCs, so
+            // the player can both receive and arm the shield (see BuildUpRelay).
+            var entity = actor as Entities.Entity;
+            bool shielded = BuildUpRelay.TryClaim(entity);
+
             var action = actor.FilterActionForStatus(playerAction);
             action.Execute(TurnCount);
+
+            if (shielded) BuildUpRelay.Release(entity);
+            if (entity != null && entity.Stats.Trait == "build_up")
+                BuildUpRelay.Arm(entity.Faction);
         }
         actor.ResolveStatusTick();
 

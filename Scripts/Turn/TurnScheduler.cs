@@ -65,9 +65,19 @@ public class TurnScheduler
                 }
                 else
                 {
+                    // ビルドアップ: claim/release bracket around this one
+                    // action - see BuildUpRelay for why the shield is
+                    // action-scoped rather than turn-counted.
+                    var entity = actor as Entities.Entity;
+                    bool shielded = BuildUpRelay.TryClaim(entity);
+
                     IAction action = actor.DecideAction();
                     action = actor.FilterActionForStatus(action);
                     action?.Execute(turnNumber);
+
+                    if (shielded) BuildUpRelay.Release(entity);
+                    if (entity != null && entity.Stats.Trait == "build_up")
+                        BuildUpRelay.Arm(entity.Faction);
                 }
 
                 actor.ResolveStatusTick();
