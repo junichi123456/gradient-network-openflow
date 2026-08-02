@@ -11,7 +11,7 @@
   },
   {
     "id": "megaton_self_destruct",
-    "name": "メガトン自爆",
+    "name": "メガトンじばく",
     "type": "Neutral",
     "category": "Special",
     "power": 200,
@@ -32,7 +32,7 @@
   },
   {
     "id": "self_destruct",
-    "name": "自爆",
+    "name": "じばく",
     "type": "Neutral",
     "category": "Special",
     "power": 115,
@@ -42,7 +42,7 @@
   },
   {
     "id": "water_pillar_burst",
-    "name": "水柱噴出",
+    "name": "すいちゅうふんしゅつ",
     "type": "Water",
     "category": "Special",
     "power": 115,
@@ -412,7 +412,7 @@
   },
   {
     "id": "high_pressure_water",
-    "name": "高圧水撃",
+    "name": "こうあつすいげき",
     "type": "Water",
     "category": "Special",
     "power": 75,
@@ -539,7 +539,8 @@
     "power": 60,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "Slash"
   },
   {
     "id": "grass_tornado",
@@ -975,7 +976,7 @@
   },
   {
     "id": "MV_098",
-    "name": "竜神烈破",
+    "name": "りゅうじんれっぱ",
     "type": "Dragon",
     "category": "Physical",
     "power": 135,
@@ -986,7 +987,7 @@
   },
   {
     "id": "MV_099",
-    "name": "覇竜天翔",
+    "name": "はりゅうてんしょう",
     "type": "Dragon",
     "category": "Physical",
     "power": 125,
@@ -999,7 +1000,7 @@
   },
   {
     "id": "MV_100",
-    "name": "龍脈爆散",
+    "name": "りゅうみゃくばくさん",
     "type": "Dragon",
     "category": "Special",
     "power": 125,
@@ -1010,7 +1011,7 @@
   },
   {
     "id": "MV_101",
-    "name": "極竜砲",
+    "name": "きょくりゅうほう",
     "type": "Dragon",
     "category": "Special",
     "power": 120,
@@ -1021,7 +1022,7 @@
   },
   {
     "id": "MV_102",
-    "name": "滅竜咆哮",
+    "name": "めつりゅうほうこう",
     "type": "Dragon",
     "category": "Special",
     "power": 120,
@@ -1033,7 +1034,7 @@
   },
   {
     "id": "MV_103",
-    "name": "竜王の裁き",
+    "name": "りゅうおうのさばき",
     "type": "Dragon",
     "category": "Special",
     "power": 115,
@@ -1043,7 +1044,7 @@
   },
   {
     "id": "MV_104",
-    "name": "天空崩撃",
+    "name": "てんくうほうげき",
     "type": "Dragon",
     "category": "Special",
     "power": 105,
@@ -1054,7 +1055,7 @@
   },
   {
     "id": "MV_105",
-    "name": "星屑竜撃",
+    "name": "ほしくずりゅうげき",
     "type": "Dragon",
     "category": "Special",
     "power": 105,
@@ -1064,7 +1065,7 @@
   },
   {
     "id": "MV_106",
-    "name": "蒼竜波",
+    "name": "そうりゅうは",
     "type": "Dragon",
     "category": "Special",
     "power": 100,
@@ -1074,7 +1075,7 @@
   },
   {
     "id": "MV_107",
-    "name": "竜穿光",
+    "name": "りゅうせんこう",
     "type": "Dragon",
     "category": "Special",
     "power": 95,
@@ -1084,7 +1085,7 @@
   },
   {
     "id": "MV_108",
-    "name": "逆鱗突き",
+    "name": "げきりんつき",
     "type": "Dragon",
     "category": "Physical",
     "power": 95,
@@ -1097,18 +1098,19 @@
   },
   {
     "id": "MV_109",
-    "name": "竜鱗斬",
+    "name": "りゅうりんざん",
     "type": "Dragon",
     "category": "Physical",
     "power": 85,
     "accuracy": 100,
     "max_pp": 9,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "Slash"
   },
   {
     "id": "MV_110",
-    "name": "双竜牙",
+    "name": "そうりゅうが",
     "type": "Dragon",
     "category": "Physical",
     "power": 80,
@@ -1120,7 +1122,7 @@
   },
   {
     "id": "MV_111",
-    "name": "竜巻閃",
+    "name": "たつまきせん",
     "type": "Dragon",
     "category": "Special",
     "power": 80,
@@ -1130,18 +1132,19 @@
   },
   {
     "id": "MV_112",
-    "name": "竜爪連斬",
+    "name": "りゅうそうれんざん",
     "type": "Dragon",
     "category": "Physical",
     "power": 75,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MV_114",
-    "name": "螺旋竜波",
+    "name": "らせんりゅうは",
     "type": "Dragon",
     "category": "Special",
     "power": 70,
@@ -1151,7 +1154,7 @@
   },
   {
     "id": "MV_115",
-    "name": "幼竜の咆哮",
+    "name": "ようりゅうのほうこう",
     "type": "Dragon",
     "category": "Special",
     "power": 60,
@@ -1161,7 +1164,7 @@
   },
   {
     "id": "MV_116",
-    "name": "竜牙突き",
+    "name": "りゅうがつき",
     "type": "Dragon",
     "category": "Physical",
     "power": 55,
@@ -1172,7 +1175,7 @@
   },
   {
     "id": "MV_117",
-    "name": "竜鱗飛ばし",
+    "name": "りゅうりんとばし",
     "type": "Dragon",
     "category": "Special",
     "power": 50,
@@ -1182,7 +1185,7 @@
   },
   {
     "id": "MV_118",
-    "name": "小竜弾",
+    "name": "しょうりゅうだん",
     "type": "Dragon",
     "category": "Special",
     "power": 40,
@@ -1192,7 +1195,7 @@
   },
   {
     "id": "MV_119",
-    "name": "竜気弾",
+    "name": "りゅうきだん",
     "type": "Dragon",
     "category": "Special",
     "power": 35,
@@ -1202,7 +1205,7 @@
   },
   {
     "id": "MV_120",
-    "name": "竜眼砲",
+    "name": "りゅうがんほう",
     "type": "Dragon",
     "category": "Special",
     "power": 35,
@@ -1212,7 +1215,7 @@
   },
   {
     "id": "MV_121",
-    "name": "影穿ち",
+    "name": "かげうがち",
     "type": "Dark",
     "category": "Physical",
     "power": 35,
@@ -1223,7 +1226,7 @@
   },
   {
     "id": "MV_122",
-    "name": "呪詛の囁き",
+    "name": "じゅそのささやき",
     "type": "Dark",
     "category": "Status",
     "power": 0,
@@ -1236,7 +1239,7 @@
   },
   {
     "id": "MV_123",
-    "name": "昏き刃",
+    "name": "くらきやいば",
     "type": "Dark",
     "category": "Physical",
     "power": 40,
@@ -1248,7 +1251,7 @@
   },
   {
     "id": "MV_124",
-    "name": "影縫い",
+    "name": "かげぬい",
     "type": "Dark",
     "category": "Physical",
     "power": 40,
@@ -1261,7 +1264,7 @@
   },
   {
     "id": "MV_125",
-    "name": "闇の楔",
+    "name": "やみのくさび",
     "type": "Dark",
     "category": "Physical",
     "power": 40,
@@ -1275,7 +1278,7 @@
   },
   {
     "id": "MV_126",
-    "name": "呪縛の鎖",
+    "name": "じゅばくのくさり",
     "type": "Dark",
     "category": "Physical",
     "power": 40,
@@ -1289,7 +1292,7 @@
   },
   {
     "id": "MV_127",
-    "name": "暗鱗撃",
+    "name": "あんりんげき",
     "type": "Dark",
     "category": "Special",
     "power": 45,
@@ -1300,7 +1303,7 @@
   },
   {
     "id": "MV_128",
-    "name": "影狼牙",
+    "name": "かげろうが",
     "type": "Dark",
     "category": "Physical",
     "power": 55,
@@ -1314,7 +1317,7 @@
   },
   {
     "id": "MV_129",
-    "name": "冥府の呼び声",
+    "name": "めいふのよびごえ",
     "type": "Dark",
     "category": "Status",
     "power": 0,
@@ -1327,7 +1330,7 @@
   },
   {
     "id": "MV_130",
-    "name": "昏冥の渦",
+    "name": "こんめいのうず",
     "type": "Dark",
     "category": "Special",
     "power": 65,
@@ -1351,7 +1354,7 @@
   },
   {
     "id": "MV_132",
-    "name": "暗黒波動",
+    "name": "あんこくはどう",
     "type": "Dark",
     "category": "Special",
     "power": 70,
@@ -1364,7 +1367,7 @@
   },
   {
     "id": "MV_133",
-    "name": "闇裂波",
+    "name": "あんれつは",
     "type": "Dark",
     "category": "Special",
     "power": 75,
@@ -1375,7 +1378,7 @@
   },
   {
     "id": "MV_134",
-    "name": "虚無崩し",
+    "name": "きょむくずし",
     "type": "Dark",
     "category": "Special",
     "power": 85,
@@ -1386,7 +1389,7 @@
   },
   {
     "id": "MV_135",
-    "name": "深淵の顎",
+    "name": "しんえんのあぎと",
     "type": "Dark",
     "category": "Physical",
     "power": 95,
@@ -1398,7 +1401,7 @@
   },
   {
     "id": "MV_136",
-    "name": "冥王の裁き",
+    "name": "めいおうのさばき",
     "type": "Dark",
     "category": "Special",
     "power": 105,
@@ -1411,18 +1414,19 @@
   },
   {
     "id": "MV_137",
-    "name": "裏拳",
+    "name": "うらけん",
     "type": "Neutral",
     "category": "Physical",
     "power": 40,
     "accuracy": 100,
     "max_pp": 36,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MV_138",
-    "name": "二連突き",
+    "name": "にれんづき",
     "type": "Neutral",
     "category": "Physical",
     "power": 45,
@@ -1433,7 +1437,7 @@
   },
   {
     "id": "MV_139",
-    "name": "しっぽ払い",
+    "name": "しっぽばらい",
     "type": "Neutral",
     "category": "Physical",
     "power": 45,
@@ -1444,7 +1448,7 @@
   },
   {
     "id": "MV_140",
-    "name": "頭突き",
+    "name": "ずつき",
     "type": "Neutral",
     "category": "Physical",
     "power": 45,
@@ -1455,7 +1459,7 @@
   },
   {
     "id": "MV_141",
-    "name": "回転タックル",
+    "name": "かいてんタックル",
     "type": "Neutral",
     "category": "Physical",
     "power": 45,
@@ -1466,7 +1470,7 @@
   },
   {
     "id": "MV_142",
-    "name": "飛び蹴り",
+    "name": "とびげり",
     "type": "Neutral",
     "category": "Physical",
     "power": 45,
@@ -1477,7 +1481,7 @@
   },
   {
     "id": "MV_143",
-    "name": "みね打ち",
+    "name": "みねうち",
     "type": "Neutral",
     "category": "Physical",
     "power": 45,
@@ -1488,7 +1492,7 @@
   },
   {
     "id": "MV_144",
-    "name": "砕き打ち",
+    "name": "くだきうち",
     "type": "Neutral",
     "category": "Physical",
     "power": 50,
@@ -1499,7 +1503,7 @@
   },
   {
     "id": "MV_145",
-    "name": "乱れ突き",
+    "name": "みだれづき",
     "type": "Neutral",
     "category": "Physical",
     "power": 45,
@@ -1510,7 +1514,7 @@
   },
   {
     "id": "MV_146",
-    "name": "痛烈な一撃",
+    "name": "つうれつないちげき",
     "type": "Neutral",
     "category": "Physical",
     "power": 55,
@@ -1531,7 +1535,7 @@
   },
   {
     "id": "MV_148",
-    "name": "光弾",
+    "name": "こうだん",
     "type": "Neutral",
     "category": "Special",
     "power": 45,
@@ -1541,7 +1545,7 @@
   },
   {
     "id": "MV_149",
-    "name": "空圧砲",
+    "name": "くうあつほう",
     "type": "Neutral",
     "category": "Special",
     "power": 50,
@@ -1551,7 +1555,7 @@
   },
   {
     "id": "MV_150",
-    "name": "衝撃波",
+    "name": "しょうげきは",
     "type": "Neutral",
     "category": "Special",
     "power": 50,
@@ -1561,17 +1565,18 @@
   },
   {
     "id": "MV_151",
-    "name": "烈風斬",
+    "name": "れっぷうざん",
     "type": "Neutral",
     "category": "Special",
     "power": 55,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Line"
+    "range": "Line",
+    "weapon_tag": "Slash"
   },
   {
     "id": "MV_152",
-    "name": "破天撃",
+    "name": "はてんげき",
     "type": "Neutral",
     "category": "Special",
     "power": 60,
@@ -1591,7 +1596,7 @@
   },
   {
     "id": "MV_154",
-    "name": "光の奔流",
+    "name": "ひかりのほんりゅう",
     "type": "Neutral",
     "category": "Special",
     "power": 75,
@@ -1601,13 +1606,14 @@
   },
   {
     "id": "MV_155",
-    "name": "次元斬",
+    "name": "じげんざん",
     "type": "Neutral",
     "category": "Special",
     "power": 85,
     "accuracy": 100,
     "max_pp": 9,
-    "range": "Line"
+    "range": "Line",
+    "weapon_tag": "Slash"
   },
   {
     "id": "MV_156",
@@ -1632,7 +1638,7 @@
   },
   {
     "id": "MV_158",
-    "name": "極光砲",
+    "name": "きょっこうほう",
     "type": "Neutral",
     "category": "Special",
     "power": 120,
@@ -1642,7 +1648,7 @@
   },
   {
     "id": "MV_159",
-    "name": "崩天撃",
+    "name": "ほうてんげき",
     "type": "Neutral",
     "category": "Special",
     "power": 130,
@@ -1653,7 +1659,7 @@
   },
   {
     "id": "MV_160",
-    "name": "急所狙い",
+    "name": "きゅうしょねらい",
     "type": "Neutral",
     "category": "Special",
     "power": 50,
@@ -1664,7 +1670,7 @@
   },
   {
     "id": "MV_161",
-    "name": "かく乱",
+    "name": "かくらん",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -1677,7 +1683,7 @@
   },
   {
     "id": "MV_162",
-    "name": "威嚇",
+    "name": "いかく",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -1690,7 +1696,7 @@
   },
   {
     "id": "MV_163",
-    "name": "気合いため",
+    "name": "きあいため",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -1702,7 +1708,7 @@
   },
   {
     "id": "MV_164",
-    "name": "集中",
+    "name": "しゅうちゅう",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -1714,7 +1720,7 @@
   },
   {
     "id": "MV_165",
-    "name": "削り撃ち",
+    "name": "けずりうち",
     "type": "Neutral",
     "category": "Special",
     "power": 50,
@@ -1724,7 +1730,7 @@
   },
   {
     "id": "MV_166",
-    "name": "追い打ち",
+    "name": "おいうち",
     "type": "Neutral",
     "category": "Physical",
     "power": 55,
@@ -1735,7 +1741,7 @@
   },
   {
     "id": "MV_167",
-    "name": "連閃",
+    "name": "れんせん",
     "type": "Neutral",
     "category": "Special",
     "power": 60,
@@ -1757,7 +1763,7 @@
   },
   {
     "id": "MV_169",
-    "name": "電磁針",
+    "name": "でんじしん",
     "type": "Electric",
     "category": "Physical",
     "power": 55,
@@ -1769,7 +1775,7 @@
   },
   {
     "id": "MV_170",
-    "name": "放電",
+    "name": "ほうでん",
     "type": "Electric",
     "category": "Physical",
     "power": 60,
@@ -1781,7 +1787,7 @@
   },
   {
     "id": "MV_171",
-    "name": "雷轟",
+    "name": "らいごう",
     "type": "Electric",
     "category": "Physical",
     "power": 65,
@@ -1811,7 +1817,7 @@
   },
   {
     "id": "MV_174",
-    "name": "雷神の怒り",
+    "name": "らいじんのいかり",
     "type": "Electric",
     "category": "Special",
     "power": 95,
@@ -1821,7 +1827,7 @@
   },
   {
     "id": "MV_175",
-    "name": "超電磁砲",
+    "name": "ちょうでんじほう",
     "type": "Electric",
     "category": "Special",
     "power": 115,
@@ -1832,7 +1838,7 @@
   },
   {
     "id": "MV_176",
-    "name": "誘雷",
+    "name": "ゆうらい",
     "type": "Electric",
     "category": "Status",
     "power": 0,
@@ -1844,7 +1850,7 @@
   },
   {
     "id": "MV_177",
-    "name": "帯電チャージ",
+    "name": "たいでんチャージ",
     "type": "Electric",
     "category": "Status",
     "power": 0,
@@ -1856,7 +1862,7 @@
   },
   {
     "id": "MV_178",
-    "name": "電磁防壁",
+    "name": "でんじぼうへき",
     "type": "Electric",
     "category": "Status",
     "power": 0,
@@ -1868,7 +1874,7 @@
   },
   {
     "id": "MV_179",
-    "name": "加速",
+    "name": "かそく",
     "type": "Electric",
     "category": "Status",
     "power": 0,
@@ -1892,7 +1898,7 @@
   },
   {
     "id": "MV_181",
-    "name": "雷鳴散らし",
+    "name": "らいめいちらし",
     "type": "Electric",
     "category": "Special",
     "power": 60,
@@ -1902,7 +1908,7 @@
   },
   {
     "id": "MV_182",
-    "name": "電撃刺し",
+    "name": "でんげきさし",
     "type": "Electric",
     "category": "Physical",
     "power": 50,
@@ -1913,7 +1919,7 @@
   },
   {
     "id": "MV_183",
-    "name": "イナズマ突き",
+    "name": "いなずまづき",
     "type": "Electric",
     "category": "Physical",
     "power": 55,
@@ -1924,7 +1930,7 @@
   },
   {
     "id": "MV_184",
-    "name": "雷球",
+    "name": "らいきゅう",
     "type": "Electric",
     "category": "Special",
     "power": 45,
@@ -1934,7 +1940,7 @@
   },
   {
     "id": "MV_185",
-    "name": "雷光弾",
+    "name": "らいこうだん",
     "type": "Electric",
     "category": "Special",
     "power": 45,
@@ -1944,7 +1950,7 @@
   },
   {
     "id": "MV_186",
-    "name": "轟雷",
+    "name": "ごうらい",
     "type": "Electric",
     "category": "Special",
     "power": 85,
@@ -1954,7 +1960,7 @@
   },
   {
     "id": "MV_187",
-    "name": "氷礫",
+    "name": "ひょうれき",
     "type": "Ice",
     "category": "Physical",
     "power": 40,
@@ -1964,7 +1970,7 @@
   },
   {
     "id": "MV_188",
-    "name": "氷の刃",
+    "name": "こおりのやいば",
     "type": "Ice",
     "category": "Physical",
     "power": 45,
@@ -1994,7 +2000,7 @@
   },
   {
     "id": "MV_191",
-    "name": "氷結波",
+    "name": "ひょうけつは",
     "type": "Ice",
     "category": "Special",
     "power": 60,
@@ -2015,7 +2021,7 @@
   },
   {
     "id": "MV_193",
-    "name": "氷嵐",
+    "name": "ひょうらん",
     "type": "Ice",
     "category": "Special",
     "power": 70,
@@ -2039,7 +2045,7 @@
   },
   {
     "id": "MV_195",
-    "name": "氷牙",
+    "name": "ひょうが",
     "type": "Ice",
     "category": "Physical",
     "power": 60,
@@ -2062,7 +2068,7 @@
   },
   {
     "id": "MV_197",
-    "name": "絶対零度波",
+    "name": "ぜったいれいどは",
     "type": "Ice",
     "category": "Special",
     "power": 95,
@@ -2074,7 +2080,7 @@
   },
   {
     "id": "MV_198",
-    "name": "氷結地獄",
+    "name": "ひょうけつじごく",
     "type": "Ice",
     "category": "Special",
     "power": 115,
@@ -2096,7 +2102,7 @@
   },
   {
     "id": "MV_200",
-    "name": "氷刃連撃",
+    "name": "ひょうじんれんげき",
     "type": "Ice",
     "category": "Physical",
     "power": 65,
@@ -2107,7 +2113,7 @@
   },
   {
     "id": "MV_201",
-    "name": "氷柱落とし",
+    "name": "つららおとし",
     "type": "Ice",
     "category": "Special",
     "power": 85,
@@ -2127,7 +2133,7 @@
   },
   {
     "id": "MV_203",
-    "name": "凍てつく吐息",
+    "name": "いてつくといき",
     "type": "Ice",
     "category": "Special",
     "power": 55,
@@ -2140,7 +2146,7 @@
   },
   {
     "id": "MV_204",
-    "name": "氷晶弾",
+    "name": "ひょうしょうだん",
     "type": "Ice",
     "category": "Special",
     "power": 45,
@@ -2150,7 +2156,7 @@
   },
   {
     "id": "MV_205",
-    "name": "霜の網",
+    "name": "しものあみ",
     "type": "Ice",
     "category": "Special",
     "power": 50,
@@ -2162,7 +2168,7 @@
   },
   {
     "id": "MV_206",
-    "name": "氷塊落とし",
+    "name": "ひょうかいおとし",
     "type": "Ice",
     "category": "Special",
     "power": 75,
@@ -2172,7 +2178,7 @@
   },
   {
     "id": "MV_207",
-    "name": "極寒の一撃",
+    "name": "ごっかんのいちげき",
     "type": "Ice",
     "category": "Physical",
     "power": 100,
@@ -2195,7 +2201,7 @@
   },
   {
     "id": "MV_209",
-    "name": "氷結砲",
+    "name": "ひょうけつほう",
     "type": "Ice",
     "category": "Special",
     "power": 85,
@@ -2217,7 +2223,7 @@
   },
   {
     "id": "MV_211",
-    "name": "凍結刃",
+    "name": "とうけつじん",
     "type": "Ice",
     "category": "Physical",
     "power": 55,
@@ -2230,7 +2236,7 @@
   },
   {
     "id": "MV_212",
-    "name": "水鉄砲",
+    "name": "みずでっぽう",
     "type": "Water",
     "category": "Physical",
     "power": 40,
@@ -2240,7 +2246,7 @@
   },
   {
     "id": "MV_213",
-    "name": "水流弾",
+    "name": "すいりゅうだん",
     "type": "Water",
     "category": "Physical",
     "power": 45,
@@ -2250,7 +2256,7 @@
   },
   {
     "id": "MV_214",
-    "name": "バブル連射",
+    "name": "バブルれんしゃ",
     "type": "Water",
     "category": "Physical",
     "power": 45,
@@ -2271,7 +2277,7 @@
   },
   {
     "id": "MV_216",
-    "name": "水刃",
+    "name": "すいじん",
     "type": "Water",
     "category": "Physical",
     "power": 55,
@@ -2291,7 +2297,7 @@
   },
   {
     "id": "MV_218",
-    "name": "水柱",
+    "name": "みずばしら",
     "type": "Water",
     "category": "Special",
     "power": 65,
@@ -2301,7 +2307,7 @@
   },
   {
     "id": "MV_219",
-    "name": "激流砲",
+    "name": "げきりゅうほう",
     "type": "Water",
     "category": "Special",
     "power": 80,
@@ -2311,7 +2317,7 @@
   },
   {
     "id": "MV_220",
-    "name": "渦潮",
+    "name": "うずしお",
     "type": "Water",
     "category": "Special",
     "power": 70,
@@ -2321,7 +2327,7 @@
   },
   {
     "id": "MV_221",
-    "name": "水流連撃",
+    "name": "すいりゅうれんげき",
     "type": "Water",
     "category": "Physical",
     "power": 55,
@@ -2332,18 +2338,19 @@
   },
   {
     "id": "MV_222",
-    "name": "水鏡斬",
+    "name": "みずかがみざん",
     "type": "Water",
     "category": "Physical",
     "power": 60,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "Slash"
   },
   {
     "id": "MV_223",
-    "name": "津波",
+    "name": "つなみ",
     "type": "Water",
     "category": "Special",
     "power": 100,
@@ -2353,7 +2360,7 @@
   },
   {
     "id": "MV_224",
-    "name": "大海嘯",
+    "name": "だいかいしょう",
     "type": "Water",
     "category": "Special",
     "power": 125,
@@ -2364,7 +2371,7 @@
   },
   {
     "id": "MV_225",
-    "name": "水泡弾",
+    "name": "すいほうだん",
     "type": "Water",
     "category": "Special",
     "power": 40,
@@ -2374,7 +2381,7 @@
   },
   {
     "id": "MV_226",
-    "name": "水噴射",
+    "name": "すいふんしゃ",
     "type": "Water",
     "category": "Special",
     "power": 50,
@@ -2395,7 +2402,7 @@
   },
   {
     "id": "MV_228",
-    "name": "水竜巻",
+    "name": "みずたつまき",
     "type": "Water",
     "category": "Special",
     "power": 75,
@@ -2405,7 +2412,7 @@
   },
   {
     "id": "MV_229",
-    "name": "潮吹き",
+    "name": "しおふき",
     "type": "Water",
     "category": "Special",
     "power": 65,
@@ -2415,7 +2422,7 @@
   },
   {
     "id": "MV_230",
-    "name": "水牙",
+    "name": "すいが",
     "type": "Water",
     "category": "Physical",
     "power": 60,
@@ -2436,7 +2443,7 @@
   },
   {
     "id": "MV_232",
-    "name": "清流の型",
+    "name": "せいりゅうのかた",
     "type": "Water",
     "category": "Status",
     "power": 0,
@@ -2448,7 +2455,7 @@
   },
   {
     "id": "MV_233",
-    "name": "火の粉",
+    "name": "ひのこ",
     "type": "Fire",
     "category": "Physical",
     "power": 40,
@@ -2460,7 +2467,7 @@
   },
   {
     "id": "MV_234",
-    "name": "火炎弾",
+    "name": "かえんだん",
     "type": "Fire",
     "category": "Special",
     "power": 45,
@@ -2482,7 +2489,7 @@
   },
   {
     "id": "MV_236",
-    "name": "炎爪",
+    "name": "えんそう",
     "type": "Fire",
     "category": "Physical",
     "power": 55,
@@ -2491,11 +2498,12 @@
     "range": "Adjacent",
     "ailment_effect": "Burn",
     "ailment_chance": 10,
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MV_237",
-    "name": "火炎斬",
+    "name": "かえんざん",
     "type": "Fire",
     "category": "Physical",
     "power": 60,
@@ -2504,11 +2512,12 @@
     "range": "Adjacent",
     "ailment_effect": "Burn",
     "ailment_chance": 10,
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "Slash"
   },
   {
     "id": "MV_238",
-    "name": "烈火拳",
+    "name": "れっかけん",
     "type": "Fire",
     "category": "Physical",
     "power": 65,
@@ -2517,11 +2526,12 @@
     "range": "Adjacent",
     "ailment_effect": "Burn",
     "ailment_chance": 10,
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MV_239",
-    "name": "火柱",
+    "name": "ひばしら",
     "type": "Fire",
     "category": "Special",
     "power": 70,
@@ -2541,7 +2551,7 @@
   },
   {
     "id": "MV_241",
-    "name": "紅蓮の炎",
+    "name": "ぐれんのほのお",
     "type": "Fire",
     "category": "Special",
     "power": 85,
@@ -2553,7 +2563,7 @@
   },
   {
     "id": "MV_242",
-    "name": "獄炎",
+    "name": "ごくえん",
     "type": "Fire",
     "category": "Special",
     "power": 100,
@@ -2565,7 +2575,7 @@
   },
   {
     "id": "MV_243",
-    "name": "業火の渦",
+    "name": "ごうかのうず",
     "type": "Fire",
     "category": "Special",
     "power": 115,
@@ -2587,7 +2597,7 @@
   },
   {
     "id": "MV_245",
-    "name": "火炎車",
+    "name": "かえんぐるま",
     "type": "Fire",
     "category": "Physical",
     "power": 60,
@@ -2600,7 +2610,7 @@
   },
   {
     "id": "MV_246",
-    "name": "炎の牙",
+    "name": "ほのおのきば",
     "type": "Fire",
     "category": "Physical",
     "power": 55,
@@ -2613,7 +2623,7 @@
   },
   {
     "id": "MV_247",
-    "name": "火球",
+    "name": "かきゅう",
     "type": "Fire",
     "category": "Special",
     "power": 50,
@@ -2623,7 +2633,7 @@
   },
   {
     "id": "MV_248",
-    "name": "噴炎",
+    "name": "ふんえん",
     "type": "Fire",
     "category": "Special",
     "power": 65,
@@ -2633,7 +2643,7 @@
   },
   {
     "id": "MV_249",
-    "name": "劫火放射",
+    "name": "ごうかほうしゃ",
     "type": "Fire",
     "category": "Special",
     "power": 80,
@@ -2645,7 +2655,7 @@
   },
   {
     "id": "MV_250",
-    "name": "炎突き",
+    "name": "ほのおつき",
     "type": "Fire",
     "category": "Physical",
     "power": 55,
@@ -2656,7 +2666,7 @@
   },
   {
     "id": "MV_251",
-    "name": "焼き討ち",
+    "name": "やきうち",
     "type": "Fire",
     "category": "Special",
     "power": 75,
@@ -2668,29 +2678,31 @@
   },
   {
     "id": "MV_252",
-    "name": "灼熱斬",
+    "name": "しゃくねつざん",
     "type": "Fire",
     "category": "Physical",
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "Slash"
   },
   {
     "id": "MV_253",
-    "name": "メラメラパンチ",
+    "name": "めらめらパンチ",
     "type": "Fire",
     "category": "Physical",
     "power": 60,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MV_254",
-    "name": "火竜巻",
+    "name": "ひたつまき",
     "type": "Fire",
     "category": "Special",
     "power": 80,
@@ -2700,7 +2712,7 @@
   },
   {
     "id": "MV_255",
-    "name": "火炎連弾",
+    "name": "かえんれんだん",
     "type": "Fire",
     "category": "Special",
     "power": 55,
@@ -2712,7 +2724,7 @@
   },
   {
     "id": "MV_256",
-    "name": "石つぶて",
+    "name": "いしつぶて",
     "type": "Ground",
     "category": "Physical",
     "power": 40,
@@ -2722,7 +2734,7 @@
   },
   {
     "id": "MV_257",
-    "name": "岩石弾",
+    "name": "がんせきだん",
     "type": "Ground",
     "category": "Physical",
     "power": 45,
@@ -2732,7 +2744,7 @@
   },
   {
     "id": "MV_258",
-    "name": "地割れ突き",
+    "name": "じわれつき",
     "type": "Ground",
     "category": "Physical",
     "power": 55,
@@ -2743,7 +2755,7 @@
   },
   {
     "id": "MV_259",
-    "name": "砂かけ",
+    "name": "すなかけ",
     "type": "Ground",
     "category": "Physical",
     "power": 45,
@@ -2758,7 +2770,7 @@
   },
   {
     "id": "MV_260",
-    "name": "目潰しの砂",
+    "name": "めつぶしのすな",
     "type": "Ground",
     "category": "Physical",
     "power": 40,
@@ -2773,7 +2785,7 @@
   },
   {
     "id": "MV_261",
-    "name": "土煙",
+    "name": "つちけむり",
     "type": "Ground",
     "category": "Special",
     "power": 50,
@@ -2786,7 +2798,7 @@
   },
   {
     "id": "MV_262",
-    "name": "岩崩し",
+    "name": "いわくずし",
     "type": "Ground",
     "category": "Special",
     "power": 65,
@@ -2807,7 +2819,7 @@
   },
   {
     "id": "MV_264",
-    "name": "大地の怒り",
+    "name": "だいちのいかり",
     "type": "Ground",
     "category": "Special",
     "power": 85,
@@ -2817,7 +2829,7 @@
   },
   {
     "id": "MV_265",
-    "name": "地殻変動",
+    "name": "ちかくへんどう",
     "type": "Ground",
     "category": "Special",
     "power": 115,
@@ -2827,7 +2839,7 @@
   },
   {
     "id": "MV_266",
-    "name": "大地激震",
+    "name": "だいちげきしん",
     "type": "Ground",
     "category": "Special",
     "power": 100,
@@ -2837,7 +2849,7 @@
   },
   {
     "id": "MV_267",
-    "name": "岩投げ",
+    "name": "いわなげ",
     "type": "Ground",
     "category": "Special",
     "power": 50,
@@ -2847,7 +2859,7 @@
   },
   {
     "id": "MV_268",
-    "name": "砂嵐撃",
+    "name": "すなあらしげき",
     "type": "Ground",
     "category": "Special",
     "power": 60,
@@ -2861,7 +2873,7 @@
   },
   {
     "id": "MV_269",
-    "name": "地面突き上げ",
+    "name": "じめんつきあげ",
     "type": "Ground",
     "category": "Special",
     "power": 55,
@@ -2871,7 +2883,7 @@
   },
   {
     "id": "MV_270",
-    "name": "岩石なだれ",
+    "name": "がんせきなだれ",
     "type": "Ground",
     "category": "Special",
     "power": 75,
@@ -2881,7 +2893,7 @@
   },
   {
     "id": "MV_271",
-    "name": "土竜撃",
+    "name": "どりゅうげき",
     "type": "Ground",
     "category": "Special",
     "power": 65,
@@ -2891,7 +2903,7 @@
   },
   {
     "id": "MV_272",
-    "name": "鋭岩突き",
+    "name": "えいがんづき",
     "type": "Ground",
     "category": "Physical",
     "power": 60,
@@ -2902,7 +2914,7 @@
   },
   {
     "id": "MV_273",
-    "name": "砂塵の型",
+    "name": "さじんのかた",
     "type": "Ground",
     "category": "Status",
     "power": 0,
@@ -2914,7 +2926,7 @@
   },
   {
     "id": "MV_274",
-    "name": "岩盤割り",
+    "name": "がんばんわり",
     "type": "Ground",
     "category": "Physical",
     "power": 80,
@@ -2925,7 +2937,7 @@
   },
   {
     "id": "MV_275",
-    "name": "大岩落とし",
+    "name": "おおいわおとし",
     "type": "Ground",
     "category": "Special",
     "power": 90,
@@ -2935,17 +2947,18 @@
   },
   {
     "id": "MV_276",
-    "name": "地裂斬",
+    "name": "ちれつざん",
     "type": "Ground",
     "category": "Special",
     "power": 70,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Line"
+    "range": "Line",
+    "weapon_tag": "Slash"
   },
   {
     "id": "MV_277",
-    "name": "砂弾",
+    "name": "さだん",
     "type": "Ground",
     "category": "Special",
     "power": 45,
@@ -2959,7 +2972,7 @@
   },
   {
     "id": "MV_278",
-    "name": "岩塊砲",
+    "name": "がんかいほう",
     "type": "Ground",
     "category": "Special",
     "power": 80,
@@ -2969,7 +2982,7 @@
   },
   {
     "id": "MV_279",
-    "name": "崩岩撃",
+    "name": "ほうがんげき",
     "type": "Ground",
     "category": "Special",
     "power": 125,
@@ -2980,7 +2993,7 @@
   },
   {
     "id": "MV_280",
-    "name": "砂縛り",
+    "name": "すなしばり",
     "type": "Ground",
     "category": "Special",
     "power": 50,
@@ -2994,7 +3007,7 @@
   },
   {
     "id": "MV_281",
-    "name": "葉の刃",
+    "name": "はのやいば",
     "type": "Grass",
     "category": "Physical",
     "power": 40,
@@ -3004,7 +3017,7 @@
   },
   {
     "id": "MV_282",
-    "name": "種撃ち",
+    "name": "たねうち",
     "type": "Grass",
     "category": "Physical",
     "power": 45,
@@ -3035,7 +3048,7 @@
   },
   {
     "id": "MV_285",
-    "name": "草結び",
+    "name": "くさむすび",
     "type": "Grass",
     "category": "Special",
     "power": 50,
@@ -3048,7 +3061,7 @@
   },
   {
     "id": "MV_286",
-    "name": "花吹雪",
+    "name": "はなふぶき",
     "type": "Grass",
     "category": "Special",
     "power": 55,
@@ -3058,7 +3071,7 @@
   },
   {
     "id": "MV_287",
-    "name": "蔦縛り",
+    "name": "つたしばり",
     "type": "Grass",
     "category": "Physical",
     "power": 55,
@@ -3091,7 +3104,7 @@
   },
   {
     "id": "MV_290",
-    "name": "光合成砲",
+    "name": "こうごうせいほう",
     "type": "Grass",
     "category": "Special",
     "power": 100,
@@ -3101,7 +3114,7 @@
   },
   {
     "id": "MV_291",
-    "name": "大樹の一撃",
+    "name": "たいじゅのいちげき",
     "type": "Grass",
     "category": "Special",
     "power": 115,
@@ -3112,7 +3125,7 @@
   },
   {
     "id": "MV_292",
-    "name": "森羅の怒り",
+    "name": "しんらのいかり",
     "type": "Grass",
     "category": "Special",
     "power": 125,
@@ -3123,7 +3136,7 @@
   },
   {
     "id": "MV_293",
-    "name": "葉刃連撃",
+    "name": "ようじんれんげき",
     "type": "Grass",
     "category": "Special",
     "power": 60,
@@ -3133,7 +3146,7 @@
   },
   {
     "id": "MV_294",
-    "name": "根穿ち",
+    "name": "ねうがち",
     "type": "Grass",
     "category": "Special",
     "power": 65,
@@ -3143,7 +3156,7 @@
   },
   {
     "id": "MV_295",
-    "name": "花粉爆発",
+    "name": "かふんばくはつ",
     "type": "Grass",
     "category": "Special",
     "power": 70,
@@ -3153,7 +3166,7 @@
   },
   {
     "id": "MV_296",
-    "name": "茨の鞭",
+    "name": "いばらのむち",
     "type": "Grass",
     "category": "Physical",
     "power": 65,
@@ -3164,7 +3177,7 @@
   },
   {
     "id": "MV_297",
-    "name": "樹木撃",
+    "name": "じゅもくげき",
     "type": "Grass",
     "category": "Physical",
     "power": 75,
@@ -3175,7 +3188,7 @@
   },
   {
     "id": "MV_298",
-    "name": "連射種弾",
+    "name": "れんしゃしゅだん",
     "type": "Grass",
     "category": "Special",
     "power": 55,
@@ -3185,7 +3198,7 @@
   },
   {
     "id": "MV_299",
-    "name": "生命の型",
+    "name": "せいめいのかた",
     "type": "Grass",
     "category": "Status",
     "power": 0,
@@ -3197,7 +3210,7 @@
   },
   {
     "id": "MV_300",
-    "name": "葉隠れ",
+    "name": "はがくれ",
     "type": "Grass",
     "category": "Status",
     "power": 0,
@@ -3209,7 +3222,7 @@
   },
   {
     "id": "mvn_001",
-    "name": "白光",
+    "name": "はっこう",
     "type": "Neutral",
     "category": "Special",
     "power": 30,
@@ -3221,7 +3234,7 @@
   },
   {
     "id": "mvn_002",
-    "name": "無双",
+    "name": "むそう",
     "type": "Neutral",
     "category": "Special",
     "power": 35,
@@ -3233,7 +3246,7 @@
   },
   {
     "id": "mvn_003",
-    "name": "空鳴",
+    "name": "くうめい",
     "type": "Neutral",
     "category": "Special",
     "power": 40,
@@ -3245,7 +3258,7 @@
   },
   {
     "id": "mvn_004",
-    "name": "素撃",
+    "name": "そげき",
     "type": "Neutral",
     "category": "Special",
     "power": 45,
@@ -3257,7 +3270,7 @@
   },
   {
     "id": "mvn_005",
-    "name": "中庸",
+    "name": "ちゅうよう",
     "type": "Neutral",
     "category": "Special",
     "power": 50,
@@ -3269,7 +3282,7 @@
   },
   {
     "id": "mvn_006",
-    "name": "無心",
+    "name": "むしん",
     "type": "Neutral",
     "category": "Special",
     "power": 55,
@@ -3281,7 +3294,7 @@
   },
   {
     "id": "mvn_007",
-    "name": "白刃",
+    "name": "はくじん",
     "type": "Neutral",
     "category": "Special",
     "power": 60,
@@ -3291,7 +3304,7 @@
   },
   {
     "id": "mvn_008",
-    "name": "朴訥",
+    "name": "ぼくとつ",
     "type": "Neutral",
     "category": "Special",
     "power": 60,
@@ -3303,7 +3316,7 @@
   },
   {
     "id": "mvn_009",
-    "name": "無明",
+    "name": "むみょう",
     "type": "Neutral",
     "category": "Special",
     "power": 60,
@@ -3315,7 +3328,7 @@
   },
   {
     "id": "mvn_010",
-    "name": "静破",
+    "name": "せいは",
     "type": "Neutral",
     "category": "Special",
     "power": 65,
@@ -3325,7 +3338,7 @@
   },
   {
     "id": "mvn_011",
-    "name": "純打",
+    "name": "じゅんだ",
     "type": "Neutral",
     "category": "Special",
     "power": 70,
@@ -3335,7 +3348,7 @@
   },
   {
     "id": "mvn_012",
-    "name": "紅蓮",
+    "name": "ぐれん",
     "type": "Fire",
     "category": "Special",
     "power": 30,
@@ -3347,7 +3360,7 @@
   },
   {
     "id": "mvn_013",
-    "name": "焦熱",
+    "name": "しょうねつ",
     "type": "Fire",
     "category": "Special",
     "power": 35,
@@ -3359,7 +3372,7 @@
   },
   {
     "id": "mvn_014",
-    "name": "燐火",
+    "name": "りんか",
     "type": "Fire",
     "category": "Special",
     "power": 40,
@@ -3371,7 +3384,7 @@
   },
   {
     "id": "mvn_015",
-    "name": "炙",
+    "name": "あぶり",
     "type": "Fire",
     "category": "Special",
     "power": 45,
@@ -3383,7 +3396,7 @@
   },
   {
     "id": "mvn_016",
-    "name": "灼",
+    "name": "しゃく",
     "type": "Fire",
     "category": "Special",
     "power": 50,
@@ -3395,7 +3408,7 @@
   },
   {
     "id": "mvn_017",
-    "name": "熾火",
+    "name": "おきび",
     "type": "Fire",
     "category": "Special",
     "power": 55,
@@ -3407,7 +3420,7 @@
   },
   {
     "id": "mvn_018",
-    "name": "焔",
+    "name": "ほむら",
     "type": "Fire",
     "category": "Special",
     "power": 60,
@@ -3417,7 +3430,7 @@
   },
   {
     "id": "mvn_019",
-    "name": "炎陣",
+    "name": "えんじん",
     "type": "Fire",
     "category": "Special",
     "power": 60,
@@ -3429,7 +3442,7 @@
   },
   {
     "id": "mvn_020",
-    "name": "業炎",
+    "name": "ごうえん",
     "type": "Fire",
     "category": "Special",
     "power": 60,
@@ -3441,7 +3454,7 @@
   },
   {
     "id": "mvn_021",
-    "name": "火群",
+    "name": "かぐん",
     "type": "Fire",
     "category": "Special",
     "power": 65,
@@ -3451,7 +3464,7 @@
   },
   {
     "id": "mvn_022",
-    "name": "炭化",
+    "name": "たんか",
     "type": "Fire",
     "category": "Special",
     "power": 70,
@@ -3461,7 +3474,7 @@
   },
   {
     "id": "mvn_023",
-    "name": "清流",
+    "name": "せいりゅう",
     "type": "Water",
     "category": "Special",
     "power": 30,
@@ -3473,7 +3486,7 @@
   },
   {
     "id": "mvn_024",
-    "name": "水鏡",
+    "name": "みずかがみ",
     "type": "Water",
     "category": "Special",
     "power": 35,
@@ -3485,7 +3498,7 @@
   },
   {
     "id": "mvn_025",
-    "name": "潮騒",
+    "name": "しおさい",
     "type": "Water",
     "category": "Special",
     "power": 40,
@@ -3497,7 +3510,7 @@
   },
   {
     "id": "mvn_026",
-    "name": "滴撃",
+    "name": "てきげき",
     "type": "Water",
     "category": "Special",
     "power": 45,
@@ -3509,7 +3522,7 @@
   },
   {
     "id": "mvn_027",
-    "name": "水紋",
+    "name": "すいもん",
     "type": "Water",
     "category": "Special",
     "power": 50,
@@ -3521,7 +3534,7 @@
   },
   {
     "id": "mvn_028",
-    "name": "飛沫",
+    "name": "ひまつ",
     "type": "Water",
     "category": "Special",
     "power": 55,
@@ -3533,7 +3546,7 @@
   },
   {
     "id": "mvn_029",
-    "name": "水脈",
+    "name": "すいみゃく",
     "type": "Water",
     "category": "Special",
     "power": 60,
@@ -3543,7 +3556,7 @@
   },
   {
     "id": "mvn_030",
-    "name": "碧波",
+    "name": "へきは",
     "type": "Water",
     "category": "Special",
     "power": 60,
@@ -3555,7 +3568,7 @@
   },
   {
     "id": "mvn_031",
-    "name": "雫弾",
+    "name": "しずくだん",
     "type": "Water",
     "category": "Special",
     "power": 60,
@@ -3567,7 +3580,7 @@
   },
   {
     "id": "mvn_032",
-    "name": "水衣",
+    "name": "すいい",
     "type": "Water",
     "category": "Special",
     "power": 65,
@@ -3577,7 +3590,7 @@
   },
   {
     "id": "mvn_033",
-    "name": "漣",
+    "name": "さざなみ",
     "type": "Water",
     "category": "Special",
     "power": 70,
@@ -3587,7 +3600,7 @@
   },
   {
     "id": "mvn_034",
-    "name": "紫電",
+    "name": "しでん",
     "type": "Electric",
     "category": "Special",
     "power": 30,
@@ -3599,7 +3612,7 @@
   },
   {
     "id": "mvn_035",
-    "name": "雷鳴",
+    "name": "らいめい",
     "type": "Electric",
     "category": "Special",
     "power": 35,
@@ -3611,7 +3624,7 @@
   },
   {
     "id": "mvn_036",
-    "name": "電光",
+    "name": "でんこう",
     "type": "Electric",
     "category": "Special",
     "power": 40,
@@ -3623,7 +3636,7 @@
   },
   {
     "id": "mvn_037",
-    "name": "帯雷",
+    "name": "たいらい",
     "type": "Electric",
     "category": "Special",
     "power": 45,
@@ -3635,7 +3648,7 @@
   },
   {
     "id": "mvn_038",
-    "name": "迅雷",
+    "name": "じんらい",
     "type": "Electric",
     "category": "Special",
     "power": 50,
@@ -3647,7 +3660,7 @@
   },
   {
     "id": "mvn_039",
-    "name": "雷紋",
+    "name": "らいもん",
     "type": "Electric",
     "category": "Special",
     "power": 55,
@@ -3659,7 +3672,7 @@
   },
   {
     "id": "mvn_040",
-    "name": "雷跡",
+    "name": "らいせき",
     "type": "Electric",
     "category": "Special",
     "power": 60,
@@ -3669,7 +3682,7 @@
   },
   {
     "id": "mvn_041",
-    "name": "静電",
+    "name": "せいでん",
     "type": "Electric",
     "category": "Special",
     "power": 60,
@@ -3681,7 +3694,7 @@
   },
   {
     "id": "mvn_042",
-    "name": "雷芯",
+    "name": "らいしん",
     "type": "Electric",
     "category": "Special",
     "power": 60,
@@ -3693,7 +3706,7 @@
   },
   {
     "id": "mvn_043",
-    "name": "電閃",
+    "name": "でんせん",
     "type": "Electric",
     "category": "Special",
     "power": 65,
@@ -3703,7 +3716,7 @@
   },
   {
     "id": "mvn_044",
-    "name": "雷粒",
+    "name": "らいりゅう",
     "type": "Electric",
     "category": "Special",
     "power": 70,
@@ -3713,7 +3726,7 @@
   },
   {
     "id": "mvn_045",
-    "name": "土塊",
+    "name": "どかい",
     "type": "Ground",
     "category": "Special",
     "power": 30,
@@ -3725,7 +3738,7 @@
   },
   {
     "id": "mvn_046",
-    "name": "岩盤",
+    "name": "がんばん",
     "type": "Ground",
     "category": "Special",
     "power": 35,
@@ -3737,7 +3750,7 @@
   },
   {
     "id": "mvn_047",
-    "name": "地脈",
+    "name": "ちみゃく",
     "type": "Ground",
     "category": "Special",
     "power": 40,
@@ -3749,7 +3762,7 @@
   },
   {
     "id": "mvn_048",
-    "name": "砕土",
+    "name": "さいど",
     "type": "Ground",
     "category": "Special",
     "power": 45,
@@ -3761,7 +3774,7 @@
   },
   {
     "id": "mvn_049",
-    "name": "地衣",
+    "name": "ちい",
     "type": "Ground",
     "category": "Special",
     "power": 50,
@@ -3773,7 +3786,7 @@
   },
   {
     "id": "mvn_050",
-    "name": "岩片",
+    "name": "がんぺん",
     "type": "Ground",
     "category": "Special",
     "power": 55,
@@ -3785,7 +3798,7 @@
   },
   {
     "id": "mvn_051",
-    "name": "土壁",
+    "name": "つちかべ",
     "type": "Ground",
     "category": "Special",
     "power": 60,
@@ -3795,7 +3808,7 @@
   },
   {
     "id": "mvn_052",
-    "name": "地固",
+    "name": "じがため",
     "type": "Ground",
     "category": "Special",
     "power": 60,
@@ -3807,7 +3820,7 @@
   },
   {
     "id": "mvn_053",
-    "name": "礫打",
+    "name": "れきだ",
     "type": "Ground",
     "category": "Special",
     "power": 60,
@@ -3819,7 +3832,7 @@
   },
   {
     "id": "mvn_054",
-    "name": "地紋",
+    "name": "じもん",
     "type": "Ground",
     "category": "Special",
     "power": 65,
@@ -3829,7 +3842,7 @@
   },
   {
     "id": "mvn_055",
-    "name": "堅土",
+    "name": "けんど",
     "type": "Ground",
     "category": "Special",
     "power": 70,
@@ -3839,7 +3852,7 @@
   },
   {
     "id": "mvn_056",
-    "name": "緑葉",
+    "name": "りょくよう",
     "type": "Grass",
     "category": "Special",
     "power": 30,
@@ -3850,7 +3863,7 @@
   },
   {
     "id": "mvn_057",
-    "name": "蔦撃",
+    "name": "つたげき",
     "type": "Grass",
     "category": "Special",
     "power": 35,
@@ -3861,7 +3874,7 @@
   },
   {
     "id": "mvn_058",
-    "name": "葉脈",
+    "name": "ようみゃく",
     "type": "Grass",
     "category": "Special",
     "power": 40,
@@ -3872,7 +3885,7 @@
   },
   {
     "id": "mvn_059",
-    "name": "若葉",
+    "name": "わかば",
     "type": "Grass",
     "category": "Special",
     "power": 45,
@@ -3883,7 +3896,7 @@
   },
   {
     "id": "mvn_060",
-    "name": "草紋",
+    "name": "そうもん",
     "type": "Grass",
     "category": "Special",
     "power": 50,
@@ -3894,7 +3907,7 @@
   },
   {
     "id": "mvn_061",
-    "name": "青葉",
+    "name": "あおば",
     "type": "Grass",
     "category": "Special",
     "power": 55,
@@ -3905,7 +3918,7 @@
   },
   {
     "id": "mvn_062",
-    "name": "葉群",
+    "name": "はむら",
     "type": "Grass",
     "category": "Special",
     "power": 60,
@@ -3915,7 +3928,7 @@
   },
   {
     "id": "mvn_063",
-    "name": "草衣",
+    "name": "そうい",
     "type": "Grass",
     "category": "Special",
     "power": 60,
@@ -3926,7 +3939,7 @@
   },
   {
     "id": "mvn_064",
-    "name": "蔓打",
+    "name": "つるだ",
     "type": "Grass",
     "category": "Special",
     "power": 60,
@@ -3937,7 +3950,7 @@
   },
   {
     "id": "mvn_065",
-    "name": "緑陣",
+    "name": "りょくじん",
     "type": "Grass",
     "category": "Special",
     "power": 65,
@@ -3947,7 +3960,7 @@
   },
   {
     "id": "mvn_066",
-    "name": "葉隠",
+    "name": "はがくれのかまえ",
     "type": "Grass",
     "category": "Special",
     "power": 70,
@@ -3957,7 +3970,7 @@
   },
   {
     "id": "mvn_067",
-    "name": "白氷",
+    "name": "はくひょう",
     "type": "Ice",
     "category": "Special",
     "power": 30,
@@ -3969,7 +3982,7 @@
   },
   {
     "id": "mvn_068",
-    "name": "氷結",
+    "name": "ひょうけつ",
     "type": "Ice",
     "category": "Special",
     "power": 35,
@@ -3981,7 +3994,7 @@
   },
   {
     "id": "mvn_069",
-    "name": "霜撃",
+    "name": "そうげき",
     "type": "Ice",
     "category": "Special",
     "power": 40,
@@ -3993,7 +4006,7 @@
   },
   {
     "id": "mvn_070",
-    "name": "氷紋",
+    "name": "ひょうもん",
     "type": "Ice",
     "category": "Special",
     "power": 45,
@@ -4005,7 +4018,7 @@
   },
   {
     "id": "mvn_071",
-    "name": "冷気弾",
+    "name": "れいきだん",
     "type": "Ice",
     "category": "Special",
     "power": 50,
@@ -4017,7 +4030,7 @@
   },
   {
     "id": "mvn_072",
-    "name": "氷片",
+    "name": "ひょうへん",
     "type": "Ice",
     "category": "Special",
     "power": 55,
@@ -4029,7 +4042,7 @@
   },
   {
     "id": "mvn_073",
-    "name": "凍雲",
+    "name": "とううん",
     "type": "Ice",
     "category": "Special",
     "power": 60,
@@ -4039,7 +4052,7 @@
   },
   {
     "id": "mvn_074",
-    "name": "氷衣",
+    "name": "ひょうい",
     "type": "Ice",
     "category": "Special",
     "power": 60,
@@ -4051,7 +4064,7 @@
   },
   {
     "id": "mvn_075",
-    "name": "霜華",
+    "name": "そうか",
     "type": "Ice",
     "category": "Special",
     "power": 60,
@@ -4063,7 +4076,7 @@
   },
   {
     "id": "mvn_076",
-    "name": "氷芯",
+    "name": "ひょうしん",
     "type": "Ice",
     "category": "Special",
     "power": 65,
@@ -4073,7 +4086,7 @@
   },
   {
     "id": "mvn_077",
-    "name": "冷撃",
+    "name": "れいげき",
     "type": "Ice",
     "category": "Special",
     "power": 70,
@@ -4083,7 +4096,7 @@
   },
   {
     "id": "mvn_078",
-    "name": "竜牙",
+    "name": "りゅうが",
     "type": "Dragon",
     "category": "Special",
     "power": 30,
@@ -4095,7 +4108,7 @@
   },
   {
     "id": "mvn_079",
-    "name": "竜鱗撃",
+    "name": "りゅうりんげき",
     "type": "Dragon",
     "category": "Special",
     "power": 35,
@@ -4107,7 +4120,7 @@
   },
   {
     "id": "mvn_080",
-    "name": "竜脈打",
+    "name": "りゅうみゃくだ",
     "type": "Dragon",
     "category": "Special",
     "power": 40,
@@ -4119,7 +4132,7 @@
   },
   {
     "id": "mvn_081",
-    "name": "竜息弾",
+    "name": "りゅうそくだん",
     "type": "Dragon",
     "category": "Special",
     "power": 45,
@@ -4132,7 +4145,7 @@
   },
   {
     "id": "mvn_082",
-    "name": "竜爪",
+    "name": "りゅうそう",
     "type": "Dragon",
     "category": "Special",
     "power": 50,
@@ -4140,11 +4153,12 @@
     "max_pp": 28,
     "range": "Adjacent",
     "recoil_hp_percent": 25,
-    "dragon_multiplier": 1.25
+    "dragon_multiplier": 1.25,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "mvn_083",
-    "name": "竜紋",
+    "name": "りゅうもん",
     "type": "Dragon",
     "category": "Special",
     "power": 55,
@@ -4156,7 +4170,7 @@
   },
   {
     "id": "mvn_084",
-    "name": "竜衣",
+    "name": "りゅうい",
     "type": "Dragon",
     "category": "Special",
     "power": 60,
@@ -4166,7 +4180,7 @@
   },
   {
     "id": "mvn_085",
-    "name": "竜声",
+    "name": "りゅうせい",
     "type": "Dragon",
     "category": "Special",
     "power": 60,
@@ -4178,7 +4192,7 @@
   },
   {
     "id": "mvn_086",
-    "name": "竜穿",
+    "name": "りゅうせん",
     "type": "Dragon",
     "category": "Special",
     "power": 60,
@@ -4190,7 +4204,7 @@
   },
   {
     "id": "mvn_087",
-    "name": "竜燐",
+    "name": "りゅうりん",
     "type": "Dragon",
     "category": "Special",
     "power": 65,
@@ -4200,7 +4214,7 @@
   },
   {
     "id": "mvn_088",
-    "name": "竜心",
+    "name": "りゅうしん",
     "type": "Dragon",
     "category": "Special",
     "power": 70,
@@ -4210,7 +4224,7 @@
   },
   {
     "id": "mvn_089",
-    "name": "黒霧",
+    "name": "こくむ",
     "type": "Dark",
     "category": "Special",
     "power": 30,
@@ -4222,7 +4236,7 @@
   },
   {
     "id": "mvn_090",
-    "name": "影撃",
+    "name": "えいげき",
     "type": "Dark",
     "category": "Special",
     "power": 35,
@@ -4234,7 +4248,7 @@
   },
   {
     "id": "mvn_091",
-    "name": "呪打",
+    "name": "じゅだ",
     "type": "Dark",
     "category": "Special",
     "power": 40,
@@ -4246,7 +4260,7 @@
   },
   {
     "id": "mvn_092",
-    "name": "昏黒",
+    "name": "こんこく",
     "type": "Dark",
     "category": "Special",
     "power": 45,
@@ -4258,7 +4272,7 @@
   },
   {
     "id": "mvn_093",
-    "name": "闇紋",
+    "name": "あんもん",
     "type": "Dark",
     "category": "Special",
     "power": 50,
@@ -4270,7 +4284,7 @@
   },
   {
     "id": "mvn_094",
-    "name": "影弾",
+    "name": "えいだん",
     "type": "Dark",
     "category": "Special",
     "power": 55,
@@ -4282,7 +4296,7 @@
   },
   {
     "id": "mvn_095",
-    "name": "黒衣",
+    "name": "こくい",
     "type": "Dark",
     "category": "Special",
     "power": 55,
@@ -4294,7 +4308,7 @@
   },
   {
     "id": "mvn_096",
-    "name": "呪影",
+    "name": "じゅえい",
     "type": "Dark",
     "category": "Special",
     "power": 60,
@@ -4304,7 +4318,7 @@
   },
   {
     "id": "mvn_097",
-    "name": "暗撃",
+    "name": "あんげき",
     "type": "Dark",
     "category": "Special",
     "power": 60,
@@ -4316,7 +4330,7 @@
   },
   {
     "id": "mvn_098",
-    "name": "闇衣",
+    "name": "あんい",
     "type": "Dark",
     "category": "Special",
     "power": 60,
@@ -4328,7 +4342,7 @@
   },
   {
     "id": "mvn_099",
-    "name": "影陣",
+    "name": "えいじん",
     "type": "Dark",
     "category": "Special",
     "power": 65,
@@ -4338,7 +4352,7 @@
   },
   {
     "id": "mvn_100",
-    "name": "黒念",
+    "name": "こくねん",
     "type": "Dark",
     "category": "Special",
     "power": 70,
@@ -4450,7 +4464,7 @@
   },
   {
     "id": "MVP_001",
-    "name": "白撃",
+    "name": "はくげき",
     "type": "Neutral",
     "category": "Physical",
     "power": 45,
@@ -4463,7 +4477,7 @@
   },
   {
     "id": "MVP_002",
-    "name": "無双打",
+    "name": "むそうだ",
     "type": "Neutral",
     "category": "Physical",
     "power": 50,
@@ -4475,7 +4489,7 @@
   },
   {
     "id": "MVP_003",
-    "name": "空砕",
+    "name": "くうさい",
     "type": "Neutral",
     "category": "Physical",
     "power": 50,
@@ -4487,7 +4501,7 @@
   },
   {
     "id": "MVP_004",
-    "name": "素殴",
+    "name": "そおう",
     "type": "Neutral",
     "category": "Physical",
     "power": 55,
@@ -4500,18 +4514,19 @@
   },
   {
     "id": "MVP_005",
-    "name": "中庸拳",
+    "name": "ちゅうようけん",
     "type": "Neutral",
     "category": "Physical",
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_006",
-    "name": "無心打",
+    "name": "むしんだ",
     "type": "Neutral",
     "category": "Physical",
     "power": 70,
@@ -4523,7 +4538,7 @@
   },
   {
     "id": "MVP_007",
-    "name": "白刃殴",
+    "name": "はくじんおう",
     "type": "Neutral",
     "category": "Physical",
     "power": 75,
@@ -4535,7 +4550,7 @@
   },
   {
     "id": "MVP_008",
-    "name": "朴打",
+    "name": "ぼくだ",
     "type": "Neutral",
     "category": "Physical",
     "power": 85,
@@ -4548,7 +4563,7 @@
   },
   {
     "id": "MVP_009",
-    "name": "無明撃",
+    "name": "むみょうげき",
     "type": "Neutral",
     "category": "Physical",
     "power": 85,
@@ -4560,18 +4575,19 @@
   },
   {
     "id": "MVP_010",
-    "name": "静破拳",
+    "name": "せいはけん",
     "type": "Neutral",
     "category": "Physical",
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_011",
-    "name": "純打撃",
+    "name": "じゅんだげき",
     "type": "Neutral",
     "category": "Physical",
     "power": 90,
@@ -4583,7 +4599,7 @@
   },
   {
     "id": "MVP_012",
-    "name": "無極殴",
+    "name": "むきょくおう",
     "type": "Neutral",
     "category": "Physical",
     "power": 90,
@@ -4595,7 +4611,7 @@
   },
   {
     "id": "MVP_013",
-    "name": "白閃",
+    "name": "はくせん",
     "type": "Neutral",
     "category": "Physical",
     "power": 90,
@@ -4608,7 +4624,7 @@
   },
   {
     "id": "MVP_014",
-    "name": "無想突",
+    "name": "むそうとつ",
     "type": "Neutral",
     "category": "Physical",
     "power": 90,
@@ -4620,7 +4636,7 @@
   },
   {
     "id": "MVP_015",
-    "name": "空裂",
+    "name": "くうれつ",
     "type": "Neutral",
     "category": "Physical",
     "power": 90,
@@ -4630,7 +4646,7 @@
   },
   {
     "id": "MVP_016",
-    "name": "素打",
+    "name": "そだ",
     "type": "Neutral",
     "category": "Physical",
     "power": 95,
@@ -4643,7 +4659,7 @@
   },
   {
     "id": "MVP_017",
-    "name": "中撃",
+    "name": "ちゅうげき",
     "type": "Neutral",
     "category": "Physical",
     "power": 95,
@@ -4655,17 +4671,18 @@
   },
   {
     "id": "MVP_018",
-    "name": "無心拳",
+    "name": "むしんけん",
     "type": "Neutral",
     "category": "Physical",
     "power": 110,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_019",
-    "name": "白砕殴",
+    "name": "はくさいおう",
     "type": "Neutral",
     "category": "Physical",
     "power": 115,
@@ -4676,7 +4693,7 @@
   },
   {
     "id": "MVP_020",
-    "name": "無極打",
+    "name": "むきょくだ",
     "type": "Neutral",
     "category": "Physical",
     "power": 120,
@@ -4686,7 +4703,7 @@
   },
   {
     "id": "MVP_021",
-    "name": "紅蓮撃",
+    "name": "ぐれんげき",
     "type": "Fire",
     "category": "Physical",
     "power": 45,
@@ -4699,7 +4716,7 @@
   },
   {
     "id": "MVP_022",
-    "name": "焦熱拳",
+    "name": "しょうねつけん",
     "type": "Fire",
     "category": "Physical",
     "power": 50,
@@ -4707,11 +4724,12 @@
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Burn",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_023",
-    "name": "燐火打",
+    "name": "りんかだ",
     "type": "Fire",
     "category": "Physical",
     "power": 50,
@@ -4723,7 +4741,7 @@
   },
   {
     "id": "MVP_024",
-    "name": "炙り殴",
+    "name": "あぶりおう",
     "type": "Fire",
     "category": "Physical",
     "power": 55,
@@ -4736,7 +4754,7 @@
   },
   {
     "id": "MVP_025",
-    "name": "灼熱突",
+    "name": "しゃくねつとつ",
     "type": "Fire",
     "category": "Physical",
     "power": 65,
@@ -4747,7 +4765,7 @@
   },
   {
     "id": "MVP_026",
-    "name": "熾火拳",
+    "name": "おきびけん",
     "type": "Fire",
     "category": "Physical",
     "power": 70,
@@ -4755,11 +4773,12 @@
     "max_pp": 18,
     "range": "Adjacent",
     "ailment_effect": "Burn",
-    "ailment_chance": 20
+    "ailment_chance": 20,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_027",
-    "name": "焔撃",
+    "name": "ほむらげき",
     "type": "Fire",
     "category": "Physical",
     "power": 75,
@@ -4771,7 +4790,7 @@
   },
   {
     "id": "MVP_028",
-    "name": "炎陣打",
+    "name": "えんじんだ",
     "type": "Fire",
     "category": "Physical",
     "power": 85,
@@ -4784,7 +4803,7 @@
   },
   {
     "id": "MVP_029",
-    "name": "業炎殴",
+    "name": "ごうえんおう",
     "type": "Fire",
     "category": "Physical",
     "power": 85,
@@ -4796,7 +4815,7 @@
   },
   {
     "id": "MVP_030",
-    "name": "火群突",
+    "name": "かぐんとつ",
     "type": "Fire",
     "category": "Physical",
     "power": 90,
@@ -4807,7 +4826,7 @@
   },
   {
     "id": "MVP_031",
-    "name": "炭化拳",
+    "name": "たんかけん",
     "type": "Fire",
     "category": "Physical",
     "power": 90,
@@ -4815,11 +4834,12 @@
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Burn",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_032",
-    "name": "烈炎撃",
+    "name": "れつえんげき",
     "type": "Fire",
     "category": "Physical",
     "power": 90,
@@ -4831,7 +4851,7 @@
   },
   {
     "id": "MVP_033",
-    "name": "紅蓮殴",
+    "name": "ぐれんおう",
     "type": "Fire",
     "category": "Physical",
     "power": 90,
@@ -4844,7 +4864,7 @@
   },
   {
     "id": "MVP_034",
-    "name": "焦熱打",
+    "name": "しょうねつだ",
     "type": "Fire",
     "category": "Physical",
     "power": 90,
@@ -4856,7 +4876,7 @@
   },
   {
     "id": "MVP_035",
-    "name": "灼裂突",
+    "name": "しゃくれつとつ",
     "type": "Fire",
     "category": "Physical",
     "power": 90,
@@ -4866,7 +4886,7 @@
   },
   {
     "id": "MVP_036",
-    "name": "熾焔拳",
+    "name": "しえんけん",
     "type": "Fire",
     "category": "Physical",
     "power": 95,
@@ -4875,11 +4895,12 @@
     "range": "Adjacent",
     "is_contact": true,
     "ailment_effect": "Burn",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_037",
-    "name": "炎牙撃",
+    "name": "えんがげき",
     "type": "Fire",
     "category": "Physical",
     "power": 95,
@@ -4891,7 +4912,7 @@
   },
   {
     "id": "MVP_038",
-    "name": "業火殴",
+    "name": "ごうかおう",
     "type": "Fire",
     "category": "Physical",
     "power": 110,
@@ -4901,18 +4922,19 @@
   },
   {
     "id": "MVP_039",
-    "name": "火群拳",
+    "name": "かぐんけん",
     "type": "Fire",
     "category": "Physical",
     "power": 115,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_040",
-    "name": "烈火突",
+    "name": "れっかとつ",
     "type": "Fire",
     "category": "Physical",
     "power": 120,
@@ -4922,7 +4944,7 @@
   },
   {
     "id": "MVP_041",
-    "name": "清流撃",
+    "name": "せいりゅうげき",
     "type": "Water",
     "category": "Physical",
     "power": 45,
@@ -4936,7 +4958,7 @@
   },
   {
     "id": "MVP_042",
-    "name": "水鏡打",
+    "name": "みずかがみだ",
     "type": "Water",
     "category": "Physical",
     "power": 50,
@@ -4949,7 +4971,7 @@
   },
   {
     "id": "MVP_043",
-    "name": "潮騒拳",
+    "name": "しおさいけん",
     "type": "Water",
     "category": "Physical",
     "power": 50,
@@ -4958,11 +4980,12 @@
     "range": "Adjacent",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_044",
-    "name": "滴撃殴",
+    "name": "てきげきおう",
     "type": "Water",
     "category": "Physical",
     "power": 55,
@@ -4976,7 +4999,7 @@
   },
   {
     "id": "MVP_045",
-    "name": "水紋突",
+    "name": "すいもんとつ",
     "type": "Water",
     "category": "Physical",
     "power": 65,
@@ -4987,7 +5010,7 @@
   },
   {
     "id": "MVP_046",
-    "name": "飛沫拳",
+    "name": "ひまつけん",
     "type": "Water",
     "category": "Physical",
     "power": 70,
@@ -4996,11 +5019,12 @@
     "range": "Adjacent",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_047",
-    "name": "水脈撃",
+    "name": "すいみゃくげき",
     "type": "Water",
     "category": "Physical",
     "power": 75,
@@ -5013,7 +5037,7 @@
   },
   {
     "id": "MVP_048",
-    "name": "碧波打",
+    "name": "へきはだ",
     "type": "Water",
     "category": "Physical",
     "power": 85,
@@ -5027,7 +5051,7 @@
   },
   {
     "id": "MVP_049",
-    "name": "雫弾殴",
+    "name": "しずくだんおう",
     "type": "Water",
     "category": "Physical",
     "power": 85,
@@ -5040,18 +5064,19 @@
   },
   {
     "id": "MVP_050",
-    "name": "水衣拳",
+    "name": "すいいけん",
     "type": "Water",
     "category": "Physical",
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_051",
-    "name": "漣撃",
+    "name": "さざなみげき",
     "type": "Water",
     "category": "Physical",
     "power": 90,
@@ -5064,7 +5089,7 @@
   },
   {
     "id": "MVP_052",
-    "name": "潤打突",
+    "name": "じゅんだとつ",
     "type": "Water",
     "category": "Physical",
     "power": 90,
@@ -5077,7 +5102,7 @@
   },
   {
     "id": "MVP_053",
-    "name": "清流殴",
+    "name": "せいりゅうおう",
     "type": "Water",
     "category": "Physical",
     "power": 90,
@@ -5091,7 +5116,7 @@
   },
   {
     "id": "MVP_054",
-    "name": "水鏡拳",
+    "name": "みずかがみけん",
     "type": "Water",
     "category": "Physical",
     "power": 90,
@@ -5100,11 +5125,12 @@
     "range": "Adjacent",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_055",
-    "name": "潮騒撃",
+    "name": "しおさいげき",
     "type": "Water",
     "category": "Physical",
     "power": 90,
@@ -5114,7 +5140,7 @@
   },
   {
     "id": "MVP_056",
-    "name": "滴打",
+    "name": "てきだ",
     "type": "Water",
     "category": "Physical",
     "power": 95,
@@ -5128,7 +5154,7 @@
   },
   {
     "id": "MVP_057",
-    "name": "水紋殴",
+    "name": "すいもんおう",
     "type": "Water",
     "category": "Physical",
     "power": 95,
@@ -5141,7 +5167,7 @@
   },
   {
     "id": "MVP_058",
-    "name": "飛沫突",
+    "name": "ひまつとつ",
     "type": "Water",
     "category": "Physical",
     "power": 110,
@@ -5154,7 +5180,7 @@
   },
   {
     "id": "MVP_059",
-    "name": "水脈拳",
+    "name": "すいみゃくけん",
     "type": "Water",
     "category": "Physical",
     "power": 115,
@@ -5164,11 +5190,12 @@
     "is_contact": true,
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_060",
-    "name": "碧波撃",
+    "name": "へきはげき",
     "type": "Water",
     "category": "Physical",
     "power": 120,
@@ -5178,7 +5205,7 @@
   },
   {
     "id": "MVP_061",
-    "name": "紫電撃",
+    "name": "しでんげき",
     "type": "Electric",
     "category": "Physical",
     "power": 45,
@@ -5191,7 +5218,7 @@
   },
   {
     "id": "MVP_062",
-    "name": "雷鳴拳",
+    "name": "らいめいけん",
     "type": "Electric",
     "category": "Physical",
     "power": 50,
@@ -5199,11 +5226,12 @@
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_063",
-    "name": "電光打",
+    "name": "でんこうだ",
     "type": "Electric",
     "category": "Physical",
     "power": 50,
@@ -5215,7 +5243,7 @@
   },
   {
     "id": "MVP_064",
-    "name": "帯雷殴",
+    "name": "たいらいおう",
     "type": "Electric",
     "category": "Physical",
     "power": 55,
@@ -5228,7 +5256,7 @@
   },
   {
     "id": "MVP_065",
-    "name": "迅雷突",
+    "name": "じんらいとつ",
     "type": "Electric",
     "category": "Physical",
     "power": 65,
@@ -5239,7 +5267,7 @@
   },
   {
     "id": "MVP_066",
-    "name": "雷紋拳",
+    "name": "らいもんけん",
     "type": "Electric",
     "category": "Physical",
     "power": 70,
@@ -5247,11 +5275,12 @@
     "max_pp": 18,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 20
+    "ailment_chance": 20,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_067",
-    "name": "雷跡撃",
+    "name": "らいせきげき",
     "type": "Electric",
     "category": "Physical",
     "power": 75,
@@ -5263,7 +5292,7 @@
   },
   {
     "id": "MVP_068",
-    "name": "静電打",
+    "name": "せいでんだ",
     "type": "Electric",
     "category": "Physical",
     "power": 85,
@@ -5276,7 +5305,7 @@
   },
   {
     "id": "MVP_069",
-    "name": "雷芯殴",
+    "name": "らいしんおう",
     "type": "Electric",
     "category": "Physical",
     "power": 85,
@@ -5288,7 +5317,7 @@
   },
   {
     "id": "MVP_070",
-    "name": "電閃突",
+    "name": "でんせんとつ",
     "type": "Electric",
     "category": "Physical",
     "power": 90,
@@ -5299,7 +5328,7 @@
   },
   {
     "id": "MVP_071",
-    "name": "雷粒拳",
+    "name": "らいりゅうけん",
     "type": "Electric",
     "category": "Physical",
     "power": 90,
@@ -5307,11 +5336,12 @@
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_072",
-    "name": "雷衣撃",
+    "name": "らいいげき",
     "type": "Electric",
     "category": "Physical",
     "power": 90,
@@ -5323,7 +5353,7 @@
   },
   {
     "id": "MVP_073",
-    "name": "紫電殴",
+    "name": "しでんおう",
     "type": "Electric",
     "category": "Physical",
     "power": 90,
@@ -5336,7 +5366,7 @@
   },
   {
     "id": "MVP_074",
-    "name": "雷鳴打",
+    "name": "らいめいだ",
     "type": "Electric",
     "category": "Physical",
     "power": 90,
@@ -5348,7 +5378,7 @@
   },
   {
     "id": "MVP_075",
-    "name": "電光突",
+    "name": "でんこうとつ",
     "type": "Electric",
     "category": "Physical",
     "power": 90,
@@ -5358,7 +5388,7 @@
   },
   {
     "id": "MVP_076",
-    "name": "帯雷拳",
+    "name": "たいらいけん",
     "type": "Electric",
     "category": "Physical",
     "power": 95,
@@ -5367,11 +5397,12 @@
     "range": "Adjacent",
     "is_contact": true,
     "ailment_effect": "Paralyze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_077",
-    "name": "迅雷撃",
+    "name": "じんらいげき",
     "type": "Electric",
     "category": "Physical",
     "power": 95,
@@ -5383,7 +5414,7 @@
   },
   {
     "id": "MVP_078",
-    "name": "雷紋殴",
+    "name": "らいもんおう",
     "type": "Electric",
     "category": "Physical",
     "power": 110,
@@ -5393,7 +5424,7 @@
   },
   {
     "id": "MVP_079",
-    "name": "雷跡打",
+    "name": "らいせきだ",
     "type": "Electric",
     "category": "Physical",
     "power": 115,
@@ -5404,7 +5435,7 @@
   },
   {
     "id": "MVP_080",
-    "name": "静電突",
+    "name": "せいでんとつ",
     "type": "Electric",
     "category": "Physical",
     "power": 120,
@@ -5414,7 +5445,7 @@
   },
   {
     "id": "MVP_081",
-    "name": "土塊撃",
+    "name": "どかいげき",
     "type": "Ground",
     "category": "Physical",
     "power": 45,
@@ -5428,7 +5459,7 @@
   },
   {
     "id": "MVP_082",
-    "name": "岩盤拳",
+    "name": "がんばんけん",
     "type": "Ground",
     "category": "Physical",
     "power": 50,
@@ -5437,11 +5468,12 @@
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_083",
-    "name": "地脈打",
+    "name": "ちみゃくだ",
     "type": "Ground",
     "category": "Physical",
     "power": 50,
@@ -5454,7 +5486,7 @@
   },
   {
     "id": "MVP_084",
-    "name": "砕土殴",
+    "name": "さいどおう",
     "type": "Ground",
     "category": "Physical",
     "power": 55,
@@ -5468,7 +5500,7 @@
   },
   {
     "id": "MVP_085",
-    "name": "地衣突",
+    "name": "ちいとつ",
     "type": "Ground",
     "category": "Physical",
     "power": 65,
@@ -5479,7 +5511,7 @@
   },
   {
     "id": "MVP_086",
-    "name": "岩片拳",
+    "name": "がんぺんけん",
     "type": "Ground",
     "category": "Physical",
     "power": 70,
@@ -5488,11 +5520,12 @@
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_087",
-    "name": "土壁撃",
+    "name": "つちかべげき",
     "type": "Ground",
     "category": "Physical",
     "power": 75,
@@ -5505,7 +5538,7 @@
   },
   {
     "id": "MVP_088",
-    "name": "地固打",
+    "name": "じがためだ",
     "type": "Ground",
     "category": "Physical",
     "power": 85,
@@ -5519,7 +5552,7 @@
   },
   {
     "id": "MVP_089",
-    "name": "礫打殴",
+    "name": "れきだおう",
     "type": "Ground",
     "category": "Physical",
     "power": 85,
@@ -5532,18 +5565,19 @@
   },
   {
     "id": "MVP_090",
-    "name": "地紋拳",
+    "name": "じもんけん",
     "type": "Ground",
     "category": "Physical",
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_091",
-    "name": "堅土撃",
+    "name": "けんどげき",
     "type": "Ground",
     "category": "Physical",
     "power": 90,
@@ -5556,7 +5590,7 @@
   },
   {
     "id": "MVP_092",
-    "name": "岩衣突",
+    "name": "がんいとつ",
     "type": "Ground",
     "category": "Physical",
     "power": 90,
@@ -5569,7 +5603,7 @@
   },
   {
     "id": "MVP_093",
-    "name": "土塊殴",
+    "name": "どかいおう",
     "type": "Ground",
     "category": "Physical",
     "power": 90,
@@ -5583,7 +5617,7 @@
   },
   {
     "id": "MVP_094",
-    "name": "岩盤打",
+    "name": "がんばんだ",
     "type": "Ground",
     "category": "Physical",
     "power": 90,
@@ -5596,7 +5630,7 @@
   },
   {
     "id": "MVP_095",
-    "name": "地脈突",
+    "name": "ちみゃくとつ",
     "type": "Ground",
     "category": "Physical",
     "power": 90,
@@ -5606,7 +5640,7 @@
   },
   {
     "id": "MVP_096",
-    "name": "砕土拳",
+    "name": "さいどけん",
     "type": "Ground",
     "category": "Physical",
     "power": 95,
@@ -5616,11 +5650,12 @@
     "is_contact": true,
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_097",
-    "name": "地衣撃",
+    "name": "ちいげき",
     "type": "Ground",
     "category": "Physical",
     "power": 95,
@@ -5633,7 +5668,7 @@
   },
   {
     "id": "MVP_098",
-    "name": "岩片殴",
+    "name": "がんぺんおう",
     "type": "Ground",
     "category": "Physical",
     "power": 110,
@@ -5646,7 +5681,7 @@
   },
   {
     "id": "MVP_099",
-    "name": "土壁拳",
+    "name": "つちかべけん",
     "type": "Ground",
     "category": "Physical",
     "power": 115,
@@ -5656,11 +5691,12 @@
     "is_contact": true,
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_100",
-    "name": "地固突",
+    "name": "じがためとつ",
     "type": "Ground",
     "category": "Physical",
     "power": 120,
@@ -5670,7 +5706,7 @@
   },
   {
     "id": "MVP_101",
-    "name": "緑葉撃",
+    "name": "りょくようげき",
     "type": "Grass",
     "category": "Physical",
     "power": 45,
@@ -5682,18 +5718,19 @@
   },
   {
     "id": "MVP_102",
-    "name": "蔦撃拳",
+    "name": "つたげきけん",
     "type": "Grass",
     "category": "Physical",
     "power": 50,
     "accuracy": 100,
     "max_pp": 28,
     "range": "Adjacent",
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_103",
-    "name": "葉脈打",
+    "name": "ようみゃくだ",
     "type": "Grass",
     "category": "Physical",
     "power": 50,
@@ -5704,7 +5741,7 @@
   },
   {
     "id": "MVP_104",
-    "name": "若葉殴",
+    "name": "わかばおう",
     "type": "Grass",
     "category": "Physical",
     "power": 55,
@@ -5716,7 +5753,7 @@
   },
   {
     "id": "MVP_105",
-    "name": "草紋突",
+    "name": "そうもんとつ",
     "type": "Grass",
     "category": "Physical",
     "power": 65,
@@ -5727,18 +5764,19 @@
   },
   {
     "id": "MVP_106",
-    "name": "青葉拳",
+    "name": "あおばけん",
     "type": "Grass",
     "category": "Physical",
     "power": 70,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Adjacent",
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_107",
-    "name": "葉群撃",
+    "name": "はむらげき",
     "type": "Grass",
     "category": "Physical",
     "power": 75,
@@ -5749,7 +5787,7 @@
   },
   {
     "id": "MVP_108",
-    "name": "草衣打",
+    "name": "そういだ",
     "type": "Grass",
     "category": "Physical",
     "power": 85,
@@ -5761,7 +5799,7 @@
   },
   {
     "id": "MVP_109",
-    "name": "蔓打殴",
+    "name": "つるだおう",
     "type": "Grass",
     "category": "Physical",
     "power": 85,
@@ -5772,18 +5810,19 @@
   },
   {
     "id": "MVP_110",
-    "name": "緑陣拳",
+    "name": "りょくじんけん",
     "type": "Grass",
     "category": "Physical",
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_111",
-    "name": "葉隠撃",
+    "name": "はがくれげき",
     "type": "Grass",
     "category": "Physical",
     "power": 90,
@@ -5794,7 +5833,7 @@
   },
   {
     "id": "MVP_112",
-    "name": "草叢突",
+    "name": "くさむらとつ",
     "type": "Grass",
     "category": "Physical",
     "power": 90,
@@ -5805,7 +5844,7 @@
   },
   {
     "id": "MVP_113",
-    "name": "緑葉殴",
+    "name": "りょくようおう",
     "type": "Grass",
     "category": "Physical",
     "power": 90,
@@ -5817,7 +5856,7 @@
   },
   {
     "id": "MVP_114",
-    "name": "蔦撃打",
+    "name": "つたげきだ",
     "type": "Grass",
     "category": "Physical",
     "power": 90,
@@ -5828,7 +5867,7 @@
   },
   {
     "id": "MVP_115",
-    "name": "葉脈突",
+    "name": "ようみゃくとつ",
     "type": "Grass",
     "category": "Physical",
     "power": 90,
@@ -5838,7 +5877,7 @@
   },
   {
     "id": "MVP_116",
-    "name": "若葉拳",
+    "name": "わかばけん",
     "type": "Grass",
     "category": "Physical",
     "power": 95,
@@ -5846,11 +5885,12 @@
     "max_pp": 6,
     "range": "Adjacent",
     "is_contact": true,
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_117",
-    "name": "草紋撃",
+    "name": "そうもんげき",
     "type": "Grass",
     "category": "Physical",
     "power": 95,
@@ -5861,7 +5901,7 @@
   },
   {
     "id": "MVP_118",
-    "name": "青葉殴",
+    "name": "あおばおう",
     "type": "Grass",
     "category": "Physical",
     "power": 110,
@@ -5872,7 +5912,7 @@
   },
   {
     "id": "MVP_119",
-    "name": "葉群拳",
+    "name": "はむらけん",
     "type": "Grass",
     "category": "Physical",
     "power": 115,
@@ -5880,11 +5920,12 @@
     "max_pp": 6,
     "range": "Adjacent",
     "is_contact": true,
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_120",
-    "name": "草衣突",
+    "name": "そういとつ",
     "type": "Grass",
     "category": "Physical",
     "power": 120,
@@ -5894,7 +5935,7 @@
   },
   {
     "id": "MVP_121",
-    "name": "白氷撃",
+    "name": "はくひょうげき",
     "type": "Ice",
     "category": "Physical",
     "power": 45,
@@ -5907,7 +5948,7 @@
   },
   {
     "id": "MVP_122",
-    "name": "氷結拳",
+    "name": "ひょうけつけん",
     "type": "Ice",
     "category": "Physical",
     "power": 50,
@@ -5915,11 +5956,12 @@
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Freeze",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_123",
-    "name": "霜撃打",
+    "name": "そうげきだ",
     "type": "Ice",
     "category": "Physical",
     "power": 50,
@@ -5931,7 +5973,7 @@
   },
   {
     "id": "MVP_124",
-    "name": "氷紋殴",
+    "name": "ひょうもんおう",
     "type": "Ice",
     "category": "Physical",
     "power": 55,
@@ -5944,7 +5986,7 @@
   },
   {
     "id": "MVP_125",
-    "name": "冷気突",
+    "name": "れいきとつ",
     "type": "Ice",
     "category": "Physical",
     "power": 65,
@@ -5955,7 +5997,7 @@
   },
   {
     "id": "MVP_126",
-    "name": "氷片拳",
+    "name": "ひょうへんけん",
     "type": "Ice",
     "category": "Physical",
     "power": 70,
@@ -5963,11 +6005,12 @@
     "max_pp": 18,
     "range": "Adjacent",
     "ailment_effect": "Freeze",
-    "ailment_chance": 20
+    "ailment_chance": 20,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_127",
-    "name": "凍雲撃",
+    "name": "とううんげき",
     "type": "Ice",
     "category": "Physical",
     "power": 75,
@@ -5979,7 +6022,7 @@
   },
   {
     "id": "MVP_128",
-    "name": "氷衣打",
+    "name": "ひょういだ",
     "type": "Ice",
     "category": "Physical",
     "power": 85,
@@ -5992,7 +6035,7 @@
   },
   {
     "id": "MVP_129",
-    "name": "霜華殴",
+    "name": "そうかおう",
     "type": "Ice",
     "category": "Physical",
     "power": 85,
@@ -6004,18 +6047,19 @@
   },
   {
     "id": "MVP_130",
-    "name": "氷芯拳",
+    "name": "ひょうしんけん",
     "type": "Ice",
     "category": "Physical",
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_131",
-    "name": "冷撃突",
+    "name": "れいげきとつ",
     "type": "Ice",
     "category": "Physical",
     "power": 90,
@@ -6027,7 +6071,7 @@
   },
   {
     "id": "MVP_132",
-    "name": "氷陣撃",
+    "name": "ひょうじんげき",
     "type": "Ice",
     "category": "Physical",
     "power": 90,
@@ -6039,7 +6083,7 @@
   },
   {
     "id": "MVP_133",
-    "name": "白氷殴",
+    "name": "はくひょうおう",
     "type": "Ice",
     "category": "Physical",
     "power": 90,
@@ -6052,7 +6096,7 @@
   },
   {
     "id": "MVP_134",
-    "name": "氷結打",
+    "name": "ひょうけつだ",
     "type": "Ice",
     "category": "Physical",
     "power": 90,
@@ -6064,7 +6108,7 @@
   },
   {
     "id": "MVP_135",
-    "name": "霜撃突",
+    "name": "そうげきとつ",
     "type": "Ice",
     "category": "Physical",
     "power": 90,
@@ -6074,7 +6118,7 @@
   },
   {
     "id": "MVP_136",
-    "name": "氷紋拳",
+    "name": "ひょうもんけん",
     "type": "Ice",
     "category": "Physical",
     "power": 95,
@@ -6083,11 +6127,12 @@
     "range": "Adjacent",
     "is_contact": true,
     "ailment_effect": "Freeze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_137",
-    "name": "冷気撃",
+    "name": "れいきげき",
     "type": "Ice",
     "category": "Physical",
     "power": 95,
@@ -6099,7 +6144,7 @@
   },
   {
     "id": "MVP_138",
-    "name": "氷片殴",
+    "name": "ひょうへんおう",
     "type": "Ice",
     "category": "Physical",
     "power": 110,
@@ -6109,18 +6154,19 @@
   },
   {
     "id": "MVP_139",
-    "name": "凍雲拳",
+    "name": "とううんけん",
     "type": "Ice",
     "category": "Physical",
     "power": 115,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_140",
-    "name": "氷衣突",
+    "name": "ひょういとつ",
     "type": "Ice",
     "category": "Physical",
     "power": 120,
@@ -6130,7 +6176,7 @@
   },
   {
     "id": "MVP_141",
-    "name": "竜牙撃",
+    "name": "りゅうがげき",
     "type": "Dragon",
     "category": "Physical",
     "power": 45,
@@ -6143,7 +6189,7 @@
   },
   {
     "id": "MVP_142",
-    "name": "竜鱗拳",
+    "name": "りゅうりんけん",
     "type": "Dragon",
     "category": "Physical",
     "power": 50,
@@ -6151,11 +6197,12 @@
     "max_pp": 28,
     "range": "Adjacent",
     "recoil_hp_percent": 25,
-    "dragon_multiplier": 1.25
+    "dragon_multiplier": 1.25,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_143",
-    "name": "竜脈打",
+    "name": "りゅうみゃくうち",
     "type": "Dragon",
     "category": "Physical",
     "power": 50,
@@ -6167,7 +6214,7 @@
   },
   {
     "id": "MVP_144",
-    "name": "竜息殴",
+    "name": "りゅうそくおう",
     "type": "Dragon",
     "category": "Physical",
     "power": 55,
@@ -6180,18 +6227,19 @@
   },
   {
     "id": "MVP_145",
-    "name": "竜爪突",
+    "name": "りゅうそうとつ",
     "type": "Dragon",
     "category": "Physical",
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_146",
-    "name": "竜紋拳",
+    "name": "りゅうもんけん",
     "type": "Dragon",
     "category": "Physical",
     "power": 70,
@@ -6199,11 +6247,12 @@
     "max_pp": 18,
     "range": "Adjacent",
     "recoil_hp_percent": 33,
-    "dragon_multiplier": 1.5
+    "dragon_multiplier": 1.5,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_147",
-    "name": "竜衣撃",
+    "name": "りゅういげき",
     "type": "Dragon",
     "category": "Physical",
     "power": 75,
@@ -6215,7 +6264,7 @@
   },
   {
     "id": "MVP_148",
-    "name": "竜声打",
+    "name": "りゅうせいだ",
     "type": "Dragon",
     "category": "Physical",
     "power": 85,
@@ -6228,7 +6277,7 @@
   },
   {
     "id": "MVP_149",
-    "name": "竜穿殴",
+    "name": "りゅうせんおう",
     "type": "Dragon",
     "category": "Physical",
     "power": 85,
@@ -6240,18 +6289,19 @@
   },
   {
     "id": "MVP_150",
-    "name": "竜燐拳",
+    "name": "りゅうりんこぶし",
     "type": "Dragon",
     "category": "Physical",
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_151",
-    "name": "竜心撃",
+    "name": "りゅうしんげき",
     "type": "Dragon",
     "category": "Physical",
     "power": 90,
@@ -6263,7 +6313,7 @@
   },
   {
     "id": "MVP_152",
-    "name": "竜怒突",
+    "name": "りゅうどとつ",
     "type": "Dragon",
     "category": "Physical",
     "power": 90,
@@ -6275,7 +6325,7 @@
   },
   {
     "id": "MVP_153",
-    "name": "竜牙殴",
+    "name": "りゅうがおう",
     "type": "Dragon",
     "category": "Physical",
     "power": 90,
@@ -6288,7 +6338,7 @@
   },
   {
     "id": "MVP_154",
-    "name": "竜鱗打",
+    "name": "りゅうりんだ",
     "type": "Dragon",
     "category": "Physical",
     "power": 90,
@@ -6300,7 +6350,7 @@
   },
   {
     "id": "MVP_155",
-    "name": "竜脈突",
+    "name": "りゅうみゃくとつ",
     "type": "Dragon",
     "category": "Physical",
     "power": 90,
@@ -6310,7 +6360,7 @@
   },
   {
     "id": "MVP_156",
-    "name": "竜息拳",
+    "name": "りゅうそくけん",
     "type": "Dragon",
     "category": "Physical",
     "power": 95,
@@ -6319,11 +6369,12 @@
     "range": "Adjacent",
     "is_contact": true,
     "recoil_hp_percent": 33,
-    "dragon_multiplier": 1.5
+    "dragon_multiplier": 1.5,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_157",
-    "name": "竜爪撃",
+    "name": "りゅうそうげき",
     "type": "Dragon",
     "category": "Physical",
     "power": 95,
@@ -6331,11 +6382,12 @@
     "max_pp": 6,
     "range": "Adjacent",
     "recoil_hp_percent": 33,
-    "dragon_multiplier": 1.5
+    "dragon_multiplier": 1.5,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_158",
-    "name": "竜紋殴",
+    "name": "りゅうもんおう",
     "type": "Dragon",
     "category": "Physical",
     "power": 110,
@@ -6347,7 +6399,7 @@
   },
   {
     "id": "MVP_159",
-    "name": "竜衣拳",
+    "name": "りゅういけん",
     "type": "Dragon",
     "category": "Physical",
     "power": 115,
@@ -6356,11 +6408,12 @@
     "range": "Adjacent",
     "is_contact": true,
     "recoil_hp_percent": 33,
-    "dragon_multiplier": 1.5
+    "dragon_multiplier": 1.5,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_160",
-    "name": "竜声突",
+    "name": "りゅうせいとつ",
     "type": "Dragon",
     "category": "Physical",
     "power": 120,
@@ -6370,7 +6423,7 @@
   },
   {
     "id": "MVP_161",
-    "name": "黒霧撃",
+    "name": "こくむげき",
     "type": "Dark",
     "category": "Physical",
     "power": 45,
@@ -6383,7 +6436,7 @@
   },
   {
     "id": "MVP_162",
-    "name": "影撃拳",
+    "name": "えいげきけん",
     "type": "Dark",
     "category": "Physical",
     "power": 50,
@@ -6391,11 +6444,12 @@
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Darkness",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_163",
-    "name": "呪打殴",
+    "name": "じゅだおう",
     "type": "Dark",
     "category": "Physical",
     "power": 50,
@@ -6407,7 +6461,7 @@
   },
   {
     "id": "MVP_164",
-    "name": "昏黒突",
+    "name": "こんこくとつ",
     "type": "Dark",
     "category": "Physical",
     "power": 55,
@@ -6420,18 +6474,19 @@
   },
   {
     "id": "MVP_165",
-    "name": "闇紋拳",
+    "name": "あんもんけん",
     "type": "Dark",
     "category": "Physical",
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_166",
-    "name": "影弾撃",
+    "name": "えいだんげき",
     "type": "Dark",
     "category": "Physical",
     "power": 70,
@@ -6443,7 +6498,7 @@
   },
   {
     "id": "MVP_167",
-    "name": "黒衣打",
+    "name": "こくいだ",
     "type": "Dark",
     "category": "Physical",
     "power": 75,
@@ -6455,7 +6510,7 @@
   },
   {
     "id": "MVP_168",
-    "name": "呪影殴",
+    "name": "じゅえいおう",
     "type": "Dark",
     "category": "Physical",
     "power": 85,
@@ -6468,7 +6523,7 @@
   },
   {
     "id": "MVP_169",
-    "name": "暗撃突",
+    "name": "あんげきとつ",
     "type": "Dark",
     "category": "Physical",
     "power": 85,
@@ -6480,18 +6535,19 @@
   },
   {
     "id": "MVP_170",
-    "name": "闇衣拳",
+    "name": "あんいけん",
     "type": "Dark",
     "category": "Physical",
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_171",
-    "name": "影陣撃",
+    "name": "えいじんげき",
     "type": "Dark",
     "category": "Physical",
     "power": 90,
@@ -6503,7 +6559,7 @@
   },
   {
     "id": "MVP_172",
-    "name": "黒念打",
+    "name": "こくねんだ",
     "type": "Dark",
     "category": "Physical",
     "power": 90,
@@ -6515,7 +6571,7 @@
   },
   {
     "id": "MVP_173",
-    "name": "黒霧殴",
+    "name": "こくむおう",
     "type": "Dark",
     "category": "Physical",
     "power": 90,
@@ -6528,7 +6584,7 @@
   },
   {
     "id": "MVP_174",
-    "name": "影撃突",
+    "name": "えいげきとつ",
     "type": "Dark",
     "category": "Physical",
     "power": 90,
@@ -6540,17 +6596,18 @@
   },
   {
     "id": "MVP_175",
-    "name": "呪打拳",
+    "name": "じゅだけん",
     "type": "Dark",
     "category": "Physical",
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "MVP_176",
-    "name": "昏黒撃",
+    "name": "こんこくげき",
     "type": "Dark",
     "category": "Physical",
     "power": 95,
@@ -6563,7 +6620,7 @@
   },
   {
     "id": "MVP_177",
-    "name": "闇紋殴",
+    "name": "あんもんおう",
     "type": "Dark",
     "category": "Physical",
     "power": 95,
@@ -6575,7 +6632,7 @@
   },
   {
     "id": "MVP_178",
-    "name": "影弾打",
+    "name": "えいだんだ",
     "type": "Dark",
     "category": "Physical",
     "power": 110,
@@ -6585,7 +6642,7 @@
   },
   {
     "id": "MVP_179",
-    "name": "黒衣突",
+    "name": "こくいとつ",
     "type": "Dark",
     "category": "Physical",
     "power": 115,
@@ -6596,17 +6653,18 @@
   },
   {
     "id": "MVP_180",
-    "name": "呪影拳",
+    "name": "じゅえいけん",
     "type": "Dark",
     "category": "Physical",
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "ClawFist"
   },
   {
     "id": "mvh_water",
-    "name": "乱流連打",
+    "name": "らんりゅうれんだ",
     "type": "Water",
     "category": "Physical",
     "power": 25,
@@ -6619,7 +6677,7 @@
   },
   {
     "id": "mvh_electric",
-    "name": "三連雷撃",
+    "name": "さんれんらいげき",
     "type": "Electric",
     "category": "Physical",
     "power": 40,
@@ -6633,7 +6691,7 @@
   },
   {
     "id": "mvh_ground",
-    "name": "岩石乱打",
+    "name": "がんせきらんだ",
     "type": "Ground",
     "category": "Physical",
     "power": 25,
@@ -6646,7 +6704,7 @@
   },
   {
     "id": "mvh_ice",
-    "name": "三連氷刃",
+    "name": "さんれんひょうじん",
     "type": "Ice",
     "category": "Physical",
     "power": 40,
@@ -6660,7 +6718,7 @@
   },
   {
     "id": "mvh_dark",
-    "name": "影連打",
+    "name": "えいれんだ",
     "type": "Dark",
     "category": "Physical",
     "power": 25,

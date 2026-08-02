@@ -173,7 +173,7 @@ public class MoveData
     // once on the combined damage, same contract as RecoilHpPercent.
     public int DrainHpPercent { get; set; } = 0;
 
-    // Self-destruct (メガトン自爆): the user faints after the move fully
+    // Self-destruct (メガトンじばく): the user faints after the move fully
     // resolves, whether or not it connected. Default false.
     public bool SelfGuaranteedDeath { get; set; } = false;
 

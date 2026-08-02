@@ -104,7 +104,7 @@ public class AttackAction : IAction
         // one per target hit.
         TriggerChasers(move);
 
-        // Self-destruct (メガトン自爆): the user faints once the move has
+        // Self-destruct (メガトンじばく): the user faints once the move has
         // fully resolved, hit or miss (§ self_guaranteed_death). Applied
         // here - after both paths, after their recoil/drain - so the
         // damage the move dealt still lands first.
@@ -1208,7 +1208,7 @@ public class AttackAction : IAction
         }
     }
 
-    // Self-destruct (メガトン自爆): the user always faints after the move
+    // Self-destruct (メガトンじばく): the user always faints after the move
     // resolves. Routed through the same Die() path recoil self-KO uses,
     // so NPC removal / Player game-over both behave correctly.
     private void ApplySelfDestruct(MoveData move)
