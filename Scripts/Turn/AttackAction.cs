@@ -44,6 +44,13 @@ public class AttackAction : IAction
     // the Phase 16 damage benchmarks and the accuracy maths untouched.
     private WeatherType Weather => _floorController?.Weather?.Current ?? WeatherType.None;
 
+    // True once this action actually delivered an ATTACK (a Physical or
+    // Special move that got past the PP / ざんきょうのしゅごしゃ gates). Read
+    // by TurnManager/TurnScheduler for ふわふわ/ゆきすべり, which grant a
+    // follow-up step "after attacking" - a Status move (a weather or field
+    // cast, a pure buff) is not an attack and must not grant one.
+    public bool PerformedAttack { get; private set; }
+
     public void Execute(int turnNumber)
     {
         var move = ResolveMove(_moveSlot.Data);
@@ -99,6 +106,9 @@ public class AttackAction : IAction
         // Weather-setting moves (はれごい/あまごい/…). Same shape as the field
         // moves above: resolved at use time, no target, fully consumed here.
         if (ApplyWeatherEffect(move)) return;
+
+        // Past every gate above, so this really is an attack being made.
+        PerformedAttack = move.Category != MoveCategory.Status;
 
         // AoE needs the floor (actor enumeration) and the grid; without
         // them (shouldn't happen in-dungeon) fall back to the single path.
@@ -229,7 +239,11 @@ public class AttackAction : IAction
 
         // クイックステップ (§3): always +1 evasion rank, folded into the
         // same table lookup the ordinary Evasion rank uses.
-        int evasionBonus = HasTrait(target, "quick_step") ? 1 : 0;
+        // かげろうボディ: the same +1, but only while the weather is はれ.
+        // Additive with クイックステップ - the rank ladder clamps the total,
+        // so a holder of both is not a special case.
+        int evasionBonus = (HasTrait(target, "quick_step") ? 1 : 0)
+            + (Weather == WeatherType.Sunny && HasTrait(target, "kagerou_body") ? 1 : 0);
 
         // IsGuaranteedHit bypasses the roll and the target's evasion rank.
         // じゆうのつばさ (stage 9 §1): +1 accuracy rank per OTHER Dragon-or-
@@ -518,6 +532,16 @@ public class AttackAction : IAction
         if (HasTrait(_attacker, "free_fall") && target.Stats.Ecology == "glide")
             powerFlatBuff += 25f;
 
+        // パープルヘイズ: while the weather is きり, the holder's own Dark
+        // moves of power 55 or less gain +15. Read off move.Power (the
+        // authored base power), not the running effPower, so the "威力55以下"
+        // gate can't be flipped by another buff resolving first. Uses
+        // effectiveType so an おしえ-retyped Neutral move counts as Dark the
+        // same way it does everywhere else.
+        if (Weather == WeatherType.Fog && HasTrait(_attacker, "purple_haze")
+            && effectiveType == "Dark" && move.Power <= PurpleHazePowerCap)
+            powerFlatBuff += PurpleHazePowerBonus;
+
         // 発煙器官: +10 on ブレス/息系 moves (WeaponTag.Breath, populated in
         // moves.json for the 5 qualifying moves).
         if (HasTrait(_attacker, "hatsuen_kikan") && move.WeaponTag == WeaponTag.Breath)
@@ -776,6 +800,24 @@ public class AttackAction : IAction
             if (!_attacker.Stats.IsAlive) HandleFaint(_attacker);
         }
 
+        // サンドバッグ: being hit by an OPPONENT's contact move turns the
+        // weather to すなあらし. Same slot as ニードルアーマー above (a landed
+        // contact hit, after damage), and likewise fires even if the holder
+        // died to it - "受けると" is about taking the hit, not surviving it.
+        //
+        // Faction-gated because the effect says 相手から: a stray friendly-fire
+        // contact hit from a party member must not set it off. Skipped when
+        // the weather is already すなあらし ("すでにその天候になっている場合、
+        // 天候を変化する部分に関しては発動しない").
+        if (HasTrait(target, "sandbag") && move.IsContact
+            && _attacker.Faction != target.Faction
+            && _floorController != null
+            && _floorController.Weather.Current != WeatherType.Sandstorm)
+        {
+            _floorController.Weather.SetBaseline(WeatherType.Sandstorm);
+            MessageLogger.Log($"{target.ActorName} kicks up a sandstorm!", MessageLogger.ProgressionColor);
+        }
+
         // どくせんボディ: poison accumulation in BOTH directions, entirely
         // trait-driven (AccumulateFlat bypasses the move's own element/
         // AilmentChance matching, same as レッツハギング/ひょうてんま).
@@ -946,6 +988,10 @@ public class AttackAction : IAction
 
     // 5x5 centred on the user = 25 tiles; "半分(端数切り捨て)" = 12.
     private const int HalfAreaTiles = 12;
+    // パープルヘイズ: the power gate and the addend it grants.
+    private const int PurpleHazePowerCap = 55;
+    private const float PurpleHazePowerBonus = 15f;
+
     private const int FourEmptyTiles = 4;
     private const int GekiryuuRadius = 4;
 

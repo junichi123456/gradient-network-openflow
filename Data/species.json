@@ -1941,7 +1941,7 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_power"
+    "trait": "maikaze"
   },
   {
     "species_id": "011",
@@ -3424,7 +3424,7 @@
       }
     ],
     "evolution": null,
-    "trait": "water_power"
+    "trait": "amagumo"
   },
   {
     "species_id": "018B",
@@ -4428,7 +4428,7 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_power"
+    "trait": "fuwafuwa"
   },
   {
     "species_id": "023B",
@@ -5769,7 +5769,7 @@
       }
     ],
     "evolution": null,
-    "trait": "ice_power"
+    "trait": "tamayuki"
   },
   {
     "species_id": "030",
@@ -7384,7 +7384,7 @@
       }
     ],
     "evolution": null,
-    "trait": "water_resist"
+    "trait": "amagumo"
   },
   {
     "species_id": "037B",
@@ -7534,7 +7534,7 @@
       }
     ],
     "evolution": null,
-    "trait": "water_resist"
+    "trait": "amagumo"
   },
   {
     "species_id": "038",
@@ -7680,7 +7680,7 @@
     ],
     "evolution": null,
     "ecology": "glide",
-    "trait": "ground_power"
+    "trait": "haboob"
   },
   {
     "species_id": "038B",
@@ -7830,7 +7830,7 @@
     ],
     "evolution": null,
     "ecology": "glide",
-    "trait": "ice_power"
+    "trait": "yukisuberi"
   },
   {
     "species_id": "039",
@@ -8124,7 +8124,7 @@
       }
     ],
     "evolution": null,
-    "trait": "ground_resist"
+    "trait": "sandbag"
   },
   {
     "species_id": "040",
@@ -8415,7 +8415,7 @@
       }
     ],
     "evolution": null,
-    "trait": "water_oshie",
+    "trait": "amagumo",
     "ecology": "submerge"
   },
   {
@@ -8550,7 +8550,7 @@
       }
     ],
     "evolution": null,
-    "trait": "ice_oshie",
+    "trait": "tamayuki",
     "ecology": "submerge"
   },
   {
@@ -9289,7 +9289,7 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_power"
+    "trait": "maikaze"
   },
   {
     "species_id": "045",
@@ -9588,7 +9588,7 @@
       }
     ],
     "evolution": null,
-    "trait": "water_power"
+    "trait": "haze"
   },
   {
     "species_id": "047",
@@ -10336,7 +10336,7 @@
       }
     ],
     "evolution": null,
-    "trait": "dark_stab"
+    "trait": "purple_haze"
   },
   {
     "species_id": "051",
@@ -10611,7 +10611,7 @@
       }
     ],
     "evolution": null,
-    "trait": "dark_bond"
+    "trait": "haze"
   },
   {
     "species_id": "053",
@@ -11030,7 +11030,7 @@
       }
     ],
     "evolution": null,
-    "trait": "ice_oshie"
+    "trait": "yukisuberi"
   },
   {
     "species_id": "055",
@@ -11914,7 +11914,7 @@
     ],
     "evolution": null,
     "ecology": "heat_organ",
-    "trait": "fire_power"
+    "trait": "foehn"
   },
   {
     "species_id": "059",
@@ -12216,7 +12216,7 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_power"
+    "trait": "fuwafuwa"
   },
   {
     "species_id": "061",
@@ -12365,7 +12365,7 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_power"
+    "trait": "maikaze"
   },
   {
     "species_id": "062",
@@ -13190,7 +13190,7 @@
       }
     ],
     "evolution": null,
-    "trait": "dark_power"
+    "trait": "purple_haze"
   },
   {
     "species_id": "066",
@@ -13323,7 +13323,7 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_guard"
+    "trait": "fuwafuwa"
   },
   {
     "species_id": "067",
@@ -13754,7 +13754,7 @@
       }
     ],
     "evolution": null,
-    "trait": "dark_power"
+    "trait": "haze"
   },
   {
     "species_id": "070",
@@ -14021,7 +14021,7 @@
     ],
     "evolution": null,
     "ecology": "stairs_sense",
-    "trait": "dark_power"
+    "trait": "purple_haze"
   },
   {
     "species_id": "072",
@@ -14290,7 +14290,7 @@
       }
     ],
     "evolution": null,
-    "trait": "ice_power"
+    "trait": "tamayuki"
   },
   {
     "species_id": "073",
@@ -14859,7 +14859,7 @@
       }
     ],
     "evolution": null,
-    "trait": "ground_power"
+    "trait": "haboob"
   },
   {
     "species_id": "075",
@@ -15138,7 +15138,7 @@
       }
     ],
     "evolution": null,
-    "trait": "ground_power"
+    "trait": "sandbag"
   },
   {
     "species_id": "076",
@@ -15279,7 +15279,7 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_stab"
+    "trait": "maikaze"
   },
   {
     "species_id": "076B",
@@ -15421,7 +15421,7 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_stab"
+    "trait": "haboob"
   },
   {
     "species_id": "077",
@@ -15703,7 +15703,7 @@
       }
     ],
     "evolution": null,
-    "trait": "fire_oshie",
+    "trait": "kagerou_body",
     "ecology": "heat_organ"
   },
   {
@@ -15838,7 +15838,7 @@
       }
     ],
     "evolution": null,
-    "trait": "fire_oshie",
+    "trait": "foehn",
     "ecology": "heat_organ"
   },
   {
@@ -15972,7 +15972,7 @@
       }
     ],
     "evolution": null,
-    "trait": "dark_bond"
+    "trait": "haze"
   },
   {
     "species_id": "079B",
@@ -16107,7 +16107,7 @@
     ],
     "evolution": null,
     "ecology": "heat_organ",
-    "trait": "dark_bond"
+    "trait": "kagerou_body"
   },
   {
     "species_id": "080",
@@ -16236,7 +16236,7 @@
       }
     ],
     "evolution": null,
-    "trait": "dark_oshie",
+    "trait": "purple_haze",
     "ecology": "flight"
   },
   {
@@ -16501,7 +16501,7 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_oshie"
+    "trait": "fuwafuwa"
   },
   {
     "species_id": "081B",
@@ -17740,7 +17740,7 @@
       }
     ],
     "evolution": null,
-    "trait": "ice_power"
+    "trait": "yukisuberi"
   },
   {
     "species_id": "087",
@@ -17874,7 +17874,7 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_weakness"
+    "trait": "sandbag"
   },
   {
     "species_id": "087B",
@@ -18008,7 +18008,7 @@
       }
     ],
     "evolution": null,
-    "trait": "ice_weakness"
+    "trait": "tamayuki"
   },
   {
     "species_id": "088",
@@ -18304,7 +18304,7 @@
     ],
     "evolution": null,
     "ecology": "heat_organ",
-    "trait": "water_power"
+    "trait": "foehn"
   },
   {
     "species_id": "089",
@@ -19425,7 +19425,7 @@
       }
     ],
     "evolution": null,
-    "trait": "fire_oshie",
+    "trait": "kagerou_body",
     "ecology": "heat_organ"
   },
   {
@@ -19560,7 +19560,7 @@
       }
     ],
     "evolution": null,
-    "trait": "fire_oshie",
+    "trait": "foehn",
     "ecology": "heat_organ"
   },
   {
@@ -19951,7 +19951,7 @@
       }
     ],
     "evolution": null,
-    "trait": "ice_power"
+    "trait": "yukisuberi"
   },
   {
     "species_id": "096",
@@ -20485,7 +20485,7 @@
     ],
     "evolution": null,
     "ecology": "submerge",
-    "trait": "fire_bond"
+    "trait": "kagerou_body"
   },
   {
     "species_id": "098",
@@ -22263,7 +22263,7 @@
     ],
     "evolution": null,
     "ecology": "heat_organ",
-    "trait": "fire_power"
+    "trait": "haboob"
   },
   {
     "species_id": "105B",
@@ -22385,7 +22385,7 @@
       }
     ],
     "evolution": null,
-    "trait": "ice_power"
+    "trait": "sandbag"
   },
   {
     "species_id": "106",

@@ -615,6 +615,10 @@ public partial class FloorController : Node2D
         _turnManager.RegisterActor(_bossEntity);
         _spawnedEnemies.Add(_bossEntity);
 
+        // Same floor-entry weather pass the normal floor runs - the boss is
+        // as much "a Pal coming out onto the floor" as any spawned enemy.
+        ApplyTraitWeather();
+
         RefreshFieldOfView();
 
         GD.Print($"[Dungeon] Boss floor {_floorNumber} ready: {_bossEntity.ActorName} (Lv {_bossEntity.Stats.Level}, HP {_bossEntity.Stats.MaxHp}) spawned at {bossRoom.Center}.");
@@ -712,29 +716,49 @@ public partial class FloorController : Node2D
     // text scopes it to the leader, and every other party-wide effect in
     // this project (きずな/ちから/まもり) already reads the full roster.
     // Third weather source (after the dungeon definition and the weather
-    // moves): a party member whose trait declares WeatherOnEntry brings
-    // that weather onto the floor. Overrides the dungeon's own baseline for
-    // the whole floor, so it is applied as a new baseline rather than as a
-    // timed change - a trait is a standing property, not a cast.
+    // moves): a Pal whose trait declares WeatherOnEntry brings that weather
+    // onto the floor "the moment it comes out onto the floor". Applied as a
+    // new baseline rather than as a timed change - a trait is a standing
+    // property, not a cast.
     //
-    // No trait in Data/traits.json declares WeatherOnEntry yet, so this is
-    // currently a no-op; the catalogue is hand-authored and which traits
-    // should carry weather is a design decision, not something to infer.
+    // EVERY actor is polled, enemies included, not just the party: the
+    // effect is worded for any Pal appearing on the floor, and サンドバッグ
+    // (an enemy-triggerable weather trait) only makes sense under the same
+    // reading. AllActors' order is player -> allies -> enemies, and the LAST
+    // holder to fire wins ("常に最後に発動した天候に上書きされる") - so this
+    // deliberately runs the whole loop instead of returning at the first hit.
+    //
+    // A holder whose weather is already the current one changes nothing and
+    // logs nothing ("すでにその天候になっている場合、天候を変化する部分に
+    // 関しては発動しない"). Traits that ALSO carry a separate effect
+    // (パープルヘイズ, かげろうボディ) are unaffected by that skip: their
+    // other halves are standing "while it is X" conditions evaluated in
+    // combat, not one-shot effects fired from here.
     private void ApplyTraitWeather()
     {
         foreach (var actor in AllActors())
-        {
-            if (actor.Faction != Faction.Player) continue;
+            ApplyWeatherOnEntry(actor);
+    }
 
-            var trait = Combat.TraitDatabase.Get(actor.Stats.Trait);
-            if (trait == null || trait.WeatherOnEntry == WeatherType.None) continue;
+    // One actor's share of the pass above. Public because "a Pal has just
+    // arrived on the floor" is not only a generation-time event - a
+    // mid-floor spawn or a recruit joining is the same moment, and each
+    // should go through this rather than re-deriving the rule.
+    //
+    // Returns true when the weather actually changed.
+    public bool ApplyWeatherOnEntry(Entity actor)
+    {
+        var trait = Combat.TraitDatabase.Get(actor?.Stats.Trait);
+        if (trait == null || trait.WeatherOnEntry == WeatherType.None) return false;
 
-            _weather.SetBaseline(trait.WeatherOnEntry);
-            MessageLogger.Log(
-                $"{actor.ActorName}'s {trait.Name} brought {WeatherTypeNames.Japanese(trait.WeatherOnEntry)}!",
-                MessageLogger.ProgressionColor);
-            return; // first holder wins - two weathers can't coexist
-        }
+        // すでにその天候になっている場合、天候を変化する部分に関しては発動しない.
+        if (_weather.Current == trait.WeatherOnEntry) return false;
+
+        _weather.SetBaseline(trait.WeatherOnEntry);
+        MessageLogger.Log(
+            $"{actor.ActorName}'s {trait.Name} brought {WeatherTypeNames.Japanese(trait.WeatherOnEntry)}!",
+            MessageLogger.ProgressionColor);
+        return true;
     }
 
     private void TryStairsSense(RandomNumberGenerator rng)
@@ -947,6 +971,10 @@ public partial class FloorController : Node2D
         }
 
         GD.Print($"[Dungeon] Spawned {spawned} enemies in the Monster House (Room ID: {room.Id}).");
+
+        // A Monster House pack is "coming out onto the floor" as much as a
+        // floor-generation spawn is, so it gets the same weather pass.
+        if (spawned > 0) ApplyTraitWeather();
     }
 
     private HashSet<Vector2I> CollectOccupiedTilesInRoom(Room room)

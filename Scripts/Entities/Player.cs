@@ -92,6 +92,19 @@ public partial class Player : Entity
     {
         if (_inputDisabled) return;
         if (MenuUI != null && MenuUI.IsOpen) return; // MenuUI owns input while open
+
+        // ふわふわ/ゆきすべり: the attack already resolved and the turn is
+        // being held open for one optional step. Handled before the normal
+        // WaitingForPlayerInput gate below (which would otherwise swallow
+        // every key while the turn is mid-flight), and it deliberately
+        // accepts nothing but "a direction" or "no thanks" - no bump-attack,
+        // no swap, no menu.
+        if (TurnManager != null && TurnManager.CurrentState == TurnState.AwaitingFollowUpMove)
+        {
+            HandleFollowUpInput(@event);
+            return;
+        }
+
         if (TurnManager == null || TurnManager.CurrentState != TurnState.WaitingForPlayerInput)
             return;
 
@@ -180,6 +193,50 @@ public partial class Player : Entity
         else
         {
             GD.Print($"[Player] blocked, cannot move to ({target.X}, {target.Y})");
+        }
+
+        GetViewport().SetInputAsHandled();
+    }
+
+    // The AwaitingFollowUpMove half of _UnhandledInput (ふわふわ/ゆきすべり).
+    // The wait key declines the step; a direction key takes it if the tile
+    // is a legal plain move. An illegal direction is reported and the turn
+    // stays open rather than being silently spent - the player is mid-turn
+    // and has no other way to find out the step was refused.
+    private void HandleFollowUpInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed("ui_accept"))
+        {
+            TurnManager.SubmitFollowUpMove(null);
+            GetViewport().SetInputAsHandled();
+            return;
+        }
+
+        bool isDirectionEvent = @event.IsActionPressed("ui_up") || @event.IsActionPressed("ui_down")
+            || @event.IsActionPressed("ui_left") || @event.IsActionPressed("ui_right");
+        if (!isDirectionEvent) return;
+
+        bool up = Input.IsActionPressed("ui_up");
+        bool down = Input.IsActionPressed("ui_down");
+        bool left = Input.IsActionPressed("ui_left");
+        bool right = Input.IsActionPressed("ui_right");
+
+        var direction = new Vector2I((right ? 1 : 0) - (left ? 1 : 0), (down ? 1 : 0) - (up ? 1 : 0));
+        if (direction == Vector2I.Zero) return;
+
+        LastFacingDirection = direction;
+        Vector2I target = GridPosition + direction;
+
+        // A step only - never an attack and never a swap. An occupied or
+        // unwalkable tile simply isn't a legal follow-up.
+        if (CanMoveTo(target) && FloorController?.GetEntityAt(target) == null)
+        {
+            TurnManager.SubmitFollowUpMove(new MoveAction(this, target));
+        }
+        else
+        {
+            GD.Print($"[Player] follow-up step to ({target.X}, {target.Y}) is blocked.");
+            MessageLogger.Log("That way is blocked - pick another direction, or wait to stay put.", MessageLogger.IneffectiveColor);
         }
 
         GetViewport().SetInputAsHandled();

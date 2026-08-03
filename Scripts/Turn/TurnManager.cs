@@ -7,6 +7,13 @@ namespace MysteryDungeon.Turn;
 // submit an action, executes it, then lets the TurnScheduler resolve
 // every registered NPC's energy/actions for that same turn before
 // returning to WaitingForPlayerInput.
+//
+// ふわふわ/ゆきすべり put one seam in that otherwise straight line: after
+// the player ATTACKS, the turn can stay open for a single follow-up step
+// (AwaitingFollowUpMove) before the NPCs are ticked. Everything after the
+// player's action - the status tick, the NPC tick, the TurnEnded signal -
+// is shared by both paths via FinishTurn, so the follow-up can never end
+// up half-resolving a turn.
 public partial class TurnManager : Node
 {
     [Signal] public delegate void TurnStartedEventHandler(int turnNumber);
@@ -16,6 +23,10 @@ public partial class TurnManager : Node
     public int TurnCount { get; private set; } = 0;
 
     private readonly TurnScheduler _scheduler = new();
+
+    // The actor owed a follow-up step while CurrentState is
+    // AwaitingFollowUpMove; null in every other state.
+    private ITurnActor _followUpActor;
 
     public void RegisterActor(ITurnActor actor) => _scheduler.Register(actor);
 
@@ -54,7 +65,43 @@ public partial class TurnManager : Node
             if (shielded) BuildUpRelay.Release(entity);
             if (entity != null && entity.Stats.Trait == "build_up")
                 BuildUpRelay.Arm(entity.Faction);
+
+            // ふわふわ/ゆきすべり: hold the turn open for one more input.
+            // The status tick and the NPC tick are deliberately NOT run
+            // yet - the follow-up step belongs to this same turn.
+            if (action is AttackAction { PerformedAttack: true }
+                && entity != null && entity.CanFollowUpMoveAfterAttack())
+            {
+                _followUpActor = actor;
+                CurrentState = TurnState.AwaitingFollowUpMove;
+                MessageLogger.Log(
+                    $"{actor.ActorName} can slip away! (a direction key to step, wait key to stay)",
+                    MessageLogger.ProgressionColor);
+                return;
+            }
         }
+
+        FinishTurn(actor);
+    }
+
+    // Second half of a turn held open by AwaitingFollowUpMove. A null
+    // action means the player declined the step; either way the turn then
+    // finishes exactly as a normal one does.
+    public void SubmitFollowUpMove(IAction followUpAction)
+    {
+        if (CurrentState != TurnState.AwaitingFollowUpMove) return;
+
+        var actor = _followUpActor;
+        _followUpActor = null;
+        CurrentState = TurnState.ProcessingTurn;
+
+        followUpAction?.Execute(TurnCount);
+        FinishTurn(actor);
+    }
+
+    // Everything that closes a turn, shared by both entry points above.
+    private void FinishTurn(ITurnActor actor)
+    {
         actor.ResolveStatusTick();
 
         _scheduler.Tick(TurnCount);

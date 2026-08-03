@@ -75,6 +75,23 @@ public class TurnScheduler
                     action = actor.FilterActionForStatus(action);
                     action?.Execute(turnNumber);
 
+                    // ふわふわ/ゆきすべり for NPCs. The player is asked for a
+                    // second input (see TurnManager.AwaitingFollowUpMove);
+                    // an NPC instead re-runs its normal decision and takes
+                    // it ONLY if that decision is a plain move - so it never
+                    // gets a second attack out of the trait, and a chaser
+                    // still standing next to its target simply declines.
+                    if (action is AttackAction { PerformedAttack: true }
+                        && entity != null && entity.CanFollowUpMoveAfterAttack())
+                    {
+                        var followUp = entity.FilterActionForStatus(entity.DecideAction());
+                        if (followUp is MoveAction)
+                        {
+                            followUp.Execute(turnNumber);
+                            GD.Print($"[Turn {turnNumber}] {actor.ActorName} slipped away after attacking.");
+                        }
+                    }
+
                     if (shielded) BuildUpRelay.Release(entity);
                     if (entity != null && entity.Stats.Trait == "build_up")
                         BuildUpRelay.Arm(entity.Faction);

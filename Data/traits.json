@@ -862,5 +862,101 @@
     "element": null,
     "template_kind": null,
     "description": "接触技の急所ランク+1。"
+  },
+  {
+    "id": "foehn",
+    "name": "フェーン",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をはれにする。",
+    "weather_on_entry": "Sunny"
+  },
+  {
+    "id": "amagumo",
+    "name": "あまぐも",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をあめにする。",
+    "weather_on_entry": "Rain"
+  },
+  {
+    "id": "tamayuki",
+    "name": "たまゆき",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をゆきにする。",
+    "weather_on_entry": "Snow"
+  },
+  {
+    "id": "haboob",
+    "name": "ハブーブ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をすなあらしにする。",
+    "weather_on_entry": "Sandstorm"
+  },
+  {
+    "id": "maikaze",
+    "name": "まいかぜ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をきょうふうにする。",
+    "weather_on_entry": "Gale"
+  },
+  {
+    "id": "haze",
+    "name": "ヘイズ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をきりにする。",
+    "weather_on_entry": "Fog"
+  },
+  {
+    "id": "purple_haze",
+    "name": "パープルヘイズ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をきりにする。天候がきりの間、自分が使う闇属性で威力55以下の技の威力+15。",
+    "weather_on_entry": "Fog"
+  },
+  {
+    "id": "kagerou_body",
+    "name": "かげろうボディ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をはれにする。天候がはれの間、回避ランク+1相当の効果を持つ。",
+    "weather_on_entry": "Sunny"
+  },
+  {
+    "id": "fuwafuwa",
+    "name": "ふわふわ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "天候がきょうふうの間、攻撃した後に1マス移動できる。"
+  },
+  {
+    "id": "yukisuberi",
+    "name": "ゆきすべり",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "天候がゆきの間、攻撃した後に1マス移動できる。"
+  },
+  {
+    "id": "sandbag",
+    "name": "サンドバッグ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手から接触技を受けると、天候をすなあらしにする。"
   }
 ]

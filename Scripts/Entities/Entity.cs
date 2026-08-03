@@ -557,6 +557,22 @@ public partial class Entity : Node2D, ITurnActor
     // CombatTypes - see the weather-heal block in ResolveStatusTick.
     private bool HasType(string element) => Stats.Type1 == element || Stats.Type2 == element;
 
+    // ふわふわ (きょうふう) / ゆきすべり (ゆき): after this entity ATTACKS it
+    // may also take a single step, within the same turn. Asked by both
+    // drivers - TurnManager for the player (which then waits for a second
+    // input) and TurnScheduler for NPCs - so the trait+weather pairing is
+    // stated once here rather than duplicated in each.
+    public bool CanFollowUpMoveAfterAttack()
+    {
+        if (!IsAlive) return false;
+        return CurrentWeather switch
+        {
+            Dungeon.WeatherType.Gale => Stats.Trait == "fuwafuwa",
+            Dungeon.WeatherType.Snow => Stats.Trait == "yukisuberi",
+            _ => false,
+        };
+    }
+
     // Paralyze-only check: callers use this to swap a chosen MoveAction/
     // SwapAction for a WaitAction while leaving AttackAction untouched
     // (see FilterActionForStatus, TurnScheduler.Tick, TurnManager.
