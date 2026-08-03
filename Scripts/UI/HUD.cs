@@ -21,6 +21,7 @@ public partial class HUD : Control
     private Label _floorLabel;
     private Label _levelLabel;
     private Label _bellyLabel;
+    private Label _weatherLabel;
     private VBoxContainer _partyBox;
 
     public void Initialize(Player player, TurnManager turnManager, FloorController floorController)
@@ -37,10 +38,12 @@ public partial class HUD : Control
         _floorLabel = new Label();
         _levelLabel = new Label();
         _bellyLabel = new Label();
+        _weatherLabel = new Label();
         _partyBox = new VBoxContainer();
         box.AddChild(_floorLabel);
         box.AddChild(_levelLabel);
         box.AddChild(_bellyLabel);
+        box.AddChild(_weatherLabel);
         box.AddChild(_partyBox);
 
         turnManager.TurnEnded += _ => Refresh();
@@ -53,6 +56,14 @@ public partial class HUD : Control
         _floorLabel.Text = $"Floor {_floorController.FloorNumber}";
         _levelLabel.Text = $"Lv {stats.Level}";
         _bellyLabel.Text = $"Belly {stats.Belly}/{stats.MaxBelly}";
+
+        // Hidden entirely when there is no weather, so a weatherless
+        // dungeon's HUD is unchanged from before the system existed.
+        var weather = _floorController.Weather;
+        _weatherLabel.Visible = weather.Current != WeatherType.None;
+        _weatherLabel.Text = weather.IsTemporary
+            ? $"天候 {WeatherTypeNames.Japanese(weather.Current)} (残り{weather.Remaining})"
+            : $"天候 {WeatherTypeNames.Japanese(weather.Current)}";
 
         foreach (Node child in _partyBox.GetChildren())
             child.QueueFree();

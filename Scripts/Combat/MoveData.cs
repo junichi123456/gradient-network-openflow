@@ -45,20 +45,23 @@ public enum StatusTarget
 }
 
 // trait_catalog_v2 §4 stage 2-b: move-group tags いっせん/ツメのかりうど
-// key off (斬る系/ツメ・こぶし系). Unset (None) on every move today - no
-// per-move assignment has been authored yet, same "schema now, data
-// later" posture as Trait/Ecology's stage-9 species assignment.
+// key off (斬る系/ツメ・こぶし系). All four groups are populated in
+// moves.json, each by a name-based identification rule.
 public enum WeaponTag
 {
     None,
-    Slash,    // 斬る系
-    ClawFist, // ツメ・こぶし系
+    Slash,    // 斬る系 - names containing 斬/ブレード (11 moves)
+    ClawFist, // ツメ・こぶし系 - names containing 拳/爪/パンチ (55 moves)
 
-    // ブレス/息系 - stage 9 §1.5's 発煙器官 keys off this. Unlike Slash/
-    // ClawFist (still unassigned), this one IS populated in moves.json:
-    // the 5 moves whose names contain "ブレス" or "息" (Ice x2, Dragon x2,
-    // Fire x1), which is the identification rule the spec gives.
+    // ブレス/息系 - stage 9 §1.5's 発煙器官 keys off this: the 5 moves whose
+    // names contain "ブレス" or "息" (Ice x2, Dragon x2, Fire x1).
     Breath,
+
+    // 風系 - the weather system's きょうふう makes these unmissable.
+    // WeaponTag is single-valued, so a move tagged Wind cannot ALSO be
+    // Slash: エアーブレード and れっぷうざん were Slash and are now Wind,
+    // which is the accepted cost of expressing wind on this field.
+    Wind,
 }
 
 // Multi-hit moves. Two shapes were specified and both exist because they
@@ -191,6 +194,14 @@ public class MoveData
     // removes fields instead of placing them, and ignores FieldEffect.
     public Dungeon.FieldType FieldEffect { get; set; } = Dungeon.FieldType.None;
     public Dungeon.FieldPlacement FieldPlacement { get; set; } = Dungeon.FieldPlacement.None;
+
+    // Weather kit (optional; only the weather-setting moves set these).
+    // Resolved at USE time like FieldEffect - the move changes the floor,
+    // it does not attack, so it neither needs nor consults a target.
+    // WeatherTurns is how long the change lasts before the floor falls
+    // back to the dungeon's own weather (see WeatherState).
+    public Dungeon.WeatherType WeatherEffect { get; set; } = Dungeon.WeatherType.None;
+    public int WeatherTurns { get; set; }
 
     // ---- Multi-hit kit ----
 

@@ -38,6 +38,12 @@ public class AttackAction : IAction
         _floorController = floorController;
     }
 
+    // Floor-wide weather, or None when this action has no FloorController
+    // (bare test entities, and any construction site that omits it). Every
+    // weather branch below is a strict no-op at None, which is what keeps
+    // the Phase 16 damage benchmarks and the accuracy maths untouched.
+    private WeatherType Weather => _floorController?.Weather?.Current ?? WeatherType.None;
+
     public void Execute(int turnNumber)
     {
         var move = ResolveMove(_moveSlot.Data);
@@ -89,6 +95,10 @@ public class AttackAction : IAction
         // centred on the USER, so it neither needs nor consults a target -
         // these are Status moves that shape the ground, not attacks.
         if (ApplyFieldEffect(move)) return;
+
+        // Weather-setting moves (はれごい/あまごい/…). Same shape as the field
+        // moves above: resolved at use time, no target, fully consumed here.
+        if (ApplyWeatherEffect(move)) return;
 
         // AoE needs the floor (actor enumeration) and the grid; without
         // them (shouldn't happen in-dungeon) fall back to the single path.
@@ -228,8 +238,27 @@ public class AttackAction : IAction
             ? Mathf.Min(2, PartyElementCensus.CountAlliesWithEitherType(_attacker, _floorController?.AllActors(), Element.Dragon, Element.Dark))
             : 0;
 
-        bool hits = forceHit || move.IsGuaranteedHit
-            || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplierWithBonus(accuracyBonus) * target.StatusEffects.GetEvasionMultiplierWithBonus(evasionBonus) * darknessMul;
+        // ---- Weather, accuracy half ----
+        // きょうふう: a Wind-tagged move can't miss. Treated exactly like the
+        // move's own IsGuaranteedHit, so it also bypasses the target's
+        // evasion rank and Darkness - which is where its real value lies,
+        // since nearly every wind move is already at 100 accuracy.
+        bool galeGuaranteed = Weather == WeatherType.Gale && move.WeaponTag == WeaponTag.Wind;
+
+        // ゆき: "氷技の命中率+10%" - keyed on the MOVE's element (effective,
+        // so おしえ composes), applied multiplicatively alongside the rank
+        // ladder rather than as flat percentage points.
+        // すなあらし: "地属性以外のパルの技の命中率-15%" - keyed on the
+        // ATTACKER's own types instead. The two are deliberately read from
+        // different subjects; that is what the spec text says.
+        float weatherAccMul = 1.0f;
+        if (Weather == WeatherType.Snow && EffectiveMoveType(_attacker, move) == "Ice")
+            weatherAccMul = 1.10f;
+        else if (Weather == WeatherType.Sandstorm && !HasRealType(_attacker, "Ground"))
+            weatherAccMul = 0.85f;
+
+        bool hits = forceHit || move.IsGuaranteedHit || galeGuaranteed
+            || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplierWithBonus(accuracyBonus) * target.StatusEffects.GetEvasionMultiplierWithBonus(evasionBonus) * darknessMul * weatherAccMul;
         if (!hits)
         {
             MessageLogger.Log($"{_attacker.ActorName}'s {move.Name} missed {target.ActorName}!", MessageLogger.IneffectiveColor);
@@ -374,6 +403,26 @@ public class AttackAction : IAction
         float atkMul = _attacker.StatusEffects.GetAtkMultiplier();
         float defMul = target.StatusEffects.GetDefMultiplier();
         float powerMul = _attacker.StatusEffects.GetElementPowerMultiplier(effectiveType);
+
+        // ---- Weather, damage half ----
+        // はれ/あめ: the classic Fire/Water see-saw. Keyed on effectiveType
+        // so おしえ composes the same way it does for ちから/式/ElementPower,
+        // and folded into powerMul so it lands in the pipeline's Step 1
+        // (effPower) rather than as another Step-4 multiplier.
+        switch (Weather)
+        {
+            case WeatherType.Sunny when effectiveType == "Fire": powerMul *= 1.5f; break;
+            case WeatherType.Sunny when effectiveType == "Water": powerMul *= 0.75f; break;
+            case WeatherType.Rain when effectiveType == "Water": powerMul *= 1.5f; break;
+            case WeatherType.Rain when effectiveType == "Fire": powerMul *= 0.75f; break;
+        }
+
+        // きり: "地属性のパルの防御力-10%". Confirmed as a multiplier on the
+        // COMPUTED Defense (the ハードブロック/ハードアーマー x2 shape), not
+        // the species-value flat form the trait catalogue uses - so it rides
+        // defMul alongside those, not defFlatBuff.
+        if (Weather == WeatherType.Fog && HasRealType(target, "Ground"))
+            defMul *= 0.9f;
 
         // いっせん／ツメのかりうど (§4, stage 2-b): this move's own
         // WeaponTag matching the attacker's held trait grants +10% power.
@@ -768,6 +817,13 @@ public class AttackAction : IAction
     private static (string Type1, string Type2) CombatTypes(Entity entity) =>
         entity.StatusEffects.IsSoaked ? ("Water", "") : (entity.Stats.Type1, entity.Stats.Type2);
 
+    // Weather keys off the entity's REAL typing, deliberately NOT
+    // CombatTypes: ずぶ濡れ's Water override is scoped to type-effectiveness
+    // and STAB only (status-redesign §4-2), so a Soaked Ground-type Pal is
+    // still a Ground-type as far as すなあらし and きり are concerned.
+    private static bool HasRealType(Entity entity, string element) =>
+        entity.Stats.Type1 == element || entity.Stats.Type2 == element;
+
     // 〇〇のおしえ (§4, stage 2-b): a Neutral-type move's effective element
     // becomes `attacker`'s own oshie-template element, if they hold one -
     // everything else keeps its real Type unchanged. Called once per
@@ -913,6 +969,28 @@ public class AttackAction : IAction
         int want = move.FieldPlacement == Dungeon.FieldPlacement.FourEmptyTiles ? FourEmptyTiles : HalfAreaTiles;
         int placed = _floorController.PlaceField(origin, move.FieldEffect, want);
         MessageLogger.Log($"{_attacker.ActorName} used {move.Name}! ({placed} tile(s) affected)");
+        return true;
+    }
+
+    // Sets the floor's weather for WeatherTurns turns. Returns true when the
+    // move was a weather move and has now fully resolved. Without a floor
+    // (tests/Hub) it is inert but still consumes the move, matching
+    // ApplyFieldEffect - a weather move must not silently fall through to
+    // the damage path, since it has no power to deal.
+    private bool ApplyWeatherEffect(MoveData move)
+    {
+        if (move.WeatherEffect == Dungeon.WeatherType.None) return false;
+
+        if (_floorController == null)
+        {
+            MessageLogger.Log($"{_attacker.ActorName} used {move.Name}, but nothing happened.", MessageLogger.IneffectiveColor);
+            return true;
+        }
+
+        _floorController.Weather.Set(move.WeatherEffect, move.WeatherTurns);
+        MessageLogger.Log(
+            $"{_attacker.ActorName} used {move.Name}! The weather is now {Dungeon.WeatherTypeNames.Japanese(move.WeatherEffect)}.",
+            MessageLogger.ProgressionColor);
         return true;
     }
 

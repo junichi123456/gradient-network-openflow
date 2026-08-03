@@ -131,6 +131,10 @@ public partial class Entity : Node2D, ITurnActor
     private const float FlowerBedHealRate = 0.09f;
     private const float PitfallCurrentHpRate = 0.5f;
 
+    // ゆき (Ice-typed Pals) and きり (Grass-typed Pals) both heal 5% of
+    // MaxHp at the end of each action-cycle - one rate, two weathers.
+    private const float WeatherHealRate = 0.05f;
+
     // Hard stop for うすらひ's slide loop - a slide can never legitimately
     // exceed the map's own span, so this only ever catches a logic error.
     private const int MaxSlideSteps = 64;
@@ -540,7 +544,18 @@ public partial class Entity : Node2D, ITurnActor
     // cycle is skipped (no DecideAction/Execute call at all this cycle).
     // Paralyze never triggers this (it only blocks movement, not the
     // action itself - see IsMovementBlocked).
-    public bool IsActionLocked() => StatusEffects.TryConsumeActionLock();
+    public bool IsActionLocked() =>
+        StatusEffects.TryConsumeActionLock(CurrentWeather == Dungeon.WeatherType.Sunny);
+
+    // Floor-wide weather, or None when this entity has no FloorController
+    // (Hub entities, bare test entities). Every weather branch is written
+    // so that None changes nothing.
+    private Dungeon.WeatherType CurrentWeather =>
+        FloorController?.Weather?.Current ?? Dungeon.WeatherType.None;
+
+    // Real typing (Type1/Type2), not AttackAction's Soaked-aware
+    // CombatTypes - see the weather-heal block in ResolveStatusTick.
+    private bool HasType(string element) => Stats.Type1 == element || Stats.Type2 == element;
 
     // Paralyze-only check: callers use this to swap a chosen MoveAction/
     // SwapAction for a WaitAction while leaving AttackAction untouched
@@ -634,6 +649,31 @@ public partial class Entity : Node2D, ITurnActor
             Stats.Heal(Mathf.Max(1, Mathf.FloorToInt(Stats.MaxHp * FlowerBedHealRate)));
             int healed = Stats.CurrentHp - hpBeforeHeal;
             if (healed > 0) MessageLogger.Log($"{ActorName} is soothed by the flowers (+{healed} HP).", MessageLogger.ProgressionColor);
+        }
+
+        // Weather end-of-action healing. Same slot as はなばたけ above: the
+        // spec says "行動終了時", which in this engine is the per-action-cycle
+        // ResolveStatusTick, not the per-game-turn TurnEnded.
+        //
+        // Typing is read from Stats directly, NOT through AttackAction's
+        // CombatTypes - ずぶ濡れ's Water override is scoped to type-
+        // effectiveness and STAB only, so a Soaked Ice-type still counts as
+        // Ice for ゆき.
+        if (Stats.IsAlive)
+        {
+            var weather = CurrentWeather;
+            bool snowHeal = weather == Dungeon.WeatherType.Snow && HasType("Ice");
+            bool fogHeal = weather == Dungeon.WeatherType.Fog && HasType("Grass");
+            if (snowHeal || fogHeal)
+            {
+                int hpBeforeWeather = Stats.CurrentHp;
+                Stats.Heal(Mathf.Max(1, Mathf.FloorToInt(Stats.MaxHp * WeatherHealRate)));
+                int healed = Stats.CurrentHp - hpBeforeWeather;
+                if (healed > 0)
+                    MessageLogger.Log(
+                        $"{ActorName} is restored by the {Dungeon.WeatherTypeNames.Japanese(weather)} (+{healed} HP).",
+                        MessageLogger.HealColor);
+            }
         }
 
         // こんとんのしゅくふく (stage 9 §1): the holder pays 15% of MaxHp per

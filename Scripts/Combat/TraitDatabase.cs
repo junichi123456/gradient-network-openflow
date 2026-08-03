@@ -14,6 +14,10 @@ internal class TraitJson
     [JsonPropertyName("category")] public string Category { get; set; }
     [JsonPropertyName("element")] public string Element { get; set; }
     [JsonPropertyName("template_kind")] public string TemplateKind { get; set; }
+
+    // Optional: enum name of the weather this trait's holder brings onto a
+    // floor ("Sunny", "Rain", ...). Absent on every trait today.
+    [JsonPropertyName("weather_on_entry")] public string WeatherOnEntry { get; set; }
 }
 
 // JSON-driven trait catalog (trait_catalog_v2 - Palworld-style: mostly
@@ -74,6 +78,8 @@ public static class TraitDatabase
                 Category = Enum.TryParse<TraitCategory>(entry.Category, true, out var category) ? category : TraitCategory.Unique,
                 Element = element,
                 TemplateKind = templateKind,
+                WeatherOnEntry = Enum.TryParse<Dungeon.WeatherType>(entry.WeatherOnEntry, true, out var traitWeather)
+                    ? traitWeather : Dungeon.WeatherType.None,
             };
         }
 

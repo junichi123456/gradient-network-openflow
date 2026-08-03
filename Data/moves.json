@@ -208,7 +208,8 @@
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "Wind"
   },
   {
     "id": "thunder_rain",
@@ -529,7 +530,8 @@
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "Wind"
   },
   {
     "id": "air_blade",
@@ -540,7 +542,7 @@
     "accuracy": 100,
     "max_pp": 24,
     "range": "Adjacent",
-    "weapon_tag": "Slash"
+    "weapon_tag": "Wind"
   },
   {
     "id": "grass_tornado",
@@ -550,7 +552,8 @@
     "power": 60,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Area"
+    "range": "Area",
+    "weapon_tag": "Wind"
   },
   {
     "id": "flare_storm",
@@ -580,7 +583,8 @@
     "power": 60,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Area"
+    "range": "Area",
+    "weapon_tag": "Wind"
   },
   {
     "id": "line_thunder",
@@ -882,7 +886,8 @@
     "power": 35,
     "accuracy": 100,
     "max_pp": 39,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "Wind"
   },
   {
     "id": "spark",
@@ -962,7 +967,8 @@
     "power": 30,
     "accuracy": 100,
     "max_pp": 42,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "Wind"
   },
   {
     "id": "poison_fog",
@@ -1128,7 +1134,8 @@
     "power": 80,
     "accuracy": 100,
     "max_pp": 12,
-    "range": "Area"
+    "range": "Area",
+    "weapon_tag": "Wind"
   },
   {
     "id": "MV_112",
@@ -1551,7 +1558,8 @@
     "power": 50,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "Wind"
   },
   {
     "id": "MV_150",
@@ -1572,7 +1580,7 @@
     "accuracy": 100,
     "max_pp": 27,
     "range": "Line",
-    "weapon_tag": "Slash"
+    "weapon_tag": "Wind"
   },
   {
     "id": "MV_152",
@@ -2408,7 +2416,8 @@
     "power": 75,
     "accuracy": 100,
     "max_pp": 15,
-    "range": "Room"
+    "range": "Room",
+    "weapon_tag": "Wind"
   },
   {
     "id": "MV_229",
@@ -2708,7 +2717,8 @@
     "power": 80,
     "accuracy": 100,
     "max_pp": 12,
-    "range": "Area"
+    "range": "Area",
+    "weapon_tag": "Wind"
   },
   {
     "id": "MV_255",
@@ -2869,7 +2879,8 @@
     "rank_effect_stat": "Evasion",
     "rank_effect_delta": -1,
     "rank_effect_target": "Enemy",
-    "rank_effect_chance": 0.2
+    "rank_effect_chance": 0.2,
+    "weapon_tag": "Wind"
   },
   {
     "id": "MV_269",
@@ -6728,5 +6739,77 @@
     "is_contact": true,
     "multi_hit": "Variable2To5",
     "weapon_tag": "ClawFist"
+  },
+  {
+    "id": "mvw_sunny",
+    "name": "ひざしのうた",
+    "type": "Fire",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 16,
+    "range": "Adjacent",
+    "weather_effect": "Sunny",
+    "weather_turns": 20
+  },
+  {
+    "id": "mvw_rain",
+    "name": "あまごい",
+    "type": "Water",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 16,
+    "range": "Adjacent",
+    "weather_effect": "Rain",
+    "weather_turns": 20
+  },
+  {
+    "id": "mvw_snow",
+    "name": "こなゆきまい",
+    "type": "Ice",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 16,
+    "range": "Adjacent",
+    "weather_effect": "Snow",
+    "weather_turns": 20
+  },
+  {
+    "id": "mvw_sandstorm",
+    "name": "すなまきあげ",
+    "type": "Ground",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 16,
+    "range": "Adjacent",
+    "weather_effect": "Sandstorm",
+    "weather_turns": 20
+  },
+  {
+    "id": "mvw_gale",
+    "name": "かぜよびのね",
+    "type": "Grass",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 16,
+    "range": "Adjacent",
+    "weather_effect": "Gale",
+    "weather_turns": 20
+  },
+  {
+    "id": "mvw_fog",
+    "name": "きりのとばり",
+    "type": "Dark",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 16,
+    "range": "Adjacent",
+    "weather_effect": "Fog",
+    "weather_turns": 20
   }
 ]

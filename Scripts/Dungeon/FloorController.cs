@@ -45,6 +45,10 @@ public partial class FloorController : Node2D
     // Trap-move field overlays (see FieldManager). Cleared with the rest of
     // the floor state, which is what makes fields "floor-permanent".
     private readonly FieldManager _fields = new();
+
+    // Floor-wide weather (see WeatherState). Seeded from the dungeon
+    // definition at generation; a move/trait can override it temporarily.
+    private readonly WeatherState _weather = new();
     private readonly List<Entity> _spawnedEnemies = new();
     private readonly List<AllyEntity> _spawnedAllies = new();
     private readonly List<(Vector2I Pos, Sprite2D Sprite)> _spawnedMarkers = new();
@@ -83,6 +87,7 @@ public partial class FloorController : Node2D
     // FloorController stays the only thing that mutates these.
     public DungeonObjectManager Objects => _objects;
     public FieldManager Fields => _fields;
+    public WeatherState Weather => _weather;
     public IReadOnlyList<Entity> SpawnedEnemies => _spawnedEnemies;
     public IReadOnlyList<AllyEntity> SpawnedAllies => _spawnedAllies;
     public int FloorNumber => _floorNumber;
@@ -262,6 +267,12 @@ public partial class FloorController : Node2D
         // HandleDungeonCleared() already disabled player input, but this
         // is a belt-and-suspenders guard against any further processing.
         if (_isGameCleared) return;
+
+        // Temporary (move/trait-set) weather expires per GAME TURN, not
+        // per action-cycle - a fast actor taking two actions in one turn
+        // must not burn two turns off it. Dungeon-defined weather is
+        // Endless and this is a no-op for it.
+        _weather.AdvanceTurn();
 
         // IsAlive flips false the instant Entity.Die() runs (before the
         // deferred QueueFree()), so this is safe to check every turn
@@ -458,6 +469,11 @@ public partial class FloorController : Node2D
         // to stay symmetric with everyone else.
         _player.StatusEffects.Reset();
 
+        // Weather is floor-scoped like ranks and fields: the dungeon's own
+        // weather is re-applied fresh, which also discards any temporary
+        // weather a move set on the previous floor.
+        _weather.SetBaseline(_rule.Weather);
+
         if (_floorNumber >= _config.MaxFloors)
         {
             GenerateFinalFloor();
@@ -501,9 +517,11 @@ public partial class FloorController : Node2D
         SpawnEnemies(normalRooms, occupied, rng);
         SpawnPartyMembers(occupied);
 
-        // After SpawnPartyMembers so allies exist to be polled, before the
-        // FOV refresh below so a sensed tile is drawn in the same frame.
+        // Both run after SpawnPartyMembers so allies exist to be polled,
+        // and before the FOV refresh below so anything they reveal or
+        // change is drawn in the same frame.
         TryStairsSense(rng);
+        ApplyTraitWeather();
 
         // First reveal of the new floor - without this the player would
         // see nothing until their first action fires OnTurnEnded.
@@ -628,6 +646,7 @@ public partial class FloorController : Node2D
 
         _objects.Clear();
         _fields.Clear();
+        _weather.Reset();
         _rooms = new List<Room>();
 
         // Cleared with the rest of the floor state so a stairs-less floor
@@ -692,6 +711,32 @@ public partial class FloorController : Node2D
     // The whole party is polled, not just the player: nothing in the source
     // text scopes it to the leader, and every other party-wide effect in
     // this project (きずな/ちから/まもり) already reads the full roster.
+    // Third weather source (after the dungeon definition and the weather
+    // moves): a party member whose trait declares WeatherOnEntry brings
+    // that weather onto the floor. Overrides the dungeon's own baseline for
+    // the whole floor, so it is applied as a new baseline rather than as a
+    // timed change - a trait is a standing property, not a cast.
+    //
+    // No trait in Data/traits.json declares WeatherOnEntry yet, so this is
+    // currently a no-op; the catalogue is hand-authored and which traits
+    // should carry weather is a design decision, not something to infer.
+    private void ApplyTraitWeather()
+    {
+        foreach (var actor in AllActors())
+        {
+            if (actor.Faction != Faction.Player) continue;
+
+            var trait = Combat.TraitDatabase.Get(actor.Stats.Trait);
+            if (trait == null || trait.WeatherOnEntry == WeatherType.None) continue;
+
+            _weather.SetBaseline(trait.WeatherOnEntry);
+            MessageLogger.Log(
+                $"{actor.ActorName}'s {trait.Name} brought {WeatherTypeNames.Japanese(trait.WeatherOnEntry)}!",
+                MessageLogger.ProgressionColor);
+            return; // first holder wins - two weathers can't coexist
+        }
+    }
+
     private void TryStairsSense(RandomNumberGenerator rng)
     {
         if (_stairsPos == null) return;

@@ -521,7 +521,12 @@ public partial class StatusEffectManager : Node
     // both checks happen "before acting", so a cycle that breaks free
     // (via either the roll or the turn-3 guarantee) acts normally that
     // same cycle.
-    public bool TryConsumeActionLock()
+    // sunny: はれ (weather) melts ice on the very first check, so a freeze
+    // applied under the sun costs at most nothing - the entity acts that
+    // same cycle. Passed in by the caller rather than read here because
+    // this class deliberately owns no grid/floor reference (same reason
+    // 潜航's terrain check lives in Entity.ResolveStatusTick).
+    public bool TryConsumeActionLock(bool sunny = false)
     {
         if (IsStunned)
         {
@@ -531,6 +536,12 @@ public partial class StatusEffectManager : Node
 
         if (Ailment == AilmentType.Freeze)
         {
+            if (sunny)
+            {
+                ClearAilment();
+                return false;
+            }
+
             _ailmentTurnsElapsed++;
             bool breaksFree = _ailmentTurnsElapsed >= 3 || GD.Randf() < 0.25f;
             if (breaksFree)

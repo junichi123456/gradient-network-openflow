@@ -48,6 +48,10 @@ internal class MoveJson
     [JsonPropertyName("field_effect")] public string FieldEffect { get; set; } = "None";
     [JsonPropertyName("field_placement")] public string FieldPlacement { get; set; } = "None";
 
+    // Weather kit (optional; only the weather-setting moves set these).
+    [JsonPropertyName("weather_effect")] public string WeatherEffect { get; set; } = "None";
+    [JsonPropertyName("weather_turns")] public int WeatherTurns { get; set; }
+
     // Multi-hit kit (optional; only the multi-hit moves set these).
     [JsonPropertyName("multi_hit")] public string MultiHit { get; set; } = "None";
     [JsonPropertyName("multi_hit_count")] public int MultiHitCount { get; set; }
@@ -122,6 +126,8 @@ public static class MoveDatabase
                 WeaponTag = Enum.TryParse<WeaponTag>(entry.WeaponTag, out var weaponTag) ? weaponTag : WeaponTag.None,
                 FieldEffect = Enum.TryParse<Dungeon.FieldType>(entry.FieldEffect, out var fieldEffect) ? fieldEffect : Dungeon.FieldType.None,
                 FieldPlacement = Enum.TryParse<Dungeon.FieldPlacement>(entry.FieldPlacement, out var fieldPlacement) ? fieldPlacement : Dungeon.FieldPlacement.None,
+                WeatherEffect = Enum.TryParse<Dungeon.WeatherType>(entry.WeatherEffect, out var weatherEffect) ? weatherEffect : Dungeon.WeatherType.None,
+                WeatherTurns = entry.WeatherTurns,
                 MultiHit = Enum.TryParse<MultiHitMode>(entry.MultiHit, out var multiHit) ? multiHit : MultiHitMode.None,
                 MultiHitCount = entry.MultiHitCount,
             };

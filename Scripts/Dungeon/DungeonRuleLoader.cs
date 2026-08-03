@@ -26,6 +26,11 @@ internal class GenerationJson
     [JsonPropertyName("monster_house_min_enemies")] public int MonsterHouseMinEnemies { get; set; }
     [JsonPropertyName("monster_house_max_enemies")] public int MonsterHouseMaxEnemies { get; set; }
     [JsonPropertyName("dummy_npc_ratio")] public float DummyNpcRatio { get; set; }
+
+    // Optional. Case-insensitive enum name ("sunny", "Rain", ...); an
+    // absent or unrecognised value leaves the dungeon weatherless rather
+    // than failing the whole load.
+    [JsonPropertyName("weather")] public string Weather { get; set; }
 }
 
 internal class DungeonJson
@@ -95,6 +100,19 @@ public static class DungeonRuleLoader
             MonsterHouseMinEnemies = g.MonsterHouseMinEnemies > 0 ? g.MonsterHouseMinEnemies : defaults.MonsterHouseMinEnemies,
             MonsterHouseMaxEnemies = g.MonsterHouseMaxEnemies > 0 ? g.MonsterHouseMaxEnemies : defaults.MonsterHouseMaxEnemies,
             DummyNpcRatio = g.DummyNpcRatio > 0 ? g.DummyNpcRatio : defaults.DummyNpcRatio,
+            Weather = ParseWeather(g.Weather, dungeonId),
         };
+    }
+
+    // Unrecognised names are reported rather than swallowed: a typo'd
+    // "sunnny" silently becoming "no weather" is exactly the kind of
+    // quiet data bug the Trait/Ecology loaders already warn about.
+    private static WeatherType ParseWeather(string raw, string dungeonId)
+    {
+        if (string.IsNullOrWhiteSpace(raw)) return WeatherType.None;
+        if (System.Enum.TryParse<WeatherType>(raw, ignoreCase: true, out var weather)) return weather;
+
+        GD.PushWarning($"DungeonRuleLoader: dungeon '{dungeonId}' has unknown weather '{raw}' - treated as none.");
+        return WeatherType.None;
     }
 }

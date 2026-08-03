@@ -50,6 +50,12 @@ public class DungeonRule
     // only "species" knob until then.
     public float DummyNpcRatio { get; set; } = 0.7f;
 
+    // The dungeon's own weather, applied to every floor at generation
+    // and never expiring on its own (a move/trait can override it
+    // temporarily - see WeatherState). None = no weather, which is the
+    // default and a strict no-op everywhere.
+    public WeatherType Weather { get; set; } = WeatherType.None;
+
     // Per-room roll chance for a Water/Lava pool (see DungeonGenerator's
     // drunkard's-walk blob generation). Only consulted at all when
     // DungeonConfig.GenerateWaterPools/GenerateLavaPools is true.

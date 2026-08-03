@@ -43,4 +43,13 @@ public class TraitData
     public TraitCategory Category { get; set; }
     public Element? Element { get; set; }
     public TraitTemplateKind? TemplateKind { get; set; }
+
+    // Weather system: a holder entering a floor sets this weather for the
+    // whole floor (see FloorController.ApplyTraitWeather). The dungeon
+    // definition and the weather MOVES are the other two sources; this is
+    // the trait one. No trait in Data/traits.json declares it yet - the
+    // catalogue is hand-authored, so which traits get it is a design call,
+    // not something to infer. None here = the trait has no weather effect,
+    // which is every trait today.
+    public Dungeon.WeatherType WeatherOnEntry { get; set; } = Dungeon.WeatherType.None;
 }
