@@ -11,7 +11,7 @@
   },
   {
     "id": "megaton_self_destruct",
-    "name": "メガトンじばく",
+    "name": "メガトンセルフデストラクト",
     "type": "Neutral",
     "category": "Special",
     "power": 180,
@@ -32,7 +32,7 @@
   },
   {
     "id": "self_destruct",
-    "name": "じばく",
+    "name": "セルフデストラクト",
     "type": "Neutral",
     "category": "Special",
     "power": 105,
@@ -42,7 +42,7 @@
   },
   {
     "id": "water_pillar_burst",
-    "name": "すいちゅうふんしゅつ",
+    "name": "ウォーターピラーバースト",
     "type": "Water",
     "category": "Special",
     "power": 115,
@@ -413,7 +413,7 @@
   },
   {
     "id": "high_pressure_water",
-    "name": "こうあつすいげき",
+    "name": "ハイプレッシャーウォーター",
     "type": "Water",
     "category": "Special",
     "power": 75,
@@ -985,7 +985,7 @@
   },
   {
     "id": "MV_098",
-    "name": "りゅうじんれっぱ",
+    "name": "ドラゴンゴッドブレイク",
     "type": "Dragon",
     "category": "Physical",
     "power": 135,
@@ -997,7 +997,7 @@
   },
   {
     "id": "MV_099",
-    "name": "はりゅうてんしょう",
+    "name": "スカイソアリングドラゴン",
     "type": "Dragon",
     "category": "Physical",
     "power": 125,
@@ -1010,7 +1010,7 @@
   },
   {
     "id": "MV_100",
-    "name": "りゅうみゃくばくさん",
+    "name": "ドラゴンヴェインバースト",
     "type": "Dragon",
     "category": "Special",
     "power": 130,
@@ -1021,7 +1021,7 @@
   },
   {
     "id": "MV_101",
-    "name": "きょくりゅうほう",
+    "name": "アルティメットドラゴンカノン",
     "type": "Dragon",
     "category": "Special",
     "power": 100,
@@ -1032,7 +1032,7 @@
   },
   {
     "id": "MV_102",
-    "name": "めつりゅうほうこう",
+    "name": "ドラゴンスレイヤーロア",
     "type": "Dragon",
     "category": "Special",
     "power": 120,
@@ -1044,7 +1044,7 @@
   },
   {
     "id": "MV_103",
-    "name": "りゅうおうのさばき",
+    "name": "ドラゴンキングジャッジメント",
     "type": "Dragon",
     "category": "Special",
     "power": 115,
@@ -1054,7 +1054,7 @@
   },
   {
     "id": "MV_104",
-    "name": "てんくうほうげき",
+    "name": "スカイコラプスストライク",
     "type": "Dragon",
     "category": "Special",
     "power": 105,
@@ -1065,7 +1065,7 @@
   },
   {
     "id": "MV_105",
-    "name": "ほしくずりゅうげき",
+    "name": "スターダストドラゴンストライク",
     "type": "Dragon",
     "category": "Special",
     "power": 105,
@@ -1075,7 +1075,7 @@
   },
   {
     "id": "MV_106",
-    "name": "そうりゅうは",
+    "name": "アズールドラゴンウェーブ",
     "type": "Dragon",
     "category": "Special",
     "power": 100,
@@ -1085,7 +1085,7 @@
   },
   {
     "id": "MV_107",
-    "name": "りゅうせんこう",
+    "name": "ドラゴンピアスライト",
     "type": "Dragon",
     "category": "Special",
     "power": 95,
@@ -1095,7 +1095,7 @@
   },
   {
     "id": "MV_108",
-    "name": "げきりんつき",
+    "name": "アウトレイジスラスト",
     "type": "Dragon",
     "category": "Physical",
     "power": 95,
@@ -1108,7 +1108,7 @@
   },
   {
     "id": "MV_109",
-    "name": "りゅうりんざん",
+    "name": "ドラゴンスケイルスラッシュ",
     "type": "Dragon",
     "category": "Physical",
     "power": 75,
@@ -1120,7 +1120,7 @@
   },
   {
     "id": "MV_110",
-    "name": "そうりゅうが",
+    "name": "ツインドラゴンファング",
     "type": "Dragon",
     "category": "Physical",
     "power": 70,
@@ -1132,7 +1132,7 @@
   },
   {
     "id": "MV_111",
-    "name": "たつまきせん",
+    "name": "トルネードフラッシュ",
     "type": "Dragon",
     "category": "Special",
     "power": 80,
@@ -1143,7 +1143,7 @@
   },
   {
     "id": "MV_112",
-    "name": "りゅうそうれんざん",
+    "name": "ドラゴンクローコンボ",
     "type": "Dragon",
     "category": "Physical",
     "power": 65,
@@ -1155,7 +1155,7 @@
   },
   {
     "id": "MV_114",
-    "name": "らせんりゅうは",
+    "name": "スパイラルドラゴンウェーブ",
     "type": "Dragon",
     "category": "Special",
     "power": 70,
@@ -1165,7 +1165,7 @@
   },
   {
     "id": "MV_115",
-    "name": "ようりゅうのほうこう",
+    "name": "ヤングドラゴンロア",
     "type": "Dragon",
     "category": "Special",
     "power": 60,
@@ -1175,7 +1175,7 @@
   },
   {
     "id": "MV_116",
-    "name": "りゅうがつき",
+    "name": "ドラゴンファングスラスト",
     "type": "Dragon",
     "category": "Physical",
     "power": 55,
@@ -1186,7 +1186,7 @@
   },
   {
     "id": "MV_117",
-    "name": "りゅうりんとばし",
+    "name": "ドラゴンスケイルシュート",
     "type": "Dragon",
     "category": "Special",
     "power": 40,
@@ -1196,7 +1196,7 @@
   },
   {
     "id": "MV_118",
-    "name": "しょうりゅうだん",
+    "name": "リトルドラゴンバレット",
     "type": "Dragon",
     "category": "Special",
     "power": 25,
@@ -1206,7 +1206,7 @@
   },
   {
     "id": "MV_119",
-    "name": "りゅうきだん",
+    "name": "ドラゴンオーラバレット",
     "type": "Dragon",
     "category": "Special",
     "power": 20,
@@ -1216,7 +1216,7 @@
   },
   {
     "id": "MV_120",
-    "name": "りゅうがんほう",
+    "name": "ドラゴンアイカノン",
     "type": "Dragon",
     "category": "Special",
     "power": 35,
@@ -1226,7 +1226,7 @@
   },
   {
     "id": "MV_121",
-    "name": "かげうがち",
+    "name": "シャドウピアス",
     "type": "Dark",
     "category": "Physical",
     "power": 35,
@@ -1238,7 +1238,7 @@
   },
   {
     "id": "MV_122",
-    "name": "じゅそのささやき",
+    "name": "カースウィスパー",
     "type": "Dark",
     "category": "Status",
     "power": 0,
@@ -1251,7 +1251,7 @@
   },
   {
     "id": "MV_123",
-    "name": "くらきやいば",
+    "name": "ダスクブレード",
     "type": "Dark",
     "category": "Physical",
     "power": 35,
@@ -1263,7 +1263,7 @@
   },
   {
     "id": "MV_124",
-    "name": "かげぬい",
+    "name": "シャドウステッチ",
     "type": "Dark",
     "category": "Physical",
     "power": 40,
@@ -1277,7 +1277,7 @@
   },
   {
     "id": "MV_125",
-    "name": "やみのくさび",
+    "name": "ダークウェッジ",
     "type": "Dark",
     "category": "Physical",
     "power": 40,
@@ -1292,7 +1292,7 @@
   },
   {
     "id": "MV_126",
-    "name": "じゅばくのくさり",
+    "name": "カースチェイン",
     "type": "Dark",
     "category": "Physical",
     "power": 45,
@@ -1307,7 +1307,7 @@
   },
   {
     "id": "MV_127",
-    "name": "あんりんげき",
+    "name": "ダークスケイルストライク",
     "type": "Dark",
     "category": "Special",
     "power": 25,
@@ -1318,7 +1318,7 @@
   },
   {
     "id": "MV_128",
-    "name": "かげろうが",
+    "name": "シャドウウルフファング",
     "type": "Dark",
     "category": "Physical",
     "power": 55,
@@ -1332,7 +1332,7 @@
   },
   {
     "id": "MV_129",
-    "name": "めいふのよびごえ",
+    "name": "ネザーコール",
     "type": "Dark",
     "category": "Status",
     "power": 0,
@@ -1345,7 +1345,7 @@
   },
   {
     "id": "MV_130",
-    "name": "こんめいのうず",
+    "name": "ダークヴォルテックス",
     "type": "Dark",
     "category": "Special",
     "power": 75,
@@ -1369,7 +1369,7 @@
   },
   {
     "id": "MV_132",
-    "name": "あんこくはどう",
+    "name": "ダークパルス",
     "type": "Dark",
     "category": "Special",
     "power": 80,
@@ -1382,7 +1382,7 @@
   },
   {
     "id": "MV_133",
-    "name": "あんれつは",
+    "name": "ダークレンドウェーブ",
     "type": "Dark",
     "category": "Special",
     "power": 80,
@@ -1393,7 +1393,7 @@
   },
   {
     "id": "MV_134",
-    "name": "きょむくずし",
+    "name": "ニヒルブレイク",
     "type": "Dark",
     "category": "Special",
     "power": 85,
@@ -1404,7 +1404,7 @@
   },
   {
     "id": "MV_135",
-    "name": "しんえんのあぎと",
+    "name": "アビスジョー",
     "type": "Dark",
     "category": "Physical",
     "power": 95,
@@ -1416,7 +1416,7 @@
   },
   {
     "id": "MV_136",
-    "name": "めいおうのさばき",
+    "name": "ハデスジャッジメント",
     "type": "Dark",
     "category": "Special",
     "power": 105,
@@ -1429,7 +1429,7 @@
   },
   {
     "id": "MV_137",
-    "name": "うらけん",
+    "name": "バックフィスト",
     "type": "Neutral",
     "category": "Physical",
     "power": 30,
@@ -1441,7 +1441,7 @@
   },
   {
     "id": "MV_138",
-    "name": "にれんづき",
+    "name": "ダブルスラスト",
     "type": "Neutral",
     "category": "Physical",
     "power": 35,
@@ -1452,7 +1452,7 @@
   },
   {
     "id": "MV_139",
-    "name": "しっぽばらい",
+    "name": "テイルスイープ",
     "type": "Neutral",
     "category": "Physical",
     "power": 35,
@@ -1463,7 +1463,7 @@
   },
   {
     "id": "MV_140",
-    "name": "ずつき",
+    "name": "ヘッドバット",
     "type": "Neutral",
     "category": "Physical",
     "power": 40,
@@ -1474,7 +1474,7 @@
   },
   {
     "id": "MV_141",
-    "name": "かいてんタックル",
+    "name": "スピンタックル",
     "type": "Neutral",
     "category": "Physical",
     "power": 40,
@@ -1485,7 +1485,7 @@
   },
   {
     "id": "MV_142",
-    "name": "とびげり",
+    "name": "フライングキック",
     "type": "Neutral",
     "category": "Physical",
     "power": 45,
@@ -1496,7 +1496,7 @@
   },
   {
     "id": "MV_143",
-    "name": "みねうち",
+    "name": "ブラントエッジ",
     "type": "Neutral",
     "category": "Physical",
     "power": 45,
@@ -1507,7 +1507,7 @@
   },
   {
     "id": "MV_144",
-    "name": "くだきうち",
+    "name": "クラッシュブロー",
     "type": "Neutral",
     "category": "Physical",
     "power": 55,
@@ -1518,7 +1518,7 @@
   },
   {
     "id": "MV_145",
-    "name": "みだれづき",
+    "name": "ラッシュスラスト",
     "type": "Neutral",
     "category": "Physical",
     "power": 50,
@@ -1529,7 +1529,7 @@
   },
   {
     "id": "MV_146",
-    "name": "つうれつないちげき",
+    "name": "シビアインパクト",
     "type": "Neutral",
     "category": "Physical",
     "power": 60,
@@ -1550,7 +1550,7 @@
   },
   {
     "id": "MV_148",
-    "name": "こうだん",
+    "name": "ライトバレット",
     "type": "Neutral",
     "category": "Special",
     "power": 35,
@@ -1560,7 +1560,7 @@
   },
   {
     "id": "MV_149",
-    "name": "くうあつほう",
+    "name": "エアプレッシャーカノン",
     "type": "Neutral",
     "category": "Special",
     "power": 35,
@@ -1571,7 +1571,7 @@
   },
   {
     "id": "MV_150",
-    "name": "しょうげきは",
+    "name": "インパクトウェーブ",
     "type": "Neutral",
     "category": "Special",
     "power": 50,
@@ -1581,7 +1581,7 @@
   },
   {
     "id": "MV_151",
-    "name": "れっぷうざん",
+    "name": "ゲイルスラッシュ",
     "type": "Neutral",
     "category": "Special",
     "power": 65,
@@ -1592,7 +1592,7 @@
   },
   {
     "id": "MV_152",
-    "name": "はてんげき",
+    "name": "スカイブレイカー",
     "type": "Neutral",
     "category": "Special",
     "power": 70,
@@ -1612,7 +1612,7 @@
   },
   {
     "id": "MV_154",
-    "name": "ひかりのほんりゅう",
+    "name": "ライトフラッド",
     "type": "Neutral",
     "category": "Special",
     "power": 80,
@@ -1622,7 +1622,7 @@
   },
   {
     "id": "MV_155",
-    "name": "じげんざん",
+    "name": "ディメンションスラッシュ",
     "type": "Neutral",
     "category": "Special",
     "power": 85,
@@ -1654,7 +1654,7 @@
   },
   {
     "id": "MV_158",
-    "name": "きょっこうほう",
+    "name": "オーロラカノン",
     "type": "Neutral",
     "category": "Special",
     "power": 110,
@@ -1664,7 +1664,7 @@
   },
   {
     "id": "MV_159",
-    "name": "ほうてんげき",
+    "name": "シャッタースカイ",
     "type": "Neutral",
     "category": "Special",
     "power": 130,
@@ -1675,7 +1675,7 @@
   },
   {
     "id": "MV_160",
-    "name": "きゅうしょねらい",
+    "name": "クリティカルエイム",
     "type": "Neutral",
     "category": "Special",
     "power": 25,
@@ -1686,7 +1686,7 @@
   },
   {
     "id": "MV_161",
-    "name": "かくらん",
+    "name": "ディスラプト",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -1699,7 +1699,7 @@
   },
   {
     "id": "MV_162",
-    "name": "いかく",
+    "name": "インティミデート",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -1712,7 +1712,7 @@
   },
   {
     "id": "MV_163",
-    "name": "きあいため",
+    "name": "フォーカスパワー",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -1724,7 +1724,7 @@
   },
   {
     "id": "MV_164",
-    "name": "しゅうちゅう",
+    "name": "コンセントレート",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -1736,7 +1736,7 @@
   },
   {
     "id": "MV_165",
-    "name": "けずりうち",
+    "name": "シェイブショット",
     "type": "Neutral",
     "category": "Special",
     "power": 40,
@@ -1746,7 +1746,7 @@
   },
   {
     "id": "MV_166",
-    "name": "おいうち",
+    "name": "パーシュートブロー",
     "type": "Neutral",
     "category": "Physical",
     "power": 65,
@@ -1757,7 +1757,7 @@
   },
   {
     "id": "MV_167",
-    "name": "れんせん",
+    "name": "チェインフラッシュ",
     "type": "Neutral",
     "category": "Special",
     "power": 70,
@@ -1780,7 +1780,7 @@
   },
   {
     "id": "MV_169",
-    "name": "でんじしん",
+    "name": "マグネティックニードル",
     "type": "Electric",
     "category": "Physical",
     "power": 55,
@@ -1793,7 +1793,7 @@
   },
   {
     "id": "MV_170",
-    "name": "ほうでん",
+    "name": "ディスチャージ",
     "type": "Electric",
     "category": "Physical",
     "power": 60,
@@ -1827,7 +1827,7 @@
   },
   {
     "id": "MV_174",
-    "name": "らいじんのいかり",
+    "name": "サンダーゴッドラース",
     "type": "Electric",
     "category": "Special",
     "power": 105,
@@ -1837,7 +1837,7 @@
   },
   {
     "id": "MV_175",
-    "name": "ちょうでんじほう",
+    "name": "レールガン",
     "type": "Electric",
     "category": "Special",
     "power": 115,
@@ -1848,7 +1848,7 @@
   },
   {
     "id": "MV_176",
-    "name": "ゆうらい",
+    "name": "ボルトルアー",
     "type": "Electric",
     "category": "Status",
     "power": 0,
@@ -1860,7 +1860,7 @@
   },
   {
     "id": "MV_177",
-    "name": "たいでんチャージ",
+    "name": "チャージアップ",
     "type": "Electric",
     "category": "Status",
     "power": 0,
@@ -1872,7 +1872,7 @@
   },
   {
     "id": "MV_178",
-    "name": "でんじぼうへき",
+    "name": "マグネティックバリア",
     "type": "Electric",
     "category": "Status",
     "power": 0,
@@ -1884,7 +1884,7 @@
   },
   {
     "id": "MV_179",
-    "name": "かそく",
+    "name": "アクセラレート",
     "type": "Electric",
     "category": "Status",
     "power": 0,
@@ -1896,7 +1896,7 @@
   },
   {
     "id": "MV_182",
-    "name": "でんげきさし",
+    "name": "ショックスティング",
     "type": "Electric",
     "category": "Physical",
     "power": 50,
@@ -1907,7 +1907,7 @@
   },
   {
     "id": "MV_183",
-    "name": "いなずまづき",
+    "name": "ライトニングスラスト",
     "type": "Electric",
     "category": "Physical",
     "power": 55,
@@ -1918,7 +1918,7 @@
   },
   {
     "id": "MV_184",
-    "name": "らいきゅう",
+    "name": "ボルトスフィア",
     "type": "Electric",
     "category": "Special",
     "power": 35,
@@ -1928,7 +1928,7 @@
   },
   {
     "id": "MV_185",
-    "name": "らいこうだん",
+    "name": "ボルトライトバレット",
     "type": "Electric",
     "category": "Special",
     "power": 25,
@@ -1938,7 +1938,7 @@
   },
   {
     "id": "MV_186",
-    "name": "ごうらい",
+    "name": "ロアリングサンダー",
     "type": "Electric",
     "category": "Special",
     "power": 85,
@@ -1948,7 +1948,7 @@
   },
   {
     "id": "MV_187",
-    "name": "ひょうれき",
+    "name": "アイスペブル",
     "type": "Ice",
     "category": "Physical",
     "power": 35,
@@ -1959,7 +1959,7 @@
   },
   {
     "id": "MV_188",
-    "name": "こおりのやいば",
+    "name": "アイスブレード",
     "type": "Ice",
     "category": "Physical",
     "power": 40,
@@ -1992,7 +1992,7 @@
   },
   {
     "id": "MV_191",
-    "name": "ひょうけつは",
+    "name": "フリーズウェーブ",
     "type": "Ice",
     "category": "Special",
     "power": 60,
@@ -2013,7 +2013,7 @@
   },
   {
     "id": "MV_193",
-    "name": "ひょうらん",
+    "name": "アイスガスト",
     "type": "Ice",
     "category": "Special",
     "power": 70,
@@ -2037,7 +2037,7 @@
   },
   {
     "id": "MV_195",
-    "name": "ひょうが",
+    "name": "アイスファング",
     "type": "Ice",
     "category": "Physical",
     "power": 60,
@@ -2060,7 +2060,7 @@
   },
   {
     "id": "MV_197",
-    "name": "ぜったいれいどは",
+    "name": "アブソリュートゼロウェーブ",
     "type": "Ice",
     "category": "Special",
     "power": 95,
@@ -2072,7 +2072,7 @@
   },
   {
     "id": "MV_198",
-    "name": "ひょうけつじごく",
+    "name": "フリーズヘル",
     "type": "Ice",
     "category": "Special",
     "power": 125,
@@ -2094,7 +2094,7 @@
   },
   {
     "id": "MV_200",
-    "name": "ひょうじんれんげき",
+    "name": "アイスブレードコンボ",
     "type": "Ice",
     "category": "Physical",
     "power": 65,
@@ -2105,7 +2105,7 @@
   },
   {
     "id": "MV_201",
-    "name": "つららおとし",
+    "name": "アイシクルドロップ",
     "type": "Ice",
     "category": "Special",
     "power": 80,
@@ -2125,7 +2125,7 @@
   },
   {
     "id": "MV_203",
-    "name": "いてつくといき",
+    "name": "フリージングブレス",
     "type": "Ice",
     "category": "Special",
     "power": 50,
@@ -2138,7 +2138,7 @@
   },
   {
     "id": "MV_204",
-    "name": "ひょうしょうだん",
+    "name": "アイスクリスタルバレット",
     "type": "Ice",
     "category": "Special",
     "power": 25,
@@ -2148,7 +2148,7 @@
   },
   {
     "id": "MV_205",
-    "name": "しものあみ",
+    "name": "フロストネット",
     "type": "Ice",
     "category": "Special",
     "power": 30,
@@ -2160,7 +2160,7 @@
   },
   {
     "id": "MV_206",
-    "name": "ひょうかいおとし",
+    "name": "アイスブロックドロップ",
     "type": "Ice",
     "category": "Special",
     "power": 60,
@@ -2170,7 +2170,7 @@
   },
   {
     "id": "MV_207",
-    "name": "ごっかんのいちげき",
+    "name": "サブゼロインパクト",
     "type": "Ice",
     "category": "Physical",
     "power": 100,
@@ -2183,7 +2183,7 @@
   },
   {
     "id": "MV_209",
-    "name": "ひょうけつほう",
+    "name": "フリーズカノン",
     "type": "Ice",
     "category": "Special",
     "power": 90,
@@ -2205,7 +2205,7 @@
   },
   {
     "id": "MV_211",
-    "name": "とうけつじん",
+    "name": "フローズンブレード",
     "type": "Ice",
     "category": "Physical",
     "power": 55,
@@ -2218,7 +2218,7 @@
   },
   {
     "id": "MV_212",
-    "name": "みずでっぽう",
+    "name": "ウォーターガン",
     "type": "Water",
     "category": "Physical",
     "power": 35,
@@ -2229,7 +2229,7 @@
   },
   {
     "id": "MV_213",
-    "name": "すいりゅうだん",
+    "name": "ストリームバレット",
     "type": "Water",
     "category": "Physical",
     "power": 40,
@@ -2240,7 +2240,7 @@
   },
   {
     "id": "MV_214",
-    "name": "バブルれんしゃ",
+    "name": "バブルバラージ",
     "type": "Water",
     "category": "Physical",
     "power": 45,
@@ -2262,7 +2262,7 @@
   },
   {
     "id": "MV_216",
-    "name": "すいじん",
+    "name": "ウォーターブレード",
     "type": "Water",
     "category": "Physical",
     "power": 55,
@@ -2283,7 +2283,7 @@
   },
   {
     "id": "MV_218",
-    "name": "みずばしら",
+    "name": "ウォーターピラー",
     "type": "Water",
     "category": "Special",
     "power": 55,
@@ -2293,7 +2293,7 @@
   },
   {
     "id": "MV_219",
-    "name": "げきりゅうほう",
+    "name": "トレントカノン",
     "type": "Water",
     "category": "Special",
     "power": 85,
@@ -2303,7 +2303,7 @@
   },
   {
     "id": "MV_221",
-    "name": "すいりゅうれんげき",
+    "name": "ストリームコンボ",
     "type": "Water",
     "category": "Physical",
     "power": 55,
@@ -2314,7 +2314,7 @@
   },
   {
     "id": "MV_222",
-    "name": "みずかがみざん",
+    "name": "ミラーウォータースラッシュ",
     "type": "Water",
     "category": "Physical",
     "power": 60,
@@ -2326,7 +2326,7 @@
   },
   {
     "id": "MV_223",
-    "name": "つなみ",
+    "name": "タイダルウェーブ",
     "type": "Water",
     "category": "Special",
     "power": 100,
@@ -2336,7 +2336,7 @@
   },
   {
     "id": "MV_224",
-    "name": "だいかいしょう",
+    "name": "グレートタイダルボア",
     "type": "Water",
     "category": "Special",
     "power": 125,
@@ -2347,7 +2347,7 @@
   },
   {
     "id": "MV_225",
-    "name": "すいほうだん",
+    "name": "バブルバレット",
     "type": "Water",
     "category": "Special",
     "power": 30,
@@ -2357,7 +2357,7 @@
   },
   {
     "id": "MV_226",
-    "name": "すいふんしゃ",
+    "name": "ウォータースプレー",
     "type": "Water",
     "category": "Special",
     "power": 35,
@@ -2378,7 +2378,7 @@
   },
   {
     "id": "MV_228",
-    "name": "みずたつまき",
+    "name": "ウォータートルネード",
     "type": "Water",
     "category": "Special",
     "power": 80,
@@ -2389,7 +2389,7 @@
   },
   {
     "id": "MV_229",
-    "name": "しおふき",
+    "name": "タイドスパウト",
     "type": "Water",
     "category": "Special",
     "power": 60,
@@ -2399,7 +2399,7 @@
   },
   {
     "id": "MV_230",
-    "name": "すいが",
+    "name": "アクアファング",
     "type": "Water",
     "category": "Physical",
     "power": 65,
@@ -2420,7 +2420,7 @@
   },
   {
     "id": "MV_232",
-    "name": "せいりゅうのかた",
+    "name": "クリアストリームスタンス",
     "type": "Water",
     "category": "Status",
     "power": 0,
@@ -2432,7 +2432,7 @@
   },
   {
     "id": "MV_233",
-    "name": "ひのこ",
+    "name": "シンダー",
     "type": "Fire",
     "category": "Physical",
     "power": 35,
@@ -2445,7 +2445,7 @@
   },
   {
     "id": "MV_234",
-    "name": "かえんだん",
+    "name": "ブレイズバレット",
     "type": "Fire",
     "category": "Special",
     "power": 30,
@@ -2467,7 +2467,7 @@
   },
   {
     "id": "MV_236",
-    "name": "えんそう",
+    "name": "フレイムクロー",
     "type": "Fire",
     "category": "Physical",
     "power": 45,
@@ -2481,7 +2481,7 @@
   },
   {
     "id": "MV_237",
-    "name": "かえんざん",
+    "name": "ブレイズスラッシュ",
     "type": "Fire",
     "category": "Physical",
     "power": 55,
@@ -2495,7 +2495,7 @@
   },
   {
     "id": "MV_238",
-    "name": "れっかけん",
+    "name": "ワイルドファイアフィスト",
     "type": "Fire",
     "category": "Physical",
     "power": 65,
@@ -2509,7 +2509,7 @@
   },
   {
     "id": "MV_239",
-    "name": "ひばしら",
+    "name": "フレイムピラー",
     "type": "Fire",
     "category": "Special",
     "power": 60,
@@ -2529,7 +2529,7 @@
   },
   {
     "id": "MV_241",
-    "name": "ぐれんのほのお",
+    "name": "クリムゾンブレイズ",
     "type": "Fire",
     "category": "Special",
     "power": 85,
@@ -2541,7 +2541,7 @@
   },
   {
     "id": "MV_242",
-    "name": "ごくえん",
+    "name": "インフェルナルフレイム",
     "type": "Fire",
     "category": "Special",
     "power": 105,
@@ -2553,7 +2553,7 @@
   },
   {
     "id": "MV_243",
-    "name": "ごうかのうず",
+    "name": "ヘルファイアヴォルテックス",
     "type": "Fire",
     "category": "Special",
     "power": 110,
@@ -2575,7 +2575,7 @@
   },
   {
     "id": "MV_245",
-    "name": "かえんぐるま",
+    "name": "フレイムホイール",
     "type": "Fire",
     "category": "Physical",
     "power": 55,
@@ -2588,7 +2588,7 @@
   },
   {
     "id": "MV_246",
-    "name": "ほのおのきば",
+    "name": "フレイムファング",
     "type": "Fire",
     "category": "Physical",
     "power": 50,
@@ -2601,7 +2601,7 @@
   },
   {
     "id": "MV_247",
-    "name": "かきゅう",
+    "name": "ファイアスフィア",
     "type": "Fire",
     "category": "Special",
     "power": 20,
@@ -2611,7 +2611,7 @@
   },
   {
     "id": "MV_248",
-    "name": "ふんえん",
+    "name": "フレイムジェット",
     "type": "Fire",
     "category": "Special",
     "power": 65,
@@ -2621,7 +2621,7 @@
   },
   {
     "id": "MV_249",
-    "name": "ごうかほうしゃ",
+    "name": "エターナルフレイムレイ",
     "type": "Fire",
     "category": "Special",
     "power": 80,
@@ -2633,7 +2633,7 @@
   },
   {
     "id": "MV_250",
-    "name": "ほのおつき",
+    "name": "フレイムスラスト",
     "type": "Fire",
     "category": "Physical",
     "power": 50,
@@ -2644,7 +2644,7 @@
   },
   {
     "id": "MV_251",
-    "name": "やきうち",
+    "name": "バーンレイド",
     "type": "Fire",
     "category": "Special",
     "power": 80,
@@ -2656,7 +2656,7 @@
   },
   {
     "id": "MV_252",
-    "name": "しゃくねつざん",
+    "name": "シアリングスラッシュ",
     "type": "Fire",
     "category": "Physical",
     "power": 65,
@@ -2668,7 +2668,7 @@
   },
   {
     "id": "MV_253",
-    "name": "めらめらパンチ",
+    "name": "ブレイジングパンチ",
     "type": "Fire",
     "category": "Physical",
     "power": 60,
@@ -2680,7 +2680,7 @@
   },
   {
     "id": "MV_254",
-    "name": "ひたつまき",
+    "name": "ファイアトルネード",
     "type": "Fire",
     "category": "Special",
     "power": 85,
@@ -2691,7 +2691,7 @@
   },
   {
     "id": "MV_255",
-    "name": "かえんれんだん",
+    "name": "ブレイズバラージ",
     "type": "Fire",
     "category": "Special",
     "power": 40,
@@ -2703,7 +2703,7 @@
   },
   {
     "id": "MV_256",
-    "name": "いしつぶて",
+    "name": "ストーンペブル",
     "type": "Ground",
     "category": "Physical",
     "power": 35,
@@ -2714,7 +2714,7 @@
   },
   {
     "id": "MV_257",
-    "name": "がんせきだん",
+    "name": "ロックバレット",
     "type": "Ground",
     "category": "Physical",
     "power": 45,
@@ -2725,7 +2725,7 @@
   },
   {
     "id": "MV_258",
-    "name": "じわれつき",
+    "name": "フィッシャースラスト",
     "type": "Ground",
     "category": "Physical",
     "power": 55,
@@ -2736,7 +2736,7 @@
   },
   {
     "id": "MV_259",
-    "name": "すなかけ",
+    "name": "サンドスプレー",
     "type": "Ground",
     "category": "Physical",
     "power": 45,
@@ -2752,7 +2752,7 @@
   },
   {
     "id": "MV_260",
-    "name": "めつぶしのすな",
+    "name": "ブラインドサンド",
     "type": "Ground",
     "category": "Physical",
     "power": 40,
@@ -2768,7 +2768,7 @@
   },
   {
     "id": "MV_261",
-    "name": "つちけむり",
+    "name": "ダストクラウド",
     "type": "Ground",
     "category": "Special",
     "power": 35,
@@ -2781,7 +2781,7 @@
   },
   {
     "id": "MV_262",
-    "name": "いわくずし",
+    "name": "ロックスライド",
     "type": "Ground",
     "category": "Special",
     "power": 70,
@@ -2802,7 +2802,7 @@
   },
   {
     "id": "MV_264",
-    "name": "だいちのいかり",
+    "name": "アースラース",
     "type": "Ground",
     "category": "Special",
     "power": 85,
@@ -2812,7 +2812,7 @@
   },
   {
     "id": "MV_265",
-    "name": "ちかくへんどう",
+    "name": "テクトニックシフト",
     "type": "Ground",
     "category": "Special",
     "power": 110,
@@ -2822,7 +2822,7 @@
   },
   {
     "id": "MV_266",
-    "name": "だいちげきしん",
+    "name": "アースクエイク",
     "type": "Ground",
     "category": "Special",
     "power": 110,
@@ -2832,7 +2832,7 @@
   },
   {
     "id": "MV_267",
-    "name": "いわなげ",
+    "name": "ロックスロー",
     "type": "Ground",
     "category": "Special",
     "power": 35,
@@ -2842,7 +2842,7 @@
   },
   {
     "id": "MV_268",
-    "name": "すなあらしげき",
+    "name": "サンドストームストライク",
     "type": "Ground",
     "category": "Special",
     "power": 65,
@@ -2857,7 +2857,7 @@
   },
   {
     "id": "MV_269",
-    "name": "じめんつきあげ",
+    "name": "グラウンドヒーヴ",
     "type": "Ground",
     "category": "Special",
     "power": 40,
@@ -2867,7 +2867,7 @@
   },
   {
     "id": "MV_270",
-    "name": "がんせきなだれ",
+    "name": "ロックアバランチ",
     "type": "Ground",
     "category": "Special",
     "power": 75,
@@ -2877,7 +2877,7 @@
   },
   {
     "id": "MV_271",
-    "name": "どりゅうげき",
+    "name": "モールストライク",
     "type": "Ground",
     "category": "Special",
     "power": 60,
@@ -2887,7 +2887,7 @@
   },
   {
     "id": "MV_272",
-    "name": "えいがんづき",
+    "name": "シャープロックスラスト",
     "type": "Ground",
     "category": "Physical",
     "power": 60,
@@ -2898,7 +2898,7 @@
   },
   {
     "id": "MV_273",
-    "name": "さじんのかた",
+    "name": "サンドダストスタンス",
     "type": "Ground",
     "category": "Status",
     "power": 0,
@@ -2910,7 +2910,7 @@
   },
   {
     "id": "MV_274",
-    "name": "がんばんわり",
+    "name": "ベッドロックブレイク",
     "type": "Ground",
     "category": "Physical",
     "power": 70,
@@ -2921,7 +2921,7 @@
   },
   {
     "id": "MV_275",
-    "name": "おおいわおとし",
+    "name": "ボルダードロップ",
     "type": "Ground",
     "category": "Special",
     "power": 90,
@@ -2931,7 +2931,7 @@
   },
   {
     "id": "MV_276",
-    "name": "ちれつざん",
+    "name": "アースレンドスラッシュ",
     "type": "Ground",
     "category": "Special",
     "power": 70,
@@ -2942,7 +2942,7 @@
   },
   {
     "id": "MV_277",
-    "name": "さだん",
+    "name": "サンドバレット",
     "type": "Ground",
     "category": "Special",
     "power": 25,
@@ -2956,7 +2956,7 @@
   },
   {
     "id": "MV_278",
-    "name": "がんかいほう",
+    "name": "ボルダーカノン",
     "type": "Ground",
     "category": "Special",
     "power": 75,
@@ -2966,7 +2966,7 @@
   },
   {
     "id": "MV_279",
-    "name": "ほうがんげき",
+    "name": "コラプスロックストライク",
     "type": "Ground",
     "category": "Special",
     "power": 120,
@@ -2977,7 +2977,7 @@
   },
   {
     "id": "MV_280",
-    "name": "すなしばり",
+    "name": "サンドバインド",
     "type": "Ground",
     "category": "Special",
     "power": 20,
@@ -2991,7 +2991,7 @@
   },
   {
     "id": "MV_281",
-    "name": "はのやいば",
+    "name": "リーフブレード",
     "type": "Grass",
     "category": "Physical",
     "power": 35,
@@ -3002,7 +3002,7 @@
   },
   {
     "id": "MV_282",
-    "name": "たねうち",
+    "name": "シードショット",
     "type": "Grass",
     "category": "Physical",
     "power": 40,
@@ -3013,7 +3013,7 @@
   },
   {
     "id": "MV_283",
-    "name": "つるむち",
+    "name": "ヴァインウィップ",
     "type": "Grass",
     "category": "Physical",
     "power": 45,
@@ -3034,7 +3034,7 @@
   },
   {
     "id": "MV_285",
-    "name": "くさむすび",
+    "name": "グラスノット",
     "type": "Grass",
     "category": "Special",
     "power": 25,
@@ -3047,7 +3047,7 @@
   },
   {
     "id": "MV_286",
-    "name": "はなふぶき",
+    "name": "ペタルブリザード",
     "type": "Grass",
     "category": "Special",
     "power": 60,
@@ -3057,7 +3057,7 @@
   },
   {
     "id": "MV_287",
-    "name": "つたしばり",
+    "name": "アイビーバインド",
     "type": "Grass",
     "category": "Physical",
     "power": 55,
@@ -3090,7 +3090,7 @@
   },
   {
     "id": "MV_290",
-    "name": "こうごうせいほう",
+    "name": "フォトシンセシスカノン",
     "type": "Grass",
     "category": "Special",
     "power": 100,
@@ -3100,7 +3100,7 @@
   },
   {
     "id": "MV_291",
-    "name": "たいじゅのいちげき",
+    "name": "グレートツリーインパクト",
     "type": "Grass",
     "category": "Special",
     "power": 115,
@@ -3111,7 +3111,7 @@
   },
   {
     "id": "MV_292",
-    "name": "しんらのいかり",
+    "name": "フォレストラース",
     "type": "Grass",
     "category": "Special",
     "power": 125,
@@ -3122,7 +3122,7 @@
   },
   {
     "id": "MV_293",
-    "name": "ようじんれんげき",
+    "name": "リーフブレードコンボ",
     "type": "Grass",
     "category": "Special",
     "power": 50,
@@ -3132,7 +3132,7 @@
   },
   {
     "id": "MV_294",
-    "name": "ねうがち",
+    "name": "ルートピアス",
     "type": "Grass",
     "category": "Special",
     "power": 60,
@@ -3142,7 +3142,7 @@
   },
   {
     "id": "MV_295",
-    "name": "かふんばくはつ",
+    "name": "ポレンバースト",
     "type": "Grass",
     "category": "Special",
     "power": 75,
@@ -3152,7 +3152,7 @@
   },
   {
     "id": "MV_296",
-    "name": "いばらのむち",
+    "name": "ブライアウィップ",
     "type": "Grass",
     "category": "Physical",
     "power": 60,
@@ -3163,7 +3163,7 @@
   },
   {
     "id": "MV_297",
-    "name": "じゅもくげき",
+    "name": "ティンバーストライク",
     "type": "Grass",
     "category": "Physical",
     "power": 70,
@@ -3174,7 +3174,7 @@
   },
   {
     "id": "MV_298",
-    "name": "れんしゃしゅだん",
+    "name": "シードバラージ",
     "type": "Grass",
     "category": "Special",
     "power": 40,
@@ -3184,7 +3184,7 @@
   },
   {
     "id": "MV_299",
-    "name": "せいめいのかた",
+    "name": "ライフスタンス",
     "type": "Grass",
     "category": "Status",
     "power": 0,
@@ -3196,7 +3196,7 @@
   },
   {
     "id": "MV_300",
-    "name": "はがくれ",
+    "name": "リーフハイドスタンス",
     "type": "Grass",
     "category": "Status",
     "power": 0,
@@ -3208,7 +3208,7 @@
   },
   {
     "id": "mvn_001",
-    "name": "はっこう",
+    "name": "ホワイトライト",
     "type": "Neutral",
     "category": "Special",
     "power": 15,
@@ -3220,7 +3220,7 @@
   },
   {
     "id": "mvn_002",
-    "name": "むそう",
+    "name": "マッチレス",
     "type": "Neutral",
     "category": "Special",
     "power": 20,
@@ -3232,7 +3232,7 @@
   },
   {
     "id": "mvn_003",
-    "name": "くうめい",
+    "name": "ヴォイドエコー",
     "type": "Neutral",
     "category": "Special",
     "power": 30,
@@ -3244,7 +3244,7 @@
   },
   {
     "id": "mvn_004",
-    "name": "そげき",
+    "name": "ベアストライク",
     "type": "Neutral",
     "category": "Special",
     "power": 30,
@@ -3256,7 +3256,7 @@
   },
   {
     "id": "mvn_005",
-    "name": "ちゅうよう",
+    "name": "モデレート",
     "type": "Neutral",
     "category": "Special",
     "power": 40,
@@ -3268,7 +3268,7 @@
   },
   {
     "id": "mvn_006",
-    "name": "むしん",
+    "name": "マインドレス",
     "type": "Neutral",
     "category": "Special",
     "power": 45,
@@ -3280,7 +3280,7 @@
   },
   {
     "id": "mvn_007",
-    "name": "はくじん",
+    "name": "ベアブレード",
     "type": "Neutral",
     "category": "Special",
     "power": 55,
@@ -3290,7 +3290,7 @@
   },
   {
     "id": "mvn_008",
-    "name": "ぼくとつ",
+    "name": "ブラント",
     "type": "Neutral",
     "category": "Special",
     "power": 60,
@@ -3302,7 +3302,7 @@
   },
   {
     "id": "mvn_009",
-    "name": "むみょう",
+    "name": "ブラインド",
     "type": "Neutral",
     "category": "Special",
     "power": 60,
@@ -3314,7 +3314,7 @@
   },
   {
     "id": "mvn_010",
-    "name": "せいは",
+    "name": "サイレントブレイク",
     "type": "Neutral",
     "category": "Special",
     "power": 65,
@@ -3324,7 +3324,7 @@
   },
   {
     "id": "mvn_011",
-    "name": "じゅんだ",
+    "name": "ピュアブロー",
     "type": "Neutral",
     "category": "Special",
     "power": 75,
@@ -3334,7 +3334,7 @@
   },
   {
     "id": "mvn_012",
-    "name": "ぐれん",
+    "name": "クリムゾン",
     "type": "Fire",
     "category": "Special",
     "power": 15,
@@ -3346,7 +3346,7 @@
   },
   {
     "id": "mvn_013",
-    "name": "しょうねつ",
+    "name": "スコーチ",
     "type": "Fire",
     "category": "Special",
     "power": 20,
@@ -3358,7 +3358,7 @@
   },
   {
     "id": "mvn_014",
-    "name": "りんか",
+    "name": "フォスファー",
     "type": "Fire",
     "category": "Special",
     "power": 25,
@@ -3370,7 +3370,7 @@
   },
   {
     "id": "mvn_015",
-    "name": "あぶり",
+    "name": "ロースト",
     "type": "Fire",
     "category": "Special",
     "power": 35,
@@ -3382,7 +3382,7 @@
   },
   {
     "id": "mvn_016",
-    "name": "しゃく",
+    "name": "シアー",
     "type": "Fire",
     "category": "Special",
     "power": 40,
@@ -3394,7 +3394,7 @@
   },
   {
     "id": "mvn_017",
-    "name": "おきび",
+    "name": "エンバー",
     "type": "Fire",
     "category": "Special",
     "power": 45,
@@ -3406,7 +3406,7 @@
   },
   {
     "id": "mvn_018",
-    "name": "ほむら",
+    "name": "フレイム",
     "type": "Fire",
     "category": "Special",
     "power": 50,
@@ -3416,7 +3416,7 @@
   },
   {
     "id": "mvn_019",
-    "name": "えんじん",
+    "name": "フレイムアレイ",
     "type": "Fire",
     "category": "Special",
     "power": 50,
@@ -3428,7 +3428,7 @@
   },
   {
     "id": "mvn_020",
-    "name": "ごうえん",
+    "name": "ヘルフレイム",
     "type": "Fire",
     "category": "Special",
     "power": 55,
@@ -3440,7 +3440,7 @@
   },
   {
     "id": "mvn_021",
-    "name": "かぐん",
+    "name": "フレイムスウォーム",
     "type": "Fire",
     "category": "Special",
     "power": 60,
@@ -3450,7 +3450,7 @@
   },
   {
     "id": "mvn_022",
-    "name": "たんか",
+    "name": "カーボナイズ",
     "type": "Fire",
     "category": "Special",
     "power": 55,
@@ -3460,7 +3460,7 @@
   },
   {
     "id": "mvn_023",
-    "name": "せいりゅう",
+    "name": "クリアストリーム",
     "type": "Water",
     "category": "Special",
     "power": 15,
@@ -3472,7 +3472,7 @@
   },
   {
     "id": "mvn_024",
-    "name": "みずかがみ",
+    "name": "ミラーウォーター",
     "type": "Water",
     "category": "Special",
     "power": 20,
@@ -3484,7 +3484,7 @@
   },
   {
     "id": "mvn_025",
-    "name": "しおさい",
+    "name": "サーフサウンド",
     "type": "Water",
     "category": "Special",
     "power": 25,
@@ -3496,7 +3496,7 @@
   },
   {
     "id": "mvn_026",
-    "name": "てきげき",
+    "name": "ドロップストライク",
     "type": "Water",
     "category": "Special",
     "power": 30,
@@ -3508,7 +3508,7 @@
   },
   {
     "id": "mvn_027",
-    "name": "すいもん",
+    "name": "ウォーターリング",
     "type": "Water",
     "category": "Special",
     "power": 40,
@@ -3520,7 +3520,7 @@
   },
   {
     "id": "mvn_028",
-    "name": "ひまつ",
+    "name": "スプラッシュ",
     "type": "Water",
     "category": "Special",
     "power": 45,
@@ -3532,7 +3532,7 @@
   },
   {
     "id": "mvn_029",
-    "name": "すいみゃく",
+    "name": "ウォーターヴェイン",
     "type": "Water",
     "category": "Special",
     "power": 45,
@@ -3542,7 +3542,7 @@
   },
   {
     "id": "mvn_030",
-    "name": "へきは",
+    "name": "アズールウェーブ",
     "type": "Water",
     "category": "Special",
     "power": 50,
@@ -3554,7 +3554,7 @@
   },
   {
     "id": "mvn_031",
-    "name": "しずくだん",
+    "name": "ドロップレット",
     "type": "Water",
     "category": "Special",
     "power": 50,
@@ -3566,7 +3566,7 @@
   },
   {
     "id": "mvn_032",
-    "name": "すいい",
+    "name": "アクアヴェール",
     "type": "Water",
     "category": "Special",
     "power": 65,
@@ -3576,7 +3576,7 @@
   },
   {
     "id": "mvn_033",
-    "name": "さざなみ",
+    "name": "リップル",
     "type": "Water",
     "category": "Special",
     "power": 70,
@@ -3586,7 +3586,7 @@
   },
   {
     "id": "mvn_034",
-    "name": "しでん",
+    "name": "バイオレットボルト",
     "type": "Electric",
     "category": "Special",
     "power": 15,
@@ -3598,7 +3598,7 @@
   },
   {
     "id": "mvn_035",
-    "name": "らいめい",
+    "name": "サンダーロア",
     "type": "Electric",
     "category": "Special",
     "power": 15,
@@ -3610,7 +3610,7 @@
   },
   {
     "id": "mvn_036",
-    "name": "でんこう",
+    "name": "フラッシュボルト",
     "type": "Electric",
     "category": "Special",
     "power": 25,
@@ -3622,7 +3622,7 @@
   },
   {
     "id": "mvn_037",
-    "name": "たいらい",
+    "name": "ボルトチャージ",
     "type": "Electric",
     "category": "Special",
     "power": 30,
@@ -3634,7 +3634,7 @@
   },
   {
     "id": "mvn_038",
-    "name": "じんらい",
+    "name": "スイフトボルト",
     "type": "Electric",
     "category": "Special",
     "power": 40,
@@ -3646,7 +3646,7 @@
   },
   {
     "id": "mvn_039",
-    "name": "らいもん",
+    "name": "ボルトリング",
     "type": "Electric",
     "category": "Special",
     "power": 50,
@@ -3658,7 +3658,7 @@
   },
   {
     "id": "mvn_040",
-    "name": "らいせき",
+    "name": "ボルトトレイル",
     "type": "Electric",
     "category": "Special",
     "power": 45,
@@ -3668,7 +3668,7 @@
   },
   {
     "id": "mvn_041",
-    "name": "せいでん",
+    "name": "スタティック",
     "type": "Electric",
     "category": "Special",
     "power": 55,
@@ -3680,7 +3680,7 @@
   },
   {
     "id": "mvn_042",
-    "name": "らいしん",
+    "name": "ボルトコア",
     "type": "Electric",
     "category": "Special",
     "power": 55,
@@ -3692,7 +3692,7 @@
   },
   {
     "id": "mvn_043",
-    "name": "でんせん",
+    "name": "ボルトフラッシュ",
     "type": "Electric",
     "category": "Special",
     "power": 60,
@@ -3702,7 +3702,7 @@
   },
   {
     "id": "mvn_044",
-    "name": "らいりゅう",
+    "name": "ボルトグレイン",
     "type": "Electric",
     "category": "Special",
     "power": 70,
@@ -3712,7 +3712,7 @@
   },
   {
     "id": "mvn_045",
-    "name": "どかい",
+    "name": "クロッド",
     "type": "Ground",
     "category": "Special",
     "power": 15,
@@ -3724,7 +3724,7 @@
   },
   {
     "id": "mvn_046",
-    "name": "がんばん",
+    "name": "ベッドロック",
     "type": "Ground",
     "category": "Special",
     "power": 15,
@@ -3736,7 +3736,7 @@
   },
   {
     "id": "mvn_047",
-    "name": "ちみゃく",
+    "name": "レイライン",
     "type": "Ground",
     "category": "Special",
     "power": 25,
@@ -3748,7 +3748,7 @@
   },
   {
     "id": "mvn_048",
-    "name": "さいど",
+    "name": "クラッシュソイル",
     "type": "Ground",
     "category": "Special",
     "power": 30,
@@ -3760,7 +3760,7 @@
   },
   {
     "id": "mvn_049",
-    "name": "ちい",
+    "name": "アースヴェール",
     "type": "Ground",
     "category": "Special",
     "power": 40,
@@ -3772,7 +3772,7 @@
   },
   {
     "id": "mvn_050",
-    "name": "がんぺん",
+    "name": "ロックシャード",
     "type": "Ground",
     "category": "Special",
     "power": 45,
@@ -3784,7 +3784,7 @@
   },
   {
     "id": "mvn_051",
-    "name": "つちかべ",
+    "name": "アースウォール",
     "type": "Ground",
     "category": "Special",
     "power": 50,
@@ -3794,7 +3794,7 @@
   },
   {
     "id": "mvn_052",
-    "name": "じがため",
+    "name": "ハードグラウンド",
     "type": "Ground",
     "category": "Special",
     "power": 50,
@@ -3806,7 +3806,7 @@
   },
   {
     "id": "mvn_053",
-    "name": "れきだ",
+    "name": "ペブルブロー",
     "type": "Ground",
     "category": "Special",
     "power": 55,
@@ -3818,7 +3818,7 @@
   },
   {
     "id": "mvn_054",
-    "name": "じもん",
+    "name": "アースリング",
     "type": "Ground",
     "category": "Special",
     "power": 60,
@@ -3828,7 +3828,7 @@
   },
   {
     "id": "mvn_055",
-    "name": "けんど",
+    "name": "ソリッドソイル",
     "type": "Ground",
     "category": "Special",
     "power": 55,
@@ -3838,7 +3838,7 @@
   },
   {
     "id": "mvn_056",
-    "name": "りょくよう",
+    "name": "グリーンリーフ",
     "type": "Grass",
     "category": "Special",
     "power": 15,
@@ -3849,7 +3849,7 @@
   },
   {
     "id": "mvn_057",
-    "name": "つたげき",
+    "name": "アイビーストライク",
     "type": "Grass",
     "category": "Special",
     "power": 15,
@@ -3860,7 +3860,7 @@
   },
   {
     "id": "mvn_058",
-    "name": "ようみゃく",
+    "name": "リーフヴェイン",
     "type": "Grass",
     "category": "Special",
     "power": 20,
@@ -3871,7 +3871,7 @@
   },
   {
     "id": "mvn_059",
-    "name": "わかば",
+    "name": "フレッシュリーフ",
     "type": "Grass",
     "category": "Special",
     "power": 30,
@@ -3882,7 +3882,7 @@
   },
   {
     "id": "mvn_060",
-    "name": "そうもん",
+    "name": "グラスリング",
     "type": "Grass",
     "category": "Special",
     "power": 25,
@@ -3893,7 +3893,7 @@
   },
   {
     "id": "mvn_061",
-    "name": "あおば",
+    "name": "ヴァーダントリーフ",
     "type": "Grass",
     "category": "Special",
     "power": 45,
@@ -3904,7 +3904,7 @@
   },
   {
     "id": "mvn_062",
-    "name": "はむら",
+    "name": "リーフスウォーム",
     "type": "Grass",
     "category": "Special",
     "power": 50,
@@ -3914,7 +3914,7 @@
   },
   {
     "id": "mvn_063",
-    "name": "そうい",
+    "name": "グラスヴェール",
     "type": "Grass",
     "category": "Special",
     "power": 55,
@@ -3925,7 +3925,7 @@
   },
   {
     "id": "mvn_064",
-    "name": "つるだ",
+    "name": "ヴァインブロー",
     "type": "Grass",
     "category": "Special",
     "power": 55,
@@ -3936,7 +3936,7 @@
   },
   {
     "id": "mvn_065",
-    "name": "りょくじん",
+    "name": "グリーンアレイ",
     "type": "Grass",
     "category": "Special",
     "power": 65,
@@ -3946,7 +3946,7 @@
   },
   {
     "id": "mvn_066",
-    "name": "はがくれのかまえ",
+    "name": "リーフハイド",
     "type": "Grass",
     "category": "Special",
     "power": 70,
@@ -3956,7 +3956,7 @@
   },
   {
     "id": "mvn_067",
-    "name": "はくひょう",
+    "name": "ホワイトアイス",
     "type": "Ice",
     "category": "Special",
     "power": 15,
@@ -3968,7 +3968,7 @@
   },
   {
     "id": "mvn_068",
-    "name": "ひょうけつ",
+    "name": "フリーズ",
     "type": "Ice",
     "category": "Special",
     "power": 20,
@@ -3980,7 +3980,7 @@
   },
   {
     "id": "mvn_069",
-    "name": "そうげき",
+    "name": "フロストストライク",
     "type": "Ice",
     "category": "Special",
     "power": 25,
@@ -3992,7 +3992,7 @@
   },
   {
     "id": "mvn_070",
-    "name": "ひょうもん",
+    "name": "アイスリング",
     "type": "Ice",
     "category": "Special",
     "power": 35,
@@ -4004,7 +4004,7 @@
   },
   {
     "id": "mvn_071",
-    "name": "れいきだん",
+    "name": "チルバレット",
     "type": "Ice",
     "category": "Special",
     "power": 35,
@@ -4016,7 +4016,7 @@
   },
   {
     "id": "mvn_072",
-    "name": "ひょうへん",
+    "name": "アイスシャード",
     "type": "Ice",
     "category": "Special",
     "power": 40,
@@ -4028,7 +4028,7 @@
   },
   {
     "id": "mvn_073",
-    "name": "とううん",
+    "name": "フローズンクラウド",
     "type": "Ice",
     "category": "Special",
     "power": 45,
@@ -4038,7 +4038,7 @@
   },
   {
     "id": "mvn_074",
-    "name": "ひょうい",
+    "name": "アイスヴェール",
     "type": "Ice",
     "category": "Special",
     "power": 45,
@@ -4050,7 +4050,7 @@
   },
   {
     "id": "mvn_075",
-    "name": "そうか",
+    "name": "フロストブロッサム",
     "type": "Ice",
     "category": "Special",
     "power": 50,
@@ -4062,7 +4062,7 @@
   },
   {
     "id": "mvn_076",
-    "name": "ひょうしん",
+    "name": "アイスコア",
     "type": "Ice",
     "category": "Special",
     "power": 55,
@@ -4072,7 +4072,7 @@
   },
   {
     "id": "mvn_077",
-    "name": "れいげき",
+    "name": "コールドストライク",
     "type": "Ice",
     "category": "Special",
     "power": 65,
@@ -4082,7 +4082,7 @@
   },
   {
     "id": "mvn_078",
-    "name": "りゅうが",
+    "name": "ドラゴンファング",
     "type": "Dragon",
     "category": "Special",
     "power": 15,
@@ -4094,7 +4094,7 @@
   },
   {
     "id": "mvn_079",
-    "name": "りゅうりんげき",
+    "name": "ドラゴンスケイルストライク",
     "type": "Dragon",
     "category": "Special",
     "power": 25,
@@ -4106,7 +4106,7 @@
   },
   {
     "id": "mvn_080",
-    "name": "りゅうみゃくだ",
+    "name": "ドラゴンヴェインショット",
     "type": "Dragon",
     "category": "Special",
     "power": 30,
@@ -4118,7 +4118,7 @@
   },
   {
     "id": "mvn_081",
-    "name": "りゅうそくだん",
+    "name": "ドラゴンブレスバレット",
     "type": "Dragon",
     "category": "Special",
     "power": 40,
@@ -4131,7 +4131,7 @@
   },
   {
     "id": "mvn_082",
-    "name": "りゅうそう",
+    "name": "ドラゴンクロー",
     "type": "Dragon",
     "category": "Special",
     "power": 30,
@@ -4144,7 +4144,7 @@
   },
   {
     "id": "mvn_083",
-    "name": "りゅうもん",
+    "name": "ドラゴンリング",
     "type": "Dragon",
     "category": "Special",
     "power": 45,
@@ -4156,7 +4156,7 @@
   },
   {
     "id": "mvn_084",
-    "name": "りゅうい",
+    "name": "ドラゴンヴェール",
     "type": "Dragon",
     "category": "Special",
     "power": 50,
@@ -4166,7 +4166,7 @@
   },
   {
     "id": "mvn_085",
-    "name": "りゅうせい",
+    "name": "ドラゴンヴォイス",
     "type": "Dragon",
     "category": "Special",
     "power": 50,
@@ -4178,7 +4178,7 @@
   },
   {
     "id": "mvn_086",
-    "name": "りゅうせん",
+    "name": "ドラゴンピアス",
     "type": "Dragon",
     "category": "Special",
     "power": 55,
@@ -4190,7 +4190,7 @@
   },
   {
     "id": "mvn_087",
-    "name": "りゅうりん",
+    "name": "ドラゴンフォスファー",
     "type": "Dragon",
     "category": "Special",
     "power": 55,
@@ -4200,7 +4200,7 @@
   },
   {
     "id": "mvn_088",
-    "name": "りゅうしん",
+    "name": "ドラゴンハート",
     "type": "Dragon",
     "category": "Special",
     "power": 65,
@@ -4210,7 +4210,7 @@
   },
   {
     "id": "mvn_089",
-    "name": "こくむ",
+    "name": "ブラックミスト",
     "type": "Dark",
     "category": "Special",
     "power": 15,
@@ -4222,7 +4222,7 @@
   },
   {
     "id": "mvn_090",
-    "name": "えいげき",
+    "name": "シャドウストライク",
     "type": "Dark",
     "category": "Special",
     "power": 15,
@@ -4234,7 +4234,7 @@
   },
   {
     "id": "mvn_091",
-    "name": "じゅだ",
+    "name": "カースブロー",
     "type": "Dark",
     "category": "Special",
     "power": 35,
@@ -4246,7 +4246,7 @@
   },
   {
     "id": "mvn_092",
-    "name": "こんこく",
+    "name": "ダークネス",
     "type": "Dark",
     "category": "Special",
     "power": 20,
@@ -4258,7 +4258,7 @@
   },
   {
     "id": "mvn_093",
-    "name": "あんもん",
+    "name": "ダークリング",
     "type": "Dark",
     "category": "Special",
     "power": 45,
@@ -4270,7 +4270,7 @@
   },
   {
     "id": "mvn_094",
-    "name": "えいだん",
+    "name": "シャドウバレット",
     "type": "Dark",
     "category": "Special",
     "power": 45,
@@ -4282,7 +4282,7 @@
   },
   {
     "id": "mvn_095",
-    "name": "こくい",
+    "name": "ブラックヴェール",
     "type": "Dark",
     "category": "Special",
     "power": 50,
@@ -4294,7 +4294,7 @@
   },
   {
     "id": "mvn_096",
-    "name": "じゅえい",
+    "name": "カースシャドウ",
     "type": "Dark",
     "category": "Special",
     "power": 60,
@@ -4304,7 +4304,7 @@
   },
   {
     "id": "mvn_097",
-    "name": "あんげき",
+    "name": "ダークストライク",
     "type": "Dark",
     "category": "Special",
     "power": 50,
@@ -4316,7 +4316,7 @@
   },
   {
     "id": "mvn_098",
-    "name": "あんい",
+    "name": "ダークヴェール",
     "type": "Dark",
     "category": "Special",
     "power": 60,
@@ -4328,7 +4328,7 @@
   },
   {
     "id": "mvn_099",
-    "name": "えいじん",
+    "name": "シャドウアレイ",
     "type": "Dark",
     "category": "Special",
     "power": 55,
@@ -4338,7 +4338,7 @@
   },
   {
     "id": "mvn_100",
-    "name": "こくねん",
+    "name": "ブラックソート",
     "type": "Dark",
     "category": "Special",
     "power": 70,
@@ -4348,7 +4348,7 @@
   },
   {
     "id": "bakugeki",
-    "name": "ばくげき",
+    "name": "ボムレイド",
     "type": "Dragon",
     "category": "Physical",
     "power": 120,
@@ -4360,7 +4360,7 @@
   },
   {
     "id": "mizutamari",
-    "name": "みずたまり",
+    "name": "パドル",
     "type": "Water",
     "category": "Status",
     "power": 0,
@@ -4386,7 +4386,7 @@
   },
   {
     "id": "moudoku_no_kiri",
-    "name": "もうどくのきり",
+    "name": "トキシックミスト",
     "type": "Grass",
     "category": "Status",
     "power": 0,
@@ -4399,7 +4399,7 @@
   },
   {
     "id": "usurahi_no_ue",
-    "name": "うすらひのうえ",
+    "name": "シンアイス",
     "type": "Ice",
     "category": "Status",
     "power": 0,
@@ -4425,7 +4425,7 @@
   },
   {
     "id": "jiware",
-    "name": "じわれ",
+    "name": "フィッシャー",
     "type": "Ground",
     "category": "Status",
     "power": 0,
@@ -4438,7 +4438,7 @@
   },
   {
     "id": "gekiryuu",
-    "name": "げきりゅう",
+    "name": "レイジングトレント",
     "type": "Dragon",
     "category": "Status",
     "power": 0,
@@ -4451,7 +4451,7 @@
   },
   {
     "id": "MVP_001",
-    "name": "はくげき",
+    "name": "ホワイトストライク",
     "type": "Neutral",
     "category": "Physical",
     "power": 30,
@@ -4464,7 +4464,7 @@
   },
   {
     "id": "MVP_002",
-    "name": "むそうだ",
+    "name": "マッチレスブロー",
     "type": "Neutral",
     "category": "Physical",
     "power": 50,
@@ -4477,7 +4477,7 @@
   },
   {
     "id": "MVP_003",
-    "name": "くうさい",
+    "name": "ヴォイドクラッシュ",
     "type": "Neutral",
     "category": "Physical",
     "power": 55,
@@ -4490,7 +4490,7 @@
   },
   {
     "id": "MVP_004",
-    "name": "そおう",
+    "name": "ベアパンチ",
     "type": "Neutral",
     "category": "Physical",
     "power": 60,
@@ -4503,7 +4503,7 @@
   },
   {
     "id": "MVP_005",
-    "name": "ちゅうようけん",
+    "name": "モデレートフィスト",
     "type": "Neutral",
     "category": "Physical",
     "power": 65,
@@ -4515,7 +4515,7 @@
   },
   {
     "id": "MVP_006",
-    "name": "むしんだ",
+    "name": "マインドレスブロー",
     "type": "Neutral",
     "category": "Physical",
     "power": 70,
@@ -4528,7 +4528,7 @@
   },
   {
     "id": "MVP_007",
-    "name": "はくじんおう",
+    "name": "ベアブレードパンチ",
     "type": "Neutral",
     "category": "Physical",
     "power": 70,
@@ -4541,7 +4541,7 @@
   },
   {
     "id": "MVP_008",
-    "name": "ぼくだ",
+    "name": "プレーンブロー",
     "type": "Neutral",
     "category": "Physical",
     "power": 75,
@@ -4554,7 +4554,7 @@
   },
   {
     "id": "MVP_009",
-    "name": "むみょうげき",
+    "name": "ブラインドストライク",
     "type": "Neutral",
     "category": "Physical",
     "power": 75,
@@ -4567,7 +4567,7 @@
   },
   {
     "id": "MVP_010",
-    "name": "せいはけん",
+    "name": "サイレントブレイクフィスト",
     "type": "Neutral",
     "category": "Physical",
     "power": 80,
@@ -4579,7 +4579,7 @@
   },
   {
     "id": "MVP_011",
-    "name": "じゅんだげき",
+    "name": "ピュアインパクト",
     "type": "Neutral",
     "category": "Physical",
     "power": 80,
@@ -4592,7 +4592,7 @@
   },
   {
     "id": "MVP_012",
-    "name": "むきょくおう",
+    "name": "リミットレスパンチ",
     "type": "Neutral",
     "category": "Physical",
     "power": 85,
@@ -4605,7 +4605,7 @@
   },
   {
     "id": "MVP_013",
-    "name": "はくせん",
+    "name": "ホワイトフラッシュ",
     "type": "Neutral",
     "category": "Physical",
     "power": 85,
@@ -4618,7 +4618,7 @@
   },
   {
     "id": "MVP_014",
-    "name": "むそうとつ",
+    "name": "ソートレススラスト",
     "type": "Neutral",
     "category": "Physical",
     "power": 90,
@@ -4631,7 +4631,7 @@
   },
   {
     "id": "MVP_015",
-    "name": "くうれつ",
+    "name": "ヴォイドレンド",
     "type": "Neutral",
     "category": "Physical",
     "power": 90,
@@ -4642,7 +4642,7 @@
   },
   {
     "id": "MVP_016",
-    "name": "そだ",
+    "name": "ベアブロー",
     "type": "Neutral",
     "category": "Physical",
     "power": 95,
@@ -4655,7 +4655,7 @@
   },
   {
     "id": "MVP_017",
-    "name": "ちゅうげき",
+    "name": "ミドルストライク",
     "type": "Neutral",
     "category": "Physical",
     "power": 95,
@@ -4668,7 +4668,7 @@
   },
   {
     "id": "MVP_018",
-    "name": "むしんけん",
+    "name": "マインドレスフィスト",
     "type": "Neutral",
     "category": "Physical",
     "power": 110,
@@ -4680,7 +4680,7 @@
   },
   {
     "id": "MVP_019",
-    "name": "はくさいおう",
+    "name": "ホワイトクラッシャー",
     "type": "Neutral",
     "category": "Physical",
     "power": 115,
@@ -4691,7 +4691,7 @@
   },
   {
     "id": "MVP_020",
-    "name": "むきょくだ",
+    "name": "リミットレスブロー",
     "type": "Neutral",
     "category": "Physical",
     "power": 120,
@@ -4702,7 +4702,7 @@
   },
   {
     "id": "MVP_021",
-    "name": "ぐれんげき",
+    "name": "クリムゾンストライク",
     "type": "Fire",
     "category": "Physical",
     "power": 35,
@@ -4715,7 +4715,7 @@
   },
   {
     "id": "MVP_022",
-    "name": "しょうねつけん",
+    "name": "スコーチフィスト",
     "type": "Fire",
     "category": "Physical",
     "power": 40,
@@ -4729,7 +4729,7 @@
   },
   {
     "id": "MVP_023",
-    "name": "りんかだ",
+    "name": "フォスファーブロー",
     "type": "Fire",
     "category": "Physical",
     "power": 40,
@@ -4742,7 +4742,7 @@
   },
   {
     "id": "MVP_024",
-    "name": "あぶりおう",
+    "name": "ロースパンチ",
     "type": "Fire",
     "category": "Physical",
     "power": 45,
@@ -4755,7 +4755,7 @@
   },
   {
     "id": "MVP_025",
-    "name": "しゃくねつとつ",
+    "name": "シアリングスラスト",
     "type": "Fire",
     "category": "Physical",
     "power": 60,
@@ -4766,7 +4766,7 @@
   },
   {
     "id": "MVP_026",
-    "name": "おきびけん",
+    "name": "エンバーフィスト",
     "type": "Fire",
     "category": "Physical",
     "power": 70,
@@ -4780,7 +4780,7 @@
   },
   {
     "id": "MVP_027",
-    "name": "ほむらげき",
+    "name": "フレイムストライク",
     "type": "Fire",
     "category": "Physical",
     "power": 70,
@@ -4793,7 +4793,7 @@
   },
   {
     "id": "MVP_028",
-    "name": "えんじんだ",
+    "name": "フレイムアレイブロー",
     "type": "Fire",
     "category": "Physical",
     "power": 75,
@@ -4806,7 +4806,7 @@
   },
   {
     "id": "MVP_029",
-    "name": "ごうえんおう",
+    "name": "ヘルフレイムパンチ",
     "type": "Fire",
     "category": "Physical",
     "power": 75,
@@ -4819,7 +4819,7 @@
   },
   {
     "id": "MVP_030",
-    "name": "かぐんとつ",
+    "name": "フレイムスウォームスラスト",
     "type": "Fire",
     "category": "Physical",
     "power": 80,
@@ -4830,7 +4830,7 @@
   },
   {
     "id": "MVP_031",
-    "name": "たんかけん",
+    "name": "カーボナイズフィスト",
     "type": "Fire",
     "category": "Physical",
     "power": 80,
@@ -4844,7 +4844,7 @@
   },
   {
     "id": "MVP_032",
-    "name": "れつえんげき",
+    "name": "ワイルドフレイムストライク",
     "type": "Fire",
     "category": "Physical",
     "power": 85,
@@ -4857,7 +4857,7 @@
   },
   {
     "id": "MVP_033",
-    "name": "ぐれんおう",
+    "name": "クリムゾンパンチ",
     "type": "Fire",
     "category": "Physical",
     "power": 85,
@@ -4870,7 +4870,7 @@
   },
   {
     "id": "MVP_034",
-    "name": "しょうねつだ",
+    "name": "スコーチブロー",
     "type": "Fire",
     "category": "Physical",
     "power": 90,
@@ -4883,7 +4883,7 @@
   },
   {
     "id": "MVP_035",
-    "name": "しゃくれつとつ",
+    "name": "バーストヒートスラスト",
     "type": "Fire",
     "category": "Physical",
     "power": 90,
@@ -4894,7 +4894,7 @@
   },
   {
     "id": "MVP_036",
-    "name": "しえんけん",
+    "name": "エンバーフレイムフィスト",
     "type": "Fire",
     "category": "Physical",
     "power": 95,
@@ -4908,7 +4908,7 @@
   },
   {
     "id": "MVP_037",
-    "name": "えんがげき",
+    "name": "フレイムファングストライク",
     "type": "Fire",
     "category": "Physical",
     "power": 95,
@@ -4921,7 +4921,7 @@
   },
   {
     "id": "MVP_038",
-    "name": "ごうかおう",
+    "name": "ヘルファイアパンチ",
     "type": "Fire",
     "category": "Physical",
     "power": 110,
@@ -4932,7 +4932,7 @@
   },
   {
     "id": "MVP_039",
-    "name": "かぐんけん",
+    "name": "フレイムスウォームフィスト",
     "type": "Fire",
     "category": "Physical",
     "power": 115,
@@ -4944,7 +4944,7 @@
   },
   {
     "id": "MVP_040",
-    "name": "れっかとつ",
+    "name": "ワイルドファイアスラスト",
     "type": "Fire",
     "category": "Physical",
     "power": 120,
@@ -4955,7 +4955,7 @@
   },
   {
     "id": "MVP_041",
-    "name": "せいりゅうげき",
+    "name": "クリアストリームストライク",
     "type": "Water",
     "category": "Physical",
     "power": 40,
@@ -4969,7 +4969,7 @@
   },
   {
     "id": "MVP_042",
-    "name": "みずかがみだ",
+    "name": "ミラーウォーターブロー",
     "type": "Water",
     "category": "Physical",
     "power": 45,
@@ -4983,7 +4983,7 @@
   },
   {
     "id": "MVP_043",
-    "name": "しおさいけん",
+    "name": "サーフサウンドフィスト",
     "type": "Water",
     "category": "Physical",
     "power": 50,
@@ -4998,7 +4998,7 @@
   },
   {
     "id": "MVP_044",
-    "name": "てきげきおう",
+    "name": "ドロップストライクパンチ",
     "type": "Water",
     "category": "Physical",
     "power": 50,
@@ -5012,7 +5012,7 @@
   },
   {
     "id": "MVP_045",
-    "name": "すいもんとつ",
+    "name": "ウォーターリングスラスト",
     "type": "Water",
     "category": "Physical",
     "power": 65,
@@ -5023,7 +5023,7 @@
   },
   {
     "id": "MVP_046",
-    "name": "ひまつけん",
+    "name": "スプラッシュフィスト",
     "type": "Water",
     "category": "Physical",
     "power": 70,
@@ -5038,7 +5038,7 @@
   },
   {
     "id": "MVP_047",
-    "name": "すいみゃくげき",
+    "name": "ウォーターヴェインストライク",
     "type": "Water",
     "category": "Physical",
     "power": 70,
@@ -5052,7 +5052,7 @@
   },
   {
     "id": "MVP_048",
-    "name": "へきはだ",
+    "name": "アズールウェーブブロー",
     "type": "Water",
     "category": "Physical",
     "power": 75,
@@ -5066,7 +5066,7 @@
   },
   {
     "id": "MVP_049",
-    "name": "しずくだんおう",
+    "name": "ドロップレットパンチ",
     "type": "Water",
     "category": "Physical",
     "power": 75,
@@ -5080,7 +5080,7 @@
   },
   {
     "id": "MVP_050",
-    "name": "すいいけん",
+    "name": "アクアヴェールフィスト",
     "type": "Water",
     "category": "Physical",
     "power": 80,
@@ -5092,7 +5092,7 @@
   },
   {
     "id": "MVP_051",
-    "name": "さざなみげき",
+    "name": "リップルストライク",
     "type": "Water",
     "category": "Physical",
     "power": 80,
@@ -5106,7 +5106,7 @@
   },
   {
     "id": "MVP_052",
-    "name": "じゅんだとつ",
+    "name": "モイスチャースラスト",
     "type": "Water",
     "category": "Physical",
     "power": 85,
@@ -5120,7 +5120,7 @@
   },
   {
     "id": "MVP_053",
-    "name": "せいりゅうおう",
+    "name": "クリアストリームパンチ",
     "type": "Water",
     "category": "Physical",
     "power": 85,
@@ -5134,7 +5134,7 @@
   },
   {
     "id": "MVP_054",
-    "name": "みずかがみけん",
+    "name": "ミラーウォーターフィスト",
     "type": "Water",
     "category": "Physical",
     "power": 90,
@@ -5149,7 +5149,7 @@
   },
   {
     "id": "MVP_055",
-    "name": "しおさいげき",
+    "name": "サーフサウンドストライク",
     "type": "Water",
     "category": "Physical",
     "power": 90,
@@ -5160,7 +5160,7 @@
   },
   {
     "id": "MVP_056",
-    "name": "てきだ",
+    "name": "ドロップブロー",
     "type": "Water",
     "category": "Physical",
     "power": 95,
@@ -5174,7 +5174,7 @@
   },
   {
     "id": "MVP_057",
-    "name": "すいもんおう",
+    "name": "ウォーターリングパンチ",
     "type": "Water",
     "category": "Physical",
     "power": 95,
@@ -5188,7 +5188,7 @@
   },
   {
     "id": "MVP_058",
-    "name": "ひまつとつ",
+    "name": "スプラッシュスラスト",
     "type": "Water",
     "category": "Physical",
     "power": 110,
@@ -5202,7 +5202,7 @@
   },
   {
     "id": "MVP_059",
-    "name": "すいみゃくけん",
+    "name": "ウォーターヴェインフィスト",
     "type": "Water",
     "category": "Physical",
     "power": 115,
@@ -5217,7 +5217,7 @@
   },
   {
     "id": "MVP_060",
-    "name": "へきはげき",
+    "name": "アズールウェーブストライク",
     "type": "Water",
     "category": "Physical",
     "power": 120,
@@ -5228,7 +5228,7 @@
   },
   {
     "id": "MVP_061",
-    "name": "しでんげき",
+    "name": "バイオレットボルトストライク",
     "type": "Electric",
     "category": "Physical",
     "power": 40,
@@ -5241,7 +5241,7 @@
   },
   {
     "id": "MVP_062",
-    "name": "らいめいけん",
+    "name": "サンダーロアフィスト",
     "type": "Electric",
     "category": "Physical",
     "power": 40,
@@ -5255,7 +5255,7 @@
   },
   {
     "id": "MVP_063",
-    "name": "でんこうだ",
+    "name": "フラッシュボルトブロー",
     "type": "Electric",
     "category": "Physical",
     "power": 45,
@@ -5268,7 +5268,7 @@
   },
   {
     "id": "MVP_064",
-    "name": "たいらいおう",
+    "name": "ボルトチャージパンチ",
     "type": "Electric",
     "category": "Physical",
     "power": 50,
@@ -5281,7 +5281,7 @@
   },
   {
     "id": "MVP_065",
-    "name": "じんらいとつ",
+    "name": "スイフトボルトスラスト",
     "type": "Electric",
     "category": "Physical",
     "power": 60,
@@ -5292,7 +5292,7 @@
   },
   {
     "id": "MVP_066",
-    "name": "らいもんけん",
+    "name": "ボルトリングフィスト",
     "type": "Electric",
     "category": "Physical",
     "power": 65,
@@ -5306,7 +5306,7 @@
   },
   {
     "id": "MVP_067",
-    "name": "らいせきげき",
+    "name": "ボルトトレイルストライク",
     "type": "Electric",
     "category": "Physical",
     "power": 70,
@@ -5319,7 +5319,7 @@
   },
   {
     "id": "MVP_068",
-    "name": "せいでんだ",
+    "name": "スタティックブロー",
     "type": "Electric",
     "category": "Physical",
     "power": 75,
@@ -5332,7 +5332,7 @@
   },
   {
     "id": "MVP_069",
-    "name": "らいしんおう",
+    "name": "ボルトコアパンチ",
     "type": "Electric",
     "category": "Physical",
     "power": 75,
@@ -5345,7 +5345,7 @@
   },
   {
     "id": "MVP_070",
-    "name": "でんせんとつ",
+    "name": "ボルトフラッシュスラスト",
     "type": "Electric",
     "category": "Physical",
     "power": 80,
@@ -5356,7 +5356,7 @@
   },
   {
     "id": "MVP_071",
-    "name": "らいりゅうけん",
+    "name": "ボルトグレインフィスト",
     "type": "Electric",
     "category": "Physical",
     "power": 80,
@@ -5370,7 +5370,7 @@
   },
   {
     "id": "MVP_072",
-    "name": "らいいげき",
+    "name": "ボルトヴェールストライク",
     "type": "Electric",
     "category": "Physical",
     "power": 85,
@@ -5383,7 +5383,7 @@
   },
   {
     "id": "MVP_073",
-    "name": "しでんおう",
+    "name": "バイオレットボルトパンチ",
     "type": "Electric",
     "category": "Physical",
     "power": 85,
@@ -5396,7 +5396,7 @@
   },
   {
     "id": "MVP_074",
-    "name": "らいめいだ",
+    "name": "サンダーロアブロー",
     "type": "Electric",
     "category": "Physical",
     "power": 90,
@@ -5409,7 +5409,7 @@
   },
   {
     "id": "MVP_075",
-    "name": "でんこうとつ",
+    "name": "フラッシュボルトスラスト",
     "type": "Electric",
     "category": "Physical",
     "power": 90,
@@ -5420,7 +5420,7 @@
   },
   {
     "id": "MVP_076",
-    "name": "たいらいけん",
+    "name": "ボルトチャージフィスト",
     "type": "Electric",
     "category": "Physical",
     "power": 95,
@@ -5434,7 +5434,7 @@
   },
   {
     "id": "MVP_077",
-    "name": "じんらいげき",
+    "name": "スイフトボルトストライク",
     "type": "Electric",
     "category": "Physical",
     "power": 95,
@@ -5447,7 +5447,7 @@
   },
   {
     "id": "MVP_078",
-    "name": "らいもんおう",
+    "name": "ボルトリングパンチ",
     "type": "Electric",
     "category": "Physical",
     "power": 110,
@@ -5458,7 +5458,7 @@
   },
   {
     "id": "MVP_079",
-    "name": "らいせきだ",
+    "name": "ボルトトレイルブロー",
     "type": "Electric",
     "category": "Physical",
     "power": 115,
@@ -5469,7 +5469,7 @@
   },
   {
     "id": "MVP_080",
-    "name": "せいでんとつ",
+    "name": "スタティックスラスト",
     "type": "Electric",
     "category": "Physical",
     "power": 120,
@@ -5480,7 +5480,7 @@
   },
   {
     "id": "MVP_081",
-    "name": "どかいげき",
+    "name": "クロッドストライク",
     "type": "Ground",
     "category": "Physical",
     "power": 40,
@@ -5494,7 +5494,7 @@
   },
   {
     "id": "MVP_082",
-    "name": "がんばんけん",
+    "name": "ベッドロックフィスト",
     "type": "Ground",
     "category": "Physical",
     "power": 50,
@@ -5509,7 +5509,7 @@
   },
   {
     "id": "MVP_083",
-    "name": "ちみゃくだ",
+    "name": "レイラインブロー",
     "type": "Ground",
     "category": "Physical",
     "power": 50,
@@ -5523,7 +5523,7 @@
   },
   {
     "id": "MVP_084",
-    "name": "さいどおう",
+    "name": "クラッシュソイルパンチ",
     "type": "Ground",
     "category": "Physical",
     "power": 55,
@@ -5537,7 +5537,7 @@
   },
   {
     "id": "MVP_085",
-    "name": "ちいとつ",
+    "name": "アースヴェールスラスト",
     "type": "Ground",
     "category": "Physical",
     "power": 60,
@@ -5548,7 +5548,7 @@
   },
   {
     "id": "MVP_086",
-    "name": "がんぺんけん",
+    "name": "ロックシャードフィスト",
     "type": "Ground",
     "category": "Physical",
     "power": 65,
@@ -5563,7 +5563,7 @@
   },
   {
     "id": "MVP_087",
-    "name": "つちかべげき",
+    "name": "アースウォールストライク",
     "type": "Ground",
     "category": "Physical",
     "power": 70,
@@ -5577,7 +5577,7 @@
   },
   {
     "id": "MVP_088",
-    "name": "じがためだ",
+    "name": "ハードグラウンドブロー",
     "type": "Ground",
     "category": "Physical",
     "power": 75,
@@ -5591,7 +5591,7 @@
   },
   {
     "id": "MVP_089",
-    "name": "れきだおう",
+    "name": "ペブルブローパンチ",
     "type": "Ground",
     "category": "Physical",
     "power": 75,
@@ -5605,7 +5605,7 @@
   },
   {
     "id": "MVP_090",
-    "name": "じもんけん",
+    "name": "アースリングフィスト",
     "type": "Ground",
     "category": "Physical",
     "power": 80,
@@ -5617,7 +5617,7 @@
   },
   {
     "id": "MVP_091",
-    "name": "けんどげき",
+    "name": "ソリッドソイルストライク",
     "type": "Ground",
     "category": "Physical",
     "power": 80,
@@ -5631,7 +5631,7 @@
   },
   {
     "id": "MVP_092",
-    "name": "がんいとつ",
+    "name": "ロックヴェールスラスト",
     "type": "Ground",
     "category": "Physical",
     "power": 85,
@@ -5645,7 +5645,7 @@
   },
   {
     "id": "MVP_093",
-    "name": "どかいおう",
+    "name": "クロッドパンチ",
     "type": "Ground",
     "category": "Physical",
     "power": 85,
@@ -5659,7 +5659,7 @@
   },
   {
     "id": "MVP_094",
-    "name": "がんばんだ",
+    "name": "ベッドロックブロー",
     "type": "Ground",
     "category": "Physical",
     "power": 90,
@@ -5673,7 +5673,7 @@
   },
   {
     "id": "MVP_095",
-    "name": "ちみゃくとつ",
+    "name": "レイラインスラスト",
     "type": "Ground",
     "category": "Physical",
     "power": 90,
@@ -5684,7 +5684,7 @@
   },
   {
     "id": "MVP_096",
-    "name": "さいどけん",
+    "name": "クラッシュソイルフィスト",
     "type": "Ground",
     "category": "Physical",
     "power": 95,
@@ -5699,7 +5699,7 @@
   },
   {
     "id": "MVP_097",
-    "name": "ちいげき",
+    "name": "アースヴェールストライク",
     "type": "Ground",
     "category": "Physical",
     "power": 95,
@@ -5713,7 +5713,7 @@
   },
   {
     "id": "MVP_098",
-    "name": "がんぺんおう",
+    "name": "ロックシャードパンチ",
     "type": "Ground",
     "category": "Physical",
     "power": 110,
@@ -5727,7 +5727,7 @@
   },
   {
     "id": "MVP_099",
-    "name": "つちかべけん",
+    "name": "アースウォールフィスト",
     "type": "Ground",
     "category": "Physical",
     "power": 115,
@@ -5742,7 +5742,7 @@
   },
   {
     "id": "MVP_100",
-    "name": "じがためとつ",
+    "name": "ハードグラウンドスラスト",
     "type": "Ground",
     "category": "Physical",
     "power": 120,
@@ -5753,7 +5753,7 @@
   },
   {
     "id": "MVP_101",
-    "name": "りょくようげき",
+    "name": "グリーンリーフストライク",
     "type": "Grass",
     "category": "Physical",
     "power": 40,
@@ -5765,7 +5765,7 @@
   },
   {
     "id": "MVP_102",
-    "name": "つたげきけん",
+    "name": "アイビーストライクフィスト",
     "type": "Grass",
     "category": "Physical",
     "power": 45,
@@ -5778,7 +5778,7 @@
   },
   {
     "id": "MVP_103",
-    "name": "ようみゃくだ",
+    "name": "リーフヴェインブロー",
     "type": "Grass",
     "category": "Physical",
     "power": 50,
@@ -5790,7 +5790,7 @@
   },
   {
     "id": "MVP_104",
-    "name": "わかばおう",
+    "name": "フレッシュリーフパンチ",
     "type": "Grass",
     "category": "Physical",
     "power": 50,
@@ -5802,7 +5802,7 @@
   },
   {
     "id": "MVP_105",
-    "name": "そうもんとつ",
+    "name": "グラスリングスラスト",
     "type": "Grass",
     "category": "Physical",
     "power": 60,
@@ -5813,7 +5813,7 @@
   },
   {
     "id": "MVP_106",
-    "name": "あおばけん",
+    "name": "ヴァーダントリーフフィスト",
     "type": "Grass",
     "category": "Physical",
     "power": 65,
@@ -5826,7 +5826,7 @@
   },
   {
     "id": "MVP_107",
-    "name": "はむらげき",
+    "name": "リーフスウォームストライク",
     "type": "Grass",
     "category": "Physical",
     "power": 65,
@@ -5838,7 +5838,7 @@
   },
   {
     "id": "MVP_108",
-    "name": "そういだ",
+    "name": "グラスヴェールブロー",
     "type": "Grass",
     "category": "Physical",
     "power": 75,
@@ -5850,7 +5850,7 @@
   },
   {
     "id": "MVP_109",
-    "name": "つるだおう",
+    "name": "ヴァインブローパンチ",
     "type": "Grass",
     "category": "Physical",
     "power": 75,
@@ -5862,7 +5862,7 @@
   },
   {
     "id": "MVP_110",
-    "name": "りょくじんけん",
+    "name": "グリーンアレイフィスト",
     "type": "Grass",
     "category": "Physical",
     "power": 80,
@@ -5874,7 +5874,7 @@
   },
   {
     "id": "MVP_111",
-    "name": "はがくれげき",
+    "name": "リーフハイドストライク",
     "type": "Grass",
     "category": "Physical",
     "power": 80,
@@ -5886,7 +5886,7 @@
   },
   {
     "id": "MVP_112",
-    "name": "くさむらとつ",
+    "name": "ブッシュスラスト",
     "type": "Grass",
     "category": "Physical",
     "power": 85,
@@ -5898,7 +5898,7 @@
   },
   {
     "id": "MVP_113",
-    "name": "りょくようおう",
+    "name": "グリーンリーフパンチ",
     "type": "Grass",
     "category": "Physical",
     "power": 85,
@@ -5910,7 +5910,7 @@
   },
   {
     "id": "MVP_114",
-    "name": "つたげきだ",
+    "name": "アイビーストライクブロー",
     "type": "Grass",
     "category": "Physical",
     "power": 90,
@@ -5922,7 +5922,7 @@
   },
   {
     "id": "MVP_115",
-    "name": "ようみゃくとつ",
+    "name": "リーフヴェインスラスト",
     "type": "Grass",
     "category": "Physical",
     "power": 90,
@@ -5933,7 +5933,7 @@
   },
   {
     "id": "MVP_116",
-    "name": "わかばけん",
+    "name": "フレッシュリーフフィスト",
     "type": "Grass",
     "category": "Physical",
     "power": 95,
@@ -5946,7 +5946,7 @@
   },
   {
     "id": "MVP_117",
-    "name": "そうもんげき",
+    "name": "グラスリングストライク",
     "type": "Grass",
     "category": "Physical",
     "power": 95,
@@ -5958,7 +5958,7 @@
   },
   {
     "id": "MVP_118",
-    "name": "あおばおう",
+    "name": "ヴァーダントリーフパンチ",
     "type": "Grass",
     "category": "Physical",
     "power": 110,
@@ -5970,7 +5970,7 @@
   },
   {
     "id": "MVP_119",
-    "name": "はむらけん",
+    "name": "リーフスウォームフィスト",
     "type": "Grass",
     "category": "Physical",
     "power": 115,
@@ -5983,7 +5983,7 @@
   },
   {
     "id": "MVP_120",
-    "name": "そういとつ",
+    "name": "グラスヴェールスラスト",
     "type": "Grass",
     "category": "Physical",
     "power": 120,
@@ -5994,7 +5994,7 @@
   },
   {
     "id": "MVP_121",
-    "name": "はくひょうげき",
+    "name": "ホワイトアイスストライク",
     "type": "Ice",
     "category": "Physical",
     "power": 40,
@@ -6007,7 +6007,7 @@
   },
   {
     "id": "MVP_122",
-    "name": "ひょうけつけん",
+    "name": "フリーズフィスト",
     "type": "Ice",
     "category": "Physical",
     "power": 45,
@@ -6021,7 +6021,7 @@
   },
   {
     "id": "MVP_123",
-    "name": "そうげきだ",
+    "name": "フロストストライクブロー",
     "type": "Ice",
     "category": "Physical",
     "power": 45,
@@ -6034,7 +6034,7 @@
   },
   {
     "id": "MVP_124",
-    "name": "ひょうもんおう",
+    "name": "アイスリングパンチ",
     "type": "Ice",
     "category": "Physical",
     "power": 50,
@@ -6047,7 +6047,7 @@
   },
   {
     "id": "MVP_125",
-    "name": "れいきとつ",
+    "name": "チルスラスト",
     "type": "Ice",
     "category": "Physical",
     "power": 60,
@@ -6058,7 +6058,7 @@
   },
   {
     "id": "MVP_126",
-    "name": "ひょうへんけん",
+    "name": "アイスシャードフィスト",
     "type": "Ice",
     "category": "Physical",
     "power": 70,
@@ -6072,7 +6072,7 @@
   },
   {
     "id": "MVP_127",
-    "name": "とううんげき",
+    "name": "フローズンクラウドストライク",
     "type": "Ice",
     "category": "Physical",
     "power": 70,
@@ -6085,7 +6085,7 @@
   },
   {
     "id": "MVP_128",
-    "name": "ひょういだ",
+    "name": "アイスヴェールブロー",
     "type": "Ice",
     "category": "Physical",
     "power": 75,
@@ -6098,7 +6098,7 @@
   },
   {
     "id": "MVP_129",
-    "name": "そうかおう",
+    "name": "フロストブロッサムパンチ",
     "type": "Ice",
     "category": "Physical",
     "power": 75,
@@ -6111,7 +6111,7 @@
   },
   {
     "id": "MVP_130",
-    "name": "ひょうしんけん",
+    "name": "アイスコアフィスト",
     "type": "Ice",
     "category": "Physical",
     "power": 80,
@@ -6123,7 +6123,7 @@
   },
   {
     "id": "MVP_131",
-    "name": "れいげきとつ",
+    "name": "コールドストライクスラスト",
     "type": "Ice",
     "category": "Physical",
     "power": 80,
@@ -6136,7 +6136,7 @@
   },
   {
     "id": "MVP_132",
-    "name": "ひょうじんげき",
+    "name": "アイスアレイストライク",
     "type": "Ice",
     "category": "Physical",
     "power": 85,
@@ -6149,7 +6149,7 @@
   },
   {
     "id": "MVP_133",
-    "name": "はくひょうおう",
+    "name": "ホワイトアイスパンチ",
     "type": "Ice",
     "category": "Physical",
     "power": 85,
@@ -6162,7 +6162,7 @@
   },
   {
     "id": "MVP_134",
-    "name": "ひょうけつだ",
+    "name": "フリーズブロー",
     "type": "Ice",
     "category": "Physical",
     "power": 90,
@@ -6175,7 +6175,7 @@
   },
   {
     "id": "MVP_135",
-    "name": "そうげきとつ",
+    "name": "フロストストライクスラスト",
     "type": "Ice",
     "category": "Physical",
     "power": 90,
@@ -6186,7 +6186,7 @@
   },
   {
     "id": "MVP_136",
-    "name": "ひょうもんけん",
+    "name": "アイスリングフィスト",
     "type": "Ice",
     "category": "Physical",
     "power": 95,
@@ -6200,7 +6200,7 @@
   },
   {
     "id": "MVP_137",
-    "name": "れいきげき",
+    "name": "チルストライク",
     "type": "Ice",
     "category": "Physical",
     "power": 95,
@@ -6213,7 +6213,7 @@
   },
   {
     "id": "MVP_138",
-    "name": "ひょうへんおう",
+    "name": "アイスシャードパンチ",
     "type": "Ice",
     "category": "Physical",
     "power": 110,
@@ -6224,7 +6224,7 @@
   },
   {
     "id": "MVP_139",
-    "name": "とううんけん",
+    "name": "フローズンクラウドフィスト",
     "type": "Ice",
     "category": "Physical",
     "power": 115,
@@ -6236,7 +6236,7 @@
   },
   {
     "id": "MVP_140",
-    "name": "ひょういとつ",
+    "name": "アイスヴェールスラスト",
     "type": "Ice",
     "category": "Physical",
     "power": 120,
@@ -6247,7 +6247,7 @@
   },
   {
     "id": "MVP_141",
-    "name": "りゅうがげき",
+    "name": "ドラゴンファングストライク",
     "type": "Dragon",
     "category": "Physical",
     "power": 45,
@@ -6260,7 +6260,7 @@
   },
   {
     "id": "MVP_142",
-    "name": "りゅうりんけん",
+    "name": "ドラゴンスケイルフィスト",
     "type": "Dragon",
     "category": "Physical",
     "power": 50,
@@ -6274,7 +6274,7 @@
   },
   {
     "id": "MVP_143",
-    "name": "りゅうみゃくうち",
+    "name": "ドラゴンヴェインブロー",
     "type": "Dragon",
     "category": "Physical",
     "power": 50,
@@ -6287,7 +6287,7 @@
   },
   {
     "id": "MVP_144",
-    "name": "りゅうそくおう",
+    "name": "ドラゴンブレスパンチ",
     "type": "Dragon",
     "category": "Physical",
     "power": 55,
@@ -6300,7 +6300,7 @@
   },
   {
     "id": "MVP_145",
-    "name": "りゅうそうとつ",
+    "name": "ドラゴンクロースラスト",
     "type": "Dragon",
     "category": "Physical",
     "power": 60,
@@ -6312,7 +6312,7 @@
   },
   {
     "id": "MVP_146",
-    "name": "りゅうもんけん",
+    "name": "ドラゴンリングフィスト",
     "type": "Dragon",
     "category": "Physical",
     "power": 60,
@@ -6326,7 +6326,7 @@
   },
   {
     "id": "MVP_147",
-    "name": "りゅういげき",
+    "name": "ドラゴンヴェールストライク",
     "type": "Dragon",
     "category": "Physical",
     "power": 65,
@@ -6339,7 +6339,7 @@
   },
   {
     "id": "MVP_148",
-    "name": "りゅうせいだ",
+    "name": "ドラゴンヴォイスブロー",
     "type": "Dragon",
     "category": "Physical",
     "power": 70,
@@ -6352,7 +6352,7 @@
   },
   {
     "id": "MVP_149",
-    "name": "りゅうせんおう",
+    "name": "ドラゴンピアスパンチ",
     "type": "Dragon",
     "category": "Physical",
     "power": 75,
@@ -6365,7 +6365,7 @@
   },
   {
     "id": "MVP_150",
-    "name": "りゅうりんこぶし",
+    "name": "ドラゴンフォスファーフィスト",
     "type": "Dragon",
     "category": "Physical",
     "power": 80,
@@ -6377,7 +6377,7 @@
   },
   {
     "id": "MVP_151",
-    "name": "りゅうしんげき",
+    "name": "ドラゴンハートストライク",
     "type": "Dragon",
     "category": "Physical",
     "power": 80,
@@ -6390,7 +6390,7 @@
   },
   {
     "id": "MVP_152",
-    "name": "りゅうどとつ",
+    "name": "ドラゴンラーススラスト",
     "type": "Dragon",
     "category": "Physical",
     "power": 85,
@@ -6403,7 +6403,7 @@
   },
   {
     "id": "MVP_153",
-    "name": "りゅうがおう",
+    "name": "ドラゴンファングパンチ",
     "type": "Dragon",
     "category": "Physical",
     "power": 85,
@@ -6416,7 +6416,7 @@
   },
   {
     "id": "MVP_154",
-    "name": "りゅうりんだ",
+    "name": "ドラゴンスケイルブロー",
     "type": "Dragon",
     "category": "Physical",
     "power": 90,
@@ -6429,7 +6429,7 @@
   },
   {
     "id": "MVP_155",
-    "name": "りゅうみゃくとつ",
+    "name": "ドラゴンヴェインスラスト",
     "type": "Dragon",
     "category": "Physical",
     "power": 90,
@@ -6440,7 +6440,7 @@
   },
   {
     "id": "MVP_156",
-    "name": "りゅうそくけん",
+    "name": "ドラゴンブレスフィスト",
     "type": "Dragon",
     "category": "Physical",
     "power": 95,
@@ -6454,7 +6454,7 @@
   },
   {
     "id": "MVP_158",
-    "name": "りゅうもんおう",
+    "name": "ドラゴンリングパンチ",
     "type": "Dragon",
     "category": "Physical",
     "power": 110,
@@ -6467,7 +6467,7 @@
   },
   {
     "id": "MVP_159",
-    "name": "りゅういけん",
+    "name": "ドラゴンヴェールフィスト",
     "type": "Dragon",
     "category": "Physical",
     "power": 115,
@@ -6481,7 +6481,7 @@
   },
   {
     "id": "MVP_160",
-    "name": "りゅうせいとつ",
+    "name": "ドラゴンヴォイススラスト",
     "type": "Dragon",
     "category": "Physical",
     "power": 120,
@@ -6492,7 +6492,7 @@
   },
   {
     "id": "MVP_161",
-    "name": "こくむげき",
+    "name": "ブラックミストストライク",
     "type": "Dark",
     "category": "Physical",
     "power": 45,
@@ -6505,7 +6505,7 @@
   },
   {
     "id": "MVP_162",
-    "name": "えいげきけん",
+    "name": "シャドウストライクフィスト",
     "type": "Dark",
     "category": "Physical",
     "power": 50,
@@ -6519,7 +6519,7 @@
   },
   {
     "id": "MVP_163",
-    "name": "じゅだおう",
+    "name": "カースブローパンチ",
     "type": "Dark",
     "category": "Physical",
     "power": 50,
@@ -6532,7 +6532,7 @@
   },
   {
     "id": "MVP_164",
-    "name": "こんこくとつ",
+    "name": "ダークネススラスト",
     "type": "Dark",
     "category": "Physical",
     "power": 55,
@@ -6545,7 +6545,7 @@
   },
   {
     "id": "MVP_165",
-    "name": "あんもんけん",
+    "name": "ダークリングフィスト",
     "type": "Dark",
     "category": "Physical",
     "power": 65,
@@ -6557,7 +6557,7 @@
   },
   {
     "id": "MVP_166",
-    "name": "えいだんげき",
+    "name": "シャドウバレットストライク",
     "type": "Dark",
     "category": "Physical",
     "power": 70,
@@ -6570,7 +6570,7 @@
   },
   {
     "id": "MVP_167",
-    "name": "こくいだ",
+    "name": "ブラックヴェールブロー",
     "type": "Dark",
     "category": "Physical",
     "power": 70,
@@ -6583,7 +6583,7 @@
   },
   {
     "id": "MVP_168",
-    "name": "じゅえいおう",
+    "name": "カースシャドウパンチ",
     "type": "Dark",
     "category": "Physical",
     "power": 75,
@@ -6596,7 +6596,7 @@
   },
   {
     "id": "MVP_169",
-    "name": "あんげきとつ",
+    "name": "ダークストライクスラスト",
     "type": "Dark",
     "category": "Physical",
     "power": 75,
@@ -6609,7 +6609,7 @@
   },
   {
     "id": "MVP_170",
-    "name": "あんいけん",
+    "name": "ダークヴェールフィスト",
     "type": "Dark",
     "category": "Physical",
     "power": 80,
@@ -6621,7 +6621,7 @@
   },
   {
     "id": "MVP_171",
-    "name": "えいじんげき",
+    "name": "シャドウアレイストライク",
     "type": "Dark",
     "category": "Physical",
     "power": 80,
@@ -6634,7 +6634,7 @@
   },
   {
     "id": "MVP_172",
-    "name": "こくねんだ",
+    "name": "ブラックソートブロー",
     "type": "Dark",
     "category": "Physical",
     "power": 85,
@@ -6647,7 +6647,7 @@
   },
   {
     "id": "MVP_173",
-    "name": "こくむおう",
+    "name": "ブラックミストパンチ",
     "type": "Dark",
     "category": "Physical",
     "power": 85,
@@ -6660,7 +6660,7 @@
   },
   {
     "id": "MVP_174",
-    "name": "えいげきとつ",
+    "name": "シャドウストライクスラスト",
     "type": "Dark",
     "category": "Physical",
     "power": 90,
@@ -6673,7 +6673,7 @@
   },
   {
     "id": "MVP_175",
-    "name": "じゅだけん",
+    "name": "カースブローフィスト",
     "type": "Dark",
     "category": "Physical",
     "power": 90,
@@ -6685,7 +6685,7 @@
   },
   {
     "id": "MVP_176",
-    "name": "こんこくげき",
+    "name": "ダークネスストライク",
     "type": "Dark",
     "category": "Physical",
     "power": 95,
@@ -6698,7 +6698,7 @@
   },
   {
     "id": "MVP_178",
-    "name": "えいだんだ",
+    "name": "シャドウバレットブロー",
     "type": "Dark",
     "category": "Physical",
     "power": 110,
@@ -6709,7 +6709,7 @@
   },
   {
     "id": "MVP_179",
-    "name": "こくいとつ",
+    "name": "ブラックヴェールスラスト",
     "type": "Dark",
     "category": "Physical",
     "power": 115,
@@ -6720,7 +6720,7 @@
   },
   {
     "id": "MVP_180",
-    "name": "じゅえいけん",
+    "name": "カースシャドウフィスト",
     "type": "Dark",
     "category": "Physical",
     "power": 120,
@@ -6732,7 +6732,7 @@
   },
   {
     "id": "mvh_water",
-    "name": "らんりゅうれんだ",
+    "name": "タービュレントラッシュ",
     "type": "Water",
     "category": "Physical",
     "power": 25,
@@ -6745,7 +6745,7 @@
   },
   {
     "id": "mvh_electric",
-    "name": "さんれんらいげき",
+    "name": "トリプルボルトストライク",
     "type": "Electric",
     "category": "Physical",
     "power": 35,
@@ -6759,7 +6759,7 @@
   },
   {
     "id": "mvh_ground",
-    "name": "がんせきらんだ",
+    "name": "ロックバラージブロー",
     "type": "Ground",
     "category": "Physical",
     "power": 25,
@@ -6772,7 +6772,7 @@
   },
   {
     "id": "mvh_ice",
-    "name": "さんれんひょうじん",
+    "name": "トリプルアイスブレード",
     "type": "Ice",
     "category": "Physical",
     "power": 35,
@@ -6786,7 +6786,7 @@
   },
   {
     "id": "mvh_dark",
-    "name": "えいれんだ",
+    "name": "シャドウバラージ",
     "type": "Dark",
     "category": "Physical",
     "power": 25,
@@ -6799,7 +6799,7 @@
   },
   {
     "id": "mvw_sunny",
-    "name": "ひざしのうた",
+    "name": "サンライトソング",
     "type": "Fire",
     "category": "Status",
     "power": 0,
@@ -6811,7 +6811,7 @@
   },
   {
     "id": "mvw_rain",
-    "name": "あまごい",
+    "name": "レインダンス",
     "type": "Water",
     "category": "Status",
     "power": 0,
@@ -6823,7 +6823,7 @@
   },
   {
     "id": "mvw_snow",
-    "name": "こなゆきまい",
+    "name": "スノーダンス",
     "type": "Ice",
     "category": "Status",
     "power": 0,
@@ -6835,7 +6835,7 @@
   },
   {
     "id": "mvw_sandstorm",
-    "name": "すなまきあげ",
+    "name": "サンドストーム",
     "type": "Ground",
     "category": "Status",
     "power": 0,
@@ -6847,7 +6847,7 @@
   },
   {
     "id": "mvw_gale",
-    "name": "かぜよびのね",
+    "name": "ゲイルコール",
     "type": "Grass",
     "category": "Status",
     "power": 0,
@@ -6859,7 +6859,7 @@
   },
   {
     "id": "mvw_fog",
-    "name": "きりのとばり",
+    "name": "フォグヴェール",
     "type": "Dark",
     "category": "Status",
     "power": 0,
@@ -6871,7 +6871,7 @@
   },
   {
     "id": "mvs_ep_neutral",
-    "name": "むそうのきわみ",
+    "name": "マッチレスピーク",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -6884,7 +6884,7 @@
   },
   {
     "id": "mvs_ep_fire",
-    "name": "ごうかのきわみ",
+    "name": "ヘルファイアピーク",
     "type": "Fire",
     "category": "Status",
     "power": 0,
@@ -6897,7 +6897,7 @@
   },
   {
     "id": "mvs_ep_water",
-    "name": "しんすいのきわみ",
+    "name": "ディープウォーターピーク",
     "type": "Water",
     "category": "Status",
     "power": 0,
@@ -6910,7 +6910,7 @@
   },
   {
     "id": "mvs_ep_grass",
-    "name": "ばんりょくのきわみ",
+    "name": "ヴァーダントピーク",
     "type": "Grass",
     "category": "Status",
     "power": 0,
@@ -6923,7 +6923,7 @@
   },
   {
     "id": "mvs_ep_electric",
-    "name": "らいめいのきわみ",
+    "name": "サンダーロアピーク",
     "type": "Electric",
     "category": "Status",
     "power": 0,
@@ -6936,7 +6936,7 @@
   },
   {
     "id": "mvs_ep_ground",
-    "name": "こんりんのきわみ",
+    "name": "アースコアピーク",
     "type": "Ground",
     "category": "Status",
     "power": 0,
@@ -6949,7 +6949,7 @@
   },
   {
     "id": "mvs_ep_ice",
-    "name": "ひょうけつのきわみ",
+    "name": "フリーズピーク",
     "type": "Ice",
     "category": "Status",
     "power": 0,
@@ -6962,7 +6962,7 @@
   },
   {
     "id": "mvs_ep_dragon",
-    "name": "りゅうしんのきわみ",
+    "name": "ドラゴンハートピーク",
     "type": "Dragon",
     "category": "Status",
     "power": 0,
@@ -6975,7 +6975,7 @@
   },
   {
     "id": "mvs_ep_dark",
-    "name": "しんえんのきわみ",
+    "name": "アビスピーク",
     "type": "Dark",
     "category": "Status",
     "power": 0,
@@ -6988,7 +6988,7 @@
   },
   {
     "id": "mvs_neutral_atk_def",
-    "name": "むそうのかまえ",
+    "name": "マッチレスガード",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -7012,7 +7012,7 @@
   },
   {
     "id": "mvs_neutral_atk_accuracy",
-    "name": "むそうのねらい",
+    "name": "マッチレスエイム",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -7036,7 +7036,7 @@
   },
   {
     "id": "mvs_fire_atk_evasion",
-    "name": "ほむらのさばき",
+    "name": "フレイムステップ",
     "type": "Fire",
     "category": "Status",
     "power": 0,
@@ -7060,7 +7060,7 @@
   },
   {
     "id": "mvs_fire_atk_crit",
-    "name": "ほむらのきば",
+    "name": "フレイムファングスタンス",
     "type": "Fire",
     "category": "Status",
     "power": 0,
@@ -7084,7 +7084,7 @@
   },
   {
     "id": "mvs_water_def_accuracy",
-    "name": "みなものそなえ",
+    "name": "サーフェスガード",
     "type": "Water",
     "category": "Status",
     "power": 0,
@@ -7108,7 +7108,7 @@
   },
   {
     "id": "mvs_water_def_evasion",
-    "name": "みなものころも",
+    "name": "サーフェスヴェール",
     "type": "Water",
     "category": "Status",
     "power": 0,
@@ -7132,7 +7132,7 @@
   },
   {
     "id": "mvs_grass_def_crit",
-    "name": "しんりょくのよろい",
+    "name": "フレッシュグリーンアーマー",
     "type": "Grass",
     "category": "Status",
     "power": 0,
@@ -7156,7 +7156,7 @@
   },
   {
     "id": "mvs_grass_accuracy_evasion",
-    "name": "しんりょくのまなこ",
+    "name": "フレッシュグリーンアイ",
     "type": "Grass",
     "category": "Status",
     "power": 0,
@@ -7180,7 +7180,7 @@
   },
   {
     "id": "mvs_electric_accuracy_crit",
-    "name": "らいこうのみとおし",
+    "name": "ボルトサイト",
     "type": "Electric",
     "category": "Status",
     "power": 0,
@@ -7204,7 +7204,7 @@
   },
   {
     "id": "mvs_electric_evasion_crit",
-    "name": "らいこうのかげろう",
+    "name": "ボルトミラージュ",
     "type": "Electric",
     "category": "Status",
     "power": 0,
@@ -7228,7 +7228,7 @@
   },
   {
     "id": "mvs_ground_atk_def",
-    "name": "だいちのかまえ",
+    "name": "アーススタンス",
     "type": "Ground",
     "category": "Status",
     "power": 0,
@@ -7252,7 +7252,7 @@
   },
   {
     "id": "mvs_ground_atk_accuracy",
-    "name": "だいちのねらい",
+    "name": "アースエイム",
     "type": "Ground",
     "category": "Status",
     "power": 0,
@@ -7276,7 +7276,7 @@
   },
   {
     "id": "mvs_ice_atk_evasion",
-    "name": "ひょうがのさばき",
+    "name": "グレイシャーステップ",
     "type": "Ice",
     "category": "Status",
     "power": 0,
@@ -7300,7 +7300,7 @@
   },
   {
     "id": "mvs_ice_atk_crit",
-    "name": "ひょうがのきば",
+    "name": "グレイシャーファングスタンス",
     "type": "Ice",
     "category": "Status",
     "power": 0,
@@ -7324,7 +7324,7 @@
   },
   {
     "id": "mvs_dragon_def_accuracy",
-    "name": "りゅうきのそなえ",
+    "name": "ドラゴンオーラガード",
     "type": "Dragon",
     "category": "Status",
     "power": 0,
@@ -7348,7 +7348,7 @@
   },
   {
     "id": "mvs_dragon_def_evasion",
-    "name": "りゅうきのころも",
+    "name": "ドラゴンオーラヴェール",
     "type": "Dragon",
     "category": "Status",
     "power": 0,
@@ -7372,7 +7372,7 @@
   },
   {
     "id": "mvs_dark_def_crit",
-    "name": "やみよのよろい",
+    "name": "ダークナイトアーマー",
     "type": "Dark",
     "category": "Status",
     "power": 0,
@@ -7396,7 +7396,7 @@
   },
   {
     "id": "mvs_dark_accuracy_evasion",
-    "name": "やみよのまなこ",
+    "name": "ダークナイトアイ",
     "type": "Dark",
     "category": "Status",
     "power": 0,
@@ -7420,7 +7420,7 @@
   },
   {
     "id": "mvs_big_neutral",
-    "name": "すてみのかまえ",
+    "name": "リックレススタンス",
     "type": "Neutral",
     "category": "Status",
     "power": 0,
@@ -7450,7 +7450,7 @@
   },
   {
     "id": "mvs_big_water",
-    "name": "きゅうりゅうのかまえ",
+    "name": "ラピッドストリームスタンス",
     "type": "Water",
     "category": "Status",
     "power": 0,
@@ -7480,7 +7480,7 @@
   },
   {
     "id": "mvs_toxic_dark",
-    "name": "もうどくのしずく",
+    "name": "トキシックドロップ",
     "type": "Dark",
     "category": "Status",
     "power": 0,
