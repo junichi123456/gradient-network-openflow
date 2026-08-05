@@ -4,20 +4,20 @@
     "name": "ビー・クワイエット",
     "type": "Grass",
     "category": "Special",
-    "power": 150,
+    "power": 130,
     "accuracy": 100,
     "max_pp": 4,
-    "range": "Adjacent"
+    "range": "Room"
   },
   {
     "id": "megaton_self_destruct",
     "name": "メガトンじばく",
     "type": "Neutral",
     "category": "Special",
-    "power": 200,
+    "power": 180,
     "accuracy": 100,
     "max_pp": 4,
-    "range": "Adjacent",
+    "range": "Room",
     "self_guaranteed_death": true
   },
   {
@@ -25,20 +25,20 @@
     "name": "サンダーレール",
     "type": "Electric",
     "category": "Special",
-    "power": 125,
+    "power": 110,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Area"
   },
   {
     "id": "self_destruct",
     "name": "じばく",
     "type": "Neutral",
     "category": "Special",
-    "power": 115,
+    "power": 105,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "water_pillar_burst",
@@ -55,10 +55,10 @@
     "name": "ストーンビート",
     "type": "Ground",
     "category": "Special",
-    "power": 105,
+    "power": 95,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "thunderstorm",
@@ -95,10 +95,10 @@
     "name": "ダークウィスプ",
     "type": "Dark",
     "category": "Special",
-    "power": 100,
+    "power": 85,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Room"
   },
   {
     "id": "aqua_surge",
@@ -115,100 +115,100 @@
     "name": "ファイアーボール",
     "type": "Fire",
     "category": "Special",
-    "power": 95,
+    "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "dragon_meteor",
     "name": "ドラゴンメテオ",
     "type": "Dragon",
     "category": "Special",
-    "power": 95,
+    "power": 85,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "hydro_stream",
     "name": "ハイドロストリーム",
     "type": "Water",
     "category": "Special",
-    "power": 95,
+    "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "dark_laser",
     "name": "ダークレーザー",
     "type": "Dark",
     "category": "Special",
-    "power": 95,
+    "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "solar_blast",
     "name": "ソーラーブラスト",
     "type": "Grass",
     "category": "Special",
-    "power": 95,
+    "power": 85,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "rock_lance",
     "name": "ロックランス",
     "type": "Ground",
     "category": "Special",
-    "power": 95,
+    "power": 85,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "pal_blast",
     "name": "パルブラスト",
     "type": "Neutral",
     "category": "Special",
-    "power": 95,
+    "power": 85,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "lightning_bolt",
     "name": "ライトニングボルト",
     "type": "Electric",
     "category": "Special",
-    "power": 95,
+    "power": 85,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "charge_cannon",
     "name": "チャージキャノン",
     "type": "Dragon",
     "category": "Special",
-    "power": 90,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "cross_wind",
     "name": "クロスウィンド",
     "type": "Grass",
     "category": "Special",
-    "power": 90,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent",
+    "range": "Line",
     "weapon_tag": "Wind"
   },
   {
@@ -229,14 +229,14 @@
     "power": 85,
     "accuracy": 100,
     "max_pp": 9,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "volcanic_rain",
     "name": "ボルカニックレイン",
     "type": "Fire",
     "category": "Special",
-    "power": 85,
+    "power": 90,
     "accuracy": 100,
     "max_pp": 9,
     "range": "Area"
@@ -246,20 +246,20 @@
     "name": "ロックバースト",
     "type": "Ground",
     "category": "Special",
-    "power": 85,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 9,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "beam_slicer",
     "name": "ビームスライサー",
     "type": "Dragon",
     "category": "Special",
-    "power": 85,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 9,
-    "range": "Adjacent"
+    "range": "Room"
   },
   {
     "id": "hydro_slicer",
@@ -269,47 +269,47 @@
     "power": 85,
     "accuracy": 100,
     "max_pp": 9,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "reflect_leaf",
     "name": "リフレクトリーフ",
     "type": "Grass",
     "category": "Special",
-    "power": 85,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 9,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "all_range_thunder",
     "name": "オールレンジサンダー",
     "type": "Electric",
     "category": "Special",
-    "power": 85,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 9,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "inferno",
     "name": "インフェルノ",
     "type": "Fire",
     "category": "Special",
-    "power": 80,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 12,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "lightning_strike",
     "name": "ライトニングストライク",
     "type": "Electric",
     "category": "Special",
-    "power": 80,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 12,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "holy_burst",
@@ -319,24 +319,24 @@
     "power": 80,
     "accuracy": 100,
     "max_pp": 12,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "flame_funnel",
     "name": "フレイムファンネル",
     "type": "Fire",
     "category": "Special",
-    "power": 80,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 12,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "wall_splash",
     "name": "ウォールスプラッシュ",
     "type": "Water",
     "category": "Special",
-    "power": 80,
+    "power": 90,
     "accuracy": 100,
     "max_pp": 12,
     "range": "Area"
@@ -346,20 +346,20 @@
     "name": "サークルヴァイン",
     "type": "Grass",
     "category": "Special",
-    "power": 80,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 12,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "icicle_line",
     "name": "アイシクルライン",
     "type": "Ice",
     "category": "Special",
-    "power": 80,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 12,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "apocalypse",
@@ -369,7 +369,7 @@
     "power": 75,
     "accuracy": 100,
     "max_pp": 15,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "star_mine",
@@ -379,7 +379,7 @@
     "power": 75,
     "accuracy": 100,
     "max_pp": 15,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "tri_spark",
@@ -389,27 +389,27 @@
     "power": 75,
     "accuracy": 100,
     "max_pp": 15,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "comet",
     "name": "コメット",
     "type": "Dragon",
     "category": "Special",
-    "power": 75,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 15,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "icicle_bullet",
     "name": "アイシクルバレット",
     "type": "Ice",
     "category": "Special",
-    "power": 75,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 15,
-    "range": "Adjacent"
+    "range": "Area"
   },
   {
     "id": "high_pressure_water",
@@ -419,7 +419,7 @@
     "power": 75,
     "accuracy": 100,
     "max_pp": 15,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "splash_bomb",
@@ -429,7 +429,7 @@
     "power": 70,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "nightmare_ball",
@@ -439,7 +439,7 @@
     "power": 70,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "flame_wall",
@@ -456,17 +456,17 @@
     "name": "ブラストキャノン",
     "type": "Dragon",
     "category": "Special",
-    "power": 70,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "freeze_wall",
     "name": "フリーズウォール",
     "type": "Ice",
     "category": "Special",
-    "power": 70,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Area"
@@ -476,20 +476,20 @@
     "name": "スパインヴァイン",
     "type": "Grass",
     "category": "Special",
-    "power": 65,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Room"
   },
   {
     "id": "cold_breath",
     "name": "コールドブレス",
     "type": "Ice",
     "category": "Special",
-    "power": 65,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent",
+    "range": "Line",
     "weapon_tag": "Breath"
   },
   {
@@ -500,17 +500,17 @@
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "line_splash",
     "name": "ラインスプラッシュ",
     "type": "Water",
     "category": "Special",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "poison_shower",
@@ -520,7 +520,7 @@
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "wind_edge",
@@ -530,7 +530,7 @@
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent",
+    "range": "Line",
     "weapon_tag": "Wind"
   },
   {
@@ -538,10 +538,10 @@
     "name": "エアーブレード",
     "type": "Neutral",
     "category": "Special",
-    "power": 60,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "weapon_tag": "Wind"
   },
   {
@@ -549,7 +549,7 @@
     "name": "グラストルネード",
     "type": "Grass",
     "category": "Special",
-    "power": 60,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Area",
@@ -560,7 +560,7 @@
     "name": "フレアストーム",
     "type": "Fire",
     "category": "Special",
-    "power": 60,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Area"
@@ -570,7 +570,7 @@
     "name": "アシッドレイン",
     "type": "Water",
     "category": "Special",
-    "power": 60,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Area"
@@ -580,7 +580,7 @@
     "name": "サンドトルネード",
     "type": "Ground",
     "category": "Special",
-    "power": 60,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Area",
@@ -591,10 +591,10 @@
     "name": "ラインサンダー",
     "type": "Electric",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "spirit_flame",
@@ -604,27 +604,27 @@
     "power": 55,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "power_bomb",
     "name": "パワーボム",
     "type": "Neutral",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "dragon_breath",
     "name": "ドラゴンブレス",
     "type": "Dragon",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent",
+    "range": "Line",
     "weapon_tag": "Breath"
   },
   {
@@ -632,30 +632,30 @@
     "name": "アイスバーグ",
     "type": "Ice",
     "category": "Special",
-    "power": 55,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "stone_cannon",
     "name": "ストーンキャノン",
     "type": "Ground",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "fire_breath",
     "name": "ファイアーブレス",
     "type": "Fire",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent",
+    "range": "Line",
     "weapon_tag": "Breath"
   },
   {
@@ -663,230 +663,230 @@
     "name": "シードマイン",
     "type": "Grass",
     "category": "Special",
-    "power": 50,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "bubble_shot",
     "name": "バブルショット",
     "type": "Water",
     "category": "Special",
-    "power": 50,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "plasma_funnel",
     "name": "プラズマファンネル",
     "type": "Electric",
     "category": "Special",
-    "power": 50,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "lock_on_laser",
     "name": "ロックオンレーザー",
     "type": "Electric",
     "category": "Special",
-    "power": 50,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "dark_arrow",
     "name": "ダークアロー",
     "type": "Dark",
     "category": "Special",
-    "power": 50,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "multi_cutter",
     "name": "マルチカッター",
     "type": "Grass",
     "category": "Special",
-    "power": 50,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Area"
   },
   {
     "id": "shadow_burst",
     "name": "シャドウバースト",
     "type": "Dark",
     "category": "Special",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "flare_arrow",
     "name": "フレアアロー",
     "type": "Fire",
     "category": "Special",
-    "power": 45,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "stone_blast",
     "name": "ストーンブラスト",
     "type": "Ground",
     "category": "Special",
-    "power": 45,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "ice_cutter",
     "name": "アイスカッター",
     "type": "Ice",
     "category": "Special",
-    "power": 45,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "dragon_burst",
     "name": "ドラゴンバースト",
     "type": "Dragon",
     "category": "Special",
-    "power": 45,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "seed_machinegun",
     "name": "シードマシンガン",
     "type": "Grass",
     "category": "Special",
-    "power": 45,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "thunder_ball",
     "name": "サンダーボール",
     "type": "Electric",
     "category": "Special",
-    "power": 45,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "dark_cannon",
     "name": "ダークキャノン",
     "type": "Dark",
     "category": "Special",
-    "power": 45,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Area"
   },
   {
     "id": "split_fire",
     "name": "スプリットファイアー",
     "type": "Fire",
     "category": "Special",
-    "power": 40,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mud_shot",
     "name": "マッドシュート",
     "type": "Ground",
     "category": "Special",
-    "power": 40,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "aqua_gun",
     "name": "アクアショット",
     "type": "Water",
     "category": "Special",
-    "power": 40,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "shockwave",
     "name": "ショックウェーブ",
     "type": "Electric",
     "category": "Special",
-    "power": 40,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "dark_ball",
     "name": "ダークボール",
     "type": "Dark",
     "category": "Special",
-    "power": 40,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "spread_dark",
     "name": "スプレッドダーク",
     "type": "Dark",
     "category": "Special",
-    "power": 40,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "dark_shot",
     "name": "ダークショット",
     "type": "Dark",
     "category": "Special",
-    "power": 40,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "power_shot",
     "name": "パワーショット",
     "type": "Neutral",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 39,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "wind_cutter",
     "name": "ウィンドカッター",
     "type": "Grass",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 39,
-    "range": "Adjacent",
+    "range": "Line",
     "weapon_tag": "Wind"
   },
   {
@@ -894,80 +894,80 @@
     "name": "スパークショット",
     "type": "Electric",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 39,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "dragon_cannon",
     "name": "ドラゴンキャノン",
     "type": "Dragon",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 39,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "fire_shot",
     "name": "ファイアーショット",
     "type": "Fire",
     "category": "Special",
-    "power": 35,
+    "power": 15,
     "accuracy": 100,
     "max_pp": 39,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "ice_missile",
     "name": "アイスミサイル",
     "type": "Ice",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 39,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "poison_shot",
     "name": "ポイズンシュート",
     "type": "Dark",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 39,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "water_jet",
     "name": "ウォータージェット",
     "type": "Water",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 39,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "thunder_spear",
     "name": "サンダースピア",
     "type": "Electric",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 39,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "air_cannon",
     "name": "エアーキャノン",
     "type": "Neutral",
     "category": "Special",
-    "power": 30,
+    "power": 15,
     "accuracy": 100,
     "max_pp": 42,
-    "range": "Adjacent",
+    "range": "Line",
     "weapon_tag": "Wind"
   },
   {
@@ -992,7 +992,8 @@
     "accuracy": 65,
     "max_pp": 4,
     "range": "Adjacent",
-    "recoil_hp_percent": 50
+    "recoil_hp_percent": 50,
+    "is_contact": true
   },
   {
     "id": "MV_099",
@@ -1023,10 +1024,10 @@
     "name": "きょくりゅうほう",
     "type": "Dragon",
     "category": "Special",
-    "power": 120,
+    "power": 100,
     "accuracy": 70,
     "max_pp": 6,
-    "range": "Adjacent",
+    "range": "Room",
     "self_stun_next_turn": true
   },
   {
@@ -1110,7 +1111,7 @@
     "name": "りゅうりんざん",
     "type": "Dragon",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 9,
     "range": "Adjacent",
@@ -1122,7 +1123,7 @@
     "name": "そうりゅうが",
     "type": "Dragon",
     "category": "Physical",
-    "power": 80,
+    "power": 70,
     "accuracy": 95,
     "max_pp": 13,
     "range": "Adjacent",
@@ -1145,7 +1146,7 @@
     "name": "りゅうそうれんざん",
     "type": "Dragon",
     "category": "Physical",
-    "power": 75,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
@@ -1188,30 +1189,30 @@
     "name": "りゅうりんとばし",
     "type": "Dragon",
     "category": "Special",
-    "power": 50,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_118",
     "name": "しょうりゅうだん",
     "type": "Dragon",
     "category": "Special",
-    "power": 40,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_119",
     "name": "りゅうきだん",
     "type": "Dragon",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 39,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_120",
@@ -1232,7 +1233,8 @@
     "accuracy": 100,
     "max_pp": 34,
     "range": "Adjacent",
-    "crit_rank_bonus": 1
+    "crit_rank_bonus": 1,
+    "is_contact": true
   },
   {
     "id": "MV_122",
@@ -1252,7 +1254,7 @@
     "name": "くらきやいば",
     "type": "Dark",
     "category": "Physical",
-    "power": 40,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 32,
     "range": "Adjacent",
@@ -1270,7 +1272,8 @@
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": -1,
-    "rank_effect_target": "Enemy"
+    "rank_effect_target": "Enemy",
+    "is_contact": true
   },
   {
     "id": "MV_125",
@@ -1284,31 +1287,33 @@
     "rank_effect_stat": "Evasion",
     "rank_effect_delta": -1,
     "rank_effect_target": "Enemy",
-    "weapon_tag": "Slash"
+    "weapon_tag": "Slash",
+    "is_contact": true
   },
   {
     "id": "MV_126",
     "name": "じゅばくのくさり",
     "type": "Dark",
     "category": "Physical",
-    "power": 40,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 32,
     "range": "Adjacent",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": -1,
     "rank_effect_target": "Enemy",
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MV_127",
     "name": "あんりんげき",
     "type": "Dark",
     "category": "Special",
-    "power": 45,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Area",
     "crit_rank_bonus": 1
   },
   {
@@ -1343,7 +1348,7 @@
     "name": "こんめいのうず",
     "type": "Dark",
     "category": "Special",
-    "power": 65,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Area",
@@ -1356,10 +1361,10 @@
     "name": "ナイトメアパルス",
     "type": "Dark",
     "category": "Special",
-    "power": 70,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent",
+    "range": "Line",
     "crit_rank_bonus": 1
   },
   {
@@ -1367,7 +1372,7 @@
     "name": "あんこくはどう",
     "type": "Dark",
     "category": "Special",
-    "power": 70,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Area",
@@ -1380,7 +1385,7 @@
     "name": "あんれつは",
     "type": "Dark",
     "category": "Special",
-    "power": 75,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Line",
@@ -1394,7 +1399,7 @@
     "power": 85,
     "accuracy": 90,
     "max_pp": 11,
-    "range": "Adjacent",
+    "range": "Line",
     "crit_rank_bonus": 1
   },
   {
@@ -1427,7 +1432,7 @@
     "name": "うらけん",
     "type": "Neutral",
     "category": "Physical",
-    "power": 40,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 36,
     "range": "Adjacent",
@@ -1439,7 +1444,7 @@
     "name": "にれんづき",
     "type": "Neutral",
     "category": "Physical",
-    "power": 45,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 33,
     "range": "Adjacent",
@@ -1450,7 +1455,7 @@
     "name": "しっぽばらい",
     "type": "Neutral",
     "category": "Physical",
-    "power": 45,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 33,
     "range": "Adjacent",
@@ -1461,7 +1466,7 @@
     "name": "ずつき",
     "type": "Neutral",
     "category": "Physical",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 33,
     "range": "Adjacent",
@@ -1472,7 +1477,7 @@
     "name": "かいてんタックル",
     "type": "Neutral",
     "category": "Physical",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 33,
     "range": "Adjacent",
@@ -1505,7 +1510,7 @@
     "name": "くだきうち",
     "type": "Neutral",
     "category": "Physical",
-    "power": 50,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 30,
     "range": "Adjacent",
@@ -1516,7 +1521,7 @@
     "name": "みだれづき",
     "type": "Neutral",
     "category": "Physical",
-    "power": 45,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 33,
     "range": "Adjacent",
@@ -1527,7 +1532,7 @@
     "name": "つうれつないちげき",
     "type": "Neutral",
     "category": "Physical",
-    "power": 55,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 27,
     "range": "Adjacent",
@@ -1538,30 +1543,30 @@
     "name": "エナジーショット",
     "type": "Neutral",
     "category": "Special",
-    "power": 40,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_148",
     "name": "こうだん",
     "type": "Neutral",
     "category": "Special",
-    "power": 45,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_149",
     "name": "くうあつほう",
     "type": "Neutral",
     "category": "Special",
-    "power": 50,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Area",
     "weapon_tag": "Wind"
   },
   {
@@ -1579,7 +1584,7 @@
     "name": "れっぷうざん",
     "type": "Neutral",
     "category": "Special",
-    "power": 55,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 27,
     "range": "Line",
@@ -1590,7 +1595,7 @@
     "name": "はてんげき",
     "type": "Neutral",
     "category": "Special",
-    "power": 60,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Area"
@@ -1600,17 +1605,17 @@
     "name": "エナジーブラスト",
     "type": "Neutral",
     "category": "Special",
-    "power": 70,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Room"
   },
   {
     "id": "MV_154",
     "name": "ひかりのほんりゅう",
     "type": "Neutral",
     "category": "Special",
-    "power": 75,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Line"
@@ -1652,10 +1657,10 @@
     "name": "きょっこうほう",
     "type": "Neutral",
     "category": "Special",
-    "power": 120,
+    "power": 110,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_159",
@@ -1673,10 +1678,10 @@
     "name": "きゅうしょねらい",
     "type": "Neutral",
     "category": "Special",
-    "power": 50,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Room",
     "crit_rank_bonus": 1
   },
   {
@@ -1734,17 +1739,17 @@
     "name": "けずりうち",
     "type": "Neutral",
     "category": "Special",
-    "power": 50,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_166",
     "name": "おいうち",
     "type": "Neutral",
     "category": "Physical",
-    "power": 55,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 27,
     "range": "Adjacent",
@@ -1755,7 +1760,7 @@
     "name": "れんせん",
     "type": "Neutral",
     "category": "Special",
-    "power": 60,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Line"
@@ -1765,12 +1770,13 @@
     "name": "スパークボルト",
     "type": "Electric",
     "category": "Physical",
-    "power": 50,
+    "power": 45,
     "accuracy": 95,
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MV_169",
@@ -1782,7 +1788,8 @@
     "max_pp": 26,
     "range": "Line",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": false
   },
   {
     "id": "MV_170",
@@ -1794,7 +1801,8 @@
     "max_pp": 24,
     "range": "Room",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": false
   },
   {
     "id": "MV_171",
@@ -1804,7 +1812,8 @@
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Room"
+    "range": "Room",
+    "is_contact": false
   },
   {
     "id": "MV_172",
@@ -1814,27 +1823,28 @@
     "power": 70,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Line"
+    "range": "Line",
+    "is_contact": false
   },
   {
     "id": "MV_173",
     "name": "プラズマボール",
     "type": "Electric",
     "category": "Special",
-    "power": 75,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 15,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_174",
     "name": "らいじんのいかり",
     "type": "Electric",
     "category": "Special",
-    "power": 95,
+    "power": 105,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Room"
+    "range": "Line"
   },
   {
     "id": "MV_175",
@@ -1900,7 +1910,7 @@
     "name": "スタティックフィールド",
     "type": "Electric",
     "category": "Special",
-    "power": 55,
+    "power": 60,
     "accuracy": 90,
     "max_pp": 26,
     "range": "Room",
@@ -1912,7 +1922,7 @@
     "name": "らいめいちらし",
     "type": "Electric",
     "category": "Special",
-    "power": 60,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Room"
@@ -1944,20 +1954,20 @@
     "name": "らいきゅう",
     "type": "Electric",
     "category": "Special",
-    "power": 45,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_185",
     "name": "らいこうだん",
     "type": "Electric",
     "category": "Special",
-    "power": 45,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Area"
   },
   {
     "id": "MV_186",
@@ -1974,20 +1984,22 @@
     "name": "ひょうれき",
     "type": "Ice",
     "category": "Physical",
-    "power": 40,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": false
   },
   {
     "id": "MV_188",
     "name": "こおりのやいば",
     "type": "Ice",
     "category": "Physical",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MV_189",
@@ -1997,7 +2009,8 @@
     "power": 50,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MV_190",
@@ -2007,7 +2020,8 @@
     "power": 55,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Line"
+    "range": "Line",
+    "is_contact": false
   },
   {
     "id": "MV_191",
@@ -2047,7 +2061,7 @@
     "name": "フリーズレイ",
     "type": "Ice",
     "category": "Special",
-    "power": 75,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Line",
@@ -2072,7 +2086,7 @@
     "name": "アイスストーム",
     "type": "Ice",
     "category": "Special",
-    "power": 80,
+    "power": 85,
     "accuracy": 100,
     "max_pp": 12,
     "range": "Room"
@@ -2082,10 +2096,10 @@
     "name": "ぜったいれいどは",
     "type": "Ice",
     "category": "Special",
-    "power": 95,
+    "power": 105,
     "accuracy": 85,
     "max_pp": 6,
-    "range": "Room",
+    "range": "Line",
     "ailment_effect": "Freeze",
     "ailment_chance": 5
   },
@@ -2094,10 +2108,10 @@
     "name": "ひょうけつじごく",
     "type": "Ice",
     "category": "Special",
-    "power": 115,
+    "power": 125,
     "accuracy": 65,
     "max_pp": 6,
-    "range": "Room",
+    "range": "Line",
     "ailment_effect": "Freeze",
     "ailment_chance": 5
   },
@@ -2106,10 +2120,10 @@
     "name": "ダイヤモンドダスト",
     "type": "Ice",
     "category": "Special",
-    "power": 125,
+    "power": 135,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Room"
+    "range": "Line"
   },
   {
     "id": "MV_200",
@@ -2127,27 +2141,27 @@
     "name": "つららおとし",
     "type": "Ice",
     "category": "Special",
-    "power": 85,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 9,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_202",
     "name": "フロストノヴァ",
     "type": "Ice",
     "category": "Special",
-    "power": 90,
+    "power": 100,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Room"
+    "range": "Line"
   },
   {
     "id": "MV_203",
     "name": "いてつくといき",
     "type": "Ice",
     "category": "Special",
-    "power": 55,
+    "power": 50,
     "accuracy": 95,
     "max_pp": 26,
     "range": "Line",
@@ -2160,20 +2174,20 @@
     "name": "ひょうしょうだん",
     "type": "Ice",
     "category": "Special",
-    "power": 45,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_205",
     "name": "しものあみ",
     "type": "Ice",
     "category": "Special",
-    "power": 50,
+    "power": 30,
     "accuracy": 95,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Area",
     "ailment_effect": "Freeze",
     "ailment_chance": 15
   },
@@ -2182,10 +2196,10 @@
     "name": "ひょうかいおとし",
     "type": "Ice",
     "category": "Special",
-    "power": 75,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 15,
-    "range": "Adjacent"
+    "range": "Area"
   },
   {
     "id": "MV_207",
@@ -2205,7 +2219,7 @@
     "name": "スノーブラスト",
     "type": "Ice",
     "category": "Special",
-    "power": 65,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Room"
@@ -2215,7 +2229,7 @@
     "name": "ひょうけつほう",
     "type": "Ice",
     "category": "Special",
-    "power": 85,
+    "power": 90,
     "accuracy": 100,
     "max_pp": 9,
     "range": "Line"
@@ -2225,10 +2239,10 @@
     "name": "アイスエイジ",
     "type": "Ice",
     "category": "Special",
-    "power": 130,
+    "power": 135,
     "accuracy": 65,
     "max_pp": 4,
-    "range": "Room",
+    "range": "Area",
     "ailment_effect": "Freeze",
     "ailment_chance": 5
   },
@@ -2250,20 +2264,22 @@
     "name": "みずでっぽう",
     "type": "Water",
     "category": "Physical",
-    "power": 40,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "TwoTile"
+    "range": "TwoTile",
+    "is_contact": false
   },
   {
     "id": "MV_213",
     "name": "すいりゅうだん",
     "type": "Water",
     "category": "Physical",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "TwoTile"
+    "range": "TwoTile",
+    "is_contact": false
   },
   {
     "id": "MV_214",
@@ -2274,17 +2290,18 @@
     "accuracy": 100,
     "max_pp": 33,
     "range": "TwoTile",
-    "weapon_tag": "Slash"
+    "weapon_tag": "Slash",
+    "is_contact": false
   },
   {
     "id": "MV_215",
     "name": "ウォーターカッター",
     "type": "Water",
     "category": "Special",
-    "power": 50,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "TwoTile"
+    "range": "Area"
   },
   {
     "id": "MV_216",
@@ -2294,34 +2311,35 @@
     "power": 55,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "TwoTile"
+    "range": "TwoTile",
+    "is_contact": false
   },
   {
     "id": "MV_217",
     "name": "アクアランス",
     "type": "Water",
     "category": "Special",
-    "power": 60,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "TwoTile"
+    "range": "Line"
   },
   {
     "id": "MV_218",
     "name": "みずばしら",
     "type": "Water",
     "category": "Special",
-    "power": 65,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_219",
     "name": "げきりゅうほう",
     "type": "Water",
     "category": "Special",
-    "power": 80,
+    "power": 85,
     "accuracy": 100,
     "max_pp": 12,
     "range": "Line"
@@ -2331,7 +2349,7 @@
     "name": "うずしお",
     "type": "Water",
     "category": "Special",
-    "power": 70,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Room"
@@ -2385,27 +2403,27 @@
     "name": "すいほうだん",
     "type": "Water",
     "category": "Special",
-    "power": 40,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "TwoTile"
+    "range": "Line"
   },
   {
     "id": "MV_226",
     "name": "すいふんしゃ",
     "type": "Water",
     "category": "Special",
-    "power": 50,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "TwoTile"
+    "range": "Area"
   },
   {
     "id": "MV_227",
     "name": "アクアジェット",
     "type": "Water",
     "category": "Physical",
-    "power": 55,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 27,
     "range": "Adjacent",
@@ -2416,7 +2434,7 @@
     "name": "みずたつまき",
     "type": "Water",
     "category": "Special",
-    "power": 75,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Room",
@@ -2427,17 +2445,17 @@
     "name": "しおふき",
     "type": "Water",
     "category": "Special",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "TwoTile"
+    "range": "Area"
   },
   {
     "id": "MV_230",
     "name": "すいが",
     "type": "Water",
     "category": "Physical",
-    "power": 60,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Adjacent",
@@ -2448,10 +2466,10 @@
     "name": "バブルビーム",
     "type": "Water",
     "category": "Special",
-    "power": 75,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 15,
-    "range": "TwoTile"
+    "range": "Line"
   },
   {
     "id": "MV_232",
@@ -2470,22 +2488,23 @@
     "name": "ひのこ",
     "type": "Fire",
     "category": "Physical",
-    "power": 40,
+    "power": 35,
     "accuracy": 95,
     "max_pp": 32,
     "range": "Adjacent",
     "ailment_effect": "Burn",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MV_234",
     "name": "かえんだん",
     "type": "Fire",
     "category": "Special",
-    "power": 45,
+    "power": 30,
     "accuracy": 95,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Burn",
     "ailment_chance": 10
   },
@@ -2494,17 +2513,17 @@
     "name": "フレイムショット",
     "type": "Fire",
     "category": "Special",
-    "power": 50,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_236",
     "name": "えんそう",
     "type": "Fire",
     "category": "Physical",
-    "power": 55,
+    "power": 45,
     "accuracy": 95,
     "max_pp": 26,
     "range": "Adjacent",
@@ -2518,7 +2537,7 @@
     "name": "かえんざん",
     "type": "Fire",
     "category": "Physical",
-    "power": 60,
+    "power": 55,
     "accuracy": 95,
     "max_pp": 24,
     "range": "Adjacent",
@@ -2546,10 +2565,10 @@
     "name": "ひばしら",
     "type": "Fire",
     "category": "Special",
-    "power": 70,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_240",
@@ -2578,10 +2597,10 @@
     "name": "ごくえん",
     "type": "Fire",
     "category": "Special",
-    "power": 100,
+    "power": 105,
     "accuracy": 65,
     "max_pp": 6,
-    "range": "Area",
+    "range": "Line",
     "ailment_effect": "Burn",
     "ailment_chance": 10
   },
@@ -2590,10 +2609,10 @@
     "name": "ごうかのうず",
     "type": "Fire",
     "category": "Special",
-    "power": 115,
+    "power": 110,
     "accuracy": 65,
     "max_pp": 6,
-    "range": "Area",
+    "range": "Room",
     "recoil_hp_percent": 25
   },
   {
@@ -2601,10 +2620,10 @@
     "name": "フレアバースト",
     "type": "Fire",
     "category": "Special",
-    "power": 125,
+    "power": 120,
     "accuracy": 65,
     "max_pp": 6,
-    "range": "Area",
+    "range": "Room",
     "recoil_hp_percent": 33
   },
   {
@@ -2612,7 +2631,7 @@
     "name": "かえんぐるま",
     "type": "Fire",
     "category": "Physical",
-    "power": 60,
+    "power": 55,
     "accuracy": 95,
     "max_pp": 24,
     "range": "Adjacent",
@@ -2625,7 +2644,7 @@
     "name": "ほのおのきば",
     "type": "Fire",
     "category": "Physical",
-    "power": 55,
+    "power": 50,
     "accuracy": 95,
     "max_pp": 26,
     "range": "Adjacent",
@@ -2638,10 +2657,10 @@
     "name": "かきゅう",
     "type": "Fire",
     "category": "Special",
-    "power": 50,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Room"
   },
   {
     "id": "MV_248",
@@ -2670,7 +2689,7 @@
     "name": "ほのおつき",
     "type": "Fire",
     "category": "Physical",
-    "power": 55,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 27,
     "range": "Adjacent",
@@ -2681,7 +2700,7 @@
     "name": "やきうち",
     "type": "Fire",
     "category": "Special",
-    "power": 75,
+    "power": 80,
     "accuracy": 95,
     "max_pp": 15,
     "range": "Area",
@@ -2717,7 +2736,7 @@
     "name": "ひたつまき",
     "type": "Fire",
     "category": "Special",
-    "power": 80,
+    "power": 85,
     "accuracy": 100,
     "max_pp": 12,
     "range": "Area",
@@ -2728,10 +2747,10 @@
     "name": "かえんれんだん",
     "type": "Fire",
     "category": "Special",
-    "power": 55,
+    "power": 40,
     "accuracy": 95,
     "max_pp": 26,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Burn",
     "ailment_chance": 10
   },
@@ -2740,10 +2759,11 @@
     "name": "いしつぶて",
     "type": "Ground",
     "category": "Physical",
-    "power": 40,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": false
   },
   {
     "id": "MV_257",
@@ -2753,7 +2773,8 @@
     "power": 45,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": false
   },
   {
     "id": "MV_258",
@@ -2779,7 +2800,8 @@
     "rank_effect_delta": -1,
     "rank_effect_target": "Enemy",
     "rank_effect_chance": 0.2,
-    "weapon_tag": "Slash"
+    "weapon_tag": "Slash",
+    "is_contact": true
   },
   {
     "id": "MV_260",
@@ -2794,17 +2816,18 @@
     "rank_effect_delta": -1,
     "rank_effect_target": "Enemy",
     "rank_effect_chance": 0.2,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MV_261",
     "name": "つちけむり",
     "type": "Ground",
     "category": "Special",
-    "power": 50,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
     "rank_effect_chance": 0.2
@@ -2814,7 +2837,7 @@
     "name": "いわくずし",
     "type": "Ground",
     "category": "Special",
-    "power": 65,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Area"
@@ -2824,7 +2847,7 @@
     "name": "ロックスマッシュ",
     "type": "Ground",
     "category": "Physical",
-    "power": 70,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Adjacent",
@@ -2845,37 +2868,37 @@
     "name": "ちかくへんどう",
     "type": "Ground",
     "category": "Special",
-    "power": 115,
+    "power": 110,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Area"
+    "range": "Room"
   },
   {
     "id": "MV_266",
     "name": "だいちげきしん",
     "type": "Ground",
     "category": "Special",
-    "power": 100,
+    "power": 110,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "FullFloor"
+    "range": "Line"
   },
   {
     "id": "MV_267",
     "name": "いわなげ",
     "type": "Ground",
     "category": "Special",
-    "power": 50,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_268",
     "name": "すなあらしげき",
     "type": "Ground",
     "category": "Special",
-    "power": 60,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Area",
@@ -2890,10 +2913,10 @@
     "name": "じめんつきあげ",
     "type": "Ground",
     "category": "Special",
-    "power": 55,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_270",
@@ -2910,10 +2933,10 @@
     "name": "どりゅうげき",
     "type": "Ground",
     "category": "Special",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_272",
@@ -2943,7 +2966,7 @@
     "name": "がんばんわり",
     "type": "Ground",
     "category": "Physical",
-    "power": 80,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 12,
     "range": "Adjacent",
@@ -2975,10 +2998,10 @@
     "name": "さだん",
     "type": "Ground",
     "category": "Special",
-    "power": 45,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Evasion",
     "rank_effect_delta": -1,
     "rank_effect_target": "Enemy",
@@ -2989,20 +3012,20 @@
     "name": "がんかいほう",
     "type": "Ground",
     "category": "Special",
-    "power": 80,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 12,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_279",
     "name": "ほうがんげき",
     "type": "Ground",
     "category": "Special",
-    "power": 125,
+    "power": 120,
     "accuracy": 65,
     "max_pp": 6,
-    "range": "Area",
+    "range": "Room",
     "recoil_hp_percent": 25
   },
   {
@@ -3010,10 +3033,10 @@
     "name": "すなしばり",
     "type": "Ground",
     "category": "Special",
-    "power": 50,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Room",
     "rank_effect_stat": "Evasion",
     "rank_effect_delta": -1,
     "rank_effect_target": "Enemy",
@@ -3024,20 +3047,22 @@
     "name": "はのやいば",
     "type": "Grass",
     "category": "Physical",
-    "power": 40,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MV_282",
     "name": "たねうち",
     "type": "Grass",
     "category": "Physical",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 33,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MV_283",
@@ -3055,20 +3080,20 @@
     "name": "リーフカッター",
     "type": "Grass",
     "category": "Special",
-    "power": 50,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_285",
     "name": "くさむすび",
     "type": "Grass",
     "category": "Special",
-    "power": 50,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Area",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": -1,
     "rank_effect_target": "Enemy"
@@ -3078,7 +3103,7 @@
     "name": "はなふぶき",
     "type": "Grass",
     "category": "Special",
-    "power": 55,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 27,
     "range": "Area"
@@ -3099,7 +3124,7 @@
     "name": "ソーンウィップ",
     "type": "Grass",
     "category": "Physical",
-    "power": 60,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 24,
     "range": "Adjacent",
@@ -3110,7 +3135,7 @@
     "name": "パワーウィップ",
     "type": "Grass",
     "category": "Physical",
-    "power": 80,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 12,
     "range": "Adjacent",
@@ -3153,27 +3178,27 @@
     "name": "ようじんれんげき",
     "type": "Grass",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_294",
     "name": "ねうがち",
     "type": "Grass",
     "category": "Special",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_295",
     "name": "かふんばくはつ",
     "type": "Grass",
     "category": "Special",
-    "power": 70,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Area"
@@ -3183,7 +3208,7 @@
     "name": "いばらのむち",
     "type": "Grass",
     "category": "Physical",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
@@ -3194,7 +3219,7 @@
     "name": "じゅもくげき",
     "type": "Grass",
     "category": "Physical",
-    "power": 75,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
@@ -3205,10 +3230,10 @@
     "name": "れんしゃしゅだん",
     "type": "Grass",
     "category": "Special",
-    "power": 55,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "MV_299",
@@ -3239,10 +3264,10 @@
     "name": "はっこう",
     "type": "Neutral",
     "category": "Special",
-    "power": 30,
+    "power": 15,
     "accuracy": 85,
     "max_pp": 36,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Stun",
     "ailment_chance": 30
   },
@@ -3251,10 +3276,10 @@
     "name": "むそう",
     "type": "Neutral",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 85,
     "max_pp": 34,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Stun",
     "ailment_chance": 30
   },
@@ -3263,10 +3288,10 @@
     "name": "くうめい",
     "type": "Neutral",
     "category": "Special",
-    "power": 40,
+    "power": 30,
     "accuracy": 90,
     "max_pp": 32,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Stun",
     "ailment_chance": 20
   },
@@ -3275,10 +3300,10 @@
     "name": "そげき",
     "type": "Neutral",
     "category": "Special",
-    "power": 45,
+    "power": 30,
     "accuracy": 90,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Area",
     "ailment_effect": "Stun",
     "ailment_chance": 20
   },
@@ -3287,10 +3312,10 @@
     "name": "ちゅうよう",
     "type": "Neutral",
     "category": "Special",
-    "power": 50,
+    "power": 40,
     "accuracy": 95,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Stun",
     "ailment_chance": 10
   },
@@ -3299,10 +3324,10 @@
     "name": "むしん",
     "type": "Neutral",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 95,
     "max_pp": 26,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Stun",
     "ailment_chance": 10
   },
@@ -3311,10 +3336,10 @@
     "name": "はくじん",
     "type": "Neutral",
     "category": "Special",
-    "power": 60,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_008",
@@ -3324,7 +3349,7 @@
     "power": 60,
     "accuracy": 95,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Stun",
     "ailment_chance": 10
   },
@@ -3336,7 +3361,7 @@
     "power": 60,
     "accuracy": 90,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Stun",
     "ailment_chance": 20
   },
@@ -3348,27 +3373,27 @@
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_011",
     "name": "じゅんだ",
     "type": "Neutral",
     "category": "Special",
-    "power": 70,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_012",
     "name": "ぐれん",
     "type": "Fire",
     "category": "Special",
-    "power": 30,
+    "power": 15,
     "accuracy": 85,
     "max_pp": 36,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Burn",
     "ailment_chance": 30
   },
@@ -3377,10 +3402,10 @@
     "name": "しょうねつ",
     "type": "Fire",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 85,
     "max_pp": 34,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Burn",
     "ailment_chance": 30
   },
@@ -3389,10 +3414,10 @@
     "name": "りんか",
     "type": "Fire",
     "category": "Special",
-    "power": 40,
+    "power": 25,
     "accuracy": 90,
     "max_pp": 32,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Burn",
     "ailment_chance": 20
   },
@@ -3401,10 +3426,10 @@
     "name": "あぶり",
     "type": "Fire",
     "category": "Special",
-    "power": 45,
+    "power": 35,
     "accuracy": 90,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Burn",
     "ailment_chance": 20
   },
@@ -3413,10 +3438,10 @@
     "name": "しゃく",
     "type": "Fire",
     "category": "Special",
-    "power": 50,
+    "power": 40,
     "accuracy": 95,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Burn",
     "ailment_chance": 10
   },
@@ -3425,10 +3450,10 @@
     "name": "おきび",
     "type": "Fire",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 95,
     "max_pp": 26,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Burn",
     "ailment_chance": 10
   },
@@ -3437,20 +3462,20 @@
     "name": "ほむら",
     "type": "Fire",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_019",
     "name": "えんじん",
     "type": "Fire",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 95,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Burn",
     "ailment_chance": 10
   },
@@ -3459,10 +3484,10 @@
     "name": "ごうえん",
     "type": "Fire",
     "category": "Special",
-    "power": 60,
+    "power": 55,
     "accuracy": 90,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Burn",
     "ailment_chance": 20
   },
@@ -3471,30 +3496,30 @@
     "name": "かぐん",
     "type": "Fire",
     "category": "Special",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_022",
     "name": "たんか",
     "type": "Fire",
     "category": "Special",
-    "power": 70,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Room"
   },
   {
     "id": "mvn_023",
     "name": "せいりゅう",
     "type": "Water",
     "category": "Special",
-    "power": 30,
+    "power": 15,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1
   },
@@ -3503,10 +3528,10 @@
     "name": "みずかがみ",
     "type": "Water",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 34,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1
   },
@@ -3515,10 +3540,10 @@
     "name": "しおさい",
     "type": "Water",
     "category": "Special",
-    "power": 40,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 32,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1
   },
@@ -3527,10 +3552,10 @@
     "name": "てきげき",
     "type": "Water",
     "category": "Special",
-    "power": 45,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1
   },
@@ -3539,10 +3564,10 @@
     "name": "すいもん",
     "type": "Water",
     "category": "Special",
-    "power": 50,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1
   },
@@ -3551,10 +3576,10 @@
     "name": "ひまつ",
     "type": "Water",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 26,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1
   },
@@ -3563,20 +3588,20 @@
     "name": "すいみゃく",
     "type": "Water",
     "category": "Special",
-    "power": 60,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_030",
     "name": "へきは",
     "type": "Water",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1
   },
@@ -3585,10 +3610,10 @@
     "name": "しずくだん",
     "type": "Water",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1
   },
@@ -3600,7 +3625,7 @@
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_033",
@@ -3610,17 +3635,17 @@
     "power": 70,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_034",
     "name": "しでん",
     "type": "Electric",
     "category": "Special",
-    "power": 30,
+    "power": 15,
     "accuracy": 85,
     "max_pp": 36,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Paralyze",
     "ailment_chance": 30
   },
@@ -3629,10 +3654,10 @@
     "name": "らいめい",
     "type": "Electric",
     "category": "Special",
-    "power": 35,
+    "power": 15,
     "accuracy": 85,
     "max_pp": 34,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Paralyze",
     "ailment_chance": 30
   },
@@ -3641,10 +3666,10 @@
     "name": "でんこう",
     "type": "Electric",
     "category": "Special",
-    "power": 40,
+    "power": 25,
     "accuracy": 90,
     "max_pp": 32,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Paralyze",
     "ailment_chance": 20
   },
@@ -3653,10 +3678,10 @@
     "name": "たいらい",
     "type": "Electric",
     "category": "Special",
-    "power": 45,
+    "power": 30,
     "accuracy": 90,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Area",
     "ailment_effect": "Paralyze",
     "ailment_chance": 20
   },
@@ -3665,10 +3690,10 @@
     "name": "じんらい",
     "type": "Electric",
     "category": "Special",
-    "power": 50,
+    "power": 40,
     "accuracy": 95,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Paralyze",
     "ailment_chance": 10
   },
@@ -3677,10 +3702,10 @@
     "name": "らいもん",
     "type": "Electric",
     "category": "Special",
-    "power": 55,
+    "power": 50,
     "accuracy": 95,
     "max_pp": 26,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Paralyze",
     "ailment_chance": 10
   },
@@ -3689,20 +3714,20 @@
     "name": "らいせき",
     "type": "Electric",
     "category": "Special",
-    "power": 60,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_041",
     "name": "せいでん",
     "type": "Electric",
     "category": "Special",
-    "power": 60,
+    "power": 55,
     "accuracy": 95,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Paralyze",
     "ailment_chance": 10
   },
@@ -3711,10 +3736,10 @@
     "name": "らいしん",
     "type": "Electric",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 90,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Area",
     "ailment_effect": "Paralyze",
     "ailment_chance": 20
   },
@@ -3723,10 +3748,10 @@
     "name": "でんせん",
     "type": "Electric",
     "category": "Special",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Area"
   },
   {
     "id": "mvn_044",
@@ -3736,17 +3761,17 @@
     "power": 70,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_045",
     "name": "どかい",
     "type": "Ground",
     "category": "Special",
-    "power": 30,
+    "power": 15,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1
   },
@@ -3755,10 +3780,10 @@
     "name": "がんばん",
     "type": "Ground",
     "category": "Special",
-    "power": 35,
+    "power": 15,
     "accuracy": 100,
     "max_pp": 34,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1
   },
@@ -3767,10 +3792,10 @@
     "name": "ちみゃく",
     "type": "Ground",
     "category": "Special",
-    "power": 40,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 32,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1
   },
@@ -3779,10 +3804,10 @@
     "name": "さいど",
     "type": "Ground",
     "category": "Special",
-    "power": 45,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1
   },
@@ -3791,10 +3816,10 @@
     "name": "ちい",
     "type": "Ground",
     "category": "Special",
-    "power": 50,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1
   },
@@ -3803,10 +3828,10 @@
     "name": "がんぺん",
     "type": "Ground",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 26,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1
   },
@@ -3815,20 +3840,20 @@
     "name": "つちかべ",
     "type": "Ground",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_052",
     "name": "じがため",
     "type": "Ground",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1
   },
@@ -3837,10 +3862,10 @@
     "name": "れきだ",
     "type": "Ground",
     "category": "Special",
-    "power": 60,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1
   },
@@ -3849,30 +3874,30 @@
     "name": "じもん",
     "type": "Ground",
     "category": "Special",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_055",
     "name": "けんど",
     "type": "Ground",
     "category": "Special",
-    "power": 70,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Room"
   },
   {
     "id": "mvn_056",
     "name": "りょくよう",
     "type": "Grass",
     "category": "Special",
-    "power": 30,
+    "power": 15,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent",
+    "range": "Line",
     "drain_hp_percent": 50
   },
   {
@@ -3880,10 +3905,10 @@
     "name": "つたげき",
     "type": "Grass",
     "category": "Special",
-    "power": 35,
+    "power": 15,
     "accuracy": 100,
     "max_pp": 34,
-    "range": "Adjacent",
+    "range": "Line",
     "drain_hp_percent": 50
   },
   {
@@ -3891,10 +3916,10 @@
     "name": "ようみゃく",
     "type": "Grass",
     "category": "Special",
-    "power": 40,
+    "power": 20,
     "accuracy": 100,
     "max_pp": 32,
-    "range": "Adjacent",
+    "range": "Line",
     "drain_hp_percent": 50
   },
   {
@@ -3902,10 +3927,10 @@
     "name": "わかば",
     "type": "Grass",
     "category": "Special",
-    "power": 45,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Line",
     "drain_hp_percent": 50
   },
   {
@@ -3913,10 +3938,10 @@
     "name": "そうもん",
     "type": "Grass",
     "category": "Special",
-    "power": 50,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Room",
     "drain_hp_percent": 50
   },
   {
@@ -3924,10 +3949,10 @@
     "name": "あおば",
     "type": "Grass",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 26,
-    "range": "Adjacent",
+    "range": "Line",
     "drain_hp_percent": 50
   },
   {
@@ -3935,20 +3960,20 @@
     "name": "はむら",
     "type": "Grass",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_063",
     "name": "そうい",
     "type": "Grass",
     "category": "Special",
-    "power": 60,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "drain_hp_percent": 50
   },
   {
@@ -3956,10 +3981,10 @@
     "name": "つるだ",
     "type": "Grass",
     "category": "Special",
-    "power": 60,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "drain_hp_percent": 50
   },
   {
@@ -3970,7 +3995,7 @@
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_066",
@@ -3980,17 +4005,17 @@
     "power": 70,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_067",
     "name": "はくひょう",
     "type": "Ice",
     "category": "Special",
-    "power": 30,
+    "power": 15,
     "accuracy": 85,
     "max_pp": 36,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Freeze",
     "ailment_chance": 30
   },
@@ -3999,10 +4024,10 @@
     "name": "ひょうけつ",
     "type": "Ice",
     "category": "Special",
-    "power": 35,
+    "power": 20,
     "accuracy": 85,
     "max_pp": 34,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Freeze",
     "ailment_chance": 30
   },
@@ -4011,10 +4036,10 @@
     "name": "そうげき",
     "type": "Ice",
     "category": "Special",
-    "power": 40,
+    "power": 25,
     "accuracy": 90,
     "max_pp": 32,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Freeze",
     "ailment_chance": 20
   },
@@ -4023,10 +4048,10 @@
     "name": "ひょうもん",
     "type": "Ice",
     "category": "Special",
-    "power": 45,
+    "power": 35,
     "accuracy": 90,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Freeze",
     "ailment_chance": 20
   },
@@ -4035,10 +4060,10 @@
     "name": "れいきだん",
     "type": "Ice",
     "category": "Special",
-    "power": 50,
+    "power": 35,
     "accuracy": 95,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Area",
     "ailment_effect": "Freeze",
     "ailment_chance": 10
   },
@@ -4047,10 +4072,10 @@
     "name": "ひょうへん",
     "type": "Ice",
     "category": "Special",
-    "power": 55,
+    "power": 40,
     "accuracy": 95,
     "max_pp": 26,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Freeze",
     "ailment_chance": 10
   },
@@ -4059,20 +4084,20 @@
     "name": "とううん",
     "type": "Ice",
     "category": "Special",
-    "power": 60,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_074",
     "name": "ひょうい",
     "type": "Ice",
     "category": "Special",
-    "power": 60,
+    "power": 45,
     "accuracy": 95,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Freeze",
     "ailment_chance": 10
   },
@@ -4081,10 +4106,10 @@
     "name": "そうか",
     "type": "Ice",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 90,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Freeze",
     "ailment_chance": 20
   },
@@ -4093,30 +4118,30 @@
     "name": "ひょうしん",
     "type": "Ice",
     "category": "Special",
-    "power": 65,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_077",
     "name": "れいげき",
     "type": "Ice",
     "category": "Special",
-    "power": 70,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_078",
     "name": "りゅうが",
     "type": "Dragon",
     "category": "Special",
-    "power": 30,
+    "power": 15,
     "accuracy": 100,
     "max_pp": 36,
-    "range": "Adjacent",
+    "range": "Line",
     "recoil_hp_percent": 25,
     "dragon_multiplier": 1.25
   },
@@ -4125,10 +4150,10 @@
     "name": "りゅうりんげき",
     "type": "Dragon",
     "category": "Special",
-    "power": 35,
+    "power": 25,
     "accuracy": 100,
     "max_pp": 34,
-    "range": "Adjacent",
+    "range": "Line",
     "recoil_hp_percent": 25,
     "dragon_multiplier": 1.25
   },
@@ -4137,10 +4162,10 @@
     "name": "りゅうみゃくだ",
     "type": "Dragon",
     "category": "Special",
-    "power": 40,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 32,
-    "range": "Adjacent",
+    "range": "Line",
     "recoil_hp_percent": 25,
     "dragon_multiplier": 1.25
   },
@@ -4149,10 +4174,10 @@
     "name": "りゅうそくだん",
     "type": "Dragon",
     "category": "Special",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Line",
     "recoil_hp_percent": 25,
     "dragon_multiplier": 1.25,
     "weapon_tag": "Breath"
@@ -4162,10 +4187,10 @@
     "name": "りゅうそう",
     "type": "Dragon",
     "category": "Special",
-    "power": 50,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Room",
     "recoil_hp_percent": 25,
     "dragon_multiplier": 1.25,
     "weapon_tag": "ClawFist"
@@ -4175,10 +4200,10 @@
     "name": "りゅうもん",
     "type": "Dragon",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 26,
-    "range": "Adjacent",
+    "range": "Line",
     "recoil_hp_percent": 25,
     "dragon_multiplier": 1.25
   },
@@ -4187,20 +4212,20 @@
     "name": "りゅうい",
     "type": "Dragon",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_085",
     "name": "りゅうせい",
     "type": "Dragon",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "recoil_hp_percent": 33,
     "dragon_multiplier": 1.5
   },
@@ -4209,10 +4234,10 @@
     "name": "りゅうせん",
     "type": "Dragon",
     "category": "Special",
-    "power": 60,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "recoil_hp_percent": 33,
     "dragon_multiplier": 1.5
   },
@@ -4221,30 +4246,30 @@
     "name": "りゅうりん",
     "type": "Dragon",
     "category": "Special",
-    "power": 65,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_088",
     "name": "りゅうしん",
     "type": "Dragon",
     "category": "Special",
-    "power": 70,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_089",
     "name": "こくむ",
     "type": "Dark",
     "category": "Special",
-    "power": 30,
+    "power": 15,
     "accuracy": 85,
     "max_pp": 36,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Poison",
     "ailment_chance": 30
   },
@@ -4253,10 +4278,10 @@
     "name": "えいげき",
     "type": "Dark",
     "category": "Special",
-    "power": 35,
+    "power": 15,
     "accuracy": 85,
     "max_pp": 34,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Poison",
     "ailment_chance": 30
   },
@@ -4265,10 +4290,10 @@
     "name": "じゅだ",
     "type": "Dark",
     "category": "Special",
-    "power": 40,
+    "power": 35,
     "accuracy": 90,
     "max_pp": 32,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Poison",
     "ailment_chance": 20
   },
@@ -4277,10 +4302,10 @@
     "name": "こんこく",
     "type": "Dark",
     "category": "Special",
-    "power": 45,
+    "power": 20,
     "accuracy": 90,
     "max_pp": 30,
-    "range": "Adjacent",
+    "range": "Room",
     "ailment_effect": "Poison",
     "ailment_chance": 20
   },
@@ -4289,10 +4314,10 @@
     "name": "あんもん",
     "type": "Dark",
     "category": "Special",
-    "power": 50,
+    "power": 45,
     "accuracy": 95,
     "max_pp": 28,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Poison",
     "ailment_chance": 10
   },
@@ -4301,10 +4326,10 @@
     "name": "えいだん",
     "type": "Dark",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 95,
     "max_pp": 26,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Poison",
     "ailment_chance": 10
   },
@@ -4313,10 +4338,10 @@
     "name": "こくい",
     "type": "Dark",
     "category": "Special",
-    "power": 55,
+    "power": 50,
     "accuracy": 90,
     "max_pp": 26,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Poison",
     "ailment_chance": 20
   },
@@ -4328,17 +4353,17 @@
     "power": 60,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "mvn_097",
     "name": "あんげき",
     "type": "Dark",
     "category": "Special",
-    "power": 60,
+    "power": 50,
     "accuracy": 95,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Area",
     "ailment_effect": "Poison",
     "ailment_chance": 10
   },
@@ -4350,7 +4375,7 @@
     "power": 60,
     "accuracy": 90,
     "max_pp": 24,
-    "range": "Adjacent",
+    "range": "Line",
     "ailment_effect": "Poison",
     "ailment_chance": 20
   },
@@ -4359,10 +4384,10 @@
     "name": "えいじん",
     "type": "Dark",
     "category": "Special",
-    "power": 65,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Adjacent"
+    "range": "Room"
   },
   {
     "id": "mvn_100",
@@ -4372,7 +4397,7 @@
     "power": 70,
     "accuracy": 100,
     "max_pp": 18,
-    "range": "Adjacent"
+    "range": "Line"
   },
   {
     "id": "bakugeki",
@@ -4383,7 +4408,8 @@
     "accuracy": 100,
     "max_pp": 10,
     "range": "Adjacent",
-    "is_guaranteed_hit": true
+    "is_guaranteed_hit": true,
+    "is_contact": true
   },
   {
     "id": "mizutamari",
@@ -4481,11 +4507,11 @@
     "name": "はくげき",
     "type": "Neutral",
     "category": "Physical",
-    "power": 45,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 30,
     "range": "Adjacent",
-    "is_contact": true,
+    "is_contact": false,
     "ailment_effect": "Stun",
     "ailment_chance": 30
   },
@@ -4499,30 +4525,32 @@
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Stun",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "is_contact": false
   },
   {
     "id": "MVP_003",
     "name": "くうさい",
     "type": "Neutral",
     "category": "Physical",
-    "power": 50,
+    "power": 55,
     "accuracy": 100,
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Stun",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "is_contact": false
   },
   {
     "id": "MVP_004",
     "name": "そおう",
     "type": "Neutral",
     "category": "Physical",
-    "power": 55,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 26,
     "range": "Adjacent",
-    "is_contact": true,
+    "is_contact": false,
     "ailment_effect": "Stun",
     "ailment_chance": 30
   },
@@ -4535,7 +4563,7 @@
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
-    "is_contact": true,
+    "is_contact": false,
     "weapon_tag": "ClawFist"
   },
   {
@@ -4548,30 +4576,32 @@
     "max_pp": 18,
     "range": "Adjacent",
     "ailment_effect": "Stun",
-    "ailment_chance": 20
+    "ailment_chance": 20,
+    "is_contact": false
   },
   {
     "id": "MVP_007",
     "name": "はくじんおう",
     "type": "Neutral",
     "category": "Physical",
-    "power": 75,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
     "ailment_effect": "Stun",
-    "ailment_chance": 20
+    "ailment_chance": 20,
+    "is_contact": false
   },
   {
     "id": "MVP_008",
     "name": "ぼくだ",
     "type": "Neutral",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
-    "is_contact": true,
+    "is_contact": false,
     "ailment_effect": "Stun",
     "ailment_chance": 10
   },
@@ -4580,23 +4610,24 @@
     "name": "むみょうげき",
     "type": "Neutral",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
     "ailment_effect": "Stun",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": false
   },
   {
     "id": "MVP_010",
     "name": "せいはけん",
     "type": "Neutral",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "is_contact": true,
+    "is_contact": false,
     "weapon_tag": "ClawFist"
   },
   {
@@ -4604,31 +4635,33 @@
     "name": "じゅんだげき",
     "type": "Neutral",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Stun",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": false
   },
   {
     "id": "MVP_012",
     "name": "むきょくおう",
     "type": "Neutral",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Stun",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_013",
     "name": "はくせん",
     "type": "Neutral",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
@@ -4646,7 +4679,8 @@
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Stun",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_015",
@@ -4656,7 +4690,8 @@
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_016",
@@ -4681,7 +4716,8 @@
     "max_pp": 6,
     "range": "Adjacent",
     "ailment_effect": "Stun",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_018",
@@ -4692,7 +4728,8 @@
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_019",
@@ -4713,14 +4750,15 @@
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_021",
     "name": "ぐれんげき",
     "type": "Fire",
     "category": "Physical",
-    "power": 45,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 30,
     "range": "Adjacent",
@@ -4733,32 +4771,34 @@
     "name": "しょうねつけん",
     "type": "Fire",
     "category": "Physical",
-    "power": 50,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Burn",
     "ailment_chance": 30,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_023",
     "name": "りんかだ",
     "type": "Fire",
     "category": "Physical",
-    "power": 50,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Burn",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "is_contact": true
   },
   {
     "id": "MVP_024",
     "name": "あぶりおう",
     "type": "Fire",
     "category": "Physical",
-    "power": 55,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 26,
     "range": "Adjacent",
@@ -4771,7 +4811,7 @@
     "name": "しゃくねつとつ",
     "type": "Fire",
     "category": "Physical",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
@@ -4788,26 +4828,28 @@
     "range": "Adjacent",
     "ailment_effect": "Burn",
     "ailment_chance": 20,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_027",
     "name": "ほむらげき",
     "type": "Fire",
     "category": "Physical",
-    "power": 75,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
     "ailment_effect": "Burn",
-    "ailment_chance": 20
+    "ailment_chance": 20,
+    "is_contact": true
   },
   {
     "id": "MVP_028",
     "name": "えんじんだ",
     "type": "Fire",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
@@ -4820,19 +4862,20 @@
     "name": "ごうえんおう",
     "type": "Fire",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
     "ailment_effect": "Burn",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_030",
     "name": "かぐんとつ",
     "type": "Fire",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
@@ -4843,32 +4886,34 @@
     "name": "たんかけん",
     "type": "Fire",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Burn",
     "ailment_chance": 10,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_032",
     "name": "れつえんげき",
     "type": "Fire",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Burn",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_033",
     "name": "ぐれんおう",
     "type": "Fire",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
@@ -4886,7 +4931,8 @@
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Burn",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_035",
@@ -4896,7 +4942,8 @@
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_036",
@@ -4922,7 +4969,8 @@
     "max_pp": 6,
     "range": "Adjacent",
     "ailment_effect": "Burn",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_038",
@@ -4932,7 +4980,8 @@
     "power": 110,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_039",
@@ -4954,14 +5003,15 @@
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_041",
     "name": "せいりゅうげき",
     "type": "Water",
     "category": "Physical",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
     "range": "Adjacent",
@@ -4975,13 +5025,14 @@
     "name": "みずかがみだ",
     "type": "Water",
     "category": "Physical",
-    "power": 50,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 28,
     "range": "Adjacent",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_043",
@@ -4995,14 +5046,15 @@
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
     "rank_effect_target": "Self",
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_044",
     "name": "てきげきおう",
     "type": "Water",
     "category": "Physical",
-    "power": 55,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 26,
     "range": "Adjacent",
@@ -5034,27 +5086,29 @@
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
     "rank_effect_target": "Self",
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_047",
     "name": "すいみゃくげき",
     "type": "Water",
     "category": "Physical",
-    "power": 75,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_048",
     "name": "へきはだ",
     "type": "Water",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
@@ -5068,20 +5122,21 @@
     "name": "しずくだんおう",
     "type": "Water",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": false
   },
   {
     "id": "MVP_050",
     "name": "すいいけん",
     "type": "Water",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
@@ -5093,33 +5148,35 @@
     "name": "さざなみげき",
     "type": "Water",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_052",
     "name": "じゅんだとつ",
     "type": "Water",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_053",
     "name": "せいりゅうおう",
     "type": "Water",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
@@ -5140,7 +5197,8 @@
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
     "rank_effect_target": "Self",
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_055",
@@ -5150,7 +5208,8 @@
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_056",
@@ -5177,7 +5236,8 @@
     "range": "Adjacent",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_058",
@@ -5190,7 +5250,8 @@
     "range": "Adjacent",
     "rank_effect_stat": "Accuracy",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_059",
@@ -5215,14 +5276,15 @@
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_061",
     "name": "しでんげき",
     "type": "Electric",
     "category": "Physical",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
     "range": "Adjacent",
@@ -5235,32 +5297,34 @@
     "name": "らいめいけん",
     "type": "Electric",
     "category": "Physical",
-    "power": 50,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
     "ailment_chance": 30,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_063",
     "name": "でんこうだ",
     "type": "Electric",
     "category": "Physical",
-    "power": 50,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "is_contact": true
   },
   {
     "id": "MVP_064",
     "name": "たいらいおう",
     "type": "Electric",
     "category": "Physical",
-    "power": 55,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 26,
     "range": "Adjacent",
@@ -5273,7 +5337,7 @@
     "name": "じんらいとつ",
     "type": "Electric",
     "category": "Physical",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
@@ -5284,32 +5348,34 @@
     "name": "らいもんけん",
     "type": "Electric",
     "category": "Physical",
-    "power": 70,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
     "ailment_chance": 20,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_067",
     "name": "らいせきげき",
     "type": "Electric",
     "category": "Physical",
-    "power": 75,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 20
+    "ailment_chance": 20,
+    "is_contact": true
   },
   {
     "id": "MVP_068",
     "name": "せいでんだ",
     "type": "Electric",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
@@ -5322,19 +5388,20 @@
     "name": "らいしんおう",
     "type": "Electric",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_070",
     "name": "でんせんとつ",
     "type": "Electric",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
@@ -5345,32 +5412,34 @@
     "name": "らいりゅうけん",
     "type": "Electric",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
     "ailment_chance": 10,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_072",
     "name": "らいいげき",
     "type": "Electric",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_073",
     "name": "しでんおう",
     "type": "Electric",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
@@ -5388,7 +5457,8 @@
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_075",
@@ -5398,7 +5468,8 @@
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_076",
@@ -5424,7 +5495,8 @@
     "max_pp": 6,
     "range": "Adjacent",
     "ailment_effect": "Paralyze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_078",
@@ -5434,7 +5506,8 @@
     "power": 110,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_079",
@@ -5455,14 +5528,15 @@
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_081",
     "name": "どかいげき",
     "type": "Ground",
     "category": "Physical",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
     "range": "Adjacent",
@@ -5483,7 +5557,8 @@
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
     "rank_effect_target": "Self",
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_083",
@@ -5496,7 +5571,8 @@
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_084",
@@ -5517,7 +5593,7 @@
     "name": "ちいとつ",
     "type": "Ground",
     "category": "Physical",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
@@ -5528,34 +5604,36 @@
     "name": "がんぺんけん",
     "type": "Ground",
     "category": "Physical",
-    "power": 70,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
     "rank_effect_target": "Self",
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_087",
     "name": "つちかべげき",
     "type": "Ground",
     "category": "Physical",
-    "power": 75,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_088",
     "name": "じがためだ",
     "type": "Ground",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
@@ -5569,20 +5647,21 @@
     "name": "れきだおう",
     "type": "Ground",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_090",
     "name": "じもんけん",
     "type": "Ground",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
@@ -5594,33 +5673,35 @@
     "name": "けんどげき",
     "type": "Ground",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_092",
     "name": "がんいとつ",
     "type": "Ground",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_093",
     "name": "どかいおう",
     "type": "Ground",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
@@ -5640,7 +5721,8 @@
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_095",
@@ -5650,7 +5732,8 @@
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_096",
@@ -5678,7 +5761,8 @@
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_098",
@@ -5691,7 +5775,8 @@
     "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
-    "rank_effect_target": "Self"
+    "rank_effect_target": "Self",
+    "is_contact": true
   },
   {
     "id": "MVP_099",
@@ -5716,14 +5801,15 @@
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_101",
     "name": "りょくようげき",
     "type": "Grass",
     "category": "Physical",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
     "range": "Adjacent",
@@ -5735,12 +5821,13 @@
     "name": "つたげきけん",
     "type": "Grass",
     "category": "Physical",
-    "power": 50,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 28,
     "range": "Adjacent",
     "drain_hp_percent": 50,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_103",
@@ -5751,14 +5838,15 @@
     "accuracy": 100,
     "max_pp": 28,
     "range": "Adjacent",
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "is_contact": true
   },
   {
     "id": "MVP_104",
     "name": "わかばおう",
     "type": "Grass",
     "category": "Physical",
-    "power": 55,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 26,
     "range": "Adjacent",
@@ -5770,7 +5858,7 @@
     "name": "そうもんとつ",
     "type": "Grass",
     "category": "Physical",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
@@ -5781,30 +5869,32 @@
     "name": "あおばけん",
     "type": "Grass",
     "category": "Physical",
-    "power": 70,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Adjacent",
     "drain_hp_percent": 50,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_107",
     "name": "はむらげき",
     "type": "Grass",
     "category": "Physical",
-    "power": 75,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "is_contact": true
   },
   {
     "id": "MVP_108",
     "name": "そういだ",
     "type": "Grass",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
@@ -5816,18 +5906,19 @@
     "name": "つるだおう",
     "type": "Grass",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "is_contact": true
   },
   {
     "id": "MVP_110",
     "name": "りょくじんけん",
     "type": "Grass",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
@@ -5839,29 +5930,31 @@
     "name": "はがくれげき",
     "type": "Grass",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "is_contact": true
   },
   {
     "id": "MVP_112",
     "name": "くさむらとつ",
     "type": "Grass",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "is_contact": true
   },
   {
     "id": "MVP_113",
     "name": "りょくようおう",
     "type": "Grass",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
@@ -5877,7 +5970,8 @@
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "is_contact": true
   },
   {
     "id": "MVP_115",
@@ -5887,7 +5981,8 @@
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_116",
@@ -5911,7 +6006,8 @@
     "accuracy": 85,
     "max_pp": 6,
     "range": "Adjacent",
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "is_contact": true
   },
   {
     "id": "MVP_118",
@@ -5922,7 +6018,8 @@
     "accuracy": 65,
     "max_pp": 6,
     "range": "Adjacent",
-    "drain_hp_percent": 50
+    "drain_hp_percent": 50,
+    "is_contact": true
   },
   {
     "id": "MVP_119",
@@ -5945,14 +6042,15 @@
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_121",
     "name": "はくひょうげき",
     "type": "Ice",
     "category": "Physical",
-    "power": 45,
+    "power": 40,
     "accuracy": 100,
     "max_pp": 30,
     "range": "Adjacent",
@@ -5965,32 +6063,34 @@
     "name": "ひょうけつけん",
     "type": "Ice",
     "category": "Physical",
-    "power": 50,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Freeze",
     "ailment_chance": 30,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_123",
     "name": "そうげきだ",
     "type": "Ice",
     "category": "Physical",
-    "power": 50,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Freeze",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "is_contact": true
   },
   {
     "id": "MVP_124",
     "name": "ひょうもんおう",
     "type": "Ice",
     "category": "Physical",
-    "power": 55,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 26,
     "range": "Adjacent",
@@ -6003,7 +6103,7 @@
     "name": "れいきとつ",
     "type": "Ice",
     "category": "Physical",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
@@ -6020,26 +6120,28 @@
     "range": "Adjacent",
     "ailment_effect": "Freeze",
     "ailment_chance": 20,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_127",
     "name": "とううんげき",
     "type": "Ice",
     "category": "Physical",
-    "power": 75,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
     "ailment_effect": "Freeze",
-    "ailment_chance": 20
+    "ailment_chance": 20,
+    "is_contact": true
   },
   {
     "id": "MVP_128",
     "name": "ひょういだ",
     "type": "Ice",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
@@ -6052,19 +6154,20 @@
     "name": "そうかおう",
     "type": "Ice",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
     "ailment_effect": "Freeze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_130",
     "name": "ひょうしんけん",
     "type": "Ice",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
@@ -6076,31 +6179,33 @@
     "name": "れいげきとつ",
     "type": "Ice",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Freeze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_132",
     "name": "ひょうじんげき",
     "type": "Ice",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Freeze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_133",
     "name": "はくひょうおう",
     "type": "Ice",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
@@ -6118,7 +6223,8 @@
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Freeze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_135",
@@ -6128,7 +6234,8 @@
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_136",
@@ -6154,7 +6261,8 @@
     "max_pp": 6,
     "range": "Adjacent",
     "ailment_effect": "Freeze",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_138",
@@ -6164,7 +6272,8 @@
     "power": 110,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_139",
@@ -6186,7 +6295,8 @@
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_141",
@@ -6212,7 +6322,8 @@
     "range": "Adjacent",
     "recoil_hp_percent": 25,
     "dragon_multiplier": 1.25,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_143",
@@ -6224,7 +6335,8 @@
     "max_pp": 28,
     "range": "Adjacent",
     "recoil_hp_percent": 25,
-    "dragon_multiplier": 1.25
+    "dragon_multiplier": 1.25,
+    "is_contact": true
   },
   {
     "id": "MVP_144",
@@ -6244,7 +6356,7 @@
     "name": "りゅうそうとつ",
     "type": "Dragon",
     "category": "Physical",
-    "power": 65,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Adjacent",
@@ -6256,32 +6368,34 @@
     "name": "りゅうもんけん",
     "type": "Dragon",
     "category": "Physical",
-    "power": 70,
+    "power": 60,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Adjacent",
     "recoil_hp_percent": 33,
     "dragon_multiplier": 1.5,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_147",
     "name": "りゅういげき",
     "type": "Dragon",
     "category": "Physical",
-    "power": 75,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
     "recoil_hp_percent": 33,
-    "dragon_multiplier": 1.5
+    "dragon_multiplier": 1.5,
+    "is_contact": true
   },
   {
     "id": "MVP_148",
     "name": "りゅうせいだ",
     "type": "Dragon",
     "category": "Physical",
-    "power": 85,
+    "power": 70,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
@@ -6294,19 +6408,20 @@
     "name": "りゅうせんおう",
     "type": "Dragon",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
     "recoil_hp_percent": 33,
-    "dragon_multiplier": 1.5
+    "dragon_multiplier": 1.5,
+    "is_contact": true
   },
   {
     "id": "MVP_150",
     "name": "りゅうりんこぶし",
     "type": "Dragon",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
@@ -6318,31 +6433,33 @@
     "name": "りゅうしんげき",
     "type": "Dragon",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "recoil_hp_percent": 33,
-    "dragon_multiplier": 1.5
+    "dragon_multiplier": 1.5,
+    "is_contact": true
   },
   {
     "id": "MVP_152",
     "name": "りゅうどとつ",
     "type": "Dragon",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "recoil_hp_percent": 33,
-    "dragon_multiplier": 1.5
+    "dragon_multiplier": 1.5,
+    "is_contact": true
   },
   {
     "id": "MVP_153",
     "name": "りゅうがおう",
     "type": "Dragon",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
@@ -6360,7 +6477,8 @@
     "max_pp": 8,
     "range": "Adjacent",
     "recoil_hp_percent": 33,
-    "dragon_multiplier": 1.5
+    "dragon_multiplier": 1.5,
+    "is_contact": true
   },
   {
     "id": "MVP_155",
@@ -6370,7 +6488,8 @@
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_156",
@@ -6397,7 +6516,8 @@
     "range": "Adjacent",
     "recoil_hp_percent": 33,
     "dragon_multiplier": 1.5,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_158",
@@ -6409,7 +6529,8 @@
     "max_pp": 6,
     "range": "Adjacent",
     "recoil_hp_percent": 33,
-    "dragon_multiplier": 1.5
+    "dragon_multiplier": 1.5,
+    "is_contact": true
   },
   {
     "id": "MVP_159",
@@ -6433,7 +6554,8 @@
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_161",
@@ -6459,7 +6581,8 @@
     "range": "Adjacent",
     "ailment_effect": "Darkness",
     "ailment_chance": 30,
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_163",
@@ -6471,7 +6594,8 @@
     "max_pp": 28,
     "range": "Adjacent",
     "ailment_effect": "Darkness",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "is_contact": true
   },
   {
     "id": "MVP_164",
@@ -6508,26 +6632,28 @@
     "max_pp": 18,
     "range": "Adjacent",
     "ailment_effect": "Darkness",
-    "ailment_chance": 20
+    "ailment_chance": 20,
+    "is_contact": false
   },
   {
     "id": "MVP_167",
     "name": "こくいだ",
     "type": "Dark",
     "category": "Physical",
-    "power": 75,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Adjacent",
     "ailment_effect": "Darkness",
-    "ailment_chance": 20
+    "ailment_chance": 20,
+    "is_contact": true
   },
   {
     "id": "MVP_168",
     "name": "じゅえいおう",
     "type": "Dark",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
@@ -6540,19 +6666,20 @@
     "name": "あんげきとつ",
     "type": "Dark",
     "category": "Physical",
-    "power": 85,
+    "power": 75,
     "accuracy": 90,
     "max_pp": 11,
     "range": "Adjacent",
     "ailment_effect": "Darkness",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_170",
     "name": "あんいけん",
     "type": "Dark",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
@@ -6564,31 +6691,33 @@
     "name": "えいじんげき",
     "type": "Dark",
     "category": "Physical",
-    "power": 90,
+    "power": 80,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Darkness",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_172",
     "name": "こくねんだ",
     "type": "Dark",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Darkness",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_173",
     "name": "こくむおう",
     "type": "Dark",
     "category": "Physical",
-    "power": 90,
+    "power": 85,
     "accuracy": 90,
     "max_pp": 8,
     "range": "Adjacent",
@@ -6606,7 +6735,8 @@
     "max_pp": 8,
     "range": "Adjacent",
     "ailment_effect": "Darkness",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_175",
@@ -6617,7 +6747,8 @@
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "MVP_176",
@@ -6642,7 +6773,8 @@
     "max_pp": 6,
     "range": "Adjacent",
     "ailment_effect": "Darkness",
-    "ailment_chance": 10
+    "ailment_chance": 10,
+    "is_contact": true
   },
   {
     "id": "MVP_178",
@@ -6652,7 +6784,8 @@
     "power": 110,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "is_contact": false
   },
   {
     "id": "MVP_179",
@@ -6674,7 +6807,8 @@
     "accuracy": 100,
     "max_pp": 6,
     "range": "Adjacent",
-    "weapon_tag": "ClawFist"
+    "weapon_tag": "ClawFist",
+    "is_contact": true
   },
   {
     "id": "mvh_water",
@@ -6694,7 +6828,7 @@
     "name": "さんれんらいげき",
     "type": "Electric",
     "category": "Physical",
-    "power": 40,
+    "power": 35,
     "accuracy": 90,
     "max_pp": 10,
     "range": "Adjacent",
@@ -6721,7 +6855,7 @@
     "name": "さんれんひょうじん",
     "type": "Ice",
     "category": "Physical",
-    "power": 40,
+    "power": 35,
     "accuracy": 90,
     "max_pp": 10,
     "range": "Adjacent",
