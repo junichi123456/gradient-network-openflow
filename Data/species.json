@@ -4569,7 +4569,7 @@
       },
       {
         "level": 9,
-        "move_id": "plasma_funnel"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -4577,23 +4577,23 @@
       },
       {
         "level": 10,
-        "move_id": "mvn_042"
-      },
-      {
-        "level": 11,
-        "move_id": "mvn_040"
+        "move_id": "plasma_funnel"
       },
       {
         "level": 11,
         "move_id": "mvn_041"
       },
       {
-        "level": 12,
-        "move_id": "MV_180"
+        "level": 11,
+        "move_id": "mvn_042"
       },
       {
         "level": 12,
         "move_id": "mvn_043"
+      },
+      {
+        "level": 13,
+        "move_id": "MV_173"
       }
     ],
     "evolution": null,
@@ -4868,7 +4868,7 @@
       },
       {
         "level": 9,
-        "move_id": "plasma_funnel"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -4876,27 +4876,27 @@
       },
       {
         "level": 10,
-        "move_id": "mvn_042"
-      },
-      {
-        "level": 10,
         "move_id": "mvs_ep_fire"
       },
       {
-        "level": 11,
-        "move_id": "mvn_040"
+        "level": 10,
+        "move_id": "plasma_funnel"
       },
       {
         "level": 11,
         "move_id": "mvn_041"
       },
       {
-        "level": 12,
-        "move_id": "MV_180"
+        "level": 11,
+        "move_id": "mvn_042"
       },
       {
         "level": 12,
         "move_id": "mvn_043"
+      },
+      {
+        "level": 13,
+        "move_id": "MV_173"
       }
     ],
     "evolution": null,
@@ -5022,7 +5022,7 @@
       },
       {
         "level": 9,
-        "move_id": "plasma_funnel"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -5030,23 +5030,23 @@
       },
       {
         "level": 10,
-        "move_id": "mvn_042"
-      },
-      {
-        "level": 11,
-        "move_id": "mvn_040"
+        "move_id": "plasma_funnel"
       },
       {
         "level": 11,
         "move_id": "mvn_041"
       },
       {
-        "level": 12,
-        "move_id": "MV_180"
+        "level": 11,
+        "move_id": "mvn_042"
       },
       {
         "level": 12,
         "move_id": "mvn_043"
+      },
+      {
+        "level": 13,
+        "move_id": "MV_173"
       }
     ],
     "evolution": null,
@@ -5639,7 +5639,7 @@
       },
       {
         "level": 9,
-        "move_id": "plasma_funnel"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -5647,23 +5647,23 @@
       },
       {
         "level": 10,
-        "move_id": "mvn_042"
-      },
-      {
-        "level": 11,
-        "move_id": "mvn_040"
+        "move_id": "plasma_funnel"
       },
       {
         "level": 11,
         "move_id": "mvn_041"
       },
       {
-        "level": 12,
-        "move_id": "MV_180"
+        "level": 11,
+        "move_id": "mvn_042"
       },
       {
         "level": 12,
         "move_id": "mvn_043"
+      },
+      {
+        "level": 13,
+        "move_id": "MV_173"
       }
     ],
     "evolution": null,
@@ -7170,7 +7170,7 @@
       },
       {
         "level": 14,
-        "move_id": "mvn_033"
+        "move_id": "MV_231"
       }
     ],
     "evolution": null,
@@ -9114,7 +9114,7 @@
       },
       {
         "level": 9,
-        "move_id": "plasma_funnel"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -9122,27 +9122,27 @@
       },
       {
         "level": 10,
-        "move_id": "mvn_042"
-      },
-      {
-        "level": 10,
         "move_id": "mvs_ep_fire"
       },
       {
-        "level": 11,
-        "move_id": "mvn_040"
+        "level": 10,
+        "move_id": "plasma_funnel"
       },
       {
         "level": 11,
         "move_id": "mvn_041"
       },
       {
-        "level": 12,
-        "move_id": "MV_180"
+        "level": 11,
+        "move_id": "mvn_042"
       },
       {
         "level": 12,
         "move_id": "mvn_043"
+      },
+      {
+        "level": 13,
+        "move_id": "MV_173"
       }
     ],
     "evolution": null,
@@ -11403,10 +11403,6 @@
         "move_id": "mvn_036"
       },
       {
-        "level": 6,
-        "move_id": "mvn_037"
-      },
-      {
         "level": 7,
         "move_id": "MVP_021"
       },
@@ -11493,10 +11489,6 @@
       {
         "level": 13,
         "move_id": "MVP_066"
-      },
-      {
-        "level": 13,
-        "move_id": "MV_171"
       },
       {
         "level": 14,
@@ -12113,7 +12105,7 @@
       },
       {
         "level": 9,
-        "move_id": "plasma_funnel"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -12121,23 +12113,23 @@
       },
       {
         "level": 10,
-        "move_id": "mvn_042"
-      },
-      {
-        "level": 10,
         "move_id": "mvs_ep_fire"
       },
       {
-        "level": 11,
-        "move_id": "mvn_040"
+        "level": 10,
+        "move_id": "plasma_funnel"
       },
       {
         "level": 11,
         "move_id": "mvn_041"
       },
       {
+        "level": 11,
+        "move_id": "mvn_042"
+      },
+      {
         "level": 12,
-        "move_id": "MV_180"
+        "move_id": "mvn_043"
       }
     ],
     "evolution": null,
@@ -14816,7 +14808,7 @@
       },
       {
         "level": 9,
-        "move_id": "plasma_funnel"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -14824,27 +14816,27 @@
       },
       {
         "level": 10,
-        "move_id": "mvn_042"
-      },
-      {
-        "level": 10,
         "move_id": "mvs_ep_fire"
       },
       {
-        "level": 11,
-        "move_id": "mvn_040"
+        "level": 10,
+        "move_id": "plasma_funnel"
       },
       {
         "level": 11,
         "move_id": "mvn_041"
       },
       {
-        "level": 12,
-        "move_id": "MV_180"
+        "level": 11,
+        "move_id": "mvn_042"
       },
       {
         "level": 12,
         "move_id": "mvn_043"
+      },
+      {
+        "level": 13,
+        "move_id": "MV_173"
       }
     ],
     "evolution": null,
@@ -15947,7 +15939,7 @@
       },
       {
         "level": 9,
-        "move_id": "plasma_funnel"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -15955,19 +15947,19 @@
       },
       {
         "level": 10,
-        "move_id": "mvn_042"
-      },
-      {
-        "level": 10,
         "move_id": "mvs_ep_fire"
       },
       {
-        "level": 11,
-        "move_id": "mvn_040"
+        "level": 10,
+        "move_id": "plasma_funnel"
       },
       {
         "level": 11,
         "move_id": "mvn_041"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_042"
       }
     ],
     "evolution": null,
@@ -17693,10 +17685,6 @@
         "move_id": "MVP_066"
       },
       {
-        "level": 13,
-        "move_id": "MV_171"
-      },
-      {
         "level": 14,
         "move_id": "MVP_067"
       },
@@ -17715,6 +17703,10 @@
       {
         "level": 16,
         "move_id": "MVP_070"
+      },
+      {
+        "level": 16,
+        "move_id": "MVP_071"
       }
     ],
     "evolution": null,
@@ -19713,7 +19705,7 @@
       },
       {
         "level": 9,
-        "move_id": "plasma_funnel"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -19721,15 +19713,15 @@
       },
       {
         "level": 10,
-        "move_id": "mvn_042"
-      },
-      {
-        "level": 11,
-        "move_id": "mvn_040"
+        "move_id": "plasma_funnel"
       },
       {
         "level": 11,
         "move_id": "mvn_041"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_042"
       }
     ],
     "evolution": null,
@@ -22297,7 +22289,7 @@
       },
       {
         "level": 9,
-        "move_id": "plasma_funnel"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -22305,23 +22297,23 @@
       },
       {
         "level": 10,
-        "move_id": "mvn_042"
-      },
-      {
-        "level": 11,
-        "move_id": "mvn_040"
+        "move_id": "plasma_funnel"
       },
       {
         "level": 11,
         "move_id": "mvn_041"
       },
       {
-        "level": 12,
-        "move_id": "MV_180"
+        "level": 11,
+        "move_id": "mvn_042"
       },
       {
         "level": 12,
         "move_id": "mvn_043"
+      },
+      {
+        "level": 13,
+        "move_id": "MV_173"
       }
     ],
     "evolution": null,
@@ -24042,7 +24034,7 @@
       },
       {
         "level": 9,
-        "move_id": "plasma_funnel"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -24050,15 +24042,15 @@
       },
       {
         "level": 10,
-        "move_id": "mvn_042"
-      },
-      {
-        "level": 11,
-        "move_id": "mvn_040"
+        "move_id": "plasma_funnel"
       },
       {
         "level": 11,
         "move_id": "mvn_041"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_042"
       }
     ],
     "evolution": null,

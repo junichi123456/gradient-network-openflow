@@ -12,13 +12,33 @@ def check(ok,label,detail=""):
     print(("[PASS] " if ok else "[FAIL] ")+label+(("  "+detail) if detail else ""))
     if not ok: fails.append(label)
 
-# §1
-bad={}
-for cat in ('Physical','Special'):
-    c=collections.Counter((m['type'],m['power']) for m in atk if m['category']==cat and m['power']<=90)
-    for k,v in c.items():
-        if v>2: bad[(cat,)+k]=v
-check(not bad, "§1 威力90以下は同属性・同分類・同威力が2種まで", f"違反 {len(bad)} {list(bad.items())[:3]}")
+# §1 + §A - the cap now applies at EVERY power, not just <=90
+for lo,hi,label in ((0,90,"§1 威力90以下"),(95,10**9,"§A 威力95以上")):
+    bad={}
+    for cat in ('Physical','Special'):
+        c=collections.Counter((m['type'],m['power']) for m in atk
+                              if m['category']==cat and lo<=m['power']<=hi)
+        for k,v in c.items():
+            if v>2: bad[(cat,)+k]=v
+    check(not bad, label+"は同属性・同分類・同威力が2種まで", f"違反 {len(bad)} {list(bad.items())[:3]}")
+
+# §B - Room moves at least 10 apart within an element, across categories
+viol={}
+for el in set(m['type'] for m in atk):
+    pw=sorted(m['power'] for m in atk if m.get('range')=='Room' and m['type']==el)
+    v=[(pw[i],pw[i+1]) for i in range(len(pw)-1) if pw[i+1]-pw[i]<10]
+    if v: viol[el]=v
+check(not viol, "§B 部屋技は同属性内で威力差10以上", str(viol))
+
+# a deleted move must not survive anywhere that references move ids
+species=json.load(open('Data/species.json',encoding='utf-8'))
+known={m['id'] for m in ms}
+dangling=set()
+for sp in species:
+    for row in sp.get('learnset',[]):
+        mid=row.get('move_id') if isinstance(row,dict) else row
+        if mid and mid not in known: dangling.add(mid)
+check(not dangling, "learnsetに削除済み技IDが残っていない", str(sorted(dangling)[:5]))
 
 # §2
 contact=sum(1 for m in phy if m.get('is_contact'))

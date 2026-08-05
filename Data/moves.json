@@ -286,10 +286,10 @@
     "name": "オールレンジサンダー",
     "type": "Electric",
     "category": "Special",
-    "power": 80,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 9,
-    "range": "Line"
+    "range": "Room"
   },
   {
     "id": "inferno",
@@ -426,7 +426,7 @@
     "name": "スプラッシュボム",
     "type": "Water",
     "category": "Special",
-    "power": 70,
+    "power": 75,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Line"
@@ -683,7 +683,7 @@
     "name": "プラズマファンネル",
     "type": "Electric",
     "category": "Special",
-    "power": 45,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 30,
     "range": "Line"
@@ -1013,10 +1013,10 @@
     "name": "りゅうみゃくばくさん",
     "type": "Dragon",
     "category": "Special",
-    "power": 125,
+    "power": 130,
     "accuracy": 65,
     "max_pp": 6,
-    "range": "Area",
+    "range": "Line",
     "recoil_hp_percent": 33
   },
   {
@@ -1805,17 +1805,6 @@
     "is_contact": false
   },
   {
-    "id": "MV_171",
-    "name": "らいごう",
-    "type": "Electric",
-    "category": "Physical",
-    "power": 65,
-    "accuracy": 100,
-    "max_pp": 21,
-    "range": "Room",
-    "is_contact": false
-  },
-  {
     "id": "MV_172",
     "name": "サンダーソー",
     "type": "Electric",
@@ -1831,7 +1820,7 @@
     "name": "プラズマボール",
     "type": "Electric",
     "category": "Special",
-    "power": 70,
+    "power": 65,
     "accuracy": 100,
     "max_pp": 15,
     "range": "Line"
@@ -1904,28 +1893,6 @@
     "range": "Adjacent",
     "rank_effect_stat": "Evasion",
     "rank_effect_delta": 1
-  },
-  {
-    "id": "MV_180",
-    "name": "スタティックフィールド",
-    "type": "Electric",
-    "category": "Special",
-    "power": 60,
-    "accuracy": 90,
-    "max_pp": 26,
-    "range": "Room",
-    "ailment_effect": "Paralyze",
-    "ailment_chance": 20
-  },
-  {
-    "id": "MV_181",
-    "name": "らいめいちらし",
-    "type": "Electric",
-    "category": "Special",
-    "power": 65,
-    "accuracy": 100,
-    "max_pp": 24,
-    "range": "Room"
   },
   {
     "id": "MV_182",
@@ -2096,10 +2063,10 @@
     "name": "ぜったいれいどは",
     "type": "Ice",
     "category": "Special",
-    "power": 105,
+    "power": 95,
     "accuracy": 85,
     "max_pp": 6,
-    "range": "Line",
+    "range": "Room",
     "ailment_effect": "Freeze",
     "ailment_chance": 5
   },
@@ -2213,16 +2180,6 @@
     "ailment_effect": "Freeze",
     "ailment_chance": 5,
     "is_contact": true
-  },
-  {
-    "id": "MV_208",
-    "name": "スノーブラスト",
-    "type": "Ice",
-    "category": "Special",
-    "power": 70,
-    "accuracy": 100,
-    "max_pp": 21,
-    "range": "Room"
   },
   {
     "id": "MV_209",
@@ -2345,16 +2302,6 @@
     "range": "Line"
   },
   {
-    "id": "MV_220",
-    "name": "うずしお",
-    "type": "Water",
-    "category": "Special",
-    "power": 75,
-    "accuracy": 100,
-    "max_pp": 18,
-    "range": "Room"
-  },
-  {
     "id": "MV_221",
     "name": "すいりゅうれんげき",
     "type": "Water",
@@ -2466,10 +2413,10 @@
     "name": "バブルビーム",
     "type": "Water",
     "category": "Special",
-    "power": 80,
+    "power": 70,
     "accuracy": 100,
     "max_pp": 15,
-    "range": "Line"
+    "range": "Room"
   },
   {
     "id": "MV_232",
@@ -3714,10 +3661,10 @@
     "name": "らいせき",
     "type": "Electric",
     "category": "Special",
-    "power": 55,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Line"
+    "range": "Room"
   },
   {
     "id": "mvn_041",
@@ -3736,7 +3683,7 @@
     "name": "らいしん",
     "type": "Electric",
     "category": "Special",
-    "power": 50,
+    "power": 55,
     "accuracy": 90,
     "max_pp": 24,
     "range": "Area",
@@ -4654,7 +4601,7 @@
     "range": "Adjacent",
     "ailment_effect": "Stun",
     "ailment_chance": 10,
-    "is_contact": true
+    "is_contact": false
   },
   {
     "id": "MVP_013",
@@ -6506,20 +6453,6 @@
     "weapon_tag": "ClawFist"
   },
   {
-    "id": "MVP_157",
-    "name": "りゅうそうげき",
-    "type": "Dragon",
-    "category": "Physical",
-    "power": 95,
-    "accuracy": 85,
-    "max_pp": 6,
-    "range": "Adjacent",
-    "recoil_hp_percent": 33,
-    "dragon_multiplier": 1.5,
-    "weapon_tag": "ClawFist",
-    "is_contact": true
-  },
-  {
     "id": "MVP_158",
     "name": "りゅうもんおう",
     "type": "Dragon",
@@ -6762,19 +6695,6 @@
     "is_contact": true,
     "ailment_effect": "Darkness",
     "ailment_chance": 10
-  },
-  {
-    "id": "MVP_177",
-    "name": "あんもんおう",
-    "type": "Dark",
-    "category": "Physical",
-    "power": 95,
-    "accuracy": 85,
-    "max_pp": 6,
-    "range": "Adjacent",
-    "ailment_effect": "Darkness",
-    "ailment_chance": 10,
-    "is_contact": true
   },
   {
     "id": "MVP_178",
