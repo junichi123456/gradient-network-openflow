@@ -978,7 +978,10 @@
     "power": 0,
     "accuracy": 100,
     "max_pp": 10,
-    "range": "Area"
+    "range": "Area",
+    "ailment_effect": "Poison",
+    "ailment_chance": 100,
+    "ailment_target": "Enemy"
   },
   {
     "id": "MV_098",

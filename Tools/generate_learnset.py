@@ -80,6 +80,50 @@ def take_in_order(cands, quota, taken_ids):
         out.append(m); taken_ids.add(m['id'])
     return out
 
+# ---------------------------------------------------------------- §5-b
+# 変化技の「強さ」。攻撃技は威力が強さの尺度になるが変化技は power=0 で
+# 揃っており、そのままでは全部が最低レベルに落ちる。効果そのものを点数化
+# して、弱い技ほど低いレベルで覚えるようにする。
+RANK_WEIGHT = {
+    # 属性威力ランクは+2で同属性技が威力x2.0になる。他のランク1段とは
+    # 桁が違うので倍の重みを与える。
+    'ElementPower': 2.0,
+}
+
+def rank_effect_list(m):
+    """rank_effects 配列と旧来の単一スロットを1つの形に揃える。"""
+    if m.get('rank_effects'):
+        return m['rank_effects']
+    if m.get('rank_effect_stat', 'None') != 'None' and m.get('rank_effect_delta', 0) != 0:
+        return [{'stat': m['rank_effect_stat'], 'delta': m['rank_effect_delta'],
+                 'target': m.get('rank_effect_target', 'Self'),
+                 'chance': m.get('rank_effect_chance', 1.0)}]
+    return []
+
+def status_score(m):
+    score = 0.0
+    for e in rank_effect_list(m):
+        w = RANK_WEIGHT.get(e['stat'], 1.0)
+        # 自分を上げるのも相手を下げるのも「強さ」。自分にかかるマイナスは
+        # 技のコストなので、強さを打ち消しきらないよう半分だけ差し引く。
+        signed = e['delta'] if e.get('target', 'Self') == 'Self' else -e['delta']
+        if signed < 0: signed *= 0.5
+        score += w * signed * e.get('chance', 1.0)
+
+    if m.get('ailment_effect', 'None') != 'None':
+        score += 3.0 * (m.get('ailment_chance', 100) / 100.0)
+    if m.get('weather_effect', 'None') != 'None':
+        score += 3.0          # フロア全体・長時間
+    if m.get('field_placement', 'None') != 'None':
+        score += 2.0
+    if m.get('range', 'Adjacent') in ('Area', 'Room', 'FullFloor'):
+        score += 1.0          # 複数を巻き込める分だけ強い
+    return score
+
+def status_level(m):
+    """最弱の変化技(単一ランク±1)が Lv1、そこから点数に比例して上がる。"""
+    return max(1, round_half_up(status_score(m) * 3) - 2)
+
 def band_filtered(cands, power_cap, band_floor, band_max, per_element=True):
     """Applies §2-a/§2-b's "威力上位付近の技を1属性あたり何種まで" cap.
     Keeps everything below the band; thins the band itself to band_max per
@@ -231,8 +275,9 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     # --- §5: level gate, Lv ~ power/5 ---
     entries = []
     for m in sorted(chosen, key=lambda m: (m['power'], m['id'])):
-        lvl = min(100, max(1, round_half_up(m['power'] / 5.0)))
-        entries.append({'level': lvl, 'move_id': m['id']})
+        # 攻撃技は威力、変化技は効果の点数（§5-b）でレベルを決める。
+        lvl = status_level(m) if m['power'] == 0 else round_half_up(m['power'] / 5.0)
+        entries.append({'level': min(100, max(1, lvl)), 'move_id': m['id']})
     entries.sort(key=lambda e: (e['level'], e['move_id']))
     s['learnset'] = entries
 
