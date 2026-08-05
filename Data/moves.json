@@ -6811,5 +6811,627 @@
     "range": "Adjacent",
     "weather_effect": "Fog",
     "weather_turns": 20
+  },
+  {
+    "id": "mvs_ep_neutral",
+    "name": "むそうのきわみ",
+    "type": "Neutral",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "rank_effect_stat": "ElementPower",
+    "rank_effect_delta": 2,
+    "rank_effect_target": "Self"
+  },
+  {
+    "id": "mvs_ep_fire",
+    "name": "ごうかのきわみ",
+    "type": "Fire",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "rank_effect_stat": "ElementPower",
+    "rank_effect_delta": 2,
+    "rank_effect_target": "Self"
+  },
+  {
+    "id": "mvs_ep_water",
+    "name": "しんすいのきわみ",
+    "type": "Water",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "rank_effect_stat": "ElementPower",
+    "rank_effect_delta": 2,
+    "rank_effect_target": "Self"
+  },
+  {
+    "id": "mvs_ep_grass",
+    "name": "ばんりょくのきわみ",
+    "type": "Grass",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "rank_effect_stat": "ElementPower",
+    "rank_effect_delta": 2,
+    "rank_effect_target": "Self"
+  },
+  {
+    "id": "mvs_ep_electric",
+    "name": "らいめいのきわみ",
+    "type": "Electric",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "rank_effect_stat": "ElementPower",
+    "rank_effect_delta": 2,
+    "rank_effect_target": "Self"
+  },
+  {
+    "id": "mvs_ep_ground",
+    "name": "こんりんのきわみ",
+    "type": "Ground",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "rank_effect_stat": "ElementPower",
+    "rank_effect_delta": 2,
+    "rank_effect_target": "Self"
+  },
+  {
+    "id": "mvs_ep_ice",
+    "name": "ひょうけつのきわみ",
+    "type": "Ice",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "rank_effect_stat": "ElementPower",
+    "rank_effect_delta": 2,
+    "rank_effect_target": "Self"
+  },
+  {
+    "id": "mvs_ep_dragon",
+    "name": "りゅうしんのきわみ",
+    "type": "Dragon",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "rank_effect_stat": "ElementPower",
+    "rank_effect_delta": 2,
+    "rank_effect_target": "Self"
+  },
+  {
+    "id": "mvs_ep_dark",
+    "name": "しんえんのきわみ",
+    "type": "Dark",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "rank_effect_stat": "ElementPower",
+    "rank_effect_delta": 2,
+    "rank_effect_target": "Self"
+  },
+  {
+    "id": "mvs_neutral_atk_def",
+    "name": "むそうのかまえ",
+    "type": "Neutral",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Atk",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Def",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_neutral_atk_accuracy",
+    "name": "むそうのねらい",
+    "type": "Neutral",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Atk",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Accuracy",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_fire_atk_evasion",
+    "name": "ほむらのさばき",
+    "type": "Fire",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Atk",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Evasion",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_fire_atk_crit",
+    "name": "ほむらのきば",
+    "type": "Fire",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Atk",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Crit",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_water_def_accuracy",
+    "name": "みなものそなえ",
+    "type": "Water",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Def",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Accuracy",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_water_def_evasion",
+    "name": "みなものころも",
+    "type": "Water",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Def",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Evasion",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_grass_def_crit",
+    "name": "しんりょくのよろい",
+    "type": "Grass",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Def",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Crit",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_grass_accuracy_evasion",
+    "name": "しんりょくのまなこ",
+    "type": "Grass",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Accuracy",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Evasion",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_electric_accuracy_crit",
+    "name": "らいこうのみとおし",
+    "type": "Electric",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Accuracy",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Crit",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_electric_evasion_crit",
+    "name": "らいこうのかげろう",
+    "type": "Electric",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Evasion",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Crit",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_ground_atk_def",
+    "name": "だいちのかまえ",
+    "type": "Ground",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Atk",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Def",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_ground_atk_accuracy",
+    "name": "だいちのねらい",
+    "type": "Ground",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Atk",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Accuracy",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_ice_atk_evasion",
+    "name": "ひょうがのさばき",
+    "type": "Ice",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Atk",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Evasion",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_ice_atk_crit",
+    "name": "ひょうがのきば",
+    "type": "Ice",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Atk",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Crit",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_dragon_def_accuracy",
+    "name": "りゅうきのそなえ",
+    "type": "Dragon",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Def",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Accuracy",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_dragon_def_evasion",
+    "name": "りゅうきのころも",
+    "type": "Dragon",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Def",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Evasion",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_dark_def_crit",
+    "name": "やみよのよろい",
+    "type": "Dark",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Def",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Crit",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_dark_accuracy_evasion",
+    "name": "やみよのまなこ",
+    "type": "Dark",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 15,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Accuracy",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Evasion",
+        "delta": 1,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_big_neutral",
+    "name": "すてみのかまえ",
+    "type": "Neutral",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Atk",
+        "delta": 2,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Crit",
+        "delta": 2,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Def",
+        "delta": -2,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_big_water",
+    "name": "きゅうりゅうのかまえ",
+    "type": "Water",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "rank_effects": [
+      {
+        "stat": "Atk",
+        "delta": 2,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Evasion",
+        "delta": 2,
+        "target": "Self",
+        "chance": 1.0
+      },
+      {
+        "stat": "Def",
+        "delta": -2,
+        "target": "Self",
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "id": "mvs_toxic_dark",
+    "name": "もうどくのしずく",
+    "type": "Dark",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "Adjacent",
+    "ailment_effect": "Toxic",
+    "ailment_chance": 100,
+    "ailment_target": "Enemy"
   }
 ]

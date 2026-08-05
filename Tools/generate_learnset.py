@@ -69,6 +69,17 @@ def pick_moves(cands, quota, taken_ids):
         out.append(m); taken_ids.add(m['id'])
     return out
 
+def take_in_order(cands, quota, taken_ids):
+    """Like pick_moves but honours the order it is handed, instead of
+    re-sorting. Used for the rotated status list below, where the order IS
+    the rule."""
+    out = []
+    for m in cands:
+        if len(out) >= quota: break
+        if m['id'] in taken_ids: continue
+        out.append(m); taken_ids.add(m['id'])
+    return out
+
 def band_filtered(cands, power_cap, band_floor, band_max, per_element=True):
     """Applies §2-a/§2-b's "威力上位付近の技を1属性あたり何種まで" cap.
     Keeps everything below the band; thins the band itself to band_max per
@@ -87,7 +98,7 @@ def band_filtered(cands, power_cap, band_floor, band_max, per_element=True):
 species = json.load(open(SPECIES))
 report = []
 
-for s in sorted(species, key=lambda s: s['species_id']):   # §4: SpeciesId 昇順
+for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])):   # §4: SpeciesId 昇順
     tot = total_of(s)
     own_types = list(s['types'])
     prime = own_types[0]
@@ -190,8 +201,27 @@ for s in sorted(species, key=lambda s: s['species_id']):   # §4: SpeciesId 昇�
     else:
         status_quota = max(0, min(2, all_cap_n - len(chosen)))
 
-    chosen += pick_moves([m for m in STATUS if m.get('field_placement', 'None') == 'None'],
-                         status_quota, taken)
+    # §3-c: 変化技も他の分類と同じく自属性を優先する。元の実装は power/id
+    # 順に取るだけで、変化技はすべて power=0 のため全種が同じ「ID順の先頭
+    # 2件」を覚えていた（属性が一切効かない唯一の分類だった）。自属性の
+    # 候補を先に、足りない分だけ従来どおり全体から補う。決定的な取り方
+    # （weakest first, ties by id）は変えていない。
+    # 自属性の候補は (power, id) 順に並べたうえで、種族の並び順ぶんだけ開始
+    # 位置を回転させる。回転がないと同属性の全種が「ID順の先頭2件」だけを
+    # 取り続け、3件目以降の変化技はどの種族にも配られない。RNGは使わず、
+    # species_id 昇順の序数だけで決まるので再現性はそのまま。
+    status_pool = [m for m in STATUS if m.get('field_placement', 'None') == 'None']
+    own_status = sorted([m for m in status_pool if m['type'] in own_types],
+                        key=lambda m: (m['power'], m['id']))
+    if own_status:
+        off = species_index % len(own_status)
+        own_status = own_status[off:] + own_status[:off]
+
+    before_status = len(chosen)
+    chosen += take_in_order(own_status, status_quota, taken)
+    remaining = status_quota - (len(chosen) - before_status)
+    if remaining > 0:
+        chosen += pick_moves(status_pool, remaining, taken)
 
     if len(chosen) > all_cap_n:
         chosen = sorted(chosen, key=lambda m: (m['power'], m['id']))[:all_cap_n]

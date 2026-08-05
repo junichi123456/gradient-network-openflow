@@ -6,6 +6,14 @@ using System.Text.Json.Serialization;
 
 namespace MysteryDungeon.Combat;
 
+internal class RankEffectJson
+{
+    [JsonPropertyName("stat")] public string Stat { get; set; } = "None";
+    [JsonPropertyName("delta")] public int Delta { get; set; }
+    [JsonPropertyName("target")] public string Target { get; set; } = "Self";
+    [JsonPropertyName("chance")] public float Chance { get; set; } = 1.0f;
+}
+
 internal class MoveJson
 {
     [JsonPropertyName("id")] public string Id { get; set; }
@@ -23,6 +31,10 @@ internal class MoveJson
     [JsonPropertyName("rank_effect_stat")] public string RankEffectStat { get; set; } = "None";
     [JsonPropertyName("rank_effect_delta")] public int RankEffectDelta { get; set; }
     [JsonPropertyName("rank_effect_target")] public string RankEffectTarget { get; set; } = "Self";
+
+    // Optional multi-rank form. Present only on moves that change more than
+    // one rank; everything else keeps the single rank_effect_* fields.
+    [JsonPropertyName("rank_effects")] public List<RankEffectJson> RankEffects { get; set; }
     [JsonPropertyName("ailment_effect")] public string AilmentEffect { get; set; } = "None";
     [JsonPropertyName("ailment_chance")] public int AilmentChance { get; set; } = 100;
     [JsonPropertyName("ailment_target")] public string AilmentTarget { get; set; } = "Enemy";
@@ -98,7 +110,7 @@ public static class MoveDatabase
         {
             if (string.IsNullOrEmpty(entry.Id)) continue;
 
-            _moves[entry.Id] = new MoveData
+            var data = new MoveData
             {
                 Id = entry.Id,
                 Name = entry.Name,
@@ -131,6 +143,14 @@ public static class MoveDatabase
                 MultiHit = Enum.TryParse<MultiHitMode>(entry.MultiHit, out var multiHit) ? multiHit : MultiHitMode.None,
                 MultiHitCount = entry.MultiHitCount,
             };
+
+            // Normalise both authored shapes into one list. "rank_effects"
+            // wins when present; otherwise the legacy single slot is wrapped
+            // (and dropped entirely when it declares no real change, so
+            // RankEffects is empty for the ~570 moves that change no rank).
+            data.RankEffects = BuildRankEffects(entry, data);
+
+            _moves[entry.Id] = data;
         }
 
         GD.Print($"[MoveDatabase] Loaded {_moves.Count} moves from {resPath}.");
@@ -138,6 +158,40 @@ public static class MoveDatabase
 
     // Every loaded move id. Used by tooling/verification that needs to sweep
     // the whole pool rather than look up one move.
+    private static IReadOnlyList<RankEffect> BuildRankEffects(MoveJson entry, MoveData data)
+    {
+        if (entry.RankEffects is { Count: > 0 })
+        {
+            var list = new List<RankEffect>();
+            foreach (var r in entry.RankEffects)
+            {
+                var effect = new RankEffect
+                {
+                    Stat = Enum.TryParse<RankStat>(r.Stat, out var stat) ? stat : RankStat.None,
+                    Delta = r.Delta,
+                    Target = Enum.TryParse<StatusTarget>(r.Target, out var target) ? target : StatusTarget.Self,
+                    Chance = r.Chance,
+                };
+                if (effect.IsActive) list.Add(effect);
+            }
+            return list;
+        }
+
+        if (data.RankEffectStat == RankStat.None || data.RankEffectDelta == 0)
+            return Array.Empty<RankEffect>();
+
+        return new[]
+        {
+            new RankEffect
+            {
+                Stat = data.RankEffectStat,
+                Delta = data.RankEffectDelta,
+                Target = data.RankEffectTarget,
+                Chance = data.RankEffectChance,
+            },
+        };
+    }
+
     public static List<string> AllIds()
     {
         if (!_loaded) Load();

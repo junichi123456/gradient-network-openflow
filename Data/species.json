@@ -14,11 +14,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_161"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_162"
       },
       {
         "level": 6,
@@ -159,11 +159,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_162"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_163"
       },
       {
         "level": 6,
@@ -304,11 +304,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_163"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_164"
       },
       {
         "level": 6,
@@ -461,11 +461,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 5,
@@ -610,11 +610,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,
@@ -764,11 +764,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 5,
@@ -938,11 +938,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 6,
@@ -1083,11 +1083,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_big_water"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 5,
@@ -1234,11 +1234,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_electric"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 5,
@@ -1384,11 +1384,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_162"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_163"
       },
       {
         "level": 6,
@@ -1529,11 +1529,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,
@@ -1671,11 +1671,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_fog"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,
@@ -1809,11 +1809,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_gale"
       },
       {
         "level": 5,
@@ -1958,11 +1958,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_big_water"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 5,
@@ -2112,11 +2112,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 5,
@@ -2261,11 +2261,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_273"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 6,
@@ -2407,11 +2407,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_163"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_164"
       },
       {
         "level": 5,
@@ -2556,11 +2556,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_179"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_electric_accuracy_crit"
       },
       {
         "level": 6,
@@ -2701,11 +2701,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -2850,11 +2850,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 6,
@@ -3004,11 +3004,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_232"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_big_water"
       },
       {
         "level": 5,
@@ -3154,11 +3154,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_electric"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 5,
@@ -3304,11 +3304,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 5,
@@ -3442,11 +3442,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -3728,11 +3728,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_162"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_163"
       },
       {
         "level": 6,
@@ -3869,11 +3869,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_163"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_164"
       },
       {
         "level": 6,
@@ -4002,11 +4002,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -4139,11 +4139,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 6,
@@ -4296,11 +4296,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_299"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_gale"
       },
       {
         "level": 5,
@@ -4445,11 +4445,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -4595,7 +4595,7 @@
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -4744,11 +4744,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 6,
@@ -4890,11 +4890,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 6,
@@ -5036,11 +5036,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 6,
@@ -5193,11 +5193,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -5346,11 +5346,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 6,
@@ -5491,11 +5491,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 6,
@@ -5637,11 +5637,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -5787,11 +5787,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_fog"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,
@@ -5942,11 +5942,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,
@@ -6096,11 +6096,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 6,
@@ -6249,11 +6249,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_163"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_164"
       },
       {
         "level": 6,
@@ -6390,11 +6390,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -6531,11 +6531,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_big_neutral"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_neutral"
       },
       {
         "level": 6,
@@ -6672,11 +6672,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 5,
@@ -6817,11 +6817,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_fog"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -6954,11 +6954,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -7115,11 +7115,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 5,
@@ -7304,15 +7304,27 @@
       },
       {
         "level": 1,
-        "move_id": "MV_300"
-      },
-      {
-        "level": 1,
         "move_id": "mizutamari"
       },
       {
         "level": 1,
-        "move_id": "poison_fog"
+        "move_id": "mvs_big_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_water_def_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_water_def_evasion"
+      },
+      {
+        "level": 1,
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,
@@ -7426,22 +7438,6 @@
       },
       {
         "level": 1,
-        "move_id": "MV_176"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_177"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_178"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_179"
-      },
-      {
-        "level": 1,
         "move_id": "MV_232"
       },
       {
@@ -7450,19 +7446,43 @@
       },
       {
         "level": 1,
-        "move_id": "MV_299"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_300"
-      },
-      {
-        "level": 1,
         "move_id": "mizutamari"
       },
       {
         "level": 1,
-        "move_id": "poison_fog"
+        "move_id": "mvs_big_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ground_atk_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ground_atk_def"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_water_def_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_water_def_evasion"
+      },
+      {
+        "level": 1,
+        "move_id": "mvw_rain"
+      },
+      {
+        "level": 1,
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -7551,11 +7571,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 6,
@@ -7697,11 +7717,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 5,
@@ -7847,11 +7867,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_neutral"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 6,
@@ -8052,7 +8072,27 @@
       },
       {
         "level": 1,
-        "move_id": "poison_fog"
+        "move_id": "mvs_big_neutral"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_big_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ground_atk_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ground_atk_def"
+      },
+      {
+        "level": 1,
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -8201,7 +8241,23 @@
       },
       {
         "level": 1,
-        "move_id": "poison_fog"
+        "move_id": "mvs_big_neutral"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_big_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_neutral"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_neutral_atk_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 6,
@@ -8434,11 +8490,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_fog"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -8568,11 +8624,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_178"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_179"
       },
       {
         "level": 6,
@@ -8717,11 +8773,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_232"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,
@@ -8866,11 +8922,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 6,
@@ -9012,11 +9068,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_neutral"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 6,
@@ -9157,11 +9213,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 5,
@@ -9306,11 +9362,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -9456,11 +9512,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 5,
@@ -9605,11 +9661,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_232"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,
@@ -9759,11 +9815,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_fog"
       },
       {
         "level": 5,
@@ -9909,11 +9965,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -10058,11 +10114,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_big_neutral"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_neutral"
       },
       {
         "level": 6,
@@ -10204,11 +10260,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_fog"
       },
       {
         "level": 6,
@@ -10353,11 +10409,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 6,
@@ -10495,7 +10551,7 @@
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -10628,11 +10684,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_161"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_162"
       },
       {
         "level": 6,
@@ -10777,11 +10833,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_179"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_electric_accuracy_crit"
       },
       {
         "level": 6,
@@ -10910,11 +10966,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -11047,11 +11103,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -11196,11 +11252,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 6,
@@ -11346,11 +11402,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_fog"
       },
       {
         "level": 5,
@@ -11495,11 +11551,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -11648,7 +11704,7 @@
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -11793,11 +11849,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 6,
@@ -11931,11 +11987,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 5,
@@ -12084,11 +12140,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_gale"
       },
       {
         "level": 5,
@@ -12233,11 +12289,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_299"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_gale"
       },
       {
         "level": 5,
@@ -12382,11 +12438,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_176"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_177"
       },
       {
         "level": 6,
@@ -12527,11 +12583,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dragon_def_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dragon"
       },
       {
         "level": 6,
@@ -12662,11 +12718,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 5,
@@ -12801,11 +12857,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 5,
@@ -12944,11 +13000,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 5,
@@ -13078,11 +13134,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_129"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 6,
@@ -13207,11 +13263,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_299"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_300"
       },
       {
         "level": 5,
@@ -13340,11 +13396,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_300"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 5,
@@ -13485,11 +13541,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 5,
@@ -13622,11 +13678,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_fog"
       },
       {
         "level": 6,
@@ -13771,11 +13827,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 6,
@@ -13912,7 +13968,7 @@
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -14039,11 +14095,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -14174,11 +14230,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -14307,11 +14363,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 6,
@@ -14460,11 +14516,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -14606,11 +14662,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_big_neutral"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_neutral"
       },
       {
         "level": 6,
@@ -14743,11 +14799,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 6,
@@ -14876,11 +14932,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_232"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_big_water"
       },
       {
         "level": 5,
@@ -15022,11 +15078,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -15155,11 +15211,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 5,
@@ -15297,11 +15353,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 5,
@@ -15438,11 +15494,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_gale"
       },
       {
         "level": 5,
@@ -15587,11 +15643,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -15856,11 +15912,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_fog"
       },
       {
         "level": 6,
@@ -15990,11 +16046,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 6,
@@ -16128,7 +16184,7 @@
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -16255,11 +16311,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_electric_accuracy_crit"
       },
       {
         "level": 6,
@@ -16385,11 +16441,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_299"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_gale"
       },
       {
         "level": 5,
@@ -16518,11 +16574,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -16651,11 +16707,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_164"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_big_neutral"
       },
       {
         "level": 6,
@@ -16784,11 +16840,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_big_neutral"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_neutral"
       },
       {
         "level": 6,
@@ -16913,11 +16969,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_electric_evasion_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_electric"
       },
       {
         "level": 6,
@@ -17043,11 +17099,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 5,
@@ -17185,7 +17241,7 @@
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -17314,11 +17370,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 6,
@@ -17465,11 +17521,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_129"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 5,
@@ -17608,11 +17664,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 5,
@@ -17758,11 +17814,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_300"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 5,
@@ -17892,11 +17948,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -18025,11 +18081,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_232"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,
@@ -18175,11 +18231,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -18321,11 +18377,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_300"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 5,
@@ -18459,11 +18515,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_gale"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 5,
@@ -18593,11 +18649,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 5,
@@ -18727,11 +18783,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 5,
@@ -18869,11 +18925,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 5,
@@ -19018,11 +19074,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_176"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_electric"
       },
       {
         "level": 6,
@@ -19164,11 +19220,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_fog"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -19309,11 +19365,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -19444,11 +19500,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 6,
@@ -19579,11 +19635,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_big_water"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dragon_def_accuracy"
       },
       {
         "level": 5,
@@ -19710,11 +19766,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_electric_evasion_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dragon"
       },
       {
         "level": 6,
@@ -19831,11 +19887,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -19968,11 +20024,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_176"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_electric"
       },
       {
         "level": 6,
@@ -20098,11 +20154,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 5,
@@ -20233,11 +20289,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_129"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_232"
       },
       {
         "level": 5,
@@ -20368,11 +20424,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 5,
@@ -20502,11 +20558,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_179"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_electric_accuracy_crit"
       },
       {
         "level": 6,
@@ -20639,11 +20695,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 5,
@@ -20781,11 +20837,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_273"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 6,
@@ -20910,11 +20966,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 6,
@@ -21035,11 +21091,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 5,
@@ -21185,11 +21241,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 5,
@@ -21334,11 +21390,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 5,
@@ -21471,11 +21527,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_299"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_300"
       },
       {
         "level": 5,
@@ -21608,11 +21664,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_electric_accuracy_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_electric_evasion_crit"
       },
       {
         "level": 6,
@@ -21738,11 +21794,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -21885,11 +21941,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dragon_def_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -22027,11 +22083,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -22158,11 +22214,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 6,
@@ -22281,11 +22337,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 6,
@@ -22402,11 +22458,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_300"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 5,
@@ -22535,11 +22591,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -22668,11 +22724,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 5,
@@ -22802,11 +22858,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 5,
@@ -22965,18 +23021,6 @@
       },
       {
         "level": 1,
-        "move_id": "MV_177"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_178"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_179"
-      },
-      {
-        "level": 1,
         "move_id": "MV_232"
       },
       {
@@ -22985,19 +23029,43 @@
       },
       {
         "level": 1,
-        "move_id": "MV_299"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_300"
-      },
-      {
-        "level": 1,
         "move_id": "jiware"
       },
       {
         "level": 1,
-        "move_id": "poison_fog"
+        "move_id": "mvs_big_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ground_atk_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ground_atk_def"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_water_def_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_water_def_evasion"
+      },
+      {
+        "level": 1,
+        "move_id": "mvw_rain"
+      },
+      {
+        "level": 1,
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -23111,22 +23179,6 @@
       },
       {
         "level": 1,
-        "move_id": "MV_176"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_177"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_178"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_179"
-      },
-      {
-        "level": 1,
         "move_id": "MV_232"
       },
       {
@@ -23135,19 +23187,43 @@
       },
       {
         "level": 1,
-        "move_id": "MV_299"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_300"
-      },
-      {
-        "level": 1,
         "move_id": "jiware"
       },
       {
         "level": 1,
-        "move_id": "poison_fog"
+        "move_id": "mvs_big_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ground_atk_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ground_atk_def"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_water_def_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_water_def_evasion"
+      },
+      {
+        "level": 1,
+        "move_id": "mvw_rain"
+      },
+      {
+        "level": 1,
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -23237,11 +23313,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_gale"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -23362,11 +23438,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 6,
@@ -23492,11 +23568,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_fog"
       },
       {
         "level": 6,
@@ -23622,11 +23698,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -23761,7 +23837,7 @@
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -23888,11 +23964,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 6,
@@ -24013,11 +24089,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_273"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -24138,11 +24214,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -24272,11 +24348,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 6,
@@ -24402,11 +24478,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 5,
@@ -24535,11 +24611,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_neutral"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 6,
@@ -24664,11 +24740,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_fog"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -24813,11 +24889,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_300"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 5,
@@ -24951,11 +25027,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 5,
@@ -25088,11 +25164,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 5,
@@ -25222,11 +25298,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_fog"
       },
       {
         "level": 6,
@@ -25352,11 +25428,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_232"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,
@@ -25479,11 +25555,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -25601,11 +25677,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 6,
@@ -25731,11 +25807,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 5,
@@ -25861,11 +25937,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -25998,11 +26074,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dragon_def_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dragon"
       },
       {
         "level": 6,
@@ -26129,11 +26205,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 6,
@@ -26259,11 +26335,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_299"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_300"
       },
       {
         "level": 5,
@@ -26404,11 +26480,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 6,
@@ -26553,11 +26629,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_big_neutral"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_neutral"
       },
       {
         "level": 6,
@@ -26694,11 +26770,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -26840,11 +26916,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_232"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_big_water"
       },
       {
         "level": 5,
@@ -26987,11 +27063,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 6,
@@ -27114,11 +27190,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 6,
@@ -27239,11 +27315,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_129"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 6,
@@ -27368,11 +27444,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_163"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_164"
       },
       {
         "level": 6,
@@ -27497,11 +27573,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_273"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 6,
@@ -27626,11 +27702,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 5,
@@ -27759,11 +27835,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 5,
@@ -27892,11 +27968,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -28021,11 +28097,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -28170,11 +28246,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 5,
@@ -28315,31 +28391,31 @@
       },
       {
         "level": 1,
-        "move_id": "MV_162"
+        "move_id": "MV_299"
       },
       {
         "level": 1,
-        "move_id": "MV_163"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_164"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_176"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_177"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_178"
+        "move_id": "MV_300"
       },
       {
         "level": 1,
         "move_id": "bloom_garden"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_grass"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_grass_accuracy_evasion"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_grass_def_crit"
+      },
+      {
+        "level": 1,
+        "move_id": "mvw_gale"
       },
       {
         "level": 5,
@@ -28453,11 +28529,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -28583,11 +28659,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_299"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_gale"
       },
       {
         "level": 5,
@@ -28728,11 +28804,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 6,
@@ -28855,11 +28931,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_dragon"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 6,
@@ -28978,11 +29054,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_gale"
       },
       {
         "level": 6,
@@ -29108,7 +29184,7 @@
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -29229,11 +29305,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -29350,11 +29426,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_273"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -29480,11 +29556,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_273"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 6,
@@ -29614,11 +29690,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_electric"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 6,
@@ -29767,27 +29843,27 @@
       },
       {
         "level": 1,
-        "move_id": "MV_164"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_176"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_177"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_178"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_179"
+        "move_id": "MV_273"
       },
       {
         "level": 1,
         "move_id": "jiware"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ground_atk_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ground_atk_def"
+      },
+      {
+        "level": 1,
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -29900,10 +29976,6 @@
       },
       {
         "level": 1,
-        "move_id": "MV_129"
-      },
-      {
-        "level": 1,
         "move_id": "MV_161"
       },
       {
@@ -29920,19 +29992,23 @@
       },
       {
         "level": 1,
-        "move_id": "MV_176"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_177"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_178"
-      },
-      {
-        "level": 1,
         "move_id": "bloom_garden"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_big_neutral"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_neutral"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_neutral_atk_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 6,
@@ -30041,11 +30117,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_fog"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -30230,7 +30306,19 @@
       },
       {
         "level": 1,
-        "move_id": "poison_fog"
+        "move_id": "mvs_big_neutral"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_neutral"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_neutral_atk_accuracy"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 6,
@@ -30452,11 +30540,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dragon_def_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dragon"
       },
       {
         "level": 6,
@@ -30574,11 +30662,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 5,
@@ -30707,11 +30795,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 6,
@@ -30836,11 +30924,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_gale"
       },
       {
         "level": 5,
@@ -30969,11 +31057,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_fog"
       },
       {
         "level": 6,
@@ -31119,11 +31207,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 5,
@@ -31264,7 +31352,7 @@
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -31390,11 +31478,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 5,
@@ -31525,11 +31613,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 6,
@@ -31651,11 +31739,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_gale"
       },
       {
         "level": 5,
@@ -31788,11 +31876,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 6,
@@ -31917,11 +32005,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -32042,11 +32130,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_neutral"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 6,
@@ -32176,11 +32264,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_273"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 6,
@@ -32305,11 +32393,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_161"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 6,
@@ -32560,11 +32648,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 6,
@@ -32682,11 +32770,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_273"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -32803,11 +32891,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -32925,11 +33013,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dragon_def_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dragon"
       },
       {
         "level": 6,
@@ -33050,11 +33138,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_176"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_electric"
       },
       {
         "level": 6,
@@ -33172,11 +33260,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 6,
@@ -33317,11 +33405,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_177"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_178"
       },
       {
         "level": 6,
@@ -33463,11 +33551,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_176"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_177"
       },
       {
         "level": 6,
@@ -33608,11 +33696,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_300"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 5,
@@ -33761,11 +33849,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 6,
@@ -33906,11 +33994,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 6,
@@ -34059,11 +34147,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_176"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_electric"
       },
       {
         "level": 6,
@@ -34204,11 +34292,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_fog"
       },
       {
         "level": 6,
@@ -34357,11 +34445,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_232"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_big_water"
       },
       {
         "level": 5,
@@ -34500,11 +34588,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_176"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_177"
       },
       {
         "level": 5,
@@ -34642,11 +34730,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_161"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_162"
       },
       {
         "level": 6,
@@ -34772,11 +34860,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_dragon"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 6,
@@ -34895,11 +34983,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -35017,11 +35105,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_176"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_electric"
       },
       {
         "level": 6,
@@ -35163,11 +35251,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_299"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_300"
       },
       {
         "level": 5,
@@ -35308,11 +35396,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 6,
@@ -35435,11 +35523,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_300"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_big_water"
       },
       {
         "level": 5,
@@ -35561,11 +35649,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -35821,11 +35909,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_129"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 6,
@@ -35970,11 +36058,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_299"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_300"
       },
       {
         "level": 5,
@@ -36108,11 +36196,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 6,
@@ -36242,11 +36330,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 6,
@@ -36396,11 +36484,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_164"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_big_neutral"
       },
       {
         "level": 6,
@@ -36521,11 +36609,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sunny"
       },
       {
         "level": 6,
@@ -36652,11 +36740,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_273"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 6,
@@ -36769,11 +36857,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_electric_evasion_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_electric"
       },
       {
         "level": 6,
@@ -36898,11 +36986,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_300"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 5,
@@ -37023,11 +37111,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 6,
@@ -37145,11 +37233,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_electric_evasion_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dragon"
       },
       {
         "level": 6,
@@ -37266,11 +37354,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 6,
@@ -37396,11 +37484,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_232"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,
@@ -37526,11 +37614,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvw_fog"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -37649,7 +37737,7 @@
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "poison_fog"
       },
       {
         "level": 6,
@@ -37767,11 +37855,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 5,
@@ -37885,11 +37973,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dragon_def_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dragon"
       },
       {
         "level": 6,
@@ -37999,11 +38087,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_gale"
       },
       {
         "level": 5,
@@ -38121,11 +38209,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 6,
@@ -38238,11 +38326,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 6,
@@ -38355,11 +38443,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_fog"
       },
       {
         "level": 6,
@@ -38473,11 +38561,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dragon_def_accuracy"
       },
       {
         "level": 6,
@@ -38591,11 +38679,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_161"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 6,
@@ -38708,11 +38796,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_161"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "MV_162"
       },
       {
         "level": 6,
@@ -38841,11 +38929,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "MV_129"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 5,
@@ -38966,11 +39054,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvw_snow"
       },
       {
         "level": 5,
@@ -39084,11 +39172,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 6,
@@ -39198,11 +39286,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 5,
@@ -39320,11 +39408,11 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
+        "move_id": "mvs_dragon_def_accuracy"
       },
       {
         "level": 1,
-        "move_id": "MV_129"
+        "move_id": "mvs_dragon_def_evasion"
       },
       {
         "level": 6,
@@ -39450,27 +39538,27 @@
     "learnset": [
       {
         "level": 1,
-        "move_id": "MV_122"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_129"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_161"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_162"
-      },
-      {
-        "level": 1,
-        "move_id": "MV_163"
+        "move_id": "MV_232"
       },
       {
         "level": 1,
         "move_id": "mizutamari"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_big_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_ep_water"
+      },
+      {
+        "level": 1,
+        "move_id": "mvs_water_def_evasion"
+      },
+      {
+        "level": 1,
+        "move_id": "mvw_rain"
       },
       {
         "level": 5,

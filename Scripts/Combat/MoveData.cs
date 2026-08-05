@@ -105,6 +105,23 @@ public enum AilmentType
     Darkness,
 }
 
+// One rank change a move applies. A move used to be able to declare
+// exactly one; the status-move expansion needs up to three on a single
+// move ("2つのランクを2段階上げ、防御ランクを2段階下げる"), so the single
+// slot became a list. MoveData keeps BOTH shapes: the legacy scalar
+// properties are still the authored form for the 592 moves that only
+// need one, and MoveDatabase normalises either form into RankEffects,
+// which is what AttackAction actually reads.
+public class RankEffect
+{
+    public RankStat Stat { get; set; } = RankStat.None;
+    public int Delta { get; set; }
+    public StatusTarget Target { get; set; } = StatusTarget.Self;
+    public float Chance { get; set; } = 1.0f;
+
+    public bool IsActive => Stat != RankStat.None && Delta != 0;
+}
+
 // Immutable move definition, loaded once by MoveDatabase from
 // Data/moves.json. Runtime state (current PP) lives in MoveSlot instead.
 public class MoveData
@@ -126,6 +143,29 @@ public class MoveData
     public RankStat RankEffectStat { get; set; } = RankStat.None;
     public int RankEffectDelta { get; set; }
     public StatusTarget RankEffectTarget { get; set; } = StatusTarget.Self;
+
+    // The normalised view every consumer reads: either the single legacy
+    // slot above wrapped in a 1-element list, or the move's own
+    // "rank_effects" array. Empty when the move changes no rank at all.
+    // Built by MoveDatabase; never null.
+    public System.Collections.Generic.IReadOnlyList<RankEffect> RankEffects { get; set; }
+        = System.Array.Empty<RankEffect>();
+
+    // True when nothing this move does needs a target: every rank change
+    // is Self-directed and it inflicts no ailment. Such a move must still
+    // resolve when no enemy is adjacent - otherwise a pure self-buff could
+    // only ever be used while already standing next to something, which is
+    // exactly backwards (see AttackAction.ExecuteSingle).
+    public bool IsSelfContained
+    {
+        get
+        {
+            if (AilmentEffect != AilmentType.None) return false;
+            foreach (var e in RankEffects)
+                if (e.IsActive && e.Target != StatusTarget.Self) return false;
+            return true;
+        }
+    }
 
     // Phase 21: ailment-inflicting effect. poison_fog is the only
     // existing move that sets this (Poison/100%/Enemy); everything else

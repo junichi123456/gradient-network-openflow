@@ -135,8 +135,21 @@ public class AttackAction : IAction
     private void ExecuteSingle(MoveData move)
     {
         // Menu-invoked moves may auto-aim to nothing - still costs the turn.
+        // A Status move that only affects its USER is the exception: it has
+        // nothing to aim at in the first place, so requiring an adjacent
+        // enemy would mean a self-buff could only be used while already
+        // standing next to something. Every rank move in the pool is
+        // Adjacent-ranged, so without this a pure buff simply never worked
+        // outside melee.
         if (_defender == null)
         {
+            if (move.Category == MoveCategory.Status && move.IsSelfContained && move.RankEffects.Count > 0)
+            {
+                MessageLogger.Log($"{_attacker.ActorName} used {move.Name}!");
+                ApplySelfRankOnce(move);
+                return;
+            }
+
             MessageLogger.Log($"{_attacker.ActorName} used {move.Name}, but there was no target! It hit nothing but air.", MessageLogger.IneffectiveColor);
             return;
         }
@@ -1354,12 +1367,19 @@ public class AttackAction : IAction
     private void ApplyRankEffectIfAny(MoveData move, bool defenderAlive)
     {
         if (DefenderBlocksSecondaryEffects) return;
-        if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
-        if (move.RankEffectTarget == StatusTarget.Enemy && !defenderAlive) return;
-        if (GD.Randf() >= move.RankEffectChance) return;
 
-        var target = move.RankEffectTarget == StatusTarget.Self ? _attacker : _defender;
-        ApplyRankTo(move, target);
+        // Each declared rank change rolls its own chance and lands
+        // independently - a move that raises two ranks and drops a third
+        // is three separate applications, in authored order.
+        foreach (var effect in move.RankEffects)
+        {
+            if (effect.Target == StatusTarget.Enemy && !defenderAlive) continue;
+            if (GD.Randf() >= effect.Chance) continue;
+
+            var target = effect.Target == StatusTarget.Self ? _attacker : _defender;
+            if (target == null) continue;
+            ApplyRankTo(move, effect, target);
+        }
     }
 
     // Status-redesign: AilmentEffect no longer applies via a per-hit
@@ -1436,11 +1456,14 @@ public class AttackAction : IAction
     private void ApplyEnemyRankToTarget(MoveData move, Entity target)
     {
         if (BlocksSecondaryEffectsFor(target)) return;
-        if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
-        if (move.RankEffectTarget != StatusTarget.Enemy) return;
         if (target.Faction == _attacker.Faction) return; // opposing only
-        if (GD.Randf() >= move.RankEffectChance) return;
-        ApplyRankTo(move, target);
+
+        foreach (var effect in move.RankEffects)
+        {
+            if (effect.Target != StatusTarget.Enemy) continue;
+            if (GD.Randf() >= effect.Chance) continue;
+            ApplyRankTo(move, effect, target);
+        }
     }
 
     // Self-targeted rank effect: the user, once (§4-2 "Target=Self は使用者に1回").
@@ -1449,18 +1472,21 @@ public class AttackAction : IAction
     private void ApplySelfRankOnce(MoveData move)
     {
         if (DefenderBlocksSecondaryEffects) return;
-        if (move.RankEffectStat == RankStat.None || move.RankEffectDelta == 0) return;
-        if (move.RankEffectTarget != StatusTarget.Self) return;
-        if (GD.Randf() >= move.RankEffectChance) return;
-        ApplyRankTo(move, _attacker);
+
+        foreach (var effect in move.RankEffects)
+        {
+            if (effect.Target != StatusTarget.Self) continue;
+            if (GD.Randf() >= effect.Chance) continue;
+            ApplyRankTo(move, effect, _attacker);
+        }
     }
 
-    private void ApplyRankTo(MoveData move, Entity target)
+    private void ApplyRankTo(MoveData move, RankEffect effect, Entity target)
     {
         var moveElement = Enum.TryParse<Element>(move.Type, out var parsed) ? parsed : Element.Neutral;
-        target.StatusEffects.ApplyRankDelta(move.RankEffectStat, move.RankEffectDelta, moveElement);
-        string direction = move.RankEffectDelta > 0 ? "rose" : "fell";
-        MessageLogger.Log($"{target.ActorName}'s {move.RankEffectStat} {direction}!", MessageLogger.NeutralColor);
+        target.StatusEffects.ApplyRankDelta(effect.Stat, effect.Delta, moveElement);
+        string direction = effect.Delta > 0 ? "rose" : "fell";
+        MessageLogger.Log($"{target.ActorName}'s {effect.Stat} {direction}!", MessageLogger.NeutralColor);
     }
 
     private void ApplyAilmentTo(Entity target, AilmentType ailment)
