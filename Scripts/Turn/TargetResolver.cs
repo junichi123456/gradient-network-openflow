@@ -12,9 +12,10 @@ namespace MysteryDungeon.Turn;
 // of actors an AoE move hits. Pure/immediate, no side effects - callers
 // (AttackAction's multi-target loop) apply damage/status themselves.
 //
-// Friendly-fire is intentional (confirmed §9-2): every actor EXCEPT the
-// user is a candidate, allies included; only the user is excluded, and
-// downed actors are already absent from FloorController.AllActors().
+// Friendly-fire is on by default (confirmed §9-2): every actor EXCEPT the
+// user is a candidate, allies included, and downed actors are already
+// absent from FloorController.AllActors(). Room is the one exception - see
+// Resolve.
 public static class TargetResolver
 {
     // Adjacent is the single-target/bump path (handled by AttackAction
@@ -26,13 +27,37 @@ public static class TargetResolver
     // tile the user faces when there's no primary defender).
     public static List<Entity> Resolve(MoveRange range, Entity user, Vector2I aimTile, GridManager grid, FloorController floor)
     {
-        var candidates = floor.AllActors().Where(e => e != user);
+        var candidates = floor.AllActors().Where(e => e != user).ToList();
+
+        // Room alone spares the user's own side. Area/Line/TwoTile/FullFloor
+        // keep the project's default friendly fire.
+        if (range == MoveRange.Room)
+            candidates = candidates.Where(e => e.Faction != user.Faction).ToList();
 
         // FullFloor ignores geometry entirely - everyone but the user.
         if (range == MoveRange.FullFloor)
-            return candidates.ToList();
+            return candidates;
 
         var tiles = ResolveTiles(range, user.GridPosition, user.FacingDirection, aimTile, grid, floor);
+
+        // Line and TwoTile do not pierce: the shot stops at the FIRST actor
+        // standing in its path and only that actor is hit. CastRay already
+        // returns its tiles in travel order, so the first match down the list
+        // is the first thing the shot meets.
+        //
+        // "First actor", not "first enemy": friendly fire stays on for these
+        // ranges (only Room was exempted), so an ally standing in the lane
+        // both blocks the shot and takes it - which is what "does not pierce"
+        // has to mean if allies are still hittable at all.
+        if (range == MoveRange.Line || range == MoveRange.TwoTile)
+        {
+            foreach (var tile in tiles)
+                foreach (var actor in candidates)
+                    if (actor.GridPosition == tile)
+                        return new List<Entity> { actor };
+            return new List<Entity>();
+        }
+
         var tileSet = new HashSet<Vector2I>(tiles);
         return candidates.Where(e => tileSet.Contains(e.GridPosition)).ToList();
     }
