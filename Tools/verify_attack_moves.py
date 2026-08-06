@@ -63,7 +63,7 @@ def fam_of(n):
     return None
 FAM_TAG={'ストライク':'Strike','フィスト':'Fist','ブロー':'Fist','パンチ':'Punch',
          'スラスト':'Thrust','クラッシュ':'Crush','レンド':'Rend','フラッシュ':'Flash'}
-FAM_CAP={'ストライク':10,'フィスト':8,'ブロー':6,'クラッシュ':5,'レンド':3,'フラッシュ':2}
+FAM_CAP={'ストライク':10,'フィスト':8,'ブロー':6,'スラスト':10,'クラッシュ':5,'レンド':3,'フラッシュ':2}
 fam_bad=[]
 for f,tag in FAM_TAG.items():
     g=[m for m in ms if fam_of(m['name'])==f]
@@ -82,8 +82,17 @@ check(all(v<=2 for v in per.values()) and all(m['power']<=70 for m in punch) and
       f"{len(punch)}件 属性最大{max(per.values())} 効果なし{len(noeff)}")
 
 thrust=[m for m in ms if fam_of(m['name'])=='スラスト']
-check(all(m.get('range')=='TwoTile' for m in thrust) and not any(m.get('is_contact') for m in thrust),
-      "スラスト: 全て2マス射程かつ非接触", f"{len(thrust)}件")
+tper=collections.Counter(m['type'] for m in thrust)
+check(all(m.get('range')=='TwoTile' for m in thrust) and not any(m.get('is_contact') for m in thrust)
+      and len(thrust)==10 and tper['Neutral']==2
+      and all(tper[e]==1 for e in tper if e!='Neutral'),
+      "スラスト: 10件(無属性2・他1)・全て2マス射程かつ非接触", f"{len(thrust)}件 {dict(tper)}")
+
+# 系統を離れた2マス射程技は名称とタグだけを変えており、射程と非接触は維持
+loose=[m for m in ms if m.get('range')=='TwoTile' and fam_of(m['name'])!='スラスト']
+check(len(loose)==17 and all(not m.get('is_contact') and m.get('weapon_tag','None')=='None'
+                             for m in loose),
+      "系統外の2マス射程17件: 非接触のままタグなし", f"{len(loose)}件")
 
 flash=[m for m in ms if fam_of(m['name'])=='フラッシュ']
 check(all(m['power']==50 and not m.get('is_contact') and m.get('is_guaranteed_hit')

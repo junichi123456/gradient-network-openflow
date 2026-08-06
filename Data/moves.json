@@ -622,7 +622,7 @@
   },
   {
     "id": "MV_145",
-    "name": "ラッシュスラスト",
+    "name": "ラッシュピアス",
     "type": "Neutral",
     "category": "Physical",
     "power": 50,
@@ -630,7 +630,7 @@
     "max_pp": 33,
     "range": "TwoTile",
     "is_contact": false,
-    "weapon_tag": "Thrust"
+    "weapon_tag": "None"
   },
   {
     "id": "MV_146",
@@ -1136,8 +1136,9 @@
     "power": 55,
     "accuracy": 100,
     "max_pp": 27,
-    "range": "Adjacent",
-    "is_contact": true
+    "range": "TwoTile",
+    "is_contact": false,
+    "weapon_tag": "None"
   },
   {
     "id": "MV_217",
@@ -1570,8 +1571,9 @@
     "power": 60,
     "accuracy": 100,
     "max_pp": 24,
-    "range": "Adjacent",
-    "is_contact": true
+    "range": "TwoTile",
+    "is_contact": false,
+    "weapon_tag": "None"
   },
   {
     "id": "MV_273",
@@ -2656,8 +2658,9 @@
     "power": 80,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent",
-    "is_contact": true
+    "range": "TwoTile",
+    "is_contact": false,
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_031",
@@ -2714,15 +2717,14 @@
   },
   {
     "id": "MVP_035",
-    "name": "バーストヒートスラスト",
+    "name": "バーストヒートピアス",
     "type": "Fire",
     "category": "Physical",
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "TwoTile",
-    "is_contact": false,
-    "weapon_tag": "Thrust"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_036",
@@ -2776,7 +2778,7 @@
   },
   {
     "id": "MVP_040",
-    "name": "ワイルドファイアスラスト",
+    "name": "ワイルドファイアピアス",
     "type": "Fire",
     "category": "Physical",
     "power": 120,
@@ -2784,7 +2786,7 @@
     "max_pp": 6,
     "range": "TwoTile",
     "is_contact": false,
-    "weapon_tag": "Thrust"
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_041",
@@ -2846,15 +2848,14 @@
   },
   {
     "id": "MVP_045",
-    "name": "ウォーターリングスラスト",
+    "name": "ウォーターリングピアス",
     "type": "Water",
     "category": "Physical",
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "TwoTile",
-    "is_contact": false,
-    "weapon_tag": "Thrust"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_046",
@@ -3025,7 +3026,7 @@
   },
   {
     "id": "MVP_058",
-    "name": "スプラッシュスラスト",
+    "name": "スプラッシュピアス",
     "type": "Water",
     "category": "Physical",
     "power": 110,
@@ -3036,7 +3037,7 @@
     "rank_effect_delta": 1,
     "rank_effect_target": "Self",
     "is_contact": false,
-    "weapon_tag": "Thrust"
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_059",
@@ -3195,8 +3196,9 @@
     "power": 80,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent",
-    "is_contact": true
+    "range": "TwoTile",
+    "is_contact": false,
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_071",
@@ -3253,15 +3255,14 @@
   },
   {
     "id": "MVP_075",
-    "name": "フラッシュボルトスラスト",
+    "name": "フラッシュボルトピアス",
     "type": "Electric",
     "category": "Physical",
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "TwoTile",
-    "is_contact": false,
-    "weapon_tag": "Thrust"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_076",
@@ -3314,7 +3315,7 @@
   },
   {
     "id": "MVP_080",
-    "name": "スタティックスラスト",
+    "name": "スタティックピアス",
     "type": "Electric",
     "category": "Physical",
     "power": 120,
@@ -3322,7 +3323,7 @@
     "max_pp": 6,
     "range": "TwoTile",
     "is_contact": false,
-    "weapon_tag": "Thrust"
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_081",
@@ -3480,18 +3481,17 @@
   },
   {
     "id": "MVP_092",
-    "name": "ロックヴェールスラスト",
+    "name": "ロックヴェールピアス",
     "type": "Ground",
     "category": "Physical",
     "power": 85,
     "accuracy": 90,
     "max_pp": 8,
-    "range": "TwoTile",
+    "range": "Adjacent",
     "rank_effect_stat": "Def",
     "rank_effect_delta": 1,
     "rank_effect_target": "Self",
-    "is_contact": false,
-    "weapon_tag": "Thrust"
+    "is_contact": true
   },
   {
     "id": "MVP_093",
@@ -3592,7 +3592,7 @@
   },
   {
     "id": "MVP_100",
-    "name": "ハードグラウンドスラスト",
+    "name": "ハードグラウンドピアス",
     "type": "Ground",
     "category": "Physical",
     "power": 120,
@@ -3600,7 +3600,7 @@
     "max_pp": 6,
     "range": "TwoTile",
     "is_contact": false,
-    "weapon_tag": "Thrust"
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_101",
@@ -3743,16 +3743,15 @@
   },
   {
     "id": "MVP_112",
-    "name": "ブッシュスラスト",
+    "name": "ブッシュピアス",
     "type": "Grass",
     "category": "Physical",
     "power": 85,
     "accuracy": 90,
     "max_pp": 8,
-    "range": "TwoTile",
+    "range": "Adjacent",
     "drain_hp_percent": 50,
-    "is_contact": false,
-    "weapon_tag": "Thrust"
+    "is_contact": true
   },
   {
     "id": "MVP_113",
@@ -3780,7 +3779,7 @@
   },
   {
     "id": "MVP_115",
-    "name": "リーフヴェインスラスト",
+    "name": "リーフヴェインピアス",
     "type": "Grass",
     "category": "Physical",
     "power": 90,
@@ -3788,7 +3787,7 @@
     "max_pp": 6,
     "range": "TwoTile",
     "is_contact": false,
-    "weapon_tag": "Thrust"
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_116",
@@ -3848,8 +3847,9 @@
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent",
-    "is_contact": true
+    "range": "TwoTile",
+    "is_contact": false,
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_121",
@@ -3985,17 +3985,16 @@
   },
   {
     "id": "MVP_131",
-    "name": "コールドストライクスラスト",
+    "name": "コールドストライクピアス",
     "type": "Ice",
     "category": "Physical",
     "power": 80,
     "accuracy": 90,
     "max_pp": 8,
-    "range": "TwoTile",
+    "range": "Adjacent",
     "ailment_effect": "Freeze",
     "ailment_chance": 10,
-    "is_contact": false,
-    "weapon_tag": "Thrust"
+    "is_contact": true
   },
   {
     "id": "MVP_132",
@@ -4038,7 +4037,7 @@
   },
   {
     "id": "MVP_135",
-    "name": "フロストストライクスラスト",
+    "name": "フロストストライクピアス",
     "type": "Ice",
     "category": "Physical",
     "power": 90,
@@ -4046,7 +4045,7 @@
     "max_pp": 6,
     "range": "TwoTile",
     "is_contact": false,
-    "weapon_tag": "Thrust"
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_136",
@@ -4106,8 +4105,9 @@
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent",
-    "is_contact": true
+    "range": "TwoTile",
+    "is_contact": false,
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_141",
@@ -4269,10 +4269,11 @@
     "power": 85,
     "accuracy": 90,
     "max_pp": 8,
-    "range": "Adjacent",
+    "range": "TwoTile",
     "recoil_hp_percent": 33,
     "dragon_multiplier": 1.5,
-    "is_contact": true
+    "is_contact": false,
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_153",
@@ -4302,15 +4303,14 @@
   },
   {
     "id": "MVP_155",
-    "name": "ドラゴンヴェインスラスト",
+    "name": "ドラゴンヴェインピアス",
     "type": "Dragon",
     "category": "Physical",
     "power": 90,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "TwoTile",
-    "is_contact": false,
-    "weapon_tag": "Thrust"
+    "range": "Adjacent",
+    "is_contact": true
   },
   {
     "id": "MVP_156",
@@ -4355,7 +4355,7 @@
   },
   {
     "id": "MVP_160",
-    "name": "ドラゴンヴォイススラスト",
+    "name": "ドラゴンヴォイスピアス",
     "type": "Dragon",
     "category": "Physical",
     "power": 120,
@@ -4363,7 +4363,7 @@
     "max_pp": 6,
     "range": "TwoTile",
     "is_contact": false,
-    "weapon_tag": "Thrust"
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_161",
@@ -4475,17 +4475,16 @@
   },
   {
     "id": "MVP_169",
-    "name": "ダークストライクスラスト",
+    "name": "ダークストライクピアス",
     "type": "Dark",
     "category": "Physical",
     "power": 75,
     "accuracy": 90,
     "max_pp": 11,
-    "range": "TwoTile",
+    "range": "Adjacent",
     "ailment_effect": "Darkness",
     "ailment_chance": 10,
-    "is_contact": false,
-    "weapon_tag": "Thrust"
+    "is_contact": true
   },
   {
     "id": "MVP_170",
@@ -4540,7 +4539,7 @@
   },
   {
     "id": "MVP_174",
-    "name": "シャドウストライクスラスト",
+    "name": "シャドウストライクピアス",
     "type": "Dark",
     "category": "Physical",
     "power": 90,
@@ -4550,7 +4549,7 @@
     "ailment_effect": "Darkness",
     "ailment_chance": 10,
     "is_contact": false,
-    "weapon_tag": "Thrust"
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_175",
@@ -4596,8 +4595,9 @@
     "power": 115,
     "accuracy": 100,
     "max_pp": 6,
-    "range": "Adjacent",
-    "is_contact": true
+    "range": "TwoTile",
+    "is_contact": false,
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_180",

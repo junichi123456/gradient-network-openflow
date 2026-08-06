@@ -12,7 +12,7 @@ the surplus OUT to an unregulated suffix.
     フィスト    tag Fist    cap 8         power <= 80
     ブロー      tag Fist    cap 6         power <= 80
     パンチ      tag Punch   cap 2/element power <= 70, always a side effect
-    スラスト    tag Thrust  (sized below) non-contact, always TwoTile
+    スラスト    tag Thrust  2 Neutral + 1 each  non-contact, always TwoTile
     クラッシュ  tag Crush   cap 5         knockback (AttackAction)
     レンド      tag Rend    cap 3         clears the field/trap underfoot
     フラッシュ  tag Flash   cap 2         non-contact, never misses, always
@@ -21,10 +21,12 @@ the surplus OUT to an unregulated suffix.
 Moves that are NOT physical but carry a family suffix are renamed out - the
 families are a physical-move concept.
 
-スラスト has no cap of its own, but every member must be non-contact and
-TwoTile, so its size is pinned by two other rules at once: the 9:1
-contact ratio and the earlier per-element TwoTile <= 3. It is sized to
-land the contact ratio exactly.
+スラスト is capped at 10 - two Neutral, one of every other element. The 17
+TwoTile moves that no longer fit the family give up ONLY their name and
+their weapon tag: they keep TwoTile and keep being non-contact, because
+every regulated family is already at its cap so there is nowhere for them
+to go, and moving them back to Adjacent+contact would break the 9:1 contact
+ratio (31 non-contact of 310 physical) that they make up the bulk of.
 
 Grid fill: every (element, category) needs at least one move at each power
 15,20,...,120. New moves are Adjacent, because Adjacent is the only range
@@ -47,6 +49,9 @@ FAMILY={
     'クラッシュ': ('Crush',   5, None),
     'レンド':     ('Rend',    3, None),
     'フラッシュ': ('Flash',   2, 50),
+    # cap None keeps スラスト out of the generic sizing pass below - it has
+    # its own block, because the generic one also strips TwoTile on the way
+    # out and here the surplus is meant to KEEP its range.
     'スラスト':   ('Thrust', None, None),
 }
 # Where a move goes when it is pushed out of a regulated family. None of
@@ -221,36 +226,48 @@ def grid_gaps():
             gaps += [(el,cat,p) for p in GRID if p not in have]
     return gaps
 
-phys_now=sum(1 for m in moves if m['category']=='Physical')
-phys_gap=sum(1 for g in grid_gaps() if g[1]=='Physical')
-projected=phys_now+phys_gap
-# Non-contact is exactly: the physical moves that are not Adjacent (the 4
-# older ranged ones plus every スラスト), plus the 2 フラッシュ. Solve for
-# how many スラスト that allows.
-other_ranged=sum(1 for m in moves if m['category']=='Physical'
-                 and rng(m) not in ('Adjacent',) and not m['name'].endswith('スラスト'))
-target_thrust=round(projected*0.1)-other_ranged-2
-print(f"物理見込み {projected}件 → 非接触 {round(projected*0.1)}件 "
-      f"= 既存射程持ち{other_ranged} + フラッシュ2 + スラスト{target_thrust}")
+# Two stages. First pick the 27 moves that occupy the TwoTile slots (3 per
+# element, the per-element TwoTile cap); everything beyond that leaves the
+# family outright and goes back to Adjacent+contact. Then, of those 27, only
+# 10 keep the スラスト name and the Thrust tag - 2 Neutral and 1 of each
+# other element. The other 17 change name and weapon tag ONLY: they stay
+# TwoTile and stay non-contact, which is what holds the 9:1 contact ratio
+# (31 non-contact of 310 physical) together.
+KEEP_QUOTA={el:(2 if el=='Neutral' else 1) for el in ELEMENTS}   # 10 total
 
 thrust=[m for m in moves if m['name'].endswith('スラスト')]
-chosen=[]
-by_el=collections.defaultdict(list)
-for m in sorted(thrust, key=lambda m:(m['power'], m['id'])): by_el[m['type']].append(m)
-per=collections.Counter()
-while len(chosen)<target_thrust:
-    progressed=False
-    for el in ELEMENTS:
-        if len(chosen)>=target_thrust: break
-        if per[el]<TWOTILE_CAP and by_el[el]:
-            picks=spread(by_el[el], min(TWOTILE_CAP, len(by_el[el])))
-            m=picks[per[el]] if per[el]<len(picks) else by_el[el][0]
-            by_el[el].remove(m); chosen.append(m); per[el]+=1; progressed=True
-    if not progressed: break
-keep_thrust={m['id'] for m in chosen}
+twotile=[]
+for el in ELEMENTS:
+    pool=sorted([m for m in thrust if m['type']==el], key=lambda m:(m['power'], m['id']))
+    twotile += spread(pool, min(TWOTILE_CAP, len(pool)))
+twotile_ids={m['id'] for m in twotile}
 for m in thrust:
-    if m['id'] not in keep_thrust:
-        exile(m); log['スラストを系統外へ']+=1
+    if m['id'] not in twotile_ids:
+        exile(m); log['スラストを系統外へ(射程も返上)']+=1
+
+named=[]
+for el in ELEMENTS:
+    pool=sorted([m for m in twotile if m['type']==el], key=lambda m:(m['power'], m['id']))
+    named += spread(pool, KEEP_QUOTA[el])
+named_ids={m['id'] for m in named}
+for m in twotile:
+    m['range']='TwoTile'
+    m['is_contact']=False
+    if m['id'] in named_ids: continue
+    stem=m['name'][:-len('スラスト')]
+    placed=False
+    for suf in EXILE['スラスト']+PHYS_SUFFIX:
+        if stem+suf not in used_names and fam_of(stem+suf) is None:
+            rename(m, stem+suf); placed=True; break
+    if not placed:
+        for w in ELEMENT_WORDS[m['type']]:
+            for suf in EXILE['スラスト']+PHYS_SUFFIX:
+                if w+suf not in used_names and fam_of(w+suf) is None:
+                    rename(m, w+suf); placed=True; break
+            if placed: break
+    if not placed: raise RuntimeError(f"逃がし先が尽きた: {m['name']}")
+    m['weapon_tag']='None'
+    log['スラスト系統外へ(名称+タグのみ)']+=1
 
 # ---------------- 4. apply each family's rules ---------------------------
 AILMENT_BY_ELEMENT={'Neutral':'Stun','Fire':'Burn','Water':'Soaked','Grass':'VineBound',
