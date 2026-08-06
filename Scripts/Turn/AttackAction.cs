@@ -4,6 +4,7 @@ using Godot;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
 using MysteryDungeon.Dungeon;
+using MysteryDungeon.Grid;
 using MysteryDungeon.UI;
 
 namespace MysteryDungeon.Turn;
@@ -171,9 +172,11 @@ public class AttackAction : IAction
             bool alive = _defender.Stats.IsAlive;
             ApplyRankEffectIfAny(move, alive);
             ApplyAilmentEffectIfAny(move, alive);
+            if (alive) ApplyKnockback(move, _defender);
             if (!alive) HandleFaint(_defender);
         }
 
+        ApplyRendClear(move, damage);
         ApplyDrain(move, damage);
         ApplyRecoil(move, damage);
         ApplyFundoRecoil(damage);
@@ -221,6 +224,7 @@ public class AttackAction : IAction
             {
                 ApplyAoeAilment(move, target);
                 ApplyEnemyRankToTarget(move, target);
+                ApplyKnockback(move, target);
             }
             else
             {
@@ -228,6 +232,7 @@ public class AttackAction : IAction
             }
         }
 
+        ApplyRendClear(move, totalDamage);
         ApplyDrain(move, totalDamage);
         ApplyRecoil(move, totalDamage);
         ApplyFundoRecoil(totalDamage);
@@ -416,7 +421,11 @@ public class AttackAction : IAction
         // is denied. Applied here so every downstream consumer (the damage
         // multiplier, the crit clamps, きょうしんぞう below, the log line)
         // uniformly sees "no crit happened".
-        bool isCrit = GD.Randf() < _attacker.StatusEffects.GetCritChanceWithBonus(effectiveCritRankBonus);
+        // GuaranteedCrit (フラッシュ系) forces the result rather than the
+        // odds, so it also survives a 0% crit chance. たかねのはな still
+        // wins below - "特性や道具で急所に当たらないと規定されていない限り".
+        bool isCrit = move.GuaranteedCrit
+            || GD.Randf() < _attacker.StatusEffects.GetCritChanceWithBonus(effectiveCritRankBonus);
         if (HasTrait(target, "takane_no_hana")) isCrit = false;
 
         // きょうしんぞう (stage 9 §1.5): taking a crit maxes the VICTIM's own
@@ -455,7 +464,7 @@ public class AttackAction : IAction
         // WeaponTag matching the attacker's held trait grants +10% power.
         // Self-based (not party census) - a direct trait+move-data check.
         if ((HasTrait(_attacker, "issen") && move.WeaponTag == WeaponTag.Slash)
-            || (HasTrait(_attacker, "tsume_no_kariudo") && move.WeaponTag == WeaponTag.ClawFist))
+            || (HasTrait(_attacker, "tsume_no_kariudo") && move.WeaponTag == WeaponTag.Fist))
             powerMul *= 1.1f;
 
         // がんばりサポート (§4, stage 3): a party-census trait that buffs
@@ -1291,6 +1300,80 @@ public class AttackAction : IAction
         _attacker.ShowDamagePopup(recoil);
         MessageLogger.Log($"{_attacker.ActorName} is battered by its own fury! ({recoil} damage)", MessageLogger.IneffectiveColor);
         if (!_attacker.Stats.IsAlive) HandleFaint(_attacker);
+    }
+
+    // ---- クラッシュ系: knockback -------------------------------------
+    // The target is shoved one tile directly away from the attacker ("攻撃
+    // された方向から対角方向に1マス"): the step is the sign of
+    // target - attacker on each axis, so a diagonal hit shoves diagonally.
+    //
+    // If the destination is blocked - a wall, or another actor standing
+    // there - nobody moves and the shoved Pal takes 5% of its max HP. When
+    // the blocker was itself a Pal, it takes the same 5% of ITS OWN max HP,
+    // which is what "そのパルも同様のダメージを受ける" asks for (the same
+    // rule, not the same number).
+    //
+    // Water and lava do NOT block: a knockback puts the target in regardless
+    // of its element or ecology, which is the one case that overrides
+    // Stats.CanTraverse.
+    private const float KnockbackCollisionHpPercent = 0.05f;
+
+    private void ApplyKnockback(MoveData move, Entity target)
+    {
+        if (move.WeaponTag != WeaponTag.Crush) return;
+        if (target?.Grid == null || !GodotObject.IsInstanceValid(target)) return;
+
+        var delta = target.GridPosition - _attacker.GridPosition;
+        var step = new Vector2I(System.Math.Sign(delta.X), System.Math.Sign(delta.Y));
+        if (step == Vector2I.Zero) return;
+
+        var dest = target.GridPosition + step;
+        var grid = target.Grid;
+
+        bool offMap = !grid.InBounds(dest);
+        bool wall = !offMap && grid.GetTile(dest).Terrain == TerrainType.Wall;
+        var occupant = offMap ? null : _floorController?.GetEntityAt(dest);
+
+        if (offMap || wall || occupant != null)
+        {
+            int selfDamage = System.Math.Max(1, Mathf.RoundToInt(target.Stats.MaxHp * KnockbackCollisionHpPercent));
+            target.Stats.TakeDamage(selfDamage);
+            MessageLogger.Log($"{target.ActorName} was knocked into something and took {selfDamage} damage!",
+                              MessageLogger.IneffectiveColor);
+            if (occupant != null && occupant.Stats.IsAlive)
+            {
+                int otherDamage = System.Math.Max(1, Mathf.RoundToInt(occupant.Stats.MaxHp * KnockbackCollisionHpPercent));
+                occupant.Stats.TakeDamage(otherDamage);
+                MessageLogger.Log($"{occupant.ActorName} was crushed against and took {otherDamage} damage!",
+                                  MessageLogger.IneffectiveColor);
+                if (!occupant.Stats.IsAlive) HandleFaint(occupant);
+            }
+            if (!target.Stats.IsAlive) HandleFaint(target);
+            return;
+        }
+
+        // Chasm is left to the floor's own handling; water and lava are
+        // entered even by a Pal that could never walk in on its own.
+        target.MoveTo(dest);
+        MessageLogger.Log($"{target.ActorName} was knocked back!");
+    }
+
+    // ---- レンド系: wipe the tile the user is standing on ----------------
+    // "現在いるマスのトラップまたはフィールドを消滅させる" - the user's own
+    // tile, so a Rend move doubles as a way out of a field you are stuck in.
+    // Runs whether or not the move connected: the sweep is the move, not a
+    // rider on the damage.
+    private void ApplyRendClear(MoveData move, int damageDealt)
+    {
+        if (move.WeaponTag != WeaponTag.Rend || _floorController == null) return;
+
+        var pos = _attacker.GridPosition;
+        bool clearedField = _floorController.Fields.RemoveAt(pos);
+        bool clearedTrap = _floorController.Objects.Get(pos) == MapObjectType.Trap;
+        if (clearedTrap) _floorController.Objects.RemoveAt(pos);
+
+        if (clearedField || clearedTrap)
+            MessageLogger.Log($"{_attacker.ActorName}'s {move.Name} tore away what was underfoot!");
     }
 
     private void ApplyRecoil(MoveData move, int totalDamageDealt)

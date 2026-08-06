@@ -46,6 +46,53 @@ check(KEPT_MULTI<=alive, "連続技5種がすべて残存している", str(sort
 check(sum(1 for m in ms if m['category']=='Status')==58, "変化技58種が手つかず",
       str(sum(1 for m in ms if m['category']=='Status')))
 
+# 威力グリッド: 15..120 の5刻みが各属性・各分類で最低1技（連続技は除く）
+GRID=list(range(15,121,5))
+gaps=[]
+for cat in ('Physical','Special'):
+    for el in sorted({m['type'] for m in atk}):
+        have={m['power'] for m in atk if m['type']==el and m['category']==cat
+              and m.get('multi_hit','None') in (None,'None')}
+        gaps += [(el,cat,p) for p in GRID if p not in have]
+check(not gaps, "威力15..120の5刻みが各属性・各分類で最低1技", f"空き{len(gaps)} {gaps[:4]}")
+
+# 技系統ごとの規定
+def fam_of(n):
+    for f in ('ストライク','フィスト','ブロー','パンチ','スラスト','クラッシュ','レンド','フラッシュ'):
+        if n.endswith(f): return f
+    return None
+FAM_TAG={'ストライク':'Strike','フィスト':'Fist','ブロー':'Fist','パンチ':'Punch',
+         'スラスト':'Thrust','クラッシュ':'Crush','レンド':'Rend','フラッシュ':'Flash'}
+FAM_CAP={'ストライク':10,'フィスト':8,'ブロー':6,'クラッシュ':5,'レンド':3,'フラッシュ':2}
+fam_bad=[]
+for f,tag in FAM_TAG.items():
+    g=[m for m in ms if fam_of(m['name'])==f]
+    if any(m['category']!='Physical' for m in g): fam_bad.append(f+':非物理')
+    if any(m.get('weapon_tag')!=tag for m in g): fam_bad.append(f+':タグ')
+    if f in FAM_CAP and len(g)!=FAM_CAP[f]: fam_bad.append(f"{f}:{len(g)}!={FAM_CAP[f]}")
+    if f in ('ストライク','フィスト','ブロー') and any(m['power']>80 for m in g): fam_bad.append(f+':威力80超')
+check(not fam_bad, "系統ごとのタグ・定員・威力上限", str(fam_bad))
+
+punch=[m for m in ms if fam_of(m['name'])=='パンチ']
+per=collections.Counter(m['type'] for m in punch)
+noeff=[m for m in punch if m.get('ailment_effect','None') in (None,'None')
+       and m.get('rank_effect_stat','None') in (None,'None') and not m.get('rank_effects')]
+check(all(v<=2 for v in per.values()) and all(m['power']<=70 for m in punch) and not noeff,
+      "パンチ: 各属性2つまで・威力70以下・全てに追加効果",
+      f"{len(punch)}件 属性最大{max(per.values())} 効果なし{len(noeff)}")
+
+thrust=[m for m in ms if fam_of(m['name'])=='スラスト']
+check(all(m.get('range')=='TwoTile' for m in thrust) and not any(m.get('is_contact') for m in thrust),
+      "スラスト: 全て2マス射程かつ非接触", f"{len(thrust)}件")
+
+flash=[m for m in ms if fam_of(m['name'])=='フラッシュ']
+check(all(m['power']==50 and not m.get('is_contact') and m.get('is_guaranteed_hit')
+          and m.get('guaranteed_crit') for m in flash),
+      "フラッシュ: 威力50・非接触・必中・確定急所", f"{len(flash)}件")
+
+check(not [m for m in ms if m.get('weapon_tag')=='ClawFist'],
+      "旧ClawFistタグが残っていない")
+
 # §B - Room moves at least 10 apart within an element, across categories
 viol={}
 for el in set(m['type'] for m in atk):
@@ -66,16 +113,18 @@ check(not dangling, "learnsetに削除済み技IDが残っていない", str(sor
 
 # §2
 contact=sum(1 for m in phy if m.get('is_contact'))
-check(round(len(phy)*0.9)==contact, "§2 物理技の9割が接触",
+check(round(len(phy)*0.9)==contact, "物理技の接触/非接触が9:1",
       f"{contact}/{len(phy)} = {contact/len(phy)*100:.1f}%")
 check(not any(m.get('is_contact') and m.get('range','Adjacent')!='Adjacent' for m in phy),
       "§2 非Adjacentの物理技は非接触")
 
-# §3 の 7:2:1 は今回の射程上限に置き換わった（直線は最大 9属性x6=54 で、
-# 特殊102技の7割=71 に届かないため両立不可能）。射程が Line/Area/Room の
-# いずれかである点だけは引き続き成立していることを確認する。
+# 特殊技を必ず射程持ちにする旧規則も撤回済み。威力グリッドは各属性22段階
+# x 2分類を要求するのに対し、射程上限は Line6+Area2+Room4=12 しか許さない
+# ため、Adjacent（唯一の無制限射程）を使わないとグリッドを埋められない。
+# 射程持ちの特殊技が上限内に収まっていることだけ確認する。
 rc=collections.Counter(m.get('range','Adjacent') for m in spe)
-check(set(rc)<={'Line','Area','Room'}, "特殊技はすべて直線/範囲/部屋のいずれか", str(dict(rc)))
+check(rc['Line']<=54 and rc['Area']<=18 and rc['Room']<=36,
+      "射程持ちの特殊技が属性上限の総和内", str(dict(rc)))
 
 # §4 - every range change must have been paid for, given the recorded
 # original data. Re-derived from git HEAD~ is out of scope here; instead

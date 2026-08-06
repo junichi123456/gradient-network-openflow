@@ -40,6 +40,7 @@ internal class MoveJson
     [JsonPropertyName("ailment_target")] public string AilmentTarget { get; set; } = "Enemy";
     [JsonPropertyName("is_contact")] public bool IsContact { get; set; }
     [JsonPropertyName("is_guaranteed_hit")] public bool IsGuaranteedHit { get; set; }
+    [JsonPropertyName("guaranteed_crit")] public bool GuaranteedCrit { get; set; }
 
     // 300-move import additions (all optional; missing keys keep the C#
     // defaults, so the existing minimal entries need no new keys).
@@ -128,6 +129,7 @@ public static class MoveDatabase
                 AilmentTarget = Enum.TryParse<StatusTarget>(entry.AilmentTarget, out var ailmentTarget) ? ailmentTarget : StatusTarget.Enemy,
                 IsContact = entry.IsContact,
                 IsGuaranteedHit = entry.IsGuaranteedHit,
+                GuaranteedCrit = entry.GuaranteedCrit,
                 CritRankBonus = entry.CritRankBonus,
                 RankEffectChance = entry.RankEffectChance,
                 RecoilHpPercent = entry.RecoilHpPercent,

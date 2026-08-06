@@ -51,7 +51,30 @@ public enum WeaponTag
 {
     None,
     Slash,    // 斬る系 - names containing 斬/ブレード (11 moves)
-    ClawFist, // ツメ・こぶし系 - names containing 拳/爪/パンチ (55 moves)
+
+    // Was ClawFist (ツメ・こぶし系). Renamed to Fist when the move-family
+    // rules landed: the tag now covers BOTH the フィスト family and the
+    // ブロー family, which are capped separately in data (8 and 6) but
+    // share this single tag.
+    Fist,
+
+    // The remaining move families, each identified by the suffix of the
+    // move's name and each carrying its own rule (see moves.json and
+    // Tools/apply_move_families.py):
+    //   Strike  ストライク - cap 10, power <= 80
+    //   Punch   パンチ     - cap 2 per element, power <= 70, always has a
+    //                        secondary effect
+    //   Thrust  スラスト   - non-contact, always TwoTile range
+    //   Crush   クラッシュ - cap 5, knocks the target back (AttackAction)
+    //   Rend    レンド     - cap 3, clears the field/trap under the user
+    //   Flash   フラッシュ - cap 2, non-contact, never misses, always crits,
+    //                        power fixed at 50
+    Strike,
+    Punch,
+    Thrust,
+    Crush,
+    Rend,
+    Flash,
 
     // ブレス/息系 - stage 9 §1.5's 発煙器官 keys off this: the 5 moves whose
     // names contain "ブレス" or "息" (Ice x2, Dragon x2, Fire x1).
@@ -184,6 +207,12 @@ public class MoveData
     // Phase 21: bypasses both the attacker's accuracy roll and the
     // defender's evasion rank entirely ("必中"). Defaults false.
     public bool IsGuaranteedHit { get; set; } = false;
+
+    // The フラッシュ family's "必ず急所に当たる": forces the crit roll to
+    // land instead of nudging its odds. Deliberately still loses to a
+    // defender that is declared un-crittable by a trait or item
+    // (たかねのはな), which is the stated carve-out.
+    public bool GuaranteedCrit { get; set; } = false;
 
     // ---- 300-move import: additional per-move fields ----
 
