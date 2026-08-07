@@ -40,21 +40,30 @@ public static class TargetResolver
 
         var tiles = ResolveTiles(range, user.GridPosition, user.FacingDirection, aimTile, grid, floor);
 
-        // Line and TwoTile do not pierce: the shot stops at the FIRST actor
-        // standing in its path and only that actor is hit. CastRay already
-        // returns its tiles in travel order, so the first match down the list
-        // is the first thing the shot meets.
+        // Line and TwoTile do not pierce: the shot stops at the first actor it
+        // meets and only that actor is hit. CastRay already returns its tiles
+        // in travel order, so the first match down the list is the first thing
+        // the shot reaches.
         //
-        // "First actor", not "first enemy": friendly fire stays on for these
-        // ranges (only Room was exempted), so an ally standing in the lane
-        // both blocks the shot and takes it - which is what "does not pierce"
-        // has to mean if allies are still hittable at all.
+        // They differ in what counts as "an actor it meets":
+        //
+        //   Line     - anyone. Friendly fire is on, so an ally in the lane both
+        //              blocks the shot and takes it.
+        //   TwoTile  - enemies only. Allies are stepped over as if they were
+        //              not there, so ally-then-enemy hits the enemy behind.
+        //              Still no piercing between enemies: enemy-then-enemy
+        //              hits only the near one. Two allies means nothing is
+        //              found and the move fizzles on an empty target list.
         if (range == MoveRange.Line || range == MoveRange.TwoTile)
         {
+            bool skipAllies = range == MoveRange.TwoTile;
             foreach (var tile in tiles)
                 foreach (var actor in candidates)
-                    if (actor.GridPosition == tile)
-                        return new List<Entity> { actor };
+                {
+                    if (actor.GridPosition != tile) continue;
+                    if (skipAllies && actor.Faction == user.Faction) continue;
+                    return new List<Entity> { actor };
+                }
             return new List<Entity>();
         }
 
