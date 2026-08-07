@@ -103,6 +103,15 @@ public static class TargetResolver
                     }
                 break;
 
+            case MoveRange.Surrounding: // 自身の周囲1マス, centred on the user
+                for (int dx = -1; dx <= 1; dx++)
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        var t = userPos + new Vector2I(dx, dy);
+                        if (grid.InBounds(t)) tiles.Add(t);
+                    }
+                break;
+
             case MoveRange.Room:
                 var bounds = floor.GetRoomBoundsAt(userPos);
                 if (bounds == null)

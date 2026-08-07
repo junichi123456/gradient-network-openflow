@@ -20,6 +20,11 @@ public enum MoveRange
     Area,       // 範囲: 3x3 centred on the impact tile
     Room,       // 部屋: every tile of the user's room (corridor -> single)
     FullFloor,  // フロア全体: every actor on the floor
+
+    // 自身の周囲1マス: the 3x3 centred on the USER rather than on an impact
+    // tile, which is what Area does. Added for メガデストラクト - a blast
+    // that goes off where the user stands, so it needs no aim and no room.
+    Surrounding,
 }
 
 // Phase 21: which rank track a move's RankEffect touches. ElementPower

@@ -11,13 +11,13 @@
   },
   {
     "id": "megaton_self_destruct",
-    "name": "メガトンセルフデストラクト",
+    "name": "メガデストラクト",
     "type": "Neutral",
     "category": "Special",
     "power": 180,
     "accuracy": 100,
     "max_pp": 4,
-    "range": "Room",
+    "range": "Surrounding",
     "self_guaranteed_death": true
   },
   {
