@@ -45,23 +45,31 @@ public static class TargetResolver
         // in travel order, so the first match down the list is the first thing
         // the shot reaches.
         //
-        // They differ in what counts as "an actor it meets":
+        // They part ways on what an ally in the path does. Neither ever damages
+        // one, but the reason differs:
         //
-        //   Line     - anyone. Friendly fire is on, so an ally in the lane both
-        //              blocks the shot and takes it.
-        //   TwoTile  - enemies only. Allies are stepped over as if they were
-        //              not there, so ally-then-enemy hits the enemy behind.
-        //              Still no piercing between enemies: enemy-then-enemy
-        //              hits only the near one. Two allies means nothing is
-        //              found and the move fizzles on an empty target list.
+        //   Line     - an ally BLOCKS. The shot is called off the moment the
+        //              first actor in the lane turns out to be friendly, so
+        //              nothing at all is hit, not even the enemy behind them.
+        //   TwoTile  - an ally is stepped over as if it were not there, so
+        //              ally-then-enemy hits the enemy behind. Still no piercing
+        //              between enemies: enemy-then-enemy hits only the near
+        //              one, and two allies leave nothing to hit.
+        //
+        // Either way an empty list comes back and AttackAction reports the move
+        // as connecting with nothing.
         if (range == MoveRange.Line || range == MoveRange.TwoTile)
         {
-            bool skipAllies = range == MoveRange.TwoTile;
+            bool allyAborts = range == MoveRange.Line;
             foreach (var tile in tiles)
                 foreach (var actor in candidates)
                 {
                     if (actor.GridPosition != tile) continue;
-                    if (skipAllies && actor.Faction == user.Faction) continue;
+                    if (actor.Faction == user.Faction)
+                    {
+                        if (allyAborts) return new List<Entity>();   // Line: called off
+                        continue;                                    // TwoTile: stepped over
+                    }
                     return new List<Entity> { actor };
                 }
             return new List<Entity>();
