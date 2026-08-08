@@ -444,6 +444,23 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     # 上限の外側に足す形になり80種で超過した。上限が優先されるので、その意図は
     # 選抜の中の比率（少数側を厚くする maj_share=0.67）で表現している。
 
+    # 攻撃技を使えない特性の持ち主は攻撃技を1つも持たない。空いた枠は変化技で
+    # 埋める。選抜の書き換え時にこのブロックを消してしまい、グランジーラに
+    # 攻撃技が11件戻っていた。
+    if s['trait'] in NO_ATTACK_TRAITS:
+        chosen = [m for m in chosen if m['power'] == 0]
+        extra = [m for m in STATUS if m['id'] not in {x['id'] for x in chosen} and share_ok(m)]
+        extra.sort(key=lambda m: (0 if m['type'] in own_types else 1, m['power'], m['id']))
+        # 攻撃技の枠ぶんも変化技で埋める。5件に絞ると他種族の1/4以下の
+        # learnset になってしまう。
+        chosen += extra[:max(0, atk_cap + status_quota - len(chosen))]
+
+    # 専用技はプールを通さず、指定された1種にだけ直接渡す。これも選抜の
+    # 書き換えで消えており、メガデストラクトが誰にも配られていなかった。
+    for sig_id, sig_species in SIGNATURE.items():
+        if s['species_id'] == sig_species:
+            chosen.append(next(m for m in moves if m['id'] == sig_id))
+
     for m in chosen: share[m['id']] += 1
 
     own_count = sum(1 for m in chosen if is_own(m) and m['power'] > 0)

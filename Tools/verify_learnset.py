@@ -117,6 +117,8 @@ v14=[m for m in [] ]
 for x in sp:
     ownx=set(x['types'])
     if 'Neutral' in ownx: continue
+    # 攻撃技を持てない特性の持ち主には無属性攻撃技の下限を課せない。
+    if x.get('trait')=='zankyou_no_shugosha': continue
     n=sum(1 for e in x['learnset']
           if M[e['move_id']]['type']=='Neutral' and M[e['move_id']]['power']>0)
     if n<2: v14.append((x['display_name'],n))

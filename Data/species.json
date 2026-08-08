@@ -8373,6 +8373,10 @@
       {
         "level": 22,
         "move_id": "MVP_018"
+      },
+      {
+        "level": 36,
+        "move_id": "megaton_self_destruct"
       }
     ],
     "evolution": null,
@@ -30830,27 +30834,39 @@
     "learnset": [
       {
         "level": 1,
+        "move_id": "MV_161"
+      },
+      {
+        "level": 1,
+        "move_id": "MV_162"
+      },
+      {
+        "level": 1,
         "move_id": "MV_163"
+      },
+      {
+        "level": 1,
+        "move_id": "MV_164"
+      },
+      {
+        "level": 1,
+        "move_id": "MV_176"
+      },
+      {
+        "level": 1,
+        "move_id": "MV_177"
       },
       {
         "level": 1,
         "move_id": "MV_232"
       },
       {
-        "level": 3,
-        "move_id": "air_cannon"
-      },
-      {
-        "level": 3,
-        "move_id": "gap_water_p_15"
-      },
-      {
-        "level": 3,
-        "move_id": "mvn_023"
+        "level": 4,
+        "move_id": "MV_122"
       },
       {
         "level": 4,
-        "move_id": "gap_grass_p_20"
+        "move_id": "MV_129"
       },
       {
         "level": 4,
@@ -30858,11 +30874,11 @@
       },
       {
         "level": 4,
-        "move_id": "mvs_water_def_evasion"
+        "move_id": "mvs_water_def_accuracy"
       },
       {
-        "level": 7,
-        "move_id": "MV_215"
+        "level": 4,
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 7,
@@ -30873,28 +30889,8 @@
         "move_id": "mvw_rain"
       },
       {
-        "level": 11,
-        "move_id": "MV_217"
-      },
-      {
-        "level": 15,
-        "move_id": "MVP_049"
-      },
-      {
-        "level": 15,
-        "move_id": "high_pressure_water"
-      },
-      {
-        "level": 19,
-        "move_id": "gap_neutral_s_95"
-      },
-      {
-        "level": 19,
-        "move_id": "gap_water_s_95"
-      },
-      {
-        "level": 25,
-        "move_id": "MV_224"
+        "level": 10,
+        "move_id": "mvs_ep_water"
       }
     ],
     "evolution": null,
