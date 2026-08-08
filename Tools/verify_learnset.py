@@ -100,12 +100,12 @@ for s in sp:
     t=tot(s); span=(t-180)/320.0
     ot=rhu((18 if dual else 16)-8*span)
     ac=rhu((24 if dual else 23)-(11 if dual else 12)*span)
-    lim=85 if dual else 95
+    lim=90 if dual else 95
     ms=[M[e['move_id']] for e in s['learnset']]
     atk=[m for m in ms if m['power']>0]
     sta=[m for m in ms if m['power']==0]
     o=[m for m in atk if m['type'] in own]
-    off=[m for m in atk if m['type'] not in own and m['type']!='Neutral']
+    off=[m for m in atk if m['type'] not in own]   # 無属性も他属性と同じ枠
     if len(o)>ot: v9.append((s['display_name'],len(o),ot))
     if len(atk)>ac: v10.append((s['display_name'],len(atk),ac))
     if len(sta)<2: v11.append((s['display_name'],len(sta)))
@@ -113,9 +113,17 @@ for s in sp:
     for m in off: cc[m['type']]=cc.get(m['type'],0)+1
     if any(v>2 for v in cc.values()): v12.append((s['display_name'],cc))
     if off and max(m['power'] for m in off)>lim: v13.append((s['display_name'],max(m['power'] for m in off),lim))
+v14=[m for m in [] ]
+for x in sp:
+    ownx=set(x['types'])
+    if 'Neutral' in ownx: continue
+    n=sum(1 for e in x['learnset']
+          if M[e['move_id']]['type']=='Neutral' and M[e['move_id']]['power']>0)
+    if n<2: v14.append((x['display_name'],n))
 chk(11,"全個体が変化技を2つ以上", not v11, f"違反{len(v11)}件 {v11[:3]}")
+chk(14,"全個体が無属性攻撃技を2種以上", not v14, f"違反{len(v14)}件 {v14[:3]}")
 chk(12,"他属性は1属性あたり2種まで", not v12, f"違反{len(v12)}件 {v12[:3]}")
-chk(13,"他属性の威力が上限内(単95/複85)", not v13, f"違反{len(v13)}件 {v13[:3]}")
+chk(13,"他属性の威力が上限内(単95/複90)", not v13, f"違反{len(v13)}件 {v13[:3]}")
 chk(9,"自属性攻撃技が上限内(単16→8/複18→10)", not v9, f"違反{len(v9)}件 {v9[:3]}")
 chk(10,"攻撃技合計が上限内(単23→11/複24→13)", not v10, f"違反{len(v10)}件 {v10[:3]}")
 

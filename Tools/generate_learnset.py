@@ -56,7 +56,8 @@ NO_ATTACK_TRAITS = {'zankyou_no_shugosha'}
 # 補完属性は1種・威力40〜60まで。無属性は全種族が候補にできる汎用枠。
 OFF_PER_ELEMENT = 2      # 他属性(無属性以外)は1属性あたり2種まで
 OFF_POW_SINGLE = 95      # 単属性のパルが持てる他属性技の威力上限
-OFF_POW_DUAL = 85        # 複合属性のパルは1属性ぶん狭い
+OFF_POW_DUAL = 90        # 複合属性のパルは1属性ぶん狭い
+NEU_MIN = 2              # 無属性攻撃技の下限（全個体）
 STATUS_MIN = 2           # 全個体が最低2つの変化技を持つ
 
 FIELD_SHARE = 0.11
@@ -234,6 +235,12 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     elif s['trait'] in TRAIT_SPECIAL:   profile, reason = 'Special', 'trait'
     else:                               profile, reason = PROFILE_CYCLE[species_index % len(PROFILE_CYCLE)], 'profile'
 
+    # プール構築が major を参照するので、ここで確定させる。後段で決めていた
+    # ため、無属性プールの選定が「直前の種族の major」を見ていた。
+    major = 'Special' if profile == 'Special' else (
+        'Physical' if profile == 'Physical' else
+        ('Physical' if species_index % 2 == 0 else 'Special'))
+
     minus = 30 if defensive else 0                          # §3-b: -30
     minus += 20 if profile == 'Versatile' else 0            # 器用型は威力天井-20
     if tot < 310:
@@ -269,14 +276,19 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
         cands = cands[offset:] + cands[:offset]
         off_pool += cands[:OFF_PER_ELEMENT]
 
-    # 無属性は1属性2種の上限の対象外。攻撃技合計の枠だけが効く。
+    # 無属性も他属性と同じ「1属性あたり2種まで」の枠に入る。除外条項が
+    # 外れたことで、下限2と合わせて実質ちょうど2種になる。
     neu_all = [] if 'Neutral' in own_types else sorted(
         [m for m in ATTACK if m['type'] == 'Neutral' and m['power'] <= off_pow],
         key=lambda m: (m['power'], m['id']))
     if neu_all:
         offset = species_index % len(neu_all)
         neu_all = neu_all[offset:] + neu_all[:offset]
-    neu_pool = neu_all
+    # 2種に絞る前に多数側の分類を優先する。先に威力順で2種取ってしまうと、
+    # 両方が少数側で「多数側の60%まで」に引っかかり、下限2を満たせない
+    # 種族が70件出た。
+    neu_major = [m for m in neu_all if m['category'] == major]
+    neu_pool = (neu_major + [m for m in neu_all if m not in neu_major])[:OFF_PER_ELEMENT]
 
     # --- §3-a: bias direction ---
     # ELEM_BIAS は「その属性に物理技と特殊技のどちらが多いか」で決まるため、
@@ -288,10 +300,6 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     #   Special   特殊で削る型
     #   Versatile 威力は伸びないが打ち分けが利く型（威力天井-20、少数側の
     #             枠を倍、変化技+1）
-    major = 'Special' if profile == 'Special' else (
-        'Physical' if profile == 'Physical' else
-        ('Physical' if species_index % 2 == 0 else 'Special'))
-
     # --- gather generously, then normalise ---
     # Own-element moves come first so the own-ceiling is spent on them;
     # complement and the extra element fill whatever the overall ceiling
@@ -336,6 +344,30 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
 
     fill_avail = [m for m in pool_all if not is_own(m) and m['id'] not in {x['id'] for x in chosen}]
     chosen += by_profile(fill_avail, atk_cap - len(chosen))
+
+    # 無属性の下限を満たす。枠が埋まっているときは、他属性の技を落として
+    # 差し替える（自属性は種族の identity なので触らない）。
+    if 'Neutral' not in own_types:
+        have_neu = [m for m in chosen if m['type'] == 'Neutral']
+        want = NEU_MIN - len(have_neu)
+        if want > 0:
+            # 少数側は多数側の最高威力の60%まで、という規則は下限の充足でも
+            # 守る。守らないと70種で少数側が上限を超えた。
+            mj = max((m['power'] for m in chosen if m['category'] == major), default=0)
+            ok = lambda m: m['category'] == major or m['power'] <= mj * 0.6 + 1e-6
+            add = [m for m in neu_pool
+                   if m['id'] not in {x['id'] for x in chosen} and ok(m)][:want]
+            if len(add) < want:
+                add += [m for m in neu_pool
+                        if m['id'] not in {x['id'] for x in chosen} and m not in add
+                        and m['category'] == major][:want - len(add)]
+            droppable = [m for m in reversed(chosen)
+                         if not is_own(m) and m['type'] != 'Neutral']
+            for m in add:
+                if len(chosen) >= atk_cap and droppable:
+                    chosen.remove(droppable.pop(0))
+                if len(chosen) < atk_cap:
+                    chosen.append(m)
 
     taken = {m['id'] for m in chosen}
 
