@@ -92,15 +92,31 @@ PROFILE_CYCLE=['Physical','Physical','Physical','Physical',
 prof={x['species_id']: PROFILE_CYCLE[i % len(PROFILE_CYCLE)]
       for i, x in enumerate(sorted(sp, key=lambda x: x['species_id']))}
 
-v9=[];v10=[]
+# 上限体系は単属性/複合属性の2系列。自属性・攻撃技合計・他属性(1属性2種・
+# 威力上限)・変化技の下限をまとめて見る。
+v9=[];v10=[];v11=[];v12=[];v13=[]
 for s in sp:
+    own=set(s['types']); dual=len(own)>1
     t=tot(s); span=(t-180)/320.0
-    bonus = 1 + (2 if prof[s['species_id']]=='Versatile' else 0)
-    oc=rhu(10-3*span)+bonus; ac=rhu(41-18*span)+bonus
-    own=sum(1 for e in s['learnset'] if M[e['move_id']]['type'] in s['types'] and M[e['move_id']]['power']>0)
-    if own>oc: v9.append((s['display_name'],own,oc))
-    if len(s['learnset'])>ac: v10.append((s['display_name'],len(s['learnset']),ac))
-chk(9,"自属性技総数が§2-0上限内", not v9, f"違反{len(v9)}件 {v9[:3]}")
-chk(10,"学習技全体が§2-0上限内", not v10, f"違反{len(v10)}件 {v10[:3]}")
+    ot=rhu((18 if dual else 16)-8*span)
+    ac=rhu((24 if dual else 23)-(11 if dual else 12)*span)
+    lim=85 if dual else 95
+    ms=[M[e['move_id']] for e in s['learnset']]
+    atk=[m for m in ms if m['power']>0]
+    sta=[m for m in ms if m['power']==0]
+    o=[m for m in atk if m['type'] in own]
+    off=[m for m in atk if m['type'] not in own and m['type']!='Neutral']
+    if len(o)>ot: v9.append((s['display_name'],len(o),ot))
+    if len(atk)>ac: v10.append((s['display_name'],len(atk),ac))
+    if len(sta)<2: v11.append((s['display_name'],len(sta)))
+    cc={}
+    for m in off: cc[m['type']]=cc.get(m['type'],0)+1
+    if any(v>2 for v in cc.values()): v12.append((s['display_name'],cc))
+    if off and max(m['power'] for m in off)>lim: v13.append((s['display_name'],max(m['power'] for m in off),lim))
+chk(11,"全個体が変化技を2つ以上", not v11, f"違反{len(v11)}件 {v11[:3]}")
+chk(12,"他属性は1属性あたり2種まで", not v12, f"違反{len(v12)}件 {v12[:3]}")
+chk(13,"他属性の威力が上限内(単95/複85)", not v13, f"違反{len(v13)}件 {v13[:3]}")
+chk(9,"自属性攻撃技が上限内(単16→8/複18→10)", not v9, f"違反{len(v9)}件 {v9[:3]}")
+chk(10,"攻撃技合計が上限内(単23→11/複24→13)", not v10, f"違反{len(v10)}件 {v10[:3]}")
 
 print("\n総合:", "ALL PASS" if ok else "FAILあり")
