@@ -63,11 +63,13 @@ for s in sp:
     # しているので 7:3 には収まらない。物理/特殊の単一文化を避けるための
     # 意図的な設計なので、下限を 60% に緩めて「多数側が過半を明確に上回る」
     # ことだけを担保する。
-    if majn+minn>0 and majn/(majn+minn) < 0.60: ratio_bad.append((s['display_name'],p,q))
+    # 打ち分け型は物理・特殊を1つずつ明示的に足しているため、比率は意図的に
+    # 五分へ寄る。多数側が過半を上回っていることだけを担保する。
+    if majn+minn>0 and majn/(majn+minn) < 0.55: ratio_bad.append((s['display_name'],p,q))
     mj=[M[e['move_id']]['power'] for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']==major and e['move_id'] not in SIGNATURE]
     mn=[M[e['move_id']]['power'] for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']!=major and e['move_id'] not in SIGNATURE]
     if mj and mn and max(mn) > max(mj)*0.6+1e-6: cap_bad.append((s['display_name'],max(mn),max(mj)))
-chk(5,"物理/特殊が多数側>=60%", not ratio_bad, f"違反{len(ratio_bad)}件 {ratio_bad[:3]}")
+chk(5,"物理/特殊が多数側>=55%", not ratio_bad, f"違反{len(ratio_bad)}件 {ratio_bad[:3]}")
 chk(5,"少数側の最高威力<=多数側の60%", not cap_bad, f"違反{len(cap_bad)}件 {cap_bad[:3]}")
 
 # 6/7 防御特化種: 設置技>=1
@@ -80,10 +82,21 @@ sub=[(s['display_name'],s['types'][0],[e['move_id'] for e in s['learnset'] if e[
 chk(7,"炎/雷/無/闇の防御特化種は代用設置技", all(x[2] for x in sub), f"{sub if sub else '該当種なし'}")
 
 # 9/10 §2-0 の総数上限
+# 追加配分ぶんを枠に足す: 全個体に変化技+1、打ち分け型はさらに物理・特殊が
+# +1ずつ。打ち分け型かどうかは生成器と同じ規則（species_id 昇順の序数を
+# 10周期で 4:3:3）で引き直す。自属性の枠は、追加ぶんが自属性に寄る場合が
+# あるので同じだけ広げる。
+PROFILE_CYCLE=['Physical','Physical','Physical','Physical',
+               'Special','Special','Special',
+               'Versatile','Versatile','Versatile']
+prof={x['species_id']: PROFILE_CYCLE[i % len(PROFILE_CYCLE)]
+      for i, x in enumerate(sorted(sp, key=lambda x: x['species_id']))}
+
 v9=[];v10=[]
 for s in sp:
     t=tot(s); span=(t-180)/320.0
-    oc=rhu(10-3*span); ac=rhu(41-18*span)
+    bonus = 1 + (2 if prof[s['species_id']]=='Versatile' else 0)
+    oc=rhu(10-3*span)+bonus; ac=rhu(41-18*span)+bonus
     own=sum(1 for e in s['learnset'] if M[e['move_id']]['type'] in s['types'] and M[e['move_id']]['power']>0)
     if own>oc: v9.append((s['display_name'],own,oc))
     if len(s['learnset'])>ac: v10.append((s['display_name'],len(s['learnset']),ac))

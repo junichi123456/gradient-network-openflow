@@ -318,6 +318,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     chosen = maj + mnr
     taken = {m['id'] for m in chosen}
 
+
     # --- §3-b: defensive species get a field move and extra status moves ---
     if defensive:
         field_ids = [fid for t in own_types for fid in FIELD_BY_ELEMENT.get(t, [])]
@@ -363,6 +364,40 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
         # 中289技が死にデータになっていた。等間隔に間引いて威力の幅を残す。
         chosen = spread_take(sorted(chosen, key=lambda m: (m['power'], m['id'])), all_cap_n)
 
+    # --- 確定配布 -------------------------------------------------------
+    # 全個体に変化技を1つ、打ち分け型にはさらに物理・特殊を1つずつ。総枠を
+    # 広げるだけでは攻撃技の予算が一緒に増えて吸収されてしまい、287種中149種
+    # で変化技が増えなかった。トリムのあとに足して確実に配る。
+    # プールも共有率の判定も通常の選抜と同じものを使うので、威力天井・設置技
+    # 11%・天候技70%・高威力20%の枠はそのまま効く。
+    got = {m['id'] for m in chosen}
+
+    def grant(cands, rotate=False):
+        ordered = sorted(cands, key=lambda m: (m['power'], m['id']))
+        # 変化技の確定配布は候補列を種族ごとにずらす。ずらさないと全287種が
+        # 同じ1件を取り、共有率100%の技ができてしまう（差別化の逆行）。
+        if rotate and ordered:
+            off = species_index % len(ordered)
+            ordered = ordered[off:] + ordered[:off]
+        for m in ordered[:1]:
+            chosen.append(m); got.add(m['id'])
+
+    grant([m for m in status_pool if m['id'] not in got and share_ok(m)]
+          or [m for m in STATUS if m['id'] not in got and share_ok(m)], rotate=True)
+
+    if profile == 'Versatile':
+        for cat in ('Physical', 'Special'):
+            cands = [m for m in pool_all
+                     if m['category'] == cat and m['id'] not in got and share_ok(m)]
+            if not cands:
+                # 自属性+補完+追加属性を採り尽くしている種族がいる（氷のコチグリ
+                # は物理6件で打ち止め）。その場合は威力天井だけ守って全体から拾う。
+                ceiling = own_pow if own_pow is not None else 10 ** 9
+                cands = [m for m in ATTACK
+                         if m['category'] == cat and m['id'] not in got
+                         and m['power'] <= ceiling and share_ok(m)]
+            grant(cands)
+
     # 攻撃技を使えない特性の持ち主（グランジーラ）は、攻撃技を1つも持たない。
     # 空いた枠は変化技で埋める。4vs4のグリッド戦では、弱点属性の部屋対象技で
     # 一掃されうる的でもあるので、庇う役に専念させる形にしている。
@@ -370,7 +405,9 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
         chosen = [m for m in chosen if m['power'] == 0]
         extra = [m for m in STATUS if m['id'] not in {x['id'] for x in chosen} and share_ok(m)]
         extra.sort(key=lambda m: (0 if m['type'] in own_types else 1, m['power'], m['id']))
-        chosen += extra[:max(0, all_cap_n - len(chosen))]
+        # +1 は確定配布ぶん。ここで all_cap_n ちょうどに詰めると、直前に
+        # 配った1件が押し出されて増分が消える。
+        chosen += extra[:max(0, all_cap_n + 1 - len(chosen))]
 
     # 専用技はプールを通さず、指定された1種にだけ直接渡す。
     for sig_id, sig_species in SIGNATURE.items():

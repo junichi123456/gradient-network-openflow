@@ -34,6 +34,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_122"
+      },
+      {
+        "level": 4,
         "move_id": "gap_dragon_p_20"
       },
       {
@@ -207,6 +211,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_129"
+      },
+      {
+        "level": 4,
         "move_id": "gap_dragon_p_20"
       },
       {
@@ -358,6 +366,10 @@
       "Neutral"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_161"
+      },
       {
         "level": 1,
         "move_id": "MV_163"
@@ -532,6 +544,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_162"
+      },
+      {
         "level": 3,
         "move_id": "gap_grass_p_15"
       },
@@ -705,6 +721,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_163"
+      },
+      {
         "level": 3,
         "move_id": "gap_ground_p_15"
       },
@@ -850,6 +870,10 @@
       "Fire"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_164"
+      },
       {
         "level": 3,
         "move_id": "gap_electric_p_15"
@@ -1029,6 +1053,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_176"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -1178,8 +1206,16 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_177"
+      },
+      {
         "level": 3,
         "move_id": "gap_ground_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_water_p_15"
       },
       {
         "level": 3,
@@ -1196,6 +1232,10 @@
       {
         "level": 4,
         "move_id": "gap_ground_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_water_s_20"
       },
       {
         "level": 5,
@@ -1325,12 +1365,24 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_178"
+      },
+      {
         "level": 3,
         "move_id": "gap_electric_p_15"
       },
       {
         "level": 3,
         "move_id": "gap_grass_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_ground_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_023"
       },
       {
         "level": 3,
@@ -1503,12 +1555,20 @@
         "move_id": "MV_163"
       },
       {
+        "level": 1,
+        "move_id": "MV_273"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
       {
         "level": 3,
         "move_id": "gap_dragon_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_neutral_p_15"
       },
       {
         "level": 3,
@@ -1521,6 +1581,10 @@
       {
         "level": 4,
         "move_id": "gap_dragon_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_neutral_s_20"
       },
       {
         "level": 5,
@@ -1643,6 +1707,10 @@
       "Water"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_232"
+      },
       {
         "level": 3,
         "move_id": "gap_ground_p_15"
@@ -1806,6 +1874,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_273"
+      },
+      {
         "level": 3,
         "move_id": "gap_dark_p_15"
       },
@@ -1963,6 +2035,10 @@
       "Neutral"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_299"
+      },
       {
         "level": 3,
         "move_id": "gap_dragon_p_15"
@@ -2132,6 +2208,10 @@
       "Water"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_300"
+      },
       {
         "level": 3,
         "move_id": "gap_ground_p_15"
@@ -2359,6 +2439,10 @@
         "move_id": "gap_fire_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvs_big_neutral"
+      },
+      {
         "level": 8,
         "move_id": "MVP_023"
       },
@@ -2502,6 +2586,10 @@
       {
         "level": 4,
         "move_id": "MV_247"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 5,
@@ -2658,6 +2746,10 @@
         "move_id": "gap_water_s_20"
       },
       {
+        "level": 4,
+        "move_id": "mvs_dragon_def_accuracy"
+      },
+      {
         "level": 5,
         "move_id": "MV_285"
       },
@@ -2808,6 +2900,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_electric_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_grass_p_15"
       },
       {
@@ -2820,11 +2916,19 @@
       },
       {
         "level": 4,
+        "move_id": "gap_electric_s_20"
+      },
+      {
+        "level": 4,
         "move_id": "gap_grass_p_20"
       },
       {
         "level": 4,
         "move_id": "gap_grass_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dragon_def_accuracy"
       },
       {
         "level": 4,
@@ -2977,6 +3081,10 @@
       },
       {
         "level": 4,
+        "move_id": "mvs_dragon_def_accuracy"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_ice_atk_evasion"
       },
       {
@@ -3106,6 +3214,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ice_p_15"
       },
       {
@@ -3122,7 +3234,15 @@
       },
       {
         "level": 4,
+        "move_id": "mvn_092"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_dark_def_crit"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_electric_accuracy_crit"
       },
       {
         "level": 5,
@@ -3343,6 +3463,10 @@
         "move_id": "mvn_051"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_dark"
+      },
+      {
         "level": 11,
         "move_id": "MV_258"
       },
@@ -3443,6 +3567,10 @@
       {
         "level": 4,
         "move_id": "gap_ground_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_electric_evasion_crit"
       },
       {
         "level": 5,
@@ -3672,6 +3800,10 @@
       },
       {
         "level": 10,
+        "move_id": "mvs_ep_dark"
+      },
+      {
+        "level": 10,
         "move_id": "mvs_ep_ice"
       },
       {
@@ -3837,6 +3969,10 @@
         "move_id": "MVP_104"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_dragon"
+      },
+      {
         "level": 11,
         "move_id": "MV_258"
       },
@@ -3990,6 +4126,10 @@
         "move_id": "gap_ice_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_grass"
+      },
+      {
         "level": 11,
         "move_id": "gap_ice_s_55"
       },
@@ -4133,6 +4273,10 @@
       {
         "level": 10,
         "move_id": "gap_dragon_s_50"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 11,
@@ -4280,6 +4424,10 @@
         "move_id": "gap_dragon_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_ice"
+      },
+      {
         "level": 11,
         "move_id": "MV_116"
       },
@@ -4354,6 +4502,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_ice_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_water_p_15"
       },
       {
@@ -4363,6 +4515,10 @@
       {
         "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_ice_s_20"
       },
       {
         "level": 4,
@@ -4438,6 +4594,10 @@
       },
       {
         "level": 10,
+        "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 10,
         "move_id": "mvs_ep_ice"
       },
       {
@@ -4500,6 +4660,14 @@
       {
         "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_089"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_dark_p_20"
       },
       {
         "level": 4,
@@ -4602,6 +4770,10 @@
         "move_id": "mvs_ep_dark"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_neutral"
+      },
+      {
         "level": 11,
         "move_id": "MV_128"
       },
@@ -4656,6 +4828,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_grass_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_water_p_15"
       },
       {
@@ -4665,6 +4841,10 @@
       {
         "level": 3,
         "move_id": "mvn_056"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_grass_s_20"
       },
       {
         "level": 4,
@@ -4753,6 +4933,10 @@
       {
         "level": 10,
         "move_id": "gap_water_s_50"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 11,
@@ -4868,6 +5052,10 @@
         "move_id": "gap_electric_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_water"
+      },
+      {
         "level": 11,
         "move_id": "mvn_022"
       },
@@ -4960,6 +5148,10 @@
       {
         "level": 4,
         "move_id": "gap_ice_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 5,
@@ -5135,6 +5327,10 @@
         "move_id": "mvs_fire_atk_crit"
       },
       {
+        "level": 4,
+        "move_id": "mvs_grass_def_crit"
+      },
+      {
         "level": 5,
         "move_id": "MV_185"
       },
@@ -5289,6 +5485,10 @@
         "move_id": "mvs_fire_atk_evasion"
       },
       {
+        "level": 4,
+        "move_id": "mvs_ground_atk_accuracy"
+      },
+      {
         "level": 5,
         "move_id": "MV_185"
       },
@@ -5439,6 +5639,10 @@
         "move_id": "mvs_dark_def_crit"
       },
       {
+        "level": 4,
+        "move_id": "mvs_ground_atk_def"
+      },
+      {
         "level": 5,
         "move_id": "MV_127"
       },
@@ -5578,6 +5782,10 @@
       {
         "level": 4,
         "move_id": "gap_water_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 5,
@@ -5729,6 +5937,10 @@
         "move_id": "mvs_ground_atk_accuracy"
       },
       {
+        "level": 4,
+        "move_id": "mvs_ice_atk_evasion"
+      },
+      {
         "level": 5,
         "move_id": "gap_fire_s_25"
       },
@@ -5859,11 +6071,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_fire_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_012"
       },
       {
         "level": 3,
         "move_id": "mvn_034"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_247"
       },
       {
         "level": 4,
@@ -5880,6 +6100,10 @@
       {
         "level": 4,
         "move_id": "mvs_fire_atk_evasion"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 5,
@@ -6012,6 +6236,14 @@
         "move_id": "mvn_023"
       },
       {
+        "level": 3,
+        "move_id": "mvn_067"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_ice_p_20"
+      },
+      {
         "level": 4,
         "move_id": "gap_water_p_20"
       },
@@ -6022,6 +6254,10 @@
       {
         "level": 4,
         "move_id": "mvs_ice_atk_evasion"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 5,
@@ -6159,6 +6395,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ground_p_15"
       },
       {
@@ -6174,6 +6414,10 @@
         "move_id": "mvn_067"
       },
       {
+        "level": 3,
+        "move_id": "mvn_089"
+      },
+      {
         "level": 4,
         "move_id": "gap_ground_p_20"
       },
@@ -6184,6 +6428,10 @@
       {
         "level": 4,
         "move_id": "mvn_092"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 5,
@@ -6351,6 +6599,10 @@
       {
         "level": 4,
         "move_id": "gap_dragon_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 4,
@@ -6535,6 +6787,10 @@
         "move_id": "mvs_ground_atk_accuracy"
       },
       {
+        "level": 4,
+        "move_id": "mvs_water_def_evasion"
+      },
+      {
         "level": 5,
         "move_id": "gap_fire_p_25"
       },
@@ -6710,6 +6966,10 @@
       {
         "level": 4,
         "move_id": "gap_dragon_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -6901,6 +7161,10 @@
         "move_id": "MV_233"
       },
       {
+        "level": 7,
+        "move_id": "mvw_fog"
+      },
+      {
         "level": 8,
         "move_id": "MVP_022"
       },
@@ -7070,6 +7334,10 @@
         "move_id": "mvs_big_neutral"
       },
       {
+        "level": 7,
+        "move_id": "mvw_rain"
+      },
+      {
         "level": 8,
         "move_id": "gap_dragon_s_40"
       },
@@ -7215,6 +7483,10 @@
         "move_id": "gap_grass_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvw_sandstorm"
+      },
+      {
         "level": 8,
         "move_id": "gap_water_s_40"
       },
@@ -7348,6 +7620,10 @@
         "move_id": "mvw_fog"
       },
       {
+        "level": 7,
+        "move_id": "mvw_sandstorm"
+      },
+      {
         "level": 8,
         "move_id": "gap_dark_s_40"
       },
@@ -7450,6 +7726,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_ice_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_water_p_15"
       },
       {
@@ -7459,6 +7739,10 @@
       {
         "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_ice_s_20"
       },
       {
         "level": 4,
@@ -7503,6 +7787,10 @@
       {
         "level": 7,
         "move_id": "mvw_snow"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_sunny"
       },
       {
         "level": 8,
@@ -7606,6 +7894,14 @@
         "move_id": "mvn_023"
       },
       {
+        "level": 3,
+        "move_id": "mvn_067"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_ice_p_20"
+      },
+      {
         "level": 4,
         "move_id": "gap_water_p_20"
       },
@@ -7696,6 +7992,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_ice"
+      },
+      {
+        "level": 10,
+        "move_id": "poison_fog"
       },
       {
         "level": 11,
@@ -7792,6 +8092,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_water_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_023"
       },
       {
@@ -7868,6 +8172,10 @@
       },
       {
         "level": 8,
+        "move_id": "gap_water_s_40"
+      },
+      {
+        "level": 8,
         "move_id": "mvn_049"
       },
       {
@@ -7877,6 +8185,10 @@
       {
         "level": 10,
         "move_id": "gap_water_s_50"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 10,
@@ -7908,6 +8220,10 @@
       "Ground"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_178"
+      },
       {
         "level": 1,
         "move_id": "MV_232"
@@ -8065,6 +8381,10 @@
       "Ground"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_161"
+      },
       {
         "level": 3,
         "move_id": "gap_fire_p_15"
@@ -8240,6 +8560,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_161"
+      },
+      {
         "level": 3,
         "move_id": "gap_ice_p_15"
       },
@@ -8409,6 +8733,10 @@
       "Neutral"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_162"
+      },
       {
         "level": 3,
         "move_id": "gap_dragon_p_15"
@@ -8648,6 +8976,10 @@
       },
       {
         "level": 4,
+        "move_id": "mvs_fire_atk_evasion"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_ground_atk_accuracy"
       },
       {
@@ -8813,6 +9145,10 @@
       },
       {
         "level": 4,
+        "move_id": "mvs_fire_atk_evasion"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_neutral_atk_accuracy"
       },
       {
@@ -8921,6 +9257,10 @@
       "Dark"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_179"
+      },
       {
         "level": 3,
         "move_id": "air_cannon"
@@ -9077,8 +9417,16 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_176"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_dark_p_15"
       },
       {
         "level": 3,
@@ -9087,6 +9435,10 @@
       {
         "level": 3,
         "move_id": "mvn_023"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_067"
       },
       {
         "level": 4,
@@ -9235,6 +9587,10 @@
         "move_id": "MV_179"
       },
       {
+        "level": 1,
+        "move_id": "MV_273"
+      },
+      {
         "level": 3,
         "move_id": "gap_electric_p_15"
       },
@@ -9244,7 +9600,15 @@
       },
       {
         "level": 3,
+        "move_id": "mvn_034"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_056"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_electric_p_20"
       },
       {
         "level": 4,
@@ -9392,8 +9756,16 @@
         "move_id": "MV_232"
       },
       {
+        "level": 1,
+        "move_id": "MV_273"
+      },
+      {
         "level": 3,
         "move_id": "gap_ground_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_water_p_15"
       },
       {
         "level": 3,
@@ -9410,6 +9782,10 @@
       {
         "level": 4,
         "move_id": "gap_ground_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_water_s_20"
       },
       {
         "level": 5,
@@ -9532,6 +9908,10 @@
       "Fire"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_273"
+      },
       {
         "level": 3,
         "move_id": "gap_electric_p_15"
@@ -9707,6 +10087,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_299"
+      },
+      {
         "level": 3,
         "move_id": "gap_dragon_p_15"
       },
@@ -9880,6 +10264,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_300"
+      },
+      {
         "level": 3,
         "move_id": "gap_grass_p_15"
       },
@@ -10052,6 +10440,10 @@
       "Water"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_300"
+      },
       {
         "level": 3,
         "move_id": "gap_ground_p_15"
@@ -10272,6 +10664,10 @@
       },
       {
         "level": 7,
+        "move_id": "mvs_big_neutral"
+      },
+      {
+        "level": 7,
         "move_id": "mvs_toxic_dark"
       },
       {
@@ -10410,6 +10806,10 @@
       {
         "level": 4,
         "move_id": "MV_280"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 5,
@@ -10556,6 +10956,10 @@
       {
         "level": 4,
         "move_id": "gap_ice_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 4,
@@ -10717,6 +11121,14 @@
       },
       {
         "level": 3,
+        "move_id": "gap_ground_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_023"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_045"
       },
       {
@@ -10734,6 +11146,10 @@
       {
         "level": 4,
         "move_id": "gap_water_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 5,
@@ -10878,6 +11294,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "air_cannon"
+      },
+      {
+        "level": 3,
         "move_id": "gap_dragon_p_15"
       },
       {
@@ -10895,6 +11315,14 @@
       {
         "level": 4,
         "move_id": "gap_dragon_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_neutral_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_electric_accuracy_crit"
       },
       {
         "level": 5,
@@ -11028,6 +11456,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ice_p_15"
       },
       {
@@ -11041,6 +11473,14 @@
       {
         "level": 4,
         "move_id": "gap_ice_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvn_092"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_electric_accuracy_crit"
       },
       {
         "level": 5,
@@ -11186,6 +11626,10 @@
       {
         "level": 4,
         "move_id": "gap_dragon_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_electric_accuracy_crit"
       },
       {
         "level": 4,
@@ -11348,6 +11792,10 @@
       {
         "level": 4,
         "move_id": "gap_ice_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_electric_evasion_crit"
       },
       {
         "level": 5,
@@ -11575,6 +12023,10 @@
         "move_id": "MV_145"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_fire"
+      },
+      {
         "level": 11,
         "move_id": "MVP_144"
       },
@@ -11744,6 +12196,10 @@
         "move_id": "MV_182"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_grass"
+      },
+      {
         "level": 11,
         "move_id": "MV_287"
       },
@@ -11893,6 +12349,10 @@
         "move_id": "gap_water_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_fire"
+      },
+      {
         "level": 11,
         "move_id": "MV_217"
       },
@@ -12040,6 +12500,10 @@
       {
         "level": 10,
         "move_id": "mvn_051"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 11,
@@ -12211,6 +12675,10 @@
         "move_id": "mvs_ep_fire"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_ground"
+      },
+      {
         "level": 11,
         "move_id": "MV_183"
       },
@@ -12371,6 +12839,10 @@
       {
         "level": 10,
         "move_id": "MVP_163"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 11,
@@ -12534,6 +13006,10 @@
         "move_id": "gap_water_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_ice"
+      },
+      {
         "level": 11,
         "move_id": "MV_190"
       },
@@ -12620,6 +13096,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ice_p_15"
       },
       {
@@ -12637,6 +13117,14 @@
       {
         "level": 4,
         "move_id": "gap_ice_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvn_092"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 5,
@@ -12778,6 +13266,10 @@
       {
         "level": 4,
         "move_id": "gap_electric_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 5,
@@ -12940,6 +13432,10 @@
       {
         "level": 4,
         "move_id": "gap_water_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 4,
@@ -13120,6 +13616,10 @@
       },
       {
         "level": 4,
+        "move_id": "mvs_fire_atk_evasion"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_grass_def_crit"
       },
       {
@@ -13286,6 +13786,10 @@
       {
         "level": 4,
         "move_id": "gap_water_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 5,
@@ -13465,6 +13969,10 @@
         "move_id": "gap_grass_s_20"
       },
       {
+        "level": 4,
+        "move_id": "mvs_ice_atk_crit"
+      },
+      {
         "level": 5,
         "move_id": "MV_185"
       },
@@ -13614,6 +14122,10 @@
         "move_id": "mvs_dragon_def_evasion"
       },
       {
+        "level": 4,
+        "move_id": "mvs_ice_atk_evasion"
+      },
+      {
         "level": 5,
         "move_id": "gap_dragon_s_25"
       },
@@ -13751,6 +14263,10 @@
       {
         "level": 4,
         "move_id": "MV_280"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 4,
@@ -13912,6 +14428,10 @@
         "move_id": "mvs_dark_def_crit"
       },
       {
+        "level": 4,
+        "move_id": "mvs_neutral_atk_def"
+      },
+      {
         "level": 5,
         "move_id": "MV_185"
       },
@@ -14056,11 +14576,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_ice_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_water_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_023"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_067"
       },
       {
         "level": 4,
@@ -14101,6 +14629,10 @@
       {
         "level": 7,
         "move_id": "MV_215"
+      },
+      {
+        "level": 7,
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 8,
@@ -14210,11 +14742,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ice_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_089"
       },
       {
         "level": 4,
@@ -14227,6 +14767,10 @@
       {
         "level": 4,
         "move_id": "gap_neutral_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_ice_atk_evasion"
       },
       {
         "level": 5,
@@ -14402,6 +14946,10 @@
         "move_id": "MV_281"
       },
       {
+        "level": 7,
+        "move_id": "mvs_toxic_dark"
+      },
+      {
         "level": 8,
         "move_id": "MVP_043"
       },
@@ -14521,6 +15069,10 @@
       {
         "level": 4,
         "move_id": "gap_water_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 5,
@@ -14712,6 +15264,10 @@
         "move_id": "MV_281"
       },
       {
+        "level": 7,
+        "move_id": "mvw_gale"
+      },
+      {
         "level": 8,
         "move_id": "MVP_041"
       },
@@ -14867,6 +15423,10 @@
       {
         "level": 7,
         "move_id": "mvs_toxic_dark"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_fog"
       },
       {
         "level": 8,
@@ -15042,6 +15602,10 @@
         "move_id": "gap_neutral_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvw_sandstorm"
+      },
+      {
         "level": 8,
         "move_id": "gap_dragon_s_40"
       },
@@ -15185,6 +15749,10 @@
       {
         "level": 7,
         "move_id": "gap_ice_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 8,
@@ -15338,6 +15906,10 @@
         "move_id": "gap_ice_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvw_sunny"
+      },
+      {
         "level": 8,
         "move_id": "mvn_049"
       },
@@ -15438,7 +16010,15 @@
       },
       {
         "level": 3,
+        "move_id": "gap_ground_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_012"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_023"
       },
       {
         "level": 3,
@@ -15495,6 +16075,10 @@
       {
         "level": 7,
         "move_id": "gap_ice_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_rain"
       },
       {
         "level": 8,
@@ -15592,6 +16176,18 @@
       {
         "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_089"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_122"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_dark_p_20"
       },
       {
         "level": 4,
@@ -15748,11 +16344,23 @@
       },
       {
         "level": 3,
+        "move_id": "gap_fire_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_012"
       },
       {
         "level": 3,
         "move_id": "mvn_034"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_129"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_247"
       },
       {
         "level": 4,
@@ -15899,6 +16507,10 @@
       {
         "level": 3,
         "move_id": "mvn_078"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_122"
       },
       {
         "level": 4,
@@ -16049,6 +16661,10 @@
       "Ground"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_162"
+      },
       {
         "level": 3,
         "move_id": "gap_fire_p_15"
@@ -16206,6 +16822,10 @@
       "Water"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_161"
+      },
       {
         "level": 1,
         "move_id": "MV_232"
@@ -16373,6 +16993,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_164"
+      },
+      {
         "level": 3,
         "move_id": "gap_fire_p_15"
       },
@@ -16530,6 +17154,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_176"
+      },
+      {
         "level": 3,
         "move_id": "gap_water_p_15"
       },
@@ -16667,6 +17295,10 @@
       "Ground"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_164"
+      },
       {
         "level": 3,
         "move_id": "gap_fire_p_15"
@@ -16829,6 +17461,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_178"
+      },
+      {
         "level": 3,
         "move_id": "gap_water_p_15"
       },
@@ -16974,8 +17610,16 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_179"
+      },
+      {
         "level": 3,
         "move_id": "gap_electric_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_fire_p_15"
       },
       {
         "level": 3,
@@ -16984,6 +17628,10 @@
       {
         "level": 3,
         "move_id": "mvn_034"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_247"
       },
       {
         "level": 4,
@@ -17113,12 +17761,24 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_176"
+      },
+      {
         "level": 3,
         "move_id": "gap_dark_p_15"
       },
       {
         "level": 3,
         "move_id": "gap_electric_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_fire_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_012"
       },
       {
         "level": 3,
@@ -17271,6 +17931,14 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_273"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
         "level": 3,
         "move_id": "gap_ice_p_15"
       },
@@ -17285,6 +17953,10 @@
       {
         "level": 4,
         "move_id": "gap_ice_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvn_092"
       },
       {
         "level": 5,
@@ -17416,6 +18088,10 @@
       "Fire"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_299"
+      },
       {
         "level": 3,
         "move_id": "gap_dark_p_15"
@@ -17575,6 +18251,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_273"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -17726,6 +18406,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_299"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -17875,6 +18559,10 @@
       "Grass"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_300"
+      },
       {
         "level": 3,
         "move_id": "air_cannon"
@@ -18081,6 +18769,10 @@
         "move_id": "gap_neutral_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvs_big_neutral"
+      },
+      {
         "level": 8,
         "move_id": "MV_141"
       },
@@ -18192,6 +18884,10 @@
       {
         "level": 4,
         "move_id": "gap_dragon_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dragon_def_evasion"
       },
       {
         "level": 5,
@@ -18339,6 +19035,10 @@
         "move_id": "gap_dragon_s_20"
       },
       {
+        "level": 4,
+        "move_id": "mvs_dragon_def_evasion"
+      },
+      {
         "level": 5,
         "move_id": "gap_dragon_s_25"
       },
@@ -18477,11 +19177,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_electric_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_grass_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_034"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_056"
       },
       {
         "level": 4,
@@ -18534,6 +19242,10 @@
       {
         "level": 7,
         "move_id": "gap_neutral_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvs_big_water"
       },
       {
         "level": 8,
@@ -18627,11 +19339,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_grass_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ice_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_023"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_056"
       },
       {
         "level": 4,
@@ -18644,6 +19364,10 @@
       {
         "level": 4,
         "move_id": "gap_water_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 5,
@@ -18781,6 +19505,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_grass_p_15"
       },
       {
@@ -18796,8 +19524,16 @@
         "move_id": "mvn_067"
       },
       {
+        "level": 3,
+        "move_id": "mvn_089"
+      },
+      {
         "level": 4,
         "move_id": "gap_ice_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dark_def_crit"
       },
       {
         "level": 5,
@@ -19014,6 +19750,10 @@
       },
       {
         "level": 10,
+        "move_id": "mvs_ep_dark"
+      },
+      {
+        "level": 10,
         "move_id": "mvs_ep_fire"
       },
       {
@@ -19180,6 +19920,10 @@
         "move_id": "MV_250"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_fire"
+      },
+      {
         "level": 11,
         "move_id": "MV_190"
       },
@@ -19329,6 +20073,10 @@
       {
         "level": 10,
         "move_id": "mvn_051"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_dark"
       },
       {
         "level": 10,
@@ -19501,6 +20249,10 @@
         "move_id": "MV_246"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_electric"
+      },
+      {
         "level": 11,
         "move_id": "MV_144"
       },
@@ -19655,6 +20407,10 @@
         "move_id": "mvn_018"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_electric"
+      },
+      {
         "level": 11,
         "move_id": "MV_144"
       },
@@ -19790,6 +20546,10 @@
       {
         "level": 10,
         "move_id": "mvn_051"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 11,
@@ -19942,6 +20702,10 @@
         "move_id": "mvn_018"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_grass"
+      },
+      {
         "level": 11,
         "move_id": "MVP_084"
       },
@@ -20033,6 +20797,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_grass_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_water_p_15"
       },
       {
@@ -20045,11 +20813,19 @@
       },
       {
         "level": 4,
+        "move_id": "gap_grass_s_20"
+      },
+      {
+        "level": 4,
         "move_id": "gap_water_p_20"
       },
       {
         "level": 4,
         "move_id": "gap_water_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 5,
@@ -20175,6 +20951,14 @@
       },
       {
         "level": 3,
+        "move_id": "gap_grass_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_012"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_023"
       },
       {
@@ -20270,6 +21054,10 @@
         "move_id": "gap_electric_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_grass"
+      },
+      {
         "level": 11,
         "move_id": "MV_183"
       },
@@ -20325,6 +21113,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_grass_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_neutral_p_15"
       },
       {
@@ -20334,6 +21126,10 @@
       {
         "level": 3,
         "move_id": "mvn_056"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_grass_s_20"
       },
       {
         "level": 4,
@@ -20420,6 +21216,10 @@
         "move_id": "gap_water_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_ground"
+      },
+      {
         "level": 11,
         "move_id": "MV_216"
       },
@@ -20488,6 +21288,10 @@
       {
         "level": 4,
         "move_id": "gap_ice_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 5,
@@ -20652,6 +21456,10 @@
         "move_id": "mvs_dark_def_crit"
       },
       {
+        "level": 4,
+        "move_id": "mvs_ground_atk_accuracy"
+      },
+      {
         "level": 5,
         "move_id": "gap_ice_s_25"
       },
@@ -20807,6 +21615,10 @@
       {
         "level": 4,
         "move_id": "gap_grass_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 5,
@@ -20977,6 +21789,10 @@
       {
         "level": 4,
         "move_id": "gap_ice_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 5,
@@ -21152,6 +21968,10 @@
         "move_id": "mvs_fire_atk_evasion"
       },
       {
+        "level": 4,
+        "move_id": "mvs_ice_atk_crit"
+      },
+      {
         "level": 5,
         "move_id": "MV_185"
       },
@@ -21301,6 +22121,10 @@
       {
         "level": 4,
         "move_id": "mvs_dark_def_crit"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_neutral_atk_accuracy"
       },
       {
         "level": 5,
@@ -21458,6 +22282,10 @@
         "move_id": "gap_neutral_s_20"
       },
       {
+        "level": 4,
+        "move_id": "mvs_ice_atk_crit"
+      },
+      {
         "level": 5,
         "move_id": "gap_fire_s_25"
       },
@@ -21590,7 +22418,15 @@
       },
       {
         "level": 3,
+        "move_id": "gap_dragon_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_fire_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_012"
       },
       {
         "level": 3,
@@ -21607,6 +22443,10 @@
       {
         "level": 4,
         "move_id": "gap_neutral_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 5,
@@ -21738,6 +22578,14 @@
         "move_id": "mvn_023"
       },
       {
+        "level": 3,
+        "move_id": "mvn_067"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_ice_p_20"
+      },
+      {
         "level": 4,
         "move_id": "gap_water_p_20"
       },
@@ -21780,6 +22628,10 @@
       {
         "level": 7,
         "move_id": "MV_215"
+      },
+      {
+        "level": 7,
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 7,
@@ -21884,6 +22736,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_electric_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_grass_p_15"
       },
       {
@@ -21896,11 +22752,19 @@
       },
       {
         "level": 4,
+        "move_id": "gap_electric_s_20"
+      },
+      {
+        "level": 4,
         "move_id": "gap_grass_p_20"
       },
       {
         "level": 4,
         "move_id": "gap_grass_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -22073,6 +22937,10 @@
         "move_id": "MV_215"
       },
       {
+        "level": 7,
+        "move_id": "mvw_fog"
+      },
+      {
         "level": 8,
         "move_id": "MVP_043"
       },
@@ -22202,6 +23070,10 @@
       {
         "level": 4,
         "move_id": "gap_neutral_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 5,
@@ -22349,6 +23221,10 @@
       {
         "level": 4,
         "move_id": "gap_neutral_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -22525,6 +23401,10 @@
         "move_id": "gap_electric_p_35"
       },
       {
+        "level": 7,
+        "move_id": "mvw_fog"
+      },
+      {
         "level": 8,
         "move_id": "MVP_062"
       },
@@ -22690,6 +23570,10 @@
         "move_id": "gap_ice_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvw_snow"
+      },
+      {
         "level": 8,
         "move_id": "gap_water_s_40"
       },
@@ -22834,6 +23718,10 @@
       {
         "level": 7,
         "move_id": "gap_ice_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_rain"
       },
       {
         "level": 8,
@@ -22981,6 +23869,10 @@
         "move_id": "gap_neutral_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvw_sandstorm"
+      },
+      {
         "level": 8,
         "move_id": "MVP_023"
       },
@@ -23079,6 +23971,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_grass_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_water_p_15"
       },
       {
@@ -23088,6 +23984,14 @@
       {
         "level": 3,
         "move_id": "mvn_056"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_122"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_grass_s_20"
       },
       {
         "level": 4,
@@ -23229,11 +24133,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_grass_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ice_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_023"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_056"
       },
       {
         "level": 4,
@@ -23290,6 +24202,10 @@
       {
         "level": 7,
         "move_id": "mvh_ice"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_rain"
       },
       {
         "level": 8,
@@ -23393,6 +24309,14 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_161"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_ice_p_15"
+      },
+      {
         "level": 3,
         "move_id": "gap_water_p_15"
       },
@@ -23403,6 +24327,10 @@
       {
         "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_ice_s_20"
       },
       {
         "level": 4,
@@ -23529,6 +24457,10 @@
       "Grass"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_162"
+      },
       {
         "level": 1,
         "move_id": "MV_299"
@@ -23687,6 +24619,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_163"
+      },
+      {
         "level": 3,
         "move_id": "gap_electric_p_15"
       },
@@ -23840,6 +24776,10 @@
       "Dragon"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_161"
+      },
       {
         "level": 3,
         "move_id": "gap_dragon_p_15"
@@ -24008,6 +24948,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_162"
+      },
+      {
         "level": 3,
         "move_id": "gap_dragon_p_15"
       },
@@ -24174,6 +25118,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_163"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -24325,6 +25273,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_164"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -24468,6 +25420,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_176"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -24609,8 +25565,16 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_163"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_grass_p_15"
       },
       {
         "level": 3,
@@ -24619,6 +25583,10 @@
       {
         "level": 3,
         "move_id": "mvn_023"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_056"
       },
       {
         "level": 4,
@@ -24758,6 +25726,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_273"
+      },
+      {
         "level": 3,
         "move_id": "gap_fire_p_15"
       },
@@ -24770,12 +25742,20 @@
         "move_id": "mvn_012"
       },
       {
+        "level": 3,
+        "move_id": "mvn_045"
+      },
+      {
         "level": 4,
         "move_id": "MV_247"
       },
       {
         "level": 4,
         "move_id": "gap_fire_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_ground_p_20"
       },
       {
         "level": 4,
@@ -24911,8 +25891,16 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_176"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_grass_p_15"
       },
       {
         "level": 3,
@@ -24925,6 +25913,10 @@
       {
         "level": 3,
         "move_id": "mvn_056"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_grass_s_20"
       },
       {
         "level": 4,
@@ -25064,6 +26056,10 @@
       "Water"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_232"
+      },
       {
         "level": 3,
         "move_id": "air_cannon"
@@ -25304,6 +26300,10 @@
         "move_id": "mvw_sandstorm"
       },
       {
+        "level": 7,
+        "move_id": "mvw_snow"
+      },
+      {
         "level": 8,
         "move_id": "MVP_022"
       },
@@ -25408,6 +26408,10 @@
       {
         "level": 4,
         "move_id": "mvs_ground_atk_accuracy"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 4,
@@ -25535,6 +26539,10 @@
       "Ground"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_300"
+      },
       {
         "level": 3,
         "move_id": "air_cannon"
@@ -25729,6 +26737,10 @@
         "move_id": "gap_neutral_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvs_big_neutral"
+      },
+      {
         "level": 8,
         "move_id": "MVP_061"
       },
@@ -25880,6 +26892,10 @@
       },
       {
         "level": 7,
+        "move_id": "mvs_big_water"
+      },
+      {
+        "level": 7,
         "move_id": "mvs_toxic_dark"
       },
       {
@@ -25995,6 +27011,10 @@
       {
         "level": 4,
         "move_id": "gap_electric_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dragon_def_evasion"
       },
       {
         "level": 4,
@@ -26129,6 +27149,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_electric_p_15"
       },
       {
@@ -26142,6 +27166,10 @@
       {
         "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_089"
       },
       {
         "level": 4,
@@ -26186,6 +27214,10 @@
       {
         "level": 7,
         "move_id": "gap_ice_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvs_big_neutral"
       },
       {
         "level": 8,
@@ -26292,7 +27324,15 @@
       },
       {
         "level": 3,
+        "move_id": "gap_grass_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_neutral_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_012"
       },
       {
         "level": 3,
@@ -26341,6 +27381,10 @@
       {
         "level": 7,
         "move_id": "gap_fire_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvs_big_water"
       },
       {
         "level": 8,
@@ -26437,6 +27481,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_ground_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_012"
       },
       {
@@ -26445,11 +27493,19 @@
       },
       {
         "level": 4,
+        "move_id": "MV_247"
+      },
+      {
+        "level": 4,
         "move_id": "gap_fire_p_20"
       },
       {
         "level": 4,
         "move_id": "gap_neutral_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 5,
@@ -26657,6 +27713,10 @@
         "move_id": "MV_145"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_dragon"
+      },
+      {
         "level": 11,
         "move_id": "MV_144"
       },
@@ -26803,6 +27863,10 @@
         "move_id": "MV_145"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_dark"
+      },
+      {
         "level": 11,
         "move_id": "MVP_003"
       },
@@ -26943,6 +28007,10 @@
       {
         "level": 10,
         "move_id": "MVP_059"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 10,
@@ -27096,6 +28164,10 @@
       {
         "level": 10,
         "move_id": "MV_145"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 10,
@@ -27256,6 +28328,10 @@
       },
       {
         "level": 10,
+        "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 10,
         "move_id": "poison_fog"
       },
       {
@@ -27394,6 +28470,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_grass"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 11,
@@ -27550,6 +28630,10 @@
         "move_id": "gap_water_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_neutral"
+      },
+      {
         "level": 11,
         "move_id": "MV_217"
       },
@@ -27628,11 +28712,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_ice_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_neutral_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_023"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_067"
       },
       {
         "level": 4,
@@ -27723,6 +28815,10 @@
         "move_id": "gap_water_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_electric"
+      },
+      {
         "level": 11,
         "move_id": "MV_217"
       },
@@ -27782,7 +28878,15 @@
       },
       {
         "level": 3,
+        "move_id": "gap_fire_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ice_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_012"
       },
       {
         "level": 4,
@@ -27873,6 +28977,10 @@
         "move_id": "gap_ice_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_fire"
+      },
+      {
         "level": 11,
         "move_id": "MV_237"
       },
@@ -27928,11 +29036,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_dragon_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_fire_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_012"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_023"
       },
       {
         "level": 4,
@@ -28013,6 +29129,10 @@
       {
         "level": 10,
         "move_id": "mvn_051"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_grass"
       },
       {
         "level": 11,
@@ -28146,6 +29266,10 @@
         "move_id": "MV_246"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_water"
+      },
+      {
         "level": 11,
         "move_id": "MV_144"
       },
@@ -28226,6 +29350,10 @@
       {
         "level": 4,
         "move_id": "mvs_fire_atk_crit"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 5,
@@ -28374,6 +29502,10 @@
         "move_id": "gap_neutral_p_20"
       },
       {
+        "level": 4,
+        "move_id": "mvs_grass_accuracy_evasion"
+      },
+      {
         "level": 5,
         "move_id": "MV_160"
       },
@@ -28518,6 +29650,10 @@
       {
         "level": 4,
         "move_id": "gap_fire_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 4,
@@ -28685,6 +29821,10 @@
         "move_id": "mvs_dragon_def_evasion"
       },
       {
+        "level": 4,
+        "move_id": "mvs_neutral_atk_accuracy"
+      },
+      {
         "level": 5,
         "move_id": "gap_dragon_s_25"
       },
@@ -28826,6 +29966,10 @@
       {
         "level": 4,
         "move_id": "mvs_grass_accuracy_evasion"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 5,
@@ -29006,6 +30150,10 @@
         "move_id": "gap_grass_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvs_toxic_dark"
+      },
+      {
         "level": 8,
         "move_id": "gap_water_s_40"
       },
@@ -29100,6 +30248,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_ground_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_012"
       },
       {
@@ -29112,11 +30264,19 @@
       },
       {
         "level": 4,
+        "move_id": "MV_280"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 4,
         "move_id": "mvs_ground_atk_def"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 5,
@@ -29233,6 +30393,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "air_cannon"
+      },
+      {
+        "level": 3,
         "move_id": "gap_dragon_p_15"
       },
       {
@@ -29250,6 +30414,14 @@
       {
         "level": 4,
         "move_id": "gap_dragon_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_neutral_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -29382,6 +30554,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_water_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_023"
       },
       {
@@ -29395,6 +30571,10 @@
       {
         "level": 4,
         "move_id": "gap_ground_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_water_s_20"
       },
       {
         "level": 4,
@@ -29431,6 +30611,10 @@
       {
         "level": 7,
         "move_id": "gap_ground_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_fog"
       },
       {
         "level": 8,
@@ -29561,6 +30745,10 @@
       {
         "level": 7,
         "move_id": "mvh_electric"
+      },
+      {
+        "level": 7,
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 8,
@@ -29696,6 +30884,10 @@
       {
         "level": 4,
         "move_id": "gap_neutral_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 5,
@@ -29847,6 +31039,10 @@
       {
         "level": 4,
         "move_id": "mvs_ground_atk_accuracy"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -30026,6 +31222,10 @@
         "move_id": "mvh_ice"
       },
       {
+        "level": 7,
+        "move_id": "mvw_snow"
+      },
+      {
         "level": 8,
         "move_id": "MV_125"
       },
@@ -30183,6 +31383,10 @@
         "move_id": "gap_neutral_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvw_gale"
+      },
+      {
         "level": 8,
         "move_id": "gap_dragon_p_40"
       },
@@ -30326,6 +31530,10 @@
       {
         "level": 7,
         "move_id": "gap_neutral_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_rain"
       },
       {
         "level": 8,
@@ -30477,6 +31685,10 @@
         "move_id": "gap_neutral_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvw_sandstorm"
+      },
+      {
         "level": 8,
         "move_id": "MV_141"
       },
@@ -30579,6 +31791,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_ice_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_neutral_p_15"
       },
       {
@@ -30588,6 +31804,10 @@
       {
         "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_ice_s_20"
       },
       {
         "level": 4,
@@ -30644,6 +31864,10 @@
       {
         "level": 7,
         "move_id": "gap_neutral_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_fog"
       },
       {
         "level": 8,
@@ -30739,6 +31963,14 @@
         "move_id": "gap_ground_p_15"
       },
       {
+        "level": 3,
+        "move_id": "gap_neutral_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_012"
+      },
+      {
         "level": 4,
         "move_id": "gap_fire_p_20"
       },
@@ -30789,6 +32021,10 @@
       {
         "level": 7,
         "move_id": "gap_fire_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_gale"
       },
       {
         "level": 8,
@@ -30876,6 +32112,14 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_162"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_ice_p_15"
+      },
+      {
         "level": 3,
         "move_id": "gap_water_p_15"
       },
@@ -30886,6 +32130,10 @@
       {
         "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_ice_s_20"
       },
       {
         "level": 4,
@@ -31026,6 +32274,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_122"
+      },
+      {
+        "level": 4,
         "move_id": "gap_water_p_20"
       },
       {
@@ -31161,6 +32413,10 @@
       "Grass"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_164"
+      },
       {
         "level": 3,
         "move_id": "air_cannon"
@@ -31312,6 +32568,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_161"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -31461,6 +32721,10 @@
       "Grass"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_162"
+      },
       {
         "level": 3,
         "move_id": "gap_grass_p_15"
@@ -31627,6 +32891,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_163"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -31774,6 +33042,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_164"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -31916,6 +33188,10 @@
       "Grass"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_176"
+      },
       {
         "level": 3,
         "move_id": "air_cannon"
@@ -32063,8 +33339,16 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_162"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_dark_p_15"
       },
       {
         "level": 3,
@@ -32073,6 +33357,10 @@
       {
         "level": 3,
         "move_id": "mvn_012"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_045"
       },
       {
         "level": 3,
@@ -32208,6 +33496,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_163"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -32218,6 +33510,14 @@
       {
         "level": 3,
         "move_id": "gap_ground_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_neutral_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_012"
       },
       {
         "level": 4,
@@ -32349,6 +33649,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_164"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -32358,7 +33662,15 @@
       },
       {
         "level": 3,
+        "move_id": "gap_ground_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_012"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_045"
       },
       {
         "level": 4,
@@ -32547,6 +33859,10 @@
         "move_id": "gap_fire_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvs_big_water"
+      },
+      {
         "level": 8,
         "move_id": "MVP_023"
       },
@@ -32697,6 +34013,10 @@
         "move_id": "gap_fire_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvs_big_water"
+      },
+      {
         "level": 8,
         "move_id": "MVP_023"
       },
@@ -32844,6 +34164,10 @@
       {
         "level": 4,
         "move_id": "jiware"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 4,
@@ -33064,6 +34388,10 @@
       },
       {
         "level": 10,
+        "move_id": "mvs_ep_grass"
+      },
+      {
+        "level": 10,
         "move_id": "mvs_ep_neutral"
       },
       {
@@ -33126,6 +34454,10 @@
       {
         "level": 4,
         "move_id": "gap_neutral_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dragon_def_accuracy"
       },
       {
         "level": 5,
@@ -33365,6 +34697,10 @@
         "move_id": "mvs_big_neutral"
       },
       {
+        "level": 7,
+        "move_id": "mvw_fog"
+      },
+      {
         "level": 8,
         "move_id": "gap_dragon_p_40"
       },
@@ -33502,6 +34838,10 @@
         "move_id": "gap_ice_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_dark"
+      },
+      {
         "level": 11,
         "move_id": "gap_ice_s_55"
       },
@@ -33571,8 +34911,16 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_300"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_dragon_p_15"
       },
       {
         "level": 3,
@@ -33581,6 +34929,10 @@
       {
         "level": 3,
         "move_id": "mvn_012"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_078"
       },
       {
         "level": 4,
@@ -33718,11 +35070,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_grass_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_water_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_023"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_056"
       },
       {
         "level": 4,
@@ -33771,6 +35131,10 @@
       {
         "level": 7,
         "move_id": "gap_ice_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvs_big_neutral"
       },
       {
         "level": 8,
@@ -33867,6 +35231,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ice_p_15"
       },
       {
@@ -33880,6 +35248,10 @@
       {
         "level": 4,
         "move_id": "gap_ice_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvn_092"
       },
       {
         "level": 4,
@@ -33956,6 +35328,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_dark"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_fire"
       },
       {
         "level": 11,
@@ -34095,6 +35471,10 @@
         "move_id": "MV_145"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_electric"
+      },
+      {
         "level": 11,
         "move_id": "MV_144"
       },
@@ -34178,6 +35558,10 @@
       {
         "level": 4,
         "move_id": "gap_ice_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_electric_evasion_crit"
       },
       {
         "level": 5,
@@ -34410,6 +35794,10 @@
         "move_id": "gap_water_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_dark"
+      },
+      {
         "level": 11,
         "move_id": "MV_216"
       },
@@ -34561,6 +35949,10 @@
       {
         "level": 10,
         "move_id": "MV_189"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_ice"
       },
       {
         "level": 10,
@@ -34729,6 +36121,10 @@
         "move_id": "mvn_051"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_electric"
+      },
+      {
         "level": 11,
         "move_id": "gap_neutral_s_55"
       },
@@ -34873,6 +36269,10 @@
       },
       {
         "level": 10,
+        "move_id": "mvs_ep_fire"
+      },
+      {
+        "level": 10,
         "move_id": "mvs_ep_ice"
       },
       {
@@ -35010,6 +36410,10 @@
         "move_id": "gap_water_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_water"
+      },
+      {
         "level": 11,
         "move_id": "MV_217"
       },
@@ -35084,11 +36488,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ice_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_089"
       },
       {
         "level": 4,
@@ -35179,6 +36591,10 @@
         "move_id": "gap_ice_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_dragon"
+      },
+      {
         "level": 11,
         "move_id": "gap_ice_s_55"
       },
@@ -35241,7 +36657,15 @@
       },
       {
         "level": 3,
+        "move_id": "gap_neutral_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_012"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_045"
       },
       {
         "level": 4,
@@ -35320,6 +36744,10 @@
         "move_id": "MV_250"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_electric"
+      },
+      {
         "level": 11,
         "move_id": "MVP_084"
       },
@@ -35382,6 +36810,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_neutral_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_078"
       },
       {
@@ -35391,6 +36823,14 @@
       {
         "level": 4,
         "move_id": "gap_dragon_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_neutral_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 4,
@@ -35537,6 +36977,10 @@
       {
         "level": 4,
         "move_id": "gap_neutral_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_ground_atk_def"
       },
       {
         "level": 5,
@@ -35686,6 +37130,10 @@
       {
         "level": 4,
         "move_id": "gap_fire_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 4,
@@ -35841,6 +37289,10 @@
         "move_id": "gap_neutral_p_20"
       },
       {
+        "level": 4,
+        "move_id": "mvs_grass_accuracy_evasion"
+      },
+      {
         "level": 5,
         "move_id": "MV_160"
       },
@@ -35987,6 +37439,10 @@
         "move_id": "mvs_dark_accuracy_evasion"
       },
       {
+        "level": 4,
+        "move_id": "mvs_grass_def_crit"
+      },
+      {
         "level": 5,
         "move_id": "gap_ice_s_25"
       },
@@ -36129,6 +37585,10 @@
         "move_id": "gap_neutral_s_20"
       },
       {
+        "level": 4,
+        "move_id": "mvs_grass_def_crit"
+      },
+      {
         "level": 5,
         "move_id": "gap_fire_s_25"
       },
@@ -36268,6 +37728,10 @@
       {
         "level": 4,
         "move_id": "gap_neutral_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 5,
@@ -36412,6 +37876,10 @@
         "move_id": "gap_neutral_s_20"
       },
       {
+        "level": 4,
+        "move_id": "mvs_ice_atk_crit"
+      },
+      {
         "level": 5,
         "move_id": "MV_160"
       },
@@ -36542,11 +38010,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_electric_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_grass_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_034"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_056"
       },
       {
         "level": 4,
@@ -36555,6 +38031,10 @@
       {
         "level": 4,
         "move_id": "gap_grass_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_grass_accuracy_evasion"
       },
       {
         "level": 5,
@@ -36680,6 +38160,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "air_cannon"
+      },
+      {
+        "level": 3,
         "move_id": "gap_dragon_p_15"
       },
       {
@@ -36697,6 +38181,10 @@
       {
         "level": 4,
         "move_id": "gap_dragon_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_neutral_p_20"
       },
       {
         "level": 4,
@@ -36741,6 +38229,10 @@
       {
         "level": 7,
         "move_id": "gap_dragon_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_fog"
       },
       {
         "level": 8,
@@ -36837,6 +38329,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_electric_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_grass_p_15"
       },
       {
@@ -36846,6 +38342,10 @@
       {
         "level": 3,
         "move_id": "mvn_056"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_electric_s_20"
       },
       {
         "level": 4,
@@ -36886,6 +38386,10 @@
       {
         "level": 7,
         "move_id": "gap_grass_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_gale"
       },
       {
         "level": 8,
@@ -37032,6 +38536,10 @@
       {
         "level": 7,
         "move_id": "MV_233"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_rain"
       },
       {
         "level": 8,
@@ -37207,6 +38715,10 @@
         "move_id": "MV_212"
       },
       {
+        "level": 7,
+        "move_id": "mvw_sandstorm"
+      },
+      {
         "level": 8,
         "move_id": "MVP_043"
       },
@@ -37354,6 +38866,10 @@
       {
         "level": 4,
         "move_id": "mvs_ground_atk_accuracy"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -37553,6 +39069,10 @@
         "move_id": "mvh_ice"
       },
       {
+        "level": 7,
+        "move_id": "mvw_fog"
+      },
+      {
         "level": 8,
         "move_id": "MV_125"
       },
@@ -37750,6 +39270,10 @@
         "move_id": "mvs_ep_electric"
       },
       {
+        "level": 10,
+        "move_id": "poison_fog"
+      },
+      {
         "level": 11,
         "move_id": "MV_287"
       },
@@ -37837,6 +39361,10 @@
       {
         "level": 3,
         "move_id": "mvn_089"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_122"
       },
       {
         "level": 4,
@@ -37989,6 +39517,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_129"
+      },
+      {
+        "level": 4,
         "move_id": "MV_280"
       },
       {
@@ -38112,11 +39644,19 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_electric_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_grass_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_023"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_034"
       },
       {
         "level": 3,
@@ -38133,6 +39673,10 @@
       {
         "level": 4,
         "move_id": "gap_grass_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_evasion"
       },
       {
         "level": 5,
@@ -38281,6 +39825,14 @@
         "move_id": "MV_162"
       },
       {
+        "level": 1,
+        "move_id": "MV_164"
+      },
+      {
+        "level": 3,
+        "move_id": "air_cannon"
+      },
+      {
         "level": 3,
         "move_id": "gap_dragon_p_15"
       },
@@ -38299,6 +39851,10 @@
       {
         "level": 4,
         "move_id": "gap_dragon_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_neutral_p_20"
       },
       {
         "level": 5,
@@ -38424,7 +39980,15 @@
       },
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_fire_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_012"
       },
       {
         "level": 3,
@@ -38477,6 +40041,10 @@
       {
         "level": 7,
         "move_id": "gap_ice_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvw_gale"
       },
       {
         "level": 8,
@@ -38572,6 +40140,10 @@
       {
         "level": 3,
         "move_id": "gap_neutral_p_15"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_122"
       },
       {
         "level": 4,
@@ -38714,6 +40286,10 @@
       {
         "level": 3,
         "move_id": "mvn_056"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_129"
       },
       {
         "level": 4,
@@ -38873,6 +40449,10 @@
       "Grass"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_161"
+      },
       {
         "level": 1,
         "move_id": "MV_299"
@@ -39039,6 +40619,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_162"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -39187,6 +40771,10 @@
     "learnset": [
       {
         "level": 1,
+        "move_id": "MV_163"
+      },
+      {
+        "level": 1,
         "move_id": "MV_300"
       },
       {
@@ -39327,6 +40915,10 @@
       "Fire"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_232"
+      },
       {
         "level": 3,
         "move_id": "air_cannon"
@@ -39482,6 +41074,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_177"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -39632,6 +41228,14 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_300"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
         "level": 3,
         "move_id": "gap_ice_p_15"
       },
@@ -39650,6 +41254,10 @@
       {
         "level": 4,
         "move_id": "gap_ice_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvn_092"
       },
       {
         "level": 4,
@@ -39797,6 +41405,14 @@
         "move_id": "mvn_023"
       },
       {
+        "level": 3,
+        "move_id": "mvn_056"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_grass_p_20"
+      },
+      {
         "level": 4,
         "move_id": "gap_water_p_20"
       },
@@ -39835,6 +41451,10 @@
       {
         "level": 7,
         "move_id": "MV_215"
+      },
+      {
+        "level": 7,
+        "move_id": "mvs_big_water"
       },
       {
         "level": 8,
@@ -39935,6 +41555,14 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_163"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
         "level": 3,
         "move_id": "gap_electric_p_15"
       },
@@ -39949,6 +41577,10 @@
       {
         "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_089"
       },
       {
         "level": 4,
@@ -40092,6 +41724,10 @@
       "Dark"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_232"
+      },
       {
         "level": 3,
         "move_id": "gap_dark_p_15"
@@ -40267,6 +41903,10 @@
         "move_id": "MV_164"
       },
       {
+        "level": 1,
+        "move_id": "MV_299"
+      },
+      {
         "level": 3,
         "move_id": "gap_dark_p_15"
       },
@@ -40407,6 +42047,10 @@
       "Fire"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move_id": "MV_299"
+      },
       {
         "level": 3,
         "move_id": "air_cannon"
@@ -40579,6 +42223,10 @@
         "move_id": "gap_neutral_p_20"
       },
       {
+        "level": 4,
+        "move_id": "mvs_dragon_def_evasion"
+      },
+      {
         "level": 6,
         "move_id": "MVP_001"
       },
@@ -40748,6 +42396,10 @@
         "move_id": "gap_neutral_s_35"
       },
       {
+        "level": 7,
+        "move_id": "mvs_big_neutral"
+      },
+      {
         "level": 8,
         "move_id": "MV_141"
       },
@@ -40867,6 +42519,10 @@
       {
         "level": 4,
         "move_id": "gap_water_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 5,
@@ -41010,6 +42666,10 @@
         "move_id": "mvs_dark_accuracy_evasion"
       },
       {
+        "level": 4,
+        "move_id": "mvs_dark_def_crit"
+      },
+      {
         "level": 5,
         "move_id": "gap_ice_s_25"
       },
@@ -41128,12 +42788,24 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_299"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
       {
         "level": 3,
+        "move_id": "gap_dragon_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_fire_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_012"
       },
       {
         "level": 3,
@@ -41269,6 +42941,10 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move_id": "MV_300"
+      },
+      {
         "level": 3,
         "move_id": "air_cannon"
       },
@@ -41279,6 +42955,14 @@
       {
         "level": 3,
         "move_id": "gap_fire_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "gap_neutral_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_012"
       },
       {
         "level": 4,
@@ -41428,11 +43112,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_neutral_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_023"
       },
       {
         "level": 3,
         "move_id": "mvn_045"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_280"
       },
       {
         "level": 4,
@@ -41481,6 +43173,10 @@
       {
         "level": 7,
         "move_id": "gap_ground_s_35"
+      },
+      {
+        "level": 7,
+        "move_id": "mvs_big_neutral"
       },
       {
         "level": 8,
@@ -41638,6 +43334,10 @@
       },
       {
         "level": 10,
+        "move_id": "mvs_ep_fire"
+      },
+      {
+        "level": 10,
         "move_id": "poison_fog"
       },
       {
@@ -41718,6 +43418,10 @@
       {
         "level": 4,
         "move_id": "gap_ice_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_electric_evasion_crit"
       },
       {
         "level": 5,
@@ -41919,6 +43623,10 @@
       },
       {
         "level": 10,
+        "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 10,
         "move_id": "mvs_ep_ice"
       },
       {
@@ -42046,6 +43754,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_dragon"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ep_water"
       },
       {
         "level": 11,
@@ -42194,6 +43906,10 @@
         "move_id": "gap_water_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_neutral"
+      },
+      {
         "level": 11,
         "move_id": "MV_221"
       },
@@ -42328,6 +44044,10 @@
         "move_id": "gap_water_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_water"
+      },
+      {
         "level": 11,
         "move_id": "gap_ice_s_55"
       },
@@ -42407,6 +44127,10 @@
       {
         "level": 4,
         "move_id": "gap_neutral_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_fire_atk_evasion"
       },
       {
         "level": 5,
@@ -42531,6 +44255,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ice_p_15"
       },
       {
@@ -42544,6 +44272,10 @@
       {
         "level": 4,
         "move_id": "gap_ice_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_neutral_s_20"
       },
       {
         "level": 5,
@@ -42618,6 +44350,10 @@
         "move_id": "gap_ice_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_dark"
+      },
+      {
         "level": 11,
         "move_id": "gap_ice_s_55"
       },
@@ -42673,7 +44409,15 @@
       },
       {
         "level": 3,
+        "move_id": "gap_dragon_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_ice_p_15"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_012"
       },
       {
         "level": 4,
@@ -42752,6 +44496,10 @@
         "move_id": "gap_ice_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_dragon"
+      },
+      {
         "level": 11,
         "move_id": "MV_211"
       },
@@ -42811,11 +44559,19 @@
       },
       {
         "level": 3,
+        "move_id": "gap_fire_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_012"
       },
       {
         "level": 3,
         "move_id": "mvn_078"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_247"
       },
       {
         "level": 4,
@@ -42890,6 +44646,10 @@
         "move_id": "mvn_018"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ep_electric"
+      },
+      {
         "level": 11,
         "move_id": "MVP_144"
       },
@@ -42961,6 +44721,10 @@
       {
         "level": 4,
         "move_id": "gap_fire_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 5,
@@ -43092,6 +44856,10 @@
         "move_id": "mvs_dark_accuracy_evasion"
       },
       {
+        "level": 4,
+        "move_id": "mvs_ice_atk_evasion"
+      },
+      {
         "level": 5,
         "move_id": "MVP_002"
       },
@@ -43215,6 +44983,10 @@
       {
         "level": 3,
         "move_id": "gap_water_p_15"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_ice_atk_crit"
       },
       {
         "level": 4,
@@ -43355,6 +45127,10 @@
         "move_id": "mvs_dark_def_crit"
       },
       {
+        "level": 4,
+        "move_id": "mvs_grass_def_crit"
+      },
+      {
         "level": 5,
         "move_id": "MVP_002"
       },
@@ -43487,6 +45263,10 @@
       {
         "level": 4,
         "move_id": "gap_neutral_s_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_neutral_atk_def"
       },
       {
         "level": 4,
@@ -43629,6 +45409,10 @@
       {
         "level": 4,
         "move_id": "mvs_dragon_def_evasion"
+      },
+      {
+        "level": 4,
+        "move_id": "mvs_water_def_accuracy"
       },
       {
         "level": 6,
@@ -43827,6 +45611,10 @@
       {
         "level": 7,
         "move_id": "mvs_big_water"
+      },
+      {
+        "level": 7,
+        "move_id": "mvs_toxic_dark"
       },
       {
         "level": 7,
