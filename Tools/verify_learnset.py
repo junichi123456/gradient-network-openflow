@@ -23,6 +23,21 @@ chk(1,"全287種にlearnset・moveId実在", not bad and not unknown,
 # 各種上限の検査から除外する。
 SIGNATURE={'megaton_self_destruct'}
 
+# 特性適応技は「採用範囲外からでも強制的に採用する」規則なので、属性ごとの
+# 種類数・威力上限・自属性の天井の検査からは外す。専用技と同じ扱い。
+TRAIT_TAG={'issen':('Slash','Thrust'),'tsume_no_kariudo':('Fist','Punch'),
+           'hatsuen_kikan':('Breath',)}
+TRAIT_NAMED={'akumu_no_hitomi':['nightmare_ball','nightmare_pulse']}
+_tr={t['id']:t for t in json.load(open('Data/traits.json'))}
+def adapted(x):
+    t=x['trait']
+    if t in TRAIT_NAMED: return set(TRAIT_NAMED[t])
+    if t in TRAIT_TAG: return {i for i,m in M.items() if m.get('weapon_tag') in TRAIT_TAG[t]}
+    d=_tr.get(t,{})
+    if d.get('element') and d.get('template_kind') in ('power','stab','oshie'):
+        return {i for i,m in M.items() if m['type']==d['element'] and m['power']>0}
+    return {i for i,m in M.items() if m['type'] in x['types'] and m['power']>0}
+
 PROFILE_CYCLE=['Physical','Physical','Physical','Physical',
                'Special','Special','Special',
                'Versatile','Versatile','Versatile']
@@ -49,7 +64,7 @@ for s in sp:
     if tot(s)>=310: continue
     for e in s['learnset']:
         m=M[e['move_id']]
-        if m['id'] in SIGNATURE: continue
+        if m['id'] in SIGNATURE or m['id'] in adapted(s): continue
         if m['type'] in s['types'] and m['power']>125: v.append((s['display_name'],m['id'],m['power']))
 chk(2,"<310種の自属性技威力<=125", not v, f"違反{len(v)}件 {v[:3]}")
 
@@ -116,8 +131,9 @@ for s in sp:
     ms=[M[e['move_id']] for e in s['learnset']]
     atk=[m for m in ms if m['power']>0]
     sta=[m for m in ms if m['power']==0]
-    o=[m for m in atk if m['type'] in own]
-    off=[m for m in atk if m['type'] not in own]   # 無属性も他属性と同じ枠
+    ex=adapted(s)|SIGNATURE
+    o=[m for m in atk if m['type'] in own and m['id'] not in ex]
+    off=[m for m in atk if m['type'] not in own and m['id'] not in ex]
     if len(o)>ot: v9.append((s['display_name'],len(o),ot))
     if len(atk)>ac: v10.append((s['display_name'],len(atk),ac))
     if len(sta)<2: v11.append((s['display_name'],len(sta)))

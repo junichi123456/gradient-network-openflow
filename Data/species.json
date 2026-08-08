@@ -38,6 +38,10 @@
       },
       {
         "level": 4,
+        "move_id": "gap_ground_p_20"
+      },
+      {
+        "level": 4,
         "move_id": "gap_water_p_20"
       },
       {
@@ -46,7 +50,7 @@
       },
       {
         "level": 5,
-        "move_id": "mvh_ground"
+        "move_id": "gap_electric_p_25"
       },
       {
         "level": 6,
@@ -115,10 +119,6 @@
       {
         "level": 21,
         "move_id": "gap_neutral_p_105"
-      },
-      {
-        "level": 22,
-        "move_id": "MVP_078"
       },
       {
         "level": 23,
@@ -284,11 +284,19 @@
       },
       {
         "level": 3,
+        "move_id": "air_cannon"
+      },
+      {
+        "level": 3,
         "move_id": "gap_neutral_p_15"
       },
       {
         "level": 4,
         "move_id": "gap_fire_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_ice_p_20"
       },
       {
         "level": 5,
@@ -313,10 +321,6 @@
       {
         "level": 6,
         "move_id": "mvn_004"
-      },
-      {
-        "level": 7,
-        "move_id": "MV_187"
       },
       {
         "level": 7,
@@ -381,10 +385,6 @@
       {
         "level": 23,
         "move_id": "MVP_019"
-      },
-      {
-        "level": 24,
-        "move_id": "MVP_020"
       }
     ],
     "evolution": null,
@@ -1038,7 +1038,7 @@
       },
       {
         "level": 3,
-        "move_id": "gap_electric_p_15"
+        "move_id": "mvn_023"
       },
       {
         "level": 4,
@@ -1157,8 +1157,8 @@
         "move_id": "MVP_076"
       },
       {
-        "level": 24,
-        "move_id": "MVP_060"
+        "level": 22,
+        "move_id": "MVP_078"
       }
     ],
     "evolution": null,
@@ -1446,10 +1446,6 @@
         "move_id": "gap_water_p_15"
       },
       {
-        "level": 3,
-        "move_id": "mvn_023"
-      },
-      {
         "level": 5,
         "move_id": "gap_water_p_25"
       },
@@ -1514,8 +1510,12 @@
         "move_id": "MVP_165"
       },
       {
+        "level": 13,
+        "move_id": "gap_dark_s_65"
+      },
+      {
         "level": 14,
-        "move_id": "MVP_046"
+        "move_id": "MVP_166"
       },
       {
         "level": 15,
@@ -1543,7 +1543,7 @@
       },
       {
         "level": 24,
-        "move_id": "MVP_180"
+        "move_id": "MVP_060"
       }
     ],
     "evolution": null,
@@ -1566,10 +1566,6 @@
       {
         "level": 1,
         "move_id": "MV_299"
-      },
-      {
-        "level": 3,
-        "move_id": "air_cannon"
       },
       {
         "level": 3,
@@ -1674,6 +1670,10 @@
       {
         "level": 23,
         "move_id": "MVP_119"
+      },
+      {
+        "level": 24,
+        "move_id": "MVP_020"
       }
     ],
     "evolution": null,
@@ -2337,7 +2337,15 @@
       },
       {
         "level": 3,
+        "move_id": "mvn_012"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_089"
       },
       {
         "level": 4,
@@ -2380,24 +2388,12 @@
         "move_id": "gap_ice_s_50"
       },
       {
-        "level": 10,
-        "move_id": "mvn_018"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_217"
-      },
-      {
         "level": 12,
         "move_id": "MV_191"
       },
       {
         "level": 13,
-        "move_id": "beam_slicer"
-      },
-      {
-        "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "MV_248"
       },
       {
         "level": 13,
@@ -2406,6 +2402,10 @@
       {
         "level": 14,
         "move_id": "MVP_127"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_193"
       },
       {
         "level": 15,
@@ -2470,15 +2470,15 @@
       },
       {
         "level": 7,
-        "move_id": "gap_dark_s_35"
-      },
-      {
-        "level": 7,
         "move_id": "mvs_toxic_dark"
       },
       {
         "level": 7,
         "move_id": "mvw_fog"
+      },
+      {
+        "level": 8,
+        "move_id": "gap_dark_s_40"
       },
       {
         "level": 9,
@@ -2529,10 +2529,6 @@
         "move_id": "gap_ground_s_60"
       },
       {
-        "level": 12,
-        "move_id": "mvn_098"
-      },
-      {
         "level": 13,
         "move_id": "beam_slicer"
       },
@@ -2542,7 +2538,11 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "MVP_166"
+      },
+      {
+        "level": 14,
+        "move_id": "nightmare_ball"
       },
       {
         "level": 15,
@@ -2553,8 +2553,8 @@
         "move_id": "MVP_171"
       },
       {
-        "level": 17,
-        "move_id": "dark_wisp"
+        "level": 16,
+        "move_id": "gap_dark_s_80"
       },
       {
         "level": 18,
@@ -2908,11 +2908,11 @@
       },
       {
         "level": 12,
-        "move_id": "MVP_025"
+        "move_id": "MV_222"
       },
       {
         "level": 12,
-        "move_id": "MV_222"
+        "move_id": "MV_296"
       },
       {
         "level": 13,
@@ -2936,7 +2936,7 @@
       },
       {
         "level": 15,
-        "move_id": "MVP_168"
+        "move_id": "MVP_149"
       },
       {
         "level": 17,
@@ -3122,16 +3122,12 @@
         "move_id": "gap_dark_s_35"
       },
       {
-        "level": 8,
-        "move_id": "gap_dark_s_40"
-      },
-      {
         "level": 9,
         "move_id": "MVP_161"
       },
       {
-        "level": 10,
-        "move_id": "gap_dark_s_50"
+        "level": 9,
+        "move_id": "mvn_093"
       },
       {
         "level": 10,
@@ -3142,6 +3138,10 @@
         "move_id": "gap_neutral_s_55"
       },
       {
+        "level": 11,
+        "move_id": "mvn_099"
+      },
+      {
         "level": 12,
         "move_id": "gap_fire_s_60"
       },
@@ -3150,8 +3150,8 @@
         "move_id": "gap_neutral_s_60"
       },
       {
-        "level": 12,
-        "move_id": "mvn_098"
+        "level": 13,
+        "move_id": "gap_dark_s_65"
       },
       {
         "level": 14,
@@ -3171,15 +3171,15 @@
       },
       {
         "level": 15,
+        "move_id": "gap_dark_s_75"
+      },
+      {
+        "level": 15,
         "move_id": "gap_dragon_s_75"
       },
       {
-        "level": 16,
-        "move_id": "gap_dark_s_80"
-      },
-      {
-        "level": 18,
-        "move_id": "dark_laser"
+        "level": 17,
+        "move_id": "dark_wisp"
       },
       {
         "level": 19,
@@ -3392,6 +3392,10 @@
         "move_id": "gap_neutral_s_70"
       },
       {
+        "level": 15,
+        "move_id": "gap_dark_s_75"
+      },
+      {
         "level": 16,
         "move_id": "MV_154"
       },
@@ -3555,10 +3559,6 @@
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
-      },
-      {
-        "level": 3,
         "move_id": "mvn_089"
       },
       {
@@ -3610,16 +3610,16 @@
         "move_id": "MV_128"
       },
       {
-        "level": 12,
-        "move_id": "mvn_098"
-      },
-      {
         "level": 13,
         "move_id": "MVP_005"
       },
       {
         "level": 13,
         "move_id": "MV_166"
+      },
+      {
+        "level": 13,
+        "move_id": "gap_dark_s_65"
       },
       {
         "level": 14,
@@ -3672,6 +3672,10 @@
       {
         "level": 21,
         "move_id": "gap_dark_p_105"
+      },
+      {
+        "level": 24,
+        "move_id": "MVP_180"
       }
     ],
     "evolution": null,
@@ -3788,7 +3792,7 @@
       },
       {
         "level": 16,
-        "move_id": "gap_electric_s_80"
+        "move_id": "gap_dark_s_80"
       },
       {
         "level": 17,
@@ -3832,6 +3836,14 @@
         "move_id": "gap_fire_p_15"
       },
       {
+        "level": 3,
+        "move_id": "mvn_067"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_089"
+      },
+      {
         "level": 4,
         "move_id": "mvs_fire_atk_evasion"
       },
@@ -3868,6 +3880,10 @@
         "move_id": "gap_fire_s_60"
       },
       {
+        "level": 13,
+        "move_id": "MV_248"
+      },
+      {
         "level": 14,
         "move_id": "MVP_027"
       },
@@ -3885,19 +3901,7 @@
       },
       {
         "level": 16,
-        "move_id": "gap_electric_s_80"
-      },
-      {
-        "level": 16,
         "move_id": "gap_fire_s_80"
-      },
-      {
-        "level": 17,
-        "move_id": "dark_wisp"
-      },
-      {
-        "level": 17,
-        "move_id": "gap_dragon_s_85"
       },
       {
         "level": 18,
@@ -3918,6 +3922,10 @@
       {
         "level": 24,
         "move_id": "MV_244"
+      },
+      {
+        "level": 27,
+        "move_id": "MV_210"
       }
     ],
     "evolution": null,
@@ -4007,7 +4015,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "MVP_166"
       },
       {
         "level": 15,
@@ -4071,6 +4079,14 @@
         "move_id": "mvn_012"
       },
       {
+        "level": 3,
+        "move_id": "mvn_067"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_089"
+      },
+      {
         "level": 4,
         "move_id": "mvs_fire_atk_crit"
       },
@@ -4107,6 +4123,10 @@
         "move_id": "gap_fire_s_60"
       },
       {
+        "level": 13,
+        "move_id": "MV_248"
+      },
+      {
         "level": 14,
         "move_id": "MVP_026"
       },
@@ -4120,10 +4140,6 @@
       },
       {
         "level": 15,
-        "move_id": "circle_vine"
-      },
-      {
-        "level": 15,
         "move_id": "gap_neutral_s_75"
       },
       {
@@ -4132,15 +4148,7 @@
       },
       {
         "level": 16,
-        "move_id": "MV_201"
-      },
-      {
-        "level": 16,
         "move_id": "gap_fire_s_80"
-      },
-      {
-        "level": 16,
-        "move_id": "gap_ground_s_80"
       },
       {
         "level": 18,
@@ -4157,6 +4165,10 @@
       {
         "level": 24,
         "move_id": "MV_244"
+      },
+      {
+        "level": 27,
+        "move_id": "MV_210"
       }
     ],
     "evolution": null,
@@ -4183,6 +4195,14 @@
       {
         "level": 3,
         "move_id": "mvn_012"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_067"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_089"
       },
       {
         "level": 4,
@@ -4221,6 +4241,10 @@
         "move_id": "gap_fire_s_60"
       },
       {
+        "level": 13,
+        "move_id": "MV_248"
+      },
+      {
         "level": 14,
         "move_id": "MVP_027"
       },
@@ -4241,18 +4265,6 @@
         "move_id": "gap_fire_s_80"
       },
       {
-        "level": 17,
-        "move_id": "MV_186"
-      },
-      {
-        "level": 18,
-        "move_id": "dark_laser"
-      },
-      {
-        "level": 18,
-        "move_id": "gap_dragon_s_90"
-      },
-      {
         "level": 18,
         "move_id": "volcanic_rain"
       },
@@ -4267,6 +4279,10 @@
       {
         "level": 24,
         "move_id": "MV_244"
+      },
+      {
+        "level": 27,
+        "move_id": "MV_210"
       }
     ],
     "evolution": null,
@@ -4311,8 +4327,8 @@
         "move_id": "MV_127"
       },
       {
-        "level": 6,
-        "move_id": "dark_shot"
+        "level": 7,
+        "move_id": "gap_dark_s_35"
       },
       {
         "level": 8,
@@ -4327,8 +4343,8 @@
         "move_id": "gap_dark_s_50"
       },
       {
-        "level": 11,
-        "move_id": "mvn_099"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 13,
@@ -4339,8 +4355,8 @@
         "move_id": "MVP_167"
       },
       {
-        "level": 15,
-        "move_id": "gap_dark_s_75"
+        "level": 14,
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 15,
@@ -4413,7 +4429,15 @@
       },
       {
         "level": 3,
+        "move_id": "mvn_012"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_067"
+      },
+      {
+        "level": 3,
+        "move_id": "mvn_089"
       },
       {
         "level": 4,
@@ -4453,11 +4477,19 @@
       },
       {
         "level": 13,
+        "move_id": "MV_248"
+      },
+      {
+        "level": 13,
         "move_id": "gap_ice_s_65"
       },
       {
         "level": 14,
         "move_id": "MVP_126"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_193"
       },
       {
         "level": 15,
@@ -4472,24 +4504,8 @@
         "move_id": "MV_154"
       },
       {
-        "level": 16,
-        "move_id": "MV_228"
-      },
-      {
-        "level": 16,
-        "move_id": "gap_fire_s_80"
-      },
-      {
-        "level": 16,
-        "move_id": "gap_grass_s_80"
-      },
-      {
         "level": 17,
         "move_id": "MV_196"
-      },
-      {
-        "level": 17,
-        "move_id": "gap_ground_s_85"
       },
       {
         "level": 19,
@@ -4502,6 +4518,10 @@
       {
         "level": 24,
         "move_id": "gap_ice_s_120"
+      },
+      {
+        "level": 27,
+        "move_id": "MV_210"
       }
     ],
     "evolution": null,
@@ -4598,10 +4618,6 @@
       },
       {
         "level": 19,
-        "move_id": "gap_dark_s_95"
-      },
-      {
-        "level": 19,
         "move_id": "gap_dragon_s_95"
       },
       {
@@ -4655,7 +4671,7 @@
       },
       {
         "level": 4,
-        "move_id": "gap_dragon_s_20"
+        "move_id": "mvn_092"
       },
       {
         "level": 4,
@@ -4789,6 +4805,10 @@
       },
       {
         "level": 4,
+        "move_id": "gap_dark_p_20"
+      },
+      {
+        "level": 4,
         "move_id": "mvn_092"
       },
       {
@@ -4798,10 +4818,6 @@
       {
         "level": 4,
         "move_id": "mvs_ice_atk_evasion"
-      },
-      {
-        "level": 5,
-        "move_id": "gap_dragon_p_25"
       },
       {
         "level": 6,
@@ -4939,11 +4955,11 @@
       },
       {
         "level": 6,
-        "move_id": "gap_dark_p_30"
+        "move_id": "dark_shot"
       },
       {
         "level": 6,
-        "move_id": "gap_water_s_30"
+        "move_id": "gap_dark_p_30"
       },
       {
         "level": 6,
@@ -4990,28 +5006,32 @@
         "move_id": "poison_fog"
       },
       {
-        "level": 11,
-        "move_id": "mvn_099"
-      },
-      {
         "level": 12,
         "move_id": "MV_222"
       },
       {
         "level": 12,
-        "move_id": "mvn_098"
+        "move_id": "gap_water_s_60"
       },
       {
         "level": 13,
-        "move_id": "gap_water_s_65"
+        "move_id": "gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "MV_231"
+      },
+      {
+        "level": 14,
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 15,
         "move_id": "MVP_169"
+      },
+      {
+        "level": 15,
+        "move_id": "high_pressure_water"
       },
       {
         "level": 16,
@@ -5020,10 +5040,6 @@
       {
         "level": 16,
         "move_id": "MV_154"
-      },
-      {
-        "level": 16,
-        "move_id": "MV_228"
       },
       {
         "level": 17,
@@ -5292,7 +5308,7 @@
       },
       {
         "level": 20,
-        "move_id": "MV_207"
+        "move_id": "gap_electric_p_100"
       },
       {
         "level": 21,
@@ -5417,11 +5433,11 @@
       },
       {
         "level": 20,
-        "move_id": "gap_ground_p_100"
+        "move_id": "gap_neutral_p_100"
       },
       {
-        "level": 20,
-        "move_id": "gap_neutral_p_100"
+        "level": 21,
+        "move_id": "gap_dark_p_105"
       },
       {
         "level": 22,
@@ -5534,19 +5550,19 @@
       },
       {
         "level": 19,
-        "move_id": "MVP_057"
+        "move_id": "MVP_036"
       },
       {
         "level": 19,
         "move_id": "MVP_096"
       },
       {
-        "level": 20,
-        "move_id": "gap_ground_p_100"
+        "level": 19,
+        "move_id": "MVP_117"
       },
       {
-        "level": 21,
-        "move_id": "gap_electric_p_105"
+        "level": 20,
+        "move_id": "gap_ground_p_100"
       },
       {
         "level": 23,
@@ -5712,14 +5728,6 @@
       },
       {
         "level": 4,
-        "move_id": "gap_electric_s_20"
-      },
-      {
-        "level": 4,
-        "move_id": "gap_ice_p_20"
-      },
-      {
-        "level": 4,
         "move_id": "mvs_grass_accuracy_evasion"
       },
       {
@@ -5728,7 +5736,15 @@
       },
       {
         "level": 5,
+        "move_id": "MV_127"
+      },
+      {
+        "level": 5,
         "move_id": "MV_285"
+      },
+      {
+        "level": 5,
+        "move_id": "gap_dragon_s_25"
       },
       {
         "level": 5,
@@ -5982,15 +5998,15 @@
       },
       {
         "level": 7,
+        "move_id": "gap_electric_s_35"
+      },
+      {
+        "level": 7,
         "move_id": "gap_ice_s_35"
       },
       {
         "level": 7,
         "move_id": "mvw_snow"
-      },
-      {
-        "level": 8,
-        "move_id": "gap_dark_s_40"
       },
       {
         "level": 8,
@@ -6119,7 +6135,7 @@
       },
       {
         "level": 8,
-        "move_id": "MVP_061"
+        "move_id": "MVP_081"
       },
       {
         "level": 8,
@@ -6256,10 +6272,6 @@
       },
       {
         "level": 7,
-        "move_id": "MVP_021"
-      },
-      {
-        "level": 7,
         "move_id": "MV_215"
       },
       {
@@ -6276,11 +6288,15 @@
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "MVP_061"
       },
       {
         "level": 8,
         "move_id": "gap_water_s_40"
+      },
+      {
+        "level": 8,
+        "move_id": "lock_on_laser"
       },
       {
         "level": 9,
@@ -6389,12 +6405,12 @@
         "move_id": "mvh_ground"
       },
       {
-        "level": 6,
-        "move_id": "gap_ice_p_30"
+        "level": 7,
+        "move_id": "MV_256"
       },
       {
         "level": 7,
-        "move_id": "MV_256"
+        "move_id": "gap_electric_p_35"
       },
       {
         "level": 7,
@@ -6625,7 +6641,7 @@
       },
       {
         "level": 4,
-        "move_id": "gap_ground_p_20"
+        "move_id": "gap_grass_p_20"
       },
       {
         "level": 4,
@@ -6779,6 +6795,10 @@
       },
       {
         "level": 6,
+        "move_id": "gap_electric_p_30"
+      },
+      {
+        "level": 6,
         "move_id": "mvn_004"
       },
       {
@@ -6788,10 +6808,6 @@
       {
         "level": 7,
         "move_id": "MV_139"
-      },
-      {
-        "level": 7,
-        "move_id": "gap_dragon_p_35"
       },
       {
         "level": 7,
@@ -7057,6 +7073,10 @@
       },
       {
         "level": 8,
+        "move_id": "gap_dark_s_40"
+      },
+      {
+        "level": 8,
         "move_id": "lock_on_laser"
       },
       {
@@ -7155,11 +7175,11 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_028"
+        "move_id": "mvn_073"
       },
       {
         "level": 9,
-        "move_id": "mvn_073"
+        "move_id": "mvn_093"
       },
       {
         "level": 10,
@@ -7170,12 +7190,12 @@
         "move_id": "gap_electric_s_50"
       },
       {
-        "level": 10,
-        "move_id": "gap_water_s_50"
+        "level": 11,
+        "move_id": "mvn_099"
       },
       {
         "level": 12,
-        "move_id": "mvn_098"
+        "move_id": "gap_water_s_60"
       },
       {
         "level": 14,
@@ -7187,11 +7207,11 @@
       },
       {
         "level": 15,
-        "move_id": "high_pressure_water"
+        "move_id": "gap_dark_s_75"
       },
       {
-        "level": 17,
-        "move_id": "dark_wisp"
+        "level": 16,
+        "move_id": "gap_dark_s_80"
       },
       {
         "level": 18,
@@ -7270,7 +7290,7 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_073"
+        "move_id": "mvn_093"
       },
       {
         "level": 9,
@@ -7313,8 +7333,8 @@
         "move_id": "MVP_128"
       },
       {
-        "level": 16,
-        "move_id": "MV_201"
+        "level": 15,
+        "move_id": "gap_ice_s_75"
       },
       {
         "level": 17,
@@ -7428,7 +7448,7 @@
       },
       {
         "level": 10,
-        "move_id": "MVP_044"
+        "move_id": "MVP_059"
       },
       {
         "level": 10,
@@ -7436,15 +7456,15 @@
       },
       {
         "level": 10,
-        "move_id": "MV_189"
+        "move_id": "MV_246"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_084"
       },
       {
         "level": 11,
         "move_id": "MV_183"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_190"
       },
       {
         "level": 12,
@@ -7573,7 +7593,7 @@
       },
       {
         "level": 11,
-        "move_id": "MV_190"
+        "move_id": "MVP_084"
       },
       {
         "level": 11,
@@ -7581,7 +7601,7 @@
       },
       {
         "level": 11,
-        "move_id": "mvn_055"
+        "move_id": "mvn_099"
       },
       {
         "level": 13,
@@ -7670,11 +7690,11 @@
       },
       {
         "level": 7,
-        "move_id": "MV_212"
+        "move_id": "MV_233"
       },
       {
         "level": 7,
-        "move_id": "MV_233"
+        "move_id": "MV_281"
       },
       {
         "level": 8,
@@ -7682,7 +7702,7 @@
       },
       {
         "level": 8,
-        "move_id": "MVP_121"
+        "move_id": "MV_188"
       },
       {
         "level": 9,
@@ -7816,11 +7836,11 @@
       },
       {
         "level": 9,
-        "move_id": "MV_142"
+        "move_id": "MV_126"
       },
       {
         "level": 9,
-        "move_id": "MV_168"
+        "move_id": "MV_142"
       },
       {
         "level": 9,
@@ -7929,7 +7949,7 @@
       },
       {
         "level": 8,
-        "move_id": "MVP_041"
+        "move_id": "MVP_022"
       },
       {
         "level": 8,
@@ -8074,15 +8094,15 @@
       },
       {
         "level": 9,
-        "move_id": "MVP_123"
-      },
-      {
-        "level": 9,
         "move_id": "MV_259"
       },
       {
         "level": 10,
         "move_id": "MVP_044"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_064"
       },
       {
         "level": 10,
@@ -8220,7 +8240,7 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "gap_water_s_65"
       },
       {
         "level": 14,
@@ -8410,8 +8430,8 @@
         "move_id": "mvs_water_def_evasion"
       },
       {
-        "level": 5,
-        "move_id": "aqua_gun"
+        "level": 6,
+        "move_id": "gap_water_s_30"
       },
       {
         "level": 7,
@@ -8439,10 +8459,6 @@
       },
       {
         "level": 11,
-        "move_id": "MV_217"
-      },
-      {
-        "level": 11,
         "move_id": "MV_221"
       },
       {
@@ -8450,12 +8466,16 @@
         "move_id": "gap_neutral_s_55"
       },
       {
-        "level": 12,
-        "move_id": "gap_water_s_60"
+        "level": 11,
+        "move_id": "mvn_099"
       },
       {
         "level": 13,
         "move_id": "MV_268"
+      },
+      {
+        "level": 13,
+        "move_id": "gap_water_s_65"
       },
       {
         "level": 14,
@@ -8471,11 +8491,11 @@
       },
       {
         "level": 15,
-        "move_id": "gap_dragon_s_75"
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 15,
-        "move_id": "high_pressure_water"
+        "move_id": "gap_dragon_s_75"
       },
       {
         "level": 16,
@@ -8490,8 +8510,8 @@
         "move_id": "gap_water_s_95"
       },
       {
-        "level": 21,
-        "move_id": "gap_water_s_105"
+        "level": 20,
+        "move_id": "MV_223"
       },
       {
         "level": 22,
@@ -8536,8 +8556,8 @@
         "move_id": "mvn_023"
       },
       {
-        "level": 3,
-        "move_id": "mvn_089"
+        "level": 4,
+        "move_id": "gap_dragon_s_20"
       },
       {
         "level": 4,
@@ -8616,8 +8636,8 @@
         "move_id": "MV_231"
       },
       {
-        "level": 14,
-        "move_id": "gap_grass_s_70"
+        "level": 15,
+        "move_id": "gap_ice_s_75"
       },
       {
         "level": 16,
@@ -8629,7 +8649,7 @@
       },
       {
         "level": 16,
-        "move_id": "gap_electric_s_80"
+        "move_id": "gap_dark_s_80"
       },
       {
         "level": 17,
@@ -8770,7 +8790,7 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_151"
+        "move_id": "MVP_150"
       },
       {
         "level": 17,
@@ -8828,15 +8848,15 @@
       },
       {
         "level": 7,
-        "move_id": "gap_dark_s_35"
-      },
-      {
-        "level": 7,
         "move_id": "mvs_toxic_dark"
       },
       {
         "level": 7,
         "move_id": "mvw_fog"
+      },
+      {
+        "level": 8,
+        "move_id": "gap_dark_s_40"
       },
       {
         "level": 9,
@@ -8867,10 +8887,6 @@
         "move_id": "gap_neutral_s_60"
       },
       {
-        "level": 12,
-        "move_id": "mvn_098"
-      },
-      {
         "level": 13,
         "move_id": "MVP_165"
       },
@@ -8899,6 +8915,10 @@
         "move_id": "MV_276"
       },
       {
+        "level": 14,
+        "move_id": "nightmare_pulse"
+      },
+      {
         "level": 15,
         "move_id": "gap_dark_s_75"
       },
@@ -8908,11 +8928,11 @@
       },
       {
         "level": 16,
-        "move_id": "gap_dragon_s_80"
+        "move_id": "gap_dark_s_80"
       },
       {
-        "level": 17,
-        "move_id": "dark_wisp"
+        "level": 16,
+        "move_id": "gap_dragon_s_80"
       },
       {
         "level": 18,
@@ -9236,7 +9256,7 @@
       },
       {
         "level": 11,
-        "move_id": "MV_287"
+        "move_id": "MV_245"
       },
       {
         "level": 12,
@@ -9244,7 +9264,7 @@
       },
       {
         "level": 12,
-        "move_id": "MVP_125"
+        "move_id": "MVP_085"
       },
       {
         "level": 13,
@@ -9369,7 +9389,7 @@
       },
       {
         "level": 12,
-        "move_id": "MV_272"
+        "move_id": "MV_195"
       },
       {
         "level": 13,
@@ -9595,11 +9615,11 @@
       },
       {
         "level": 12,
-        "move_id": "MV_296"
+        "move_id": "MV_253"
       },
       {
         "level": 13,
-        "move_id": "MV_263"
+        "move_id": "MV_200"
       },
       {
         "level": 13,
@@ -9615,7 +9635,7 @@
       },
       {
         "level": 15,
-        "move_id": "MVP_168"
+        "move_id": "MV_109"
       },
       {
         "level": 16,
@@ -9850,7 +9870,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "MVP_166"
       },
       {
         "level": 15,
@@ -9959,7 +9979,7 @@
       },
       {
         "level": 13,
-        "move_id": "MV_230"
+        "move_id": "MVP_107"
       },
       {
         "level": 13,
@@ -9983,7 +10003,7 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_170"
+        "move_id": "MVP_151"
       },
       {
         "level": 17,
@@ -10067,8 +10087,8 @@
         "move_id": "MV_123"
       },
       {
-        "level": 7,
-        "move_id": "gap_dark_s_35"
+        "level": 8,
+        "move_id": "gap_dark_s_40"
       },
       {
         "level": 9,
@@ -10087,16 +10107,16 @@
         "move_id": "mvn_099"
       },
       {
-        "level": 12,
-        "move_id": "mvn_098"
-      },
-      {
         "level": 13,
         "move_id": "MVP_165"
       },
       {
         "level": 13,
         "move_id": "gap_dark_s_65"
+      },
+      {
+        "level": 14,
+        "move_id": "nightmare_ball"
       },
       {
         "level": 15,
@@ -10119,12 +10139,12 @@
         "move_id": "MV_154"
       },
       {
-        "level": 17,
-        "move_id": "MV_196"
+        "level": 16,
+        "move_id": "gap_dark_s_80"
       },
       {
         "level": 17,
-        "move_id": "dark_wisp"
+        "move_id": "MV_196"
       },
       {
         "level": 18,
@@ -10233,7 +10253,7 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_070"
+        "move_id": "MVP_170"
       },
       {
         "level": 17,
@@ -10241,7 +10261,7 @@
       },
       {
         "level": 17,
-        "move_id": "MVP_152"
+        "move_id": "MVP_153"
       },
       {
         "level": 19,
@@ -10351,7 +10371,7 @@
       },
       {
         "level": 15,
-        "move_id": "MVP_088"
+        "move_id": "MVP_089"
       },
       {
         "level": 15,
@@ -10367,7 +10387,7 @@
       },
       {
         "level": 17,
-        "move_id": "MVP_173"
+        "move_id": "MVP_153"
       },
       {
         "level": 18,
@@ -10609,11 +10629,11 @@
       },
       {
         "level": 17,
-        "move_id": "MVP_073"
+        "move_id": "MVP_113"
       },
       {
         "level": 17,
-        "move_id": "MVP_113"
+        "move_id": "MVP_172"
       },
       {
         "level": 18,
@@ -10729,8 +10749,8 @@
         "move_id": "MV_196"
       },
       {
-        "level": 19,
-        "move_id": "gap_dark_s_95"
+        "level": 18,
+        "move_id": "dark_laser"
       },
       {
         "level": 19,
@@ -10846,10 +10866,6 @@
         "move_id": "gap_dragon_s_90"
       },
       {
-        "level": 19,
-        "move_id": "gap_dark_s_95"
-      },
-      {
         "level": 20,
         "move_id": "MV_101"
       },
@@ -10882,10 +10898,6 @@
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_fire_p_15"
-      },
-      {
-        "level": 3,
         "move_id": "mvn_023"
       },
       {
@@ -10903,6 +10915,10 @@
       {
         "level": 4,
         "move_id": "mvs_water_def_accuracy"
+      },
+      {
+        "level": 6,
+        "move_id": "dark_shot"
       },
       {
         "level": 6,
@@ -11069,7 +11085,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "MVP_167"
       },
       {
         "level": 15,
@@ -11144,11 +11160,11 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
+        "move_id": "mvh_dark"
       },
       {
-        "level": 5,
-        "move_id": "mvh_dark"
+        "level": 6,
+        "move_id": "ice_cutter"
       },
       {
         "level": 7,
@@ -11216,11 +11232,11 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "gap_ice_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_127"
+        "move_id": "MVP_166"
       },
       {
         "level": 16,
@@ -11325,32 +11341,32 @@
         "move_id": "MVP_141"
       },
       {
-        "level": 9,
-        "move_id": "mvn_093"
+        "level": 10,
+        "move_id": "gap_dark_s_50"
       },
       {
         "level": 10,
         "move_id": "mvs_ep_dark"
       },
       {
-        "level": 11,
-        "move_id": "mvn_099"
-      },
-      {
         "level": 12,
         "move_id": "gap_dark_p_60"
       },
       {
+        "level": 12,
+        "move_id": "mvn_098"
+      },
+      {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "nightmare_pulse"
+      },
+      {
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 16,
         "move_id": "MVP_170"
-      },
-      {
-        "level": 16,
-        "move_id": "gap_dark_s_80"
       },
       {
         "level": 18,
@@ -11579,8 +11595,8 @@
         "move_id": "MVP_111"
       },
       {
-        "level": 17,
-        "move_id": "MVP_033"
+        "level": 18,
+        "move_id": "MVP_054"
       },
       {
         "level": 18,
@@ -11894,12 +11910,12 @@
         "move_id": "MV_160"
       },
       {
-        "level": 6,
-        "move_id": "mvn_004"
+        "level": 5,
+        "move_id": "MV_185"
       },
       {
         "level": 6,
-        "move_id": "mvn_080"
+        "move_id": "mvn_004"
       },
       {
         "level": 6,
@@ -12015,16 +12031,16 @@
         "move_id": "MV_126"
       },
       {
-        "level": 9,
-        "move_id": "mvn_093"
+        "level": 10,
+        "move_id": "gap_dark_s_50"
       },
       {
         "level": 10,
         "move_id": "poison_fog"
       },
       {
-        "level": 11,
-        "move_id": "mvn_099"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 14,
@@ -12035,8 +12051,8 @@
         "move_id": "nightmare_ball"
       },
       {
-        "level": 16,
-        "move_id": "gap_dark_s_80"
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 18,
@@ -12130,12 +12146,12 @@
         "move_id": "mvw_sunny"
       },
       {
-        "level": 8,
-        "move_id": "mvn_049"
+        "level": 9,
+        "move_id": "mvn_028"
       },
       {
         "level": 9,
-        "move_id": "mvn_028"
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -12270,11 +12286,11 @@
       },
       {
         "level": 11,
-        "move_id": "mvn_055"
+        "move_id": "mvn_022"
       },
       {
         "level": 11,
-        "move_id": "mvn_064"
+        "move_id": "mvn_055"
       },
       {
         "level": 12,
@@ -12430,12 +12446,12 @@
         "move_id": "MVP_145"
       },
       {
-        "level": 12,
-        "move_id": "mvn_098"
+        "level": 13,
+        "move_id": "gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "MVP_166"
       },
       {
         "level": 15,
@@ -12552,15 +12568,15 @@
       },
       {
         "level": 10,
+        "move_id": "gap_electric_s_50"
+      },
+      {
+        "level": 10,
         "move_id": "mvs_ep_fire"
       },
       {
         "level": 11,
         "move_id": "mvn_022"
-      },
-      {
-        "level": 11,
-        "move_id": "mvn_041"
       },
       {
         "level": 12,
@@ -12630,7 +12646,7 @@
       },
       {
         "level": 4,
-        "move_id": "gap_electric_p_20"
+        "move_id": "gap_dark_p_20"
       },
       {
         "level": 4,
@@ -12762,10 +12778,6 @@
         "move_id": "gap_ground_p_25"
       },
       {
-        "level": 5,
-        "move_id": "mvh_dark"
-      },
-      {
         "level": 7,
         "move_id": "MV_256"
       },
@@ -12827,6 +12839,10 @@
       },
       {
         "level": 21,
+        "move_id": "gap_fire_p_105"
+      },
+      {
+        "level": 21,
         "move_id": "gap_grass_p_105"
       },
       {
@@ -12880,7 +12896,7 @@
       },
       {
         "level": 5,
-        "move_id": "mvh_dark"
+        "move_id": "gap_electric_p_25"
       },
       {
         "level": 5,
@@ -13002,11 +13018,11 @@
       },
       {
         "level": 5,
-        "move_id": "gap_electric_p_25"
+        "move_id": "gap_ground_p_25"
       },
       {
         "level": 5,
-        "move_id": "gap_ground_p_25"
+        "move_id": "mvh_dark"
       },
       {
         "level": 6,
@@ -13146,12 +13162,12 @@
         "move_id": "gap_ice_s_35"
       },
       {
-        "level": 9,
-        "move_id": "mvn_061"
+        "level": 8,
+        "move_id": "gap_dark_s_40"
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "mvn_061"
       },
       {
         "level": 10,
@@ -13280,8 +13296,8 @@
         "move_id": "gap_grass_s_60"
       },
       {
-        "level": 13,
-        "move_id": "gap_dark_s_65"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 14,
@@ -13390,7 +13406,7 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_040"
+        "move_id": "mvn_093"
       },
       {
         "level": 9,
@@ -13543,7 +13559,7 @@
       },
       {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "all_range_thunder"
       },
       {
         "level": 15,
@@ -13638,7 +13654,7 @@
       },
       {
         "level": 8,
-        "move_id": "MV_255"
+        "move_id": "gap_dark_s_40"
       },
       {
         "level": 9,
@@ -13756,15 +13772,15 @@
       },
       {
         "level": 7,
-        "move_id": "gap_dark_s_35"
-      },
-      {
-        "level": 7,
         "move_id": "mvs_toxic_dark"
       },
       {
         "level": 7,
         "move_id": "mvw_fog"
+      },
+      {
+        "level": 8,
+        "move_id": "gap_dark_s_40"
       },
       {
         "level": 9,
@@ -13799,10 +13815,6 @@
         "move_id": "gap_water_s_60"
       },
       {
-        "level": 12,
-        "move_id": "mvn_098"
-      },
-      {
         "level": 13,
         "move_id": "MVP_165"
       },
@@ -13819,6 +13831,10 @@
         "move_id": "gap_dark_s_65"
       },
       {
+        "level": 14,
+        "move_id": "nightmare_pulse"
+      },
+      {
         "level": 15,
         "move_id": "gap_dark_s_75"
       },
@@ -13831,8 +13847,8 @@
         "move_id": "MVP_171"
       },
       {
-        "level": 17,
-        "move_id": "dark_wisp"
+        "level": 16,
+        "move_id": "gap_dark_s_80"
       },
       {
         "level": 18,
@@ -13938,7 +13954,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "MVP_027"
       },
       {
         "level": 15,
@@ -14171,7 +14187,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_067"
+        "move_id": "MVP_166"
       },
       {
         "level": 15,
@@ -14253,15 +14269,15 @@
       },
       {
         "level": 8,
-        "move_id": "MVP_081"
-      },
-      {
-        "level": 8,
         "move_id": "MV_282"
       },
       {
         "level": 8,
         "move_id": "gap_grass_s_40"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_161"
       },
       {
         "level": 9,
@@ -14393,8 +14409,8 @@
         "move_id": "gap_electric_s_60"
       },
       {
-        "level": 13,
-        "move_id": "gap_dark_s_65"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 13,
@@ -14494,8 +14510,8 @@
         "move_id": "gap_neutral_s_60"
       },
       {
-        "level": 13,
-        "move_id": "gap_dark_s_65"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 13,
@@ -14601,6 +14617,10 @@
       {
         "level": 11,
         "move_id": "gap_neutral_s_55"
+      },
+      {
+        "level": 13,
+        "move_id": "gap_dark_s_65"
       },
       {
         "level": 13,
@@ -14839,11 +14859,11 @@
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "gap_dragon_s_50"
       },
       {
         "level": 10,
-        "move_id": "gap_dragon_s_50"
+        "move_id": "gap_grass_s_50"
       },
       {
         "level": 10,
@@ -14867,11 +14887,15 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "gap_grass_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "MVP_166"
+      },
+      {
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 16,
@@ -14880,10 +14904,6 @@
       {
         "level": 16,
         "move_id": "MVP_170"
-      },
-      {
-        "level": 16,
-        "move_id": "gap_dark_s_80"
       },
       {
         "level": 17,
@@ -15001,19 +15021,19 @@
       },
       {
         "level": 11,
-        "move_id": "mvn_041"
+        "move_id": "mvn_099"
       },
       {
-        "level": 12,
-        "move_id": "mvn_098"
-      },
-      {
-        "level": 14,
-        "move_id": "MVP_167"
+        "level": 13,
+        "move_id": "gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "all_range_thunder"
+        "move_id": "MVP_166"
+      },
+      {
+        "level": 14,
+        "move_id": "mvn_044"
       },
       {
         "level": 15,
@@ -15029,7 +15049,7 @@
       },
       {
         "level": 16,
-        "move_id": "gap_electric_s_80"
+        "move_id": "gap_dark_s_80"
       },
       {
         "level": 17,
@@ -15062,11 +15082,11 @@
     "learnset": [
       {
         "level": 3,
-        "move_id": "mvn_012"
+        "move_id": "gap_fire_p_15"
       },
       {
-        "level": 4,
-        "move_id": "gap_fire_p_20"
+        "level": 3,
+        "move_id": "mvn_012"
       },
       {
         "level": 4,
@@ -15078,11 +15098,15 @@
       },
       {
         "level": 7,
-        "move_id": "mvh_electric"
+        "move_id": "MV_138"
       },
       {
-        "level": 8,
-        "move_id": "MVP_022"
+        "level": 7,
+        "move_id": "MV_233"
+      },
+      {
+        "level": 7,
+        "move_id": "mvh_ice"
       },
       {
         "level": 8,
@@ -15102,7 +15126,7 @@
       },
       {
         "level": 10,
-        "move_id": "MVP_083"
+        "move_id": "MV_246"
       },
       {
         "level": 10,
@@ -15118,11 +15142,11 @@
       },
       {
         "level": 11,
-        "move_id": "MV_237"
+        "move_id": "MV_245"
       },
       {
         "level": 12,
-        "move_id": "MVP_025"
+        "move_id": "MV_253"
       },
       {
         "level": 13,
@@ -15135,10 +15159,6 @@
       {
         "level": 15,
         "move_id": "MVP_028"
-      },
-      {
-        "level": 15,
-        "move_id": "MV_109"
       },
       {
         "level": 16,
@@ -15181,6 +15201,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_089"
       },
       {
@@ -15189,15 +15213,11 @@
       },
       {
         "level": 4,
-        "move_id": "gap_dark_p_20"
-      },
-      {
-        "level": 4,
         "move_id": "mvs_dark_accuracy_evasion"
       },
       {
         "level": 5,
-        "move_id": "gap_fire_p_25"
+        "move_id": "gap_dark_p_25"
       },
       {
         "level": 6,
@@ -15205,23 +15225,23 @@
       },
       {
         "level": 7,
-        "move_id": "MV_123"
+        "move_id": "MVP_021"
       },
       {
         "level": 7,
-        "move_id": "mvh_ice"
+        "move_id": "MV_138"
       },
       {
         "level": 8,
-        "move_id": "MV_125"
+        "move_id": "MVP_023"
       },
       {
         "level": 9,
-        "move_id": "MVP_024"
+        "move_id": "MV_126"
       },
       {
         "level": 10,
-        "move_id": "MVP_163"
+        "move_id": "MV_250"
       },
       {
         "level": 10,
@@ -15237,19 +15257,23 @@
       },
       {
         "level": 11,
-        "move_id": "MV_128"
+        "move_id": "MV_116"
       },
       {
         "level": 11,
         "move_id": "MV_144"
       },
       {
-        "level": 13,
-        "move_id": "MVP_045"
+        "level": 11,
+        "move_id": "MV_245"
+      },
+      {
+        "level": 11,
+        "move_id": "MV_258"
       },
       {
         "level": 13,
-        "move_id": "MVP_165"
+        "move_id": "MV_238"
       },
       {
         "level": 13,
@@ -15262,10 +15286,6 @@
       {
         "level": 15,
         "move_id": "MVP_169"
-      },
-      {
-        "level": 15,
-        "move_id": "MV_109"
       },
       {
         "level": 17,
@@ -15387,12 +15407,12 @@
         "move_id": "MVP_048"
       },
       {
-        "level": 16,
-        "move_id": "MVP_051"
+        "level": 15,
+        "move_id": "MVP_169"
       },
       {
         "level": 16,
-        "move_id": "MVP_171"
+        "move_id": "MVP_051"
       },
       {
         "level": 17,
@@ -15563,12 +15583,12 @@
         "move_id": "mvn_045"
       },
       {
-        "level": 4,
-        "move_id": "gap_ice_s_20"
+        "level": 3,
+        "move_id": "mvn_089"
       },
       {
         "level": 4,
-        "move_id": "mvn_092"
+        "move_id": "gap_ice_s_20"
       },
       {
         "level": 6,
@@ -15795,6 +15815,10 @@
       },
       {
         "level": 4,
+        "move_id": "mvn_092"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_water_def_accuracy"
       },
       {
@@ -15802,16 +15826,12 @@
         "move_id": "mvs_water_def_evasion"
       },
       {
-        "level": 5,
-        "move_id": "MV_185"
-      },
-      {
         "level": 6,
         "move_id": "gap_water_s_30"
       },
       {
         "level": 6,
-        "move_id": "mvn_082"
+        "move_id": "mvn_080"
       },
       {
         "level": 7,
@@ -15941,15 +15961,19 @@
       },
       {
         "level": 5,
+        "move_id": "MV_127"
+      },
+      {
+        "level": 5,
+        "move_id": "gap_electric_p_25"
+      },
+      {
+        "level": 5,
         "move_id": "mvn_060"
       },
       {
         "level": 6,
         "move_id": "mvn_059"
-      },
-      {
-        "level": 6,
-        "move_id": "mvn_082"
       },
       {
         "level": 7,
@@ -15994,10 +16018,6 @@
       {
         "level": 16,
         "move_id": "MV_154"
-      },
-      {
-        "level": 17,
-        "move_id": "gap_fire_s_85"
       },
       {
         "level": 17,
@@ -16107,7 +16127,7 @@
       },
       {
         "level": 11,
-        "move_id": "MVP_084"
+        "move_id": "MV_128"
       },
       {
         "level": 11,
@@ -16197,10 +16217,6 @@
       },
       {
         "level": 4,
-        "move_id": "MV_280"
-      },
-      {
-        "level": 4,
         "move_id": "mvs_grass_accuracy_evasion"
       },
       {
@@ -16214,6 +16230,10 @@
       {
         "level": 5,
         "move_id": "MV_285"
+      },
+      {
+        "level": 6,
+        "move_id": "shockwave"
       },
       {
         "level": 7,
@@ -16303,39 +16323,43 @@
     "learnset": [
       {
         "level": 3,
-        "move_id": "mvn_012"
+        "move_id": "gap_dark_p_15"
       },
       {
-        "level": 4,
-        "move_id": "gap_dark_p_20"
+        "level": 3,
+        "move_id": "mvn_012"
       },
       {
         "level": 4,
         "move_id": "mvs_fire_atk_evasion"
       },
       {
+        "level": 5,
+        "move_id": "gap_fire_p_25"
+      },
+      {
         "level": 6,
         "move_id": "dark_shot"
       },
       {
-        "level": 6,
-        "move_id": "gap_dark_p_30"
-      },
-      {
         "level": 7,
-        "move_id": "MV_121"
+        "move_id": "MV_123"
       },
       {
         "level": 7,
         "move_id": "mvw_sunny"
       },
       {
+        "level": 8,
+        "move_id": "MV_125"
+      },
+      {
         "level": 9,
-        "move_id": "MV_126"
+        "move_id": "MVP_024"
       },
       {
         "level": 10,
-        "move_id": "MV_250"
+        "move_id": "MVP_163"
       },
       {
         "level": 10,
@@ -16347,19 +16371,7 @@
       },
       {
         "level": 11,
-        "move_id": "MV_245"
-      },
-      {
-        "level": 12,
-        "move_id": "MVP_146"
-      },
-      {
-        "level": 12,
-        "move_id": "gap_dark_p_60"
-      },
-      {
-        "level": 13,
-        "move_id": "MVP_005"
+        "move_id": "MV_128"
       },
       {
         "level": 13,
@@ -16367,27 +16379,35 @@
       },
       {
         "level": 13,
+        "move_id": "MV_192"
+      },
+      {
+        "level": 13,
+        "move_id": "MV_238"
+      },
+      {
+        "level": 13,
         "move_id": "gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_026"
+        "move_id": "MVP_006"
       },
       {
         "level": 14,
-        "move_id": "MVP_126"
+        "move_id": "MVP_046"
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "MVP_166"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_274"
       },
       {
         "level": 15,
         "move_id": "MVP_029"
-      },
-      {
-        "level": 15,
-        "move_id": "MVP_109"
       },
       {
         "level": 17,
@@ -16481,11 +16501,15 @@
       },
       {
         "level": 12,
-        "move_id": "MVP_146"
+        "move_id": "gap_dark_p_60"
       },
       {
-        "level": 12,
-        "move_id": "gap_dark_p_60"
+        "level": 13,
+        "move_id": "MVP_106"
+      },
+      {
+        "level": 13,
+        "move_id": "MV_192"
       },
       {
         "level": 13,
@@ -16493,7 +16517,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_126"
+        "move_id": "MVP_046"
       },
       {
         "level": 14,
@@ -16506,10 +16530,6 @@
       {
         "level": 16,
         "move_id": "MVP_170"
-      },
-      {
-        "level": 17,
-        "move_id": "MVP_152"
       },
       {
         "level": 18,
@@ -16638,7 +16658,7 @@
       },
       {
         "level": 17,
-        "move_id": "MVP_172"
+        "move_id": "MVP_153"
       },
       {
         "level": 18,
@@ -16876,6 +16896,10 @@
         "move_id": "MV_154"
       },
       {
+        "level": 16,
+        "move_id": "gap_grass_s_80"
+      },
+      {
         "level": 17,
         "move_id": "MV_196"
       },
@@ -16890,10 +16914,6 @@
       {
         "level": 19,
         "move_id": "gap_fire_s_95"
-      },
-      {
-        "level": 20,
-        "move_id": "gap_dark_s_100"
       },
       {
         "level": 21,
@@ -16963,12 +16983,12 @@
         "move_id": "mvn_048"
       },
       {
-        "level": 7,
-        "move_id": "gap_fire_s_35"
+        "level": 8,
+        "move_id": "MV_125"
       },
       {
         "level": 8,
-        "move_id": "MV_125"
+        "move_id": "MV_255"
       },
       {
         "level": 9,
@@ -16996,11 +17016,11 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "MVP_167"
       },
       {
         "level": 14,
-        "move_id": "flame_funnel"
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 15,
@@ -17011,8 +17031,8 @@
         "move_id": "dark_wisp"
       },
       {
-        "level": 19,
-        "move_id": "gap_dark_s_95"
+        "level": 18,
+        "move_id": "volcanic_rain"
       },
       {
         "level": 20,
@@ -17230,15 +17250,11 @@
       },
       {
         "level": 12,
-        "move_id": "gap_fire_s_60"
+        "move_id": "MVP_105"
       },
       {
         "level": 12,
         "move_id": "gap_water_s_60"
-      },
-      {
-        "level": 13,
-        "move_id": "MV_268"
       },
       {
         "level": 13,
@@ -17247,6 +17263,10 @@
       {
         "level": 14,
         "move_id": "mvn_044"
+      },
+      {
+        "level": 14,
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 15,
@@ -17354,8 +17374,8 @@
         "move_id": "MVP_122"
       },
       {
-        "level": 10,
-        "move_id": "MV_182"
+        "level": 9,
+        "move_id": "MV_126"
       },
       {
         "level": 10,
@@ -17460,10 +17480,6 @@
       },
       {
         "level": 7,
-        "move_id": "MV_233"
-      },
-      {
-        "level": 7,
         "move_id": "gap_electric_s_35"
       },
       {
@@ -17480,11 +17496,15 @@
       },
       {
         "level": 8,
+        "move_id": "MVP_121"
+      },
+      {
+        "level": 8,
         "move_id": "mvn_049"
       },
       {
         "level": 9,
-        "move_id": "MV_257"
+        "move_id": "MVP_161"
       },
       {
         "level": 9,
@@ -17634,7 +17654,7 @@
       },
       {
         "level": 19,
-        "move_id": "MVP_077"
+        "move_id": "MVP_076"
       },
       {
         "level": 19,
@@ -17733,7 +17753,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "MVP_046"
       },
       {
         "level": 15,
@@ -17820,10 +17840,6 @@
       },
       {
         "level": 7,
-        "move_id": "gap_dragon_p_35"
-      },
-      {
-        "level": 7,
         "move_id": "mvw_rain"
       },
       {
@@ -17885,6 +17901,10 @@
       {
         "level": 19,
         "move_id": "MVP_056"
+      },
+      {
+        "level": 20,
+        "move_id": "MV_207"
       },
       {
         "level": 20,
@@ -17998,7 +18018,7 @@
       },
       {
         "level": 18,
-        "move_id": "MVP_134"
+        "move_id": "MVP_094"
       },
       {
         "level": 19,
@@ -18224,12 +18244,12 @@
         "move_id": "beam_slicer"
       },
       {
-        "level": 13,
-        "move_id": "gap_dark_s_65"
+        "level": 14,
+        "move_id": "MVP_166"
       },
       {
         "level": 14,
-        "move_id": "MV_274"
+        "move_id": "MV_276"
       },
       {
         "level": 15,
@@ -18301,8 +18321,8 @@
         "move_id": "gap_ground_s_25"
       },
       {
-        "level": 7,
-        "move_id": "gap_dark_s_35"
+        "level": 6,
+        "move_id": "dark_shot"
       },
       {
         "level": 7,
@@ -18466,12 +18486,12 @@
         "move_id": "gap_grass_s_60"
       },
       {
-        "level": 13,
-        "move_id": "MVP_107"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "MVP_107"
       },
       {
         "level": 14,
@@ -18581,7 +18601,7 @@
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "gap_grass_s_50"
       },
       {
         "level": 11,
@@ -18605,15 +18625,19 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "gap_grass_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "MV_289"
       },
       {
         "level": 15,
         "move_id": "MVP_108"
+      },
+      {
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 16,
@@ -18626,10 +18650,6 @@
       {
         "level": 16,
         "move_id": "MVP_110"
-      },
-      {
-        "level": 16,
-        "move_id": "gap_dark_s_80"
       },
       {
         "level": 17,
@@ -18746,6 +18766,10 @@
       },
       {
         "level": 10,
+        "move_id": "gap_water_s_50"
+      },
+      {
+        "level": 10,
         "move_id": "mvs_ep_ice"
       },
       {
@@ -18754,19 +18778,15 @@
       },
       {
         "level": 11,
-        "move_id": "MV_216"
+        "move_id": "MV_217"
+      },
+      {
+        "level": 11,
+        "move_id": "MV_237"
       },
       {
         "level": 11,
         "move_id": "gap_ice_s_55"
-      },
-      {
-        "level": 11,
-        "move_id": "mvn_055"
-      },
-      {
-        "level": 12,
-        "move_id": "MVP_085"
       },
       {
         "level": 12,
@@ -18777,8 +18797,8 @@
         "move_id": "MV_192"
       },
       {
-        "level": 14,
-        "move_id": "mvn_044"
+        "level": 13,
+        "move_id": "gap_dark_s_65"
       },
       {
         "level": 15,
@@ -18819,15 +18839,15 @@
       },
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_grass_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_056"
-      },
-      {
-        "level": 4,
-        "move_id": "gap_dark_p_20"
       },
       {
         "level": 5,
@@ -18932,6 +18952,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_electric_p_15"
       },
       {
@@ -18949,10 +18973,6 @@
       {
         "level": 5,
         "move_id": "gap_electric_p_25"
-      },
-      {
-        "level": 6,
-        "move_id": "gap_dragon_p_30"
       },
       {
         "level": 7,
@@ -19016,7 +19036,7 @@
       },
       {
         "level": 20,
-        "move_id": "gap_water_p_100"
+        "move_id": "gap_fire_p_100"
       },
       {
         "level": 21,
@@ -19086,7 +19106,7 @@
       },
       {
         "level": 8,
-        "move_id": "MVP_081"
+        "move_id": "MV_125"
       },
       {
         "level": 8,
@@ -19221,7 +19241,7 @@
       },
       {
         "level": 8,
-        "move_id": "MV_260"
+        "move_id": "MVP_081"
       },
       {
         "level": 10,
@@ -19489,6 +19509,10 @@
         "move_id": "flame_funnel"
       },
       {
+        "level": 14,
+        "move_id": "nightmare_pulse"
+      },
+      {
         "level": 16,
         "move_id": "gap_fire_s_80"
       },
@@ -19601,7 +19625,7 @@
       },
       {
         "level": 16,
-        "move_id": "gap_dark_s_80"
+        "move_id": "gap_electric_s_80"
       },
       {
         "level": 17,
@@ -19721,8 +19745,8 @@
         "move_id": "circle_vine"
       },
       {
-        "level": 16,
-        "move_id": "gap_electric_s_80"
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 17,
@@ -19882,8 +19906,8 @@
         "move_id": "MVP_026"
       },
       {
-        "level": 17,
-        "move_id": "MVP_073"
+        "level": 16,
+        "move_id": "MVP_171"
       },
       {
         "level": 18,
@@ -19987,12 +20011,12 @@
         "move_id": "gap_ground_s_75"
       },
       {
-        "level": 17,
-        "move_id": "MVP_112"
+        "level": 16,
+        "move_id": "gap_dark_s_80"
       },
       {
         "level": 17,
-        "move_id": "MV_186"
+        "move_id": "MVP_112"
       },
       {
         "level": 17,
@@ -20074,10 +20098,6 @@
       },
       {
         "level": 10,
-        "move_id": "MVP_083"
-      },
-      {
-        "level": 10,
         "move_id": "MVP_104"
       },
       {
@@ -20091,6 +20111,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_water"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_164"
       },
       {
         "level": 11,
@@ -20621,8 +20645,8 @@
         "move_id": "mvn_022"
       },
       {
-        "level": 11,
-        "move_id": "mvn_055"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 14,
@@ -20708,11 +20732,11 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "power_bomb"
       },
       {
-        "level": 9,
-        "move_id": "power_bomb"
+        "level": 10,
+        "move_id": "gap_dark_s_50"
       },
       {
         "level": 10,
@@ -20723,8 +20747,8 @@
         "move_id": "MV_217"
       },
       {
-        "level": 11,
-        "move_id": "mvn_099"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 14,
@@ -20740,15 +20764,15 @@
       },
       {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "nightmare_pulse"
+      },
+      {
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 15,
         "move_id": "gap_dragon_s_75"
-      },
-      {
-        "level": 16,
-        "move_id": "gap_dark_s_80"
       },
       {
         "level": 18,
@@ -20841,16 +20865,16 @@
         "move_id": "gap_ground_s_60"
       },
       {
+        "level": 13,
+        "move_id": "gap_dark_s_65"
+      },
+      {
         "level": 14,
         "move_id": "MVP_027"
       },
       {
         "level": 14,
         "move_id": "flame_funnel"
-      },
-      {
-        "level": 14,
-        "move_id": "mvn_044"
       },
       {
         "level": 15,
@@ -20941,7 +20965,7 @@
       },
       {
         "level": 8,
-        "move_id": "MV_255"
+        "move_id": "gap_dark_s_40"
       },
       {
         "level": 9,
@@ -20977,7 +21001,7 @@
       },
       {
         "level": 12,
-        "move_id": "gap_fire_s_60"
+        "move_id": "mvn_098"
       },
       {
         "level": 13,
@@ -20993,7 +21017,7 @@
       },
       {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 16,
@@ -21176,20 +21200,20 @@
         "move_id": "mvn_045"
       },
       {
+        "level": 3,
+        "move_id": "mvn_089"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_dark_p_20"
+      },
+      {
         "level": 4,
         "move_id": "mvs_ground_atk_accuracy"
       },
       {
         "level": 5,
         "move_id": "gap_ground_s_25"
-      },
-      {
-        "level": 5,
-        "move_id": "mvh_dark"
-      },
-      {
-        "level": 6,
-        "move_id": "mvn_082"
       },
       {
         "level": 6,
@@ -21476,7 +21500,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_026"
+        "move_id": "MVP_027"
       },
       {
         "level": 15,
@@ -21562,10 +21586,6 @@
       },
       {
         "level": 9,
-        "move_id": "MV_214"
-      },
-      {
-        "level": 9,
         "move_id": "MV_259"
       },
       {
@@ -21579,6 +21599,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_ice"
+      },
+      {
+        "level": 11,
+        "move_id": "MVP_164"
       },
       {
         "level": 11,
@@ -22019,7 +22043,7 @@
       },
       {
         "level": 9,
-        "move_id": "spine_vine"
+        "move_id": "mvn_061"
       },
       {
         "level": 10,
@@ -22038,8 +22062,8 @@
         "move_id": "mvn_098"
       },
       {
-        "level": 13,
-        "move_id": "gap_dark_s_65"
+        "level": 14,
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 15,
@@ -22050,8 +22074,8 @@
         "move_id": "circle_vine"
       },
       {
-        "level": 17,
-        "move_id": "dark_wisp"
+        "level": 16,
+        "move_id": "gap_grass_s_80"
       },
       {
         "level": 17,
@@ -22297,16 +22321,16 @@
         "move_id": "MVP_086"
       },
       {
-        "level": 13,
-        "move_id": "gap_dark_s_65"
-      },
-      {
         "level": 14,
         "move_id": "MVP_046"
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "MV_274"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_276"
       },
       {
         "level": 16,
@@ -22368,10 +22392,6 @@
       },
       {
         "level": 4,
-        "move_id": "gap_dark_p_20"
-      },
-      {
-        "level": 4,
         "move_id": "gap_electric_s_20"
       },
       {
@@ -22429,6 +22449,10 @@
       {
         "level": 12,
         "move_id": "MVP_146"
+      },
+      {
+        "level": 12,
+        "move_id": "gap_grass_s_60"
       },
       {
         "level": 13,
@@ -22567,11 +22591,11 @@
       },
       {
         "level": 19,
-        "move_id": "MVP_156"
+        "move_id": "MVP_077"
       },
       {
         "level": 19,
-        "move_id": "MV_135"
+        "move_id": "MVP_156"
       },
       {
         "level": 21,
@@ -22652,12 +22676,12 @@
         "move_id": "MV_250"
       },
       {
-        "level": 12,
-        "move_id": "MVP_025"
+        "level": 11,
+        "move_id": "MV_288"
       },
       {
         "level": 12,
-        "move_id": "MV_195"
+        "move_id": "MVP_025"
       },
       {
         "level": 12,
@@ -22790,8 +22814,8 @@
         "move_id": "MVP_048"
       },
       {
-        "level": 16,
-        "move_id": "MVP_171"
+        "level": 15,
+        "move_id": "MVP_168"
       },
       {
         "level": 17,
@@ -22893,7 +22917,7 @@
       },
       {
         "level": 13,
-        "move_id": "MVP_045"
+        "move_id": "MV_192"
       },
       {
         "level": 13,
@@ -22958,15 +22982,15 @@
       },
       {
         "level": 3,
+        "move_id": "gap_electric_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_034"
       },
       {
         "level": 3,
         "move_id": "mvn_078"
-      },
-      {
-        "level": 3,
-        "move_id": "mvn_089"
       },
       {
         "level": 4,
@@ -23021,12 +23045,8 @@
         "move_id": "MV_154"
       },
       {
-        "level": 16,
-        "move_id": "gap_grass_s_80"
-      },
-      {
         "level": 17,
-        "move_id": "gap_water_s_85"
+        "move_id": "MV_196"
       },
       {
         "level": 18,
@@ -23035,6 +23055,10 @@
       {
         "level": 18,
         "move_id": "gap_ground_s_90"
+      },
+      {
+        "level": 19,
+        "move_id": "gap_dark_s_95"
       },
       {
         "level": 20,
@@ -23106,6 +23130,10 @@
       {
         "level": 8,
         "move_id": "gap_grass_s_40"
+      },
+      {
+        "level": 9,
+        "move_id": "mvn_093"
       },
       {
         "level": 9,
@@ -23195,15 +23223,11 @@
       },
       {
         "level": 4,
-        "move_id": "gap_dark_p_20"
+        "move_id": "gap_electric_p_20"
       },
       {
         "level": 4,
         "move_id": "gap_electric_s_20"
-      },
-      {
-        "level": 4,
-        "move_id": "mvn_092"
       },
       {
         "level": 5,
@@ -23264,6 +23288,10 @@
       {
         "level": 19,
         "move_id": "gap_grass_s_95"
+      },
+      {
+        "level": 20,
+        "move_id": "gap_dark_s_100"
       },
       {
         "level": 21,
@@ -23384,6 +23412,10 @@
       },
       {
         "level": 10,
+        "move_id": "gap_dark_s_50"
+      },
+      {
+        "level": 10,
         "move_id": "mvn_051"
       },
       {
@@ -23397,10 +23429,6 @@
       {
         "level": 11,
         "move_id": "mvn_055"
-      },
-      {
-        "level": 12,
-        "move_id": "gap_electric_s_60"
       },
       {
         "level": 12,
@@ -23512,12 +23540,12 @@
         "move_id": "MVP_003"
       },
       {
-        "level": 12,
-        "move_id": "gap_dark_p_60"
+        "level": 11,
+        "move_id": "MVP_164"
       },
       {
         "level": 12,
-        "move_id": "mvn_098"
+        "move_id": "gap_electric_s_60"
       },
       {
         "level": 13,
@@ -23645,12 +23673,12 @@
         "move_id": "MV_217"
       },
       {
-        "level": 12,
-        "move_id": "MV_222"
+        "level": 11,
+        "move_id": "mvn_099"
       },
       {
-        "level": 13,
-        "move_id": "gap_electric_s_65"
+        "level": 12,
+        "move_id": "MV_222"
       },
       {
         "level": 13,
@@ -23854,12 +23882,12 @@
         "move_id": "MV_234"
       },
       {
-        "level": 6,
-        "move_id": "gap_dark_p_30"
+        "level": 7,
+        "move_id": "MV_233"
       },
       {
         "level": 7,
-        "move_id": "MV_233"
+        "move_id": "gap_electric_p_35"
       },
       {
         "level": 7,
@@ -23970,11 +23998,11 @@
       },
       {
         "level": 5,
-        "move_id": "gap_ground_p_25"
+        "move_id": "gap_dark_p_25"
       },
       {
-        "level": 6,
-        "move_id": "gap_dark_p_30"
+        "level": 5,
+        "move_id": "gap_ground_p_25"
       },
       {
         "level": 7,
@@ -23987,10 +24015,6 @@
       {
         "level": 8,
         "move_id": "MV_260"
-      },
-      {
-        "level": 8,
-        "move_id": "gap_dragon_p_40"
       },
       {
         "level": 8,
@@ -24043,6 +24067,10 @@
       {
         "level": 19,
         "move_id": "MVP_116"
+      },
+      {
+        "level": 20,
+        "move_id": "gap_water_p_100"
       },
       {
         "level": 21,
@@ -24219,8 +24247,8 @@
         "move_id": "MV_160"
       },
       {
-        "level": 7,
-        "move_id": "gap_dark_s_35"
+        "level": 6,
+        "move_id": "dark_shot"
       },
       {
         "level": 7,
@@ -24320,8 +24348,8 @@
         "move_id": "gap_ground_s_25"
       },
       {
-        "level": 7,
-        "move_id": "gap_dark_s_35"
+        "level": 6,
+        "move_id": "dark_shot"
       },
       {
         "level": 7,
@@ -24579,10 +24607,6 @@
       },
       {
         "level": 13,
-        "move_id": "MVP_086"
-      },
-      {
-        "level": 13,
         "move_id": "MV_200"
       },
       {
@@ -24590,8 +24614,12 @@
         "move_id": "gap_ice_s_65"
       },
       {
-        "level": 15,
-        "move_id": "gap_dark_s_75"
+        "level": 14,
+        "move_id": "MVP_167"
+      },
+      {
+        "level": 14,
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 15,
@@ -24700,7 +24728,7 @@
       },
       {
         "level": 12,
-        "move_id": "MVP_125"
+        "move_id": "MVP_025"
       },
       {
         "level": 12,
@@ -24715,8 +24743,8 @@
         "move_id": "MVP_087"
       },
       {
-        "level": 16,
-        "move_id": "MVP_071"
+        "level": 15,
+        "move_id": "MVP_168"
       },
       {
         "level": 16,
@@ -24845,11 +24873,15 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_087"
+        "move_id": "MV_193"
       },
       {
         "level": 14,
-        "move_id": "MV_193"
+        "move_id": "nightmare_pulse"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_168"
       },
       {
         "level": 16,
@@ -24858,10 +24890,6 @@
       {
         "level": 16,
         "move_id": "MV_201"
-      },
-      {
-        "level": 16,
-        "move_id": "gap_electric_s_80"
       },
       {
         "level": 17,
@@ -24902,7 +24930,7 @@
       },
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "gap_electric_p_15"
       },
       {
         "level": 3,
@@ -24974,11 +25002,7 @@
       },
       {
         "level": 18,
-        "move_id": "MVP_035"
-      },
-      {
-        "level": 19,
-        "move_id": "MVP_096"
+        "move_id": "MVP_114"
       },
       {
         "level": 19,
@@ -24987,6 +25011,10 @@
       {
         "level": 20,
         "move_id": "MV_207"
+      },
+      {
+        "level": 21,
+        "move_id": "gap_dark_p_105"
       },
       {
         "level": 24,
@@ -25099,15 +25127,15 @@
       },
       {
         "level": 19,
-        "move_id": "MVP_056"
-      },
-      {
-        "level": 19,
-        "move_id": "MVP_097"
+        "move_id": "MVP_057"
       },
       {
         "level": 19,
         "move_id": "MVP_116"
+      },
+      {
+        "level": 19,
+        "move_id": "MVP_137"
       },
       {
         "level": 20,
@@ -25213,7 +25241,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "MVP_166"
       },
       {
         "level": 15,
@@ -25267,6 +25295,10 @@
       },
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_grass_p_15"
       },
       {
@@ -25276,10 +25308,6 @@
       {
         "level": 5,
         "move_id": "gap_grass_p_25"
-      },
-      {
-        "level": 6,
-        "move_id": "gap_dragon_p_30"
       },
       {
         "level": 6,
@@ -25427,8 +25455,8 @@
         "move_id": "gap_fire_s_45"
       },
       {
-        "level": 10,
-        "move_id": "gap_dark_s_50"
+        "level": 9,
+        "move_id": "mvn_093"
       },
       {
         "level": 10,
@@ -25563,11 +25591,11 @@
       },
       {
         "level": 18,
-        "move_id": "dark_laser"
+        "move_id": "gap_dragon_s_90"
       },
       {
         "level": 18,
-        "move_id": "gap_dragon_s_90"
+        "move_id": "gap_electric_s_90"
       },
       {
         "level": 20,
@@ -25665,16 +25693,16 @@
         "move_id": "MV_276"
       },
       {
+        "level": 14,
+        "move_id": "flame_funnel"
+      },
+      {
         "level": 15,
         "move_id": "MVP_109"
       },
       {
         "level": 16,
         "move_id": "gap_grass_s_80"
-      },
-      {
-        "level": 18,
-        "move_id": "dark_laser"
       },
       {
         "level": 18,
@@ -25764,11 +25792,11 @@
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "mvn_018"
       },
       {
         "level": 10,
-        "move_id": "mvn_018"
+        "move_id": "mvn_051"
       },
       {
         "level": 10,
@@ -25787,16 +25815,16 @@
         "move_id": "gap_ground_s_60"
       },
       {
-        "level": 13,
-        "move_id": "gap_dark_s_65"
-      },
-      {
         "level": 14,
         "move_id": "MVP_166"
       },
       {
+        "level": 14,
+        "move_id": "MV_276"
+      },
+      {
         "level": 15,
-        "move_id": "gap_ground_s_75"
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 16,
@@ -25856,12 +25884,12 @@
         "move_id": "mvn_045"
       },
       {
-        "level": 3,
-        "move_id": "mvn_089"
+        "level": 4,
+        "move_id": "gap_electric_p_20"
       },
       {
         "level": 4,
-        "move_id": "gap_dark_p_20"
+        "move_id": "gap_electric_s_20"
       },
       {
         "level": 4,
@@ -25913,19 +25941,15 @@
       },
       {
         "level": 15,
-        "move_id": "MVP_089"
+        "move_id": "MVP_029"
       },
       {
         "level": 15,
-        "move_id": "MVP_129"
+        "move_id": "MVP_089"
       },
       {
         "level": 16,
-        "move_id": "MVP_030"
-      },
-      {
-        "level": 16,
-        "move_id": "MVP_130"
+        "move_id": "MVP_051"
       },
       {
         "level": 16,
@@ -25934,6 +25958,10 @@
       {
         "level": 17,
         "move_id": "MVP_093"
+      },
+      {
+        "level": 18,
+        "move_id": "MVP_175"
       },
       {
         "level": 19,
@@ -25978,10 +26006,6 @@
       },
       {
         "level": 4,
-        "move_id": "gap_dark_p_20"
-      },
-      {
-        "level": 4,
         "move_id": "gap_electric_s_20"
       },
       {
@@ -25990,11 +26014,15 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
+        "move_id": "gap_electric_p_25"
       },
       {
         "level": 5,
         "move_id": "gap_ground_s_25"
+      },
+      {
+        "level": 6,
+        "move_id": "mvn_080"
       },
       {
         "level": 7,
@@ -26038,11 +26066,11 @@
       },
       {
         "level": 14,
-        "move_id": "gap_grass_s_70"
+        "move_id": "gap_neutral_s_70"
       },
       {
-        "level": 14,
-        "move_id": "gap_neutral_s_70"
+        "level": 15,
+        "move_id": "gap_fire_s_75"
       },
       {
         "level": 16,
@@ -26050,11 +26078,11 @@
       },
       {
         "level": 16,
-        "move_id": "MV_228"
+        "move_id": "gap_ground_s_80"
       },
       {
-        "level": 16,
-        "move_id": "gap_ground_s_80"
+        "level": 18,
+        "move_id": "dark_laser"
       },
       {
         "level": 18,
@@ -26370,12 +26398,12 @@
         "move_id": "gap_ground_p_25"
       },
       {
-        "level": 7,
-        "move_id": "mvw_sandstorm"
+        "level": 6,
+        "move_id": "gap_dark_p_30"
       },
       {
-        "level": 8,
-        "move_id": "MVP_062"
+        "level": 7,
+        "move_id": "mvw_sandstorm"
       },
       {
         "level": 8,
@@ -26504,11 +26532,11 @@
       },
       {
         "level": 7,
-        "move_id": "MV_138"
+        "move_id": "MV_121"
       },
       {
-        "level": 8,
-        "move_id": "MV_125"
+        "level": 7,
+        "move_id": "MV_138"
       },
       {
         "level": 8,
@@ -26621,15 +26649,15 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
-      },
-      {
-        "level": 9,
         "move_id": "power_bomb"
       },
       {
         "level": 9,
         "move_id": "spine_vine"
+      },
+      {
+        "level": 10,
+        "move_id": "gap_dark_s_50"
       },
       {
         "level": 10,
@@ -26648,8 +26676,8 @@
         "move_id": "MV_217"
       },
       {
-        "level": 11,
-        "move_id": "mvn_099"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 14,
@@ -26660,8 +26688,8 @@
         "move_id": "nightmare_ball"
       },
       {
-        "level": 16,
-        "move_id": "gap_dark_s_80"
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 18,
@@ -26769,6 +26797,10 @@
         "move_id": "gap_neutral_s_60"
       },
       {
+        "level": 13,
+        "move_id": "gap_dark_s_65"
+      },
+      {
         "level": 14,
         "move_id": "gap_neutral_s_70"
       },
@@ -26826,8 +26858,8 @@
         "move_id": "MV_127"
       },
       {
-        "level": 7,
-        "move_id": "gap_dark_s_35"
+        "level": 8,
+        "move_id": "gap_dark_s_40"
       },
       {
         "level": 9,
@@ -26871,7 +26903,7 @@
       },
       {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 15,
@@ -26886,8 +26918,8 @@
         "move_id": "gap_dragon_s_80"
       },
       {
-        "level": 19,
-        "move_id": "gap_dark_s_95"
+        "level": 18,
+        "move_id": "dark_laser"
       },
       {
         "level": 21,
@@ -26951,8 +26983,8 @@
         "move_id": "gap_dragon_s_25"
       },
       {
-        "level": 7,
-        "move_id": "gap_dark_s_35"
+        "level": 6,
+        "move_id": "dark_shot"
       },
       {
         "level": 7,
@@ -27102,7 +27134,7 @@
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "gap_grass_s_50"
       },
       {
         "level": 10,
@@ -27118,7 +27150,7 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "gap_grass_s_65"
       },
       {
         "level": 14,
@@ -27133,12 +27165,12 @@
         "move_id": "MVP_089"
       },
       {
-        "level": 16,
-        "move_id": "MVP_110"
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 16,
-        "move_id": "gap_dark_s_80"
+        "move_id": "MVP_110"
       },
       {
         "level": 17,
@@ -27210,12 +27242,12 @@
         "move_id": "gap_ground_s_25"
       },
       {
-        "level": 6,
-        "move_id": "dark_shot"
+        "level": 7,
+        "move_id": "MV_123"
       },
       {
         "level": 7,
-        "move_id": "MV_123"
+        "move_id": "gap_dark_s_35"
       },
       {
         "level": 7,
@@ -27242,20 +27274,20 @@
         "move_id": "mvs_ep_dark"
       },
       {
-        "level": 11,
-        "move_id": "mvn_099"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 13,
         "move_id": "MVP_165"
       },
       {
-        "level": 13,
-        "move_id": "gap_dark_s_65"
+        "level": 14,
+        "move_id": "nightmare_ball"
       },
       {
-        "level": 15,
-        "move_id": "gap_dark_s_75"
+        "level": 14,
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 16,
@@ -27344,15 +27376,15 @@
       },
       {
         "level": 9,
+        "move_id": "MV_126"
+      },
+      {
+        "level": 9,
         "move_id": "MV_283"
       },
       {
         "level": 10,
         "move_id": "mvs_ep_electric"
-      },
-      {
-        "level": 11,
-        "move_id": "MVP_164"
       },
       {
         "level": 11,
@@ -27493,7 +27525,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "MVP_166"
       },
       {
         "level": 15,
@@ -27611,7 +27643,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_126"
+        "move_id": "MVP_166"
       },
       {
         "level": 15,
@@ -27736,7 +27768,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "MVP_167"
       },
       {
         "level": 15,
@@ -27793,8 +27825,8 @@
         "move_id": "mvn_023"
       },
       {
-        "level": 4,
-        "move_id": "gap_grass_p_20"
+        "level": 3,
+        "move_id": "mvn_067"
       },
       {
         "level": 4,
@@ -27810,15 +27842,15 @@
       },
       {
         "level": 6,
+        "move_id": "MV_205"
+      },
+      {
+        "level": 6,
         "move_id": "gap_water_s_30"
       },
       {
         "level": 7,
         "move_id": "MV_215"
-      },
-      {
-        "level": 7,
-        "move_id": "gap_ground_s_35"
       },
       {
         "level": 9,
@@ -28079,10 +28111,6 @@
       },
       {
         "level": 18,
-        "move_id": "dark_laser"
-      },
-      {
-        "level": 18,
         "move_id": "gap_grass_s_90"
       },
       {
@@ -28175,20 +28203,20 @@
         "move_id": "MV_257"
       },
       {
-        "level": 9,
-        "move_id": "mvn_093"
+        "level": 10,
+        "move_id": "gap_dark_s_50"
       },
       {
         "level": 10,
         "move_id": "mvs_ep_dark"
       },
       {
-        "level": 11,
-        "move_id": "mvn_099"
+        "level": 12,
+        "move_id": "gap_dark_p_60"
       },
       {
         "level": 12,
-        "move_id": "gap_dark_p_60"
+        "move_id": "mvn_098"
       },
       {
         "level": 13,
@@ -28199,12 +28227,12 @@
         "move_id": "nightmare_ball"
       },
       {
-        "level": 16,
-        "move_id": "MVP_170"
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 16,
-        "move_id": "gap_dark_s_80"
+        "move_id": "MVP_170"
       },
       {
         "level": 18,
@@ -28301,11 +28329,11 @@
       },
       {
         "level": 10,
-        "move_id": "mvs_ep_ground"
+        "move_id": "MVP_162"
       },
       {
-        "level": 11,
-        "move_id": "MV_128"
+        "level": 10,
+        "move_id": "mvs_ep_ground"
       },
       {
         "level": 11,
@@ -28422,7 +28450,15 @@
       },
       {
         "level": 9,
+        "move_id": "mvn_093"
+      },
+      {
+        "level": 9,
         "move_id": "power_bomb"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_162"
       },
       {
         "level": 10,
@@ -28434,15 +28470,7 @@
       },
       {
         "level": 11,
-        "move_id": "MV_128"
-      },
-      {
-        "level": 11,
         "move_id": "MV_144"
-      },
-      {
-        "level": 11,
-        "move_id": "mvn_099"
       },
       {
         "level": 12,
@@ -28568,7 +28596,7 @@
       },
       {
         "level": 15,
-        "move_id": "MVP_068"
+        "move_id": "MVP_069"
       },
       {
         "level": 16,
@@ -28665,11 +28693,11 @@
       },
       {
         "level": 11,
-        "move_id": "MVP_084"
+        "move_id": "MV_221"
       },
       {
         "level": 11,
-        "move_id": "MV_221"
+        "move_id": "MV_258"
       },
       {
         "level": 12,
@@ -28892,7 +28920,7 @@
       },
       {
         "level": 14,
-        "move_id": "MV_110"
+        "move_id": "MVP_167"
       },
       {
         "level": 15,
@@ -28970,10 +28998,6 @@
       },
       {
         "level": 4,
-        "move_id": "gap_dark_p_20"
-      },
-      {
-        "level": 4,
         "move_id": "gap_electric_s_20"
       },
       {
@@ -28982,11 +29006,11 @@
       },
       {
         "level": 5,
-        "move_id": "MV_185"
+        "move_id": "gap_ground_s_25"
       },
       {
-        "level": 5,
-        "move_id": "gap_ground_s_25"
+        "level": 6,
+        "move_id": "mvn_080"
       },
       {
         "level": 7,
@@ -29022,19 +29046,23 @@
       },
       {
         "level": 16,
+        "move_id": "gap_grass_s_80"
+      },
+      {
+        "level": 16,
         "move_id": "gap_ground_s_80"
       },
       {
         "level": 17,
-        "move_id": "MV_196"
-      },
-      {
-        "level": 17,
-        "move_id": "gap_water_s_85"
+        "move_id": "gap_fire_s_85"
       },
       {
         "level": 18,
         "move_id": "gap_ground_s_90"
+      },
+      {
+        "level": 19,
+        "move_id": "gap_dark_s_95"
       },
       {
         "level": 20,
@@ -29068,10 +29096,6 @@
       {
         "level": 3,
         "move_id": "mvn_012"
-      },
-      {
-        "level": 4,
-        "move_id": "mvn_092"
       },
       {
         "level": 4,
@@ -29143,6 +29167,10 @@
       },
       {
         "level": 20,
+        "move_id": "gap_dark_s_100"
+      },
+      {
+        "level": 20,
         "move_id": "gap_fire_s_100"
       },
       {
@@ -29169,6 +29197,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "gap_dragon_p_15"
       },
       {
@@ -29182,14 +29214,6 @@
       {
         "level": 4,
         "move_id": "mvs_water_def_accuracy"
-      },
-      {
-        "level": 5,
-        "move_id": "MV_127"
-      },
-      {
-        "level": 5,
-        "move_id": "gap_dark_p_25"
       },
       {
         "level": 5,
@@ -29250,6 +29274,10 @@
       {
         "level": 19,
         "move_id": "gap_ground_s_95"
+      },
+      {
+        "level": 20,
+        "move_id": "gap_dark_s_100"
       },
       {
         "level": 21,
@@ -29322,11 +29350,11 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_061"
+        "move_id": "spine_vine"
       },
       {
         "level": 10,
-        "move_id": "gap_water_s_50"
+        "move_id": "mvn_018"
       },
       {
         "level": 10,
@@ -29484,15 +29512,15 @@
       },
       {
         "level": 14,
+        "move_id": "MVP_166"
+      },
+      {
+        "level": 14,
         "move_id": "gap_neutral_s_70"
       },
       {
         "level": 15,
         "move_id": "MVP_009"
-      },
-      {
-        "level": 15,
-        "move_id": "MVP_169"
       },
       {
         "level": 15,
@@ -29597,7 +29625,7 @@
       },
       {
         "level": 11,
-        "move_id": "MV_237"
+        "move_id": "MV_245"
       },
       {
         "level": 11,
@@ -29621,11 +29649,11 @@
       },
       {
         "level": 14,
-        "move_id": "mvn_044"
+        "move_id": "MVP_166"
       },
       {
-        "level": 15,
-        "move_id": "MVP_169"
+        "level": 14,
+        "move_id": "mvn_044"
       },
       {
         "level": 16,
@@ -29688,10 +29716,6 @@
       {
         "level": 5,
         "move_id": "gap_electric_p_25"
-      },
-      {
-        "level": 6,
-        "move_id": "gap_dark_p_30"
       },
       {
         "level": 6,
@@ -29776,6 +29800,10 @@
       {
         "level": 19,
         "move_id": "MVP_097"
+      },
+      {
+        "level": 19,
+        "move_id": "MVP_137"
       },
       {
         "level": 21,
@@ -30005,23 +30033,23 @@
       },
       {
         "level": 15,
-        "move_id": "MVP_049"
+        "move_id": "MVP_088"
       },
       {
         "level": 15,
-        "move_id": "MVP_088"
+        "move_id": "MVP_128"
       },
       {
         "level": 17,
         "move_id": "MVP_093"
       },
       {
-        "level": 18,
-        "move_id": "MVP_095"
+        "level": 17,
+        "move_id": "MVP_172"
       },
       {
-        "level": 19,
-        "move_id": "MVP_077"
+        "level": 18,
+        "move_id": "MVP_095"
       },
       {
         "level": 19,
@@ -30122,7 +30150,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "MVP_167"
       },
       {
         "level": 14,
@@ -30206,8 +30234,8 @@
         "move_id": "MV_185"
       },
       {
-        "level": 5,
-        "move_id": "gap_ground_s_25"
+        "level": 6,
+        "move_id": "dark_shot"
       },
       {
         "level": 7,
@@ -30220,6 +30248,10 @@
       {
         "level": 9,
         "move_id": "mvn_040"
+      },
+      {
+        "level": 10,
+        "move_id": "gap_dragon_s_50"
       },
       {
         "level": 10,
@@ -30268,10 +30300,6 @@
       {
         "level": 19,
         "move_id": "gap_neutral_s_95"
-      },
-      {
-        "level": 20,
-        "move_id": "MV_290"
       },
       {
         "level": 21,
@@ -30339,40 +30367,40 @@
         "move_id": "mvw_fog"
       },
       {
-        "level": 8,
-        "move_id": "gap_dark_s_40"
-      },
-      {
         "level": 9,
         "move_id": "MV_126"
       },
       {
-        "level": 10,
-        "move_id": "gap_dark_s_50"
+        "level": 9,
+        "move_id": "mvn_093"
       },
       {
         "level": 10,
         "move_id": "gap_dragon_s_50"
       },
       {
-        "level": 12,
-        "move_id": "mvn_098"
+        "level": 11,
+        "move_id": "mvn_099"
+      },
+      {
+        "level": 13,
+        "move_id": "gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "MVP_167"
       },
       {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "nightmare_pulse"
       },
       {
-        "level": 16,
-        "move_id": "gap_dark_s_80"
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
-        "level": 18,
-        "move_id": "dark_laser"
+        "level": 17,
+        "move_id": "dark_wisp"
       },
       {
         "level": 19,
@@ -30456,10 +30484,6 @@
         "move_id": "mvs_big_water"
       },
       {
-        "level": 8,
-        "move_id": "gap_dark_s_40"
-      },
-      {
         "level": 9,
         "move_id": "mvn_028"
       },
@@ -30470,6 +30494,10 @@
       {
         "level": 10,
         "move_id": "MVP_044"
+      },
+      {
+        "level": 11,
+        "move_id": "MV_116"
       },
       {
         "level": 11,
@@ -30616,6 +30644,10 @@
       },
       {
         "level": 13,
+        "move_id": "gap_dark_s_65"
+      },
+      {
+        "level": 13,
         "move_id": "gap_water_s_65"
       },
       {
@@ -30625,10 +30657,6 @@
       {
         "level": 14,
         "move_id": "all_range_thunder"
-      },
-      {
-        "level": 15,
-        "move_id": "gap_dark_s_75"
       },
       {
         "level": 15,
@@ -30738,7 +30766,7 @@
       },
       {
         "level": 13,
-        "move_id": "MVP_107"
+        "move_id": "MVP_106"
       },
       {
         "level": 13,
@@ -30750,15 +30778,15 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_026"
-      },
-      {
-        "level": 14,
-        "move_id": "MVP_126"
+        "move_id": "MVP_027"
       },
       {
         "level": 15,
         "move_id": "MVP_008"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_089"
       },
       {
         "level": 15,
@@ -30770,11 +30798,11 @@
       },
       {
         "level": 17,
-        "move_id": "gap_neutral_s_85"
+        "move_id": "MVP_172"
       },
       {
-        "level": 18,
-        "move_id": "MVP_175"
+        "level": 17,
+        "move_id": "gap_neutral_s_85"
       },
       {
         "level": 19,
@@ -30851,8 +30879,8 @@
         "move_id": "gap_dark_s_40"
       },
       {
-        "level": 9,
-        "move_id": "mvn_093"
+        "level": 10,
+        "move_id": "gap_dark_s_50"
       },
       {
         "level": 10,
@@ -30876,15 +30904,15 @@
       },
       {
         "level": 13,
-        "move_id": "beam_slicer"
+        "move_id": "gap_dark_s_65"
       },
       {
         "level": 14,
         "move_id": "MVP_167"
       },
       {
-        "level": 15,
-        "move_id": "gap_dark_s_75"
+        "level": 14,
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 16,
@@ -30958,16 +30986,16 @@
         "move_id": "gap_dragon_p_25"
       },
       {
+        "level": 6,
+        "move_id": "gap_ice_p_30"
+      },
+      {
         "level": 7,
         "move_id": "gap_dragon_p_35"
       },
       {
         "level": 7,
         "move_id": "mvw_sunny"
-      },
-      {
-        "level": 8,
-        "move_id": "MVP_081"
       },
       {
         "level": 9,
@@ -31053,15 +31081,15 @@
       },
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
-      },
-      {
-        "level": 3,
         "move_id": "gap_electric_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_034"
+      },
+      {
+        "level": 5,
+        "move_id": "gap_dragon_p_25"
       },
       {
         "level": 5,
@@ -31124,12 +31152,8 @@
         "move_id": "MVP_073"
       },
       {
-        "level": 17,
-        "move_id": "MVP_112"
-      },
-      {
         "level": 18,
-        "move_id": "MVP_054"
+        "move_id": "MVP_055"
       },
       {
         "level": 18,
@@ -31137,11 +31161,15 @@
       },
       {
         "level": 18,
-        "move_id": "MVP_094"
+        "move_id": "MVP_134"
       },
       {
         "level": 19,
         "move_id": "MVP_077"
+      },
+      {
+        "level": 20,
+        "move_id": "gap_dark_p_100"
       },
       {
         "level": 21,
@@ -31183,15 +31211,15 @@
       },
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
-      },
-      {
-        "level": 3,
         "move_id": "gap_grass_p_15"
       },
       {
         "level": 3,
         "move_id": "mvn_056"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_electric_p_20"
       },
       {
         "level": 5,
@@ -31251,15 +31279,15 @@
       },
       {
         "level": 18,
+        "move_id": "MVP_034"
+      },
+      {
+        "level": 18,
         "move_id": "MVP_094"
       },
       {
         "level": 18,
         "move_id": "MVP_114"
-      },
-      {
-        "level": 18,
-        "move_id": "MVP_135"
       },
       {
         "level": 19,
@@ -31304,7 +31332,7 @@
       },
       {
         "level": 4,
-        "move_id": "gap_dark_p_20"
+        "move_id": "gap_electric_p_20"
       },
       {
         "level": 4,
@@ -31367,20 +31395,20 @@
         "move_id": "MVP_033"
       },
       {
-        "level": 17,
-        "move_id": "MVP_113"
+        "level": 18,
+        "move_id": "MVP_095"
       },
       {
         "level": 19,
         "move_id": "MVP_036"
       },
       {
-        "level": 19,
-        "move_id": "MVP_056"
-      },
-      {
         "level": 20,
         "move_id": "gap_fire_p_100"
+      },
+      {
+        "level": 21,
+        "move_id": "gap_dark_p_105"
       },
       {
         "level": 23,
@@ -31423,15 +31451,15 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
-      },
-      {
-        "level": 5,
         "move_id": "mvn_060"
       },
       {
         "level": 6,
         "move_id": "gap_water_s_30"
+      },
+      {
+        "level": 6,
+        "move_id": "shockwave"
       },
       {
         "level": 7,
@@ -31478,8 +31506,8 @@
         "move_id": "MV_228"
       },
       {
-        "level": 17,
-        "move_id": "gap_ground_s_85"
+        "level": 18,
+        "move_id": "dark_laser"
       },
       {
         "level": 18,
@@ -31556,6 +31584,10 @@
         "move_id": "mvw_sunny"
       },
       {
+        "level": 8,
+        "move_id": "gap_water_s_40"
+      },
+      {
         "level": 9,
         "move_id": "gap_fire_s_45"
       },
@@ -31574,10 +31606,6 @@
       {
         "level": 11,
         "move_id": "mvn_022"
-      },
-      {
-        "level": 11,
-        "move_id": "mvn_099"
       },
       {
         "level": 12,
@@ -31678,12 +31706,12 @@
         "move_id": "MVP_161"
       },
       {
-        "level": 9,
-        "move_id": "mvn_093"
+        "level": 10,
+        "move_id": "gap_dark_s_50"
       },
       {
-        "level": 11,
-        "move_id": "mvn_099"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 13,
@@ -31702,8 +31730,8 @@
         "move_id": "nightmare_ball"
       },
       {
-        "level": 16,
-        "move_id": "gap_dark_s_80"
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 18,
@@ -31773,15 +31801,15 @@
       },
       {
         "level": 7,
-        "move_id": "gap_dark_s_35"
-      },
-      {
-        "level": 7,
         "move_id": "gap_electric_s_35"
       },
       {
         "level": 8,
         "move_id": "MVP_061"
+      },
+      {
+        "level": 8,
+        "move_id": "gap_dark_s_40"
       },
       {
         "level": 9,
@@ -31808,10 +31836,6 @@
         "move_id": "mvn_099"
       },
       {
-        "level": 12,
-        "move_id": "mvn_098"
-      },
-      {
         "level": 13,
         "move_id": "MVP_165"
       },
@@ -31822,6 +31846,10 @@
       {
         "level": 14,
         "move_id": "gap_neutral_s_70"
+      },
+      {
+        "level": 14,
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 15,
@@ -31836,8 +31864,8 @@
         "move_id": "MVP_170"
       },
       {
-        "level": 17,
-        "move_id": "dark_wisp"
+        "level": 16,
+        "move_id": "gap_dark_s_80"
       },
       {
         "level": 17,
@@ -31886,6 +31914,10 @@
       },
       {
         "level": 3,
+        "move_id": "mvn_045"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_056"
       },
       {
@@ -31901,8 +31933,8 @@
         "move_id": "mvn_059"
       },
       {
-        "level": 7,
-        "move_id": "mvh_electric"
+        "level": 8,
+        "move_id": "MVP_062"
       },
       {
         "level": 8,
@@ -31915,10 +31947,6 @@
       {
         "level": 9,
         "move_id": "spine_vine"
-      },
-      {
-        "level": 10,
-        "move_id": "MVP_142"
       },
       {
         "level": 10,
@@ -32048,7 +32076,7 @@
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "MV_255"
       },
       {
         "level": 9,
@@ -32084,7 +32112,7 @@
       },
       {
         "level": 12,
-        "move_id": "gap_fire_s_60"
+        "move_id": "mvn_098"
       },
       {
         "level": 13,
@@ -32100,7 +32128,7 @@
       },
       {
         "level": 14,
-        "move_id": "flame_funnel"
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 16,
@@ -32206,7 +32234,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "MVP_167"
       },
       {
         "level": 16,
@@ -32469,11 +32497,11 @@
       },
       {
         "level": 20,
-        "move_id": "gap_neutral_p_100"
+        "move_id": "gap_grass_p_100"
       },
       {
-        "level": 22,
-        "move_id": "MVP_138"
+        "level": 20,
+        "move_id": "gap_neutral_p_100"
       },
       {
         "level": 23,
@@ -32548,7 +32576,7 @@
       },
       {
         "level": 11,
-        "move_id": "MV_216"
+        "move_id": "MV_237"
       },
       {
         "level": 12,
@@ -32676,16 +32704,16 @@
         "move_id": "gap_ground_s_60"
       },
       {
+        "level": 13,
+        "move_id": "gap_dark_s_65"
+      },
+      {
         "level": 14,
         "move_id": "MVP_067"
       },
       {
         "level": 14,
         "move_id": "all_range_thunder"
-      },
-      {
-        "level": 15,
-        "move_id": "gap_dark_s_75"
       },
       {
         "level": 15,
@@ -32785,10 +32813,6 @@
         "move_id": "circle_vine"
       },
       {
-        "level": 15,
-        "move_id": "gap_dark_s_75"
-      },
-      {
         "level": 16,
         "move_id": "gap_electric_s_80"
       },
@@ -32851,10 +32875,6 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
-      },
-      {
-        "level": 9,
         "move_id": "power_bomb"
       },
       {
@@ -32864,6 +32884,10 @@
       {
         "level": 10,
         "move_id": "MV_153"
+      },
+      {
+        "level": 10,
+        "move_id": "gap_dark_s_50"
       },
       {
         "level": 10,
@@ -32878,20 +32902,20 @@
         "move_id": "mvn_022"
       },
       {
-        "level": 11,
-        "move_id": "mvn_099"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "MVP_167"
       },
       {
         "level": 14,
         "move_id": "nightmare_ball"
       },
       {
-        "level": 16,
-        "move_id": "gap_dark_s_80"
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 16,
@@ -32953,15 +32977,15 @@
       },
       {
         "level": 4,
+        "move_id": "gap_water_s_20"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_electric_evasion_crit"
       },
       {
         "level": 4,
         "move_id": "mvs_ground_atk_def"
-      },
-      {
-        "level": 5,
-        "move_id": "aqua_gun"
       },
       {
         "level": 5,
@@ -33559,11 +33583,11 @@
       },
       {
         "level": 6,
-        "move_id": "gap_ground_p_30"
+        "move_id": "gap_ice_p_30"
       },
       {
-        "level": 6,
-        "move_id": "gap_ice_p_30"
+        "level": 7,
+        "move_id": "MVP_021"
       },
       {
         "level": 8,
@@ -33572,6 +33596,10 @@
       {
         "level": 8,
         "move_id": "gap_ice_s_40"
+      },
+      {
+        "level": 9,
+        "move_id": "MVP_161"
       },
       {
         "level": 10,
@@ -33584,10 +33612,6 @@
       {
         "level": 10,
         "move_id": "mvs_ep_ice"
-      },
-      {
-        "level": 11,
-        "move_id": "MVP_164"
       },
       {
         "level": 11,
@@ -33822,12 +33846,12 @@
         "move_id": "gap_ground_s_75"
       },
       {
-        "level": 17,
-        "move_id": "gap_grass_s_85"
+        "level": 16,
+        "move_id": "gap_dark_s_80"
       },
       {
-        "level": 18,
-        "move_id": "dark_laser"
+        "level": 17,
+        "move_id": "gap_grass_s_85"
       },
       {
         "level": 19,
@@ -33869,15 +33893,15 @@
       },
       {
         "level": 4,
-        "move_id": "mvn_092"
-      },
-      {
-        "level": 4,
         "move_id": "mvs_grass_def_crit"
       },
       {
         "level": 5,
         "move_id": "MV_160"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_285"
       },
       {
         "level": 6,
@@ -33909,15 +33933,15 @@
       },
       {
         "level": 10,
-        "move_id": "gap_grass_s_50"
-      },
-      {
-        "level": 10,
         "move_id": "mvs_ep_water"
       },
       {
+        "level": 11,
+        "move_id": "mvn_064"
+      },
+      {
         "level": 12,
-        "move_id": "gap_grass_s_60"
+        "move_id": "mvn_098"
       },
       {
         "level": 14,
@@ -33925,7 +33949,7 @@
       },
       {
         "level": 14,
-        "move_id": "gap_grass_s_70"
+        "move_id": "nightmare_ball"
       },
       {
         "level": 15,
@@ -33944,8 +33968,8 @@
         "move_id": "gap_dark_s_95"
       },
       {
-        "level": 21,
-        "move_id": "gap_grass_s_105"
+        "level": 20,
+        "move_id": "MV_290"
       },
       {
         "level": 26,
@@ -33997,20 +34021,20 @@
         "move_id": "mvs_toxic_dark"
       },
       {
-        "level": 9,
-        "move_id": "mvn_093"
+        "level": 10,
+        "move_id": "gap_dark_s_50"
       },
       {
         "level": 10,
         "move_id": "mvs_ep_dark"
       },
       {
-        "level": 11,
-        "move_id": "mvn_099"
+        "level": 12,
+        "move_id": "gap_neutral_s_60"
       },
       {
         "level": 12,
-        "move_id": "gap_neutral_s_60"
+        "move_id": "mvn_098"
       },
       {
         "level": 13,
@@ -34033,8 +34057,12 @@
         "move_id": "nightmare_ball"
       },
       {
-        "level": 16,
-        "move_id": "gap_dark_s_80"
+        "level": 14,
+        "move_id": "nightmare_pulse"
+      },
+      {
+        "level": 15,
+        "move_id": "gap_dark_s_75"
       },
       {
         "level": 16,
@@ -34047,10 +34075,6 @@
       {
         "level": 20,
         "move_id": "gap_dark_s_100"
-      },
-      {
-        "level": 20,
-        "move_id": "gap_electric_s_100"
       },
       {
         "level": 24,
@@ -34115,10 +34139,6 @@
       },
       {
         "level": 8,
-        "move_id": "MVP_101"
-      },
-      {
-        "level": 8,
         "move_id": "MV_125"
       },
       {
@@ -34131,15 +34151,15 @@
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
-      },
-      {
-        "level": 10,
         "move_id": "mvn_051"
       },
       {
         "level": 10,
         "move_id": "poison_fog"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_099"
       },
       {
         "level": 12,
@@ -34150,8 +34170,12 @@
         "move_id": "gap_dark_s_65"
       },
       {
-        "level": 15,
-        "move_id": "gap_dark_s_75"
+        "level": 14,
+        "move_id": "nightmare_ball"
+      },
+      {
+        "level": 14,
+        "move_id": "nightmare_pulse"
       },
       {
         "level": 15,
@@ -34269,11 +34293,11 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_148"
+        "move_id": "MVP_167"
       },
       {
         "level": 14,
-        "move_id": "comet"
+        "move_id": "nightmare_ball"
       },
       {
         "level": 15,
@@ -34391,15 +34415,15 @@
       },
       {
         "level": 12,
+        "move_id": "gap_dark_p_60"
+      },
+      {
+        "level": 12,
         "move_id": "gap_neutral_s_60"
       },
       {
-        "level": 14,
-        "move_id": "MVP_167"
-      },
-      {
-        "level": 14,
-        "move_id": "nightmare_ball"
+        "level": 12,
+        "move_id": "mvn_098"
       },
       {
         "level": 15,
@@ -34472,15 +34496,11 @@
       },
       {
         "level": 7,
-        "move_id": "MV_139"
+        "move_id": "MV_138"
       },
       {
         "level": 7,
-        "move_id": "mvh_electric"
-      },
-      {
-        "level": 8,
-        "move_id": "gap_grass_s_40"
+        "move_id": "MV_139"
       },
       {
         "level": 8,
@@ -34491,20 +34511,24 @@
         "move_id": "MV_143"
       },
       {
-        "level": 10,
-        "move_id": "MV_246"
+        "level": 9,
+        "move_id": "MV_259"
       },
       {
         "level": 11,
         "move_id": "MVP_003"
       },
       {
-        "level": 12,
-        "move_id": "MV_146"
+        "level": 11,
+        "move_id": "MV_237"
       },
       {
         "level": 12,
-        "move_id": "MV_222"
+        "move_id": "MVP_125"
+      },
+      {
+        "level": 12,
+        "move_id": "MV_146"
       },
       {
         "level": 13,
@@ -34519,8 +34543,8 @@
         "move_id": "MVP_009"
       },
       {
-        "level": 16,
-        "move_id": "MVP_150"
+        "level": 15,
+        "move_id": "MV_109"
       },
       {
         "level": 18,
@@ -34553,6 +34577,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_089"
       },
       {
@@ -34569,11 +34597,11 @@
       },
       {
         "level": 5,
-        "move_id": "gap_dark_p_25"
+        "move_id": "mvh_dark"
       },
       {
         "level": 7,
-        "move_id": "MV_123"
+        "move_id": "MV_121"
       },
       {
         "level": 7,
@@ -34581,7 +34609,7 @@
       },
       {
         "level": 7,
-        "move_id": "mvh_electric"
+        "move_id": "MV_212"
       },
       {
         "level": 8,
@@ -34600,8 +34628,8 @@
         "move_id": "MVP_161"
       },
       {
-        "level": 10,
-        "move_id": "MVP_124"
+        "level": 11,
+        "move_id": "MVP_164"
       },
       {
         "level": 11,
@@ -34618,10 +34646,6 @@
       {
         "level": 15,
         "move_id": "MVP_169"
-      },
-      {
-        "level": 15,
-        "move_id": "MV_109"
       },
       {
         "level": 16,
@@ -34820,7 +34844,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "MVP_166"
       },
       {
         "level": 16,
@@ -34878,15 +34902,7 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
-      },
-      {
-        "level": 5,
         "move_id": "aqua_gun"
-      },
-      {
-        "level": 5,
-        "move_id": "gap_dark_p_25"
       },
       {
         "level": 6,
@@ -34895,6 +34911,10 @@
       {
         "level": 7,
         "move_id": "MV_215"
+      },
+      {
+        "level": 7,
+        "move_id": "gap_dragon_s_35"
       },
       {
         "level": 10,
@@ -34929,8 +34949,8 @@
         "move_id": "MV_228"
       },
       {
-        "level": 17,
-        "move_id": "MV_196"
+        "level": 16,
+        "move_id": "gap_grass_s_80"
       },
       {
         "level": 17,
@@ -34939,6 +34959,10 @@
       {
         "level": 19,
         "move_id": "gap_water_s_95"
+      },
+      {
+        "level": 20,
+        "move_id": "gap_dark_s_100"
       },
       {
         "level": 21,
@@ -35028,11 +35052,11 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_151"
+        "move_id": "MVP_071"
       },
       {
         "level": 16,
-        "move_id": "MVP_170"
+        "move_id": "MVP_151"
       },
       {
         "level": 16,

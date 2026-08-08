@@ -37,7 +37,7 @@
     "category": "template",
     "element": "Neutral",
     "template_kind": "stab",
-    "description": "自分がその属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
   },
   {
     "id": "neutral_weakness",
@@ -85,7 +85,7 @@
     "category": "template",
     "element": "Fire",
     "template_kind": "stab",
-    "description": "自分がその属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
   },
   {
     "id": "fire_weakness",
@@ -133,7 +133,7 @@
     "category": "template",
     "element": "Water",
     "template_kind": "stab",
-    "description": "自分がその属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
   },
   {
     "id": "water_weakness",
@@ -181,7 +181,7 @@
     "category": "template",
     "element": "Grass",
     "template_kind": "stab",
-    "description": "自分がその属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
   },
   {
     "id": "grass_weakness",
@@ -229,7 +229,7 @@
     "category": "template",
     "element": "Electric",
     "template_kind": "stab",
-    "description": "自分がその属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
   },
   {
     "id": "electric_weakness",
@@ -277,7 +277,7 @@
     "category": "template",
     "element": "Ground",
     "template_kind": "stab",
-    "description": "自分がその属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
   },
   {
     "id": "ground_weakness",
@@ -325,7 +325,7 @@
     "category": "template",
     "element": "Ice",
     "template_kind": "stab",
-    "description": "自分がその属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
   },
   {
     "id": "ice_weakness",
@@ -373,7 +373,7 @@
     "category": "template",
     "element": "Dragon",
     "template_kind": "stab",
-    "description": "自分がその属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
   },
   {
     "id": "dragon_weakness",
@@ -421,7 +421,7 @@
     "category": "template",
     "element": "Dark",
     "template_kind": "stab",
-    "description": "自分がその属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
   },
   {
     "id": "dark_weakness",
@@ -469,7 +469,7 @@
     "category": "unique",
     "element": null,
     "template_kind": null,
-    "description": "斬る系の技の与ダメージ+10%。"
+    "description": "Slash・Thrustの技の与ダメージ+10%。"
   },
   {
     "id": "tsume_no_kariudo",
@@ -477,7 +477,7 @@
     "category": "unique",
     "element": null,
     "template_kind": null,
-    "description": "ツメ・こぶし系の技の与ダメージ+10%。"
+    "description": "Fist・Punch系の技の与ダメージ+10%。"
   },
   {
     "id": "let_us_hug",

@@ -968,7 +968,7 @@
   },
   {
     "id": "MV_193",
-    "name": "アイスガスト",
+    "name": "フロストバーンブレス",
     "type": "Ice",
     "category": "Special",
     "power": 70,
@@ -976,7 +976,8 @@
     "max_pp": 18,
     "range": "Room",
     "ailment_effect": "Freeze",
-    "ailment_chance": 5
+    "ailment_chance": 5,
+    "weapon_tag": "Breath"
   },
   {
     "id": "MV_195",
@@ -1071,7 +1072,7 @@
   },
   {
     "id": "MV_210",
-    "name": "アイスエイジ",
+    "name": "フロストゲイルブレス",
     "type": "Ice",
     "category": "Special",
     "power": 135,
@@ -1079,7 +1080,8 @@
     "max_pp": 4,
     "range": "Area",
     "ailment_effect": "Freeze",
-    "ailment_chance": 5
+    "ailment_chance": 5,
+    "weapon_tag": "Breath"
   },
   {
     "id": "MV_211",
@@ -1345,14 +1347,15 @@
   },
   {
     "id": "MV_244",
-    "name": "フレアバースト",
+    "name": "フレイムゲイルブレス",
     "type": "Fire",
     "category": "Special",
     "power": 120,
     "accuracy": 65,
     "max_pp": 6,
     "range": "Room",
-    "recoil_hp_percent": 33
+    "recoil_hp_percent": 33,
+    "weapon_tag": "Breath"
   },
   {
     "id": "MV_245",
@@ -1392,13 +1395,14 @@
   },
   {
     "id": "MV_248",
-    "name": "フレイムジェット",
+    "name": "フレイムバーンブレス",
     "type": "Fire",
     "category": "Special",
     "power": 65,
     "accuracy": 100,
     "max_pp": 21,
-    "range": "Area"
+    "range": "Area",
+    "weapon_tag": "Breath"
   },
   {
     "id": "MV_250",
@@ -1815,7 +1819,7 @@
   },
   {
     "id": "mvn_012",
-    "name": "クリムゾン",
+    "name": "フレイムブレス",
     "type": "Fire",
     "category": "Special",
     "power": 15,
@@ -1823,7 +1827,8 @@
     "max_pp": 36,
     "range": "Line",
     "ailment_effect": "Burn",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "weapon_tag": "Breath"
   },
   {
     "id": "mvn_018",
@@ -2026,7 +2031,7 @@
   },
   {
     "id": "mvn_067",
-    "name": "ホワイトアイス",
+    "name": "フロストブレス",
     "type": "Ice",
     "category": "Special",
     "power": 15,
@@ -2034,7 +2039,8 @@
     "max_pp": 36,
     "range": "Line",
     "ailment_effect": "Freeze",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "weapon_tag": "Breath"
   },
   {
     "id": "mvn_073",
@@ -2048,7 +2054,7 @@
   },
   {
     "id": "mvn_078",
-    "name": "ドラゴンファング",
+    "name": "ドラゴンブレス",
     "type": "Dragon",
     "category": "Special",
     "power": 15,
@@ -2056,7 +2062,8 @@
     "max_pp": 36,
     "range": "Line",
     "recoil_hp_percent": 25,
-    "dragon_multiplier": 1.25
+    "dragon_multiplier": 1.25,
+    "weapon_tag": "Breath"
   },
   {
     "id": "mvn_080",
@@ -2109,7 +2116,7 @@
   },
   {
     "id": "mvn_089",
-    "name": "ブラックミスト",
+    "name": "アビスブレス",
     "type": "Dark",
     "category": "Special",
     "power": 15,
@@ -2117,7 +2124,8 @@
     "max_pp": 36,
     "range": "Line",
     "ailment_effect": "Poison",
-    "ailment_chance": 30
+    "ailment_chance": 30,
+    "weapon_tag": "Breath"
   },
   {
     "id": "mvn_092",
@@ -4324,7 +4332,7 @@
     "is_contact": true,
     "recoil_hp_percent": 33,
     "dragon_multiplier": 1.5,
-    "weapon_tag": "Breath"
+    "weapon_tag": "None"
   },
   {
     "id": "MVP_158",
@@ -5990,13 +5998,14 @@
   },
   {
     "id": "gap_neutral_s_20",
-    "name": "プレーンショット",
+    "name": "ヴォイドブレス",
     "type": "Neutral",
     "category": "Special",
     "power": 20,
     "accuracy": 100,
     "max_pp": 30,
-    "range": "Adjacent"
+    "range": "Adjacent",
+    "weapon_tag": "Breath"
   },
   {
     "id": "gap_neutral_s_35",
@@ -7096,6 +7105,16 @@
     "power": 120,
     "accuracy": 100,
     "max_pp": 6,
+    "range": "Adjacent"
+  },
+  {
+    "id": "nightmare_pulse",
+    "name": "ナイトメアパルス",
+    "type": "Dark",
+    "category": "Special",
+    "power": 70,
+    "accuracy": 100,
+    "max_pp": 18,
     "range": "Adjacent"
   }
 ]

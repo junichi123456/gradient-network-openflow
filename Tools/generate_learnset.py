@@ -66,7 +66,30 @@ CEIL = {
     ('dual','Versatile'):   dict(own=(24,13), atk=(29,19), off_pow= 80, off_per=2, st=2),
 }
 # 規則4: 特性 → 優先して配るウェポンタグ
-TRAIT_TAG = {'issen': 'Slash', 'tsume_no_kariudo': 'Fist', 'hatsuen_kikan': 'Breath'}
+TRAIT_TAG = {'issen': ('Slash','Thrust'), 'tsume_no_kariudo': ('Fist','Punch'),
+             'hatsuen_kikan': ('Breath',)}
+# 特性が技名を直接参照するもの
+TRAIT_NAMED = {'akumu_no_hitomi': ['nightmare_ball', 'nightmare_pulse']}
+ADAPTED_MIN = 6          # 各個体が保有する特性適応技の下限
+traits_by_id = {t['id']: t for t in json.load(open('Data/traits.json'))}
+
+def adapted_moves(sp):
+    """その種族の特性が効果を及ぼす技（特性適応技）。
+    - 技名を直接参照する特性 → その技
+    - ウェポンタグを強化する特性 → そのタグの技
+    - 属性に紐づく特性(power/stab/おしえ) → その属性の技
+    - それ以外（防御・耐性・絆など攻撃に紐づかない特性） → 自属性の技
+      （攻撃側の適応対象が定義できないため、種族の主軸で代替する）"""
+    tid = sp['trait']
+    if tid in TRAIT_NAMED:
+        return [m for m in moves if m['id'] in TRAIT_NAMED[tid]]
+    if tid in TRAIT_TAG:
+        tags = TRAIT_TAG[tid]
+        return [m for m in ATTACK if m.get('weapon_tag') in tags]
+    t = traits_by_id.get(tid, {})
+    if t.get('element') and t.get('template_kind') in ('power', 'stab', 'oshie'):
+        return [m for m in ATTACK if m['type'] == t['element']]
+    return [m for m in ATTACK if m['type'] in sp['types']]
 
 NO_ATTACK_STATUS_MAX = 23   # 攻撃技を持てない種族の変化技上限
 NEU_MIN = 2              # 無属性攻撃技の下限（全個体）
@@ -502,6 +525,39 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     for sig_id, sig_species in SIGNATURE.items():
         if s['species_id'] == sig_species:
             chosen.append(next(m for m in moves if m['id'] == sig_id))
+
+    # 特性適応技を最低 ADAPTED_MIN 種。自属性以外の採用範囲外からでも強制的に
+    # 採用する（属性ごとの種類数・威力上限を無視する唯一の経路）。
+    if s['trait'] not in NO_ATTACK_TRAITS:
+        have = {m['id'] for m in chosen}
+        adapt = [m for m in adapted_moves(s) if m['id'] not in have and m['id'] not in SIGNATURE]
+        n_have = sum(1 for m in chosen if m['id'] in {x['id'] for x in adapted_moves(s)})
+        need = ADAPTED_MIN - n_have
+        if need > 0 and adapt:
+            adapt.sort(key=lambda m: (m['power'], m['id']))
+            off = species_index % len(adapt)
+            adapt = adapt[off:] + adapt[:off]
+            pick = spread_take(sorted(adapt[:max(need * 3, need)],
+                                      key=lambda m: (m['power'], m['id'])), need)
+            # 枠を超える分は自属性でない技から押し出す
+            # 無属性は下限2があるので押し出さない。
+            drop = [m for m in reversed(chosen)
+                    if m['power'] > 0 and not is_own(m) and m['type'] != 'Neutral'
+                    and m['id'] not in {x['id'] for x in adapted_moves(s)}]
+            # 適応技は「自属性以外の採用範囲外」からも採れる（属性ごとの
+            # 種類数と威力上限を越えて候補になる）が、種族の枠そのものは
+            # 守る。枠を無視すると自属性上限・攻撃技合計・他属性の威力上限が
+            # まとめて壊れた。
+            for m in pick:
+                if len(chosen) >= atk_cap + status_quota:
+                    if not drop: break
+                    chosen.remove(drop.pop(0))
+                chosen.append(m); have.add(m['id'])
+
+    # 技名を直接参照する特性は、規則を無視してその技を必ず持つ。
+    for mid in TRAIT_NAMED.get(s['trait'], []):
+        if mid not in {m['id'] for m in chosen}:
+            chosen.append(next(m for m in moves if m['id'] == mid))
 
     for m in chosen: share[m['id']] += 1
 

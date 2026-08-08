@@ -463,8 +463,12 @@ public class AttackAction : IAction
         // いっせん／ツメのかりうど (§4, stage 2-b): this move's own
         // WeaponTag matching the attacker's held trait grants +10% power.
         // Self-based (not party census) - a direct trait+move-data check.
-        if ((HasTrait(_attacker, "issen") && move.WeaponTag == WeaponTag.Slash)
-            || (HasTrait(_attacker, "tsume_no_kariudo") && move.WeaponTag == WeaponTag.Fist))
+        // いっせん は Slash と Thrust、ツメのかりうど は Fist と Punch を見る
+        // （系統整理でタグが増えたのに合わせて対象を広げた）。
+        if ((HasTrait(_attacker, "issen")
+             && (move.WeaponTag == WeaponTag.Slash || move.WeaponTag == WeaponTag.Thrust))
+            || (HasTrait(_attacker, "tsume_no_kariudo")
+                && (move.WeaponTag == WeaponTag.Fist || move.WeaponTag == WeaponTag.Punch)))
             powerMul *= 1.1f;
 
         // がんばりサポート (§4, stage 3): a party-census trait that buffs
