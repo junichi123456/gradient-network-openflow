@@ -102,6 +102,17 @@ check(all(m['power']==50 and not m.get('is_contact') and m.get('is_guaranteed_hi
 check(not [m for m in ms if m.get('weapon_tag')=='ClawFist'],
       "旧ClawFistタグが残っていない")
 
+# 固定例外: メガデストラクト。一括処理が再びこの技を書き換えていないかを
+# 見張るための錠前。過去に射程課金と一括改名がこれを拾ってしまったので、
+# 5項目すべてを突き合わせる。
+FIXED={'name':'メガデストラクト','power':180,'range':'Surrounding',
+       'accuracy':100,'self_guaranteed_death':True}
+mega=next((m for m in ms if m['id']=='megaton_self_destruct'), None)
+drift=[] if mega is None else [f"{k}={mega.get(k)!r}!={v!r}" for k,v in FIXED.items()
+                               if mega.get(k)!=v]
+check(mega is not None and not drift,
+      "固定例外メガデストラクトが基準値どおり", str(drift) if mega else "技が存在しない")
+
 # §B - Room moves at least 10 apart within an element, across categories
 viol={}
 for el in set(m['type'] for m in atk):
