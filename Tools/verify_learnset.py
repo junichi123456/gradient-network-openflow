@@ -23,6 +23,26 @@ chk(1,"全287種にlearnset・moveId実在", not bad and not unknown,
 # 各種上限の検査から除外する。
 SIGNATURE={'megaton_self_destruct'}
 
+PROFILE_CYCLE=['Physical','Physical','Physical','Physical',
+               'Special','Special','Special',
+               'Versatile','Versatile','Versatile']
+TP={'okorinbo','issen','tsume_no_kariudo','moeru_kobushi','eisou','bakugeki'}
+TS={'hatsuen_kikan'}
+CEIL={('single','Physical'):((20,11),(26,15),110,2),
+      ('single','Special'):((16,9),(23,16),100,2),
+      ('single','Versatile'):((18,11),(26,17),90,3),
+      ('dual','Physical'):((22,13),(27,17),100,2),
+      ('dual','Special'):((21,12),(26,16),90,2),
+      ('dual','Versatile'):((24,13),(29,19),80,2)}
+prof={}
+for i,x in enumerate(sorted(sp, key=lambda x: x['species_id'])):
+    prof[x['species_id']] = 'Physical' if x['trait'] in TP else ('Special' if x['trait'] in TS
+                            else PROFILE_CYCLE[i % len(PROFILE_CYCLE)])
+
+# 上限体系は単属性/複合属性の2系列。自属性・攻撃技合計・他属性(1属性2種・
+# 威力上限)・変化技の下限をまとめて見る。
+
+
 # 2 <310 の自属性技威力 <=120（専用技を除く）
 v=[]
 for s in sp:
@@ -30,8 +50,8 @@ for s in sp:
     for e in s['learnset']:
         m=M[e['move_id']]
         if m['id'] in SIGNATURE: continue
-        if m['type'] in s['types'] and m['power']>120: v.append((s['display_name'],m['id'],m['power']))
-chk(2,"<310種の自属性技威力<=120", not v, f"違反{len(v)}件 {v[:3]}")
+        if m['type'] in s['types'] and m['power']>125: v.append((s['display_name'],m['id'],m['power']))
+chk(2,"<310種の自属性技威力<=125", not v, f"違反{len(v)}件 {v[:3]}")
 
 # 3 >=310 の自属性技(110以上)が1属性あたり<=3
 v=[]
@@ -68,9 +88,10 @@ for s in sp:
     if majn+minn>0 and majn/(majn+minn) < 0.55: ratio_bad.append((s['display_name'],p,q))
     mj=[M[e['move_id']]['power'] for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']==major and e['move_id'] not in SIGNATURE]
     mn=[M[e['move_id']]['power'] for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']!=major and e['move_id'] not in SIGNATURE]
-    if mj and mn and max(mn) > max(mj)*0.6+1e-6: cap_bad.append((s['display_name'],max(mn),max(mj)))
+    r = 0.9 if prof[s['species_id']]=='Versatile' else 0.6
+    if mj and mn and max(mn) > max(mj)*r+1e-6: cap_bad.append((s['display_name'],max(mn),max(mj)))
 chk(5,"物理/特殊が多数側>=55%", not ratio_bad, f"違反{len(ratio_bad)}件 {ratio_bad[:3]}")
-chk(5,"少数側の最高威力<=多数側の60%", not cap_bad, f"違反{len(cap_bad)}件 {cap_bad[:3]}")
+chk(5,"少数側の最高威力<=多数側の60%(打ち分け90%)", not cap_bad, f"違反{len(cap_bad)}件 {cap_bad[:3]}")
 
 # 6/7 防御特化種: 設置技>=1
 FIELD={m['id'] for m in mv if m.get('field_placement','None')!='None'}
@@ -86,21 +107,12 @@ chk(7,"炎/雷/無/闇の防御特化種は代用設置技", all(x[2] for x in s
 # +1ずつ。打ち分け型かどうかは生成器と同じ規則（species_id 昇順の序数を
 # 10周期で 4:3:3）で引き直す。自属性の枠は、追加ぶんが自属性に寄る場合が
 # あるので同じだけ広げる。
-PROFILE_CYCLE=['Physical','Physical','Physical','Physical',
-               'Special','Special','Special',
-               'Versatile','Versatile','Versatile']
-prof={x['species_id']: PROFILE_CYCLE[i % len(PROFILE_CYCLE)]
-      for i, x in enumerate(sorted(sp, key=lambda x: x['species_id']))}
-
-# 上限体系は単属性/複合属性の2系列。自属性・攻撃技合計・他属性(1属性2種・
-# 威力上限)・変化技の下限をまとめて見る。
 v9=[];v10=[];v11=[];v12=[];v13=[]
 for s in sp:
     own=set(s['types']); dual=len(own)>1
     t=tot(s); span=(t-180)/320.0
-    ot=rhu((18 if dual else 16)-8*span)
-    ac=rhu((24 if dual else 23)-(11 if dual else 12)*span)
-    lim=90 if dual else 95
+    (o_lo,o_hi),(a_lo,a_hi),lim,per = CEIL[('dual' if dual else 'single', prof[s['species_id']])]
+    ot=rhu(o_lo+(o_hi-o_lo)*span); ac=rhu(a_lo+(a_hi-a_lo)*span)
     ms=[M[e['move_id']] for e in s['learnset']]
     atk=[m for m in ms if m['power']>0]
     sta=[m for m in ms if m['power']==0]
@@ -111,7 +123,7 @@ for s in sp:
     if len(sta)<2: v11.append((s['display_name'],len(sta)))
     cc={}
     for m in off: cc[m['type']]=cc.get(m['type'],0)+1
-    if any(v>2 for v in cc.values()): v12.append((s['display_name'],cc))
+    if any(v>per for v in cc.values()): v12.append((s['display_name'],cc,per))
     if off and max(m['power'] for m in off)>lim: v13.append((s['display_name'],max(m['power'] for m in off),lim))
 v14=[m for m in [] ]
 for x in sp:
@@ -124,9 +136,9 @@ for x in sp:
     if n<2: v14.append((x['display_name'],n))
 chk(11,"全個体が変化技を2つ以上", not v11, f"違反{len(v11)}件 {v11[:3]}")
 chk(14,"全個体が無属性攻撃技を2種以上", not v14, f"違反{len(v14)}件 {v14[:3]}")
-chk(12,"他属性は1属性あたり2種まで", not v12, f"違反{len(v12)}件 {v12[:3]}")
-chk(13,"他属性の威力が上限内(単95/複90)", not v13, f"違反{len(v13)}件 {v13[:3]}")
-chk(9,"自属性攻撃技が上限内(単16→8/複18→10)", not v9, f"違反{len(v9)}件 {v9[:3]}")
-chk(10,"攻撃技合計が上限内(単23→11/複24→13)", not v10, f"違反{len(v10)}件 {v10[:3]}")
+chk(12,"他属性は1属性あたりの上限内", not v12, f"違反{len(v12)}件 {v12[:3]}")
+chk(13,"他属性の威力が型ごとの上限内", not v13, f"違反{len(v13)}件 {v13[:3]}")
+chk(9,"自属性攻撃技が型ごとの上限内", not v9, f"違反{len(v9)}件 {v9[:3]}")
+chk(10,"攻撃技合計が型ごとの上限内", not v10, f"違反{len(v10)}件 {v10[:3]}")
 
 print("\n総合:", "ALL PASS" if ok else "FAILあり")

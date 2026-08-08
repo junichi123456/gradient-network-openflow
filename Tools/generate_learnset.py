@@ -54,9 +54,21 @@ NO_ATTACK_TRAITS = {'zankyou_no_shugosha'}
 # 威力105以上は「配りすぎない」ため、1種族あたりの本数と全体の共有率の
 # 両方を絞る。
 # 補完属性は1種・威力40〜60まで。無属性は全種族が候補にできる汎用枠。
-OFF_PER_ELEMENT = 2      # 他属性(無属性以外)は1属性あたり2種まで
-OFF_POW_SINGLE = 95      # 単属性のパルが持てる他属性技の威力上限
-OFF_POW_DUAL = 90        # 複合属性のパルは1属性ぶん狭い
+# 上限表: (単属性/複合属性) x (物理型/特殊型/打ち分け型)
+#   own_lo→own_hi 自属性攻撃技、atk_lo→atk_hi 攻撃技合計、
+#   off_pow 他属性の威力上限、off_per 1属性あたりの種類数、status_bonus 変化技下限の加算
+CEIL = {
+    ('single','Physical'):  dict(own=(20,11), atk=(26,15), off_pow=110, off_per=2, st=0),
+    ('single','Special'):   dict(own=(16, 9), atk=(23,16), off_pow=100, off_per=2, st=0),
+    ('single','Versatile'): dict(own=(18,11), atk=(26,17), off_pow= 90, off_per=3, st=2),
+    ('dual','Physical'):    dict(own=(22,13), atk=(27,17), off_pow=100, off_per=2, st=0),
+    ('dual','Special'):     dict(own=(21,12), atk=(26,16), off_pow= 90, off_per=2, st=0),
+    ('dual','Versatile'):   dict(own=(24,13), atk=(29,19), off_pow= 80, off_per=2, st=2),
+}
+# 規則4: 特性 → 優先して配るウェポンタグ
+TRAIT_TAG = {'issen': 'Slash', 'tsume_no_kariudo': 'Fist', 'hatsuen_kikan': 'Breath'}
+
+NO_ATTACK_STATUS_MAX = 23   # 攻撃技を持てない種族の変化技上限
 NEU_MIN = 2              # 無属性攻撃技の下限（全個体）
 STATUS_MIN = 2           # 全個体が最低2つの変化技を持つ
 
@@ -196,6 +208,9 @@ FIELD_CAP = int(len(species) * FIELD_SHARE)          # 11%未満
 WEATHER_CAP = int(len(species) * WEATHER_SHARE)      # 70%まで
 HIGH_CAP = int(len(species) * HIGH_SHARE)
 share = collections.Counter()   # move_id -> 配布済み種族数
+share_load = {}                 # 規則5の差し替えを1種族に集中させないための負荷
+prof_of = {}                    # species_id -> 型（規則5の差し替えで参照）
+major_of = {}                   # species_id -> 多数側の分類
 
 def share_ok(m):
     """§4 の共有率上限。設置技・単純天候変化技・高威力技だけが対象。"""
@@ -209,7 +224,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     tot = total_of(s)
     own_types = list(s['types'])
     prime = own_types[0]
-    defensive = s['base_atk'] / s['base_def'] < 1 / 1.30   # §3-b
+    defensive = s['base_atk'] / s['base_def'] < 1 / 1.25   # §3-b
 
     # --- 上限体系（単属性 / 複合属性で別系列）------------------------
     # 種族値180=最低 / 500=最高 を両端に線形補間する。
@@ -219,16 +234,6 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     # 変化技は攻撃技の枠とは別で、全個体が最低2つ持つ。
     dual = len(s['types']) > 1
     span = (tot - 180) / 320.0
-    own_target = round_half_up((18 if dual else 16) - 8 * span)
-    atk_cap    = round_half_up((24 if dual else 23) - (11 if dual else 12) * span)
-    off_pow    = OFF_POW_DUAL if dual else OFF_POW_SINGLE
-
-    # 専用技は選抜を通さず後から足すので、その1枠を先に空けておく。
-    sig = next((mid for mid, sid in SIGNATURE.items() if sid == s['species_id']), None)
-    if sig is not None:
-        atk_cap -= 1
-        if next(m for m in moves if m['id'] == sig)['type'] in s['types']:
-            own_target -= 1
 
     # 種族ごとの攻撃型。威力天井にも効くので、天井を決める前に確定させる。
     if s['trait'] in TRAIT_PHYSICAL:    profile, reason = 'Physical', 'trait'
@@ -241,10 +246,27 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
         'Physical' if profile == 'Physical' else
         ('Physical' if species_index % 2 == 0 else 'Special'))
 
+    C = CEIL[('dual' if dual else 'single', profile)]
+    lerp = lambda lo, hi: round_half_up(lo + (hi - lo) * span)
+    own_target = lerp(*C['own'])
+    atk_cap    = lerp(*C['atk'])
+    off_pow    = C['off_pow']
+    off_per    = C['off_per']
+
+    # 専用技は選抜を通さず後から足すので、その1枠を先に空けておく。
+    sig = next((mid for mid, sid in SIGNATURE.items() if sid == s['species_id']), None)
+    if sig is not None:
+        atk_cap -= 1
+        if next(m for m in moves if m['id'] == sig)['type'] in s['types']:
+            own_target -= 1
+
+    prof_of[s['species_id']] = profile
+    major_of[s['species_id']] = major
+
     minus = 30 if defensive else 0                          # §3-b: -30
     minus += 20 if profile == 'Versatile' else 0            # 器用型は威力天井-20
     if tot < 310:
-        own_pow, own_band_floor, own_band_max = 120 - minus, 110 - minus, 2
+        own_pow, own_band_floor, own_band_max = 125 - minus, 115 - minus, 2
         cmp_pow, cmp_band_floor, cmp_band_max = 90 - minus, 80 - minus, 2
         ext_pow = None
     else:
@@ -263,6 +285,16 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     own_pool = band_filtered([m for m in ATTACK if m['type'] in own_types],
                              own_pow, own_band_floor, own_band_max)
 
+    # 規則4: 特性が特定のウェポンタグを強化する種族には、そのタグの技を
+    # 優先して配る。プールの先頭へ寄せるだけで、上限や威力天井は変えない。
+    want_tag = TRAIT_TAG.get(s['trait'])
+    if want_tag:
+        tagged = [m for m in ATTACK if m.get('weapon_tag') == want_tag
+                  and (own_pow is None or m['power'] <= own_pow)]
+        own_pool = ([m for m in own_pool if m.get('weapon_tag') == want_tag]
+                    + [m for m in tagged if m not in own_pool]
+                    + [m for m in own_pool if m.get('weapon_tag') != want_tag])
+
     # 他属性(無属性以外)は1属性あたり OFF_PER_ELEMENT 種まで、威力は off_pow 以下。
     # 属性ごとに候補列を種族の序数で回して、同属性の全種が同じ組を取らない
     # ようにする。補完属性/追加属性という区分は廃止し、扱いを一本化した。
@@ -274,7 +306,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
         if not cands: continue
         offset = (species_index + TYPES.index(el)) % len(cands)
         cands = cands[offset:] + cands[:offset]
-        off_pool += cands[:OFF_PER_ELEMENT]
+        off_pool += cands[:off_per]
 
     # 無属性も他属性と同じ「1属性あたり2種まで」の枠に入る。除外条項が
     # 外れたことで、下限2と合わせて実質ちょうど2種になる。
@@ -288,7 +320,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     # 両方が少数側で「多数側の60%まで」に引っかかり、下限2を満たせない
     # 種族が70件出た。
     neu_major = [m for m in neu_all if m['category'] == major]
-    neu_pool = (neu_major + [m for m in neu_all if m not in neu_major])[:OFF_PER_ELEMENT]
+    neu_pool = (neu_major + [m for m in neu_all if m not in neu_major])[:2]
 
     # --- §3-a: bias direction ---
     # ELEM_BIAS は「その属性に物理技と特殊技のどちらが多いか」で決まるため、
@@ -306,7 +338,9 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     # still allows.
     seen_pool = set()
     pool_all = []
-    for m in own_pool + off_pool + neu_pool:
+    tag_extra = ([m for m in ATTACK if m.get('weapon_tag') == want_tag
+                  and m['power'] <= off_pow] if want_tag else [])
+    for m in own_pool + tag_extra + off_pool + neu_pool:
         if m['id'] in seen_pool or not share_ok(m): continue
         seen_pool.add(m['id']); pool_all.append(m)
     is_own = lambda m: m['type'] in own_types
@@ -326,12 +360,15 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
             grp.sort(key=lambda x: x['id'])
             return (m['power'], (grp.index(m) + species_index) % max(1, len(grp)))
         a_ = sorted([m for m in pool if m['category'] == major], key=key)
+        if want_tag:   # 規則4: 優先タグの技は多数側の先頭に固定
+            pri = [m for m in a_ if m.get('weapon_tag') == want_tag]
+            a_ = pri + [m for m in a_ if m not in pri]
         b_ = sorted([m for m in pool if m['category'] != major and m['power'] > 0], key=key)
         na = min(len(a_), max(1, round_half_up(k * maj_share)))
         out = spread_take(a_, na)
         # §3-a: 少数側は多数側の最高威力の60%まで。書き換えの際に落として
         # しまい、全287種で少数側が多数側と同じ威力帯に届いていた。
-        cap = max((m['power'] for m in out), default=0) * 0.6
+        cap = max((m['power'] for m in out), default=0) * (0.9 if profile == 'Versatile' else 0.6)
         b_ = [m for m in b_ if m['power'] <= cap + 1e-6]
         out += spread_take(b_, k - len(out))
         if len(out) < k:                       # 片側が足りなければもう片方で埋める
@@ -343,6 +380,11 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     chosen = by_profile(own_avail, min(own_target, len(own_avail)))
 
     fill_avail = [m for m in pool_all if not is_own(m) and m['id'] not in {x['id'] for x in chosen}]
+    # 規則4: 自属性に無いタグ(ブレスなど)は充填側でしか入らないので、
+    # ここでも先頭に寄せる。
+    if want_tag:
+        pri = [m for m in fill_avail if m.get('weapon_tag') == want_tag]
+        fill_avail = pri + [m for m in fill_avail if m not in pri]
     chosen += by_profile(fill_avail, atk_cap - len(chosen))
 
     # 無属性の下限を満たす。枠が埋まっているときは、他属性の技を落として
@@ -382,9 +424,9 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
         fid = field_ids[0]
         if fid not in taken:
             chosen.append(next(m for m in moves if m['id'] == fid)); taken.add(fid)
-        status_quota = STATUS_MIN + 2      # 防御特化は変化技が多い
+        status_quota = STATUS_MIN + C['st'] + 2   # 防御特化は変化技が多い
     else:
-        status_quota = STATUS_MIN
+        status_quota = STATUS_MIN + C['st']
 
     # §3-c: 変化技も他の分類と同じく自属性を優先する。元の実装は power/id
     # 順に取るだけで、変化技はすべて power=0 のため全種が同じ「ID順の先頭
@@ -453,7 +495,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
         extra.sort(key=lambda m: (0 if m['type'] in own_types else 1, m['power'], m['id']))
         # 攻撃技の枠ぶんも変化技で埋める。5件に絞ると他種族の1/4以下の
         # learnset になってしまう。
-        chosen += extra[:max(0, atk_cap + status_quota - len(chosen))]
+        chosen += extra[:max(0, NO_ATTACK_STATUS_MAX - len(chosen))]
 
     # 専用技はプールを通さず、指定された1種にだけ直接渡す。これも選抜の
     # 書き換えで消えており、メガデストラクトが誰にも配られていなかった。
@@ -476,6 +518,46 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
 
     report.append((s['species_id'], s['display_name'], tot, prime, major, reason,
                    own_count, own_target, len(entries), atk_cap, defensive))
+
+# 規則5: 共有率0%の技をなくす。どの種族も覚えない技が残らないよう、
+# 上限を壊さない範囲で1種族ずつ差し替える。差し替え先は「その技の属性を
+# 自属性に持つ種族」を優先し、居なければ他属性の枠が空いている種族。
+by_id = {m['id']: m for m in moves}
+unused = [m for m in moves if share[m['id']] == 0 and m['id'] not in SIGNATURE]
+placed = 0
+for m in sorted(unused, key=lambda m: (m['power'], m['id'])):
+    for sp_ in sorted(species, key=lambda x: (share_load.get(x['species_id'], 0), x['species_id'])):
+        if sp_['trait'] in NO_ATTACK_TRAITS and m['power'] > 0: continue
+        ids = [e['move_id'] for e in sp_['learnset']]
+        if m['id'] in ids: continue
+        # 差し替えでも威力の上限は守る。守らないと他属性の威力上限と
+        # 「少数側は多数側の60%(打ち分け90%)まで」を20件前後で破った。
+        pr = prof_of[sp_['species_id']]
+        cc = CEIL[('dual' if len(sp_['types']) > 1 else 'single', pr)]
+        if m['type'] not in sp_['types'] and m['power'] > cc['off_pow']: continue
+        # 自属性でも、種族値310未満なら威力天井(125-minus)を超えられない。
+        if (m['type'] in sp_['types'] and m['power'] > 0
+                and total_of(sp_) < 310 and m['power'] > 125): continue
+        cats = [by_id[e['move_id']] for e in sp_['learnset'] if by_id[e['move_id']]['power'] > 0]
+        mj = max((x['power'] for x in cats if x['category'] == major_of[sp_['species_id']]), default=0)
+        if (m['power'] > 0 and m['category'] != major_of[sp_['species_id']]
+                and m['power'] > mj * (0.9 if pr == 'Versatile' else 0.6) + 1e-6): continue
+        same = [e for e in sp_['learnset']
+                if by_id[e['move_id']]['type'] == m['type']
+                and (by_id[e['move_id']]['power'] > 0) == (m['power'] > 0)
+                and share[e['move_id']] > 1]
+        if not same: continue
+        drop = max(same, key=lambda e: share[by_id[e['move_id']]['id']])
+        share[drop['move_id']] -= 1
+        sp_['learnset'].remove(drop)
+        lvl = status_level(m) if m['power'] == 0 else round_half_up(m['power'] / 5.0)
+        sp_['learnset'].append({'level': min(100, max(1, lvl)), 'move_id': m['id']})
+        sp_['learnset'].sort(key=lambda e: (e['level'], e['move_id']))
+        share[m['id']] += 1
+        share_load[sp_['species_id']] = share_load.get(sp_['species_id'], 0) + 1
+        placed += 1
+        break
+print(f"  共有率0%の技を差し替えた件数: {placed} / 残り {sum(1 for m in moves if share[m['id']] == 0)}")
 
 json.dump(species, open(SPECIES, 'w'), ensure_ascii=False, indent=2)
 open(SPECIES, 'a').write('\n')
