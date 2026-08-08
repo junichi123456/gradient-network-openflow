@@ -53,6 +53,13 @@ NO_ATTACK_TRAITS = {'zankyou_no_shugosha'}
 # §4: 共有率の上限。設置技は11%未満、単純天候変化技は70%まで。
 # 威力105以上は「配りすぎない」ため、1種族あたりの本数と全体の共有率の
 # 両方を絞る。
+# 補完属性は1種・威力40〜60まで。無属性は全種族が候補にできる汎用枠。
+CMP_MAX_KINDS = 1
+CMP_POW_MIN = 40
+CMP_POW_MAX = 60
+NEU_POW = 90
+NEU_MAX_KINDS = 5
+
 FIELD_SHARE = 0.11
 WEATHER_SHARE = 0.70
 HIGH_POWER = 105
@@ -243,13 +250,38 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
 
     own_pool = band_filtered([m for m in ATTACK if m['type'] in own_types],
                              own_pow, own_band_floor, own_band_max)
-    cmp_pool = band_filtered([m for m in ATTACK if m['type'] in comp_types],
-                             cmp_pow, cmp_band_floor, cmp_band_max)
+    # 補完属性は「1種だけ、威力40〜60」に絞る。無属性のパルが竜技を主力に
+    # するような、自属性より補完属性のほうが目立つ構成になっていたため。
+    # 候補列は種族ごとに回して、同属性の全種が同じ1件を取らないようにする。
+    cmp_cands = sorted([m for m in ATTACK
+                        if m['type'] in comp_types and CMP_POW_MIN <= m['power'] <= CMP_POW_MAX],
+                       key=lambda m: (m['power'], m['id']))
+    if cmp_cands:
+        off = species_index % len(cmp_cands)
+        cmp_cands = cmp_cands[off:] + cmp_cands[:off]
+    cmp_pool = cmp_cands[:CMP_MAX_KINDS]
+
+    # 無属性技は全種族が候補にできる。自属性が無属性の種族はすでに own_pool
+    # に入っているので二重に積まない。
+    # 無属性は誰でも使える汎用枠だが、種類を絞らないと自属性より無属性の
+    # ほうが多い構成になる（初回は1種あたり平均20.7技が無属性になった）。
+    neu_all = [] if 'Neutral' in own_types else band_filtered(
+        [m for m in ATTACK if m['type'] == 'Neutral'],
+        NEU_POW - minus, NEU_POW - minus - 10, 2)
+    neu_all = sorted(neu_all, key=lambda m: (m['power'], m['id']))
+    if neu_all:
+        off = species_index % len(neu_all)
+        neu_all = neu_all[off:] + neu_all[:off]
+    neu_pool = neu_all[:NEU_MAX_KINDS]
 
     ext_pool, ext_element = [], None
     if tot >= 310:
         # §4: first element in chart order that is neither own, weakness nor complement.
+        # 無属性は全種族が別枠で引けるので、追加属性としては選ばない。
+        # 両方から入ると同じ技が二重に入り、70種で重複行が出ていた。
+        # ただし自属性が無属性の種族はその別枠を使えないので除外しない。
         excluded = set(own_types) | set(weak_types) | set(comp_types)
+        if 'Neutral' not in own_types: excluded.add('Neutral')
         for el in TYPES:
             if el not in excluded: ext_element = el; break
         if ext_element:
@@ -274,7 +306,11 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     # Own-element moves come first so the own-ceiling is spent on them;
     # complement and the extra element fill whatever the overall ceiling
     # still allows.
-    pool_all = [m for m in own_pool + cmp_pool + ext_pool if share_ok(m)]
+    seen_pool = set()
+    pool_all = []
+    for m in own_pool + cmp_pool + neu_pool + ext_pool:
+        if m['id'] in seen_pool or not share_ok(m): continue
+        seen_pool.add(m['id']); pool_all.append(m)
     is_own = lambda m: m['type'] in own_types
 
     maj = sorted([m for m in pool_all if m['category'] == major], key=lambda m: (m['power'], m['id']))
