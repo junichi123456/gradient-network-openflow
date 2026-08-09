@@ -161,6 +161,11 @@ public class MoveData
     public int Power { get; set; }
     public int Accuracy { get; set; }
     public int MaxPp { get; set; }
+
+    // 対戦の行動順で最初に見る値。高いほど先に動き、合計種族値を無視する。
+    // 迷宮側のエネルギー式スケジューラは参照しない（対戦専用の概念）。
+    // 既定は0で、値を持つのは現時点でヘッドバット(+1)だけ。
+    public int Priority { get; set; }
     public MoveRange Range { get; set; }
 
     // Phase 21: rank-change effect (buff/debuff of Atk/Def/Accuracy/

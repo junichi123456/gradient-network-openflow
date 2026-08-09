@@ -288,6 +288,18 @@ public partial class Entity : Node2D, ITurnActor
     // Must run BEFORE GridPosition is overwritten for a move (the delta
     // needs the pre-move position) - PlayBumpAttack never changes
     // GridPosition at all, so its call site isn't order-sensitive.
+    // 向きを直接与える入口。迷宮では移動/攻撃の副作用としてしか向きが
+    // 変わらないが、対戦では配置時に正面を決める必要がある（Line/TwoTile が
+    // FacingDirection を見るため）。ゼロベクトルは無視する。
+    public void FaceDirection(Vector2I direction)
+    {
+        if (direction == Vector2I.Zero) return;
+        var unit = new Vector2I(Math.Sign(direction.X), Math.Sign(direction.Y));
+        if (unit == FacingDirection) return;
+        FacingDirection = unit;
+        UpdateSprite();
+    }
+
     private void UpdateFacingDirection(Vector2I targetPos)
     {
         var delta = targetPos - GridPosition;

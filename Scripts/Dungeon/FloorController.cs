@@ -124,6 +124,10 @@ public partial class FloorController : Node2D
     {
         if (_player != null && _player.IsAlive && _player.GridPosition == pos) return _player;
 
+        foreach (var actor in _arenaActors)
+            if (GodotObject.IsInstanceValid(actor) && actor.IsAlive && actor.GridPosition == pos)
+                return actor;
+
         foreach (var ally in _spawnedAllies)
             if (GodotObject.IsInstanceValid(ally) && ally.IsAlive && ally.GridPosition == pos)
                 return ally;
@@ -138,6 +142,10 @@ public partial class FloorController : Node2D
     public IEnumerable<Entity> AllActors()
     {
         if (_player != null && _player.IsAlive) yield return _player;
+
+        // 対戦の参加者。迷宮では常に空なので、既存の挙動は変わらない。
+        foreach (var actor in _arenaActors)
+            if (GodotObject.IsInstanceValid(actor) && actor.IsAlive) yield return actor;
 
         foreach (var ally in _spawnedAllies)
             if (GodotObject.IsInstanceValid(ally) && ally.IsAlive) yield return ally;
@@ -240,6 +248,51 @@ public partial class FloorController : Node2D
         _turnManager.TurnEnded += OnTurnEnded;
 
         GenerateFloor();
+    }
+
+    // 対戦(PvP)用の初期化。迷宮生成をまるごと飛ばし、8x7の開けた1部屋だけを
+    // 作る。ExperienceSystem・ダンジョンルール・階段・敵湧きは対戦に無関係
+    // なので一切立ち上げない。
+    //
+    // 全タイルに同じ RoomId を振るのが要点で、これだけで GetRoomBoundsAt が
+    // 盤面全体を返すようになり、TargetResolver の Room 射程が
+    // 「盤面全体（味方は除外）」として無改造で動く。Line/TwoTile/Area/
+    // Surrounding と設置技も、迷宮と同じコードのまま意図どおりに機能する。
+    public void InitializeArena(GridManager grid, TurnManager turnManager)
+    {
+        _grid = grid;
+        _turnManager = turnManager;
+        _player = null;              // 対戦には「プレイヤー個体」がいない。4匹とも対等
+        _config = new DungeonConfig();
+
+        _grid.Resize(Battle.BattleBoard.Width, Battle.BattleBoard.Height, TerrainType.Wall);
+        for (int x = 0; x < Battle.BattleBoard.Width; x++)
+            for (int y = 0; y < Battle.BattleBoard.Height; y++)
+                _grid.SetRoomFloor(new Vector2I(x, y), Battle.BattleBoard.ArenaRoomId);
+        _grid.RefreshTileMap();
+
+        _rooms = new List<Room>
+        {
+            new(Battle.BattleBoard.ArenaRoomId,
+                new Rect2I(Vector2I.Zero, new Vector2I(Battle.BattleBoard.Width, Battle.BattleBoard.Height))),
+        };
+
+        // 対戦盤に霧はかからない。全マス可視。
+        _grid.ClearVisibility();
+        _grid.RevealRoom(Battle.BattleBoard.ArenaRoomId);
+
+        _weather.SetBaseline(WeatherType.None);
+    }
+
+    // 対戦の参加者。迷宮の player/ally/enemy という区分は対戦に無いので、
+    // 8匹すべてをここへ入れ、陣営は Entity.Faction だけで見る。
+    private readonly List<Entity> _arenaActors = new();
+
+    public IReadOnlyList<Entity> ArenaActors => _arenaActors;
+
+    public void AddArenaActor(Entity actor)
+    {
+        if (!_arenaActors.Contains(actor)) _arenaActors.Add(actor);
     }
 
     // Framework hook for DungeonEndType.StoryNoBossFinalFloor (end

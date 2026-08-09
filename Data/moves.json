@@ -574,7 +574,8 @@
     "accuracy": 100,
     "max_pp": 33,
     "range": "Adjacent",
-    "is_contact": true
+    "is_contact": true,
+    "priority": 1
   },
   {
     "id": "MV_141",
