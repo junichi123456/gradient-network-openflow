@@ -58,19 +58,19 @@ check(not gaps, "威力15..120の5刻みが各属性・各分類で最低1技", 
 
 # 技系統ごとの規定
 def fam_of(n):
-    for f in ('ストライク','フィスト','ブロー','パンチ','スラスト','クラッシュ','レンド','フラッシュ'):
+    for f in ('ストレート','フィスト','ブロー','パンチ','スラスト','クラッシュ','レンド','フラッシュ'):
         if n.endswith(f): return f
     return None
-FAM_TAG={'ストライク':'Strike','フィスト':'Fist','ブロー':'Fist','パンチ':'Punch',
+FAM_TAG={'ストレート':'Straight','フィスト':'Fist','ブロー':'Fist','パンチ':'Punch',
          'スラスト':'Thrust','クラッシュ':'Crush','レンド':'Rend','フラッシュ':'Flash'}
-FAM_CAP={'ストライク':10,'フィスト':8,'ブロー':6,'スラスト':10,'クラッシュ':5,'レンド':3,'フラッシュ':2}
+FAM_CAP={'ストレート':10,'フィスト':8,'ブロー':6,'スラスト':10,'クラッシュ':5,'レンド':3,'フラッシュ':2}
 fam_bad=[]
 for f,tag in FAM_TAG.items():
     g=[m for m in ms if fam_of(m['name'])==f]
     if any(m['category']!='Physical' for m in g): fam_bad.append(f+':非物理')
     if any(m.get('weapon_tag')!=tag for m in g): fam_bad.append(f+':タグ')
     if f in FAM_CAP and len(g)!=FAM_CAP[f]: fam_bad.append(f"{f}:{len(g)}!={FAM_CAP[f]}")
-    if f in ('ストライク','フィスト','ブロー') and any(m['power']>80 for m in g): fam_bad.append(f+':威力80超')
+    if f in ('ストレート','フィスト','ブロー') and any(m['power']>80 for m in g): fam_bad.append(f+':威力80超')
 check(not fam_bad, "系統ごとのタグ・定員・威力上限", str(fam_bad))
 
 punch=[m for m in ms if fam_of(m['name'])=='パンチ']

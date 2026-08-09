@@ -8,7 +8,7 @@ its own rules; the caps are treated as targets, not just ceilings ("可能な限
 renaming suitable moves INTO it, and one that is over is trimmed by renaming
 the surplus OUT to an unregulated suffix.
 
-    ストライク  tag Strike  cap 10        power <= 80
+    ストレート  tag Straight cap 10       power <= 80
     フィスト    tag Fist    cap 8         power <= 80
     ブロー      tag Fist    cap 6         power <= 80
     パンチ      tag Punch   cap 2/element power <= 70, always a side effect
@@ -42,7 +42,7 @@ TWOTILE_CAP=3
 
 # suffix -> (weapon tag, cap, max power)
 FAMILY={
-    'ストライク': ('Strike', 10, 80),
+    'ストレート': ('Straight', 10, 80),
     'フィスト':   ('Fist',    8, 80),
     'ブロー':     ('Fist',    6, 80),
     'パンチ':     ('Punch',  18, 70),   # 2 per element
@@ -57,7 +57,7 @@ FAMILY={
 # Where a move goes when it is pushed out of a regulated family. None of
 # these are themselves regulated suffixes.
 EXILE={
-    'ストライク': ['スマッシュ','ビート','スラム','インパクト'],
+    'ストレート': ['スマッシュ','ビート','スラム','インパクト'],
     'フィスト':   ['ナックル','グリップ','クラッチ','ハンマー'],
     'ブロー':     ['バッシュ','ノック','ドライブ','スイング'],
     'パンチ':     ['ジャブ','アッパー','ストンプ','フック'],

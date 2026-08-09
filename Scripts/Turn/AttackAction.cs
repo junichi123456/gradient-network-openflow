@@ -578,9 +578,9 @@ public class AttackAction : IAction
         if (HasTrait(_attacker, "hatsuen_kikan") && move.WeaponTag == WeaponTag.Breath)
             powerFlatBuff += 10f;
 
-        // ポーカーフェイス: Strike/Flash に +10。発煙器官と同じ平坦加算の形。
+        // ポーカーフェイス: Straight/Flash に +10。発煙器官と同じ平坦加算の形。
         if (HasTrait(_attacker, "poker_face")
-            && (move.WeaponTag == WeaponTag.Strike || move.WeaponTag == WeaponTag.Flash))
+            && (move.WeaponTag == WeaponTag.Straight || move.WeaponTag == WeaponTag.Flash))
             powerFlatBuff += 10f;
 
         // 燃えるこぶし's already-Fire branch: no second Fire multiplication

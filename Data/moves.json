@@ -1759,7 +1759,7 @@
   },
   {
     "id": "MV_297",
-    "name": "ティンバーストライク",
+    "name": "ティンバーストレート",
     "type": "Grass",
     "category": "Physical",
     "power": 70,
@@ -1767,7 +1767,7 @@
     "max_pp": 15,
     "range": "Adjacent",
     "is_contact": true,
-    "weapon_tag": "Strike"
+    "weapon_tag": "Straight"
   },
   {
     "id": "MV_299",
@@ -2279,7 +2279,7 @@
   },
   {
     "id": "MVP_001",
-    "name": "ホワイトストライク",
+    "name": "ホワイトストレート",
     "type": "Neutral",
     "category": "Physical",
     "power": 30,
@@ -2289,7 +2289,7 @@
     "is_contact": true,
     "ailment_effect": "Stun",
     "ailment_chance": 30,
-    "weapon_tag": "Strike"
+    "weapon_tag": "Straight"
   },
   {
     "id": "MVP_002",
@@ -2386,7 +2386,7 @@
   },
   {
     "id": "MVP_009",
-    "name": "ブラインドストライク",
+    "name": "ブラインドストレート",
     "type": "Neutral",
     "category": "Physical",
     "power": 75,
@@ -2396,7 +2396,7 @@
     "ailment_effect": "Stun",
     "ailment_chance": 10,
     "is_contact": true,
-    "weapon_tag": "Strike"
+    "weapon_tag": "Straight"
   },
   {
     "id": "MVP_010",
@@ -2619,7 +2619,7 @@
   },
   {
     "id": "MVP_027",
-    "name": "フレイムストライク",
+    "name": "フレイムストレート",
     "type": "Fire",
     "category": "Physical",
     "power": 70,
@@ -2629,7 +2629,7 @@
     "ailment_effect": "Burn",
     "ailment_chance": 20,
     "is_contact": true,
-    "weapon_tag": "Strike"
+    "weapon_tag": "Straight"
   },
   {
     "id": "MVP_028",
@@ -2841,7 +2841,7 @@
   },
   {
     "id": "MVP_044",
-    "name": "ドロップストライクパンチ",
+    "name": "ドロップストレートパンチ",
     "type": "Water",
     "category": "Physical",
     "power": 50,
@@ -2882,7 +2882,7 @@
   },
   {
     "id": "MVP_047",
-    "name": "ウォーターヴェインストライク",
+    "name": "ウォーターヴェインストレート",
     "type": "Water",
     "category": "Physical",
     "power": 70,
@@ -2893,7 +2893,7 @@
     "rank_effect_delta": 1,
     "rank_effect_target": "Self",
     "is_contact": true,
-    "weapon_tag": "Strike"
+    "weapon_tag": "Straight"
   },
   {
     "id": "MVP_048",
@@ -3157,7 +3157,7 @@
   },
   {
     "id": "MVP_067",
-    "name": "ボルトトレイルストライク",
+    "name": "ボルトトレイルストレート",
     "type": "Electric",
     "category": "Physical",
     "power": 70,
@@ -3167,7 +3167,7 @@
     "ailment_effect": "Paralyze",
     "ailment_chance": 20,
     "is_contact": true,
-    "weapon_tag": "Strike"
+    "weapon_tag": "Straight"
   },
   {
     "id": "MVP_068",
@@ -3419,7 +3419,7 @@
   },
   {
     "id": "MVP_087",
-    "name": "アースウォールストライク",
+    "name": "アースウォールストレート",
     "type": "Ground",
     "category": "Physical",
     "power": 70,
@@ -3430,7 +3430,7 @@
     "rank_effect_delta": 1,
     "rank_effect_target": "Self",
     "is_contact": true,
-    "weapon_tag": "Strike"
+    "weapon_tag": "Straight"
   },
   {
     "id": "MVP_088",
@@ -3624,7 +3624,7 @@
   },
   {
     "id": "MVP_102",
-    "name": "アイビーストライクナックル",
+    "name": "アイビーストレートナックル",
     "type": "Grass",
     "category": "Physical",
     "power": 45,
@@ -3775,7 +3775,7 @@
   },
   {
     "id": "MVP_114",
-    "name": "アイビーストライクバッシュ",
+    "name": "アイビーストレートバッシュ",
     "type": "Grass",
     "category": "Physical",
     "power": 90,
@@ -3888,7 +3888,7 @@
   },
   {
     "id": "MVP_123",
-    "name": "フロストストライクバッシュ",
+    "name": "フロストストレートバッシュ",
     "type": "Ice",
     "category": "Physical",
     "power": 45,
@@ -3941,7 +3941,7 @@
   },
   {
     "id": "MVP_127",
-    "name": "フローズンクラウドストライク",
+    "name": "フローズンクラウドストレート",
     "type": "Ice",
     "category": "Physical",
     "power": 70,
@@ -3951,7 +3951,7 @@
     "ailment_effect": "Freeze",
     "ailment_chance": 20,
     "is_contact": true,
-    "weapon_tag": "Strike"
+    "weapon_tag": "Straight"
   },
   {
     "id": "MVP_128",
@@ -3993,7 +3993,7 @@
   },
   {
     "id": "MVP_131",
-    "name": "コールドストライクピアス",
+    "name": "コールドストレートピアス",
     "type": "Ice",
     "category": "Physical",
     "power": 80,
@@ -4045,7 +4045,7 @@
   },
   {
     "id": "MVP_135",
-    "name": "フロストストライクピアス",
+    "name": "フロストストレートピアス",
     "type": "Ice",
     "category": "Physical",
     "power": 90,
@@ -4202,7 +4202,7 @@
   },
   {
     "id": "MVP_147",
-    "name": "ドラゴンヴェールストライク",
+    "name": "ドラゴンヴェールストレート",
     "type": "Dragon",
     "category": "Physical",
     "power": 65,
@@ -4212,7 +4212,7 @@
     "recoil_hp_percent": 33,
     "dragon_multiplier": 1.5,
     "is_contact": true,
-    "weapon_tag": "Strike"
+    "weapon_tag": "Straight"
   },
   {
     "id": "MVP_148",
@@ -4388,7 +4388,7 @@
   },
   {
     "id": "MVP_162",
-    "name": "シャドウストライクナックル",
+    "name": "シャドウストレートナックル",
     "type": "Dark",
     "category": "Physical",
     "power": 50,
@@ -4442,7 +4442,7 @@
   },
   {
     "id": "MVP_166",
-    "name": "シャドウバレットストライク",
+    "name": "シャドウバレットストレート",
     "type": "Dark",
     "category": "Physical",
     "power": 70,
@@ -4452,7 +4452,7 @@
     "ailment_effect": "Darkness",
     "ailment_chance": 20,
     "is_contact": true,
-    "weapon_tag": "Strike"
+    "weapon_tag": "Straight"
   },
   {
     "id": "MVP_167",
@@ -4483,7 +4483,7 @@
   },
   {
     "id": "MVP_169",
-    "name": "ダークストライクピアス",
+    "name": "ダークストレートピアス",
     "type": "Dark",
     "category": "Physical",
     "power": 75,
@@ -4547,7 +4547,7 @@
   },
   {
     "id": "MVP_174",
-    "name": "シャドウストライクピアス",
+    "name": "シャドウストレートピアス",
     "type": "Dark",
     "category": "Physical",
     "power": 90,

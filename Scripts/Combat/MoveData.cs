@@ -66,7 +66,7 @@ public enum WeaponTag
     // The remaining move families, each identified by the suffix of the
     // move's name and each carrying its own rule (see moves.json and
     // Tools/apply_move_families.py):
-    //   Strike  ストライク - cap 10, power <= 80
+    //   Straight ストレート - cap 10, power <= 80 (旧 Strike/ストライク)
     //   Punch   パンチ     - cap 2 per element, power <= 70, always has a
     //                        secondary effect
     //   Thrust  スラスト   - non-contact, always TwoTile range
@@ -74,7 +74,7 @@ public enum WeaponTag
     //   Rend    レンド     - cap 3, clears the field/trap under the user
     //   Flash   フラッシュ - cap 2, non-contact, never misses, always crits,
     //                        power fixed at 50
-    Strike,
+    Straight,
     Punch,
     Thrust,
     Crush,
