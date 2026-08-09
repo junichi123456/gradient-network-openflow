@@ -233,6 +233,22 @@ public partial class BattleTestScene : Node2D
                  + $"{(def.Stats.CurrentHp > lowHp && def.HeldItemConsumed ? "OK" : "NG")} "
                  + $"(HP{lowHp} → {def.Stats.CurrentHp}, 消費={def.HeldItemConsumed})");
 
+        // 処理順の検証: 通常ダメージ → 特性 → 持ち物 → 急所。
+        // 急所が最後段なら、素のダメージに対して常にちょうど1.5倍になる。
+        // 計算器の内部に急所があった頃は、後段の軽減が急所倍率の「後」に
+        // 掛かっていたため、この関係が崩れていた。
+        int plainMin = MeasureHit(atk, def, phys, null);
+        int critMax = MeasureCrit(atk, def, phys);
+        GD.Print($"[検証] 急所が最後段(素の1.5倍になる): "
+                 + $"{(System.Math.Abs(critMax - plainMin * 1.5f) <= 1f ? "OK" : "NG")} "
+                 + $"({plainMin} → {critMax}, 期待{plainMin * 1.5f:F1})");
+
+        // 持ち物が急所より先: プレートで軽減してから1.5倍が乗る。
+        int platedCrit = MeasureCrit(atk, def, phys, "iron_plate");
+        GD.Print($"[検証] 持ち物の軽減が急所より先に効く: "
+                 + $"{(System.Math.Abs(platedCrit - plainMin * 0.70f * 1.5f) <= 2f ? "OK" : "NG")} "
+                 + $"({platedCrit}, 期待{plainMin * 0.70f * 1.5f:F1})");
+
         foreach (var e in _sched.Roster) { e.HeldItemId = null; e.Stats.HealToFull(); }
         GD.Print($"[検証] 検証後に全個体のHPと持ち物を戻した: "
                  + $"{(_sched.Roster.All(e => e.Stats.CurrentHp == e.Stats.MaxHp) ? "OK" : "NG")}");
@@ -257,6 +273,24 @@ public partial class BattleTestScene : Node2D
         }
         def.Stats.HealToFull();
         return min;
+    }
+
+    // 急所が出た時の最大ダメージを測る。急所は乱数なので、素の1.5倍という
+    // 上限に張り付くまで繰り返す。
+    private int MeasureCrit(Entity atk, Entity def, MoveData move, string itemId = null)
+    {
+        int max = 0;
+        for (int i = 0; i < 300; i++)
+        {
+            def.Stats.HealToFull();
+            def.HeldItemId = itemId;
+            int before = def.Stats.CurrentHp;
+            new AttackAction(atk, def, MakeSlot(atk, move), _floor).Execute(0);
+            max = System.Math.Max(max, before - def.Stats.CurrentHp);
+            def.HeldItemId = null;
+        }
+        def.Stats.HealToFull();
+        return max;
     }
 
     private static MoveSlot MakeSlot(Entity user, MoveData move) => new(move);

@@ -291,7 +291,20 @@ public partial class Entity : Node2D, ITurnActor
     // ---- 対戦の持ち物 (Data/items.json の BattleHeld) ----
     // 迷宮では常に未設定なので、既存の挙動には一切影響しない。
     // 「使い切り」は発動すると Consumed が立ち、以降 HeldEffect が None を返す。
-    public string HeldItemId { get; set; }
+    // 持ち物を差し替えたら「使い切り済み」の印は消える。消し忘れると、
+    // 一度発動した個体に別の持ち物を持たせても効果が死んだままになる。
+    private string _heldItemId;
+    public string HeldItemId
+    {
+        get => _heldItemId;
+        set
+        {
+            if (_heldItemId == value) return;
+            _heldItemId = value;
+            HeldItemConsumed = false;
+        }
+    }
+
     public bool HeldItemConsumed { get; private set; }
 
     public Combat.BattleItemEffect HeldEffect =>
