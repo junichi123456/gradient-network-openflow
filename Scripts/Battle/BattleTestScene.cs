@@ -191,17 +191,37 @@ public partial class BattleTestScene : Node2D
         var phys = MoveDatabase.AllIds().Select(MoveDatabase.Get)
             .First(m => m.Category == MoveCategory.Physical && m.Range == MoveRange.Adjacent
                         && m.Accuracy >= 100 && m.Power >= 40 && m.RankEffects.Count == 0);
+        // 実効威力に掛けているので、ダメージは表記どおりの倍率で動くはず。
+        // 端数は最後に一度切り捨てられるので ±1 の誤差を許容する。
         int plain = MeasureHit(atk, def, phys, null);
         int warded = MeasureHit(atk, def, phys, "iron_plate");
-        GD.Print($"[検証] アイアンプレートで物理被ダメが減る: "
-                 + $"{(warded < plain ? "OK" : "NG")} ({plain} → {warded})");
+        GD.Print($"[検証] アイアンプレートで被ダメがちょうど30%減: "
+                 + $"{(System.Math.Abs(warded - plain * 0.70f) <= 1f ? "OK" : "NG")} "
+                 + $"({plain} → {warded}, 期待{plain * 0.70f:F1})");
 
-        // パワーレンズ: 物理使用時に攻撃+25% → ダメージが増える。
+        var spec = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+            .First(m => m.Category == MoveCategory.Special && m.Range == MoveRange.Adjacent
+                        && m.Accuracy >= 100 && m.Power >= 40 && m.RankEffects.Count == 0);
+        int plainS = MeasureHit(atk, def, spec, null);
+        int wardedS = MeasureHit(atk, def, spec, "mind_plate");
+        GD.Print($"[検証] マインドプレートで被ダメがちょうど40%減: "
+                 + $"{(System.Math.Abs(wardedS - plainS * 0.60f) <= 1f ? "OK" : "NG")} "
+                 + $"({plainS} → {wardedS}, 期待{plainS * 0.60f:F1})");
+
+        // パワーレンズ: 物理使用時に実効威力+25% → ダメージもちょうど+25%。
         atk.HeldItemId = "power_lens";
         int boosted = MeasureHit(atk, def, phys, null);
         atk.HeldItemId = null;
-        GD.Print($"[検証] パワーレンズで物理与ダメが増える: "
-                 + $"{(boosted > plain ? "OK" : "NG")} ({plain} → {boosted})");
+        GD.Print($"[検証] パワーレンズで与ダメがちょうど25%増: "
+                 + $"{(System.Math.Abs(boosted - plain * 1.25f) <= 1f ? "OK" : "NG")} "
+                 + $"({plain} → {boosted}, 期待{plain * 1.25f:F1})");
+
+        atk.HeldItemId = "focus_lens";
+        int boostedS = MeasureHit(atk, def, spec, null);
+        atk.HeldItemId = null;
+        GD.Print($"[検証] フォーカスレンズで与ダメがちょうど25%増: "
+                 + $"{(System.Math.Abs(boostedS - plainS * 1.25f) <= 1f ? "OK" : "NG")} "
+                 + $"({plainS} → {boostedS}, 期待{plainS * 1.25f:F1})");
 
         // ラストトニック: HPが33%以下になると最大HPの50%回復し、消費される。
         def.Stats.HealToFull();
@@ -218,17 +238,25 @@ public partial class BattleTestScene : Node2D
                  + $"{(_sched.Roster.All(e => e.Stats.CurrentHp == e.Stats.MaxHp) ? "OK" : "NG")}");
     }
 
-    // 同じ攻撃を1回だけ通してダメージ量を測る。測定後にHPは戻す。
+    // 同じ攻撃を繰り返し通して、急所が乗っていない素のダメージを測る。
+    // 急所は乱数で 1.5 倍に跳ねるだけなので、最小値が非急所の値になる。
+    // シード管理をしない方針なので、測定側でこう吸収する。
+    private const int MeasureSamples = 16;
+
     private int MeasureHit(Entity atk, Entity def, MoveData move, string itemId)
     {
+        int min = int.MaxValue;
+        for (int i = 0; i < MeasureSamples; i++)
+        {
+            def.Stats.HealToFull();
+            def.HeldItemId = itemId;
+            int before = def.Stats.CurrentHp;
+            new AttackAction(atk, def, MakeSlot(atk, move), _floor).Execute(0);
+            min = System.Math.Min(min, before - def.Stats.CurrentHp);
+            def.HeldItemId = null;
+        }
         def.Stats.HealToFull();
-        def.HeldItemId = itemId;
-        int before = def.Stats.CurrentHp;
-        new AttackAction(atk, def, MakeSlot(atk, move), _floor).Execute(0);
-        int dealt = before - def.Stats.CurrentHp;
-        def.HeldItemId = null;
-        def.Stats.HealToFull();
-        return dealt;
+        return min;
     }
 
     private static MoveSlot MakeSlot(Entity user, MoveData move) => new(move);

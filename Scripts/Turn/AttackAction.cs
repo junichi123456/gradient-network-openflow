@@ -743,17 +743,23 @@ public class AttackAction : IAction
             powerFlatBuff = Mathf.Max(0f, powerFlatBuff);
         }
 
-        // パワーレンズ/フォーカスレンズ(持続): 使用者の攻撃力(実数値)+25%。
-        // アイアンプレート/マインドプレート(持続): 被弾側の防御力(実数値)+30/40%。
-        // いずれも「その一撃の計算に乗る」形（解釈a）で、恒久バフではない。
+        // 持ち物4種は実数値ではなく実効威力を動かす。ダメージは実効威力に
+        // 対して線形（rawDamage = baseCalc * effPower/100）なので、表記の
+        // ±25/30/40% がそのままダメージの増減になる。実数値(Atk/Def)側に
+        // 掛けると Atk^2/(Atk+Def) の非線形を通るため、攻撃側は表記より
+        // 強く、防御側は表記より弱く出てしまう。
+        //
+        // 急所のクランプ(powerMul の Max(1f))より後に掛けているので、
+        // プレートの軽減は急所でも打ち消されない。〇〇流など特性による
+        // 軽減がダメージ確定後に効くのと同じ扱い。
         if (_attacker.Holds(Combat.BattleItemEffect.PhysAtkUp25) && move.Category == MoveCategory.Physical)
-            atkMul *= 1.25f;
+            powerMul *= 1.25f;
         if (_attacker.Holds(Combat.BattleItemEffect.SpecAtkUp25) && move.Category == MoveCategory.Special)
-            atkMul *= 1.25f;
+            powerMul *= 1.25f;
         if (target.Holds(Combat.BattleItemEffect.PhysDefUp30) && move.Category == MoveCategory.Physical)
-            defMul *= 1.30f;
+            powerMul *= 0.70f;
         if (target.Holds(Combat.BattleItemEffect.SpecDefUp40) && move.Category == MoveCategory.Special)
-            defMul *= 1.40f;
+            powerMul *= 0.60f;
 
         var ctx = new DamageContext
         {

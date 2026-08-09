@@ -160,7 +160,7 @@
     "effect_value": 0,
     "battle_effect": "PhysAtkUp25",
     "consumed_on_trigger": false,
-    "description": "物理技の使用時、攻撃力(実数値)が25%上がる。"
+    "description": "物理技の使用時、実効威力が25%上がる。"
   },
   {
     "id": "focus_lens",
@@ -170,7 +170,7 @@
     "effect_value": 0,
     "battle_effect": "SpecAtkUp25",
     "consumed_on_trigger": false,
-    "description": "特殊技の使用時、攻撃力(実数値)が25%上がる。"
+    "description": "特殊技の使用時、実効威力が25%上がる。"
   },
   {
     "id": "iron_plate",
@@ -180,7 +180,7 @@
     "effect_value": 0,
     "battle_effect": "PhysDefUp30",
     "consumed_on_trigger": false,
-    "description": "物理技の被弾時、防御力(実数値)が30%上がる。"
+    "description": "物理技の被弾時、受ける技の実効威力が30%下がる。"
   },
   {
     "id": "mind_plate",
@@ -190,7 +190,7 @@
     "effect_value": 0,
     "battle_effect": "SpecDefUp40",
     "consumed_on_trigger": false,
-    "description": "特殊技の被弾時、防御力(実数値)が40%上がる。"
+    "description": "特殊技の被弾時、受ける技の実効威力が40%下がる。"
   },
   {
     "id": "wide_ward",
