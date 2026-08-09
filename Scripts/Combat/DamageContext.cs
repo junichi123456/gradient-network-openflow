@@ -7,9 +7,9 @@ namespace MysteryDungeon.Combat;
 public class DamageContext
 {
     // Base stats. BasePower comes from the attacking move's own Power
-    // (AttackAction wires move.Power in); power_shot's 35 is the
-    // reference "standard attack" the balance benchmarks anchor on
-    // (see DamageCalculator).
+    // (AttackAction wires move.Power in); gap_neutral_s_35 (プレーンバレット)
+    // and its power 35 is the reference "standard attack" the balance
+    // benchmarks anchor on (see DamageCalculator).
     public float BaseAtk { get; set; }
     public float BaseDef { get; set; }
     public float BasePower { get; set; }

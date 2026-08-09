@@ -958,5 +958,21 @@
     "element": null,
     "template_kind": null,
     "description": "相手から接触技を受けると、天候をすなあらしにする。"
+  },
+  {
+    "id": "body_press",
+    "name": "ボディプレス",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "ウェポンタグ Crush・Rend の技が必中になる。"
+  },
+  {
+    "id": "poker_face",
+    "name": "ポーカーフェイス",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "ウェポンタグ Strike・Flash の技を使うとき、技の威力+10。"
   }
 ]

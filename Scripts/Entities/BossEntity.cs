@@ -28,7 +28,7 @@ public partial class BossEntity : HostileEntity
         // Fixed 3-move boss kit (FloorController still applies the same
         // floor-based level scaling as normal enemies on top of this).
         Moves.Learn("aqua_gun");
-        Moves.Learn("wind_cutter");
-        Moves.Learn("spark");
+        Moves.Learn("mvn_059");
+        Moves.Learn("shockwave");
     }
 }

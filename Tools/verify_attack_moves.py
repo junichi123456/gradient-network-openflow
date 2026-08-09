@@ -160,5 +160,17 @@ check(len({m['id'] for m in ms})==len(ms), "技IDが一意")
 check(len({m['name'] for m in ms})==len(ms), "技名が一意")
 check(all(m['power']%5==0 for m in atk), "攻撃技の威力はすべて5の倍数")
 
+# C# 側にべた書きされた技ID（プレイヤーやNPCの初期技）も実在すること。
+# 一括削除でこれが消えると learnset の検証は全て通るのに、実機ではプレイヤーが
+# 技を1つも覚えないまま起動する（power_shot / spark / flare_arrow / wind_cutter
+# が実際にそうなっていた）。警告ログにしか出ないので機械検証で拾う。
+import re, glob
+_ids={m['id'] for m in ms}
+_hard=[(f,i,(a or b)) for f in glob.glob('Scripts/**/*.cs', recursive=True)
+       for i,l in enumerate(open(f,encoding='utf-8'),1)
+       for a,b in re.findall(r'Moves\.Learn\("([^"]+)"\)|MoveDatabase\.Get\("([^"]+)"\)', l)
+       if (a or b) not in _ids]
+check(not _hard, "C#にべた書きされた技IDが実在する", f"未解決{len(_hard)} {_hard[:3]}")
+
 print("\n総合:", "ALL PASS" if not fails else f"{len(fails)} FAIL")
 sys.exit(1 if fails else 0)

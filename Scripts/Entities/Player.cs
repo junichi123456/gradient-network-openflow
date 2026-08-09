@@ -70,8 +70,8 @@ public partial class Player : Entity
         Stats.MaxBelly = 100;
         Stats.Belly = 100;
 
-        Moves.Learn("power_shot");
-        Moves.Learn("flare_arrow");
+        Moves.Learn("gap_neutral_s_35");
+        Moves.Learn("MV_234");
     }
 
     public void DisableInput() => _inputDisabled = true;

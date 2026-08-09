@@ -1,4 +1,9 @@
-import json, math, collections
+import json, math, collections, os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# 生成器と同じ表を参照する。ここに写しを置くと、特性を足したときに検証側だけ
+# 古い表を見て「特性適応技」を見落とし、属性上限違反として誤検出する。
+from learnset_rules import (SIGNATURE as SIG_MAP, TRAIT_TAG, TRAIT_NAMED,
+                            NO_ATTACK_TRAITS, CEIL as CEIL_D, profile_of)
 def rhu(x): return int(math.floor(x+0.5))
 sp=json.load(open('Data/species.json')); mv=json.load(open('Data/moves.json'))
 M={m['id']:m for m in mv}
@@ -21,13 +26,10 @@ chk(1,"全287種にlearnset・moveId実在", not bad and not unknown,
 # 専用技は選抜も上限も通さずに1種へ直接渡すもので、威力の天井を破ることが
 # 存在意義そのもの（メガデストラクト180をクルットリ BST205 が持つ）。
 # 各種上限の検査から除外する。
-SIGNATURE={'megaton_self_destruct'}
+SIGNATURE=set(SIG_MAP)
 
 # 特性適応技は「採用範囲外からでも強制的に採用する」規則なので、属性ごとの
 # 種類数・威力上限・自属性の天井の検査からは外す。専用技と同じ扱い。
-TRAIT_TAG={'issen':('Slash','Thrust'),'tsume_no_kariudo':('Fist','Punch'),
-           'hatsuen_kikan':('Breath',)}
-TRAIT_NAMED={'akumu_no_hitomi':['nightmare_ball','nightmare_pulse']}
 _tr={t['id']:t for t in json.load(open('Data/traits.json'))}
 def adapted(x):
     t=x['trait']
@@ -38,21 +40,10 @@ def adapted(x):
         return {i for i,m in M.items() if m['type']==d['element'] and m['power']>0}
     return {i for i,m in M.items() if m['type'] in x['types'] and m['power']>0}
 
-PROFILE_CYCLE=['Physical','Physical','Physical','Physical',
-               'Special','Special','Special',
-               'Versatile','Versatile','Versatile']
-TP={'okorinbo','issen','tsume_no_kariudo','moeru_kobushi','eisou','bakugeki'}
-TS={'hatsuen_kikan'}
-CEIL={('single','Physical'):((20,11),(26,15),110,2),
-      ('single','Special'):((16,9),(23,16),100,2),
-      ('single','Versatile'):((18,11),(26,17),90,3),
-      ('dual','Physical'):((22,13),(27,17),100,2),
-      ('dual','Special'):((21,12),(26,16),90,2),
-      ('dual','Versatile'):((24,13),(29,19),80,2)}
+CEIL={k:(d['own'],d['atk'],d['off_pow'],d['off_per']) for k,d in CEIL_D.items()}
 prof={}
 for i,x in enumerate(sorted(sp, key=lambda x: x['species_id'])):
-    prof[x['species_id']] = 'Physical' if x['trait'] in TP else ('Special' if x['trait'] in TS
-                            else PROFILE_CYCLE[i % len(PROFILE_CYCLE)])
+    prof[x['species_id']] = profile_of(x['trait'], i)[0]
 
 # 上限体系は単属性/複合属性の2系列。自属性・攻撃技合計・他属性(1属性2種・
 # 威力上限)・変化技の下限をまとめて見る。
@@ -146,7 +137,7 @@ for x in sp:
     ownx=set(x['types'])
     if 'Neutral' in ownx: continue
     # 攻撃技を持てない特性の持ち主には無属性攻撃技の下限を課せない。
-    if x.get('trait')=='zankyou_no_shugosha': continue
+    if x.get('trait') in NO_ATTACK_TRAITS: continue
     n=sum(1 for e in x['learnset']
           if M[e['move_id']]['type']=='Neutral' and M[e['move_id']]['power']>0)
     if n<2: v14.append((x['display_name'],n))
@@ -156,5 +147,17 @@ chk(12,"他属性は1属性あたりの上限内", not v12, f"違反{len(v12)}�
 chk(13,"他属性の威力が型ごとの上限内", not v13, f"違反{len(v13)}件 {v13[:3]}")
 chk(9,"自属性攻撃技が型ごとの上限内", not v9, f"違反{len(v9)}件 {v9[:3]}")
 chk(10,"攻撃技合計が型ごとの上限内", not v10, f"違反{len(v10)}件 {v10[:3]}")
+
+# 15 特性適応技を6種以上。候補プールがそもそも6種未満の特性（あくむのひとみは
+# 2技しか参照しない）と、攻撃技を持てない特性は物理的に満たせないので除く。
+ADAPTED_MIN=6
+v15=[]
+for s in sp:
+    if s['trait'] in NO_ATTACK_TRAITS: continue
+    a=adapted(s)
+    if len(a)<ADAPTED_MIN: continue
+    n=sum(1 for e in s['learnset'] if e['move_id'] in a)
+    if n<ADAPTED_MIN: v15.append((s['display_name'],s['trait'],n))
+chk(15,f"特性適応技を{ADAPTED_MIN}種以上(候補が足りる種)", not v15, f"違反{len(v15)}件 {v15[:3]}")
 
 print("\n総合:", "ALL PASS" if ok else "FAILあり")

@@ -23,6 +23,6 @@ public partial class DummyNPC : HostileEntity
         Stats.SpDefense = 6;
         Stats.Level = 8;
 
-        Moves.Learn("power_shot");
+        Moves.Learn("gap_neutral_s_35");
     }
 }

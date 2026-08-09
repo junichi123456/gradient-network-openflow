@@ -19,7 +19,7 @@ namespace MysteryDungeon.Combat;
 // Second, HAD-integrated benchmark (Phase 16 adjustment): species
 // values 70-70-70 at Lv50 with breakthrough 0 give real stats
 // HP130/Atk75/Def75 (see EntityStats' HAD formula); the standard
-// Power-35 move (power_shot) then deals exactly 13 per hit, so a
+// Power-35 move (gap_neutral_s_35 プレーンバレット) then deals exactly 13 per hit, so a
 // mirror match settles on exactly the 10th hit (13 x 10 = 130). This
 // "mirror match takes ~10 hits" property holds across the whole legal
 // species-value band (60-60-60 floor: 11 per hit, 11 hits; 140-140-135

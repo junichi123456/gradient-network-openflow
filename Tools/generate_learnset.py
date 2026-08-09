@@ -3,7 +3,12 @@
 
 Every "pick one" is resolved by an explicit sort key, per §4.
 """
-import json, math, collections
+import json, math, collections, os, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from learnset_rules import (SIGNATURE, TRAIT_TAG, TRAIT_NAMED, NO_ATTACK_TRAITS,
+                            TRAIT_PHYSICAL, TRAIT_SPECIAL, PROFILE_CYCLE, CEIL,
+                            profile_of)
 
 SPECIES = 'Data/species.json'
 MOVES   = 'Data/moves.json'
@@ -42,34 +47,13 @@ COMP = {X: sorted({Z for W in WEAK[X] for Z in WEAK[W]}, key=TYPES.index) for X 
 
 # ---------------------------------------------------------------- move pool
 moves = json.load(open(MOVES))
-# メガデストラクトはクルットリ(053)の専用技。共有プールから外し、
-# その1種にだけ直接配る。
-SIGNATURE = {'megaton_self_destruct': '053'}
-
-# 攻撃技の使用そのものが禁止される特性。持ち主には攻撃技を1つも配らない
-# （ざんきょうのしゅごさは「攻撃技の使用が禁止される代わりに」味方を庇う）。
-NO_ATTACK_TRAITS = {'zankyou_no_shugosha'}
+# SIGNATURE(専用技) / NO_ATTACK_TRAITS / CEIL / TRAIT_* は learnset_rules.py に
+# 集約済み。検証側と同じ表を参照する。
 
 # §4: 共有率の上限。設置技は11%未満、単純天候変化技は70%まで。
 # 威力105以上は「配りすぎない」ため、1種族あたりの本数と全体の共有率の
 # 両方を絞る。
 # 補完属性は1種・威力40〜60まで。無属性は全種族が候補にできる汎用枠。
-# 上限表: (単属性/複合属性) x (物理型/特殊型/打ち分け型)
-#   own_lo→own_hi 自属性攻撃技、atk_lo→atk_hi 攻撃技合計、
-#   off_pow 他属性の威力上限、off_per 1属性あたりの種類数、status_bonus 変化技下限の加算
-CEIL = {
-    ('single','Physical'):  dict(own=(20,11), atk=(26,15), off_pow=110, off_per=2, st=0),
-    ('single','Special'):   dict(own=(16, 9), atk=(23,16), off_pow=100, off_per=2, st=0),
-    ('single','Versatile'): dict(own=(18,11), atk=(26,17), off_pow= 90, off_per=3, st=2),
-    ('dual','Physical'):    dict(own=(22,13), atk=(27,17), off_pow=100, off_per=2, st=0),
-    ('dual','Special'):     dict(own=(21,12), atk=(26,16), off_pow= 90, off_per=2, st=0),
-    ('dual','Versatile'):   dict(own=(24,13), atk=(29,19), off_pow= 80, off_per=2, st=2),
-}
-# 規則4: 特性 → 優先して配るウェポンタグ
-TRAIT_TAG = {'issen': ('Slash','Thrust'), 'tsume_no_kariudo': ('Fist','Punch'),
-             'hatsuen_kikan': ('Breath',)}
-# 特性が技名を直接参照するもの
-TRAIT_NAMED = {'akumu_no_hitomi': ['nightmare_ball', 'nightmare_pulse']}
 ADAPTED_MIN = 6          # 各個体が保有する特性適応技の下限
 traits_by_id = {t['id']: t for t in json.load(open('Data/traits.json'))}
 
@@ -105,33 +89,10 @@ ATTACK = [m for m in moves if m['power'] > 0 and m['id'] not in SIGNATURE]
 STATUS = [m for m in moves if m['power'] == 0]
 FIELD_MOVES = [m for m in moves if m.get('field_placement', 'None') != 'None']
 
-# §7-2: per-element Physical/Special census of the FULL pool, computed once.
-# 4:3:3 で物理型/特殊型/器用型に散らす。species_id 昇順の序数だけで決まる
-# ので再現性はそのまま。
-PROFILE_CYCLE = ['Physical','Physical','Physical','Physical',
-                 'Special','Special','Special',
-                 'Versatile','Versatile','Versatile']
-
 ELEM_BIAS = {}
 for el in TYPES:
     c = collections.Counter(m['category'] for m in moves if m['type'] == el)
     ELEM_BIAS[el] = 'Physical' if c['Physical'] > c['Special'] else 'Special'
-
-# §3-a-1: traits that push the holder's own offence toward one category.
-# Only OFFENSIVE power/crit boosters count - defensive traits (ハードアーマー
-# etc.) say nothing about what the holder should learn, and がんばりサポート
-# buffs OTHER party members rather than its own holder.
-TRAIT_PHYSICAL = {
-    'okorinbo',          # 接触技の与ダメージ+10%
-    'issen',             # 斬る系+10%
-    'tsume_no_kariudo',  # ツメ・こぶし系+10%
-    'moeru_kobushi',     # 接触技に炎を加算
-    'eisou',             # 接触技の急所ランク+1
-    'bakugeki',          # 竜技を物理の固定技へ差し替え
-}
-TRAIT_SPECIAL = {
-    'hatsuen_kikan',     # ブレス系+10 (該当5技はすべてSpecial)
-}
 
 # Field moves that "match" an element, for §3-b's 設置技 requirement.
 FIELD_BY_ELEMENT = collections.defaultdict(list)
@@ -259,9 +220,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     span = (tot - 180) / 320.0
 
     # 種族ごとの攻撃型。威力天井にも効くので、天井を決める前に確定させる。
-    if s['trait'] in TRAIT_PHYSICAL:    profile, reason = 'Physical', 'trait'
-    elif s['trait'] in TRAIT_SPECIAL:   profile, reason = 'Special', 'trait'
-    else:                               profile, reason = PROFILE_CYCLE[species_index % len(PROFILE_CYCLE)], 'profile'
+    profile, reason = profile_of(s['trait'], species_index)
 
     # プール構築が major を参照するので、ここで確定させる。後段で決めていた
     # ため、無属性プールの選定が「直前の種族の major」を見ていた。
@@ -310,13 +269,16 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
 
     # 規則4: 特性が特定のウェポンタグを強化する種族には、そのタグの技を
     # 優先して配る。プールの先頭へ寄せるだけで、上限や威力天井は変えない。
+    # TRAIT_TAG の値はタグの組（('Slash','Thrust') など）。`==` で比べると
+    # 文字列とタプルの比較になって常に偽になり、この優先付けが丸ごと
+    # 効かなくなる。必ず `in` で判定する。
     want_tag = TRAIT_TAG.get(s['trait'])
     if want_tag:
-        tagged = [m for m in ATTACK if m.get('weapon_tag') == want_tag
+        tagged = [m for m in ATTACK if m.get('weapon_tag') in want_tag
                   and (own_pow is None or m['power'] <= own_pow)]
-        own_pool = ([m for m in own_pool if m.get('weapon_tag') == want_tag]
+        own_pool = ([m for m in own_pool if m.get('weapon_tag') in want_tag]
                     + [m for m in tagged if m not in own_pool]
-                    + [m for m in own_pool if m.get('weapon_tag') != want_tag])
+                    + [m for m in own_pool if m.get('weapon_tag') not in want_tag])
 
     # 他属性(無属性以外)は1属性あたり OFF_PER_ELEMENT 種まで、威力は off_pow 以下。
     # 属性ごとに候補列を種族の序数で回して、同属性の全種が同じ組を取らない
@@ -537,13 +499,29 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
             adapt.sort(key=lambda m: (m['power'], m['id']))
             off = species_index % len(adapt)
             adapt = adapt[off:] + adapt[:off]
+            # 適応技は属性の枠を越えて入るが、分類の枠までは越えさせない。
+            # ウェポンタグは分類と一対一ではないので（Slashタグの特殊技など）、
+            # 少数側の技を掴むと「少数側の最高威力は多数側の60%まで」が壊れる。
+            # 多数側の候補を先に使い、足りないときだけ少数側へ回す。
+            adapt = ([m for m in adapt if m['category'] == major]
+                     + [m for m in adapt if m['category'] != major])
             pick = spread_take(sorted(adapt[:max(need * 3, need)],
                                       key=lambda m: (m['power'], m['id'])), need)
-            # 枠を超える分は自属性でない技から押し出す
-            # 無属性は下限2があるので押し出さない。
+            # 枠を超える分は押し出す。無属性は下限2があるので押し出さない。
+            # 1段目は他属性技。ただし他属性の枠は1属性2種までしかないので、
+            # 枠いっぱいの種族ではここが2〜3件で尽き、下限6に届かないまま
+            # 打ち切られていた。2段目として自属性技（弱い順）も押し出す。
+            # 自属性の本数は上限であって下限ではないので減らしても規則は
+            # 壊れない。種族の主軸が消えないよう2件は残す。
+            adapt_ids = {x['id'] for x in adapted_moves(s)}
             drop = [m for m in reversed(chosen)
                     if m['power'] > 0 and not is_own(m) and m['type'] != 'Neutral'
-                    and m['id'] not in {x['id'] for x in adapted_moves(s)}]
+                    and m['id'] not in adapt_ids]
+            own_kept = [m for m in chosen
+                        if m['power'] > 0 and is_own(m) and m['id'] not in adapt_ids
+                        and m['id'] not in SIGNATURE]
+            own_kept.sort(key=lambda m: (m['power'], m['id']))
+            drop += own_kept[:max(0, len(own_kept) - 2)]
             # 適応技は「自属性以外の採用範囲外」からも採れる（属性ごとの
             # 種類数と威力上限を越えて候補になる）が、種族の枠そのものは
             # 守る。枠を無視すると自属性上限・攻撃技合計・他属性の威力上限が
@@ -579,6 +557,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
 # 上限を壊さない範囲で1種族ずつ差し替える。差し替え先は「その技の属性を
 # 自属性に持つ種族」を優先し、居なければ他属性の枠が空いている種族。
 by_id = {m['id']: m for m in moves}
+adapt_ids_of = {x['species_id']: {m['id'] for m in adapted_moves(x)} for x in species}
 unused = [m for m in moves if share[m['id']] == 0 and m['id'] not in SIGNATURE]
 placed = 0
 for m in sorted(unused, key=lambda m: (m['power'], m['id'])):
@@ -598,10 +577,16 @@ for m in sorted(unused, key=lambda m: (m['power'], m['id'])):
         mj = max((x['power'] for x in cats if x['category'] == major_of[sp_['species_id']]), default=0)
         if (m['power'] > 0 and m['category'] != major_of[sp_['species_id']]
                 and m['power'] > mj * (0.9 if pr == 'Versatile' else 0.6) + 1e-6): continue
+        # 差し替えで特性適応技を抜くと、直前に強制採用した下限 ADAPTED_MIN を
+        # 割る。下限に達している種族からは適応技を抜かない（余裕がある種族は
+        # 通常どおり候補になる）。
+        adapt_ids = adapt_ids_of[sp_['species_id']]
+        n_adapt = sum(1 for e in sp_['learnset'] if e['move_id'] in adapt_ids)
         same = [e for e in sp_['learnset']
                 if by_id[e['move_id']]['type'] == m['type']
                 and (by_id[e['move_id']]['power'] > 0) == (m['power'] > 0)
-                and share[e['move_id']] > 1]
+                and share[e['move_id']] > 1
+                and not (e['move_id'] in adapt_ids and n_adapt <= ADAPTED_MIN)]
         if not same: continue
         drop = max(same, key=lambda e: share[by_id[e['move_id']]['id']])
         share[drop['move_id']] -= 1

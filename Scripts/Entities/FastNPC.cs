@@ -23,6 +23,6 @@ public partial class FastNPC : HostileEntity
         Stats.SpDefense = 4;
         Stats.Level = 12;
 
-        Moves.Learn("spark");
+        Moves.Learn("shockwave");
     }
 }

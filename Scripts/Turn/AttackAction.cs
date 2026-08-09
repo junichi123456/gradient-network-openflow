@@ -289,7 +289,12 @@ public class AttackAction : IAction
         else if (Weather == WeatherType.Sandstorm && !HasRealType(_attacker, "Ground"))
             weatherAccMul = 0.85f;
 
-        bool hits = forceHit || move.IsGuaranteedHit || galeGuaranteed
+        // ボディプレス: Crush/Rend を必中にする。技自身の IsGuaranteedHit と
+        // 同じ扱いなので、相手の回避ランクと暗闇も同時に無視する。
+        bool bodyPress = HasTrait(_attacker, "body_press")
+            && (move.WeaponTag == WeaponTag.Crush || move.WeaponTag == WeaponTag.Rend);
+
+        bool hits = forceHit || move.IsGuaranteedHit || galeGuaranteed || bodyPress
             || GD.Randf() * 100f < move.Accuracy * _attacker.StatusEffects.GetAccuracyMultiplierWithBonus(accuracyBonus) * target.StatusEffects.GetEvasionMultiplierWithBonus(evasionBonus) * darknessMul * weatherAccMul;
         if (!hits)
         {
@@ -571,6 +576,11 @@ public class AttackAction : IAction
         // 発煙器官: +10 on ブレス/息系 moves (WeaponTag.Breath, populated in
         // moves.json for the 5 qualifying moves).
         if (HasTrait(_attacker, "hatsuen_kikan") && move.WeaponTag == WeaponTag.Breath)
+            powerFlatBuff += 10f;
+
+        // ポーカーフェイス: Strike/Flash に +10。発煙器官と同じ平坦加算の形。
+        if (HasTrait(_attacker, "poker_face")
+            && (move.WeaponTag == WeaponTag.Strike || move.WeaponTag == WeaponTag.Flash))
             powerFlatBuff += 10f;
 
         // 燃えるこぶし's already-Fire branch: no second Fire multiplication

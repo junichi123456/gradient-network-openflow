@@ -432,14 +432,6 @@
         "move_id": "gap_grass_p_25"
       },
       {
-        "level": 5,
-        "move_id": "gap_water_p_25"
-      },
-      {
-        "level": 5,
-        "move_id": "mvh_water"
-      },
-      {
         "level": 6,
         "move_id": "MVP_001"
       },
@@ -448,16 +440,8 @@
         "move_id": "mvn_059"
       },
       {
-        "level": 7,
-        "move_id": "MV_256"
-      },
-      {
         "level": 8,
         "move_id": "MVP_101"
-      },
-      {
-        "level": 8,
-        "move_id": "MV_124"
       },
       {
         "level": 9,
@@ -466,6 +450,10 @@
       {
         "level": 9,
         "move_id": "spine_vine"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_059"
       },
       {
         "level": 10,
@@ -489,7 +477,19 @@
       },
       {
         "level": 14,
+        "move_id": "MVP_127"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_166"
+      },
+      {
+        "level": 14,
         "move_id": "MV_297"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_009"
       },
       {
         "level": 16,
@@ -517,7 +517,7 @@
       }
     ],
     "evolution": null,
-    "trait": "koufun"
+    "trait": "poker_face"
   },
   {
     "species_id": "005",
@@ -806,11 +806,11 @@
       },
       {
         "level": 5,
-        "move_id": "MV_160"
+        "move_id": "MVP_002"
       },
       {
         "level": 6,
-        "move_id": "gap_water_s_30"
+        "move_id": "MVP_001"
       },
       {
         "level": 6,
@@ -818,31 +818,35 @@
       },
       {
         "level": 7,
-        "move_id": "gap_grass_s_35"
+        "move_id": "MV_138"
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
-      },
-      {
-        "level": 8,
-        "move_id": "gap_neutral_s_40"
+        "move_id": "MV_140"
       },
       {
         "level": 9,
-        "move_id": "MV_143"
+        "move_id": "MV_142"
       },
       {
         "level": 9,
-        "move_id": "mvn_083"
+        "move_id": "power_bomb"
       },
       {
         "level": 10,
-        "move_id": "MV_153"
+        "move_id": "MV_145"
+      },
+      {
+        "level": 11,
+        "move_id": "MV_144"
       },
       {
         "level": 12,
-        "move_id": "gap_neutral_s_60"
+        "move_id": "MV_146"
+      },
+      {
+        "level": 13,
+        "move_id": "MVP_147"
       },
       {
         "level": 13,
@@ -850,35 +854,55 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_007"
+        "move_id": "MVP_006"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_027"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_067"
+      },
+      {
+        "level": 14,
+        "move_id": "MVP_127"
       },
       {
         "level": 15,
-        "move_id": "gap_neutral_s_75"
+        "move_id": "MVP_008"
       },
       {
-        "level": 17,
-        "move_id": "gap_neutral_s_85"
+        "level": 15,
+        "move_id": "MVP_009"
+      },
+      {
+        "level": 16,
+        "move_id": "MVP_011"
+      },
+      {
+        "level": 18,
+        "move_id": "MVP_014"
       },
       {
         "level": 19,
-        "move_id": "gap_neutral_s_95"
+        "move_id": "MVP_016"
       },
       {
         "level": 21,
-        "move_id": "gap_neutral_s_105"
+        "move_id": "gap_neutral_p_105"
       },
       {
         "level": 23,
-        "move_id": "gap_neutral_s_115"
+        "move_id": "MVP_019"
       },
       {
         "level": 24,
-        "move_id": "gap_neutral_s_120"
+        "move_id": "MVP_020"
       }
     ],
     "evolution": null,
-    "trait": "koufun"
+    "trait": "poker_face"
   },
   {
     "species_id": "007",
@@ -1196,10 +1220,6 @@
       },
       {
         "level": 3,
-        "move_id": "air_cannon"
-      },
-      {
-        "level": 3,
         "move_id": "gap_neutral_p_15"
       },
       {
@@ -1297,6 +1317,10 @@
       {
         "level": 21,
         "move_id": "gap_neutral_s_105"
+      },
+      {
+        "level": 23,
+        "move_id": "gap_neutral_s_115"
       }
     ],
     "evolution": null,
@@ -1446,6 +1470,10 @@
         "move_id": "gap_water_p_15"
       },
       {
+        "level": 3,
+        "move_id": "mvn_023"
+      },
+      {
         "level": 5,
         "move_id": "gap_water_p_25"
       },
@@ -1540,10 +1568,6 @@
       {
         "level": 23,
         "move_id": "MVP_179"
-      },
-      {
-        "level": 24,
-        "move_id": "MVP_060"
       }
     ],
     "evolution": null,
@@ -1566,6 +1590,10 @@
       {
         "level": 1,
         "move_id": "MV_299"
+      },
+      {
+        "level": 3,
+        "move_id": "air_cannon"
       },
       {
         "level": 3,
@@ -1670,10 +1698,6 @@
       {
         "level": 23,
         "move_id": "MVP_119"
-      },
-      {
-        "level": 24,
-        "move_id": "MVP_020"
       }
     ],
     "evolution": null,
@@ -1823,20 +1847,20 @@
     ],
     "learnset": [
       {
-        "level": 3,
-        "move_id": "mvn_045"
-      },
-      {
-        "level": 4,
-        "move_id": "MV_280"
-      },
-      {
         "level": 5,
-        "move_id": "gap_ground_s_25"
+        "move_id": "mvh_ground"
       },
       {
-        "level": 7,
-        "move_id": "gap_grass_s_35"
+        "level": 6,
+        "move_id": "MVP_001"
+      },
+      {
+        "level": 6,
+        "move_id": "gap_ground_p_30"
+      },
+      {
+        "level": 6,
+        "move_id": "mvn_059"
       },
       {
         "level": 7,
@@ -1844,23 +1868,11 @@
       },
       {
         "level": 8,
-        "move_id": "MV_282"
-      },
-      {
-        "level": 8,
-        "move_id": "gap_neutral_s_40"
-      },
-      {
-        "level": 8,
-        "move_id": "mvn_049"
+        "move_id": "MVP_101"
       },
       {
         "level": 9,
-        "move_id": "mvn_028"
-      },
-      {
-        "level": 9,
-        "move_id": "power_bomb"
+        "move_id": "MV_257"
       },
       {
         "level": 9,
@@ -1868,7 +1880,15 @@
       },
       {
         "level": 10,
-        "move_id": "gap_electric_s_50"
+        "move_id": "MVP_013"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_059"
+      },
+      {
+        "level": 10,
+        "move_id": "MVP_103"
       },
       {
         "level": 10,
@@ -1880,63 +1900,71 @@
       },
       {
         "level": 11,
-        "move_id": "mvn_055"
-      },
-      {
-        "level": 11,
-        "move_id": "mvn_099"
+        "move_id": "MV_287"
       },
       {
         "level": 12,
-        "move_id": "MVP_105"
+        "move_id": "MV_272"
       },
       {
-        "level": 12,
-        "move_id": "gap_ground_s_60"
+        "level": 13,
+        "move_id": "MVP_107"
+      },
+      {
+        "level": 13,
+        "move_id": "MVP_147"
       },
       {
         "level": 13,
         "move_id": "gap_grass_s_65"
       },
       {
-        "level": 15,
-        "move_id": "MVP_109"
+        "level": 14,
+        "move_id": "MV_274"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_297"
       },
       {
         "level": 15,
-        "move_id": "circle_vine"
+        "move_id": "MVP_009"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_108"
       },
       {
         "level": 16,
-        "move_id": "gap_ground_s_80"
+        "move_id": "MVP_110"
+      },
+      {
+        "level": 17,
+        "move_id": "MVP_113"
       },
       {
         "level": 18,
-        "move_id": "gap_grass_s_90"
+        "move_id": "MVP_115"
       },
       {
         "level": 19,
-        "move_id": "gap_ground_s_95"
+        "move_id": "MVP_117"
       },
       {
         "level": 21,
-        "move_id": "gap_ground_s_105"
+        "move_id": "gap_grass_p_105"
       },
       {
-        "level": 22,
-        "move_id": "MV_266"
+        "level": 23,
+        "move_id": "MVP_119"
       },
       {
-        "level": 22,
-        "move_id": "gap_grass_s_110"
-      },
-      {
-        "level": 25,
-        "move_id": "MV_292"
+        "level": 24,
+        "move_id": "MVP_100"
       }
     ],
     "evolution": null,
-    "trait": "koufun"
+    "trait": "poker_face"
   },
   {
     "species_id": "013",
@@ -2170,8 +2198,8 @@
         "move_id": "MV_158"
       },
       {
-        "level": 23,
-        "move_id": "gap_grass_s_115"
+        "level": 22,
+        "move_id": "gap_grass_s_110"
       },
       {
         "level": 25,
@@ -2345,6 +2373,10 @@
       },
       {
         "level": 3,
+        "move_id": "mvn_078"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_089"
       },
       {
@@ -2393,19 +2425,11 @@
       },
       {
         "level": 13,
-        "move_id": "MV_248"
-      },
-      {
-        "level": 13,
         "move_id": "gap_ice_s_65"
       },
       {
         "level": 14,
         "move_id": "MVP_127"
-      },
-      {
-        "level": 14,
-        "move_id": "MV_193"
       },
       {
         "level": 15,
@@ -2425,7 +2449,15 @@
       },
       {
         "level": 24,
+        "move_id": "MV_244"
+      },
+      {
+        "level": 24,
         "move_id": "gap_ice_s_120"
+      },
+      {
+        "level": 27,
+        "move_id": "MV_210"
       }
     ],
     "evolution": null,
@@ -3559,6 +3591,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_dark_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_089"
       },
       {
@@ -3672,10 +3708,6 @@
       {
         "level": 21,
         "move_id": "gap_dark_p_105"
-      },
-      {
-        "level": 24,
-        "move_id": "MVP_180"
       }
     ],
     "evolution": null,
@@ -3811,8 +3843,8 @@
         "move_id": "gap_grass_s_105"
       },
       {
-        "level": 24,
-        "move_id": "gap_grass_s_120"
+        "level": 23,
+        "move_id": "gap_grass_s_115"
       }
     ],
     "evolution": null,
@@ -3833,7 +3865,7 @@
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_fire_p_15"
+        "move_id": "mvn_012"
       },
       {
         "level": 3,
@@ -3841,7 +3873,15 @@
       },
       {
         "level": 3,
+        "move_id": "mvn_078"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_089"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_neutral_s_20"
       },
       {
         "level": 4,
@@ -3880,10 +3920,6 @@
         "move_id": "gap_fire_s_60"
       },
       {
-        "level": 13,
-        "move_id": "MV_248"
-      },
-      {
         "level": 14,
         "move_id": "MVP_027"
       },
@@ -3904,6 +3940,10 @@
         "move_id": "gap_fire_s_80"
       },
       {
+        "level": 17,
+        "move_id": "gap_dragon_s_85"
+      },
+      {
         "level": 18,
         "move_id": "volcanic_rain"
       },
@@ -3922,10 +3962,6 @@
       {
         "level": 24,
         "move_id": "MV_244"
-      },
-      {
-        "level": 27,
-        "move_id": "MV_210"
       }
     ],
     "evolution": null,
@@ -4084,6 +4120,10 @@
       },
       {
         "level": 3,
+        "move_id": "mvn_078"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_089"
       },
       {
@@ -4123,12 +4163,12 @@
         "move_id": "gap_fire_s_60"
       },
       {
-        "level": 13,
-        "move_id": "MV_248"
+        "level": 14,
+        "move_id": "MVP_026"
       },
       {
         "level": 14,
-        "move_id": "MVP_026"
+        "move_id": "MV_193"
       },
       {
         "level": 14,
@@ -4165,10 +4205,6 @@
       {
         "level": 24,
         "move_id": "MV_244"
-      },
-      {
-        "level": 27,
-        "move_id": "MV_210"
       }
     ],
     "evolution": null,
@@ -4202,7 +4238,15 @@
       },
       {
         "level": 3,
+        "move_id": "mvn_078"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_089"
+      },
+      {
+        "level": 4,
+        "move_id": "gap_neutral_s_20"
       },
       {
         "level": 4,
@@ -4241,20 +4285,16 @@
         "move_id": "gap_fire_s_60"
       },
       {
-        "level": 13,
-        "move_id": "MV_248"
-      },
-      {
         "level": 14,
         "move_id": "MVP_027"
       },
       {
         "level": 14,
-        "move_id": "flame_funnel"
+        "move_id": "MV_193"
       },
       {
         "level": 14,
-        "move_id": "gap_neutral_s_70"
+        "move_id": "flame_funnel"
       },
       {
         "level": 15,
@@ -4263,6 +4303,10 @@
       {
         "level": 16,
         "move_id": "gap_fire_s_80"
+      },
+      {
+        "level": 18,
+        "move_id": "gap_dragon_s_90"
       },
       {
         "level": 18,
@@ -4279,10 +4323,6 @@
       {
         "level": 24,
         "move_id": "MV_244"
-      },
-      {
-        "level": 27,
-        "move_id": "MV_210"
       }
     ],
     "evolution": null,
@@ -4437,6 +4477,10 @@
       },
       {
         "level": 3,
+        "move_id": "mvn_078"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_089"
       },
       {
@@ -4477,19 +4521,11 @@
       },
       {
         "level": 13,
-        "move_id": "MV_248"
-      },
-      {
-        "level": 13,
         "move_id": "gap_ice_s_65"
       },
       {
         "level": 14,
         "move_id": "MVP_126"
-      },
-      {
-        "level": 14,
-        "move_id": "MV_193"
       },
       {
         "level": 15,
@@ -4514,6 +4550,10 @@
       {
         "level": 21,
         "move_id": "gap_ice_s_105"
+      },
+      {
+        "level": 24,
+        "move_id": "MV_244"
       },
       {
         "level": 24,
@@ -5216,6 +5256,10 @@
     "learnset": [
       {
         "level": 3,
+        "move_id": "gap_ground_p_15"
+      },
+      {
+        "level": 3,
         "move_id": "mvn_045"
       },
       {
@@ -5321,10 +5365,6 @@
       {
         "level": 23,
         "move_id": "MVP_099"
-      },
-      {
-        "level": 24,
-        "move_id": "MVP_100"
       }
     ],
     "evolution": null,
@@ -5708,10 +5748,6 @@
       },
       {
         "level": 3,
-        "move_id": "gap_grass_p_15"
-      },
-      {
-        "level": 3,
         "move_id": "mvn_056"
       },
       {
@@ -5809,6 +5845,10 @@
       {
         "level": 20,
         "move_id": "gap_neutral_s_100"
+      },
+      {
+        "level": 24,
+        "move_id": "gap_grass_s_120"
       }
     ],
     "evolution": null,
@@ -15082,10 +15122,6 @@
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_fire_p_15"
-      },
-      {
-        "level": 3,
         "move_id": "mvn_012"
       },
       {
@@ -15106,15 +15142,7 @@
       },
       {
         "level": 7,
-        "move_id": "mvh_ice"
-      },
-      {
-        "level": 8,
-        "move_id": "MV_140"
-      },
-      {
-        "level": 8,
-        "move_id": "MV_141"
+        "move_id": "mvh_electric"
       },
       {
         "level": 8,
@@ -15125,12 +15153,12 @@
         "move_id": "MVP_024"
       },
       {
-        "level": 10,
-        "move_id": "MV_246"
+        "level": 9,
+        "move_id": "MV_259"
       },
       {
         "level": 10,
-        "move_id": "MV_250"
+        "move_id": "MV_246"
       },
       {
         "level": 10,
@@ -15139,6 +15167,14 @@
       {
         "level": 10,
         "move_id": "mvs_ep_fire"
+      },
+      {
+        "level": 11,
+        "move_id": "MV_183"
+      },
+      {
+        "level": 11,
+        "move_id": "MV_237"
       },
       {
         "level": 11,
@@ -15167,6 +15203,10 @@
       {
         "level": 17,
         "move_id": "MVP_033"
+      },
+      {
+        "level": 18,
+        "move_id": "MVP_014"
       },
       {
         "level": 19,
@@ -15201,10 +15241,6 @@
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
-      },
-      {
-        "level": 3,
         "move_id": "mvn_089"
       },
       {
@@ -15232,6 +15268,10 @@
         "move_id": "MV_138"
       },
       {
+        "level": 7,
+        "move_id": "mvh_ice"
+      },
+      {
         "level": 8,
         "move_id": "MVP_023"
       },
@@ -15254,14 +15294,6 @@
       {
         "level": 11,
         "move_id": "MVP_003"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_116"
-      },
-      {
-        "level": 11,
-        "move_id": "MV_144"
       },
       {
         "level": 11,
@@ -15288,8 +15320,16 @@
         "move_id": "MVP_169"
       },
       {
+        "level": 15,
+        "move_id": "MV_109"
+      },
+      {
         "level": 17,
         "move_id": "MVP_032"
+      },
+      {
+        "level": 18,
+        "move_id": "MVP_014"
       },
       {
         "level": 18,
@@ -16359,6 +16399,10 @@
       },
       {
         "level": 10,
+        "move_id": "MVP_104"
+      },
+      {
+        "level": 10,
         "move_id": "MVP_163"
       },
       {
@@ -16400,10 +16444,6 @@
       {
         "level": 14,
         "move_id": "MVP_166"
-      },
-      {
-        "level": 14,
-        "move_id": "MV_274"
       },
       {
         "level": 15,
@@ -16449,10 +16489,6 @@
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
-      },
-      {
-        "level": 3,
         "move_id": "mvn_089"
       },
       {
@@ -16481,6 +16517,10 @@
       },
       {
         "level": 9,
+        "move_id": "MVP_024"
+      },
+      {
+        "level": 9,
         "move_id": "MVP_161"
       },
       {
@@ -16505,11 +16545,7 @@
       },
       {
         "level": 13,
-        "move_id": "MVP_106"
-      },
-      {
-        "level": 13,
-        "move_id": "MV_192"
+        "move_id": "MVP_066"
       },
       {
         "level": 13,
@@ -16517,11 +16553,15 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_046"
+        "move_id": "MVP_026"
       },
       {
         "level": 14,
         "move_id": "MVP_167"
+      },
+      {
+        "level": 15,
+        "move_id": "MVP_048"
       },
       {
         "level": 15,
@@ -20696,10 +20736,6 @@
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
-      },
-      {
-        "level": 3,
         "move_id": "mvn_089"
       },
       {
@@ -20708,11 +20744,15 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
+        "move_id": "MVP_002"
+      },
+      {
+        "level": 5,
+        "move_id": "mvh_dark"
       },
       {
         "level": 7,
-        "move_id": "gap_dark_s_35"
+        "move_id": "MV_123"
       },
       {
         "level": 7,
@@ -20724,72 +20764,76 @@
       },
       {
         "level": 8,
-        "move_id": "gap_neutral_s_40"
+        "move_id": "MV_125"
       },
       {
         "level": 9,
-        "move_id": "MVP_161"
-      },
-      {
-        "level": 9,
-        "move_id": "power_bomb"
+        "move_id": "mvn_093"
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
-      },
-      {
-        "level": 10,
-        "move_id": "mvn_018"
+        "move_id": "MVP_162"
       },
       {
         "level": 11,
-        "move_id": "MV_217"
+        "move_id": "MVP_003"
       },
       {
-        "level": 12,
-        "move_id": "mvn_098"
+        "level": 11,
+        "move_id": "MV_128"
       },
       {
-        "level": 14,
-        "move_id": "MVP_167"
-      },
-      {
-        "level": 14,
-        "move_id": "all_range_thunder"
+        "level": 13,
+        "move_id": "MVP_165"
       },
       {
         "level": 14,
-        "move_id": "mvn_044"
-      },
-      {
-        "level": 14,
-        "move_id": "nightmare_pulse"
+        "move_id": "nightmare_ball"
       },
       {
         "level": 15,
-        "move_id": "gap_dark_s_75"
+        "move_id": "MVP_168"
       },
       {
-        "level": 15,
-        "move_id": "gap_dragon_s_75"
+        "level": 16,
+        "move_id": "MVP_171"
       },
       {
         "level": 18,
-        "move_id": "dark_laser"
+        "move_id": "MVP_015"
       },
       {
-        "level": 20,
-        "move_id": "gap_dark_s_100"
+        "level": 18,
+        "move_id": "MVP_174"
+      },
+      {
+        "level": 19,
+        "move_id": "MV_135"
+      },
+      {
+        "level": 21,
+        "move_id": "gap_dark_p_105"
       },
       {
         "level": 24,
-        "move_id": "gap_dark_s_120"
+        "move_id": "MVP_060"
+      },
+      {
+        "level": 24,
+        "move_id": "MVP_180"
+      },
+      {
+        "level": 25,
+        "move_id": "MV_099"
+      },
+      {
+        "level": 27,
+        "move_id": "MV_098"
       }
     ],
     "evolution": null,
     "ecology": "heat_organ",
-    "trait": "dark_power"
+    "trait": "body_press"
   },
   {
     "species_id": "112",
@@ -22245,32 +22289,20 @@
     ],
     "learnset": [
       {
-        "level": 3,
-        "move_id": "gap_dark_p_15"
-      },
-      {
-        "level": 3,
-        "move_id": "mvn_045"
-      },
-      {
         "level": 4,
-        "move_id": "gap_electric_p_20"
-      },
-      {
-        "level": 4,
-        "move_id": "mvs_ice_atk_crit"
+        "move_id": "mvs_fire_atk_crit"
       },
       {
         "level": 5,
-        "move_id": "mvh_ground"
-      },
-      {
-        "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "mvh_dark"
       },
       {
         "level": 7,
-        "move_id": "MV_121"
+        "move_id": "MV_256"
+      },
+      {
+        "level": 7,
+        "move_id": "gap_dark_s_35"
       },
       {
         "level": 7,
@@ -22281,88 +22313,84 @@
         "move_id": "mvw_fog"
       },
       {
-        "level": 7,
-        "move_id": "mvw_sandstorm"
-      },
-      {
         "level": 8,
-        "move_id": "MV_124"
+        "move_id": "MVP_081"
       },
       {
         "level": 10,
-        "move_id": "MVP_013"
-      },
-      {
-        "level": 10,
-        "move_id": "MVP_163"
-      },
-      {
-        "level": 10,
-        "move_id": "MV_145"
-      },
-      {
-        "level": 10,
-        "move_id": "gap_dark_s_50"
-      },
-      {
-        "level": 10,
-        "move_id": "poison_fog"
+        "move_id": "MVP_162"
       },
       {
         "level": 11,
-        "move_id": "MVP_164"
+        "move_id": "MVP_003"
+      },
+      {
+        "level": 11,
+        "move_id": "MV_258"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_055"
       },
       {
         "level": 12,
-        "move_id": "MV_296"
+        "move_id": "MV_272"
       },
       {
         "level": 13,
-        "move_id": "MVP_086"
+        "move_id": "MVP_005"
       },
       {
         "level": 14,
-        "move_id": "MVP_046"
+        "move_id": "MVP_166"
       },
       {
         "level": 14,
-        "move_id": "MV_274"
+        "move_id": "nightmare_pulse"
       },
       {
-        "level": 14,
-        "move_id": "MV_276"
+        "level": 15,
+        "move_id": "MVP_088"
       },
       {
         "level": 16,
-        "move_id": "MVP_171"
+        "move_id": "MVP_091"
       },
       {
-        "level": 17,
-        "move_id": "MVP_093"
+        "level": 18,
+        "move_id": "MVP_015"
       },
       {
-        "level": 17,
-        "move_id": "dark_wisp"
+        "level": 18,
+        "move_id": "MVP_175"
       },
       {
         "level": 19,
-        "move_id": "MVP_176"
+        "move_id": "MVP_096"
       },
       {
-        "level": 20,
-        "move_id": "gap_dark_p_100"
+        "level": 21,
+        "move_id": "gap_dark_p_105"
       },
       {
-        "level": 20,
-        "move_id": "gap_dark_s_100"
+        "level": 24,
+        "move_id": "MVP_060"
       },
       {
-        "level": 23,
-        "move_id": "MVP_179"
+        "level": 24,
+        "move_id": "MVP_180"
+      },
+      {
+        "level": 25,
+        "move_id": "MV_099"
+      },
+      {
+        "level": 27,
+        "move_id": "MV_098"
       }
     ],
     "evolution": null,
-    "trait": "dark_power"
+    "trait": "body_press"
   },
   {
     "species_id": "121",
@@ -24119,7 +24147,7 @@
       },
       {
         "level": 7,
-        "move_id": "MV_121"
+        "move_id": "MV_123"
       },
       {
         "level": 7,
@@ -24130,8 +24158,8 @@
         "move_id": "MV_125"
       },
       {
-        "level": 8,
-        "move_id": "gap_dark_s_40"
+        "level": 9,
+        "move_id": "mvn_093"
       },
       {
         "level": 10,
@@ -24139,15 +24167,15 @@
       },
       {
         "level": 11,
-        "move_id": "MVP_164"
+        "move_id": "MVP_003"
+      },
+      {
+        "level": 11,
+        "move_id": "MV_128"
       },
       {
         "level": 13,
         "move_id": "MVP_165"
-      },
-      {
-        "level": 13,
-        "move_id": "gap_dark_s_65"
       },
       {
         "level": 14,
@@ -24155,11 +24183,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_007"
-      },
-      {
-        "level": 15,
-        "move_id": "MVP_109"
+        "move_id": "nightmare_ball"
       },
       {
         "level": 15,
@@ -24167,39 +24191,43 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_031"
+        "move_id": "MVP_171"
       },
       {
-        "level": 16,
-        "move_id": "MVP_131"
+        "level": 18,
+        "move_id": "MVP_015"
       },
       {
-        "level": 16,
-        "move_id": "MVP_170"
-      },
-      {
-        "level": 17,
-        "move_id": "MVP_173"
+        "level": 18,
+        "move_id": "MVP_174"
       },
       {
         "level": 19,
-        "move_id": "MVP_176"
-      },
-      {
-        "level": 20,
-        "move_id": "gap_dark_p_100"
+        "move_id": "MV_135"
       },
       {
         "level": 21,
-        "move_id": "gap_dragon_p_105"
+        "move_id": "gap_dark_p_105"
       },
       {
         "level": 23,
-        "move_id": "MVP_179"
+        "move_id": "MVP_039"
+      },
+      {
+        "level": 24,
+        "move_id": "MVP_180"
+      },
+      {
+        "level": 25,
+        "move_id": "MV_099"
+      },
+      {
+        "level": 27,
+        "move_id": "MV_098"
       }
     ],
     "evolution": null,
-    "trait": "dark_power"
+    "trait": "body_press"
   },
   {
     "species_id": "130B",
@@ -27842,15 +27870,15 @@
       },
       {
         "level": 6,
-        "move_id": "MV_205"
-      },
-      {
-        "level": 6,
         "move_id": "gap_water_s_30"
       },
       {
         "level": 7,
         "move_id": "MV_215"
+      },
+      {
+        "level": 7,
+        "move_id": "gap_ice_s_35"
       },
       {
         "level": 9,
@@ -34503,6 +34531,10 @@
         "move_id": "MV_139"
       },
       {
+        "level": 7,
+        "move_id": "mvh_ice"
+      },
+      {
         "level": 8,
         "move_id": "gap_neutral_s_40"
       },
@@ -34511,20 +34543,16 @@
         "move_id": "MV_143"
       },
       {
-        "level": 9,
-        "move_id": "MV_259"
-      },
-      {
         "level": 11,
         "move_id": "MVP_003"
       },
       {
         "level": 11,
-        "move_id": "MV_237"
+        "move_id": "MV_116"
       },
       {
         "level": 12,
-        "move_id": "MVP_125"
+        "move_id": "MVP_105"
       },
       {
         "level": 12,
@@ -34576,14 +34604,6 @@
     ],
     "learnset": [
       {
-        "level": 3,
-        "move_id": "gap_dark_p_15"
-      },
-      {
-        "level": 3,
-        "move_id": "mvn_089"
-      },
-      {
         "level": 4,
         "move_id": "MV_129"
       },
@@ -34605,19 +34625,15 @@
       },
       {
         "level": 7,
+        "move_id": "MV_138"
+      },
+      {
+        "level": 7,
         "move_id": "MV_139"
       },
       {
         "level": 7,
-        "move_id": "MV_212"
-      },
-      {
-        "level": 8,
-        "move_id": "MV_125"
-      },
-      {
-        "level": 8,
-        "move_id": "MV_140"
+        "move_id": "mvh_ice"
       },
       {
         "level": 8,
@@ -34629,11 +34645,15 @@
       },
       {
         "level": 11,
-        "move_id": "MVP_164"
+        "move_id": "MV_128"
       },
       {
         "level": 11,
-        "move_id": "MV_128"
+        "move_id": "MV_258"
+      },
+      {
+        "level": 12,
+        "move_id": "MVP_125"
       },
       {
         "level": 13,
@@ -34648,8 +34668,16 @@
         "move_id": "MVP_169"
       },
       {
+        "level": 15,
+        "move_id": "MV_109"
+      },
+      {
         "level": 16,
         "move_id": "MVP_170"
+      },
+      {
+        "level": 18,
+        "move_id": "MVP_014"
       },
       {
         "level": 18,

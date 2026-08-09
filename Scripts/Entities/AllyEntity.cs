@@ -55,7 +55,7 @@ public partial class AllyEntity : Entity
         Stats.SpDefense = 8;
         Stats.Level = 8;
 
-        Moves.Learn("power_shot");
+        Moves.Learn("gap_neutral_s_35");
     }
 
     // Phase 19 downed policy (PMD-style): a fainted ally leaves the
