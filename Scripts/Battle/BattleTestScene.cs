@@ -24,10 +24,14 @@ public partial class BattleTestScene : Node2D
 
     private const int MaxCycles = 40;
 
+    // 検証用: 1ターンに費やす実時間の見積り。
+    private const double TurnSeconds = 8.0;
+
     private GridManager _grid;
     private TurnManager _turnManager;
     private FloorController _floor;
     private readonly BattleScheduler _sched = new();
+    private readonly BattleClock _clock = new();
     private readonly List<string> _doubleActs = new();
 
     public override void _Ready()
@@ -50,9 +54,13 @@ public partial class BattleTestScene : Node2D
         VerifyTeamRules(playerTeam);
         VerifyDeployment(playerTeam);
 
-        // 選出フェーズの時間切れ経路（登録順の昇順で自動選出）で4匹に絞る。
-        Deploy(Faction.Player, playerTeam.AutoSelect());
-        Deploy(Faction.Enemy, enemyTeam.AutoSelect());
+        VerifyClock(playerTeam);
+
+        // 選出フェーズ。検証では両者とも提出せずに50秒を経過させ、
+        // 時間切れ経路（登録順の昇順で自動選出）を通す。
+        _clock.Selection.Advance(BattleClock.SelectionLimitSeconds);
+        Deploy(Faction.Player, _clock.ResolveSelection(Faction.Player, playerTeam).ToList());
+        Deploy(Faction.Enemy, _clock.ResolveSelection(Faction.Enemy, enemyTeam).ToList());
 
         VerifyItems();
         VerifyArena();
@@ -143,6 +151,43 @@ public partial class BattleTestScene : Node2D
             GD.Print($"[BattleTest] {faction} {pal.ActorName} BST{pal.Bst} "
                      + $"Lv{pal.Stats.Level} HP{pal.Stats.MaxHp} 技{pal.Moves.Slots.Count} @{tile}");
         }
+    }
+
+    // 制限時間の規則が機械検証で効いていることを確認する。
+    // 実時間を待たずに済むよう、経過は Advance() で与える。
+    private void VerifyClock(BattleTeam team)
+    {
+        GD.Print($"[検証] 選出50秒・対戦20分: "
+                 + $"{(BattleClock.SelectionLimitSeconds == 50.0 && BattleClock.MatchLimitSeconds == 1200.0 ? "OK" : "NG")} "
+                 + $"({BattleClock.SelectionLimitSeconds}秒 / {BattleClock.MatchLimitSeconds / 60}分)");
+
+        // 両者が出せば時間内でも締め切られる。
+        var c1 = new BattleClock();
+        var sel = team.AutoSelect();
+        c1.SubmitSelection(Faction.Player, team, sel);
+        bool halfway = !c1.SelectionClosed;
+        c1.SubmitSelection(Faction.Enemy, team, sel);
+        GD.Print($"[検証] 両者の選出が揃えば時間内でも締め切る: "
+                 + $"{(halfway && c1.SelectionClosed ? "OK" : "NG")}");
+
+        // 4匹でない選出は受け付けない。
+        var c2 = new BattleClock();
+        GD.Print($"[検証] 4匹でない選出を受け付けない: "
+                 + $"{(!c2.SubmitSelection(Faction.Player, team, sel.Take(3).ToList()) ? "OK" : "NG")}");
+
+        // 50秒で締め切られ、未提出側は登録順の昇順で自動選出される。
+        var c3 = new BattleClock();
+        c3.Selection.Advance(49.0);
+        bool notYet = !c3.SelectionClosed;
+        c3.Selection.Advance(1.0);
+        var auto = c3.ResolveSelection(Faction.Enemy, team);
+        GD.Print($"[検証] 50秒で締め切り未提出側は自動選出: "
+                 + $"{(notYet && c3.SelectionClosed && auto.SequenceEqual(team.AutoSelect()) ? "OK" : "NG")} "
+                 + $"({string.Join(",", auto.Select(e => e.Species.DisplayName))})");
+
+        // 締め切り後の提出は拒否される。
+        GD.Print($"[検証] 締め切り後の選出は拒否される: "
+                 + $"{(!c3.SubmitSelection(Faction.Player, team, sel) ? "OK" : "NG")}");
     }
 
     // 配置フェーズの規則が機械検証で効いていることを確認する。
@@ -419,9 +464,25 @@ public partial class BattleTestScene : Node2D
         foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); }
     }
 
+    // 対戦20分の判定。全滅が先に来れば勝敗、来なければ引き分け。
+    private void VerifyMatchLimit()
+    {
+        var c = new BattleClock();
+        GD.Print($"[検証] 20分が尽きるまでは未決着: "
+                 + $"{(c.Resolve(_sched) == BattleOutcome.Undecided ? "OK" : "NG")}");
+
+        c.Match.Advance(BattleClock.MatchLimitSeconds - 1.0);
+        bool notYet = c.Resolve(_sched) == BattleOutcome.Undecided;
+        c.Match.Advance(1.0);
+        GD.Print($"[検証] 20分の時間切れで両者生存なら引き分け: "
+                 + $"{(notYet && c.Resolve(_sched) == BattleOutcome.Draw ? "OK" : "NG")}");
+    }
+
     private void RunBattle()
     {
-        while (_sched.CycleNumber < MaxCycles && _sched.Winner() == null)
+        VerifyMatchLimit();
+
+        while (_sched.CycleNumber < MaxCycles && _clock.Resolve(_sched) == BattleOutcome.Undecided)
         {
             _sched.BeginCycle();
             var actedThisCycle = new List<Entity>();
@@ -443,19 +504,29 @@ public partial class BattleTestScene : Node2D
                 }
 
                 _sched.ResolveTurn(a, b);
-                if (_sched.Winner() != null) break;
+
+                // 1ターンに費やす実時間。全滅だけでなく20分の時間切れでも
+                // 対戦は終わるので、決着判定は時計を通す。
+                _clock.Match.Advance(TurnSeconds);
+                if (_clock.Resolve(_sched) != BattleOutcome.Undecided) break;
             }
 
             _sched.EndCycle();
-            if (_sched.Winner() != null) break;
+            if (_clock.Resolve(_sched) != BattleOutcome.Undecided) break;
         }
 
         GD.Print($"[検証] 1サイクル中に2回行動した個体: "
                  + $"{(_doubleActs.Count == 0 ? "なし OK" : "NG " + string.Join(",", _doubleActs))}");
 
-        var w = _sched.Winner();
-        GD.Print($"[BattleTest] 決着: {(w?.ToString() ?? "引き分け")} "
-                 + $"(サイクル{_sched.CycleNumber} / 通算{_sched.TotalTurns}ターン)");
+        // 対戦ループが時計で回っていることを、実際に時間が進んだ事実で確かめる。
+        GD.Print($"[検証] 対戦ループが時計を進めている: "
+                 + $"{(_clock.Match.Elapsed > 0.0 && _clock.Match.Elapsed <= BattleClock.MatchLimitSeconds ? "OK" : "NG")} "
+                 + $"({_clock.Match.Elapsed:F0}秒 / 上限{BattleClock.MatchLimitSeconds:F0}秒)");
+
+        var outcome = _clock.Resolve(_sched);
+        GD.Print($"[BattleTest] 決着: {outcome} "
+                 + $"(サイクル{_sched.CycleNumber} / 通算{_sched.TotalTurns}ターン / "
+                 + $"経過{_clock.Match.Elapsed:F0}秒 / 残り{_clock.Match.Remaining:F0}秒)");
         foreach (var e in _sched.Roster)
             GD.Print($"   {e.Faction} {e.ActorName} {(e.IsAlive ? $"HP{e.Stats.CurrentHp}/{e.Stats.MaxHp}" : "戦闘不能")}");
     }

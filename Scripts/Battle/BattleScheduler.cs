@@ -170,11 +170,16 @@ public sealed class BattleScheduler
             e.ResolveStatusTick();
     }
 
+    public bool AnyAlive(Faction faction) =>
+        _roster.Any(e => e.Faction == faction && e.IsAlive);
+
     // 決着判定。片方が全滅していれば生存側の勝ち、両方生きていれば未決着。
+    // 時間切れの引き分けは時計側の判断なので、ここでは扱わない
+    // （BattleClock.Resolve が全滅判定とあわせて最終結果を出す）。
     public Faction? Winner()
     {
-        bool player = _roster.Any(e => e.Faction == Faction.Player && e.IsAlive);
-        bool enemy = _roster.Any(e => e.Faction == Faction.Enemy && e.IsAlive);
+        bool player = AnyAlive(Faction.Player);
+        bool enemy = AnyAlive(Faction.Enemy);
         if (player && enemy) return null;
         if (player) return Faction.Player;
         if (enemy) return Faction.Enemy;
