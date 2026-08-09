@@ -476,6 +476,13 @@ public class AttackAction : IAction
                 && (move.WeaponTag == WeaponTag.Fist || move.WeaponTag == WeaponTag.Punch)))
             powerMul *= 1.1f;
 
+        // ポーカーフェイス: Straight/Flash の威力1.5倍。いっせん／ツメのかりうど
+        // と同じ「自分の技のタグを見る」形なので同じ powerMul に乗せる。
+        // 平坦加算(+10)から差し替えたので、威力の高い技ほど伸びる。
+        if (HasTrait(_attacker, "poker_face")
+            && (move.WeaponTag == WeaponTag.Straight || move.WeaponTag == WeaponTag.Flash))
+            powerMul *= 1.5f;
+
         // がんばりサポート (§4, stage 3): a party-census trait that buffs
         // OTHERS, not its holder - "他の味方が使う接触技の威力+10%", so this
         // is the ちから shape (includeSelf: false) keyed on a bare unique
@@ -576,11 +583,6 @@ public class AttackAction : IAction
         // 発煙器官: +10 on ブレス/息系 moves (WeaponTag.Breath, populated in
         // moves.json for the 5 qualifying moves).
         if (HasTrait(_attacker, "hatsuen_kikan") && move.WeaponTag == WeaponTag.Breath)
-            powerFlatBuff += 10f;
-
-        // ポーカーフェイス: Straight/Flash に +10。発煙器官と同じ平坦加算の形。
-        if (HasTrait(_attacker, "poker_face")
-            && (move.WeaponTag == WeaponTag.Straight || move.WeaponTag == WeaponTag.Flash))
             powerFlatBuff += 10f;
 
         // 燃えるこぶし's already-Fire branch: no second Fire multiplication

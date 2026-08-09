@@ -973,6 +973,6 @@
     "category": "unique",
     "element": null,
     "template_kind": null,
-    "description": "ウェポンタグ Straight・Flash の技を使うとき、技の威力+10。"
+    "description": "ウェポンタグ Straight・Flash の技を使うとき、技の威力1.5倍。"
   }
 ]

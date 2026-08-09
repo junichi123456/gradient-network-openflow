@@ -41,7 +41,7 @@ TRAIT_PHYSICAL = {
     'eisou',             # 接触技の急所ランク+1
     'bakugeki',          # 竜技を物理の固定技へ差し替え
     'body_press',        # Crush・Rendが必中（該当技はすべてPhysical）
-    'poker_face',        # Straight・Flashの威力+10（該当技はすべてPhysical）
+    'poker_face',        # Straight・Flashの威力1.5倍（該当技はすべてPhysical）
 }
 TRAIT_SPECIAL = {
     'hatsuen_kikan',     # ブレス系+10（該当9技はすべてSpecial）
