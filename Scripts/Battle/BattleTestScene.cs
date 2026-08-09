@@ -233,21 +233,25 @@ public partial class BattleTestScene : Node2D
                  + $"{(def.Stats.CurrentHp > lowHp && def.HeldItemConsumed ? "OK" : "NG")} "
                  + $"(HP{lowHp} → {def.Stats.CurrentHp}, 消費={def.HeldItemConsumed})");
 
-        // 処理順の検証: 通常ダメージ → 特性 → 持ち物 → 急所。
-        // 急所が最後段なら、素のダメージに対して常にちょうど1.5倍になる。
-        // 計算器の内部に急所があった頃は、後段の軽減が急所倍率の「後」に
-        // 掛かっていたため、この関係が崩れていた。
+        // レンズ/プレート4種は急所時に作用しない。急所の最大ダメージが
+        // 持ち物の有無で変わらないことで確かめる。
         int plainMin = MeasureHit(atk, def, phys, null);
         int critMax = MeasureCrit(atk, def, phys);
-        GD.Print($"[検証] 急所が最後段(素の1.5倍になる): "
-                 + $"{(System.Math.Abs(critMax - plainMin * 1.5f) <= 1f ? "OK" : "NG")} "
-                 + $"({plainMin} → {critMax}, 期待{plainMin * 1.5f:F1})");
-
-        // 持ち物が急所より先: プレートで軽減してから1.5倍が乗る。
         int platedCrit = MeasureCrit(atk, def, phys, "iron_plate");
-        GD.Print($"[検証] 持ち物の軽減が急所より先に効く: "
-                 + $"{(System.Math.Abs(platedCrit - plainMin * 0.70f * 1.5f) <= 2f ? "OK" : "NG")} "
-                 + $"({platedCrit}, 期待{plainMin * 0.70f * 1.5f:F1})");
+        GD.Print($"[検証] アイアンプレートは急所時に作用しない: "
+                 + $"{(platedCrit == critMax ? "OK" : "NG")} "
+                 + $"(急所 素{critMax} / プレート{platedCrit})");
+
+        atk.HeldItemId = "power_lens";
+        int lensCrit = MeasureCrit(atk, def, phys);
+        atk.HeldItemId = null;
+        GD.Print($"[検証] パワーレンズは急所時に作用しない: "
+                 + $"{(lensCrit == critMax ? "OK" : "NG")} "
+                 + $"(急所 素{critMax} / レンズ{lensCrit})");
+
+        // 非急所では従来どおり効く（撤回した順序変更とは独立）。
+        GD.Print($"[検証] 非急所では従来どおり効く: "
+                 + $"{(MeasureHit(atk, def, phys, "iron_plate") < plainMin ? "OK" : "NG")}");
 
         foreach (var e in _sched.Roster) { e.HeldItemId = null; e.Stats.HealToFull(); }
         GD.Print($"[検証] 検証後に全個体のHPと持ち物を戻した: "

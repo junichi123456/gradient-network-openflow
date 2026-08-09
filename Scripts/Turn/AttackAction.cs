@@ -743,23 +743,27 @@ public class AttackAction : IAction
             powerFlatBuff = Mathf.Max(0f, powerFlatBuff);
         }
 
-        // 持ち物4種は実数値ではなく実効威力を動かす。ダメージは実効威力に
-        // 対して線形（rawDamage = baseCalc * effPower/100）なので、表記の
-        // ±25/30/40% がそのままダメージの増減になる。実数値(Atk/Def)側に
+        // レンズ/プレート4種は実数値ではなく実効威力を動かす。ダメージは
+        // 実効威力に対して線形（rawDamage = baseCalc * effPower/100）なので、
+        // 表記の ±25/30/40% がそのままダメージの増減になる。実数値(Atk/Def)側に
         // 掛けると Atk^2/(Atk+Def) の非線形を通るため、攻撃側は表記より
         // 強く、防御側は表記より弱く出てしまう。
         //
-        // 急所のクランプ(powerMul の Max(1f))より後に掛けているので、
-        // プレートの軽減は急所でも打ち消されない。〇〇流など特性による
-        // 軽減がダメージ確定後に効くのと同じ扱い。
-        if (_attacker.Holds(Combat.BattleItemEffect.PhysAtkUp25) && move.Category == MoveCategory.Physical)
-            powerMul *= 1.25f;
-        if (_attacker.Holds(Combat.BattleItemEffect.SpecAtkUp25) && move.Category == MoveCategory.Special)
-            powerMul *= 1.25f;
-        if (target.Holds(Combat.BattleItemEffect.PhysDefUp30) && move.Category == MoveCategory.Physical)
-            powerMul *= 0.70f;
-        if (target.Holds(Combat.BattleItemEffect.SpecDefUp40) && move.Category == MoveCategory.Special)
-            powerMul *= 0.60f;
+        // この4種は急所時には作用しない。急所は「相手の防御的な補正を貫く」
+        // 一撃なので、既存の急所クランプ(atkMul の Max(1f) / defMul の
+        // Min(1f) / powerMul の Max(1f))と同じ考え方で、攻撃側の増幅も
+        // 防御側の軽減もまとめて無効にする。
+        if (!isCrit)
+        {
+            if (_attacker.Holds(Combat.BattleItemEffect.PhysAtkUp25) && move.Category == MoveCategory.Physical)
+                powerMul *= 1.25f;
+            if (_attacker.Holds(Combat.BattleItemEffect.SpecAtkUp25) && move.Category == MoveCategory.Special)
+                powerMul *= 1.25f;
+            if (target.Holds(Combat.BattleItemEffect.PhysDefUp30) && move.Category == MoveCategory.Physical)
+                powerMul *= 0.70f;
+            if (target.Holds(Combat.BattleItemEffect.SpecDefUp40) && move.Category == MoveCategory.Special)
+                powerMul *= 0.60f;
+        }
 
         var ctx = new DamageContext
         {
@@ -776,10 +780,7 @@ public class AttackAction : IAction
             AtkMultiplier = atkMul,
             DefMultiplier = defMul,
             PowerMultiplier = powerMul,
-            // 急所は最後段で掛ける。処理順は
-            // 通常ダメージ → 特性 → 持ち物 → 急所 と決めたので、
-            // 計算器の内部では等倍に固定しておく。
-            CritMultiplier = 1.0f,
+            CritMultiplier = isCrit ? 1.5f : 1.0f,
             DragonMultiplier = effectiveDragonMultiplier,
         };
 
@@ -796,6 +797,21 @@ public class AttackAction : IAction
         // of the holder's real Type1/Type2.
         if (HasMatchingTemplateTrait(target, effectiveType, TraitTemplateKind.Resist))
             damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.15f));
+
+        // クリットシェル(使い切り): 急所を受けた時、そのダメージを90%減。
+        if (isCrit && target.Holds(Combat.BattleItemEffect.CritCut90))
+        {
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.1f));
+            target.ConsumeHeldItem();
+        }
+
+        // ウィークシェル(使い切り): 弱点属性を受けた時、そのダメージを75%減。
+        // 「弱点」は解決後の相性倍率が等倍超であることで判定する。
+        if (typeMultiplier > 1.0f && target.Holds(Combat.BattleItemEffect.WeaknessCut75))
+        {
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.25f));
+            target.ConsumeHeldItem();
+        }
 
         // きぬぬい (§3): one-time -10% on the next damage this entity takes,
         // armed by their own prior Ice-move use (see Execute()).
@@ -882,32 +898,7 @@ public class AttackAction : IAction
         // drain/recoil still key off the full damage they dealt.
         damage = ApplyGuardianShoulder(target, damage);
 
-        // ---- 持ち物の段 (特性の後、急所の前) ----
-        // クリットシェル(使い切り): 急所を受けた時、そのダメージを90%減。
-        // 急所倍率が乗る前の値に掛かるが、どちらも乗算なので結果は変わらない
-        // （切り捨ての位置だけが変わる）。
-        if (isCrit && target.Holds(Combat.BattleItemEffect.CritCut90))
-        {
-            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.1f));
-            target.ConsumeHeldItem();
-        }
-
-        // ウィークシェル(使い切り): 弱点属性を受けた時、そのダメージを75%減。
-        // 「弱点」は解決後の相性倍率が等倍超であることで判定する。
-        if (typeMultiplier > 1.0f && target.Holds(Combat.BattleItemEffect.WeaknessCut75))
-        {
-            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.25f));
-            target.ConsumeHeldItem();
-        }
-
-        // ---- 急所の段 (最後) ----
-        // 通常ダメージ → 特性 → 持ち物 → 急所 の順で処理する取り決めにより、
-        // 急所はすべての軽減・増幅を通したあとの値に掛かる。
-        if (isCrit)
-            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 1.5f));
-
         // エンデュアチャーム(使い切り): HP満タンから即死する一撃をHP1で耐える。
-        // 「即死に至る威力」の判定なので、急所まで乗せきった最終値で見る。
         if (damage >= defenderStats.CurrentHp
             && defenderStats.CurrentHp == defenderStats.MaxHp
             && target.Holds(Combat.BattleItemEffect.SurviveFromFull))
