@@ -288,6 +288,29 @@ public partial class Entity : Node2D, ITurnActor
     // Must run BEFORE GridPosition is overwritten for a move (the delta
     // needs the pre-move position) - PlayBumpAttack never changes
     // GridPosition at all, so its call site isn't order-sensitive.
+    // ---- 対戦の持ち物 (Data/items.json の BattleHeld) ----
+    // 迷宮では常に未設定なので、既存の挙動には一切影響しない。
+    // 「使い切り」は発動すると Consumed が立ち、以降 HeldEffect が None を返す。
+    public string HeldItemId { get; set; }
+    public bool HeldItemConsumed { get; private set; }
+
+    public Combat.BattleItemEffect HeldEffect =>
+        HeldItemConsumed || string.IsNullOrEmpty(HeldItemId)
+            ? Combat.BattleItemEffect.None
+            : Combat.ItemDatabase.Get(HeldItemId)?.BattleEffect ?? Combat.BattleItemEffect.None;
+
+    public bool Holds(Combat.BattleItemEffect effect) => HeldEffect == effect;
+
+    // 使い切りの持ち物を消費する。持続効果には呼ばない。
+    public void ConsumeHeldItem()
+    {
+        if (string.IsNullOrEmpty(HeldItemId) || HeldItemConsumed) return;
+        var data = Combat.ItemDatabase.Get(HeldItemId);
+        if (data == null || !data.ConsumedOnTrigger) return;
+        HeldItemConsumed = true;
+        UI.MessageLogger.Log($"{ActorName}の{data.Name}が発動した!", UI.MessageLogger.EffectiveColor);
+    }
+
     // 向きを直接与える入口。迷宮では移動/攻撃の副作用としてしか向きが
     // 変わらないが、対戦では配置時に正面を決める必要がある（Line/TwoTile が
     // FacingDirection を見るため）。ゼロベクトルは無視する。

@@ -158,6 +158,8 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 全アイテムに効果種別がついている: {(allTyped ? "OK" : "NG")}");
         GD.Print($"[検証] 効果が重複していない: {(allDistinct ? "OK" : "NG")}");
 
+        VerifyItemEffects();
+
         // 持ち物を持たせた構築が通ること（重複しない限り）。
         var team = BuildTeam(PlayerRoster);
         var withItems = new BattleTeam(team.Entries.Select((e, i) => new BattleEntry
@@ -167,6 +169,69 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 別々の持ち物を6匹に配れる: "
                  + $"{(withItems.Validate().Count == 0 ? "OK" : "NG " + string.Join("/", withItems.Validate()))}");
     }
+
+    // 持ち物の効果が実際に戦闘で発火するかを、盤上の個体に持たせて確かめる。
+    private void VerifyItemEffects()
+    {
+        var atk = _sched.Roster.First(e => e.Faction == Faction.Enemy);
+        var def = _sched.Roster.First(e => e.Faction == Faction.Player);
+        var ally = _sched.Roster.Last(e => e.Faction == Faction.Player);
+
+        // ワイドウォード: Room技を完全無効。
+        var roomMove = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+            .First(m => m.Range == MoveRange.Room && m.Power > 0 && m.Accuracy >= 100);
+        def.HeldItemId = "wide_ward";
+        int before = def.Stats.CurrentHp;
+        new AttackAction(atk, def, MakeSlot(atk, roomMove), _floor).Execute(0);
+        GD.Print($"[検証] ワイドウォードがRoom技を無効化: "
+                 + $"{(def.Stats.CurrentHp == before ? "OK" : "NG")} ({roomMove.Name})");
+        def.HeldItemId = null;
+
+        // アイアンプレート: 物理被弾時に防御+30% → ダメージが減る。
+        var phys = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+            .First(m => m.Category == MoveCategory.Physical && m.Range == MoveRange.Adjacent
+                        && m.Accuracy >= 100 && m.Power >= 40 && m.RankEffects.Count == 0);
+        int plain = MeasureHit(atk, def, phys, null);
+        int warded = MeasureHit(atk, def, phys, "iron_plate");
+        GD.Print($"[検証] アイアンプレートで物理被ダメが減る: "
+                 + $"{(warded < plain ? "OK" : "NG")} ({plain} → {warded})");
+
+        // パワーレンズ: 物理使用時に攻撃+25% → ダメージが増える。
+        atk.HeldItemId = "power_lens";
+        int boosted = MeasureHit(atk, def, phys, null);
+        atk.HeldItemId = null;
+        GD.Print($"[検証] パワーレンズで物理与ダメが増える: "
+                 + $"{(boosted > plain ? "OK" : "NG")} ({plain} → {boosted})");
+
+        // ラストトニック: HPが33%以下になると最大HPの50%回復し、消費される。
+        def.Stats.HealToFull();
+        def.Stats.TakeDamage((int)(def.Stats.MaxHp * 0.70f));   // 残り30%
+        def.HeldItemId = "guard_tonic_50";
+        int lowHp = def.Stats.CurrentHp;
+        new AttackAction(atk, def, MakeSlot(atk, phys), _floor).Execute(0);
+        GD.Print($"[検証] ラストトニックが閾値で発動し消費される: "
+                 + $"{(def.Stats.CurrentHp > lowHp && def.HeldItemConsumed ? "OK" : "NG")} "
+                 + $"(HP{lowHp} → {def.Stats.CurrentHp}, 消費={def.HeldItemConsumed})");
+
+        foreach (var e in _sched.Roster) { e.HeldItemId = null; e.Stats.HealToFull(); }
+        GD.Print($"[検証] 検証後に全個体のHPと持ち物を戻した: "
+                 + $"{(_sched.Roster.All(e => e.Stats.CurrentHp == e.Stats.MaxHp) ? "OK" : "NG")}");
+    }
+
+    // 同じ攻撃を1回だけ通してダメージ量を測る。測定後にHPは戻す。
+    private int MeasureHit(Entity atk, Entity def, MoveData move, string itemId)
+    {
+        def.Stats.HealToFull();
+        def.HeldItemId = itemId;
+        int before = def.Stats.CurrentHp;
+        new AttackAction(atk, def, MakeSlot(atk, move), _floor).Execute(0);
+        int dealt = before - def.Stats.CurrentHp;
+        def.HeldItemId = null;
+        def.Stats.HealToFull();
+        return dealt;
+    }
+
+    private static MoveSlot MakeSlot(Entity user, MoveData move) => new(move);
 
     // 対戦盤で射程が意図どおりに解釈されるかを、実際の解決器で確認する。
     private void VerifyArena()

@@ -101,7 +101,31 @@ public sealed class BattleScheduler
             {
                 var action = c.Actor.FilterActionForStatus(c.Action);
                 action?.Execute(TotalTurns);
+
+                // 「自分のターン終了時」に効く持ち物。行動が不発でも
+                // ターンは終わるので、この位置は行動の成否に依らない。
+                ResolveTurnEndItems(c.Actor);
             }
+        }
+    }
+
+    // リジェネバンド(持続): 自分のターン終了時にHPを10%回復。
+    // パージバンド(持続): 自分のターン終了時に全状態異常蓄積値を100減少。
+    private static void ResolveTurnEndItems(Entity e)
+    {
+        if (!e.IsAlive) return;
+
+        if (e.Holds(Combat.BattleItemEffect.RegenOnTurnEnd))
+        {
+            int heal = Math.Max(1, (int)(e.Stats.MaxHp * 0.10f));
+            e.Stats.Heal(heal);
+            GD.Print($"[Battle] {e.ActorName} リジェネバンドでHP{heal}回復");
+        }
+
+        if (e.Holds(Combat.BattleItemEffect.PurgeOnTurnEnd))
+        {
+            e.StatusEffects.DecayAccumulation(100);
+            GD.Print($"[Battle] {e.ActorName} パージバンドで蓄積値-100");
         }
     }
 

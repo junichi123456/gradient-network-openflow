@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
@@ -205,9 +206,32 @@ public class AttackAction : IAction
         int totalDamage = 0;
         // Snapshot the list - HandleFaint QueueFree's dead targets, and a
         // Room/FullFloor list can include entities that die mid-loop.
+        // エリアイージス(使い切り): 相手が範囲射程の攻撃技を使ったとき、
+        // 所持者「以外」の味方はダメージを受けない。所持者自身は庇わない。
+        // Room は元々味方に当たらないので、対象は Area と Surrounding。
+        Entity aegisHolder = null;
+        if (move.Category != MoveCategory.Status
+            && (move.Range == MoveRange.Area || move.Range == MoveRange.Surrounding))
+        {
+            aegisHolder = targets.FirstOrDefault(
+                t => GodotObject.IsInstanceValid(t) && t.IsAlive
+                     && t.Faction != _attacker.Faction
+                     && t.Holds(Combat.BattleItemEffect.CoverAllies));
+            if (aegisHolder != null)
+            {
+                aegisHolder.ConsumeHeldItem();
+                MessageLogger.Log($"{aegisHolder.ActorName}のエリアイージスが味方を庇った!",
+                                  MessageLogger.EffectiveColor);
+            }
+        }
+
         foreach (var target in new List<Entity>(targets))
         {
             if (!GodotObject.IsInstanceValid(target) || !target.IsAlive) continue;
+
+            // 庇われた側は完全に対象外（ダメージも追加効果も乗らない）。
+            if (aegisHolder != null && target != aegisHolder
+                && target.Faction == aegisHolder.Faction) continue;
 
             if (move.Category == MoveCategory.Status)
             {
@@ -247,6 +271,28 @@ public class AttackAction : IAction
     // forceHit skips the accuracy roll entirely. Only Variable2To5's
     // follow-up hits pass true: that shape rolls accuracy ONCE for the whole
     // move, so hits 2..N must not each get another chance to miss.
+    // ガードトニック(HP50%未満で最大HPの25%回復) / ラストトニック(33%以下で50%回復)。
+    // どちらも使い切り。被弾でHPが動いた直後に判定する。
+    private static void TryHpThresholdItem(Entity e)
+    {
+        if (!e.IsAlive) return;
+        var st = e.Stats;
+        float ratio = st.MaxHp <= 0 ? 1f : (float)st.CurrentHp / st.MaxHp;
+
+        float healRate = e.HeldEffect switch
+        {
+            Combat.BattleItemEffect.HealAt50 when ratio < 0.50f => 0.25f,
+            Combat.BattleItemEffect.HealAt33 when ratio <= 0.33f => 0.50f,
+            _ => 0f,
+        };
+        if (healRate <= 0f) return;
+
+        e.ConsumeHeldItem();
+        int heal = Mathf.Max(1, Mathf.FloorToInt(st.MaxHp * healRate));
+        st.Heal(heal);
+        MessageLogger.Log($"{e.ActorName}はHPを{heal}回復した!", MessageLogger.EffectiveColor);
+    }
+
     private int StrikeTarget(MoveData move, Entity target, bool forceHit = false)
     {
         // Darkness (暗闇): a direct x0.7 on the afflicted attacker's own
@@ -315,6 +361,16 @@ public class AttackAction : IAction
         // by the attacker's own trait is still an Electric move arriving at
         // the defender. Both readings coincide for a natively-typed move,
         // which is every case that exists today.
+        // ワイドウォード(持続): Room/Area の攻撃を受けない。ぜつえんたいと
+        // 同じ「ダメージも追加効果も0」の完全無効。持続効果なので消費しない。
+        if (target.Holds(Combat.BattleItemEffect.ImmuneWideRange)
+            && (move.Range == MoveRange.Room || move.Range == MoveRange.Area))
+        {
+            MessageLogger.Log($"{target.ActorName}はワイドウォードで{move.Name}を遮った!",
+                              MessageLogger.IneffectiveColor);
+            return 0;
+        }
+
         if (HasTrait(target, "zetsuentai") && move.Type == "Electric")
         {
             MessageLogger.Log($"{target.ActorName} is insulated - {move.Name} has no effect!", MessageLogger.IneffectiveColor);
@@ -687,6 +743,18 @@ public class AttackAction : IAction
             powerFlatBuff = Mathf.Max(0f, powerFlatBuff);
         }
 
+        // パワーレンズ/フォーカスレンズ(持続): 使用者の攻撃力(実数値)+25%。
+        // アイアンプレート/マインドプレート(持続): 被弾側の防御力(実数値)+30/40%。
+        // いずれも「その一撃の計算に乗る」形（解釈a）で、恒久バフではない。
+        if (_attacker.Holds(Combat.BattleItemEffect.PhysAtkUp25) && move.Category == MoveCategory.Physical)
+            atkMul *= 1.25f;
+        if (_attacker.Holds(Combat.BattleItemEffect.SpecAtkUp25) && move.Category == MoveCategory.Special)
+            atkMul *= 1.25f;
+        if (target.Holds(Combat.BattleItemEffect.PhysDefUp30) && move.Category == MoveCategory.Physical)
+            defMul *= 1.30f;
+        if (target.Holds(Combat.BattleItemEffect.SpecDefUp40) && move.Category == MoveCategory.Special)
+            defMul *= 1.40f;
+
         var ctx = new DamageContext
         {
             BaseAtk = _attacker.Stats.Attack,
@@ -719,6 +787,21 @@ public class AttackAction : IAction
         // of the holder's real Type1/Type2.
         if (HasMatchingTemplateTrait(target, effectiveType, TraitTemplateKind.Resist))
             damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.15f));
+
+        // クリットシェル(使い切り): 急所を受けた時、そのダメージを90%減。
+        if (isCrit && target.Holds(Combat.BattleItemEffect.CritCut90))
+        {
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.1f));
+            target.ConsumeHeldItem();
+        }
+
+        // ウィークシェル(使い切り): 弱点属性を受けた時、そのダメージを75%減。
+        // 「弱点」は解決後の相性倍率が等倍超であることで判定する。
+        if (typeMultiplier > 1.0f && target.Holds(Combat.BattleItemEffect.WeaknessCut75))
+        {
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.25f));
+            target.ConsumeHeldItem();
+        }
 
         // きぬぬい (§3): one-time -10% on the next damage this entity takes,
         // armed by their own prior Ice-move use (see Execute()).
@@ -805,7 +888,34 @@ public class AttackAction : IAction
         // drain/recoil still key off the full damage they dealt.
         damage = ApplyGuardianShoulder(target, damage);
 
+        // エンデュアチャーム(使い切り): HP満タンから即死する一撃をHP1で耐える。
+        if (damage >= defenderStats.CurrentHp
+            && defenderStats.CurrentHp == defenderStats.MaxHp
+            && target.Holds(Combat.BattleItemEffect.SurviveFromFull))
+        {
+            damage = defenderStats.CurrentHp - 1;
+            target.ConsumeHeldItem();
+        }
+
         defenderStats.TakeDamage(damage);
+
+        // ガードトニック/ラストトニック(使い切り): 被弾でHPが閾値を割ったら回復。
+        // 1匹1つなので両方は持てず、競合しない。
+        TryHpThresholdItem(target);
+
+        // ルームミラー(使い切り): 相手のRoom射程を受けた時、受けたダメージを
+        // 使用者へそのまま返す。自陣のRoom技は元々味方に当たらないので、
+        // 「相手が使用した技」という条件は射程の性質から自動的に満たされる。
+        if (damage > 0 && move.Range == MoveRange.Room
+            && target.Faction != _attacker.Faction
+            && target.Holds(Combat.BattleItemEffect.CounterRoom))
+        {
+            target.ConsumeHeldItem();
+            _attacker.Stats.TakeDamage(damage);
+            MessageLogger.Log($"{target.ActorName}のルームミラー! {_attacker.ActorName}に{damage}ダメージを返した!",
+                              MessageLogger.EffectiveColor);
+            if (_attacker.Stats.CurrentHp <= 0) _attacker.Die();
+        }
         _attacker.StatusEffects.ResetDamageTimer();
         target.StatusEffects.ResetDamageTimer();
 
@@ -1586,12 +1696,33 @@ public class AttackAction : IAction
         target.StatusEffects.ApplyRankDelta(effect.Stat, effect.Delta, moveElement);
         string direction = effect.Delta > 0 ? "rose" : "fell";
         MessageLogger.Log($"{target.ActorName}'s {effect.Stat} {direction}!", MessageLogger.NeutralColor);
+
+        // ランクアンカー(使い切り): 自分のランクが下がったら、下がった分だけ
+        // 戻す。全ランクを0に均すのではなく、この変化だけを打ち消す。
+        if (effect.Delta < 0 && target.Holds(Combat.BattleItemEffect.RestoreRank))
+        {
+            target.ConsumeHeldItem();
+            target.StatusEffects.ApplyRankDelta(effect.Stat, -effect.Delta, moveElement);
+            MessageLogger.Log($"{target.ActorName}のランクアンカーで{effect.Stat}が元に戻った!",
+                              MessageLogger.EffectiveColor);
+        }
     }
 
     private void ApplyAilmentTo(Entity target, AilmentType ailment)
     {
         if (target.StatusEffects.TryApplyAilment(ailment))
+        {
             MessageLogger.Log($"{target.ActorName} was afflicted with {ailment}!", MessageLogger.IneffectiveColor);
+
+            // キュアベル(使い切り): 状態異常になった瞬間に回復する。
+            if (target.Holds(Combat.BattleItemEffect.CureAilment))
+            {
+                target.ConsumeHeldItem();
+                target.StatusEffects.ClearAilmentIfType(ailment);
+                MessageLogger.Log($"{target.ActorName}のキュアベルで{ailment}が治った!",
+                                  MessageLogger.EffectiveColor);
+            }
+        }
         else
             MessageLogger.Log($"{target.ActorName} is unaffected - already under a status condition.", MessageLogger.NeutralColor);
     }

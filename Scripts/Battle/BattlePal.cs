@@ -32,8 +32,6 @@ public partial class BattlePal : Entity
     // _Ready がそのまま技と持ち物を載せる。
     public BattleEntry Entry { get; set; }
 
-    public string HeldItemId { get; private set; }
-
     // 構築時に決めた4技と持ち物を載せる。習得レベルは見ない
     // （learnset 内であることは BattleTeam.Validate が保証する）。
     public void ApplyLoadout(BattleEntry entry)
@@ -41,7 +39,7 @@ public partial class BattlePal : Entity
         foreach (var mid in entry.MoveIds)
             Moves.Learn(mid);
 
-        HeldItemId = entry.ItemId;
+        HeldItemId = entry.ItemId;   // Entity 側が効果解決に使う
     }
 
     // 登録内容を持たない個体のフォールバック。learnset から技枠が
