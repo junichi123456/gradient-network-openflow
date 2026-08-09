@@ -21,14 +21,31 @@ public partial class BattlePal : Entity
         ActorName = SpeciesDatabase.Instance?.Get(SpeciesId)?.DisplayName ?? SpeciesId;
         Stats.Level = BattleLevel;
 
-        // 「learnset 内の技はレベルキャップに関係なく変更可能」なので、
-        // 習得レベルは一切見ない。ただし技枠は MoveManager.MaxMoves = 4 なので、
-        // learnset のうち4つだけが実際に載る。どの4つを持ち込むかは選出
-        // フェーズの仕事で、ここは選択UIが入るまでの仮置き（先頭から4つ）。
-        LearnFromLearnset();
+        // 技構成は構築段階(6匹選定時)で確定済み。Entry があればそれを載せる。
+        // Entry を渡さずに生成された場合（検証用の素置き）だけ、learnset の
+        // 先頭から技枠を埋めるフォールバックに落ちる。
+        if (Entry != null) ApplyLoadout(Entry);
+        else LearnFromLearnset();
     }
 
-    // learnset から技枠が埋まるまで習得させる。習得レベルは見ない。
+    // 構築段階で確定した登録内容。AddChild する前に代入しておくと
+    // _Ready がそのまま技と持ち物を載せる。
+    public BattleEntry Entry { get; set; }
+
+    public string HeldItemId { get; private set; }
+
+    // 構築時に決めた4技と持ち物を載せる。習得レベルは見ない
+    // （learnset 内であることは BattleTeam.Validate が保証する）。
+    public void ApplyLoadout(BattleEntry entry)
+    {
+        foreach (var mid in entry.MoveIds)
+            Moves.Learn(mid);
+
+        HeldItemId = entry.ItemId;
+    }
+
+    // 登録内容を持たない個体のフォールバック。learnset から技枠が
+    // 埋まるまで習得させる。習得レベルは見ない。
     public void LearnFromLearnset()
     {
         var species = SpeciesDatabase.Instance?.Get(SpeciesId);

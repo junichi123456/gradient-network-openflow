@@ -18,9 +18,9 @@ namespace MysteryDungeon.Battle;
 // この選択ロジックは検証以外では使わない。
 public partial class BattleTestScene : Node2D
 {
-    // 検証に使う8種。両陣営とも同一種族禁止の制約を満たす別種で組む。
-    private static readonly string[] PlayerSide = { "001", "004", "006", "009" };
-    private static readonly string[] EnemySide = { "005", "008", "007", "003" };
+    // 構築段階で登録する6匹。ここから4匹を選出する。
+    private static readonly string[] PlayerRoster = { "001", "004", "006", "009", "002", "010" };
+    private static readonly string[] EnemyRoster = { "005", "008", "007", "003", "011", "012" };
 
     private const int MaxCycles = 40;
 
@@ -45,8 +45,13 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[BattleTest] アリーナ {BattleBoard.Width}x{BattleBoard.Height} = "
                  + $"{BattleBoard.Width * BattleBoard.Height}マス, 全マス RoomId={BattleBoard.ArenaRoomId}");
 
-        Deploy(Faction.Player, PlayerSide);
-        Deploy(Faction.Enemy, EnemySide);
+        var playerTeam = BuildTeam(PlayerRoster);
+        var enemyTeam = BuildTeam(EnemyRoster);
+        VerifyTeamRules(playerTeam);
+
+        // 選出フェーズの時間切れ経路（登録順の昇順で自動選出）で4匹に絞る。
+        Deploy(Faction.Player, playerTeam.AutoSelect());
+        Deploy(Faction.Enemy, enemyTeam.AutoSelect());
 
         VerifyArena();
         RunBattle();
@@ -54,9 +59,61 @@ public partial class BattleTestScene : Node2D
         GetTree().Quit();
     }
 
+    // 構築段階のチームを組む。技4つは learnset から先頭4件を採って
+    // 「ユーザーが構築時に選んだ4技」に見立てる（本番はUIで選ぶ）。
+    private static BattleTeam BuildTeam(string[] speciesIds)
+    {
+        var entries = new List<BattleEntry>();
+        foreach (var sid in speciesIds)
+        {
+            var species = SpeciesDatabase.Instance?.Get(sid);
+            var moves = species.Learnset.Select(l => l.MoveId).Distinct()
+                               .Take(MoveManager.MaxMoves).ToList();
+            entries.Add(new BattleEntry { SpeciesId = sid, MoveIds = moves });
+        }
+        return new BattleTeam(entries);
+    }
+
+    // 構築段階の制約が機械検証で効いていることを確認する。
+    private void VerifyTeamRules(BattleTeam team)
+    {
+        var ok = team.Validate();
+        GD.Print($"[検証] 正しい構築が通る: {(ok.Count == 0 ? "OK" : "NG " + string.Join(" / ", ok))}");
+
+        var dupSpecies = new BattleTeam(team.Entries
+            .Select((e, i) => i == 1 ? new BattleEntry { SpeciesId = team.Entries[0].SpeciesId, MoveIds = e.MoveIds } : e));
+        GD.Print($"[検証] 同一種族の重複を弾く: "
+                 + $"{(dupSpecies.Validate().Any(m => m.Contains("同一種族")) ? "OK" : "NG")}");
+
+        var dupItem = new BattleTeam(team.Entries
+            .Select(e => new BattleEntry { SpeciesId = e.SpeciesId, MoveIds = e.MoveIds, ItemId = "baked_berries" }));
+        GD.Print($"[検証] 持ち物の重複を弾く: "
+                 + $"{(dupItem.Validate().Any(m => m.Contains("持ち物の重複")) ? "OK" : "NG")}");
+
+        var offLearnset = new BattleTeam(team.Entries.Select((e, i) => i == 0
+            ? new BattleEntry { SpeciesId = e.SpeciesId, MoveIds = new List<string> { "megaton_self_destruct" } }
+            : e));
+        GD.Print($"[検証] learnset外の技を弾く: "
+                 + $"{(offLearnset.Validate().Any(m => m.Contains("learnset外")) ? "OK" : "NG")}");
+
+        var tooMany = new BattleTeam(team.Entries.Select((e, i) => i == 0
+            ? new BattleEntry { SpeciesId = e.SpeciesId,
+                                MoveIds = e.Species.Learnset.Select(l => l.MoveId).Distinct().Take(5).ToList() }
+            : e));
+        GD.Print($"[検証] 技5つ以上を弾く: "
+                 + $"{(tooMany.Validate().Any(m => m.Contains("つまで")) ? "OK" : "NG")}");
+
+        var sel = team.AutoSelect();
+        GD.Print($"[検証] 時間切れ時は登録順の昇順で4匹: "
+                 + $"{(sel.Count == 4 && sel.Select(e => e.SpeciesId).SequenceEqual(team.Entries.Take(4).Select(e => e.SpeciesId)) ? "OK" : "NG")} "
+                 + $"({string.Join(",", sel.Select(e => e.Species.DisplayName))})");
+        GD.Print($"[検証] 選出が3匹だと弾かれる: "
+                 + $"{(team.ValidateSelection(sel.Take(3).ToList()).Count > 0 ? "OK" : "NG")}");
+    }
+
     // 自陣6マス(縦2x横3)へ4匹を配置する。自由配置なので、検証では
     // 先頭から順に埋める。
-    private void Deploy(Faction faction, string[] speciesIds)
+    private void Deploy(Faction faction, List<BattleEntry> selection)
     {
         var area = BattleBoard.FormationArea(faction);
         var tiles = new List<Vector2I>();
@@ -64,9 +121,14 @@ public partial class BattleTestScene : Node2D
             for (int x = area.Position.X; x < area.Position.X + area.Size.X; x++)
                 tiles.Add(new Vector2I(x, y));
 
-        for (int i = 0; i < speciesIds.Length; i++)
+        for (int i = 0; i < selection.Count; i++)
         {
-            var pal = new BattlePal { SpeciesId = speciesIds[i], Faction = faction };
+            var pal = new BattlePal
+            {
+                SpeciesId = selection[i].SpeciesId,
+                Faction = faction,
+                Entry = selection[i],   // 構築時に確定した4技と持ち物
+            };
             AddChild(pal);                       // _Ready がここで走り種族/Lv50が確定
             pal.Grid = _grid;
             pal.FloorController = _floor;
