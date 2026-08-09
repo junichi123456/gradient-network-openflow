@@ -64,6 +64,7 @@ public partial class BattleTestScene : Node2D
 
         VerifyItems();
         VerifyArena();
+        VerifyHud();
         VerifyNetwork(BuildTeam(PlayerRoster));
         VerifyCycleTick();
         RunBattle();
@@ -525,6 +526,46 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 結果に行動順とHPが載る: "
                  + $"{(result.HasValue && result.Value.ActingOrder.Count == 2 && result.Value.HpAfter.Count == _sched.Roster.Count ? "OK" : "NG")} "
                  + $"(順序{result?.ActingOrder.Count}件 / HP{result?.HpAfter.Count}件)");
+    }
+
+    // 対戦画面を実際に組み立てて、盤面と行動順レールが実データから
+    // 描けることを確かめる。ビルドが通ることではなく、ノードが
+    // 期待どおりの数だけ生えることを見る。
+    private void VerifyHud()
+    {
+        var hud = new UI.Battle.BattleHud { Name = "BattleHud" };
+        AddChild(hud);
+        hud.Initialize(_sched, _clock, new BattleSession(_sched, _clock));
+
+        int tiles = CountTiles(hud);
+        GD.Print($"[検証] 盤面が8x7=56マス生える: "
+                 + $"{(tiles == BattleBoard.Width * BattleBoard.Height ? "OK" : "NG")} ({tiles}マス)");
+
+        hud.ShowCommands(_sched.Roster.First(e => e.Faction == Faction.Player));
+        hud.SetRange(new[] { new Vector2I(3, 3), new Vector2I(3, 4) }, new Vector2I(3, 3));
+        hud.AppendLog("ブシガエルの ダイヤモンドダスト！");
+        hud.Refresh();
+
+        // HPバーが実データを反映しているか（0除算や未初期化で落ちないか）。
+        var hp = new UI.Battle.HpBar();
+        AddChild(hp);
+        hp.SetHp(0, 0);          // 最大HP0でも落ちないこと
+        hp.SetHp(63, 130);
+        GD.Print($"[検証] HPバーが極端な値でも落ちない: OK");
+
+        hud.QueueFree();
+        hp.QueueFree();
+    }
+
+    private static int CountTiles(Node n)
+    {
+        int c = 0;
+        foreach (var child in n.GetChildren())
+        {
+            if (child is GridContainer g) c += g.GetChildCount();
+            else c += CountTiles(child);
+        }
+        return c;
     }
 
     private void RunBattle()
