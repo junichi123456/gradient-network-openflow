@@ -48,6 +48,7 @@ public partial class BattleTestScene : Node2D
         var playerTeam = BuildTeam(PlayerRoster);
         var enemyTeam = BuildTeam(EnemyRoster);
         VerifyTeamRules(playerTeam);
+        VerifyDeployment(playerTeam);
 
         // 選出フェーズの時間切れ経路（登録順の昇順で自動選出）で4匹に絞る。
         Deploy(Faction.Player, playerTeam.AutoSelect());
@@ -55,6 +56,7 @@ public partial class BattleTestScene : Node2D
 
         VerifyItems();
         VerifyArena();
+        VerifyCycleTick();
         RunBattle();
 
         GetTree().Quit();
@@ -116,32 +118,68 @@ public partial class BattleTestScene : Node2D
     // 先頭から順に埋める。
     private void Deploy(Faction faction, List<BattleEntry> selection)
     {
-        var area = BattleBoard.FormationArea(faction);
-        var tiles = new List<Vector2I>();
-        for (int y = area.Position.Y; y < area.Position.Y + area.Size.Y; y++)
-            for (int x = area.Position.X; x < area.Position.X + area.Size.X; x++)
-                tiles.Add(new Vector2I(x, y));
+        // 配置フェーズ。検証では既定配置（前列から詰める）を使う。
+        var deployment = BattleDeployment.Default(faction, selection);
+        var errs = deployment.Validate();
+        if (errs.Count > 0) GD.PushError($"[BattleTest] 配置が不正: {string.Join(" / ", errs)}");
 
-        for (int i = 0; i < selection.Count; i++)
+        foreach (var (entry, tile) in deployment.Placements)
         {
             var pal = new BattlePal
             {
-                SpeciesId = selection[i].SpeciesId,
+                SpeciesId = entry.SpeciesId,
                 Faction = faction,
-                Entry = selection[i],   // 構築時に確定した4技と持ち物
+                Entry = entry,   // 構築時に確定した4技と持ち物
             };
             AddChild(pal);                       // _Ready がここで走り種族/Lv50が確定
             pal.Grid = _grid;
             pal.FloorController = _floor;
-            pal.PlaceAt(tiles[i]);
+            pal.PlaceAt(tile);
             pal.FaceDirection(BattleBoard.Facing(faction));
 
             _floor.AddArenaActor(pal);
             _sched.Register(pal);
 
             GD.Print($"[BattleTest] {faction} {pal.ActorName} BST{pal.Bst} "
-                     + $"Lv{pal.Stats.Level} HP{pal.Stats.MaxHp} 技{pal.Moves.Slots.Count} @{tiles[i]}");
+                     + $"Lv{pal.Stats.Level} HP{pal.Stats.MaxHp} 技{pal.Moves.Slots.Count} @{tile}");
         }
+    }
+
+    // 配置フェーズの規則が機械検証で効いていることを確認する。
+    private void VerifyDeployment(BattleTeam team)
+    {
+        var sel = team.AutoSelect();
+        var tiles = BattleDeployment.AvailableTiles(Faction.Player);
+        GD.Print($"[検証] 自陣は縦2x横3の6マス: {(tiles.Count == 6 ? "OK" : "NG")} ({tiles.Count}マス)");
+
+        var ok = BattleDeployment.Default(Faction.Player, sel);
+        GD.Print($"[検証] 既定配置が規則を満たす: "
+                 + $"{(ok.Validate().Count == 0 ? "OK" : "NG " + string.Join("/", ok.Validate()))}");
+
+        // 6マスから任意の4マスを選べる（自由配置）。前列0・後列3+はみ出しでなく、
+        // 飛び飛びの取り方でも通ることを見る。
+        var scattered = new Dictionary<BattleEntry, Vector2I>
+        {
+            [sel[0]] = tiles[0], [sel[1]] = tiles[2],
+            [sel[2]] = tiles[3], [sel[3]] = tiles[5],
+        };
+        GD.Print($"[検証] 6マスから任意の4マスを選べる: "
+                 + $"{(new BattleDeployment(Faction.Player, scattered).Validate().Count == 0 ? "OK" : "NG")}");
+
+        // 自陣の外は弾く。
+        var outside = new Dictionary<BattleEntry, Vector2I>
+        {
+            [sel[0]] = new Vector2I(0, 0), [sel[1]] = tiles[1],
+            [sel[2]] = tiles[2], [sel[3]] = tiles[3],
+        };
+        GD.Print($"[検証] 自陣の外への配置を弾く: "
+                 + $"{(new BattleDeployment(Faction.Player, outside).Validate().Any(m => m.Contains("自陣の外")) ? "OK" : "NG")}");
+
+        // 敵陣は自陣と重ならない。
+        var enemyTiles = BattleDeployment.AvailableTiles(Faction.Enemy);
+        GD.Print($"[検証] 自陣と敵陣が重ならない: "
+                 + $"{(!tiles.Intersect(enemyTiles).Any() ? "OK" : "NG")} "
+                 + $"(自陣Y{tiles.Min(t => t.Y)}〜{tiles.Max(t => t.Y)} / 敵陣Y{enemyTiles.Min(t => t.Y)}〜{enemyTiles.Max(t => t.Y)})");
     }
 
     // 対戦持ち物16種がデータから正しく読めているか。
@@ -347,6 +385,38 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 優先度が種族値を上書きする: "
                  + $"{(byPriority[0].Actor == high ? "OK" : "NG")} "
                  + $"({byPriority[0].Actor.ActorName}(BST{BattleScheduler.Bst(byPriority[0].Actor)}, 優先度1) が先)");
+    }
+
+    // 状態異常とランク減衰がターンではなくサイクル単位で刻まれることを見る。
+    // BattleScheduler は ResolveTurn では ResolveStatusTick を呼ばず、
+    // EndCycle でだけ全員に1回呼ぶ。1サイクル=4ターンなので、行動ごとに
+    // 刻む迷宮側と比べて刻みが1/4になる。
+    private void VerifyCycleTick()
+    {
+        var e = _sched.Roster.First();
+        e.StatusEffects.ApplyRankDelta(RankStat.Atk, -2);
+        int rankBefore = e.StatusEffects.AtkRank;
+
+        // 4ターンぶん解決してもサイクルが閉じるまでは刻まれない。
+        _sched.BeginCycle();
+        for (int i = 0; i < BattleTeam.SelectionSize; i++)
+        {
+            var a2 = Commit(Faction.Player);
+            var b2 = Commit(Faction.Enemy);
+            if (a2.IsEmpty && b2.IsEmpty) break;
+            _sched.ResolveTurn(a2, b2);
+        }
+        int rankMidCycle = e.StatusEffects.AtkRank;
+        _sched.EndCycle();
+
+        GD.Print($"[検証] ランクはターン中に刻まれない: "
+                 + $"{(rankMidCycle == rankBefore ? "OK" : "NG")} "
+                 + $"(サイクル前{rankBefore} / 4ターン後{rankMidCycle})");
+        GD.Print($"[検証] 刻みはサイクル境界(EndCycle)でのみ走る: "
+                 + $"{(_sched.CycleNumber == 1 ? "OK" : "NG")}");
+
+        // 検証で消耗した状態を戻してから本番の対戦へ入る。
+        foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); }
     }
 
     private void RunBattle()
