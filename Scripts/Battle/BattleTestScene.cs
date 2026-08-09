@@ -64,6 +64,7 @@ public partial class BattleTestScene : Node2D
 
         VerifyItems();
         VerifyArena();
+        VerifyNetwork(BuildTeam(PlayerRoster));
         VerifyCycleTick();
         RunBattle();
 
@@ -476,6 +477,54 @@ public partial class BattleTestScene : Node2D
         c.Match.Advance(1.0);
         GD.Print($"[検証] 20分の時間切れで両者生存なら引き分け: "
                  + $"{(notYet && c.Resolve(_sched) == BattleOutcome.Draw ? "OK" : "NG")}");
+    }
+
+    // 通信対戦の2大要件を確かめる。
+    //   1. 相手に開示されるのは種族のみ（技・持ち物は漏れない）
+    //   2. 両者の入力が揃うまで相手の手は見えない
+    private void VerifyNetwork(BattleTeam team)
+    {
+        // 1. 開示範囲。PublicEntryView は種族しか持てないので、技や持ち物を
+        // 載せる場所がそもそも無い（型で担保している）。
+        var disclosed = BattleSession.DiscloseTeam(team);
+        var fields = typeof(PublicEntryView).GetProperties();
+        GD.Print($"[検証] 開示は種族6件のみ: "
+                 + $"{(disclosed.Count == 6 && fields.Length == 1 && fields[0].Name == "SpeciesId" ? "OK" : "NG")} "
+                 + $"({disclosed.Count}件, 公開項目 {string.Join(",", fields.Select(f => f.Name))})");
+        GD.Print($"[検証] 開示に技・持ち物が含まれない: "
+                 + $"{(!fields.Any(f => f.Name.Contains("Move") || f.Name.Contains("Item")) ? "OK" : "NG")}");
+
+        // 2. 伏せて同時。片方だけ出した状態では相手の手は見えない。
+        var session = new BattleSession(_sched, new BattleClock());
+        var inA = new TurnInput(0, 0, Vector2I.Zero);
+        var inB = new TurnInput(1, 1, Vector2I.One);
+
+        session.SubmitInput(Faction.Player, inA);
+        bool hiddenWhileAlone = session.PeekOpponentInput(Faction.Enemy) == null
+                                && session.PeekOpponentInput(Faction.Player) == null;
+        GD.Print($"[検証] 片方だけ提出では相手の手が見えない: "
+                 + $"{(hiddenWhileAlone && !session.BothSubmitted ? "OK" : "NG")}");
+
+        // 出し直しは拒否する（相手の手を見てから変えられないように）。
+        GD.Print($"[検証] 同一ターンの二重提出を拒否する: "
+                 + $"{(!session.SubmitInput(Faction.Player, inB) ? "OK" : "NG")}");
+
+        session.SubmitInput(Faction.Enemy, inB);
+        var seen = session.PeekOpponentInput(Faction.Player);
+        GD.Print($"[検証] 両者が揃うと相手の手が開く: "
+                 + $"{(session.BothSubmitted && seen?.ActorIndex == inB.ActorIndex ? "OK" : "NG")}");
+
+        // 解決すると保留が消え、次のターンでまた伏せ直される。
+        var result = session.ResolveTurn(
+            (f, i) => new BattleScheduler.Commitment(
+                _sched.Roster.First(e => e.Faction == f), null, 0), TurnSeconds);
+        GD.Print($"[検証] 解決後は再び伏せた状態に戻る: "
+                 + $"{(result.HasValue && !session.BothSubmitted && session.PeekOpponentInput(Faction.Player) == null ? "OK" : "NG")}");
+
+        // ホストが決めた行動順が結果に載る（クライアントは再現できないため）。
+        GD.Print($"[検証] 結果に行動順とHPが載る: "
+                 + $"{(result.HasValue && result.Value.ActingOrder.Count == 2 && result.Value.HpAfter.Count == _sched.Roster.Count ? "OK" : "NG")} "
+                 + $"(順序{result?.ActingOrder.Count}件 / HP{result?.HpAfter.Count}件)");
     }
 
     private void RunBattle()
