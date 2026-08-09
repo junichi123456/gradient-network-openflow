@@ -53,6 +53,7 @@ public partial class BattleTestScene : Node2D
         Deploy(Faction.Player, playerTeam.AutoSelect());
         Deploy(Faction.Enemy, enemyTeam.AutoSelect());
 
+        VerifyItems();
         VerifyArena();
         RunBattle();
 
@@ -141,6 +142,30 @@ public partial class BattleTestScene : Node2D
             GD.Print($"[BattleTest] {faction} {pal.ActorName} BST{pal.Bst} "
                      + $"Lv{pal.Stats.Level} HP{pal.Stats.MaxHp} 技{pal.Moves.Slots.Count} @{tiles[i]}");
         }
+    }
+
+    // 対戦持ち物16種がデータから正しく読めているか。
+    private void VerifyItems()
+    {
+        var held = ItemDatabase.AllIds().Select(ItemDatabase.Get)
+                               .Where(i => i.Type == ItemType.BattleHeld).ToList();
+        int consum = held.Count(i => i.ConsumedOnTrigger);
+        bool allTyped = held.All(i => i.BattleEffect != BattleItemEffect.None);
+        bool allDistinct = held.Select(i => i.BattleEffect).Distinct().Count() == held.Count;
+
+        GD.Print($"[検証] 対戦持ち物が16種そろう: {(held.Count == 16 ? "OK" : "NG")} "
+                 + $"(使い切り{consum} / 持続{held.Count - consum})");
+        GD.Print($"[検証] 全アイテムに効果種別がついている: {(allTyped ? "OK" : "NG")}");
+        GD.Print($"[検証] 効果が重複していない: {(allDistinct ? "OK" : "NG")}");
+
+        // 持ち物を持たせた構築が通ること（重複しない限り）。
+        var team = BuildTeam(PlayerRoster);
+        var withItems = new BattleTeam(team.Entries.Select((e, i) => new BattleEntry
+        {
+            SpeciesId = e.SpeciesId, MoveIds = e.MoveIds, ItemId = held[i].Id,
+        }));
+        GD.Print($"[検証] 別々の持ち物を6匹に配れる: "
+                 + $"{(withItems.Validate().Count == 0 ? "OK" : "NG " + string.Join("/", withItems.Validate()))}");
     }
 
     // 対戦盤で射程が意図どおりに解釈されるかを、実際の解決器で確認する。

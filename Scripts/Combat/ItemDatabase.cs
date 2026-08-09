@@ -14,6 +14,9 @@ internal class ItemJson
     [JsonPropertyName("effect_target")] public string EffectTarget { get; set; }
     [JsonPropertyName("effect_value")] public int EffectValue { get; set; }
     [JsonPropertyName("element_type")] public string ElementType { get; set; }
+    [JsonPropertyName("battle_effect")] public string BattleEffect { get; set; }
+    [JsonPropertyName("consumed_on_trigger")] public bool ConsumedOnTrigger { get; set; }
+    [JsonPropertyName("description")] public string Description { get; set; }
 }
 
 // JSON-driven item definitions. Mirrors MoveDatabase: Get()/AllIds()
@@ -64,6 +67,9 @@ public static class ItemDatabase
                 EffectTarget = Enum.TryParse<ItemEffectTarget>(entry.EffectTarget, out var target) ? target : ItemEffectTarget.Hp,
                 EffectValue = entry.EffectValue,
                 ElementType = entry.ElementType,
+                BattleEffect = Enum.TryParse<BattleItemEffect>(entry.BattleEffect, out var be) ? be : BattleItemEffect.None,
+                ConsumedOnTrigger = entry.ConsumedOnTrigger,
+                Description = entry.Description ?? "",
             };
         }
 
