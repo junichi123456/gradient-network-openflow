@@ -54,6 +54,27 @@ public static class BattleUiKit
         return l;
     }
 
+    // 押せるカード。Button を土台にするので、フォーカス枠とキーボード操作が
+    // ただで付いてくる。見た目は Card と揃えたいので、4状態すべてに
+    // stylebox を入れて Godot 既定のボタン外観を完全に上書きする。
+    public static Button ClickableCard(Color bg, Color border, int radius = 5)
+    {
+        var b = new Button { Flat = false, ClipText = false };
+        foreach (var state in new[] { "normal", "hover", "pressed", "focus", "disabled" })
+        {
+            var tint = state switch
+            {
+                "hover" => bg.Lerp(BattleTheme.Ink, 0.06f),
+                "pressed" => bg.Lerp(BattleTheme.Ink, 0.12f),
+                _ => bg,
+            };
+            var sb = BattleTheme.Panel(tint, state == "focus" ? BattleTheme.Brass : border, radius);
+            sb.SetContentMarginAll(6);
+            b.AddThemeStyleboxOverride(state, sb);
+        }
+        return b;
+    }
+
     public static PanelContainer Card(Color bg, Color border, int radius = 5)
     {
         var p = new PanelContainer();

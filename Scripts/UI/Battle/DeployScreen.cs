@@ -22,6 +22,11 @@ namespace MysteryDungeon.UI.Battle;
 // （BattleBoard.ToViewOf が担当。ロジックの論理座標は1つだけ）。
 public partial class DeployScreen : Control
 {
+    // 自陣のマスが押された。空マスなら「ここへ置く」、埋まっていれば
+    // 「どかす」。どちらの意味かは呼び出し側が決める。
+    [Signal] public delegate void TileClickedEventHandler(Vector2I tile);
+    [Signal] public delegate void DeployConfirmedEventHandler();
+
     private BattleDeployment _mine;
 
     private GridContainer _foeZone, _myZone;
@@ -52,6 +57,7 @@ public partial class DeployScreen : Control
         bar.AddChild(_hint);
         bar.AddChild(Spacer());
         _start = new Button { Text = "この配置で開始" };
+        _start.Pressed += () => EmitSignal(SignalName.DeployConfirmed);
         bar.AddChild(_start);
 
         var center = Col(2);
@@ -115,7 +121,10 @@ public partial class DeployScreen : Control
         foreach (var tile in BattleDeployment.AvailableTiles(faction))
         {
             string speciesId = _mine.Placements.FirstOrDefault(p => p.Value == tile).Key?.SpeciesId;
-            zone.AddChild(Cell(speciesId, faction));
+            var cell = Cell(speciesId, faction);
+            var here = tile;
+            cell.Pressed += () => EmitSignal(SignalName.TileClicked, here);
+            zone.AddChild(cell);
         }
     }
 
@@ -135,15 +144,16 @@ public partial class DeployScreen : Control
 
     // 1マス。空きマスは破線ではなく沈めた面＋「空」で示す。
     // どこが空いているかも情報なので、埋まっているマスと同じ重みで見せる。
-    private static Control Cell(string speciesId, Faction faction)
+    private static Button Cell(string speciesId, Faction faction)
     {
         bool empty = string.IsNullOrEmpty(speciesId);
-        var card = Card(empty ? BattleTheme.Sunk : BattleTheme.FactionBg(faction),
-                        empty ? BattleTheme.Line : BattleTheme.Faction(faction), 3);
+        var card = ClickableCard(empty ? BattleTheme.Sunk : BattleTheme.FactionBg(faction),
+                                 empty ? BattleTheme.Line : BattleTheme.Faction(faction), 3);
         card.CustomMinimumSize = new Vector2(64, 64);
 
         var col = Col(2);
         col.Alignment = BoxContainer.AlignmentMode.Center;
+        col.MouseFilter = MouseFilterEnum.Ignore;
         card.AddChild(col);
 
         if (empty)

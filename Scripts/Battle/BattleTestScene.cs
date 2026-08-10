@@ -66,6 +66,7 @@ public partial class BattleTestScene : Node2D
         VerifyArena();
         VerifyHud();
         VerifyScreens(BuildTeam(PlayerRoster), BuildTeam(EnemyRoster));
+        VerifyFlow(BuildTeam(PlayerRoster), BuildTeam(EnemyRoster));
         VerifyNetwork(BuildTeam(PlayerRoster));
         VerifyCycleTick();
         RunBattle();
@@ -577,7 +578,7 @@ public partial class BattleTestScene : Node2D
         var build = new UI.Battle.TeamBuildScreen();
         AddChild(build);
         build.Initialize(mine);
-        int cards = CountIn<PanelContainer>(build, inGrid: true);
+        int cards = CountCards(build, inGrid: true);
         GD.Print($"[検証] 構築画面に6匹ぶんのカードが並ぶ: "
                  + $"{(cards == BattleTeam.RosterSize ? "OK" : "NG")} ({cards}枚)");
 
@@ -595,7 +596,7 @@ public partial class BattleTestScene : Node2D
         var sel = new UI.Battle.SelectionScreen();
         AddChild(sel);
         sel.Initialize(mine, PublicEntryView.Of(foe.Entries), new BattleClock());
-        int rows = CountIn<PanelContainer>(sel, inGrid: false);
+        int rows = CountCards(sel, inGrid: false);
         GD.Print($"[検証] 選出画面に12行(相手6+自分6)並ぶ: "
                  + $"{(rows >= 12 ? "OK" : "NG")} ({rows}行)");
 
@@ -609,7 +610,7 @@ public partial class BattleTestScene : Node2D
         var dep = new UI.Battle.DeployScreen();
         AddChild(dep);
         dep.Initialize(BattleDeployment.Default(Faction.Player, mine.AutoSelect()));
-        int cells = CountIn<PanelContainer>(dep, inGrid: true);
+        int cells = CountCards(dep, inGrid: true);
         GD.Print($"[検証] 配置画面に自陣6+敵陣6=12マス並ぶ: "
                  + $"{(cells == 12 ? "OK" : "NG")} ({cells}マス)");
 
@@ -634,6 +635,21 @@ public partial class BattleTestScene : Node2D
                  + $"{(moveLeak.Count == 0 ? "OK" : "NG " + string.Join(",", moveLeak))}");
 
         build.QueueFree(); build2.QueueFree(); sel.QueueFree(); dep.QueueFree();
+    }
+
+    // カードは押せるもの(Button)と押せないもの(PanelContainer)が混在する。
+    // 操作可否で型が変わるだけで「1枚」であることは同じなので、両方数える。
+    private static int CountCards(Node n, bool inGrid)
+    {
+        int c = 0;
+        foreach (var child in n.GetChildren())
+        {
+            bool isCard = child is PanelContainer || child is Button;
+            if (inGrid && n is GridContainer && isCard) c++;
+            else if (!inGrid && isCard) c++;
+            c += CountCards(child, inGrid);
+        }
+        return c;
     }
 
     // GridContainer の直下だけ数えるか、全体から数えるかを切り替える。
@@ -670,6 +686,85 @@ public partial class BattleTestScene : Node2D
             if (found != null) return found;
         }
         return null;
+    }
+
+    // 入力の配線。ボタンを実際に押し、時計を進めて、フェーズが進むことを見る。
+    // 画面が生えるかではなく「操作すると状態が変わるか」を確かめる。
+    private void VerifyFlow(BattleTeam mine, BattleTeam foe)
+    {
+        var clock = new BattleClock();
+        var flow = new UI.Battle.BattleFlow();
+        AddChild(flow);
+        flow.Begin(mine, PublicEntryView.Of(foe.Entries), clock, _sched,
+                   new BattleSession(_sched, clock));
+
+        GD.Print($"[検証] 最初は構築画面: "
+                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Build ? "OK" : "NG")}");
+
+        GD.Print($"[検証] 規則を満たす構築なら選出へ進める: "
+                 + $"{(flow.ConfirmBuild() && flow.Current == UI.Battle.BattleFlow.Phase.Selection ? "OK" : "NG")}");
+
+        // 選出画面の行を実際に押して4匹選ぶ。
+        var sel = FindFirst<UI.Battle.SelectionScreen>(flow);
+        var buttons = CollectButtons(sel).Where(b => !b.Disabled).ToList();
+        int before = sel.Picked.Count;
+        foreach (var b in buttons.Take(4)) b.EmitSignal(Button.SignalName.Pressed);
+        GD.Print($"[検証] 行を押すと選出に入る: "
+                 + $"{(before == 0 && sel.Picked.Count == 4 ? "OK" : "NG")} "
+                 + $"({before} → {sel.Picked.Count}匹)");
+
+        // 「決定」で配置画面へ。
+        var confirm = CollectButtons(sel).FirstOrDefault(b => b.Text.Contains("決定"));
+        confirm?.EmitSignal(Button.SignalName.Pressed);
+        GD.Print($"[検証] 決定を押すと配置画面へ: "
+                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Deploy ? "OK" : "NG")}");
+
+        // 「この配置で開始」で対戦画面へ。
+        var dep = FindFirst<UI.Battle.DeployScreen>(flow);
+        var startBtn = CollectButtons(dep).FirstOrDefault(b => b.Text.Contains("開始"));
+        startBtn?.EmitSignal(Button.SignalName.Pressed);
+        GD.Print($"[検証] 開始を押すと対戦画面へ: "
+                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Battle ? "OK" : "NG")}");
+
+        // 対戦画面で技を選ぶと「決定して伏せる」が押せるようになる。
+        var hud = FindFirst<UI.Battle.BattleHud>(flow);
+        hud.ShowCommands(_sched.Roster.First(e => e.Faction == Faction.Player));
+        var commitBefore = CollectButtons(hud).FirstOrDefault(b => b.Text.Contains("伏せる"));
+        bool lockedFirst = commitBefore != null && commitBefore.Disabled;
+        // 盤面のマスも空テキストのボタンなので、技名のラベルを子に持つ
+        // ボタンを狙って押す。
+        var actor0 = _sched.Roster.First(e => e.Faction == Faction.Player);
+        string firstMove = actor0.Moves.Slots[0].Data.Name;
+        var moveBtn = CollectButtons(hud).First(x => CollectLabels(x).Contains(firstMove));
+        moveBtn.EmitSignal(Button.SignalName.Pressed);
+        var commitAfter = CollectButtons(hud).FirstOrDefault(b => b.Text.Contains("伏せる"));
+        GD.Print($"[検証] 技を選ぶまで提出できない: "
+                 + $"{(lockedFirst && commitAfter != null && !commitAfter.Disabled ? "OK" : "NG")}");
+
+        // 選出フェーズの時間切れ経路。50秒進めると自動で配置へ移る。
+        var clock2 = new BattleClock();
+        var flow2 = new UI.Battle.BattleFlow();
+        AddChild(flow2);
+        flow2.Begin(mine, PublicEntryView.Of(foe.Entries), clock2, _sched,
+                    new BattleSession(_sched, clock2));
+        flow2.ConfirmBuild();
+        flow2._Process(BattleClock.SelectionLimitSeconds + 1.0);
+        GD.Print($"[検証] 選出が時間切れなら自動で配置へ: "
+                 + $"{(flow2.Current == UI.Battle.BattleFlow.Phase.Deploy ? "OK" : "NG")}");
+
+        flow.QueueFree(); flow2.QueueFree();
+    }
+
+    private static List<Button> CollectButtons(Node n)
+    {
+        var acc = new List<Button>();
+        if (n == null) return acc;
+        foreach (var child in n.GetChildren())
+        {
+            if (child is Button b) acc.Add(b);
+            acc.AddRange(CollectButtons(child));
+        }
+        return acc;
     }
 
     private void RunBattle()

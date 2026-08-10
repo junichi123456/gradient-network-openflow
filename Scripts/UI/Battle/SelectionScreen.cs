@@ -15,6 +15,11 @@ namespace MysteryDungeon.UI.Battle;
 // 意図的に隠されていると分かることが、読み合いの入口になる。
 public partial class SelectionScreen : Control
 {
+    // 4匹揃ったら押せる「決定」。押されたら選出を提出する。
+    [Signal] public delegate void SelectionConfirmedEventHandler();
+
+    private Button _confirm;
+
     private BattleTeam _team;
     private IReadOnlyList<PublicEntryView> _foe;
     private BattleClock _clock;
@@ -63,6 +68,10 @@ public partial class SelectionScreen : Control
         _timer = Text("0:50", BattleTheme.Ink, BattleTheme.FontTitle);
         bar.AddChild(_timer);
 
+        _confirm = new Button { Text = "決定して伏せる", Disabled = true };
+        _confirm.Pressed += () => EmitSignal(SignalName.SelectionConfirmed);
+        bar.AddChild(_confirm);
+
         var duo = Row(14);
         duo.SizeFlagsVertical = SizeFlags.ExpandFill;
         root.AddChild(duo);
@@ -89,6 +98,7 @@ public partial class SelectionScreen : Control
         for (int i = 0; i < _team.Entries.Count; i++) _selfList.AddChild(SelfRow(i + 1, _team.Entries[i]));
 
         _selfState.Text = $"自分 {_picked.Count} / {BattleTeam.SelectionSize}";
+        if (_confirm != null) _confirm.Disabled = _picked.Count != BattleTeam.SelectionSize;
         RefreshTimer();
     }
 
@@ -123,9 +133,12 @@ public partial class SelectionScreen : Control
     private Control SelfRow(int no, BattleEntry e)
     {
         bool on = _picked.Contains(e);
-        var card = Card(on ? BattleTheme.BrassBg : BattleTheme.Surface,
-                        on ? BattleTheme.Brass : BattleTheme.Line);
+        // 押せるのは自分側だけ。相手側は情報が無いので操作対象にしない。
+        var card = ClickableCard(on ? BattleTheme.BrassBg : BattleTheme.Surface,
+                                 on ? BattleTheme.Brass : BattleTheme.Line);
+        card.Pressed += () => Toggle(e);
         var row = Row(8);
+        row.MouseFilter = MouseFilterEnum.Ignore;   // クリックはボタンへ通す
         card.AddChild(row);
 
         var sp = e.Species;

@@ -19,6 +19,16 @@ namespace MysteryDungeon.UI.Battle;
 // 規則なので、中身は解決まで見せない。
 public partial class BattleHud : Control
 {
+    // 技枠が選ばれた（移動は -1）。狙う先はこのあと盤面のクリックで決める。
+    [Signal] public delegate void CommandChosenEventHandler(int moveSlot);
+    // 盤面のマスが押された。狙う先の指定に使う。
+    [Signal] public delegate void TileClickedEventHandler(Vector2I tile);
+    // 「決定して伏せる」。ここで初めて提出される。
+    [Signal] public delegate void CommitPressedEventHandler();
+
+    private Button _commit;
+    private int _chosenSlot = -2;   // -2 = 未選択 / -1 = 移動 / 0.. = 技枠
+
     private BattleScheduler _sched;
     private BattleClock _clock;
     private BattleSession _session;
@@ -222,16 +232,23 @@ public partial class BattleHud : Control
             for (int x = 0; x < BattleBoard.Width; x++)
             {
                 var pos = new Vector2I(x, y);
-                var tile = new PanelContainer { CustomMinimumSize = new Vector2(38, 38) };
 
                 // 射程内 → 真鍮の地。狙う先 → 真鍮で塗りつぶし。
                 bool inRange = _rangeTiles.Contains(pos);
                 bool isAim = _aimTile == pos;
-                tile.AddThemeStyleboxOverride("panel", BattleTheme.Panel(
+                var tile = BattleUiKit.ClickableCard(
                     isAim ? BattleTheme.Brass : inRange ? BattleTheme.BrassBg : BattleTheme.Surface,
-                    inRange || isAim ? BattleTheme.Brass : BattleTheme.Surface, 2));
+                    inRange || isAim ? BattleTheme.Brass : BattleTheme.Surface, 2);
+                tile.CustomMinimumSize = new Vector2(38, 38);
+                var here = pos;
+                tile.Pressed += () => EmitSignal(SignalName.TileClicked, here);
 
-                if (occupied.TryGetValue(pos, out var e)) tile.AddChild(UnitChip(e));
+                if (occupied.TryGetValue(pos, out var e))
+                {
+                    var chip = UnitChip(e);
+                    chip.MouseFilter = MouseFilterEnum.Ignore;
+                    tile.AddChild(chip);
+                }
                 _board.AddChild(tile);
             }
     }
@@ -286,9 +303,16 @@ public partial class BattleHud : Control
         foreach (var c in _commands.GetChildren()) c.QueueFree();
         if (actor == null) return;
 
-        foreach (var slot in actor.Moves.Slots)
+        for (int i = 0; i < actor.Moves.Slots.Count; i++)
         {
-            var row = new HBoxContainer();
+            var slot = actor.Moves.Slots[i];
+            bool on = _chosenSlot == i;
+            var btn = BattleUiKit.ClickableCard(on ? BattleTheme.BrassBg : BattleTheme.Surface,
+                                                on ? BattleTheme.Brass : BattleTheme.Line, 4);
+            int index = i;
+            btn.Pressed += () => ChooseCommand(index, actor);
+
+            var row = new HBoxContainer { MouseFilter = MouseFilterEnum.Ignore };
             row.AddThemeConstantOverride("separation", 6);
             row.AddChild(Text(BattleTheme.ElementLabel(slot.Data.Type),
                               BattleTheme.Element(slot.Data.Type), BattleTheme.FontLabel));
@@ -296,12 +320,42 @@ public partial class BattleHud : Control
             row.AddChild(new Control { SizeFlagsHorizontal = SizeFlags.ExpandFill });
             row.AddChild(Text(slot.Data.Power > 0 ? slot.Data.Power.ToString() : "—",
                               BattleTheme.Muted, BattleTheme.FontSmall));
-            _commands.AddChild(row);
+            btn.AddChild(row);
+            _commands.AddChild(btn);
         }
 
-        var move = new HBoxContainer();
-        move.AddChild(Text("移動する", BattleTheme.Ink2, BattleTheme.FontSmall));
-        _commands.AddChild(move);
+        var moveBtn = BattleUiKit.ClickableCard(
+            _chosenSlot == -1 ? BattleTheme.BrassBg : BattleTheme.Surface,
+            _chosenSlot == -1 ? BattleTheme.Brass : BattleTheme.Line, 4);
+        moveBtn.Pressed += () => ChooseCommand(-1, actor);
+        var mrow = new HBoxContainer { MouseFilter = MouseFilterEnum.Ignore };
+        mrow.AddChild(Text("移動する", BattleTheme.Ink2, BattleTheme.FontSmall));
+        moveBtn.AddChild(mrow);
+        _commands.AddChild(moveBtn);
+
+        // 提出は選び終えてから。押すまでは相手に何も伝わらない。
+        _commit = new Button { Text = "決定して伏せる", Disabled = true };
+        _commit.Pressed += () => EmitSignal(SignalName.CommitPressed);
+        _commands.AddChild(_commit);
+    }
+
+    // 技/移動を選んだ時点で射程を出す。提出はまだしない。
+    private void ChooseCommand(int slot, Entity actor)
+    {
+        _chosenSlot = slot;
+        if (_commit != null) _commit.Disabled = false;
+        EmitSignal(SignalName.CommandChosen, slot);
+        ShowCommands(actor);   // 選択状態を反映して組み直す
+    }
+
+    public int ChosenSlot => _chosenSlot;
+
+    // ターンが解決したら選択を捨てる。次のターンはまた白紙から。
+    public void ClearChoice()
+    {
+        _chosenSlot = -2;
+        _aimTile = null;
+        _rangeTiles.Clear();
     }
 
     public void SetRange(IEnumerable<Vector2I> tiles, Vector2I? aim)
