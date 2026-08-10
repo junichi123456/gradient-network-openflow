@@ -608,12 +608,30 @@ public partial class BattleTestScene : Node2D
         // 配置画面: 自陣6マス＋敵陣6マス＝12マス。
         var dep = new UI.Battle.DeployScreen();
         AddChild(dep);
-        var foeView = BattleDeployment.Default(Faction.Enemy, foe.AutoSelect())
-                                      .Placements.ToDictionary(p => p.Value, p => p.Key.SpeciesId);
-        dep.Initialize(BattleDeployment.Default(Faction.Player, mine.AutoSelect()), foeView);
+        dep.Initialize(BattleDeployment.Default(Faction.Player, mine.AutoSelect()));
         int cells = CountIn<PanelContainer>(dep, inGrid: true);
         GD.Print($"[検証] 配置画面に自陣6+敵陣6=12マス並ぶ: "
                  + $"{(cells == 12 ? "OK" : "NG")} ({cells}マス)");
+
+        // 相手の選出と配置が画面へ出ていないこと。敵陣に種族名が1つでも
+        // 出ていたら漏れている。相手の6匹の名前を全部当たって確かめる。
+        var foeNames = foe.Entries
+            .Select(e => e.Species?.DisplayName).Where(n => !string.IsNullOrEmpty(n)).ToList();
+        var shown = CollectLabels(dep);
+        var leaked = foeNames.Where(n => shown.Contains(n)).ToList();
+        GD.Print($"[検証] 配置画面に相手の選出・配置が出ない: "
+                 + $"{(leaked.Count == 0 ? "OK" : "NG " + string.Join(",", leaked))}");
+        GD.Print($"[検証] 敵陣6マスがすべて不明表示: "
+                 + $"{(shown.Count(t => t == "?") == 6 ? "OK" : "NG")} "
+                 + $"({shown.Count(t => t == "?")}マス)");
+
+        // 選出画面も同様。相手側に出てよいのは種族名だけで、技名は出ない。
+        var selShown = CollectLabels(sel);
+        var moveNames = foe.Entries.SelectMany(e => e.MoveIds)
+            .Select(m => MoveDatabase.Get(m)?.Name).Where(n => n != null).Distinct().ToList();
+        var moveLeak = moveNames.Where(n => selShown.Contains(n)).ToList();
+        GD.Print($"[検証] 選出画面に相手の技名が出ない: "
+                 + $"{(moveLeak.Count == 0 ? "OK" : "NG " + string.Join(",", moveLeak))}");
 
         build.QueueFree(); build2.QueueFree(); sel.QueueFree(); dep.QueueFree();
     }
@@ -629,6 +647,18 @@ public partial class BattleTestScene : Node2D
             c += CountIn<T>(child, inGrid);
         }
         return c;
+    }
+
+    // 画面に実際に出ている文字列を全部集める。漏れの検査に使う。
+    private static List<string> CollectLabels(Node n)
+    {
+        var acc = new List<string>();
+        foreach (var child in n.GetChildren())
+        {
+            if (child is Label l) acc.Add(l.Text);
+            acc.AddRange(CollectLabels(child));
+        }
+        return acc;
     }
 
     private static T FindFirst<T>(Node n) where T : Node

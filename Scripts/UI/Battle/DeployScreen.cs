@@ -10,25 +10,28 @@ namespace MysteryDungeon.UI.Battle;
 
 // 配置画面。自陣6マスへ4匹を自由に置く。
 //
+// 相手について分かるのは最初に開示された6匹だけ。
+// **誰を選出したかも、どこへ置いたかも、対戦開始まで一切分からない。**
+// したがって敵陣の6マスはすべて「?」で埋める。4マスが埋まることは
+// 規則から分かるが、どの4マスかは分からない、という状態を見せる。
+//
 // 盤面のごく一部だけを扱うので、実際の上下関係のまま2つのゾーンを
-// 向かい合わせて表示する。相手の陣形は既に決まっているものとして上、
-// 自分の6マスを下。2マス空くので、どこを空けるかが最初の読み合いになる。
+// 向かい合わせて表示する。2マス空くので、どこを空けるかが読み合いになる。
 //
 // 画面は常に自分が下。相手側では盤面が180度回って相手自身が下に見える
 // （BattleBoard.ToViewOf が担当。ロジックの論理座標は1つだけ）。
 public partial class DeployScreen : Control
 {
     private BattleDeployment _mine;
-    private IReadOnlyDictionary<Vector2I, string> _foeView;   // マス → 種族ID
 
     private GridContainer _foeZone, _myZone;
     private Label _hint;
     private Button _start;
 
-    public void Initialize(BattleDeployment mine, IReadOnlyDictionary<Vector2I, string> foeView)
+    // 相手の配置は引数に取らない。渡す口が無ければ漏れようがない。
+    public void Initialize(BattleDeployment mine)
     {
         _mine = mine;
-        _foeView = foeView;
         BuildLayout();
         Refresh();
     }
@@ -62,6 +65,8 @@ public partial class DeployScreen : Control
         _myZone = Zone();
         center.AddChild(Wrap(_myZone));
 
+        center.AddChild(Text("相手の選出と配置は対戦開始まで分かりません。",
+                             BattleTheme.Muted, BattleTheme.FontSmall));
         center.AddChild(Text("画面は常に自分が下。相手側では盤面が180度回っています。",
                              BattleTheme.Muted, BattleTheme.FontSmall));
     }
@@ -99,15 +104,33 @@ public partial class DeployScreen : Control
     {
         foreach (var c in zone.GetChildren()) c.QueueFree();
 
-        bool mine = faction == Faction.Player;
+        // 敵陣は中身を持たない。6マスすべて不明として描く。
+        if (faction == Faction.Enemy)
+        {
+            foreach (var _ in BattleDeployment.AvailableTiles(faction))
+                zone.AddChild(UnknownCell());
+            return;
+        }
+
         foreach (var tile in BattleDeployment.AvailableTiles(faction))
         {
-            string speciesId = mine
-                ? _mine.Placements.FirstOrDefault(p => p.Value == tile).Key?.SpeciesId
-                : (_foeView.TryGetValue(tile, out var s) ? s : null);
-
+            string speciesId = _mine.Placements.FirstOrDefault(p => p.Value == tile).Key?.SpeciesId;
             zone.AddChild(Cell(speciesId, faction));
         }
+    }
+
+    // 相手の1マス。誰がいるか、そもそも居るのかも分からない。
+    // 空マスの「空」とは別の見た目にして、「空いている」と「不明」を
+    // 取り違えないようにする。
+    private static Control UnknownCell()
+    {
+        var card = Card(BattleTheme.FoeBg, BattleTheme.Foe, 3);
+        card.CustomMinimumSize = new Vector2(64, 64);
+        var col = Col(2);
+        col.Alignment = BoxContainer.AlignmentMode.Center;
+        col.AddChild(Text("?", BattleTheme.Foe, BattleTheme.FontTitle));
+        card.AddChild(col);
+        return card;
     }
 
     // 1マス。空きマスは破線ではなく沈めた面＋「空」で示す。
