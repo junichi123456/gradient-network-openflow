@@ -14,6 +14,9 @@ namespace MysteryDungeon.UI.Battle;
 // 常時表示し、違反した瞬間に赤へ転じる（BattleTeam.Validate をそのまま出す）。
 public partial class TeamBuildScreen : Control
 {
+    // 構築を確定して選出へ進む。規則を満たしていないと押せない。
+    [Signal] public delegate void BuildConfirmedEventHandler();
+
     private BattleTeam _team;
     private GridContainer _roster;
     private HBoxContainer _rules;
@@ -43,6 +46,7 @@ public partial class TeamBuildScreen : Control
         bar.AddChild(_count);
         bar.AddChild(Spacer());
         _ready = new Button { Text = "対戦を受け付ける" };
+        _ready.Pressed += () => EmitSignal(SignalName.BuildConfirmed);
         bar.AddChild(_ready);
 
         var scroll = new ScrollContainer { SizeFlagsVertical = SizeFlags.ExpandFill };

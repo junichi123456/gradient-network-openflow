@@ -126,7 +126,10 @@ public static class BattleUiKit
     {
         var bar = Card(BattleTheme.Raised, BattleTheme.Line, 0);
         bar.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+        // ボタンの高さぶんを確保する。与えないとバーからはみ出す。
+        bar.CustomMinimumSize = new Vector2(0, 38);
         row = Row(12);
+        row.Alignment = BoxContainer.AlignmentMode.Center;
         row.AddChild(Text(title, BattleTheme.Muted, BattleTheme.FontLabel));
         bar.AddChild(row);
         return bar;

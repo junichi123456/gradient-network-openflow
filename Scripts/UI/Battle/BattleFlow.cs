@@ -59,6 +59,7 @@ public partial class BattleFlow : Control
                 var build = new TeamBuildScreen();
                 AddChild(build);
                 build.Initialize(_team);
+                build.BuildConfirmed += () => ConfirmBuild();
                 _screen = build;
                 break;
 

@@ -701,8 +701,13 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 最初は構築画面: "
                  + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Build ? "OK" : "NG")}");
 
-        GD.Print($"[検証] 規則を満たす構築なら選出へ進める: "
-                 + $"{(flow.ConfirmBuild() && flow.Current == UI.Battle.BattleFlow.Phase.Selection ? "OK" : "NG")}");
+        // 「対戦を受け付ける」を実際に押して進むこと。ConfirmBuild() を直接
+        // 呼ぶだけでは、ボタンとの配線漏れを見逃す（実際に見逃した）。
+        var buildScreen = FindFirst<UI.Battle.TeamBuildScreen>(flow);
+        var readyBtn = CollectButtons(buildScreen).FirstOrDefault(b2 => b2.Text.Contains("受け付ける"));
+        readyBtn?.EmitSignal(Button.SignalName.Pressed);
+        GD.Print($"[検証] 「対戦を受け付ける」を押すと選出へ進む: "
+                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Selection ? "OK" : "NG")}");
 
         // 選出画面の行を実際に押して4匹選ぶ。
         var sel = FindFirst<UI.Battle.SelectionScreen>(flow);
