@@ -64,6 +64,10 @@ public static class BattleTheme
         "Dark" => "闇", _ => "無",
     };
 
+    // SpeciesData.Types は Element enum なので、そのまま渡せる口も用意する。
+    public static Color Element(Combat.Element e) => Element(e.ToString());
+    public static string ElementLabel(Combat.Element e) => ElementLabel(e.ToString());
+
     public static Color Faction(Entities.Faction f) =>
         f == Entities.Faction.Player ? Ally : Foe;
 

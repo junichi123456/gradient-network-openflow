@@ -65,6 +65,7 @@ public partial class BattleTestScene : Node2D
         VerifyItems();
         VerifyArena();
         VerifyHud();
+        VerifyScreens(BuildTeam(PlayerRoster), BuildTeam(EnemyRoster));
         VerifyNetwork(BuildTeam(PlayerRoster));
         VerifyCycleTick();
         RunBattle();
@@ -566,6 +567,79 @@ public partial class BattleTestScene : Node2D
             else c += CountTiles(child);
         }
         return c;
+    }
+
+    // 構築・選出・配置の3画面を実データで組み立てる。ビルドが通ることでは
+    // なく、種族数ぶんのカードが生えることと、規則違反が画面に出ることを見る。
+    private void VerifyScreens(BattleTeam mine, BattleTeam foe)
+    {
+        // 構築画面: 6匹ぶんのカードが並ぶ。
+        var build = new UI.Battle.TeamBuildScreen();
+        AddChild(build);
+        build.Initialize(mine);
+        int cards = CountIn<PanelContainer>(build, inGrid: true);
+        GD.Print($"[検証] 構築画面に6匹ぶんのカードが並ぶ: "
+                 + $"{(cards == BattleTeam.RosterSize ? "OK" : "NG")} ({cards}枚)");
+
+        // 規則違反が画面に反映される（同一種族を作ると開始できなくなる）。
+        var broken = new BattleTeam(mine.Entries.Select((e, i) => i == 1
+            ? new BattleEntry { SpeciesId = mine.Entries[0].SpeciesId, MoveIds = e.MoveIds } : e));
+        var build2 = new UI.Battle.TeamBuildScreen();
+        AddChild(build2);
+        build2.Initialize(broken);
+        var btn = FindFirst<Button>(build2);
+        GD.Print($"[検証] 構築が違反していると開始できない: "
+                 + $"{(btn != null && btn.Disabled ? "OK" : "NG")}");
+
+        // 選出画面: 相手6匹＋自分6匹＝12行。相手側は種族しか渡らない。
+        var sel = new UI.Battle.SelectionScreen();
+        AddChild(sel);
+        sel.Initialize(mine, PublicEntryView.Of(foe.Entries), new BattleClock());
+        int rows = CountIn<PanelContainer>(sel, inGrid: false);
+        GD.Print($"[検証] 選出画面に12行(相手6+自分6)並ぶ: "
+                 + $"{(rows >= 12 ? "OK" : "NG")} ({rows}行)");
+
+        bool fifth = sel.Toggle(mine.Entries[0]) && sel.Toggle(mine.Entries[1])
+                     && sel.Toggle(mine.Entries[2]) && sel.Toggle(mine.Entries[3]);
+        bool blocked = !sel.Toggle(mine.Entries[4]);
+        GD.Print($"[検証] 選出は4匹を超えられない: {(fifth && blocked ? "OK" : "NG")} "
+                 + $"(選出{sel.Picked.Count}匹)");
+
+        // 配置画面: 自陣6マス＋敵陣6マス＝12マス。
+        var dep = new UI.Battle.DeployScreen();
+        AddChild(dep);
+        var foeView = BattleDeployment.Default(Faction.Enemy, foe.AutoSelect())
+                                      .Placements.ToDictionary(p => p.Value, p => p.Key.SpeciesId);
+        dep.Initialize(BattleDeployment.Default(Faction.Player, mine.AutoSelect()), foeView);
+        int cells = CountIn<PanelContainer>(dep, inGrid: true);
+        GD.Print($"[検証] 配置画面に自陣6+敵陣6=12マス並ぶ: "
+                 + $"{(cells == 12 ? "OK" : "NG")} ({cells}マス)");
+
+        build.QueueFree(); build2.QueueFree(); sel.QueueFree(); dep.QueueFree();
+    }
+
+    // GridContainer の直下だけ数えるか、全体から数えるかを切り替える。
+    private static int CountIn<T>(Node n, bool inGrid) where T : Node
+    {
+        int c = 0;
+        foreach (var child in n.GetChildren())
+        {
+            if (inGrid && n is GridContainer && child is T) c++;
+            else if (!inGrid && child is T) c++;
+            c += CountIn<T>(child, inGrid);
+        }
+        return c;
+    }
+
+    private static T FindFirst<T>(Node n) where T : Node
+    {
+        foreach (var child in n.GetChildren())
+        {
+            if (child is T t) return t;
+            var found = FindFirst<T>(child);
+            if (found != null) return found;
+        }
+        return null;
     }
 
     private void RunBattle()
