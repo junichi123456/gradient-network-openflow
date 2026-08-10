@@ -446,6 +446,11 @@ public partial class BattleTestScene : Node2D
         e.StatusEffects.ApplyRankDelta(RankStat.Atk, -2);
         int rankBefore = e.StatusEffects.AtkRank;
 
+        // 何サイクル目から始まるかは、ここより前の検証が何をしたかで変わる
+        // （画面の検証が実際に1ターン解決するようになった）。絶対値では
+        // なく増分で見る。
+        int cycleBefore = _sched.CycleNumber;
+
         // 4ターンぶん解決してもサイクルが閉じるまでは刻まれない。
         _sched.BeginCycle();
         for (int i = 0; i < BattleTeam.SelectionSize; i++)
@@ -462,7 +467,7 @@ public partial class BattleTestScene : Node2D
                  + $"{(rankMidCycle == rankBefore ? "OK" : "NG")} "
                  + $"(サイクル前{rankBefore} / 4ターン後{rankMidCycle})");
         GD.Print($"[検証] 刻みはサイクル境界(EndCycle)でのみ走る: "
-                 + $"{(_sched.CycleNumber == 1 ? "OK" : "NG")}");
+                 + $"{(_sched.CycleNumber == cycleBefore + 1 ? "OK" : "NG")}");
 
         // 検証で消耗した状態を戻してから本番の対戦へ入る。
         foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); }
@@ -693,10 +698,10 @@ public partial class BattleTestScene : Node2D
     private void VerifyFlow(BattleTeam mine, BattleTeam foe)
     {
         var clock = new BattleClock();
+        var session = new BattleSession(_sched, clock);
         var flow = new UI.Battle.BattleFlow();
         AddChild(flow);
-        flow.Begin(mine, PublicEntryView.Of(foe.Entries), clock, _sched,
-                   new BattleSession(_sched, clock));
+        flow.Begin(mine, PublicEntryView.Of(foe.Entries), clock, _sched, session);
 
         GD.Print($"[検証] 最初は構築画面: "
                  + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Build ? "OK" : "NG")}");
@@ -724,27 +729,102 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 決定を押すと配置画面へ: "
                  + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Deploy ? "OK" : "NG")}");
 
-        // 「この配置で開始」で対戦画面へ。
+        // 配置画面のマスを実際に押して、配置が動くことを見る。
+        // 1マス目を押して「持ち」、空きマスを押して「置く」の2手。
         var dep = FindFirst<UI.Battle.DeployScreen>(flow);
+        var depCells = CollectButtons(dep).Where(b => CollectLabels(b).Count > 0).ToList();
+        var deployment = flow.Deployment;
+        var occupiedTile = BattleDeployment.AvailableTiles(Faction.Player)
+                                           .First(t => deployment.At(t) != null);
+        var emptyTile = BattleDeployment.AvailableTiles(Faction.Player)
+                                        .First(t => deployment.At(t) == null);
+        var moved = deployment.At(occupiedTile);
+        dep.PressTile(occupiedTile);
+        bool held = dep.Held == moved;
+        dep.PressTile(emptyTile);
+        GD.Print($"[検証] 配置画面でマスを押すと配置が変わる: "
+                 + $"{(held && deployment.At(emptyTile) == moved && deployment.At(occupiedTile) == null ? "OK" : "NG")}");
+
+        // 入れ替え。埋まっているマスへ置くと、そこに居た1匹が元の場所へ移る。
+        var a = deployment.At(emptyTile);
+        var otherTile = BattleDeployment.AvailableTiles(Faction.Player)
+                                        .First(t => t != emptyTile && deployment.At(t) != null);
+        var b2 = deployment.At(otherTile);
+        dep.PressTile(emptyTile);
+        dep.PressTile(otherTile);
+        GD.Print($"[検証] 埋まっているマスへ置くと入れ替わる: "
+                 + $"{(deployment.At(otherTile) == a && deployment.At(emptyTile) == b2 ? "OK" : "NG")} "
+                 + $"(4匹維持 {deployment.Placements.Count})");
+
+        // 自分の選出4匹の詳細が下部に出ている（技名が読める）。
+        var depLabels = CollectLabels(dep);
+        var myMoveNames = deployment.Placements.Keys.SelectMany(e => e.MoveIds)
+            .Select(m => MoveDatabase.Get(m)?.Name).Where(n => n != null).Distinct().ToList();
+        GD.Print($"[検証] 配置画面に自分の技が出る: "
+                 + $"{(myMoveNames.Any(n => depLabels.Contains(n)) ? "OK" : "NG")}");
+        GD.Print($"[検証] 配置は20秒: "
+                 + $"{(BattleClock.DeployLimitSeconds == 20.0 ? "OK" : "NG")} "
+                 + $"({BattleClock.DeployLimitSeconds}秒)");
+
+        // 「この配置で開始」で対戦画面へ。
         var startBtn = CollectButtons(dep).FirstOrDefault(b => b.Text.Contains("開始"));
         startBtn?.EmitSignal(Button.SignalName.Pressed);
         GD.Print($"[検証] 開始を押すと対戦画面へ: "
                  + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Battle ? "OK" : "NG")}");
 
-        // 対戦画面で技を選ぶと「決定して伏せる」が押せるようになる。
+        // 対戦画面。①操作するパルを選ぶところから始まる。
         var hud = FindFirst<UI.Battle.BattleHud>(flow);
-        hud.ShowCommands(_sched.Roster.First(e => e.Faction == Faction.Player));
-        var commitBefore = CollectButtons(hud).FirstOrDefault(b => b.Text.Contains("伏せる"));
-        bool lockedFirst = commitBefore != null && commitBefore.Disabled;
-        // 盤面のマスも空テキストのボタンなので、技名のラベルを子に持つ
-        // ボタンを狙って押す。
-        var actor0 = _sched.Roster.First(e => e.Faction == Faction.Player);
+        var pickable = _sched.AvailableFor(Faction.Player).ToList();
+        var pickBtn = CollectButtons(hud)
+            .FirstOrDefault(x => CollectLabels(x).Contains(pickable[0].ActorName));
+        GD.Print($"[検証] 対戦は操作するパルの選択から始まる: "
+                 + $"{(hud.Operating == null && pickBtn != null ? "OK" : "NG")}");
+
+        pickBtn.EmitSignal(Button.SignalName.Pressed);
+        GD.Print($"[検証] パルを選ぶと行動パネルへ移る: "
+                 + $"{(hud.Operating == pickable[0] ? "OK" : "NG")}");
+
+        // 相手が誰を操作しているかはレールに出ない。「操作中」は自分の1匹だけ。
+        int operating = CollectLabels(hud).Count(t => t == "操作中");
+        GD.Print($"[検証] 「操作中」の名指しは自分の1匹だけ: "
+                 + $"{(operating == 1 && hud.Operating.Faction == Faction.Player ? "OK" : "NG")} "
+                 + $"({operating}件)");
+
+        // ②行動を選ぶ。狙う先を決めるまでは提出できない。
+        var actor0 = hud.Operating;
         string firstMove = actor0.Moves.Slots[0].Data.Name;
         var moveBtn = CollectButtons(hud).First(x => CollectLabels(x).Contains(firstMove));
         moveBtn.EmitSignal(Button.SignalName.Pressed);
-        var commitAfter = CollectButtons(hud).FirstOrDefault(b => b.Text.Contains("伏せる"));
-        GD.Print($"[検証] 技を選ぶまで提出できない: "
-                 + $"{(lockedFirst && commitAfter != null && !commitAfter.Disabled ? "OK" : "NG")}");
+        var commit = CollectButtons(hud).First(x => x.Text.Contains("伏せる"));
+        bool lockedFirst = commit.Disabled;
+
+        // 盤面のマスを順に押して、狙える1マスを見つける。押せないマスは
+        // 何も起きないので、順に当たれば必ず有効なマスへ行き着く。
+        int tiles = BattleBoard.Width * BattleBoard.Height;
+        for (int i = 0; i < tiles && commit.Disabled; i++)
+        {
+            var grid = FindFirst<GridContainer>(hud);
+            if (grid == null || i >= grid.GetChildCount()) break;
+            (grid.GetChild(i) as Button)?.EmitSignal(Button.SignalName.Pressed);
+        }
+        GD.Print($"[検証] 狙う先を選ぶまで提出できない: "
+                 + $"{(lockedFirst && !commit.Disabled ? "OK" : "NG")}");
+
+        // ③提出。相手が出すまで盤面は動かない。
+        int turnBefore = _sched.TurnInCycle;
+        commit.EmitSignal(Button.SignalName.Pressed);
+        bool waiting = session.HasSubmitted(Faction.Player)
+                       && !session.HasSubmitted(Faction.Enemy)
+                       && _sched.TurnInCycle == turnBefore;
+        GD.Print($"[検証] 提出しても相手が出すまで解決しない: {(waiting ? "OK" : "NG")}");
+
+        // 相手役が出したら解決する。実際にターンが1つ進むこと。
+        for (int i = 0; i < 5 && _sched.TurnInCycle == turnBefore; i++) flow._Process(1.0);
+        GD.Print($"[検証] 両者が出すとターンが解決する: "
+                 + $"{(_sched.TurnInCycle == turnBefore + 1 ? "OK" : "NG")} "
+                 + $"(ターン {turnBefore} → {_sched.TurnInCycle})");
+        GD.Print($"[検証] 解決後は次のパルの選択へ戻る: "
+                 + $"{(hud.Operating == null ? "OK" : "NG")}");
 
         // 選出フェーズの時間切れ経路。50秒進めると自動で配置へ移る。
         var clock2 = new BattleClock();
@@ -756,6 +836,12 @@ public partial class BattleTestScene : Node2D
         flow2._Process(BattleClock.SelectionLimitSeconds + 1.0);
         GD.Print($"[検証] 選出が時間切れなら自動で配置へ: "
                  + $"{(flow2.Current == UI.Battle.BattleFlow.Phase.Deploy ? "OK" : "NG")}");
+
+        // 配置フェーズの時間切れ経路。20秒進めると現在の配置のまま対戦へ移る。
+        int placedAtTimeout = flow2.Deployment.Placements.Count;
+        flow2._Process(BattleClock.DeployLimitSeconds + 1.0);
+        GD.Print($"[検証] 配置が時間切れなら現在の配置のまま対戦へ: "
+                 + $"{(flow2.Current == UI.Battle.BattleFlow.Phase.Battle && placedAtTimeout == 4 ? "OK" : "NG")}");
 
         flow.QueueFree(); flow2.QueueFree();
     }

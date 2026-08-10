@@ -33,9 +33,11 @@ public sealed class PhaseTimer
 public sealed class BattleClock
 {
     public const double SelectionLimitSeconds = 50.0;
+    public const double DeployLimitSeconds = 20.0;
     public const double MatchLimitSeconds = 20.0 * 60.0;   // 20分
 
     public PhaseTimer Selection { get; } = new(SelectionLimitSeconds);
+    public PhaseTimer Deploy { get; } = new(DeployLimitSeconds);
     public PhaseTimer Match { get; } = new(MatchLimitSeconds);
 
     private readonly Dictionary<Faction, IReadOnlyList<BattleEntry>> _submitted = new();
@@ -62,6 +64,14 @@ public sealed class BattleClock
     // 自動選出される。
     public IReadOnlyList<BattleEntry> ResolveSelection(Faction faction, BattleTeam team) =>
         _submitted.TryGetValue(faction, out var s) ? s : team.AutoSelect();
+
+    // ---- 配置フェーズ ----
+
+    // 20秒。選出と違い、締め切り時点で必ず有効な配置が存在する
+    // （BattleDeployment.Default が4匹すべてを置いた状態から始まるので、
+    // 何も触らなければ既定配置のまま開始する）。よって「自動で決める」
+    // 処理は要らず、締め切りの判定だけを持つ。
+    public bool DeployClosed => Deploy.Expired;
 
     // ---- 対戦フェーズ ----
 

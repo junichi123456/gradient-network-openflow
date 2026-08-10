@@ -16,21 +16,45 @@ namespace MysteryDungeon.UI.Battle;
 //   右カラム   … 行動選択・残りの頭数・戦闘ログ
 //
 // 相手の状態は「選択中…／決定済み」の2値しか出さない。伏せて同時に決める
-// 規則なので、中身は解決まで見せない。
+// 規則なので、中身は解決まで見せない。**相手がどのパルを操作しているかも
+// 中身のうち**なので、レールで「いま行動」と名指しできるのは自分側だけ。
+//
+// 1ターンの操作は3段。
+//   ① 操作するパルを選ぶ  … このサイクルでまだ動いていない自分のパル
+//   ② 行動を選ぶ          … 技4つ＋移動。選ぶと射程が盤面に出る
+//   ③ 伏せて提出し、待つ  … 両者が出すまで何も起きない → 解決
 public partial class BattleHud : Control
 {
+    // 操作するパルが選ばれた。_sched.Roster の添字を渡す。
+    [Signal] public delegate void ActorChosenEventHandler(int rosterIndex);
     // 技枠が選ばれた（移動は -1）。狙う先はこのあと盤面のクリックで決める。
     [Signal] public delegate void CommandChosenEventHandler(int moveSlot);
     // 盤面のマスが押された。狙う先の指定に使う。
     [Signal] public delegate void TileClickedEventHandler(Vector2I tile);
     // 「決定して伏せる」。ここで初めて提出される。
     [Signal] public delegate void CommitPressedEventHandler();
+    // 「別のパルにする」。①へ戻る。
+    [Signal] public delegate void CancelPressedEventHandler();
 
     // 盤面1マスの辺長。8行7列なので、これで盤面全体の寸法が決まる。
     private const int TileSize = 56;
 
     private Button _commit;
     private int _chosenSlot = -2;   // -2 = 未選択 / -1 = 移動 / 0.. = 技枠
+
+    // 自分が操作すると決めたパル。①が済むまで null。レールの「操作中」も
+    // これだけを見る（相手側は絶対に名指ししない）。
+    private Entity _actor;
+
+    // 提出できるか。狙う先が要る技かどうかは射程で変わり、その判断は
+    // BattleFlow が持っているので、有効/無効は外から与えてもらう。
+    // 画面を組み直すたびに既定値へ戻ると、選び終えても押せない画面になる。
+    private bool _commitEnabled;
+
+    // 次に何をすればよいかの一行。行動パネルの中に置く（盤面の端に出すと
+    // 視線が行動選択から離れる）。
+    private string _hint = "";
+    private Label _hintLabel;
 
     private BattleScheduler _sched;
     private BattleClock _clock;
@@ -70,6 +94,9 @@ public partial class BattleHud : Control
 
         var root = new VBoxContainer { Name = "Root" };
         root.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        // 画面の縁に face を貼り付けない。全画面表示では実際に文字が切れる。
+        root.OffsetLeft = 10; root.OffsetTop = 6;
+        root.OffsetRight = -10; root.OffsetBottom = -6;
         root.AddThemeConstantOverride("separation", 10);
         AddChild(root);
 
@@ -86,15 +113,25 @@ public partial class BattleHud : Control
             SizeFlagsVertical = SizeFlags.ExpandFill,
             Alignment = BoxContainer.AlignmentMode.Center,
         };
+        // 盤面は寸法が固定（56px x 7列）なので、伸ばすのではなく余白の
+        // 真ん中へ置く。GridContainer に ExpandFill を与えると矩形だけが
+        // 広がり、中身は左上に寄ったまま——それが左詰めの正体だった。
+        // 横方向は Alignment.Center の HBox、縦方向は同じく VBox に任せる。
+        var boardRow = new HBoxContainer
+        {
+            SizeFlagsHorizontal = SizeFlags.ExpandFill,
+            Alignment = BoxContainer.AlignmentMode.Center,
+        };
         _board = new GridContainer
         {
             Columns = BattleBoard.Width,
-            SizeFlagsHorizontal = SizeFlags.ExpandFill,
-            SizeFlagsVertical = SizeFlags.ExpandFill,
+            SizeFlagsHorizontal = SizeFlags.ShrinkCenter,
+            SizeFlagsVertical = SizeFlags.ShrinkCenter,
         };
         _board.AddThemeConstantOverride("h_separation", 2);
         _board.AddThemeConstantOverride("v_separation", 2);
-        left.AddChild(_board);
+        boardRow.AddChild(_board);
+        left.AddChild(boardRow);
         split.AddChild(left);
 
         var side = new VBoxContainer
@@ -215,6 +252,12 @@ public partial class BattleHud : Control
     }
 
     // 行動順レール。種族値を隠さず並べ、左ほど先に動くことを見せる。
+    //
+    // ここに出してよいのは公開情報だけ。種族値も、そのサイクルで既に動いたか
+    // どうかも、解決を見ていれば分かるので公開情報にあたる。
+    // 一方「このターンに誰を操作するか」は伏せて同時に決める対象なので、
+    // 名指しできるのは自分が選んだ1匹（操作中）に限る。相手側は、たとえ
+    // 提出済みでも誰を出したかを示さない。
     private void RefreshRail()
     {
         BattleUiKit.ClearChildren(_rail);
@@ -224,20 +267,21 @@ public partial class BattleHud : Control
             .OrderBy(BattleScheduler.Bst)
             .ToList();
 
-        for (int i = 0; i < order.Count; i++)
+        foreach (var e in order)
         {
-            var e = order[i];
             var card = new PanelContainer { CustomMinimumSize = new Vector2(78, 0) };
-            bool acting = i == 0 && !_sched.HasActed(e);
+            bool acted = _sched.HasActed(e);
+            bool operating = e == _actor;      // 自分の選択のみ。相手には付かない
             card.AddThemeStyleboxOverride("panel", BattleTheme.Panel(
-                acting ? BattleTheme.BrassBg : BattleTheme.Surface,
-                acting ? BattleTheme.Brass : BattleTheme.Line, 4));
+                operating ? BattleTheme.BrassBg : BattleTheme.Surface,
+                operating ? BattleTheme.Brass : BattleTheme.Line, 4));
 
             var col = new VBoxContainer();
             col.AddThemeConstantOverride("separation", 1);
             col.AddChild(Text(e.ActorName, BattleTheme.Faction(e.Faction), BattleTheme.FontLabel));
             col.AddChild(Text($"BST {BattleScheduler.Bst(e)}", BattleTheme.Muted, 10));
-            if (acting) col.AddChild(Text("いま行動", BattleTheme.Brass, 9));
+            col.AddChild(operating ? Text("操作中", BattleTheme.Brass, 9)
+                                   : Text(acted ? "行動済" : "未行動", BattleTheme.Muted, 9));
             card.AddChild(col);
             _rail.AddChild(card);
         }
@@ -329,11 +373,66 @@ public partial class BattleHud : Control
         }
     }
 
-    // 行動中のパルの技を並べる。移動も1つの選択肢として同列に置く。
+    // ① 操作するパルを選ぶ。候補はこのサイクルでまだ動いていない自分のパル。
+    // 誰も残っていなければ「出せるパルがいない」と明示する（黙って空欄に
+    // すると、操作を受け付けていないのか壊れているのか区別できない）。
+    public void ShowActorPicker(IReadOnlyList<Entity> available)
+    {
+        _actor = null;
+        _chosenSlot = -2;
+        _commitEnabled = false;
+        BattleUiKit.ClearChildren(_commands);
+
+        _commands.AddChild(Text("操作するパルを選ぶ", BattleTheme.Ink, BattleTheme.FontLabel));
+
+        if (available == null || available.Count == 0)
+        {
+            _commands.AddChild(Text("このサイクルで出せるパルがいません",
+                                    BattleTheme.Muted, BattleTheme.FontSmall));
+            RefreshRail();
+            return;
+        }
+
+        foreach (var e in available)
+        {
+            var btn = BattleUiKit.ClickableCard(BattleTheme.Surface, BattleTheme.Line, 4);
+            int index = _sched.Roster.ToList().IndexOf(e);
+            btn.Pressed += () => EmitSignal(SignalName.ActorChosen, index);
+
+            var row = new HBoxContainer { MouseFilter = MouseFilterEnum.Ignore };
+            row.AddThemeConstantOverride("separation", 6);
+            row.AddChild(Text(e.ActorName, BattleTheme.Ink, BattleTheme.FontSmall));
+            row.AddChild(new Control { SizeFlagsHorizontal = SizeFlags.ExpandFill });
+
+            var hp = new HpBar { CustomMinimumSize = new Vector2(54, 6), SizeFlagsVertical = SizeFlags.ShrinkCenter };
+            hp.SetHp(e.Stats.CurrentHp, e.Stats.MaxHp);
+            row.AddChild(hp);
+            row.AddChild(Text($"BST {BattleScheduler.Bst(e)}", BattleTheme.Muted, 10));
+
+            BattleUiKit.AddFilled(btn, row);
+            _commands.AddChild(btn);
+        }
+
+        RefreshRail();
+    }
+
+    // ③ 提出したあと。相手が出すまでは何も操作させない。
+    public void ShowWaiting(string message)
+    {
+        BattleUiKit.ClearChildren(_commands);
+        _commands.AddChild(Text("提出済み", BattleTheme.Brass, BattleTheme.FontLabel));
+        _commands.AddChild(Text(message, BattleTheme.Muted, BattleTheme.FontSmall));
+    }
+
+    // ② 行動中のパルの技を並べる。移動も1つの選択肢として同列に置く。
     public void ShowCommands(Entity actor)
     {
         BattleUiKit.ClearChildren(_commands);
         if (actor == null) return;
+        bool actorChanged = _actor != actor;
+        _actor = actor;
+
+        _commands.AddChild(Text(actor.ActorName, BattleTheme.Ink, BattleTheme.FontBody));
 
         for (int i = 0; i < actor.Moves.Slots.Count; i++)
         {
@@ -365,12 +464,22 @@ public partial class BattleHud : Control
         BattleUiKit.AddFilled(moveBtn, mrow);
         _commands.AddChild(moveBtn);
 
+        _hintLabel = Text(_hint, BattleTheme.Muted, 10);
+        _hintLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+        _commands.AddChild(_hintLabel);
+
         // 提出は選び終えてから。押すまでは相手に何も伝わらない。
-        // 有効/無効は選択状態から引く。固定で true にすると、技を選んだ
-        // 直後の組み直しで無効へ戻り、永久に提出できなくなる。
-        _commit = new Button { Text = "決定して伏せる", Disabled = _chosenSlot == -2 };
+        // 有効/無効は SetCommitEnabled で与えられた状態から引く。ここで
+        // 固定値を入れると、選び直しの組み直しごとに状態が飛ぶ。
+        _commit = new Button { Text = "決定して伏せる", Disabled = !_commitEnabled };
         _commit.Pressed += () => EmitSignal(SignalName.CommitPressed);
         _commands.AddChild(_commit);
+
+        var back = new Button { Text = "別のパルにする" };
+        back.Pressed += () => EmitSignal(SignalName.CancelPressed);
+        _commands.AddChild(back);
+
+        if (actorChanged) RefreshRail();
     }
 
     // 技/移動を選んだ時点で射程を出す。提出はまだしない。
@@ -382,11 +491,24 @@ public partial class BattleHud : Control
     }
 
     public int ChosenSlot => _chosenSlot;
+    public Entity Operating => _actor;
+
+    // 提出できるかどうかと、次に何をすればよいかの案内文。どちらも
+    // 「狙う先が要る技か」を知っている BattleFlow 側から与えられる。
+    public void SetCommitEnabled(bool enabled, string hint = null)
+    {
+        _commitEnabled = enabled;
+        _hint = hint ?? "";
+        if (_commit != null) _commit.Disabled = !enabled;
+        if (_hintLabel != null) _hintLabel.Text = _hint;
+    }
 
     // ターンが解決したら選択を捨てる。次のターンはまた白紙から。
     public void ClearChoice()
     {
+        _actor = null;
         _chosenSlot = -2;
+        _commitEnabled = false;
         _aimTile = null;
         _rangeTiles.Clear();
     }

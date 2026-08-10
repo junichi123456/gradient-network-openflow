@@ -25,6 +25,7 @@ public partial class BattleFlowScene : Control
     private static readonly string[] FoeRoster = { "005", "008", "007", "003", "011", "012" };
 
     private UI.Battle.BattleFlow _flow;
+    private BattleScheduler _sched;
     private string _shotPath;
     private string _shotPhase = "build";
     private int _frames;
@@ -52,6 +53,7 @@ public partial class BattleFlowScene : Control
 
         // 盤面へ実際に並べる。対戦画面が中身のある状態で見えるように。
         var sched = new BattleScheduler();
+        _sched = sched;
         Deploy(Faction.Player, mine, grid, floor, sched);
         Deploy(Faction.Enemy, foe, grid, floor, sched);
 
@@ -78,6 +80,20 @@ public partial class BattleFlowScene : Control
                 _flow.ConfirmBuild();
                 _flow.ConfirmSelection(mine.AutoSelect());
                 _flow.Show(UI.Battle.BattleFlow.Phase.Battle);
+                break;
+
+            // 技を選んだ直後（射程が盤面に出ている状態）。射程の見え方は
+            // 描いてみないと分からないので、撮れる経路を作っておく。
+            case "command":
+                _flow.ConfirmBuild();
+                _flow.ConfirmSelection(mine.AutoSelect());
+                _flow.Show(UI.Battle.BattleFlow.Phase.Battle);
+                var hud = _flow.GetChildren().OfType<UI.Battle.BattleHud>().FirstOrDefault();
+                var actor = _sched.AvailableFor(Faction.Player).FirstOrDefault();
+                if (hud == null || actor == null) break;
+                hud.EmitSignal(UI.Battle.BattleHud.SignalName.ActorChosen,
+                               _sched.Roster.ToList().IndexOf(actor));
+                hud.EmitSignal(UI.Battle.BattleHud.SignalName.CommandChosen, 0);
                 break;
         }
     }

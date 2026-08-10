@@ -13,14 +13,42 @@ namespace MysteryDungeon.Battle;
 public sealed class BattleDeployment
 {
     // 種族 → 置くマス。選出した4匹ぶん。
-    public IReadOnlyDictionary<BattleEntry, Vector2I> Placements { get; }
+    private readonly Dictionary<BattleEntry, Vector2I> _placements;
+
+    public IReadOnlyDictionary<BattleEntry, Vector2I> Placements => _placements;
     public Faction Faction { get; }
 
     public BattleDeployment(Faction faction, IReadOnlyDictionary<BattleEntry, Vector2I> placements)
     {
         Faction = faction;
-        Placements = placements;
+        _placements = new Dictionary<BattleEntry, Vector2I>(placements);
     }
+
+    // 1匹を指定マスへ動かす。配置画面の唯一の操作。
+    //
+    // 置き先に別の1匹がいた場合は入れ替える。「どかしてから置く」を2手に
+    // 分けると、片方が盤外にいる中途半端な状態が生まれてしまう。入れ替えなら
+    // どの瞬間も4匹が盤上に揃っているので、時間切れがいつ来ても配置は有効。
+    public bool Place(BattleEntry entry, Vector2I tile)
+    {
+        if (entry == null) return false;
+        if (!BattleBoard.FormationArea(Faction).HasPoint(tile)) return false;
+
+        var occupant = _placements.FirstOrDefault(p => p.Value == tile).Key;
+        if (occupant == entry) return false;                  // 同じマス = 何もしない
+
+        bool had = _placements.TryGetValue(entry, out var from);
+        if (occupant != null)
+        {
+            if (had) _placements[occupant] = from;            // 入れ替え
+            else _placements.Remove(occupant);                // 押し出し（未配置と交代）
+        }
+        _placements[entry] = tile;
+        return true;
+    }
+
+    public BattleEntry At(Vector2I tile) =>
+        _placements.FirstOrDefault(p => p.Value == tile).Key;
 
     // 配置が規則を満たしているか。満たしていれば空のリストを返す。
     public List<string> Validate()
