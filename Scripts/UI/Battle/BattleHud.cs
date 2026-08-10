@@ -26,6 +26,9 @@ public partial class BattleHud : Control
     // 「決定して伏せる」。ここで初めて提出される。
     [Signal] public delegate void CommitPressedEventHandler();
 
+    // 盤面1マスの辺長。8行7列なので、これで盤面全体の寸法が決まる。
+    private const int TileSize = 56;
+
     private Button _commit;
     private int _chosenSlot = -2;   // -2 = 未選択 / -1 = 移動 / 0.. = 技枠
 
@@ -94,7 +97,11 @@ public partial class BattleHud : Control
         left.AddChild(_board);
         split.AddChild(left);
 
-        var side = new VBoxContainer { CustomMinimumSize = new Vector2(268, 0) };
+        var side = new VBoxContainer
+        {
+            CustomMinimumSize = new Vector2(280, 0),
+            SizeFlagsHorizontal = SizeFlags.ShrinkEnd,
+        };
         side.AddThemeConstantOverride("separation", 10);
         _commands = Card(side, "行動");
         _rosterList = Card(side, "残り");
@@ -255,9 +262,7 @@ public partial class BattleHud : Control
                 var tile = BattleUiKit.ClickableCard(
                     isAim ? BattleTheme.Brass : inRange ? BattleTheme.BrassBg : BattleTheme.Surface,
                     inRange || isAim ? BattleTheme.Brass : BattleTheme.Surface, 2);
-                tile.CustomMinimumSize = new Vector2(44, 44);
-                tile.SizeFlagsHorizontal = SizeFlags.ExpandFill;
-                tile.SizeFlagsVertical = SizeFlags.ExpandFill;
+                tile.CustomMinimumSize = new Vector2(TileSize, TileSize);
                 tile.ClipContents = true;
                 var here = pos;
                 tile.Pressed += () => EmitSignal(SignalName.TileClicked, here);

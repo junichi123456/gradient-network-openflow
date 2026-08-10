@@ -12,8 +12,14 @@ config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 
 [display]
 
-window/size/viewport_width=800
-window/size/viewport_height=600
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
+; 画面サイズに追従させる。canvas_items + expand なので、解像度を上げると
+; 拡大ではなく「表示できる範囲が広がる」。対戦画面は情報量が多いので、
+; 引き伸ばして粗くするより余白が増えるほうが読みやすい。
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [dotnet]
 
