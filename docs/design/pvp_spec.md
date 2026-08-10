@@ -479,11 +479,46 @@ godot --headless Scenes/NetTestScene.tscn -- --join
 `BattleDeployment.Validate()` を見る。UI側で判定を再実装すると、
 生成器と検証器が食い違ったときと同じ事故になる。
 
-### 未確認
+### 実機での確認
 
-ここまですべてヘッドレスで動かしており、**実際の見た目は未確認**。
-色・余白はモックアップどおりの値を入れているが、Godot のレイアウト挙動で
-差が出る可能性がある。最終調整は実機で開いてから。
+`Scenes/BattleFlowScene.tscn` が入口。構築 → 選出 → 配置 → 対戦 を通しで触れる。
+
+```
+godot --path . Scenes/BattleFlowScene.tscn
+```
+
+撮影用の経路もある（起動直後の画面を保存して終了）。
+
+```
+godot --path . Scenes/BattleFlowScene.tscn -- --shot out.png --phase battle
+```
+
+画面が無い環境では仮想ディスプレイとソフトウェア描画で動く。
+
+```
+xvfb-run -a env LIBGL_ALWAYS_SOFTWARE=1 XDG_RUNTIME_DIR=/tmp \
+  godot --path . --display-driver x11 --rendering-driver opengl3 \
+  --resolution 800x600 Scenes/BattleFlowScene.tscn -- --shot out.png --phase battle
+```
+
+### 実機でしか出なかった不具合
+
+ヘッドレス検証（ノードが生える／押すと状態が変わる）は全部通っていたが、
+描いてみると4件崩れていた。**レイアウトはノードの有無では検証できない。**
+
+| 症状 | 原因 |
+|---|---|
+| UI全体が左上へ潰れる | `SetAnchorsPreset` は**現在の矩形（=0）を保つ**。`SetAnchorsAndOffsetsPreset` でないと親を埋めない |
+| 盤上のユニットが細い線になる | **`Button` は `Container` ではない**ので、子を足しても広がらない。全面へ貼り付ける必要がある |
+| 対戦画面が固まる | 毎フレーム盤面を作り直していた（1フレームに数百個の stylebox）。時計だけの更新と分けた |
+| シーンが起動時に落ちる | `.tscn` のルート型が `Node2D` のままでスクリプトの `Control` と食い違い |
+
+あわせて、**技を選んでも提出ボタンが無効に戻り永久に提出できない**バグも見つけた。
+選択のたびにパネルを組み直す際、ボタンを固定で `Disabled = true` にしていた。
+有効/無効を選択状態から引くようにした。
+
+`QueueFree` は解放がフレーム末まで遅れるため、作り直しの瞬間に古いノードと
+新しいノードが同居する。`BattleUiKit.ClearChildren` でツリーから即座に外す。
 
 ---
 

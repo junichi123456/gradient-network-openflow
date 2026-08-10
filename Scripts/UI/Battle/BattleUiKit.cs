@@ -75,11 +75,33 @@ public static class BattleUiKit
         return b;
     }
 
+    // Button は Container ではないので、子を足しただけでは広がらない
+    // （最小サイズのまま左上に潰れる）。ボタン全面へ貼り付ける。
+    public static void AddFilled(Button host, Control child, int margin = 4)
+    {
+        host.AddChild(child);
+        child.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+        child.OffsetLeft = margin; child.OffsetTop = margin;
+        child.OffsetRight = -margin; child.OffsetBottom = -margin;
+        child.MouseFilter = Control.MouseFilterEnum.Ignore;
+    }
+
     public static PanelContainer Card(Color bg, Color border, int radius = 5)
     {
         var p = new PanelContainer();
         p.AddThemeStyleboxOverride("panel", BattleTheme.Panel(bg, border, radius));
         return p;
+    }
+
+    // 中身を作り直す前に呼ぶ。QueueFree だけだと解放がフレーム末まで遅れ、
+    // 古いノードと新しいノードが同居する。ツリーから即座に外す。
+    public static void ClearChildren(Node parent)
+    {
+        foreach (var c in parent.GetChildren())
+        {
+            parent.RemoveChild(c);
+            c.QueueFree();
+        }
     }
 
     public static Control Spacer() =>
@@ -103,6 +125,7 @@ public static class BattleUiKit
     public static PanelContainer TopBar(string title, out HBoxContainer row)
     {
         var bar = Card(BattleTheme.Raised, BattleTheme.Line, 0);
+        bar.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
         row = Row(12);
         row.AddChild(Text(title, BattleTheme.Muted, BattleTheme.FontLabel));
         bar.AddChild(row);

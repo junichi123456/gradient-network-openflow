@@ -41,7 +41,7 @@ public partial class BattleFlow : Control
         _clock = clock;
         _sched = sched;
         _session = session;
-        SetAnchorsPreset(LayoutPreset.FullRect);
+        SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         Show(Phase.Build);
     }
 
@@ -83,6 +83,12 @@ public partial class BattleFlow : Control
                 var hud = new BattleHud();
                 AddChild(hud);
                 hud.Initialize(_sched, _clock, _session);
+
+                // 行動パネルは「いま動く番のパル」の技を出す。出さないと
+                // 何も選べない画面になる。
+                var actor = _sched.AvailableFor(Faction.Player)
+                                  .OrderBy(BattleScheduler.Bst).FirstOrDefault();
+                if (actor != null) hud.ShowCommands(actor);
                 _screen = hud;
                 break;
         }
@@ -124,7 +130,10 @@ public partial class BattleFlow : Control
 
             case Phase.Battle:
                 _clock.Match.Advance(delta);
-                if (_screen is BattleHud hud) hud.Refresh();
+
+                // 毎フレームは時計だけ。盤面はターンが解決したときに
+                // 組み直す（Refresh はノードを全部作り直すので重い）。
+                if (_screen is BattleHud hud) hud.RefreshClock();
 
                 Outcome = _clock.Resolve(_sched);
                 if (Outcome != BattleOutcome.Undecided)

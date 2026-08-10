@@ -43,13 +43,13 @@ public partial class DeployScreen : Control
 
     private void BuildLayout()
     {
-        SetAnchorsPreset(LayoutPreset.FullRect);
+        SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         var bg = new ColorRect { Color = BattleTheme.Ground };
-        bg.SetAnchorsPreset(LayoutPreset.FullRect);
+        bg.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         AddChild(bg);
 
         var root = Col(10);
-        root.SetAnchorsPreset(LayoutPreset.FullRect);
+        root.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         AddChild(root);
 
         root.AddChild(TopBar("配置", out var bar));
@@ -89,6 +89,7 @@ public partial class DeployScreen : Control
     {
         var h = Row(0);
         h.Alignment = BoxContainer.AlignmentMode.Center;
+        h.SizeFlagsHorizontal = SizeFlags.ExpandFill;
         h.AddChild(inner);
         return h;
     }
@@ -108,7 +109,7 @@ public partial class DeployScreen : Control
 
     private void FillZone(GridContainer zone, Faction faction)
     {
-        foreach (var c in zone.GetChildren()) c.QueueFree();
+        BattleUiKit.ClearChildren(zone);
 
         // 敵陣は中身を持たない。6マスすべて不明として描く。
         if (faction == Faction.Enemy)
@@ -153,8 +154,7 @@ public partial class DeployScreen : Control
 
         var col = Col(2);
         col.Alignment = BoxContainer.AlignmentMode.Center;
-        col.MouseFilter = MouseFilterEnum.Ignore;
-        card.AddChild(col);
+        BattleUiKit.AddFilled(card, col);
 
         if (empty)
         {

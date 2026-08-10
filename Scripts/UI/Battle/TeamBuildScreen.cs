@@ -29,13 +29,13 @@ public partial class TeamBuildScreen : Control
 
     private void BuildLayout()
     {
-        SetAnchorsPreset(LayoutPreset.FullRect);
+        SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         var bg = new ColorRect { Color = BattleTheme.Ground };
-        bg.SetAnchorsPreset(LayoutPreset.FullRect);
+        bg.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         AddChild(bg);
 
         var root = Col(10);
-        root.SetAnchorsPreset(LayoutPreset.FullRect);
+        root.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         AddChild(root);
 
         root.AddChild(TopBar("パーティ構築", out var bar));
@@ -58,7 +58,7 @@ public partial class TeamBuildScreen : Control
 
     public void Refresh()
     {
-        foreach (var c in _roster.GetChildren()) c.QueueFree();
+        BattleUiKit.ClearChildren(_roster);
         foreach (var e in _team.Entries) _roster.AddChild(SlotCard(e));
 
         _count.Text = $"{_team.Entries.Count} / {BattleTeam.RosterSize} 匹";
@@ -66,7 +66,7 @@ public partial class TeamBuildScreen : Control
         // 規則の充足は Validate() の結果をそのまま出す。UI側で判定を
         // 書き直すと、生成器と検証器が食い違ったときと同じ事故になる。
         var errors = _team.Validate();
-        foreach (var c in _rules.GetChildren()) c.QueueFree();
+        BattleUiKit.ClearChildren(_rules);
         _rules.AddChild(RuleChip("同一種族なし", !errors.Any(m => m.Contains("同一種族"))));
         _rules.AddChild(RuleChip("持ち物の重複なし", !errors.Any(m => m.Contains("持ち物の重複"))));
         _rules.AddChild(RuleChip("全員が learnset 内の技4つ",

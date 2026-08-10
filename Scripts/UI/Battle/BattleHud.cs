@@ -59,14 +59,14 @@ public partial class BattleHud : Control
 
     private void BuildLayout()
     {
-        SetAnchorsPreset(LayoutPreset.FullRect);
+        SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
 
         var bg = new ColorRect { Color = BattleTheme.Ground };
-        bg.SetAnchorsPreset(LayoutPreset.FullRect);
+        bg.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         AddChild(bg);
 
         var root = new VBoxContainer { Name = "Root" };
-        root.SetAnchorsPreset(LayoutPreset.FullRect);
+        root.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         root.AddThemeConstantOverride("separation", 10);
         AddChild(root);
 
@@ -77,8 +77,18 @@ public partial class BattleHud : Control
         split.AddThemeConstantOverride("separation", 12);
         root.AddChild(split);
 
-        var left = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
-        _board = new GridContainer { Columns = BattleBoard.Width };
+        var left = new VBoxContainer
+        {
+            SizeFlagsHorizontal = SizeFlags.ExpandFill,
+            SizeFlagsVertical = SizeFlags.ExpandFill,
+            Alignment = BoxContainer.AlignmentMode.Center,
+        };
+        _board = new GridContainer
+        {
+            Columns = BattleBoard.Width,
+            SizeFlagsHorizontal = SizeFlags.ExpandFill,
+            SizeFlagsVertical = SizeFlags.ExpandFill,
+        };
         _board.AddThemeConstantOverride("h_separation", 2);
         _board.AddThemeConstantOverride("v_separation", 2);
         left.AddChild(_board);
@@ -158,6 +168,12 @@ public partial class BattleHud : Control
 
     // ---- 描画の更新 ----
 
+    // 時計だけの更新。毎フレーム呼ばれる想定なので、ノードを作り直さない。
+    // 盤面ごと組み直すと1フレームに数百個の stylebox を作ることになり、
+    // ソフトウェア描画では実際に固まった。
+    public void RefreshClock() => RefreshTopBar();
+
+    // 盤面まで含めた組み直し。状態が動いたときだけ呼ぶ。
     public void Refresh()
     {
         RefreshTopBar();
@@ -194,7 +210,7 @@ public partial class BattleHud : Control
     // 行動順レール。種族値を隠さず並べ、左ほど先に動くことを見せる。
     private void RefreshRail()
     {
-        foreach (var c in _rail.GetChildren()) c.QueueFree();
+        BattleUiKit.ClearChildren(_rail);
 
         var order = _sched.Roster
             .Where(e => e.IsAlive)
@@ -222,7 +238,7 @@ public partial class BattleHud : Control
 
     private void RefreshBoard()
     {
-        foreach (var c in _board.GetChildren()) c.QueueFree();
+        BattleUiKit.ClearChildren(_board);
         _boardHp.Clear();
 
         var occupied = _sched.Roster.Where(e => e.IsAlive)
@@ -239,16 +255,15 @@ public partial class BattleHud : Control
                 var tile = BattleUiKit.ClickableCard(
                     isAim ? BattleTheme.Brass : inRange ? BattleTheme.BrassBg : BattleTheme.Surface,
                     inRange || isAim ? BattleTheme.Brass : BattleTheme.Surface, 2);
-                tile.CustomMinimumSize = new Vector2(38, 38);
+                tile.CustomMinimumSize = new Vector2(44, 44);
+                tile.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+                tile.SizeFlagsVertical = SizeFlags.ExpandFill;
+                tile.ClipContents = true;
                 var here = pos;
                 tile.Pressed += () => EmitSignal(SignalName.TileClicked, here);
 
                 if (occupied.TryGetValue(pos, out var e))
-                {
-                    var chip = UnitChip(e);
-                    chip.MouseFilter = MouseFilterEnum.Ignore;
-                    tile.AddChild(chip);
-                }
+                    BattleUiKit.AddFilled(tile, UnitChip(e), margin: 2);
                 _board.AddChild(tile);
             }
     }
@@ -256,15 +271,27 @@ public partial class BattleHud : Control
     // 盤上の1体。名前とHPだけ。狭いので属性は色で示す。
     private Control UnitChip(Entity e)
     {
-        var box = new PanelContainer();
+        var box = new PanelContainer { ClipContents = true };
         box.AddThemeStyleboxOverride("panel", BattleTheme.Panel(
             BattleTheme.FactionBg(e.Faction), BattleTheme.Faction(e.Faction), 2, 2));
 
         var col = new VBoxContainer();
-        col.AddThemeConstantOverride("separation", 1);
-        col.AddChild(Text(e.ActorName, BattleTheme.Faction(e.Faction), 9));
+        col.AddThemeConstantOverride("separation", 2);
 
-        var hp = new HpBar();
+        // マス幅は狭い。名前は詰めて省略する（はみ出すと隣のマスへ被る）。
+        var nm = Text(e.ActorName, BattleTheme.Faction(e.Faction), 10);
+        nm.ClipText = true;
+        nm.TextOverrunBehavior = TextServer.OverrunBehavior.TrimEllipsis;
+        nm.HorizontalAlignment = HorizontalAlignment.Center;
+        nm.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+        col.AddChild(nm);
+
+        // HPバーは高さ固定。VBox に任せると縦に伸びて名前を押しつぶす。
+        var hp = new HpBar
+        {
+            CustomMinimumSize = new Vector2(0, 5),
+            SizeFlagsVertical = SizeFlags.ShrinkEnd,
+        };
         hp.SetHp(e.Stats.CurrentHp, e.Stats.MaxHp);
         col.AddChild(hp);
         _boardHp[e] = hp;
@@ -275,7 +302,7 @@ public partial class BattleHud : Control
 
     private void RefreshRoster()
     {
-        foreach (var c in _rosterList.GetChildren()) c.QueueFree();
+        BattleUiKit.ClearChildren(_rosterList);
         _rosterHp.Clear();
 
         foreach (var e in _sched.Roster.Where(e => e.Faction == Faction.Player))
@@ -300,7 +327,7 @@ public partial class BattleHud : Control
     // 行動中のパルの技を並べる。移動も1つの選択肢として同列に置く。
     public void ShowCommands(Entity actor)
     {
-        foreach (var c in _commands.GetChildren()) c.QueueFree();
+        BattleUiKit.ClearChildren(_commands);
         if (actor == null) return;
 
         for (int i = 0; i < actor.Moves.Slots.Count; i++)
@@ -320,7 +347,7 @@ public partial class BattleHud : Control
             row.AddChild(new Control { SizeFlagsHorizontal = SizeFlags.ExpandFill });
             row.AddChild(Text(slot.Data.Power > 0 ? slot.Data.Power.ToString() : "—",
                               BattleTheme.Muted, BattleTheme.FontSmall));
-            btn.AddChild(row);
+            BattleUiKit.AddFilled(btn, row);
             _commands.AddChild(btn);
         }
 
@@ -330,11 +357,13 @@ public partial class BattleHud : Control
         moveBtn.Pressed += () => ChooseCommand(-1, actor);
         var mrow = new HBoxContainer { MouseFilter = MouseFilterEnum.Ignore };
         mrow.AddChild(Text("移動する", BattleTheme.Ink2, BattleTheme.FontSmall));
-        moveBtn.AddChild(mrow);
+        BattleUiKit.AddFilled(moveBtn, mrow);
         _commands.AddChild(moveBtn);
 
         // 提出は選び終えてから。押すまでは相手に何も伝わらない。
-        _commit = new Button { Text = "決定して伏せる", Disabled = true };
+        // 有効/無効は選択状態から引く。固定で true にすると、技を選んだ
+        // 直後の組み直しで無効へ戻り、永久に提出できなくなる。
+        _commit = new Button { Text = "決定して伏せる", Disabled = _chosenSlot == -2 };
         _commit.Pressed += () => EmitSignal(SignalName.CommitPressed);
         _commands.AddChild(_commit);
     }
@@ -343,7 +372,6 @@ public partial class BattleHud : Control
     private void ChooseCommand(int slot, Entity actor)
     {
         _chosenSlot = slot;
-        if (_commit != null) _commit.Disabled = false;
         EmitSignal(SignalName.CommandChosen, slot);
         ShowCommands(actor);   // 選択状態を反映して組み直す
     }

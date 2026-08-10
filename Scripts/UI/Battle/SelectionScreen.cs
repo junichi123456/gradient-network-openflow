@@ -42,13 +42,13 @@ public partial class SelectionScreen : Control
 
     private void BuildLayout()
     {
-        SetAnchorsPreset(LayoutPreset.FullRect);
+        SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         var bg = new ColorRect { Color = BattleTheme.Ground };
-        bg.SetAnchorsPreset(LayoutPreset.FullRect);
+        bg.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         AddChild(bg);
 
         var root = Col(10);
-        root.SetAnchorsPreset(LayoutPreset.FullRect);
+        root.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         AddChild(root);
 
         root.AddChild(TopBar("選出", out var bar));
@@ -91,10 +91,10 @@ public partial class SelectionScreen : Control
 
     public void Refresh()
     {
-        foreach (var c in _foeList.GetChildren()) c.QueueFree();
+        BattleUiKit.ClearChildren(_foeList);
         for (int i = 0; i < _foe.Count; i++) _foeList.AddChild(FoeRow(i + 1, _foe[i]));
 
-        foreach (var c in _selfList.GetChildren()) c.QueueFree();
+        BattleUiKit.ClearChildren(_selfList);
         for (int i = 0; i < _team.Entries.Count; i++) _selfList.AddChild(SelfRow(i + 1, _team.Entries[i]));
 
         _selfState.Text = $"自分 {_picked.Count} / {BattleTeam.SelectionSize}";
@@ -134,12 +134,14 @@ public partial class SelectionScreen : Control
     {
         bool on = _picked.Contains(e);
         // 押せるのは自分側だけ。相手側は情報が無いので操作対象にしない。
+        // Button は中身から高さを取れないので明示する。与えないと潰れて
+        // 文字が枠へ重なる。
         var card = ClickableCard(on ? BattleTheme.BrassBg : BattleTheme.Surface,
                                  on ? BattleTheme.Brass : BattleTheme.Line);
+        card.CustomMinimumSize = new Vector2(0, 34);
         card.Pressed += () => Toggle(e);
         var row = Row(8);
-        row.MouseFilter = MouseFilterEnum.Ignore;   // クリックはボタンへ通す
-        card.AddChild(row);
+        BattleUiKit.AddFilled(card, row);
 
         var sp = e.Species;
         row.AddChild(Text(no.ToString(), BattleTheme.Muted, BattleTheme.FontLabel));
