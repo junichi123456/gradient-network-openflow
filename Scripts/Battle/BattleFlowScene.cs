@@ -1,17 +1,17 @@
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using MysteryDungeon.Dungeon;
 using MysteryDungeon.Entities;
-using MysteryDungeon.Grid;
 using MysteryDungeon.Species;
 using MysteryDungeon.Turn;
 
 namespace MysteryDungeon.Battle;
 
-// 対戦を実機で触るための入口。構築 → 選出 → 配置 → 対戦 を通しで動かす。
+// 対戦を実機で触るための入口。
+// 相手選択 → 構築 → 選出 → 配置 → 対戦 を通しで動かす。
 //
-// 通信対戦の相手はまだ繋がないので、相手側は固定の編成を置いて成立させる。
-// 目的は「画面を見て操作すること」なので、そこは割り切っている。
+// マッチングはまだ実装できる段階にないので、相手はNPC
+// （Data/npc_teams.json の8人）から選ぶ。
 //
 //   godot --path . Scenes/BattleFlowScene.tscn
 //
@@ -22,7 +22,6 @@ namespace MysteryDungeon.Battle;
 public partial class BattleFlowScene : Control
 {
     private static readonly string[] MyRoster = { "001", "004", "006", "009", "002", "010" };
-    private static readonly string[] FoeRoster = { "005", "008", "007", "003", "011", "012" };
 
     private UI.Battle.BattleFlow _flow;
     private BattleScheduler _sched;
@@ -40,28 +39,19 @@ public partial class BattleFlowScene : Control
         int p = System.Array.IndexOf(args, "--phase");
         if (p >= 0 && p + 1 < args.Length) _shotPhase = args[p + 1];
 
-        var grid = new GridManager { Name = "GridManager" };
-        AddChild(grid);
-        var turns = new TurnManager { Name = "TurnManager" };
-        AddChild(turns);
-        var floor = new FloorController { Name = "FloorController" };
-        AddChild(floor);
-        floor.InitializeArena(grid, turns);
-
+        var arena = new BattleArena(this);
         var mine = BuildTeam(MyRoster);
-        var foe = BuildTeam(FoeRoster);
 
-        // 盤面へ実際に並べる。対戦画面が中身のある状態で見えるように。
+        // パルを立てるのは選出と配置が決まってから（BattleArena 参照）。
+        // ここでは盤面と空の進行役だけを用意する。
         var sched = new BattleScheduler();
         _sched = sched;
-        Deploy(Faction.Player, mine, grid, floor, sched);
-        Deploy(Faction.Enemy, foe, grid, floor, sched);
 
         var clock = new BattleClock();
         _flow = new UI.Battle.BattleFlow { Name = "BattleFlow" };
         AddChild(_flow);
-        _flow.Begin(mine, PublicEntryView.Of(foe.Entries), clock, sched,
-                    new BattleSession(sched, clock));
+        _flow.Begin(mine, new List<PublicEntryView>(), clock, sched,
+                    new BattleSession(sched, clock), arena);
 
         if (_shotPath != null) JumpTo(_shotPhase, mine);
     }
@@ -69,6 +59,12 @@ public partial class BattleFlowScene : Control
     // 撮影用にフェーズを飛ばす。手で触るときは使わない。
     private void JumpTo(string phase, BattleTeam mine)
     {
+        if (phase == "opponent") return;
+
+        // 相手を選ばないと以降のフェーズが成立しない。撮影では先頭の相手
+        // （いちばん弱い相手）を選んだことにする。
+        _flow.ChooseOpponent(NpcTeamDatabase.First());
+
         switch (phase)
         {
             case "selection": _flow.ConfirmBuild(); break;
@@ -111,24 +107,6 @@ public partial class BattleFlowScene : Control
             };
         }).ToList();
         return new BattleTeam(entries);
-    }
-
-    private void Deploy(Faction f, BattleTeam team, GridManager grid,
-                        FloorController floor, BattleScheduler sched)
-    {
-        var dep = BattleDeployment.Default(f, team.AutoSelect());
-        foreach (var (entry, tile) in dep.Placements)
-        {
-            var pal = new BattlePal { SpeciesId = entry.SpeciesId, Faction = f, Entry = entry };
-            AddChild(pal);
-            pal.Grid = grid;
-            pal.FloorController = floor;
-            pal.PlaceAt(tile);
-            pal.FaceDirection(BattleBoard.Facing(f));
-            pal.Visible = false;          // 盤面はHUD側で描くので実体は隠す
-            floor.AddArenaActor(pal);
-            sched.Register(pal);
-        }
     }
 
     public override void _Process(double delta)

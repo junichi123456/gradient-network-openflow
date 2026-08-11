@@ -389,7 +389,6 @@ public partial class BattleHud : Control
         {
             _commands.AddChild(Text("このサイクルで出せるパルがいません",
                                     BattleTheme.Muted, BattleTheme.FontSmall));
-            RefreshRail();
             return;
         }
 
@@ -412,8 +411,6 @@ public partial class BattleHud : Control
             BattleUiKit.AddFilled(btn, row);
             _commands.AddChild(btn);
         }
-
-        RefreshRail();
     }
 
     // ③ 提出したあと。相手が出すまでは何も操作させない。
@@ -479,7 +476,17 @@ public partial class BattleHud : Control
         back.Pressed += () => EmitSignal(SignalName.CancelPressed);
         _commands.AddChild(back);
 
+        // レールは「操作中」の1匹が変わったときだけ描き直す。技を選び直す
+        // たびに組み直すと、1ターンに何度も全カードを作ることになる。
         if (actorChanged) RefreshRail();
+    }
+
+    // 射程だけを差し替える。盤面は描き直さないので、直後に Refresh() を
+    // 呼ぶ場合に使う（同じフレームで盤面を2回組み直さないため）。
+    public void SetRangeQuiet(IEnumerable<Vector2I> tiles, Vector2I? aim)
+    {
+        _rangeTiles = new HashSet<Vector2I>(tiles);
+        _aimTile = aim;
     }
 
     // 技/移動を選んだ時点で射程を出す。提出はまだしない。
@@ -523,8 +530,20 @@ public partial class BattleHud : Control
     public void AppendLog(string line)
     {
         _log.AddChild(Text(line, BattleTheme.Ink2, BattleTheme.FontSmall));
-        while (_log.GetChildCount() > 8) _log.GetChild(0).QueueFree();
+
+        // QueueFree だけでは子から外れない（解放はフレーム末まで遅れる）。
+        // 外れないまま件数を見ると、この while はフレームが来るまで
+        // 永久に回り続ける——1フレーム内で複数行を吐く経路（通し検証）で
+        // 実際に止まった。ツリーからは即座に外し、解放だけを遅らせる。
+        while (_log.GetChildCount() > LogLines)
+        {
+            var oldest = _log.GetChild(0);
+            _log.RemoveChild(oldest);
+            oldest.QueueFree();
+        }
     }
+
+    private const int LogLines = 8;
 
     // ---- 小物 ----
 

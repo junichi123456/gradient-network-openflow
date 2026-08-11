@@ -27,11 +27,11 @@ namespace MysteryDungeon.UI.Battle;
 // 揃うまで解決しないので、ここで待たなければ盤面は1マスも動かない。
 public partial class BattleFlow : Control
 {
-    public enum Phase { Build, Selection, Deploy, Battle, Finished }
+    public enum Phase { Opponent, Build, Selection, Deploy, Battle, Finished }
 
     [Signal] public delegate void PhaseChangedEventHandler(int phase);
 
-    public Phase Current { get; private set; } = Phase.Build;
+    public Phase Current { get; private set; } = Phase.Opponent;
     public BattleOutcome Outcome { get; private set; } = BattleOutcome.Undecided;
 
     private BattleTeam _team;
@@ -39,6 +39,13 @@ public partial class BattleFlow : Control
     private BattleClock _clock;
     private BattleScheduler _sched;
     private BattleSession _session;
+
+    // 相手を務めるNPCと、パルを立てる盤面。どちらも無しでも動く
+    // （検証ハーネスは自前で立てた個体を使う）。
+    private NpcOpponent _npc;
+    private BattleArena _arena;
+
+    public NpcOpponent Npc => _npc;
 
     private IReadOnlyList<BattleEntry> _selection;
     private BattleDeployment _deployment;
@@ -59,22 +66,40 @@ public partial class BattleFlow : Control
     // 即答させず「待っている」という状態が画面に出る長さを持たせる。
     private double _opponentDelay;
 
+    // arena を渡すと、選出と配置が決まってからパルを立てる（本番の経路）。
+    // 渡さない場合は既に登録済みの個体をそのまま使う（検証ハーネス）。
     public void Begin(BattleTeam team, IReadOnlyList<PublicEntryView> foeTeam,
-                      BattleClock clock, BattleScheduler sched, BattleSession session)
+                      BattleClock clock, BattleScheduler sched, BattleSession session,
+                      BattleArena arena = null)
     {
         _team = team;
         _foeTeam = foeTeam;
         _clock = clock;
         _sched = sched;
         _session = session;
+        _arena = arena;
         SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+
+        // 相手を選ぶところから始める。相手が1人も居ない（データが無い）
+        // 場合だけ、選択を飛ばして構築へ進む。
+        Show(NpcTeamDatabase.All.Count > 0 ? Phase.Opponent : Phase.Build);
+    }
+
+    // 相手が決まった。ここで初めて相手の6匹が開示される（§14の開示順）。
+    public void ChooseOpponent(NpcTeam profile)
+    {
+        if (profile == null) return;
+        _npc = new NpcOpponent(profile);
+        _foeTeam = _npc.Profile.Disclose();
         Show(Phase.Build);
     }
 
-    // 盤面の実体はチームの個体が持っている。GridManager と FloorController は
-    // そこから引く（対戦盤は1部屋しかないので、どの個体から引いても同じ）。
-    private GridManager Grid => _sched.Roster.Count > 0 ? _sched.Roster[0].Grid : null;
-    private FloorController Floor => _sched.Roster.Count > 0 ? _sched.Roster[0].FloorController : null;
+    // 盤面の GridManager / FloorController。arena があればそこから、
+    // 無ければ登録済みの個体から引く（対戦盤は1部屋なのでどれでも同じ）。
+    private GridManager Grid =>
+        _arena?.Grid ?? (_sched.Roster.Count > 0 ? _sched.Roster[0].Grid : null);
+    private FloorController Floor =>
+        _arena?.Floor ?? (_sched.Roster.Count > 0 ? _sched.Roster[0].FloorController : null);
 
     // 画面の入れ替え。前の画面は捨てる（状態はこちらが持っているので、
     // 画面側に持たせない）。
@@ -87,6 +112,14 @@ public partial class BattleFlow : Control
 
         switch (phase)
         {
+            case Phase.Opponent:
+                var pick = new OpponentSelectScreen();
+                AddChild(pick);
+                pick.Initialize(NpcTeamDatabase.All);
+                pick.OpponentConfirmed += () => ChooseOpponent(pick.Chosen);
+                _screen = pick;
+                break;
+
             case Phase.Build:
                 var build = new TeamBuildScreen();
                 AddChild(build);
@@ -113,7 +146,7 @@ public partial class BattleFlow : Control
                 break;
 
             case Phase.Battle:
-                ApplyDeployment();
+                SpawnOrApply();
                 if (_sched.CycleNumber == 0) _sched.BeginCycle();
 
                 var hud = new BattleHud();
@@ -133,12 +166,22 @@ public partial class BattleFlow : Control
         EmitSignal(SignalName.PhaseChanged, (int)phase);
     }
 
-    // 配置画面で決めた並びを盤面の実体へ反映する。
-    // 4匹が6マスの中で入れ替わるだけなので、順に置き直せば衝突しない
-    // （PlaceAt は占有表を持たず座標を差し替えるだけ）。
-    private void ApplyDeployment()
+    // 対戦に入る直前。選出と配置がここで初めて確定するので、盤面の実体は
+    // このタイミングで立てる。
+    //
+    // arena が無い場合（検証ハーネス）は既に立っている個体を使うので、
+    // 配置だけを反映する。4匹が6マスの中で入れ替わるだけなので、順に
+    // 置き直せば衝突しない（PlaceAt は占有表を持たず座標を差し替えるだけ）。
+    private void SpawnOrApply()
     {
         if (_deployment == null) return;
+
+        if (_arena != null && _sched.Roster.Count == 0)
+        {
+            _arena.Spawn(_deployment, _sched);
+            if (_npc != null) _arena.Spawn(_npc.Deployment, _sched);
+            return;
+        }
 
         foreach (var (entry, tile) in _deployment.Placements)
         {
@@ -162,6 +205,13 @@ public partial class BattleFlow : Control
     {
         if (_team.ValidateSelection(picked).Count > 0) return;
         _clock.SubmitSelection(Faction.Player, _team, picked);
+
+        // NPCの選出も同じ入口から提出する。相手の選択を見ないまま既に
+        // 決めてあるので（NpcOpponent は対戦前に決めきる）、伏せて同時に
+        // 決める規則はそのまま成り立つ。
+        if (_npc != null)
+            _clock.SubmitSelection(Faction.Enemy, _npc.Profile.Team, _npc.Selection);
+
         _selection = picked;
         Show(Phase.Deploy);
     }
@@ -181,9 +231,12 @@ public partial class BattleFlow : Control
         var available = _sched.AvailableFor(Faction.Player).ToList();
 
         // 盤面側でも選べるように、候補のマスを射程色で示す。
-        _hud.SetRange(available.Select(e => e.GridPosition), null);
+        // 射程は先に差し替えておき、描き直しは最後の Refresh 1回にまとめる
+        // （盤面の組み直しは1回で数百ノードを作るので、重ねると効く）。
+        _hud.SetRangeQuiet(available.Select(e => e.GridPosition), null);
         _hud.ShowActorPicker(available);
         _hud.SetCommitEnabled(false, "操作するパルを選ぶ");
+        _hud.Refresh();
 
         // 出せるパルが尽きた側は空の提出を出す。空でもターンは進むので、
         // 頭数が偏っても試合が止まらない。
@@ -351,14 +404,20 @@ public partial class BattleFlow : Control
         if (_hud == null || _actor == null || _slot == -2 || _aim == null) return;
 
         var mine = _sched.Roster.Where(e => e.Faction == Faction.Player).ToList();
-        var input = new TurnInput(mine.IndexOf(_actor), _slot, _aim.Value);
-        if (!_session.SubmitInput(Faction.Player, input)) return;
+        SubmitPlayerInput(new TurnInput(mine.IndexOf(_actor), _slot, _aim.Value));
+    }
 
-        _hud.ShowWaiting("相手の決定を待っています…");
-        _hud.RefreshClock();
+    // 自分側の1ターンぶんの提出。画面からも、通し検証からも同じ口を通す。
+    public bool SubmitPlayerInput(TurnInput input)
+    {
+        if (!_session.SubmitInput(Faction.Player, input)) return false;
 
-        // 代役が答えるまでの間。実際の通信対戦では相手の回線が決める。
+        _hud?.ShowWaiting("相手の決定を待っています…");
+        _hud?.RefreshClock();
+
+        // 相手が答えるまでの間。実際の通信対戦では相手の回線が決める。
         _opponentDelay = 0.4 + GD.Randf() * 0.8;
+        return true;
     }
 
     // 両者の入力が揃ったので解決する。相手が何を出したかは、揃ったこの
@@ -392,7 +451,7 @@ public partial class BattleFlow : Control
             return;
         }
 
-        _hud?.Refresh();
+        // 盤面の描き直しは BeginActorPick の Refresh 1回に任せる。
         BeginActorPick();
     }
 
@@ -491,7 +550,11 @@ public partial class BattleFlow : Control
         {
             _opponentDelay -= delta;
             if (_opponentDelay > 0.0) return;
-            _session.SubmitInput(Faction.Enemy, ScriptedOpponent.Decide(_sched, Faction.Enemy));
+
+            // 通信対戦を入れるときに差し替わるのはこの1行。ここから先
+            // （BattleSession 以降）は相手が人かNPCかを知らない。
+            _session.SubmitInput(Faction.Enemy,
+                _npc?.Decide(_sched, Grid, Floor) ?? new TurnInput(-1, -1, Vector2I.Zero));
         }
 
         if (_session.BothSubmitted) ResolveTurn();

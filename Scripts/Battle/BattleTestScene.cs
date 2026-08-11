@@ -64,6 +64,8 @@ public partial class BattleTestScene : Node2D
 
         VerifyItems();
         VerifyArena();
+        VerifyNpc();
+        VerifyNpcMatch(BuildTeam(PlayerRoster));
         VerifyHud();
         VerifyScreens(BuildTeam(PlayerRoster), BuildTeam(EnemyRoster));
         VerifyFlow(BuildTeam(PlayerRoster), BuildTeam(EnemyRoster));
@@ -538,6 +540,132 @@ public partial class BattleTestScene : Node2D
     // 対戦画面を実際に組み立てて、盤面と行動順レールが実データから
     // 描けることを確かめる。ビルドが通ることではなく、ノードが
     // 期待どおりの数だけ生えることを見る。
+    // NPC対戦相手。編成が構築規則を満たしていること、選出・配置・行動の
+    // 3つの決定が規則の内側に収まっていることを見る。
+    //
+    // 相手が人かNPCかで通る道が変わらない、というのがここの主張なので、
+    // 検証も人の側と同じ入口（BattleTeam.Validate / BattleDeployment.Validate /
+    // TurnInput）を使う。
+    private void VerifyNpc()
+    {
+        var all = NpcTeamDatabase.All;
+        GD.Print($"[検証] NPC対戦相手を読み込める: "
+                 + $"{(all.Count > 0 ? "OK" : "NG")} ({all.Count}人)");
+
+        // 読み込み側で Validate に落ちた相手は All に入らないので、
+        // 件数がJSONの件数と一致することが規則充足の証拠になる。
+        var bad = all.Where(t => t.Team.Validate().Count > 0).ToList();
+        GD.Print($"[検証] 全員の編成が構築規則を満たす: "
+                 + $"{(bad.Count == 0 ? "OK" : "NG " + string.Join(",", bad.Select(t => t.Name)))}");
+
+        var idDup = all.GroupBy(t => t.Id).Where(g => g.Count() > 1).ToList();
+        GD.Print($"[検証] 相手のIDが重複しない: {(idDup.Count == 0 ? "OK" : "NG")}");
+
+        // 開示されるのは種族のみ（人の相手と同じ経路を通っていること）。
+        var view = all[0].Disclose();
+        GD.Print($"[検証] NPCの開示も種族のみ: "
+                 + $"{(view.Count == BattleTeam.RosterSize ? "OK" : "NG")} ({view.Count}件)");
+
+        int badSel = 0, badDep = 0;
+        foreach (var profile in all)
+        {
+            var npc = new NpcOpponent(profile);
+            if (profile.Team.ValidateSelection(npc.Selection).Count > 0) badSel++;
+            if (npc.Deployment.Validate().Count > 0) badDep++;
+        }
+        GD.Print($"[検証] NPCの選出が全員規則どおり4匹: {(badSel == 0 ? "OK" : $"NG {badSel}人")}");
+        GD.Print($"[検証] NPCの配置が全員規則どおり: {(badDep == 0 ? "OK" : $"NG {badDep}人")}");
+
+        // 毎ターンの行動。盤上の実体を使って、返ってきた入力が
+        // 「出せるパル」「持っている技枠」「指せるマス」に収まるかを見る。
+        var brain = new NpcOpponent(all[0]);
+        int badInput = 0, moves = 0, attacks = 0;
+        var enemies = _sched.Roster.Where(e => e.Faction == Faction.Enemy).ToList();
+        for (int i = 0; i < 20; i++)
+        {
+            var input = brain.Decide(_sched, _grid, _floor);
+            if (input.ActorIndex < 0 || input.ActorIndex >= enemies.Count) { badInput++; continue; }
+
+            var actor = enemies[input.ActorIndex];
+            if (!actor.IsAlive || _sched.HasActed(actor)) { badInput++; continue; }
+            if (input.MoveSlot >= actor.Moves.Slots.Count) { badInput++; continue; }
+
+            var legal = BattleTargeting.SelectableTiles(
+                actor, input.MoveSlot, _grid, _floor, _sched.Roster);
+            if (legal.Count > 0 && !legal.Contains(input.Target)) badInput++;
+
+            if (input.IsMove) moves++; else attacks++;
+        }
+        GD.Print($"[検証] NPCの行動が常に規則の内側: "
+                 + $"{(badInput == 0 ? "OK" : $"NG {badInput}件")} (攻撃{attacks} / 移動{moves})");
+
+        // 届く相手がいるなら殴る。20回とも移動を返すようだと相手にならない。
+        GD.Print($"[検証] NPCが届く相手には攻撃を選ぶ: {(attacks > 0 ? "OK" : "NG")}");
+    }
+
+    // NPC対戦を最初から最後まで1試合通す。
+    //
+    // ここまでの検証は部品ごとに見ているので、「相手選択から決着まで実際に
+    // 到達するか」だけは通しで見ないと分からない。自分側も同じ判断ロジックで
+    // 動かし、公開されている提出口（SubmitPlayerInput）から入力する。
+    //
+    // 盤面は本番と同じ経路で用意する（BattleArena が選出・配置のあとに
+    // パルを立てる）。既存の盤面とは別の FloorController なので、
+    // ここまでの検証にも RunBattle にも干渉しない。
+    private void VerifyNpcMatch(BattleTeam mine)
+    {
+        var host = new Node { Name = "NpcMatch" };
+        AddChild(host);
+
+        var arena = new BattleArena(host);
+        var sched = new BattleScheduler();
+        var clock = new BattleClock();
+        var flow = new UI.Battle.BattleFlow();
+        host.AddChild(flow);
+        flow.Begin(mine, new List<PublicEntryView>(), clock, sched,
+                   new BattleSession(sched, clock), arena);
+
+        flow.ChooseOpponent(NpcTeamDatabase.First());
+        flow.ConfirmBuild();
+        flow.ConfirmSelection(mine.AutoSelect());
+        flow.Show(UI.Battle.BattleFlow.Phase.Battle);
+
+        int spawned = sched.Roster.Count;
+        GD.Print($"[検証] 選出した4匹ずつが盤面に立つ: "
+                 + $"{(spawned == BattleTeam.SelectionSize * 2 ? "OK" : "NG")} ({spawned}匹)");
+
+        // 選出した種族が盤面の種族と一致すること。以前は画面より先に
+        // 既定配置で立てていたので、ここが食い違っていた。
+        var onBoard = sched.Roster.Where(e => e.Faction == Faction.Player)
+                           .Select(e => e.SpeciesId).OrderBy(s => s).ToList();
+        var chosen = mine.AutoSelect().Select(e => e.SpeciesId).OrderBy(s => s).ToList();
+        GD.Print($"[検証] 盤面の4匹が選出どおり: "
+                 + $"{(onBoard.SequenceEqual(chosen) ? "OK" : "NG " + string.Join(",", onBoard))}");
+
+        // 自分側も同じ判断で動かす。相手役と同じ手を使うので、勝敗そのものは
+        // 見ない（見るのは「決着まで到達するか」）。
+        var me = new NpcOpponent(NpcTeamDatabase.First(), Faction.Player);
+
+        int turns = 0;
+        while (flow.Current != UI.Battle.BattleFlow.Phase.Finished && turns < 400)
+        {
+            if (!flow.SubmitPlayerInput(me.Decide(sched, arena.Grid, arena.Floor)))
+            {
+                // 提出済み（相手待ち）。時間を進めて解決させる。
+            }
+            flow._Process(1.0);
+            turns++;
+        }
+
+        GD.Print($"[検証] NPC対戦が決着まで到達する: "
+                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Finished ? "OK" : "NG")} "
+                 + $"({turns}手 / {flow.Outcome} / サイクル{sched.CycleNumber})");
+        GD.Print($"[検証] 決着が勝敗か引き分けのいずれか: "
+                 + $"{(flow.Outcome != BattleOutcome.Undecided ? "OK" : "NG")}");
+
+        host.QueueFree();
+    }
+
     private void VerifyHud()
     {
         var hud = new UI.Battle.BattleHud { Name = "BattleHud" };
@@ -703,8 +831,29 @@ public partial class BattleTestScene : Node2D
         AddChild(flow);
         flow.Begin(mine, PublicEntryView.Of(foe.Entries), clock, _sched, session);
 
-        GD.Print($"[検証] 最初は構築画面: "
-                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Build ? "OK" : "NG")}");
+        GD.Print($"[検証] 最初は相手選択画面: "
+                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Opponent ? "OK" : "NG")}");
+
+        // 相手を選ぶまで先へ進めない。行を押してから「この相手と戦う」。
+        var pickScreen = FindFirst<UI.Battle.OpponentSelectScreen>(flow);
+        var goBtn = CollectButtons(pickScreen).First(b2 => b2.Text.Contains("この相手"));
+        bool lockedUntilPicked = goBtn.Disabled;
+        var npcRow = CollectButtons(pickScreen)
+            .First(b2 => CollectLabels(b2).Contains(NpcTeamDatabase.All[0].Name));
+        npcRow.EmitSignal(Button.SignalName.Pressed);
+        goBtn = CollectButtons(pickScreen).First(b2 => b2.Text.Contains("この相手"));
+        goBtn.EmitSignal(Button.SignalName.Pressed);
+        GD.Print($"[検証] 相手を選ぶまで進めない: {(lockedUntilPicked ? "OK" : "NG")}");
+        GD.Print($"[検証] 相手を選ぶと構築画面へ: "
+                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Build && flow.Npc != null ? "OK" : "NG")} "
+                 + $"({flow.Npc?.Name})");
+
+        // 相手選択画面には相手の6匹が出ない（開示は選出画面から）。
+        var pickLabels = CollectLabels(pickScreen);
+        var npcNames = NpcTeamDatabase.All[0].Team.Entries
+            .Select(e => e.Species?.DisplayName).Where(n => n != null).ToList();
+        GD.Print($"[検証] 相手選択画面に相手の6匹が出ない: "
+                 + $"{(npcNames.All(n => !pickLabels.Contains(n)) ? "OK" : "NG")}");
 
         // 「対戦を受け付ける」を実際に押して進むこと。ConfirmBuild() を直接
         // 呼ぶだけでは、ボタンとの配線漏れを見逃す（実際に見逃した）。
