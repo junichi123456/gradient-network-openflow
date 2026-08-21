@@ -27,7 +27,7 @@ namespace MysteryDungeon.UI.Battle;
 // 揃うまで解決しないので、ここで待たなければ盤面は1マスも動かない。
 public partial class BattleFlow : Control
 {
-    public enum Phase { Opponent, Build, Selection, Deploy, Battle, Finished }
+    public enum Phase { Opponent, Build, SpeciesPick, Selection, Deploy, Battle, Finished }
 
     [Signal] public delegate void PhaseChangedEventHandler(int phase);
 
@@ -65,6 +65,9 @@ public partial class BattleFlow : Control
     // 相手役が答えるまでの間。通信対戦がつながるまでの代役なので、
     // 即答させず「待っている」という状態が画面に出る長さを持たせる。
     private double _opponentDelay;
+
+    // 構築画面でいま開いている枠。種族選択へ出て戻るまで覚えておく。
+    private int _buildSlot;
 
     // arena を渡すと、選出と配置が決まってからパルを立てる（本番の経路）。
     // 渡さない場合は既に登録済みの個体をそのまま使う（検証ハーネス）。
@@ -124,8 +127,25 @@ public partial class BattleFlow : Control
                 var build = new TeamBuildScreen();
                 AddChild(build);
                 build.Initialize(_team);
+                build.Select(_buildSlot);          // 戻ってきたら同じ枠を開く
                 build.BuildConfirmed += () => ConfirmBuild();
+                build.SpeciesPickRequested += slot => { _buildSlot = slot; Show(Phase.SpeciesPick); };
                 _screen = build;
+                break;
+
+            // 種族選択は構築の一部。フェーズを分けるのは、287種の一覧が
+            // 構築画面に収まらないから（画面を丸ごと入れ替える）。
+            case Phase.SpeciesPick:
+                var pickSp = new SpeciesPickScreen();
+                AddChild(pickSp);
+                pickSp.Initialize(_team, _buildSlot);
+                pickSp.Cancelled += () => Show(Phase.Build);
+                pickSp.SpeciesChosen += id =>
+                {
+                    _team.SetSpecies(_buildSlot, id);
+                    Show(Phase.Build);
+                };
+                _screen = pickSp;
                 break;
 
             case Phase.Selection:

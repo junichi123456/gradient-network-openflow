@@ -61,6 +61,14 @@ public partial class BattleFlowScene : Control
     {
         if (phase == "opponent") return;
 
+        // 構築と種族選択は相手を選んだ直後の画面。撮影用に直接出す。
+        if (phase == "species")
+        {
+            _flow.ChooseOpponent(NpcTeamDatabase.First());
+            _flow.Show(UI.Battle.BattleFlow.Phase.SpeciesPick);
+            return;
+        }
+
         // 相手を選ばないと以降のフェーズが成立しない。撮影では先頭の相手
         // （いちばん弱い相手）を選んだことにする。
         _flow.ChooseOpponent(NpcTeamDatabase.First());

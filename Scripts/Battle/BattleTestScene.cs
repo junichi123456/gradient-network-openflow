@@ -744,13 +744,87 @@ public partial class BattleTestScene : Node2D
     // なく、種族数ぶんのカードが生えることと、規則違反が画面に出ることを見る。
     private void VerifyScreens(BattleTeam mine, BattleTeam foe)
     {
-        // 構築画面: 6匹ぶんのカードが並ぶ。
+        // 構築画面: 左の6枠が並び、右に選んだ1匹の中身が出る。
         var build = new UI.Battle.TeamBuildScreen();
         AddChild(build);
         build.Initialize(mine);
-        int cards = CountCards(build, inGrid: true);
-        GD.Print($"[検証] 構築画面に6匹ぶんのカードが並ぶ: "
-                 + $"{(cards == BattleTeam.RosterSize ? "OK" : "NG")} ({cards}枚)");
+
+        var slotNames = mine.Entries.Select(e => e.Species?.DisplayName).Where(n => n != null).ToList();
+        var buildLabels = CollectLabels(build);
+        int listed = slotNames.Count(n => buildLabels.Contains(n));
+        GD.Print($"[検証] 構築画面に6匹ぶんの枠が並ぶ: "
+                 + $"{(listed == BattleTeam.RosterSize ? "OK" : "NG")} ({listed}枠)");
+
+        // 選んだ1匹の learnset が全部並ぶ。**習得レベルで絞らない**
+        // （対人戦はレベルキャップを無視する）。
+        var first = mine.Entries[0];
+        var learnable = first.Learnable();
+        int shownMoves = learnable.Count(m => buildLabels.Contains(m.Name));
+        GD.Print($"[検証] 覚えられる技を全部出す(レベルキャップ無視): "
+                 + $"{(shownMoves == learnable.Count ? "OK" : "NG")} "
+                 + $"({shownMoves}/{learnable.Count}件)");
+
+        // Lv50を超えるレベルで覚える技も選べること。仕様の肝なので直接見る。
+        var high = learnable.Where(m => first.LearnLevel(m.Id) > 50).ToList();
+        bool highOk = high.Count == 0 || high.All(m => buildLabels.Contains(m.Name));
+        GD.Print($"[検証] Lv50超で覚える技も選べる: {(highOk ? "OK" : "NG")} ({high.Count}件)");
+
+        // 技を押すと実際に入れ替わる。
+        var spare = learnable.FirstOrDefault(m => !first.MoveIds.Contains(m.Id));
+        var before = first.MoveIds.ToList();
+        var moveBtn2 = CollectButtons(build).FirstOrDefault(b => CollectLabels(b).Contains(spare?.Name));
+        // 4つ埋まっているので、まず1つ外してから入れる。
+        // 左の枠カードにも技名が出ているので、先頭を取ると枠カードを
+        // 押してしまう（枠の選択が起きるだけで技は動かない）。詳細側は
+        // 後からツリーに入るので末尾を取る。
+        var drop = CollectButtons(build).Last(b => CollectLabels(b).Contains(
+            MoveDatabase.Get(before[0]).Name));
+        drop.EmitSignal(Button.SignalName.Pressed);
+        bool dropped = first.MoveIds.Count == before.Count - 1;
+        var addBtn = CollectButtons(build).LastOrDefault(b => CollectLabels(b).Contains(spare?.Name));
+        addBtn?.EmitSignal(Button.SignalName.Pressed);
+        GD.Print($"[検証] 技を押すと入れ替わる: "
+                 + $"{(dropped && first.MoveIds.Contains(spare.Id) ? "OK" : "NG")} "
+                 + $"({before.Count} → {first.MoveIds.Count}技)");
+
+        // 4つ埋まっている状態では、5つ目は入らない。
+        var extra = learnable.FirstOrDefault(m => !first.MoveIds.Contains(m.Id));
+        bool blockedFifth = !first.ToggleMove(extra.Id) || first.MoveIds.Count <= MoveManager.MaxMoves;
+        GD.Print($"[検証] 技は4つを超えない: "
+                 + $"{(first.MoveIds.Count <= MoveManager.MaxMoves ? "OK" : "NG")} "
+                 + $"({first.MoveIds.Count}技)");
+
+        // 持ち物はチーム内で重複しない。同じものを2匹目に持たせると移る。
+        string itemId = ItemDatabase.AllIds().First(i => ItemDatabase.Get(i).Type == ItemType.BattleHeld);
+        mine.SetItem(0, itemId);
+        mine.SetItem(1, itemId);
+        GD.Print($"[検証] 持ち物は重複せず持ち替えになる: "
+                 + $"{(mine.Entries[0].ItemId == null && mine.Entries[1].ItemId == itemId ? "OK" : "NG")}");
+
+        // 種族の差し替え。同一種族の枠へは入れない。
+        string other = mine.Entries[2].SpeciesId;
+        bool rejected = !mine.SetSpecies(0, other);
+        var fresh = SpeciesDatabase.Instance.All.Keys
+            .First(id => mine.Entries.All(e => e.SpeciesId != id)
+                         && foe.Entries.All(e => e.SpeciesId != id));
+        bool accepted = mine.SetSpecies(0, fresh);
+        bool refilled = mine.Entries[0].MoveIds.Count == MoveManager.MaxMoves
+                        && mine.Entries[0].MoveIds.All(
+                            m => mine.Entries[0].Learnable().Any(x => x.Id == m));
+        GD.Print($"[検証] 種族を差し替えると技も入れ直す: "
+                 + $"{(rejected && accepted && refilled ? "OK" : "NG")}");
+
+        // 種族選択画面。287種が並び、登録済みの種族は押せない。
+        var picker = new UI.Battle.SpeciesPickScreen();
+        AddChild(picker);
+        picker.Initialize(mine, 0);
+        var pickButtons = CollectButtons(picker);
+        var takenNames = mine.Entries.Skip(1).Select(e => e.Species?.DisplayName).ToList();
+        var takenBtns = pickButtons.Where(b => takenNames.Any(n => CollectLabels(b).Contains(n))).ToList();
+        GD.Print($"[検証] 種族選択で登録済みの種族は押せない: "
+                 + $"{(takenBtns.Count > 0 && takenBtns.All(b => b.Disabled) ? "OK" : "NG")} "
+                 + $"({takenBtns.Count}件)");
+        picker.QueueFree();
 
         // 規則違反が画面に反映される（同一種族を作ると開始できなくなる）。
         var broken = new BattleTeam(mine.Entries.Select((e, i) => i == 1
@@ -758,7 +832,7 @@ public partial class BattleTestScene : Node2D
         var build2 = new UI.Battle.TeamBuildScreen();
         AddChild(build2);
         build2.Initialize(broken);
-        var btn = FindFirst<Button>(build2);
+        var btn = CollectButtons(build2).FirstOrDefault(b => b.Text.Contains("受け付ける"));
         GD.Print($"[検証] 構築が違反していると開始できない: "
                  + $"{(btn != null && btn.Disabled ? "OK" : "NG")}");
 
