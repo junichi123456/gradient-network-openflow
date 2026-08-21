@@ -8,7 +8,7 @@ using MysteryDungeon.Turn;
 namespace MysteryDungeon.Battle;
 
 // 対戦を実機で触るための入口。
-// 相手選択 → 構築 → 選出 → 配置 → 対戦 を通しで動かす。
+// 構築 → 相手マッチング → 選出 → 配置 → 対戦 を通しで動かす。
 //
 // マッチングはまだ実装できる段階にないので、相手はNPC
 // （Data/npc_teams.json の8人）から選ぶ。
@@ -59,29 +59,30 @@ public partial class BattleFlowScene : Control
     // 撮影用にフェーズを飛ばす。手で触るときは使わない。
     private void JumpTo(string phase, BattleTeam mine)
     {
-        if (phase == "opponent") return;
+        if (phase == "build") return;   // Begin() が既定でここへ出す
 
-        // 構築と種族選択は相手を選んだ直後の画面。撮影用に直接出す。
+        // 種族選択は構築の一部。相手を選ぶ前でも到達できる。
         if (phase == "species")
         {
-            _flow.ChooseOpponent(NpcTeamDatabase.First());
             _flow.Show(UI.Battle.BattleFlow.Phase.SpeciesPick);
             return;
         }
 
-        // 相手を選ばないと以降のフェーズが成立しない。撮影では先頭の相手
+        // ここから先は構築を確定させないと進めない（相手マッチング以降）。
+        _flow.ConfirmBuild();
+        if (phase == "opponent") return;
+
+        // 相手を選ばないと選出以降が成立しない。撮影では先頭の相手
         // （いちばん弱い相手）を選んだことにする。
         _flow.ChooseOpponent(NpcTeamDatabase.First());
 
         switch (phase)
         {
-            case "selection": _flow.ConfirmBuild(); break;
+            case "selection": break;
             case "deploy":
-                _flow.ConfirmBuild();
                 _flow.ConfirmSelection(mine.AutoSelect());
                 break;
             case "battle":
-                _flow.ConfirmBuild();
                 _flow.ConfirmSelection(mine.AutoSelect());
                 _flow.Show(UI.Battle.BattleFlow.Phase.Battle);
                 break;
@@ -89,7 +90,6 @@ public partial class BattleFlowScene : Control
             // 技を選んだ直後（射程が盤面に出ている状態）。射程の見え方は
             // 描いてみないと分からないので、撮れる経路を作っておく。
             case "command":
-                _flow.ConfirmBuild();
                 _flow.ConfirmSelection(mine.AutoSelect());
                 _flow.Show(UI.Battle.BattleFlow.Phase.Battle);
                 var hud = _flow.GetChildren().OfType<UI.Battle.BattleHud>().FirstOrDefault();

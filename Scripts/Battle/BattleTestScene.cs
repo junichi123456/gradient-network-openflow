@@ -662,8 +662,8 @@ public partial class BattleTestScene : Node2D
         flow.Begin(mine, new List<PublicEntryView>(), clock, sched,
                    new BattleSession(sched, clock), arena);
 
-        flow.ChooseOpponent(NpcTeamDatabase.First());
         flow.ConfirmBuild();
+        flow.ChooseOpponent(NpcTeamDatabase.First());
         flow.ConfirmSelection(mine.AutoSelect());
         flow.Show(UI.Battle.BattleFlow.Phase.Battle);
 
@@ -942,7 +942,15 @@ public partial class BattleTestScene : Node2D
         AddChild(flow);
         flow.Begin(mine, PublicEntryView.Of(foe.Entries), clock, _sched, session);
 
-        GD.Print($"[検証] 最初は相手選択画面: "
+        GD.Print($"[検証] 最初は構築画面: "
+                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Build ? "OK" : "NG")}");
+
+        // 「対戦を受け付ける」を実際に押して進むこと。ConfirmBuild() を直接
+        // 呼ぶだけでは、ボタンとの配線漏れを見逃す（実際に見逃した）。
+        var buildScreen = FindFirst<UI.Battle.TeamBuildScreen>(flow);
+        var readyBtn = CollectButtons(buildScreen).FirstOrDefault(b2 => b2.Text.Contains("受け付ける"));
+        readyBtn?.EmitSignal(Button.SignalName.Pressed);
+        GD.Print($"[検証] 「対戦を受け付ける」を押すと相手マッチングへ進む: "
                  + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Opponent ? "OK" : "NG")}");
 
         // 相手を選ぶまで先へ進めない。行を押してから「この相手と戦う」。
@@ -955,8 +963,8 @@ public partial class BattleTestScene : Node2D
         goBtn = CollectButtons(pickScreen).First(b2 => b2.Text.Contains("この相手"));
         goBtn.EmitSignal(Button.SignalName.Pressed);
         GD.Print($"[検証] 相手を選ぶまで進めない: {(lockedUntilPicked ? "OK" : "NG")}");
-        GD.Print($"[検証] 相手を選ぶと構築画面へ: "
-                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Build && flow.Npc != null ? "OK" : "NG")} "
+        GD.Print($"[検証] 相手を選ぶと選出画面へ: "
+                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Selection && flow.Npc != null ? "OK" : "NG")} "
                  + $"({flow.Npc?.Name})");
 
         // 相手選択画面には相手の6匹が出ない（開示は選出画面から）。
@@ -965,14 +973,6 @@ public partial class BattleTestScene : Node2D
             .Select(e => e.Species?.DisplayName).Where(n => n != null).ToList();
         GD.Print($"[検証] 相手選択画面に相手の6匹が出ない: "
                  + $"{(npcNames.All(n => !pickLabels.Contains(n)) ? "OK" : "NG")}");
-
-        // 「対戦を受け付ける」を実際に押して進むこと。ConfirmBuild() を直接
-        // 呼ぶだけでは、ボタンとの配線漏れを見逃す（実際に見逃した）。
-        var buildScreen = FindFirst<UI.Battle.TeamBuildScreen>(flow);
-        var readyBtn = CollectButtons(buildScreen).FirstOrDefault(b2 => b2.Text.Contains("受け付ける"));
-        readyBtn?.EmitSignal(Button.SignalName.Pressed);
-        GD.Print($"[検証] 「対戦を受け付ける」を押すと選出へ進む: "
-                 + $"{(flow.Current == UI.Battle.BattleFlow.Phase.Selection ? "OK" : "NG")}");
 
         // 選出画面の行を実際に押して4匹選ぶ。
         var sel = FindFirst<UI.Battle.SelectionScreen>(flow);
@@ -1093,6 +1093,7 @@ public partial class BattleTestScene : Node2D
         flow2.Begin(mine, PublicEntryView.Of(foe.Entries), clock2, _sched,
                     new BattleSession(_sched, clock2));
         flow2.ConfirmBuild();
+        flow2.ChooseOpponent(NpcTeamDatabase.First());   // 選出フェーズへ進める
         flow2._Process(BattleClock.SelectionLimitSeconds + 1.0);
         GD.Print($"[検証] 選出が時間切れなら自動で配置へ: "
                  + $"{(flow2.Current == UI.Battle.BattleFlow.Phase.Deploy ? "OK" : "NG")}");

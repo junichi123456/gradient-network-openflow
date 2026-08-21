@@ -10,10 +10,14 @@ using MysteryDungeon.Turn;
 
 namespace MysteryDungeon.UI.Battle;
 
-// 4画面の進行役。どの画面を出すか、時計を進めるか、次へ移るかを決める。
+// 進行役。どの画面を出すか、時計を進めるか、次へ移るかを決める。
 // 画面そのものは自分の描画にしか責任を持たず、フェーズの遷移はここだけが握る。
 //
-//   構築 → 選出(50秒) → 配置(20秒) → 対戦(20分)
+//   構築 → 相手マッチング → 選出(50秒) → 配置(20秒) → 対戦(20分)
+//
+// 構築を先に置くのは、6匹をどう組むかは相手を知らずに決めるものだから。
+// マッチングで開示される相手6匹（種族のみ）を見てから選出で4匹に絞る、
+// という段取りが対戦の骨子（§1・§14）。
 //
 // 選出・配置・対戦には制限時間がある。時間切れの既定動作（登録順の自動選出、
 // 現在の配置のまま開始、引き分け）は BattleClock 側に実装済みなので、
@@ -27,11 +31,11 @@ namespace MysteryDungeon.UI.Battle;
 // 揃うまで解決しないので、ここで待たなければ盤面は1マスも動かない。
 public partial class BattleFlow : Control
 {
-    public enum Phase { Opponent, Build, SpeciesPick, Selection, Deploy, Battle, Finished }
+    public enum Phase { Build, SpeciesPick, Opponent, Selection, Deploy, Battle, Finished }
 
     [Signal] public delegate void PhaseChangedEventHandler(int phase);
 
-    public Phase Current { get; private set; } = Phase.Opponent;
+    public Phase Current { get; private set; } = Phase.Build;
     public BattleOutcome Outcome { get; private set; } = BattleOutcome.Undecided;
 
     private BattleTeam _team;
@@ -83,9 +87,8 @@ public partial class BattleFlow : Control
         _arena = arena;
         SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
 
-        // 相手を選ぶところから始める。相手が1人も居ない（データが無い）
-        // 場合だけ、選択を飛ばして構築へ進む。
-        Show(NpcTeamDatabase.All.Count > 0 ? Phase.Opponent : Phase.Build);
+        // 構築から始める。6匹の組み方は相手を知らずに決める。
+        Show(Phase.Build);
     }
 
     // 相手が決まった。ここで初めて相手の6匹が開示される（§14の開示順）。
@@ -94,7 +97,7 @@ public partial class BattleFlow : Control
         if (profile == null) return;
         _npc = new NpcOpponent(profile);
         _foeTeam = _npc.Profile.Disclose();
-        Show(Phase.Build);
+        Show(Phase.Selection);
     }
 
     // 盤面の GridManager / FloorController。arena があればそこから、
@@ -213,11 +216,13 @@ public partial class BattleFlow : Control
         }
     }
 
-    // 構築が規則を満たしていれば選出へ。満たしていなければ進ませない。
+    // 構築が規則を満たしていれば相手マッチングへ。満たしていなければ進ませない。
+    // 相手が1人も居ない（データが無い）場合だけ、マッチングを飛ばして選出へ進む
+    // （その場合 _foeTeam は Begin() に渡されたものがそのまま残る）。
     public bool ConfirmBuild()
     {
         if (_team.Validate().Count > 0) return false;
-        Show(Phase.Selection);
+        Show(NpcTeamDatabase.All.Count > 0 ? Phase.Opponent : Phase.Selection);
         return true;
     }
 

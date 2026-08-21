@@ -108,8 +108,8 @@ public partial class BattleMatchScene : Node2D
             new NpcTeam { Id = "home", Name = "自陣", MainType = "Neutral", Team = homeTeam },
             Faction.Player);
 
-        flow.ChooseOpponent(awayProfile);
         flow.ConfirmBuild();
+        flow.ChooseOpponent(awayProfile);
         flow.ConfirmSelection(homeBrain.Selection);
 
         // 配置フェーズで作られた既定配置を、自陣の判断で置き直す。
