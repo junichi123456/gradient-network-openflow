@@ -493,8 +493,11 @@ public partial class BattleFlow : Control
 
         var defender = _sched.Roster.FirstOrDefault(e => e.IsAlive && e.GridPosition == input.Target
                                                          && e != actor);
+        // 狙い先のマスをそのまま渡す。範囲技は空マスを中心に置けるので、
+        // マスに立っている個体から中心を引き直してはいけない。
         return new BattleScheduler.Commitment(
-            actor, new AttackAction(actor, defender, slot, Floor), slot.Data?.Priority ?? 0);
+            actor, new AttackAction(actor, defender, slot, Floor, input.Target),
+            slot.Data?.Priority ?? 0);
     }
 
     public override void _Process(double delta)

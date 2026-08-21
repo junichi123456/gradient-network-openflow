@@ -31,13 +31,22 @@ public class AttackAction : IAction
     private readonly MoveSlot _moveSlot;
     private readonly FloorController _floorController;
 
-    public AttackAction(Entity attacker, Entity defender, MoveSlot moveSlot, FloorController floorController = null)
+    // 範囲技の着弾中心を明示的に指定する経路（対戦）。
+    // 迷宮では「目の前の1体」か「向いている方向」しか狙えないので null のまま
+    // ——既存の挙動は変わらない。対戦は盤面のマスを直接指すので、**そのマスに
+    // 誰も立っていなくても**そこへ落とす必要がある（範囲技は空マスを中心に
+    // 複数を巻き込むために使う）。
+    private readonly Vector2I? _aimTile;
+
+    public AttackAction(Entity attacker, Entity defender, MoveSlot moveSlot,
+                        FloorController floorController = null, Vector2I? aimTile = null)
     {
         Actor = attacker;
         _attacker = attacker;
         _defender = defender;
         _moveSlot = moveSlot;
         _floorController = floorController;
+        _aimTile = aimTile;
     }
 
     // Floor-wide weather, or None when this action has no FloorController
@@ -186,9 +195,16 @@ public class AttackAction : IAction
     // ---- Multi-target path (Line/TwoTile/Area/Room/FullFloor) ----
     private void ExecuteAoe(MoveData move)
     {
-        // Area centres on the primary defender's tile; without one, on the
-        // tile the user faces. Room's corridor fallback uses the same aim.
-        var aim = _defender != null ? _defender.GridPosition : _attacker.GridPosition + _attacker.FacingDirection;
+        // 指定があればそのマス（対戦）。無ければ Area は主対象のマス、
+        // それも無ければ向いている先（迷宮）。Room の廊下フォールバックも同じ。
+        //
+        // 指定を無視して主対象から引くと、**空マスを狙った範囲技が別の場所へ
+        // 落ちる**。画面に出した3x3の予告と着弾がずれるうえ、実際に自分の
+        // 味方を巻き込んで倒す事故が起きた。
+        var aim = _aimTile
+                  ?? (_defender != null
+                        ? _defender.GridPosition
+                        : _attacker.GridPosition + _attacker.FacingDirection);
         _attacker.PlayBumpAttack(aim);
 
         var targets = TargetResolver.Resolve(move.Range, _attacker, aim, _attacker.Grid, _floorController);

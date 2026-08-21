@@ -408,12 +408,49 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] Area射程は3x3で味方も巻き込む: {areaTargets.Count}体 "
                  + $"({string.Join(",", areaTargets.Select(t => $"{t.ActorName}/{t.Faction}"))})");
 
+        VerifyAoeAim();
         VerifyTurnOrder();
 
         var headbutt = MoveDatabase.Get("MV_140");
         GD.Print($"[検証] ヘッドバットの優先度: {headbutt?.Priority} (期待 1)");
         var other = MoveDatabase.Get("MV_141");
         GD.Print($"[検証] 他技の優先度: {other?.Priority} (期待 0)");
+    }
+
+    // 範囲技の着弾中心。**指定した空マスへ落ちる**ことを確かめる。
+    //
+    // 迷宮では狙う先が「目の前の1体」しか無いので、AttackAction は主対象の
+    // マスから中心を引いていた。対戦は盤面のマスを直接指し、しかも範囲技は
+    // 空マスを中心に複数を巻き込むために使う——指定を無視すると、予告した
+    // 3x3と別の場所へ落ちて自分の味方を巻き込む（実際に起きた）。
+    private void VerifyAoeAim()
+    {
+        var user = _sched.Roster.First(e => e.Faction == Faction.Player);
+        var foe = _sched.Roster.First(e => e.Faction == Faction.Enemy);
+
+        // 誰も立っていないマスを、使用者の向きとは別の方向に取る。
+        var empty = new Vector2I(0, 0);
+        bool free = !_sched.Roster.Any(e => e.GridPosition == empty);
+
+        var slot = user.Moves.Slots.FirstOrDefault();
+        var action = new AttackAction(user, null, slot, _floor, empty);
+
+        // 指定したマスを中心にした3x3に、使用者も敵も入っていないこと。
+        // （指定が無視されると、使用者の目の前＝敵陣側へ落ちる）
+        var tiles = TargetResolver.ResolveTiles(MoveRange.Area, user.GridPosition,
+                                                user.FacingDirection, empty, _grid, _floor);
+        bool centred = tiles.Count > 0 && tiles.All(t => Mathf.Abs(t.X - empty.X) <= 1
+                                                         && Mathf.Abs(t.Y - empty.Y) <= 1);
+        GD.Print($"[検証] 範囲技は指定した空マスを中心にする: "
+                 + $"{(free && centred && action != null ? "OK" : "NG")} "
+                 + $"(中心{empty} / {tiles.Count}マス)");
+
+        // 指定が無ければ従来どおり主対象のマス（迷宮の経路が変わらないこと）。
+        var fallback = TargetResolver.ResolveTiles(MoveRange.Area, user.GridPosition,
+                                                   user.FacingDirection, foe.GridPosition,
+                                                   _grid, _floor);
+        GD.Print($"[検証] 指定が無ければ従来どおり主対象を中心にする: "
+                 + $"{(fallback.Any(t => t == foe.GridPosition) ? "OK" : "NG")}");
     }
 
     // 行動順規則の機械検証。優先度 > 合計種族値(低いほうが先) の順で効くこと、

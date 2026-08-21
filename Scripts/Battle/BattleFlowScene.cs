@@ -102,8 +102,9 @@ public partial class BattleFlowScene : Control
             return new BattleEntry
             {
                 SpeciesId = id,
-                MoveIds = sp.Learnset.Select(l => l.MoveId).Distinct()
-                            .Take(MoveManager.MaxMoves).ToList(),
+                // learnset の先頭4件はレベル1の技（威力15＋変化技）なので、
+                // NPCと同じ選び方で4つ採る（DefaultLoadout）。
+                MoveIds = DefaultLoadout.PickMoves(sp, MoveManager.MaxMoves),
             };
         }).ToList();
         return new BattleTeam(entries);
