@@ -38,6 +38,23 @@ namespace MysteryDungeon.Battle;
 // 構築の強さ（種族値・持ち物の質）に意味のある形で応答しているか
 // ——すなわちAIが「でたらめではない、筋の通った行動」を取れているか
 // ——を統計的に見られるようにしてある。
+//
+// ---- 「最も強い構築」総当たりモード ----
+//
+//   godot --headless --path . Scenes/BattleMatchScene.tscn -- \
+//         --strongest --teams 100 --repeat 10 [--shard K --shards N] [--out path.csv]
+//
+// 種族値上位（`StrongPoolSize`）のプールから技はDefaultLoadout（強い技を
+// 優先）、持ち物は重複なく必ず全員へ、で「強いと思える構築」を --teams 件
+// 無作為に組む（同一の6匹構成は作り直す）。乱数シードは固定なので、
+// --shard を割っても全プロセスが同じ100構築を再現する。
+// 全組み合わせ（Nチームなら N*(N-1)/2 通り）を --repeat 回ずつ対戦させ、
+// 1戦ごとに先手/後手を入れ替える（先手側の利がある場合の偏りを消す）。
+// --shard K --shards N を付けると、担当ペアだけを処理する
+// （ペア番号 % N == K）。計算量が Nチーム²のオーダーで伸びるため
+// （100チームで組み合わせ4,950通り×10戦=49,500試合）、複数プロセスへ
+// 分けて回せるようにしてある。--out を付けると `i,j,勝ちi,勝ちj,引分,未決着,
+// サイクル|区切り` を1ペア1行でCSV追記する（マージ・集計用）。
 public partial class BattleMatchScene : Node2D
 {
     // 手持ちの既定編成。構築画面がまだ編集に対応していないので、
@@ -45,12 +62,20 @@ public partial class BattleMatchScene : Node2D
     private static readonly string[] PlayerRoster = { "001", "004", "006", "009", "002", "010" };
 
     private const int TurnCap = 600;     // 1試合あたりの提出回数の上限
+    private const int StrongPoolSize = 60;   // 「強い構築」の候補プール（種族値上位から）
 
     private string _home = "player";
     private string _away = null;         // 既定は先頭のNPC
     private int _matches = 1;
     private string _items = "none";      // none / both / home / away
     private bool _random;
+
+    private bool _strongest;
+    private int _teamCount = 100;
+    private int _repeat = 10;
+    private int _shardIndex;
+    private int _shardCount = 1;
+    private string _outPath;
 
     public override void _Ready()
     {
@@ -66,6 +91,14 @@ public partial class BattleMatchScene : Node2D
             _items = ai + 1 < args.Length && !args[ai + 1].StartsWith("--")
                 ? args[ai + 1] : "both";
 
+        _strongest = args.Contains("--strongest");
+        _teamCount = int.TryParse(Arg(args, "--teams"), out var tc) ? tc : 100;
+        _repeat = int.TryParse(Arg(args, "--repeat"), out var rp) ? rp : 10;
+        _shardIndex = int.TryParse(Arg(args, "--shard"), out var si) ? si : 0;
+        _shardCount = int.TryParse(Arg(args, "--shards"), out var sc) ? sc : 1;
+        _outPath = Arg(args, "--out");
+
+        if (_strongest) { RunStrongestRoundRobin(); return; }
         if (_random) { RunRandomBatch(); return; }
 
         var homeTeam = TeamOf(_home);
@@ -182,6 +215,163 @@ public partial class BattleMatchScene : Node2D
         GetTree().Quit();
     }
 
+    // 「最も強い構築」N通りを組み、全組み合わせを --repeat 回ずつ対戦させる。
+    // 乱数シードを固定しているのは、--shard で複数プロセスに分けても
+    // 全プロセスが同じN構築を再現できるようにするため（構築の生成に
+    // 使う乱数列と対戦中の行動判断の乱数列は別物——後者は GD.Randf/GD.Randi
+    // という大域RNGなので、こちらのシード固定の影響を受けない）。
+    private void RunStrongestRoundRobin()
+    {
+        var rng = new RandomNumberGenerator();
+        rng.Seed = 20260822UL;
+
+        var pool = (SpeciesDatabase.Instance?.All.Values ?? Enumerable.Empty<SpeciesData>())
+            .OrderByDescending(s => s.BaseHP + s.BaseAtk + s.BaseDef)
+            .Take(StrongPoolSize)
+            .Select(s => s.SpeciesId)
+            .ToList();
+
+        var teams = new List<BattleTeam>();
+        var seen = new HashSet<string>();
+        for (int guard = 0; teams.Count < _teamCount && guard < _teamCount * 200; guard++)
+        {
+            var t = StrongestTeam(pool, rng);
+            var key = string.Join(",", t.Entries.Select(e => e.SpeciesId).OrderBy(x => x));
+            if (!seen.Add(key)) continue;
+            teams.Add(t);
+        }
+
+        GD.Print($"[強構築] 種族値上位{pool.Count}種から{teams.Count}通りを生成");
+
+        // 担当ペア以外を素通りする都合上、必ず同じ順でペアを列挙する
+        // （ペア番号 = shard割当の鍵）。
+        var pairs = new List<(int I, int J)>();
+        for (int i = 0; i < teams.Count; i++)
+            for (int j = i + 1; j < teams.Count; j++)
+                pairs.Add((i, j));
+
+        if (_shardIndex == 0 && !string.IsNullOrEmpty(_outPath))
+        {
+            var manifest = teams.Select((t, idx) =>
+                $"{idx}: " + string.Join(" / ", t.Entries.Select(e =>
+                    $"{SpeciesDatabase.Instance?.Get(e.SpeciesId)?.DisplayName ?? e.SpeciesId}"
+                    + $"[{e.ItemId}]")));
+            System.IO.File.WriteAllLines(_outPath + ".teams.txt", manifest);
+        }
+
+        var wins = new int[teams.Count];
+        var losses = new int[teams.Count];
+        var draws = new int[teams.Count];
+        var undecided = new int[teams.Count];
+        var csvLines = new List<string>();
+
+        long done = 0, totalAssigned = pairs.Count(p => (p.I * teams.Count + p.J) % _shardCount == _shardIndex);
+        var allCycles = new List<int>();
+
+        foreach (var (i, j) in pairs)
+        {
+            if ((i * teams.Count + j) % _shardCount != _shardIndex) continue;
+
+            int winI = 0, winJ = 0, draw = 0, undecidedPair = 0;
+            var cycles = new List<int>();
+            for (int k = 0; k < _repeat; k++)
+            {
+                bool iHome = k % 2 == 0;   // 先手/後手を戦ごとに入れ替え、先手側の利を消す
+                var homeTeam = iHome ? teams[i] : teams[j];
+                var awayTeam = iHome ? teams[j] : teams[i];
+                var awayProfile = new NpcTeam
+                {
+                    Id = $"strong_{(iHome ? j : i)}", Name = "強構築の相手",
+                    MainType = "Neutral", Team = awayTeam,
+                };
+
+                var r = RunMatch(homeTeam, awayProfile, verbose: false);
+                cycles.Add(r.Cycles);
+                switch (r.Outcome)
+                {
+                    case BattleOutcome.PlayerWin: if (iHome) winI++; else winJ++; break;
+                    case BattleOutcome.EnemyWin: if (iHome) winJ++; else winI++; break;
+                    case BattleOutcome.Draw: draw++; break;
+                    default: undecidedPair++; break;
+                }
+            }
+
+            wins[i] += winI; wins[j] += winJ;
+            losses[i] += winJ; losses[j] += winI;
+            draws[i] += draw; draws[j] += draw;
+            undecided[i] += undecidedPair; undecided[j] += undecidedPair;
+            allCycles.AddRange(cycles);
+            csvLines.Add($"{i},{j},{winI},{winJ},{draw},{undecidedPair},{string.Join('|', cycles)}");
+
+            done++;
+            if (done % 50 == 0)
+                GD.Print($"[強構築] 担当ペア {done}/{totalAssigned} 完了");
+        }
+
+        if (!string.IsNullOrEmpty(_outPath))
+            System.IO.File.AppendAllLines(_outPath, csvLines);
+
+        GD.Print("");
+        GD.Print($"[結果] shard {_shardIndex}/{_shardCount}: 担当{csvLines.Count}ペア"
+                 + $"（{csvLines.Count * (long)_repeat}試合）処理完了");
+        if (allCycles.Count > 0)
+            GD.Print($"[結果] 決着までのサイクル: 平均{allCycles.Average():F1} "
+                     + $"/ 最短{allCycles.Min()} / 最長{allCycles.Max()}");
+
+        // shard分割時、この勝敗集計はこのプロセスが担当したペアのぶんだけ
+        // ——全体のランキングは --out のCSVを全shardぶんマージしてから出す
+        // （Tools/merge_strongest_results.py）。
+        var ranking = Enumerable.Range(0, teams.Count)
+            .Select(idx => (idx, played: wins[idx] + losses[idx] + draws[idx] + undecided[idx]))
+            .Where(x => x.played > 0)
+            .OrderByDescending(x => (double)wins[x.idx] / x.played)
+            .Take(10);
+        GD.Print("[結果] このshard内・勝率上位10構築:");
+        foreach (var (idx, played) in ranking)
+            GD.Print($"  #{idx}: {wins[idx]}勝{losses[idx]}敗{draws[idx]}分{undecided[idx]}未決着"
+                     + $"（{100.0 * wins[idx] / played:F1}%、{played}試合）");
+
+        GetTree().Quit();
+    }
+
+    // 種族値上位プールから6匹（重複なく、伝説は1体まで）、技はDefaultLoadout
+    // （その種族にとって最も強い4つ）、持ち物は対戦用16種から重複なく必ず
+    // 全員へ——という「強いと思える構築」を1つ組む。
+    private static BattleTeam StrongestTeam(List<string> pool, RandomNumberGenerator rng)
+    {
+        var shuffled = new List<string>(pool);
+        Shuffle(shuffled, rng);
+
+        var speciesIds = new List<string>();
+        bool hasLegendary = false;
+        foreach (var id in shuffled)
+        {
+            if (speciesIds.Count >= BattleTeam.RosterSize) break;
+            bool legendary = SpeciesDatabase.Instance?.Get(id)?.IsLegendary ?? false;
+            if (legendary && hasLegendary) continue;
+            speciesIds.Add(id);
+            if (legendary) hasLegendary = true;
+        }
+
+        var heldItems = ItemDatabase.AllIds()
+            .Where(id => ItemDatabase.Get(id)?.Type == ItemType.BattleHeld).ToList();
+        Shuffle(heldItems, rng);
+        var itemIds = heldItems.Take(BattleTeam.RosterSize).ToList();
+
+        var entries = new List<BattleEntry>();
+        for (int i = 0; i < speciesIds.Count; i++)
+        {
+            var sp = SpeciesDatabase.Instance?.Get(speciesIds[i]);
+            entries.Add(new BattleEntry
+            {
+                SpeciesId = speciesIds[i],
+                MoveIds = DefaultLoadout.PickMoves(sp, MoveManager.MaxMoves),
+                ItemId = itemIds.ElementAtOrDefault(i),
+            });
+        }
+        return new BattleTeam(entries);
+    }
+
     private readonly struct MatchResult
     {
         public BattleOutcome Outcome { get; init; }
@@ -213,7 +403,7 @@ public partial class BattleMatchScene : Node2D
         // 決め方だった。
         var homeBrain = new NpcOpponent(
             new NpcTeam { Id = "home", Name = "自陣", MainType = "Neutral", Team = homeTeam },
-            Faction.Player);
+            Faction.Player, foeView: BattleSession.DiscloseTeam(awayProfile.Team));
 
         flow.ConfirmBuild();
         flow.ChooseOpponent(awayProfile);

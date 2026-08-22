@@ -107,7 +107,9 @@ public partial class BattleFlow : Control
     public void ChooseOpponent(NpcTeam profile)
     {
         if (profile == null) return;
-        _npc = new NpcOpponent(profile);
+        // こちらの6匹（種族のみ）は、この時点で相手にも同じ形で開示されて
+        // いる（§14）。NPCの選出判断にも同じ情報を渡してよい。
+        _npc = new NpcOpponent(profile, foeView: BattleSession.DiscloseTeam(_team));
         _foeTeam = _npc.Profile.Disclose();
         Show(Phase.Selection);
     }

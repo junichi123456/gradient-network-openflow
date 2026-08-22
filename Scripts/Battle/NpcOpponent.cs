@@ -24,15 +24,23 @@ public sealed class NpcOpponent
     public NpcTeam Profile { get; }
     public Faction Faction { get; }
 
+    // 相手の6匹（種族のみ）。選出フェーズの時点で開示されている情報
+    // （§14）なので、選出の判断に使ってよい。技・持ち物・配置は
+    // 引き続き分からない——このクラス自身、それらを画面へ渡す口を
+    // 作っていないのと対称。
+    public IReadOnlyList<PublicEntryView> FoeView { get; }
+
     // 対戦前に決めきる2つ。外からは読めるが、画面へ渡す口は作っていない
     // （相手の選出と配置は対戦開始まで開示しない — §14）。
     public IReadOnlyList<BattleEntry> Selection { get; private set; }
     public BattleDeployment Deployment { get; private set; }
 
-    public NpcOpponent(NpcTeam profile, Faction faction = Entities.Faction.Enemy)
+    public NpcOpponent(NpcTeam profile, Faction faction = Entities.Faction.Enemy,
+                       IReadOnlyList<PublicEntryView> foeView = null)
     {
         Profile = profile;
         Faction = faction;
+        FoeView = foeView;
         Prepare();
     }
 
@@ -46,29 +54,64 @@ public sealed class NpcOpponent
         Deployment = ChooseDeployment(Selection);
     }
 
-    // 6匹から4匹。合計種族値と最大威力を見て上から採るが、同点は乱数で
-    // 崩す。毎回まったく同じ4匹だと、2戦目以降が作業になる。
+    // 6匹から4匹。相手の6匹（種族のみ、FoeView）が分かっていれば、その
+    // 相手に対する相性を見て選ぶ——分からなければ（FoeView無し）従来どおり
+    // 合計種族値と最大威力を見て上から採る。同点は乱数で崩す。毎回まったく
+    // 同じ4匹だと、2戦目以降が作業になる。
     private List<BattleEntry> ChooseSelection()
     {
         if (Profile == null) return new List<BattleEntry>();
 
+        var foeTypes = FoeView == null ? null : FoeView
+            .Select(v => Species.SpeciesDatabase.Instance?.Get(v.SpeciesId)?.Types)
+            .Where(t => t != null && t.Count > 0)
+            .ToList();
+
         return Profile.Team.Entries
-            .OrderByDescending(e =>
-            {
-                var sp = e.Species;
-                int bst = sp == null ? 0 : sp.BaseHP + sp.BaseAtk + sp.BaseDef;
-                int power = e.MoveIds.Select(m => MoveDatabase.Get(m)?.Power ?? 0)
-                                     .DefaultIfEmpty(0).Max();
-                // 専用の RandomNumberGenerator は持たない。NpcOpponent は
-                // 対戦のたびに new されるので、専用インスタンスだと
-                // ヘッドレスで何百試合も回すほど未解放のネイティブ
-                // オブジェクトが積み上がり後半だけ極端に遅くなる
-                // （BattleScheduler._rng を GD.Randf() に切り替えた理由と同じ）。
-                return bst + power * 2 + (int)(GD.Randi() % 61);
-            })
+            .OrderByDescending(e => SelectionScore(e, foeTypes))
             .Take(BattleTeam.SelectionSize)
             .ToList();
     }
+
+    // 1匹ぶんの選出スコア。専用の RandomNumberGenerator は持たない。
+    // NpcOpponent は対戦のたびに new されるので、専用インスタンスだと
+    // ヘッドレスで何百試合も回すほど未解放のネイティブオブジェクトが
+    // 積み上がり後半だけ極端に遅くなる（BattleScheduler._rng を
+    // GD.Randf() に切り替えた理由と同じ）。
+    private float SelectionScore(BattleEntry e, List<List<Element>> foeTypes)
+    {
+        var sp = e.Species;
+        int bst = sp == null ? 0 : sp.BaseHP + sp.BaseAtk + sp.BaseDef;
+        int power = e.MoveIds.Select(m => MoveDatabase.Get(m)?.Power ?? 0)
+                             .DefaultIfEmpty(0).Max();
+        float jitter = GD.Randi() % 61;
+
+        if (foeTypes == null || foeTypes.Count == 0)
+            return bst + power * 2 + jitter;
+
+        // 相手6匹それぞれに対して「こちらの最強打点がどれだけ通るか」
+        // − 「相手の自属性（＝おそらくのSTAB）がこちらにどれだけ通るか」
+        // を足し合わせる。技・持ち物・配置は分からないので、見えている
+        // 種族の属性だけから両方向の相性を見積もる。
+        var ownTypes = sp?.Types;
+        var moves = e.MoveIds.Select(MoveDatabase.Get)
+                             .Where(m => m != null && m.Power > 0).ToList();
+
+        float matchup = 0f;
+        foreach (var foe in foeTypes)
+        {
+            float off = moves.Count == 0 ? 0f
+                : moves.Max(m => m.Power * TypeMultiplier(m.Type, foe));
+            float def = ownTypes == null || ownTypes.Count == 0 ? 1f
+                : foe.Sum(ft => TypeMultiplier(ft.ToString(), ownTypes));
+            matchup += off - def * 40f;   // 被弾側は倍率(0〜4)を打点(数十〜百)と釣り合う尺度に上げる
+        }
+
+        return bst * 0.5f + matchup + jitter;
+    }
+
+    private static float TypeMultiplier(string atkType, List<Element> defTypes) =>
+        TypeChartManager.GetMultiplier(atkType, defTypes.Select(t => t.ToString()).ToArray());
 
     // 自陣6マスへ4匹。隣接技しか持たない個体を前列（相手に近い側）へ、
     // 射程を持つ個体を後列へ置く。前に出ないと何もできない個体を後ろに
