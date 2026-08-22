@@ -201,8 +201,11 @@ public partial class BattleMatchScene : Node2D
         var clock = new BattleClock();
         var flow = new UI.Battle.BattleFlow();
         host.AddChild(flow);
+        // headless: true — この試合場に画面を見る人はいない。1ターン
+        // ごとに盤面56マス＋レール＋名簿ぶんのUIを作り直すのは、対戦の
+        // 骨格そのものより重い無駄な仕事だった（100試合が完走しないほど）。
         flow.Begin(homeTeam, new List<PublicEntryView>(), clock, sched,
-                   new BattleSession(sched, clock), arena);
+                   new BattleSession(sched, clock), arena, headless: true);
 
         // 自陣も同じ判断で動かす。**選出と配置まで同じにしないと比較にならない**
         // ——最初は自陣だけ登録順の自動選出＋既定配置で回しており、同じ編成

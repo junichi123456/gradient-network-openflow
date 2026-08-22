@@ -73,11 +73,22 @@ public partial class BattleFlow : Control
     // 構築画面でいま開いている枠。種族選択へ出て戻るまで覚えておく。
     private int _buildSlot;
 
+    // headless=true の間、Show() は画面（Control ツリー）を一切作らない。
+    // 状態遷移（SpawnOrApply・BeginCycle・選出/配置の確定など）は
+    // 変わらず起きる——スキップするのは「見せるもの」だけ。
+    //
+    // 効いた理由: 通し試合を何百戦も連続実行する検証（BattleMatchScene）
+    // では、1ターン解決するたびに盤面56マス＋レール＋名簿ぶんの
+    // Control/StyleBoxFlat を作り直していた。UIを操作する人が誰もいない
+    // 見出しのない試合でこれを毎ターン・毎試合作っては捨てるのは、
+    // 対戦の骨格そのものより重い無駄な仕事だった。
+    private bool _headless;
+
     // arena を渡すと、選出と配置が決まってからパルを立てる（本番の経路）。
     // 渡さない場合は既に登録済みの個体をそのまま使う（検証ハーネス）。
     public void Begin(BattleTeam team, IReadOnlyList<PublicEntryView> foeTeam,
                       BattleClock clock, BattleScheduler sched, BattleSession session,
-                      BattleArena arena = null)
+                      BattleArena arena = null, bool headless = false)
     {
         _team = team;
         _foeTeam = foeTeam;
@@ -85,6 +96,7 @@ public partial class BattleFlow : Control
         _sched = sched;
         _session = session;
         _arena = arena;
+        _headless = headless;
         SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
 
         // 構築から始める。6匹の組み方は相手を知らずに決める。
@@ -116,9 +128,14 @@ public partial class BattleFlow : Control
         _hud = null;
         Current = phase;
 
+        // headless の間はここから先の画面構築を素通りする。状態の確定
+        // （SpawnOrApply・BeginCycle・_deployment の既定値埋めなど）は
+        // switch の中に混ざっているので、各 case ごとに「状態は残し、
+        // 画面だけ作らない」形で分ける。
         switch (phase)
         {
             case Phase.Opponent:
+                if (_headless) break;
                 var pick = new OpponentSelectScreen();
                 AddChild(pick);
                 pick.Initialize(NpcTeamDatabase.All);
@@ -127,6 +144,7 @@ public partial class BattleFlow : Control
                 break;
 
             case Phase.Build:
+                if (_headless) break;
                 var build = new TeamBuildScreen();
                 AddChild(build);
                 build.Initialize(_team);
@@ -139,6 +157,7 @@ public partial class BattleFlow : Control
             // 種族選択は構築の一部。フェーズを分けるのは、287種の一覧が
             // 構築画面に収まらないから（画面を丸ごと入れ替える）。
             case Phase.SpeciesPick:
+                if (_headless) break;
                 var pickSp = new SpeciesPickScreen();
                 AddChild(pickSp);
                 pickSp.Initialize(_team, _buildSlot);
@@ -152,6 +171,7 @@ public partial class BattleFlow : Control
                 break;
 
             case Phase.Selection:
+                if (_headless) break;
                 var sel = new SelectionScreen();
                 AddChild(sel);
                 sel.Initialize(_team, _foeTeam, _clock);
@@ -160,7 +180,10 @@ public partial class BattleFlow : Control
                 break;
 
             case Phase.Deploy:
+                // 既定配置の確定は画面の有無に関係なく必要
+                // （SpawnOrApply や、外から Deployment.Place() する経路が使う）。
                 _deployment ??= BattleDeployment.Default(Faction.Player, _selection);
+                if (_headless) break;
                 var dep = new DeployScreen();
                 AddChild(dep);
                 dep.Initialize(_deployment, _clock);   // 相手の配置は渡さない
@@ -169,8 +192,10 @@ public partial class BattleFlow : Control
                 break;
 
             case Phase.Battle:
+                // パルを立てて最初のサイクルを開くのは画面の有無に関係なく必要。
                 SpawnOrApply();
                 if (_sched.CycleNumber == 0) _sched.BeginCycle();
+                if (_headless) break;
 
                 var hud = new BattleHud();
                 AddChild(hud);
