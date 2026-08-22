@@ -42,7 +42,6 @@ public sealed class BattleScheduler
 
     private readonly List<Entity> _roster = new();
     private readonly HashSet<Entity> _actedThisCycle = new();
-    private readonly RandomNumberGenerator _rng = new();
 
     public int CycleNumber { get; private set; }
     public int TurnInCycle { get; private set; }
@@ -50,13 +49,6 @@ public sealed class BattleScheduler
     // 通算ターン数。サイクルをまたいで増え続ける（天候の「20ターン」は
     // この数え方。状態異常とランク減衰はサイクル境界で刻む）。
     public int TotalTurns { get; private set; }
-
-    public BattleScheduler()
-    {
-        // 再現用のシード管理は行わない方針。命中判定や急所と同じく、
-        // 同値時の順番も素のランダムで決める。
-        _rng.Randomize();
-    }
 
     public void Register(Entity actor)
     {
@@ -139,8 +131,14 @@ public sealed class BattleScheduler
         int cmp = b.Priority.CompareTo(a.Priority);          // 優先度は高いほうが先
         if (cmp == 0)
             cmp = Bst(a.Actor).CompareTo(Bst(b.Actor));      // 種族値は低いほうが先
+        // 専用の RandomNumberGenerator を持たず GD.Randf()（Godot本体の
+        // 大域RNG）を直接使う。BattleScheduler は1試合ごとに new される
+        // ため、専用インスタンスだと Godot 管理下のネイティブオブジェクトが
+        // 試合数ぶん残り、GCが追いつくまで解放されない
+        // ——ヘッドレスで何百試合も連続で回すと、後半になるほど
+        // 目に見えて遅くなる形で表面化した（100試合が10分以上かかる）。
         if (cmp == 0)
-            cmp = _rng.Randf() < 0.5f ? -1 : 1;              // 同値ならランダム
+            cmp = GD.Randf() < 0.5f ? -1 : 1;                 // 同値ならランダム
 
         return cmp <= 0 ? new List<Commitment> { a, b } : new List<Commitment> { b, a };
     }

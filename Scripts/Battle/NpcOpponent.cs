@@ -21,8 +21,6 @@ namespace MysteryDungeon.Battle;
 // 見ないまま決めるので、伏せて同時に決める規則がそのまま成り立つ。
 public sealed class NpcOpponent
 {
-    private readonly RandomNumberGenerator _rng = new();
-
     public NpcTeam Profile { get; }
     public Faction Faction { get; }
 
@@ -35,7 +33,6 @@ public sealed class NpcOpponent
     {
         Profile = profile;
         Faction = faction;
-        _rng.Randomize();
         Prepare();
     }
 
@@ -62,7 +59,12 @@ public sealed class NpcOpponent
                 int bst = sp == null ? 0 : sp.BaseHP + sp.BaseAtk + sp.BaseDef;
                 int power = e.MoveIds.Select(m => MoveDatabase.Get(m)?.Power ?? 0)
                                      .DefaultIfEmpty(0).Max();
-                return bst + power * 2 + _rng.RandiRange(0, 60);
+                // 専用の RandomNumberGenerator は持たない。NpcOpponent は
+                // 対戦のたびに new されるので、専用インスタンスだと
+                // ヘッドレスで何百試合も回すほど未解放のネイティブ
+                // オブジェクトが積み上がり後半だけ極端に遅くなる
+                // （BattleScheduler._rng を GD.Randf() に切り替えた理由と同じ）。
+                return bst + power * 2 + (int)(GD.Randi() % 61);
             })
             .Take(BattleTeam.SelectionSize)
             .ToList();

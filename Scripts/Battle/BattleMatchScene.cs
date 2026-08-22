@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
 using MysteryDungeon.Species;
 using MysteryDungeon.Turn;
@@ -18,6 +19,25 @@ namespace MysteryDungeon.Battle;
 //
 // --items を付けない限り**両陣営とも持ち物を全部外す**。
 // 対戦の骨格（射程・行動順・サイクル）だけで決着まで行けるかを見るため。
+//
+// ---- 完全ランダム構築モード ----
+//
+//   godot --headless --path . Scenes/BattleMatchScene.tscn -- \
+//         --random --matches 100
+//
+// --random を付けると --home/--away/--items は無視され、**毎試合ごとに**
+// 自陣・敵陣とも種族・技・持ち物のすべてを一から無作為に組み直す
+// （NPCの学習済み編成には一切頼らない、素の対戦システムの検証）。
+//   - 6匹の種族はランダムに重複なく選ぶ
+//   - 各自の技4つは、その種族の learnset からランダムに重複なく選ぶ
+//     （威力や属性で選ばない——DefaultLoadout とは別系統）
+//   - 6匹**全員**に、対戦用持ち物16種から重複なく1つずつ持たせる
+//     （持たせない選択肢は無い。1匹1つ・チーム内重複不可は既存の規則どおり）
+// 行動判断（選出・配置・毎ターン）は NpcOpponent の同じ1本の判断ロジックを
+// 両陣営に使う。**構築だけを無作為化し、判断は固定する**ことで、勝敗が
+// 構築の強さ（種族値・持ち物の質）に意味のある形で応答しているか
+// ——すなわちAIが「でたらめではない、筋の通った行動」を取れているか
+// ——を統計的に見られるようにしてある。
 public partial class BattleMatchScene : Node2D
 {
     // 手持ちの既定編成。構築画面がまだ編集に対応していないので、
@@ -30,10 +50,12 @@ public partial class BattleMatchScene : Node2D
     private string _away = null;         // 既定は先頭のNPC
     private int _matches = 1;
     private string _items = "none";      // none / both / home / away
+    private bool _random;
 
     public override void _Ready()
     {
         var args = OS.GetCmdlineUserArgs();
+        _random = args.Contains("--random");
         _home = Arg(args, "--home") ?? _home;
         _away = Arg(args, "--away");
         _matches = int.TryParse(Arg(args, "--matches"), out var n) ? n : 1;
@@ -43,6 +65,8 @@ public partial class BattleMatchScene : Node2D
         if (ai >= 0)
             _items = ai + 1 < args.Length && !args[ai + 1].StartsWith("--")
                 ? args[ai + 1] : "both";
+
+        if (_random) { RunRandomBatch(); return; }
 
         var homeTeam = TeamOf(_home);
         var awayProfile = ProfileOf(_away) ?? NpcTeamDatabase.First();
@@ -80,10 +104,90 @@ public partial class BattleMatchScene : Node2D
         GetTree().Quit();
     }
 
+    // 完全ランダム構築モード。毎試合ごとに両陣営を無作為に組み直して回す。
+    //
+    // 「AIが筋の通った行動を取れているか」を測る手がかりとして、
+    // **選出された4匹ぶんの合計種族値が高い側と、実際に勝った側が
+    // 一致する割合**を集計する。構築の強さと勝敗が無関係（50%前後）なら
+    // 行動判断が機能していない証拠、はっきり50%を超えていれば
+    // 「強い構築を活かせている」という有意な行動の証拠になる。
+    private void RunRandomBatch()
+    {
+        var rng = new RandomNumberGenerator();
+        rng.Randomize();
+
+        GD.Print($"[試合] 完全ランダム構築（種族・技・持ち物すべて無作為、"
+                 + $"持ち物は必ず全員に付与）/ {_matches}試合");
+
+        int homeWin = 0, awayWin = 0, draw = 0, unresolved = 0;
+        var cycles = new List<int>();
+        int bstAgree = 0, bstTie = 0, bstDecided = 0, buildViolations = 0;
+
+        for (int i = 0; i < _matches; i++)
+        {
+            var homeTeam = RandomTeam(rng);
+            var awayTeam = RandomTeam(rng);
+
+            // 無作為抽出の実装ミスを見逃さないための機械検証。RosterSize(6)
+            // <= 対戦用持ち物の種類(16) なので理屈上は必ず満たすはずだが、
+            // 「必ず全員に持ち物」は RandomTeam の自己申告でしかないので、
+            // 実際に組んだチームで毎回確かめる。
+            bool okHome = homeTeam.Validate().Count == 0
+                          && homeTeam.Entries.All(e => !string.IsNullOrEmpty(e.ItemId));
+            bool okAway = awayTeam.Validate().Count == 0
+                          && awayTeam.Entries.All(e => !string.IsNullOrEmpty(e.ItemId));
+            if (!okHome || !okAway) buildViolations++;
+
+            var awayProfile = new NpcTeam
+            {
+                Id = $"random_{i}", Name = "ランダム構築の相手", MainType = "Neutral",
+                TotalBst = awayTeam.Entries.Sum(e => Bst(e)), Team = awayTeam,
+            };
+
+            var r = RunMatch(homeTeam, awayProfile, verbose: i == 0);
+            switch (r.Outcome)
+            {
+                case BattleOutcome.PlayerWin: homeWin++; break;
+                case BattleOutcome.EnemyWin: awayWin++; break;
+                case BattleOutcome.Draw: draw++; break;
+                default: unresolved++; break;
+            }
+            cycles.Add(r.Cycles);
+
+            if (r.Outcome == BattleOutcome.PlayerWin || r.Outcome == BattleOutcome.EnemyWin)
+            {
+                if (r.HomeBst == r.AwayBst) bstTie++;
+                else
+                {
+                    bstDecided++;
+                    bool homeHigher = r.HomeBst > r.AwayBst;
+                    bool homeWonMatch = r.Outcome == BattleOutcome.PlayerWin;
+                    if (homeHigher == homeWonMatch) bstAgree++;
+                }
+            }
+        }
+
+        GD.Print("");
+        GD.Print($"[検証] 毎試合とも構築規則を満たし、全員が持ち物を持つ: "
+                 + $"{(buildViolations == 0 ? "OK" : $"NG {buildViolations}試合")}");
+        GD.Print($"[結果] {_matches}試合: 自陣{homeWin}勝 / 敵陣{awayWin}勝 "
+                 + $"/ 引き分け{draw} / 未決着{unresolved}");
+        if (cycles.Count > 0)
+            GD.Print($"[結果] 決着までのサイクル: 平均{cycles.Average():F1} "
+                     + $"/ 最短{cycles.Min()} / 最長{cycles.Max()}");
+        if (bstDecided > 0)
+            GD.Print($"[結果] 選出4匹の合計種族値が高い側が勝った割合: "
+                     + $"{100.0 * bstAgree / bstDecided:F1}% ({bstAgree}/{bstDecided}、種族値同点{bstTie}試合を除く)");
+
+        GetTree().Quit();
+    }
+
     private readonly struct MatchResult
     {
         public BattleOutcome Outcome { get; init; }
         public int Cycles { get; init; }
+        public int HomeBst { get; init; }   // 選出4匹の合計種族値（自陣）
+        public int AwayBst { get; init; }   // 同・敵陣
     }
 
     // 1試合。両陣営とも同じ判断ロジックで動かし、決着まで進める。
@@ -129,6 +233,11 @@ public partial class BattleMatchScene : Node2D
             GD.Print("");
         }
 
+        // 選出4匹ぶんの合計種族値。死亡してもBST自体は変わらないので、
+        // このタイミングで確定してよい（決着後の集計に使う）。
+        int homeBst = sched.Roster.Where(e => e.Faction == Faction.Player).Sum(Bst);
+        int awayBst = sched.Roster.Where(e => e.Faction == Faction.Enemy).Sum(Bst);
+
         var alive = sched.Roster.Where(e => e.IsAlive).ToHashSet();
         int lastTurn = -1, submissions = 0;
 
@@ -151,7 +260,11 @@ public partial class BattleMatchScene : Node2D
             GD.Print($"[C{sched.CycleNumber}T{sched.TurnInCycle}] {HpLine(sched)}");
         }
 
-        var result = new MatchResult { Outcome = flow.Outcome, Cycles = sched.CycleNumber };
+        var result = new MatchResult
+        {
+            Outcome = flow.Outcome, Cycles = sched.CycleNumber,
+            HomeBst = homeBst, AwayBst = awayBst,
+        };
 
         if (verbose)
         {
@@ -163,9 +276,19 @@ public partial class BattleMatchScene : Node2D
                          + (e.IsAlive ? $"生存 HP{e.Stats.CurrentHp}/{e.Stats.MaxHp}" : "倒れた"));
         }
 
-        host.QueueFree();
+        // QueueFree は解放をフレーム末まで遅らせる。ここは _Ready() の中で
+        // 複数試合を同期的に回しているだけでフレームが一度も挟まらないため、
+        // QueueFree のままだと試合を重ねるほど未解放のノード（StyleBoxFlat
+        // だらけの BattleHud 一式）が積み上がり、終了時に大量リークで
+        // 落ちる（結果の出力自体は先に済んでいるので実害はないが、行儀が悪い）。
+        // Free() で即座に解放する。
+        host.Free();
         return result;
     }
+
+    private static int Bst(Entity e) => BattleScheduler.Bst(e);
+    private static int Bst(BattleEntry e) =>
+        e.Species is { } sp ? sp.BaseHP + sp.BaseAtk + sp.BaseDef : 0;
 
     private static string HpLine(BattleScheduler sched) => string.Join("  ",
         sched.Roster.Select(e => $"{Side(e)}{e.ActorName}"
@@ -182,6 +305,48 @@ public partial class BattleMatchScene : Node2D
     };
 
     // ---- 編成の組み立て ----
+
+    // 完全ランダム構築。6匹の種族・各自の技4つ・全員ぶんの持ち物を、
+    // 威力や種族値による選り好みを一切せず無作為に決める。
+    //
+    // 持ち物は「必ず全員に付与」（構築内で重複しない16種から6匹ぶんを
+    // 重複なく引く——16種 > 6匹なので必ず足りる）。技は威力順ではなく
+    // learnset からの無作為抽出（DefaultLoadout / NPC生成器の選び方とは
+    // 別系統。あちらは「強い技を優先」、こちらは「選ばない」）。
+    private static BattleTeam RandomTeam(RandomNumberGenerator rng)
+    {
+        var species = SpeciesDatabase.Instance?.All.Keys.ToList() ?? new List<string>();
+        Shuffle(species, rng);
+        var speciesIds = species.Take(BattleTeam.RosterSize).ToList();
+
+        var heldItems = ItemDatabase.AllIds()
+            .Where(id => ItemDatabase.Get(id)?.Type == ItemType.BattleHeld).ToList();
+        Shuffle(heldItems, rng);
+        var itemIds = heldItems.Take(BattleTeam.RosterSize).ToList();
+
+        var entries = new List<BattleEntry>();
+        for (int i = 0; i < speciesIds.Count; i++)
+        {
+            var entry = new BattleEntry { SpeciesId = speciesIds[i] };
+            var learnable = entry.Learnable();
+            Shuffle(learnable, rng);
+            entry.MoveIds = learnable.Take(MoveManager.MaxMoves).Select(m => m.Id).ToList();
+            entry.ItemId = itemIds.ElementAtOrDefault(i);
+            entries.Add(entry);
+        }
+        return new BattleTeam(entries);
+    }
+
+    // Fisher-Yates。RandomNumberGenerator は System.Random と違って
+    // シャッフルの口を持たないので、ここで1つだけ用意する。
+    private static void Shuffle<T>(IList<T> list, RandomNumberGenerator rng)
+    {
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int j = (int)(rng.Randf() * (i + 1));
+            (list[i], list[j]) = (list[j], list[i]);
+        }
+    }
 
     private string Label(string id) => id == "player" ? "手持ち6匹" : ProfileOf(id)?.Name ?? id;
 
