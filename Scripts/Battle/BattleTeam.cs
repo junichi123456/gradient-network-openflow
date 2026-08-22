@@ -135,6 +135,11 @@ public sealed class BattleTeam
                                  .GroupBy(e => e.ItemId).Where(g => g.Count() > 1))
             errors.Add($"持ち物の重複: {g.Key} が{g.Count()}個");
 
+        // タグ:伝説を持つパルは1つの構築に1体まで。
+        int legendaryCount = Entries.Count(e => e.Species?.IsLegendary == true);
+        if (legendaryCount > 1)
+            errors.Add($"「伝説」タグは1体まで（現在{legendaryCount}体）");
+
         foreach (var e in Entries)
         {
             var species = e.Species;

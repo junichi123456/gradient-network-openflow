@@ -34588,7 +34588,8 @@
       }
     ],
     "evolution": null,
-    "trait": "issen"
+    "trait": "issen",
+    "is_legendary": true
   },
   {
     "species_id": "199",
@@ -34693,7 +34694,8 @@
       }
     ],
     "evolution": null,
-    "trait": "issen"
+    "trait": "issen",
+    "is_legendary": true
   },
   {
     "species_id": "200",
@@ -34795,7 +34797,8 @@
     ],
     "evolution": null,
     "ecology": "flight",
-    "trait": "hyouten_ma"
+    "trait": "hyouten_ma",
+    "is_legendary": true
   },
   {
     "species_id": "200B",
@@ -34897,7 +34900,8 @@
     ],
     "evolution": null,
     "ecology": "flight",
-    "trait": "takane_no_hana"
+    "trait": "takane_no_hana",
+    "is_legendary": true
   },
   {
     "species_id": "201",
@@ -35003,7 +35007,8 @@
     ],
     "evolution": null,
     "ecology": "submerge",
-    "trait": "chaser"
+    "trait": "chaser",
+    "is_legendary": true
   },
   {
     "species_id": "202",
@@ -35109,7 +35114,8 @@
     ],
     "evolution": null,
     "trait": "bakugeki",
-    "ecology": "flight"
+    "ecology": "flight",
+    "is_legendary": true
   },
   {
     "species_id": "203",
@@ -35219,6 +35225,7 @@
     ],
     "evolution": null,
     "ecology": "flight",
-    "trait": "zankyou_no_shugosha"
+    "trait": "zankyou_no_shugosha",
+    "is_legendary": true
   }
 ]

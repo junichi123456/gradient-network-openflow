@@ -26,6 +26,9 @@ internal class SpeciesJson
     // the actual 287-species assignment is stage 9). "" = unassigned.
     [JsonPropertyName("trait")] public string Trait { get; set; } = "";
     [JsonPropertyName("ecology")] public string Ecology { get; set; } = "";
+
+    // タグ:伝説。対戦の構築ルールが「1構築に1体まで」を課す対象。
+    [JsonPropertyName("is_legendary")] public bool IsLegendary { get; set; }
 }
 
 internal class LearnsetJson
@@ -145,6 +148,7 @@ public partial class SpeciesDatabase : Node
             Evolution = evolution,
             Trait = j.Trait ?? "",
             Ecology = j.Ecology ?? "",
+            IsLegendary = j.IsLegendary,
         };
     }
 

@@ -61,6 +61,12 @@ public class SpeciesData
     // Ecology is a separate, OPTIONAL slot (independent of Trait - a
     // species can hold both, or neither). null/"" = no ecology.
     public string Ecology { get; set; } = "";
+
+    // 対戦の構築ルールが読む唯一のタグ:伝説。7種のみ true
+    // （ベイントール/セイントール/グレイシャル/グレイシャドウ/
+    // ネプティオス/グランジーラ/ジェッドラン）。この特性を持つパルは
+    // 1つの構築に1体までしか入れられない（BattleTeam.Validate）。
+    public bool IsLegendary { get; set; }
 }
 
 public class LearnsetEntry

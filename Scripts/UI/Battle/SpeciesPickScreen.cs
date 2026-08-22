@@ -130,11 +130,18 @@ public partial class SpeciesPickScreen : Control
         bool mine = owner != null && owner == _team.Entries.ElementAtOrDefault(_slot);
         bool taken = owner != null && !mine;
 
+        // 「伝説」は1構築に1体まで。編集中の枠以外に既に伝説が居るなら、
+        // 別の伝説はここでは選ばせない（BattleTeam.Validate と同じ規則）。
+        bool legendaryBlocked = sp.IsLegendary && !taken && _team.Entries
+            .Where((e, i) => i != _slot)
+            .Any(e => e.Species?.IsLegendary == true);
+
+        bool disabled = taken || legendaryBlocked;
         var card = ClickableCard(mine ? BattleTheme.BrassBg : BattleTheme.Surface,
                                  mine ? BattleTheme.Brass : BattleTheme.Line);
         card.CustomMinimumSize = new Vector2(0, 62);
         card.SizeFlagsHorizontal = SizeFlags.ExpandFill;
-        card.Disabled = taken;
+        card.Disabled = disabled;
         string id = sp.SpeciesId;
         card.Pressed += () => EmitSignal(SignalName.SpeciesChosen, id);
 
@@ -142,12 +149,13 @@ public partial class SpeciesPickScreen : Control
         BattleUiKit.AddFilled(card, col);
 
         var head = Row(5);
-        head.AddChild(Text(sp.DisplayName, taken ? BattleTheme.Line2 : BattleTheme.Ink,
+        head.AddChild(Text(sp.DisplayName, disabled ? BattleTheme.Line2 : BattleTheme.Ink,
                            BattleTheme.FontSmall));
         foreach (var t in sp.Types) head.AddChild(ElementChip(t));
+        if (sp.IsLegendary) head.AddChild(Pill("伝説", BattleTheme.Brass, BattleTheme.BrassBg));
         head.AddChild(Spacer());
         head.AddChild(Text($"BST {sp.BaseHP + sp.BaseAtk + sp.BaseDef}",
-                           taken ? BattleTheme.Line2 : BattleTheme.Ink2, BattleTheme.FontLabel));
+                           disabled ? BattleTheme.Line2 : BattleTheme.Ink2, BattleTheme.FontLabel));
         col.AddChild(head);
 
         var stats = Row(8);
@@ -161,6 +169,8 @@ public partial class SpeciesPickScreen : Control
 
         if (taken)
             col.AddChild(Text("パーティに登録済み", BattleTheme.Warn, 10));
+        else if (legendaryBlocked)
+            col.AddChild(Text("「伝説」は他の枠に登録済み", BattleTheme.Warn, 10));
         return card;
     }
 }

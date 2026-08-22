@@ -112,6 +112,35 @@ def pick_moves(sp, moves):
     return [m['id'] for m in chosen[:MOVES_PER_PAL]]
 
 
+def enforce_legendary_limit(picked, pool):
+    """タグ:伝説は1構築に1体まで（BattleTeam.Validate と同じ規則）。
+
+    伝説はどれも種族値の最上位帯に固まっているため、種族値帯で窓を取る
+    このサンプリングだと2体以上まとめて拾いやすい。2体目以降を、
+    まだ選ばれていない非伝説の候補（pool の中で種族値が近い順）に
+    差し替える。
+    """
+    picked_ids = {s['species_id'] for s in picked}
+    seen_legendary = False
+    result = []
+    for sp in picked:
+        if sp.get('is_legendary'):
+            if seen_legendary:
+                replacement = next((c for c in pool
+                                     if c['species_id'] not in picked_ids
+                                     and not c.get('is_legendary')), None)
+                if replacement is not None:
+                    picked_ids.discard(sp['species_id'])
+                    picked_ids.add(replacement['species_id'])
+                    result.append(replacement)
+                    continue
+                # 差し替え候補が無い（層が極端に薄い）ときだけ、やむを得ず残す。
+            else:
+                seen_legendary = True
+        result.append(sp)
+    return result
+
+
 def build(species, moves, main_type, items, used_species, target_bst):
     """主属性を持つ種から6匹。狙った種族値帯の周りから採る。
 
@@ -134,6 +163,7 @@ def build(species, moves, main_type, items, used_species, target_bst):
     picked = pool[lo:lo + window][::2][:ROSTER_SIZE]
     if len(picked) < ROSTER_SIZE:                # 層が薄い属性の保険
         picked = pool[max(0, center - ROSTER_SIZE):][:ROSTER_SIZE] or pool[:ROSTER_SIZE]
+    picked = enforce_legendary_limit(picked, pool)
 
     entries = []
     for i, sp in enumerate(picked):

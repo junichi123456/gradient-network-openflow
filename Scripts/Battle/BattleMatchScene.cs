@@ -320,7 +320,19 @@ public partial class BattleMatchScene : Node2D
     {
         var species = SpeciesDatabase.Instance?.All.Keys.ToList() ?? new List<string>();
         Shuffle(species, rng);
-        var speciesIds = species.Take(BattleTeam.RosterSize).ToList();
+
+        // タグ:伝説は1構築に1体まで（BattleTeam.Validate と同じ規則）。
+        // シャッフル済みの列を先頭から拾い、2体目以降の伝説だけ読み飛ばす。
+        var speciesIds = new List<string>();
+        bool hasLegendary = false;
+        foreach (var id in species)
+        {
+            if (speciesIds.Count >= BattleTeam.RosterSize) break;
+            bool legendary = SpeciesDatabase.Instance?.Get(id)?.IsLegendary ?? false;
+            if (legendary && hasLegendary) continue;
+            speciesIds.Add(id);
+            if (legendary) hasLegendary = true;
+        }
 
         var heldItems = ItemDatabase.AllIds()
             .Where(id => ItemDatabase.Get(id)?.Type == ItemType.BattleHeld).ToList();

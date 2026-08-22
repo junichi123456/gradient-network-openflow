@@ -120,6 +120,24 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 技5つ以上を弾く: "
                  + $"{(tooMany.Validate().Any(m => m.Contains("つまで")) ? "OK" : "NG")}");
 
+        // タグ:伝説。セイントール(198)・ベイントール(199)はどちらも
+        // 実データで is_legendary=true が付いている7種のうちの2つ。
+        static BattleEntry Legendary(string speciesId) => new()
+        {
+            SpeciesId = speciesId,
+            MoveIds = SpeciesDatabase.Instance.Get(speciesId).Learnset
+                        .Select(l => l.MoveId).Distinct().Take(MoveManager.MaxMoves).ToList(),
+        };
+
+        var oneLegendary = new BattleTeam(team.Entries.Select((e, i) => i == 0 ? Legendary("198") : e));
+        GD.Print($"[検証] 「伝説」1体は通る: "
+                 + $"{(!oneLegendary.Validate().Any(m => m.Contains("伝説")) ? "OK" : "NG")}");
+
+        var twoLegendary = new BattleTeam(team.Entries.Select((e, i) =>
+            i == 0 ? Legendary("198") : i == 1 ? Legendary("199") : e));
+        GD.Print($"[検証] 「伝説」2体目は弾く: "
+                 + $"{(twoLegendary.Validate().Any(m => m.Contains("伝説")) ? "OK" : "NG")}");
+
         var sel = team.AutoSelect();
         GD.Print($"[検証] 時間切れ時は登録順の昇順で4匹: "
                  + $"{(sel.Count == 4 && sel.Select(e => e.SpeciesId).SequenceEqual(team.Entries.Take(4).Select(e => e.SpeciesId)) ? "OK" : "NG")} "

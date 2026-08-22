@@ -125,6 +125,7 @@ public partial class TeamBuildScreen : Control
                                                   || m.Contains("技が1つも"))));
         _rules.AddChild(RuleChip($"{BattleTeam.RosterSize}匹の登録",
                                  !errors.Any(m => m.Contains("匹ちょうど"))));
+        _rules.AddChild(RuleChip("「伝説」は1体まで", !errors.Any(m => m.Contains("伝説"))));
 
         _ready.Disabled = errors.Count > 0;
     }
@@ -154,6 +155,7 @@ public partial class TeamBuildScreen : Control
         head.AddChild(Text($"{index + 1}", BattleTheme.Muted, BattleTheme.FontLabel));
         head.AddChild(Text(sp?.DisplayName ?? entry.SpeciesId, BattleTheme.Ink, BattleTheme.FontSmall));
         if (sp != null) foreach (var t in sp.Types) head.AddChild(ElementChip(t));
+        if (sp != null && sp.IsLegendary) head.AddChild(Pill("伝説", BattleTheme.Brass, BattleTheme.BrassBg));
         head.AddChild(Spacer());
         if (sp != null)
             head.AddChild(Text($"BST {sp.BaseHP + sp.BaseAtk + sp.BaseDef}",
@@ -199,6 +201,7 @@ public partial class TeamBuildScreen : Control
         var head = Row(8);
         head.AddChild(Text(sp?.DisplayName ?? entry.SpeciesId, BattleTheme.Ink, BattleTheme.FontTitle));
         if (sp != null) foreach (var t in sp.Types) head.AddChild(ElementChip(t));
+        if (sp != null && sp.IsLegendary) head.AddChild(Pill("伝説", BattleTheme.Brass, BattleTheme.BrassBg));
         head.AddChild(Spacer());
         var swap = new Button { Text = "種族を変える" };
         swap.Pressed += () => EmitSignal(SignalName.SpeciesPickRequested, _slot);

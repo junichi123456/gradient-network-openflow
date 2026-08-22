@@ -91,6 +91,15 @@ def main():
                 bad.append(f"{t['name']}: 対戦用の持ち物ではない {i}")
     check('持ち物は対戦用・チーム内で重複なし', bad)
 
+    # タグ:伝説は1チームに1体まで（BattleTeam.Validate と同じ規則）。
+    bad = []
+    for t in teams:
+        legendary = [e['species_id'] for e in t['entries']
+                     if species.get(e['species_id'], {}).get('is_legendary')]
+        if len(legendary) > 1:
+            bad.append(f"{t['name']}: 伝説タグが{len(legendary)}体 {legendary}")
+    check('タグ:伝説は1チームに1体まで', bad)
+
     # 攻撃手段が無いと相手として成立しない。1匹でも無攻撃だと、その匹は
     # 一生わざを撃たない置物になる。
     bad = []
