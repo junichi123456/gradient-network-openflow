@@ -268,6 +268,8 @@ public partial class BattleMatchScene : Node2D
             Outcome = flow.Outcome, Cycles = sched.CycleNumber,
             HomeBst = homeBst, AwayBst = awayBst,
         };
+        if (System.Environment.GetEnvironmentVariable("BM_DEBUG") == "1")
+            GD.Print($"[Match] cycles={sched.CycleNumber} submissions={submissions} outcome={flow.Outcome}");
 
         if (verbose)
         {

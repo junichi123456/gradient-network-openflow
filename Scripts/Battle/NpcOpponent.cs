@@ -106,6 +106,13 @@ public sealed class NpcOpponent
 
     // 出せるパルが居なければ ActorIndex = -1（空の提出）を返す。
     // 空でもターンは進むので、片側だけ頭数が尽きても試合は止まらない。
+    //
+    // 敵を倒すことだけを見て突っ込むと、削り合いで先に頭数が減る側が
+    // そのまま押し切られる。**このマスに留まる/移る と、まだ動いていない
+    // 敵からどれだけ狙われ得るか**を見積もり、危険な残高（HPに対して
+    // 見積もり被害が大きい）のときは、攻撃よりも安全なマスへの退避を
+    // 上回らせる。安全なら見積もりは0に近いので、従来どおり攻撃・接近が
+    // 選ばれる——「ときには生存を優先する」の実装。
     public TurnInput Decide(BattleScheduler sched, GridManager grid, FloorController floor)
     {
         var mine = sched.Roster.Where(e => e.Faction == Faction).ToList();
@@ -116,15 +123,58 @@ public sealed class NpcOpponent
         if (foes.Count == 0) return new TurnInput(mine.IndexOf(available[0]), -1,
                                                  available[0].GridPosition);
 
-        // 出せる全員 × 技4つ × 狙える全マスを総当たりして、最も得点の
-        // 高い1手を採る。盤面は56マスで候補も高々数百なので、素直に全部
-        // 見たほうが「なぜその手を選んだか」を追える。
+        // このサイクル中にまだ動く可能性がある敵だけを脅威として数える。
+        // 既に行動済みの敵は、次にこちらが動くまでの間はもう手を出せない。
+        //
+        // 各脅威の各攻撃技が「狙える先」は敵の位置と技の射程だけで決まり、
+        // このDecide()呼び出しの間は変わらない。actor×移動先マスの数ぶん
+        // 何度も引き直すと1万試合規模で重くなるので、ここで1回だけ求めて
+        // 使い回す（EstimateThreat はこの結果を集合の当たり判定にしか使わない）。
+        var threats = foes.Where(f => !sched.HasActed(f)).ToList();
+        var threatMoves = new List<(Entity Foe, MoveData Data, HashSet<Vector2I> Reach)>();
+        foreach (var foe in threats)
+        {
+            for (int slot = 0; slot < foe.Moves.Slots.Count; slot++)
+            {
+                var data = foe.Moves.Slots[slot].Data;
+                if (data == null || data.Power <= 0 || foe.Moves.Slots[slot].CurrentPp <= 0) continue;
+
+                // SelectableTiles は「狙わず即提出できる」技すべて（周囲・部屋・全体）を
+                // 空リストで返す。部屋・全体は実際に盤面全体へ届くので null(=常に届く)
+                // で正しいが、**周囲だけは自分中心3x3という狭い射程**——同じ「空」を
+                // 「盤面全体に届く」と扱うと、周囲技を持つ敵1体だけでどのマスも
+                // 危険域になり、過剰に退避し続けるバグになる。
+                HashSet<Vector2I> reach;
+                if (data.Range == MoveRange.Surrounding)
+                {
+                    reach = new HashSet<Vector2I>();
+                    for (int dx = -1; dx <= 1; dx++)
+                        for (int dy = -1; dy <= 1; dy++)
+                            reach.Add(foe.GridPosition + new Vector2I(dx, dy));
+                }
+                else
+                {
+                    var list = BattleTargeting.SelectableTiles(foe, slot, grid, floor, sched.Roster);
+                    reach = list.Count > 0 ? new HashSet<Vector2I>(list) : null;   // null = 部屋・全体
+                }
+                threatMoves.Add((foe, data, reach));
+            }
+        }
+
+        // 出せる全員 × 技4つ × 狙える全マス、加えて移動先の全マスを
+        // 総当たりして、最も得点の高い1手を採る。盤面は56マスで候補も
+        // 高々数百なので、素直に全部見たほうが「なぜその手を選んだか」を追える。
         TurnInput best = default;
         float bestScore = float.NegativeInfinity;
 
         foreach (var actor in available)
         {
             int actorIndex = mine.IndexOf(actor);
+
+            // 攻撃技は原則その場に留まる（Adjacent以外は距離を詰めない）ので、
+            // 留まった場合の被弾リスクは技によらず共通——aimごとに引き直さない。
+            float stayThreat = EstimateThreat(actor, actor.GridPosition, threatMoves);
+            float stayPenalty = SurvivalPenalty(actor, stayThreat, sched.CycleNumber);
 
             for (int slot = 0; slot < actor.Moves.Slots.Count; slot++)
             {
@@ -139,29 +189,38 @@ public sealed class NpcOpponent
 
                 foreach (var aim in aims)
                 {
-                    float score = ScoreAttack(actor, slot, aim, grid, floor, sched.Roster);
+                    float offense = ScoreAttack(actor, slot, aim, grid, floor, sched.Roster);
+                    if (offense <= 0f) continue;   // 当たらない/意味の無い手は候補にしない
+
+                    float score = offense - stayPenalty;
                     if (score <= bestScore) continue;
                     bestScore = score;
                     best = new TurnInput(actorIndex, slot, aim);
                 }
             }
+
+            // 移動先の候補。危険な場所に留まって攻撃するより、安全な場所へ
+            // 退くほうが得点が高ければこちらが選ばれる。脅威が無ければ
+            // 全マスの見積もりが0近辺で並ぶので、接近ボーナスが tie-break し、
+            // 従来どおり敵へ寄っていく。
+            var moveTiles = BattleTargeting.SelectableTiles(actor, -1, grid, floor, sched.Roster);
+            foreach (var tile in moveTiles)
+            {
+                float destThreat = EstimateThreat(actor, tile, threatMoves);
+                float score = ApproachBonus(actor.GridPosition, tile, foes)
+                             - SurvivalPenalty(actor, destThreat, sched.CycleNumber);
+                if (score <= bestScore) continue;
+                bestScore = score;
+                best = new TurnInput(actorIndex, -1, tile);
+            }
         }
 
-        // 誰にも当たらないなら詰める。最も近い敵へ1歩。
-        if (bestScore <= 0f)
+        // 何も候補が無かった（移動先すら無い＝完全に固定されている）ときだけ、
+        // その場に留まる扱いにする保険。
+        if (bestScore == float.NegativeInfinity)
         {
-            var mover = available
-                .OrderBy(e => foes.Min(f => Chebyshev(f.GridPosition, e.GridPosition)))
-                .First();
-            var target = foes.OrderBy(f => Chebyshev(f.GridPosition, mover.GridPosition)).First();
-            var step = mover.GridPosition + BattleTargeting.StepToward(
-                mover.GridPosition, target.GridPosition);
-
-            var walkable = BattleTargeting.SelectableTiles(mover, -1, grid, floor, sched.Roster);
-            if (!walkable.Contains(step) && walkable.Count > 0)
-                step = walkable.OrderBy(t => Chebyshev(t, target.GridPosition)).First();
-
-            return new TurnInput(mine.IndexOf(mover), -1, step);
+            var mover = available.First();
+            return new TurnInput(mine.IndexOf(mover), -1, mover.GridPosition);
         }
 
         return best;
@@ -193,6 +252,66 @@ public sealed class NpcOpponent
             if (hit >= v.Stats.CurrentHp) score += 120f;
         }
         return score;
+    }
+
+    // そのマスに居るとき、まだ動いていない敵からどれだけ狙われ得るかの
+    // 見積もり。実ダメージ計算は通さない（ScoreAttack と同じ理由）。
+    // 各敵の最も痛い1手を採って足し合わせる——複数の敵がこのサイクル中に
+    // まだ動けるなら、その全員から狙われ得るという悲観的な見積もり。
+    //
+    // 「狙える先」自体は Decide() 側で1回だけ求めて渡してもらう
+    // （敵の位置と技の射程だけで決まり、tile ごとに引き直す必要が無い）。
+    private static float EstimateThreat(Entity actor, Vector2I tile,
+        IReadOnlyList<(Entity Foe, MoveData Data, HashSet<Vector2I> Reach)> threatMoves)
+    {
+        if (threatMoves.Count == 0) return 0f;
+
+        Dictionary<Entity, float> worstPerFoe = null;
+        foreach (var (foe, data, reach) in threatMoves)
+        {
+            if (reach != null && !reach.Contains(tile)) continue;
+
+            float hit = data.Power * Effectiveness(data, actor) * (data.Accuracy / 100f);
+            worstPerFoe ??= new Dictionary<Entity, float>();
+            if (!worstPerFoe.TryGetValue(foe, out var cur) || hit > cur) worstPerFoe[foe] = hit;
+        }
+        return worstPerFoe == null ? 0f : worstPerFoe.Values.Sum();
+    }
+
+    // 見積もり被害をHPに対する比率で見て、危険なときだけ強く効かせる。
+    // ratio<<1（掠り傷程度）ならほぼ0のまま従来の判断を変えず、
+    // ratio>=1（このサイクル中に落とされ得る）で強く効かせる。2乗にして
+    // いるのは「軽い脅威は無視、重い脅威は強く避ける」という質的な切り替えに
+    // したいため（線形だと中程度の脅威でも常に慎重になりすぎる）。
+    //
+    // 上限は控えめ（最大約102）に抑えてある。強い決定打（急所級の一撃や
+    // 撃破ボーナス+120を含む ScoreAttack は軽く150〜300を超える）を、
+    // 「ときには生存を優先する」という程度の重みで覆してしまわないように
+    // ——退避が優先されるのは、攻めても大した戦果が無くはっきり分が悪い
+    // 局面に絞る。
+    //
+    // cycleNumber が経るほど係数を落とす（урgency）。両者が互いを
+    // 「危険」と見て退き合うと、幾何によっては安全なマスへ逃げ切れず
+    // 何サイクルも足踏みし続けることがある——最初にこの実装で1万試合中
+    // 一部が数百サイクルに達し、対戦上限(600提出)で未決着になった。
+    // 長引くほど慎重さより決着を優先させることで、この足踏みを抜けさせる。
+    private static float SurvivalPenalty(Entity actor, float threat, int cycleNumber)
+    {
+        if (threat <= 0f) return 0f;
+        float ratio = threat / System.MathF.Max(1f, actor.Stats.CurrentHp);
+        ratio = Mathf.Min(ratio, 1.3f);
+        float urgency = Mathf.Max(0.25f, 1f - cycleNumber * 0.04f);
+        return 60f * ratio * ratio * urgency;
+    }
+
+    // 危険が無い場面のtie-break用。敵に近づくほど小さく加点し、脅威が
+    // 拮抗しているとき（EstimateThreatが横並び）でも接近・詰めが選ばれる
+    // 従来の挙動を保つ。
+    private static float ApproachBonus(Vector2I from, Vector2I to, IReadOnlyList<Entity> foes)
+    {
+        int before = foes.Min(f => Chebyshev(f.GridPosition, from));
+        int after = foes.Min(f => Chebyshev(f.GridPosition, to));
+        return (before - after) * 2f;
     }
 
     // 相性倍率。実ダメージ計算は通さない（副作用があるうえ、相手の持ち物や
