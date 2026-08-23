@@ -77,6 +77,10 @@ public partial class BattleMatchScene : Node2D
     private int _shardCount = 1;
     private string _outPath;
 
+    private int _challengerCount = 30;
+    private int _loopSize = 5;
+    private int _loops = 4;
+
     public override void _Ready()
     {
         var args = OS.GetCmdlineUserArgs();
@@ -97,7 +101,42 @@ public partial class BattleMatchScene : Node2D
         _shardIndex = int.TryParse(Arg(args, "--shard"), out var si) ? si : 0;
         _shardCount = int.TryParse(Arg(args, "--shards"), out var sc) ? sc : 1;
         _outPath = Arg(args, "--out");
+        _challengerCount = int.TryParse(Arg(args, "--challengers"), out var cc) ? cc : 30;
+        _loopSize = int.TryParse(Arg(args, "--loop-size"), out var ls) ? ls : 5;
+        _loops = int.TryParse(Arg(args, "--loops"), out var lp) ? lp : 4;
 
+        if (args.Contains("--dump-meta"))
+        {
+            var hundred = MetaScenario.RegenerateHundred();
+            foreach (var id in MetaScenario.MetaIds)
+                GD.Print($"{id}: " + string.Join(" / ", hundred[id].Entries.Select(e =>
+                    $"{e.SpeciesId}[{string.Join(",", e.MoveIds)}][{e.ItemId}]")));
+            GetTree().Quit();
+            return;
+        }
+
+        if (args.Contains("--dump-challengers"))
+        {
+            var hundred2 = MetaScenario.RegenerateHundred();
+            var metas2 = MetaScenario.MetaIds.Select(id => hundred2[id]).ToList();
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            var challengers = MetaScenario.GenerateChallengers(metas2, _challengerCount);
+            sw.Stop();
+            GD.Print($"[対抗構築] {challengers.Count}件生成（{sw.ElapsedMilliseconds}ms）");
+            foreach (var cat in challengers.GroupBy(c => string.Join(",", c.Beats.OrderBy(x => x))))
+                GD.Print($"  カテゴリ{{{cat.Key}}}: {cat.Count()}件");
+            for (int i = 0; i < challengers.Count; i++)
+            {
+                var (team, beats, adv) = challengers[i];
+                GD.Print($"  #{i} beats={{{string.Join(",", beats.OrderBy(x => x))}}} adv={adv:F0}: "
+                         + string.Join(" / ", team.Entries.Select(e => e.SpeciesId)));
+            }
+            GetTree().Quit();
+            return;
+        }
+
+        if (args.Contains("--meta-core")) { RunMetaCore(); return; }
+        if (args.Contains("--meta-challengers")) { RunMetaChallengers(); return; }
         if (_strongest) { RunStrongestRoundRobin(); return; }
         if (_random) { RunRandomBatch(); return; }
 
@@ -223,19 +262,15 @@ public partial class BattleMatchScene : Node2D
     private void RunStrongestRoundRobin()
     {
         var rng = new RandomNumberGenerator();
-        rng.Seed = 20260822UL;
+        rng.Seed = MetaScenario.Seed;
 
-        var pool = (SpeciesDatabase.Instance?.All.Values ?? Enumerable.Empty<SpeciesData>())
-            .OrderByDescending(s => s.BaseHP + s.BaseAtk + s.BaseDef)
-            .Take(StrongPoolSize)
-            .Select(s => s.SpeciesId)
-            .ToList();
+        var pool = MetaScenario.StrongPool(StrongPoolSize);
 
         var teams = new List<BattleTeam>();
         var seen = new HashSet<string>();
         for (int guard = 0; teams.Count < _teamCount && guard < _teamCount * 200; guard++)
         {
-            var t = StrongestTeam(pool, rng);
+            var t = MetaScenario.StrongestTeam(pool, rng);
             var key = string.Join(",", t.Entries.Select(e => e.SpeciesId).OrderBy(x => x));
             if (!seen.Add(key)) continue;
             teams.Add(t);
@@ -334,42 +369,242 @@ public partial class BattleMatchScene : Node2D
         GetTree().Quit();
     }
 
-    // 種族値上位プールから6匹（重複なく、伝説は1体まで）、技はDefaultLoadout
-    // （その種族にとって最も強い4つ）、持ち物は対戦用16種から重複なく必ず
-    // 全員へ——という「強いと思える構築」を1つ組む。
-    private static BattleTeam StrongestTeam(List<string> pool, RandomNumberGenerator rng)
+    // ---- §21/§22: 環境メタ（3すくみ）と、それに対抗する30構築 ----
+    //
+    //   godot --headless -- --meta-core --loop-size 5 --loops 4 [--challengers 30] --out path
+    //   godot --headless -- --meta-challengers --shard K --shards N --repeat 20 --out path
+    //
+    // --meta-core: 3すくみ（#66→#53→#30、§21）どうしの3ペアと、3すくみ×
+    // 対抗構築30件=90ペアを、この1プロセスで順番に処理する。3すくみの
+    // 各構築は5戦のループごとに適応しうる（MetaScenario.AdaptAfterLoop）ので
+    // 状態が試合をまたいで持ち越る——並列化すると引き継ぎが壊れるため、
+    // ここだけは常に単一プロセス（shard非対応）。93ペア×20戦=1,860試合。
+    //
+    // --meta-challengers: 対抗構築どうしの総当たり（C(30,2)=435ペア、
+    // どちらも適応しない静的な構築どうし）。--strongest と同じ形で
+    // shard分割できる。
+    private readonly struct PairResult
     {
-        var shuffled = new List<string>(pool);
-        Shuffle(shuffled, rng);
+        public int WinsA { get; init; }
+        public int WinsB { get; init; }
+        public int Draws { get; init; }
+        public int Undecided { get; init; }
+        public List<int> Cycles { get; init; }
+    }
 
-        var speciesIds = new List<string>();
-        bool hasLegendary = false;
-        foreach (var id in shuffled)
+    // 5戦（既定）ぶんを1ループ実行し、両陣営の勝敗とサイクル数、
+    // 各陣営で戦闘不能になった個体を種族IDごとに集計して返す。
+    // gameOffset は先手/後手の入れ替えを試合番号ではなく通算で回すための
+    // オフセット（ループをまたいでも交互になるように）。
+    private (int WinsA, int WinsB, int Draws, int Undecided, List<int> Cycles,
+             Dictionary<string, int> FaintsA, Dictionary<string, int> FaintsB)
+        RunLoop(BattleTeam teamA, BattleTeam teamB, int gamesInLoop, int gameOffset)
+    {
+        int winsA = 0, winsB = 0, draws = 0, undecided = 0;
+        var cycles = new List<int>();
+        var faintsA = new Dictionary<string, int>();
+        var faintsB = new Dictionary<string, int>();
+
+        for (int k = 0; k < gamesInLoop; k++)
         {
-            if (speciesIds.Count >= BattleTeam.RosterSize) break;
-            bool legendary = SpeciesDatabase.Instance?.Get(id)?.IsLegendary ?? false;
-            if (legendary && hasLegendary) continue;
-            speciesIds.Add(id);
-            if (legendary) hasLegendary = true;
-        }
-
-        var heldItems = ItemDatabase.AllIds()
-            .Where(id => ItemDatabase.Get(id)?.Type == ItemType.BattleHeld).ToList();
-        Shuffle(heldItems, rng);
-        var itemIds = heldItems.Take(BattleTeam.RosterSize).ToList();
-
-        var entries = new List<BattleEntry>();
-        for (int i = 0; i < speciesIds.Count; i++)
-        {
-            var sp = SpeciesDatabase.Instance?.Get(speciesIds[i]);
-            entries.Add(new BattleEntry
+            bool aHome = (gameOffset + k) % 2 == 0;
+            var homeTeam = aHome ? teamA : teamB;
+            var awayTeam = aHome ? teamB : teamA;
+            var awayProfile = new NpcTeam
             {
-                SpeciesId = speciesIds[i],
-                MoveIds = DefaultLoadout.PickMoves(sp, MoveManager.MaxMoves),
-                ItemId = itemIds.ElementAtOrDefault(i),
-            });
+                Id = "meta_tmp", Name = "メタ対戦", MainType = "Neutral", Team = awayTeam,
+            };
+
+            var r = RunMatch(homeTeam, awayProfile, verbose: false);
+            cycles.Add(r.Cycles);
+
+            var aliveA = aHome ? r.HomeAlive : r.AwayAlive;
+            var aliveB = aHome ? r.AwayAlive : r.HomeAlive;
+            foreach (var (sp, alive) in aliveA) if (!alive) faintsA[sp] = faintsA.GetValueOrDefault(sp) + 1;
+            foreach (var (sp, alive) in aliveB) if (!alive) faintsB[sp] = faintsB.GetValueOrDefault(sp) + 1;
+
+            bool aWon = (aHome && r.Outcome == BattleOutcome.PlayerWin)
+                     || (!aHome && r.Outcome == BattleOutcome.EnemyWin);
+            bool bWon = (aHome && r.Outcome == BattleOutcome.EnemyWin)
+                     || (!aHome && r.Outcome == BattleOutcome.PlayerWin);
+            if (aWon) winsA++;
+            else if (bWon) winsB++;
+            else if (r.Outcome == BattleOutcome.Draw) draws++;
+            else undecided++;
         }
-        return new BattleTeam(entries);
+        return (winsA, winsB, draws, undecided, cycles, faintsA, faintsB);
+    }
+
+    // 1組の対戦カードを --loops 回ぶん（各 --loop-size 戦）通す。
+    // aIsMeta/bIsMeta が true の側は、ループの合間に適応の機会を得る
+    // （勝率が閾値未満なら、そのループで一番倒れた1匹の技か持ち物を1つ
+    // 変える——§22）。適応結果は mutationLog に積む。
+    private PairResult RunAdaptivePair(BattleTeam teamA, bool aIsMeta, BattleTeam teamB, bool bIsMeta,
+        List<string> mutationLog, string labelA, string labelB)
+    {
+        int totalA = 0, totalB = 0, totalDraws = 0, totalUndecided = 0;
+        var allCycles = new List<int>();
+        int gameOffset = 0;
+
+        for (int loop = 0; loop < _loops; loop++)
+        {
+            var res = RunLoop(teamA, teamB, _loopSize, gameOffset);
+            gameOffset += _loopSize;
+            totalA += res.WinsA; totalB += res.WinsB;
+            totalDraws += res.Draws; totalUndecided += res.Undecided;
+            allCycles.AddRange(res.Cycles);
+
+            if (aIsMeta)
+            {
+                var msg = MetaScenario.AdaptAfterLoop(teamA, teamB, res.WinsA, _loopSize, res.FaintsA);
+                if (msg != null) mutationLog.Add($"[{labelA} vs {labelB} / loop{loop + 1}] {msg}");
+            }
+            if (bIsMeta)
+            {
+                var msg = MetaScenario.AdaptAfterLoop(teamB, teamA, res.WinsB, _loopSize, res.FaintsB);
+                if (msg != null) mutationLog.Add($"[{labelB} vs {labelA} / loop{loop + 1}] {msg}");
+            }
+        }
+
+        return new PairResult
+        {
+            WinsA = totalA, WinsB = totalB, Draws = totalDraws,
+            Undecided = totalUndecided, Cycles = allCycles,
+        };
+    }
+
+    private void RunMetaCore()
+    {
+        var hundred = MetaScenario.RegenerateHundred();
+        var metaTeams = MetaScenario.MetaIds.Select(id => hundred[id]).ToList();
+        var challengers = MetaScenario.GenerateChallengers(metaTeams, _challengerCount);
+
+        GD.Print($"[メタ] 3すくみ基準: {string.Join(", ", MetaScenario.MetaIds.Select(id => $"#{id}"))}");
+        GD.Print($"[メタ] 対抗構築 {challengers.Count}件（既存2/3体以上に有利な構築のみ）");
+        GD.Print($"[メタ] 1カード = {_loopSize}戦×{_loops}ループ = {_loopSize * _loops}戦");
+        GD.Print("");
+
+        var mutationLog = new List<string>();
+        var csvLines = new List<string>();
+
+        // 3すくみ内の3ペア。両陣営とも適応する。
+        for (int a = 0; a < metaTeams.Count; a++)
+        for (int b = a + 1; b < metaTeams.Count; b++)
+        {
+            string la = $"M{a}(#{MetaScenario.MetaIds[a]})", lb = $"M{b}(#{MetaScenario.MetaIds[b]})";
+            var res = RunAdaptivePair(metaTeams[a], true, metaTeams[b], true, mutationLog, la, lb);
+            csvLines.Add($"meta,{a},{b},{res.WinsA},{res.WinsB},{res.Draws},{res.Undecided},"
+                         + $"{string.Join('|', res.Cycles)}");
+            GD.Print($"[メタ] {la} vs {lb}: {res.WinsA}勝{res.WinsB}敗"
+                     + $"（分{res.Draws}/未決着{res.Undecided}）");
+        }
+
+        // 各メタ × 対抗構築30件。メタ側だけが適応する。
+        for (int m = 0; m < metaTeams.Count; m++)
+        {
+            string lm = $"M{m}(#{MetaScenario.MetaIds[m]})";
+            int mWins = 0, mLosses = 0;
+            for (int c = 0; c < challengers.Count; c++)
+            {
+                var res = RunAdaptivePair(metaTeams[m], true, challengers[c].Team, false,
+                    mutationLog, lm, $"C{c}");
+                csvLines.Add($"vs,{m},{c},{res.WinsA},{res.WinsB},{res.Draws},{res.Undecided},"
+                             + $"{string.Join('|', res.Cycles)}");
+                mWins += res.WinsA; mLosses += res.WinsB;
+            }
+            GD.Print($"[メタ] {lm} vs 対抗構築30件: 通算{mWins}勝{mLosses}敗"
+                     + $"（{challengers.Count * _loopSize * _loops}戦中）");
+        }
+
+        if (!string.IsNullOrEmpty(_outPath))
+        {
+            System.IO.File.WriteAllLines(_outPath, csvLines);
+            System.IO.File.WriteAllLines(_outPath + ".mutations.txt", mutationLog);
+
+            var metaManifest = metaTeams.Select((t, i) =>
+                $"M{i}(#{MetaScenario.MetaIds[i]}): " + string.Join(" / ", t.Entries.Select(e =>
+                    $"{e.SpeciesId}[{string.Join(",", e.MoveIds)}][{e.ItemId}]")));
+            System.IO.File.WriteAllLines(_outPath + ".meta_final.txt", metaManifest);
+
+            var challengerManifest = challengers.Select((c, i) =>
+                $"C{i} beats={{{string.Join(",", c.Beats.OrderBy(x => x))}}}: "
+                + string.Join(" / ", c.Team.Entries.Select(e => $"{e.SpeciesId}[{e.ItemId}]")));
+            System.IO.File.WriteAllLines(_outPath + ".challengers.txt", challengerManifest);
+        }
+
+        GD.Print("");
+        GD.Print($"[メタ] 適応イベント数: {mutationLog.Count}");
+        foreach (var line in mutationLog) GD.Print("  " + line);
+
+        GetTree().Quit();
+    }
+
+    // 対抗構築どうしの総当たり（静的、shard分割可）。
+    private void RunMetaChallengers()
+    {
+        var hundred = MetaScenario.RegenerateHundred();
+        var metaTeams = MetaScenario.MetaIds.Select(id => hundred[id]).ToList();
+        var challengers = MetaScenario.GenerateChallengers(metaTeams, _challengerCount)
+            .Select(c => c.Team).ToList();
+
+        var pairs = new List<(int I, int J)>();
+        for (int i = 0; i < challengers.Count; i++)
+            for (int j = i + 1; j < challengers.Count; j++)
+                pairs.Add((i, j));
+
+        var csvLines = new List<string>();
+        long done = 0;
+        long totalAssigned = pairs.Count(p => (p.I * challengers.Count + p.J) % _shardCount == _shardIndex);
+        var allCycles = new List<int>();
+        int repeat = _loopSize * _loops;   // 既定 5×4=20（--loop-size/--loops で調整）
+
+        foreach (var (i, j) in pairs)
+        {
+            if ((i * challengers.Count + j) % _shardCount != _shardIndex) continue;
+
+            int winI = 0, winJ = 0, draw = 0, undecided = 0;
+            var cycles = new List<int>();
+            for (int k = 0; k < repeat; k++)
+            {
+                bool iHome = k % 2 == 0;
+                var homeTeam = iHome ? challengers[i] : challengers[j];
+                var awayTeam = iHome ? challengers[j] : challengers[i];
+                var awayProfile = new NpcTeam
+                {
+                    Id = $"chal_{(iHome ? j : i)}", Name = "対抗構築の相手",
+                    MainType = "Neutral", Team = awayTeam,
+                };
+
+                var r = RunMatch(homeTeam, awayProfile, verbose: false);
+                cycles.Add(r.Cycles);
+                switch (r.Outcome)
+                {
+                    case BattleOutcome.PlayerWin: if (iHome) winI++; else winJ++; break;
+                    case BattleOutcome.EnemyWin: if (iHome) winJ++; else winI++; break;
+                    case BattleOutcome.Draw: draw++; break;
+                    default: undecided++; break;
+                }
+            }
+
+            allCycles.AddRange(cycles);
+            csvLines.Add($"{i},{j},{winI},{winJ},{draw},{undecided},{string.Join('|', cycles)}");
+
+            done++;
+            if (done % 50 == 0)
+                GD.Print($"[対抗構築] 担当ペア {done}/{totalAssigned} 完了");
+        }
+
+        if (!string.IsNullOrEmpty(_outPath))
+            System.IO.File.AppendAllLines(_outPath, csvLines);
+
+        GD.Print("");
+        GD.Print($"[結果] shard {_shardIndex}/{_shardCount}: 担当{csvLines.Count}ペア"
+                 + $"（{csvLines.Count * (long)repeat}試合）処理完了");
+        if (allCycles.Count > 0)
+            GD.Print($"[結果] 決着までのサイクル: 平均{allCycles.Average():F1} "
+                     + $"/ 最短{allCycles.Min()} / 最長{allCycles.Max()}");
+
+        GetTree().Quit();
     }
 
     private readonly struct MatchResult
@@ -378,6 +613,11 @@ public partial class BattleMatchScene : Node2D
         public int Cycles { get; init; }
         public int HomeBst { get; init; }   // 選出4匹の合計種族値（自陣）
         public int AwayBst { get; init; }   // 同・敵陣
+
+        // 選出され、実際に盤面に立った個体だけが入る（種族ID→生存かどうか）。
+        // §22の適応ロジック（弱点個体の特定）に使う——それ以外の呼び出しは無視してよい。
+        public IReadOnlyDictionary<string, bool> HomeAlive { get; init; }
+        public IReadOnlyDictionary<string, bool> AwayAlive { get; init; }
     }
 
     // 1試合。両陣営とも同じ判断ロジックで動かし、決着まで進める。
@@ -457,6 +697,10 @@ public partial class BattleMatchScene : Node2D
         {
             Outcome = flow.Outcome, Cycles = sched.CycleNumber,
             HomeBst = homeBst, AwayBst = awayBst,
+            HomeAlive = sched.Roster.Where(e => e.Faction == Faction.Player)
+                .ToDictionary(e => e.SpeciesId, e => e.IsAlive),
+            AwayAlive = sched.Roster.Where(e => e.Faction == Faction.Enemy)
+                .ToDictionary(e => e.SpeciesId, e => e.IsAlive),
         };
         if (System.Environment.GetEnvironmentVariable("BM_DEBUG") == "1")
             GD.Print($"[Match] cycles={sched.CycleNumber} submissions={submissions} outcome={flow.Outcome}");
