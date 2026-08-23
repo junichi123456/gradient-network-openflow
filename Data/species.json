@@ -32766,9 +32766,9 @@
   {
     "species_id": "186",
     "display_name": "リリクイン",
-    "base_hp": 120,
+    "base_hp": 105,
     "base_atk": 120,
-    "base_def": 110,
+    "base_def": 120,
     "base_exp_yield": 105,
     "sprite_key": "186",
     "default_visual_scale": 1.0,
