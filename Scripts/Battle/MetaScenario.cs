@@ -18,7 +18,12 @@ namespace MysteryDungeon.Battle;
 public static class MetaScenario
 {
     public const int StrongPoolSize = 60;       // §20と同じ、「強い構築」のプール
-    public const int ChallengerPoolSize = 150;  // 対抗構築は相性重視でより広いプールから探す
+    // 対抗構築は相性重視でより広いプールから探す。当初は種族値上位150種に
+    // 絞っていたが、AdvantageScore は種族値（HP/防御）を一切見ない
+    // （打点×相性だけの式）ので、種族値で足切りすると「相性は良いが
+    // 種族値は低い」構築——ヒットアンドアウェイが利く低種族値のパルなど
+    // ——を最初から候補から除外してしまう。全287種を対象にする。
+    public const int ChallengerPoolSize = 287;
     public const ulong Seed = 20260822UL;       // §20と同じ固定シード（3すくみの中身を再現するため）
 
     // 3すくみの内部ID（§21で判明した #66 → #53 → #30 の連鎖）。
