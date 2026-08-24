@@ -61,7 +61,7 @@
     "category": "template",
     "element": "Fire",
     "template_kind": "power",
-    "description": "同属性の味方の技威力+10%(重複不可)。"
+    "description": "同属性の味方の技威力+10%(重複不可)。天候がはれのとき、水属性の相手に対する自身の炎属性のわざの威力+10。"
   },
   {
     "id": "fire_guard",
@@ -109,7 +109,7 @@
     "category": "template",
     "element": "Water",
     "template_kind": "power",
-    "description": "同属性の味方の技威力+10%(重複不可)。"
+    "description": "同属性の味方の技威力+10%(重複不可)。天候があめのとき、自身の優先度+1。"
   },
   {
     "id": "water_guard",
@@ -157,7 +157,7 @@
     "category": "template",
     "element": "Grass",
     "template_kind": "power",
-    "description": "同属性の味方の技威力+10%(重複不可)。"
+    "description": "同属性の味方の技威力+10%(重複不可)。天候がはれのとき、自身が使用する草技の命中ランク+1。"
   },
   {
     "id": "grass_guard",
@@ -253,7 +253,7 @@
     "category": "template",
     "element": "Ground",
     "template_kind": "power",
-    "description": "同属性の味方の技威力+10%(重複不可)。"
+    "description": "同属性の味方の技威力+10%(重複不可)。天候がすなあらしのとき、自身の回避ランク+1。"
   },
   {
     "id": "ground_guard",
@@ -301,7 +301,7 @@
     "category": "template",
     "element": "Ice",
     "template_kind": "power",
-    "description": "同属性の味方の技威力+10%(重複不可)。"
+    "description": "同属性の味方の技威力+10%(重複不可)。天候がゆきのとき、対象範囲が部屋またはフロア全体の技に対する回避ランク+2。"
   },
   {
     "id": "ice_guard",
@@ -397,7 +397,7 @@
     "category": "template",
     "element": "Dark",
     "template_kind": "power",
-    "description": "同属性の味方の技威力+10%(重複不可)。"
+    "description": "同属性の味方の技威力+10%(重複不可)。天候がきりのとき、自分のターン終了時にHPを5%回復する。"
   },
   {
     "id": "dark_guard",

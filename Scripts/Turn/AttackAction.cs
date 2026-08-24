@@ -322,8 +322,11 @@ public class AttackAction : IAction
         // かげろうボディ: the same +1, but only while the weather is はれ.
         // Additive with クイックステップ - the rank ladder clamps the total,
         // so a holder of both is not a special case.
+        // 地のちから(すなあらし)/氷のちから(ゆき・部屋/全体技のみ)も同じ
+        // 加算枠へ畳む。条件は PowerTraitWeather に集約してある。
         int evasionBonus = (HasTrait(target, "quick_step") ? 1 : 0)
-            + (Weather == WeatherType.Sunny && HasTrait(target, "kagerou_body") ? 1 : 0);
+            + (Weather == WeatherType.Sunny && HasTrait(target, "kagerou_body") ? 1 : 0)
+            + PowerTraitWeather.EvasionBonus(target, move.Range, Weather);
 
         // IsGuaranteedHit bypasses the roll and the target's evasion rank.
         // じゆうのつばさ (stage 9 §1): +1 accuracy rank per OTHER Dragon-or-
@@ -331,6 +334,10 @@ public class AttackAction : IAction
         int accuracyBonus = HasTrait(_attacker, "jiyuu_no_tsubasa")
             ? Mathf.Min(2, PartyElementCensus.CountAlliesWithEitherType(_attacker, _floorController?.AllActors(), Element.Dragon, Element.Dark))
             : 0;
+
+        // 草のちから: はれの間、保持者自身が使う草技の命中ランク+1。
+        accuracyBonus += PowerTraitWeather.AccuracyBonus(
+            _attacker, EffectiveMoveType(_attacker, move), Weather);
 
         // ---- Weather, accuracy half ----
         // きょうふう: a Wind-tagged move can't miss. Treated exactly like the
@@ -651,6 +658,11 @@ public class AttackAction : IAction
         if (Weather == WeatherType.Fog && HasTrait(_attacker, "purple_haze")
             && effectiveType == "Dark" && move.Power <= PurpleHazePowerCap)
             powerFlatBuff += PurpleHazePowerBonus;
+
+        // 炎のちから: はれの間、水属性の相手に対する自分の炎技に +10。
+        // パープルヘイズと同じ「天候で条件が開く実効威力への定数加算」。
+        powerFlatBuff += PowerTraitWeather.FlatPowerBonus(
+            _attacker, target, effectiveType, Weather);
 
         // 発煙器官: +10 on ブレス/息系 moves (WeaponTag.Breath, populated in
         // moves.json for the 5 qualifying moves).

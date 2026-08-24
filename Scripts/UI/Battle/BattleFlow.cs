@@ -535,8 +535,11 @@ public partial class BattleFlow : Control
         var actor = mine[input.ActorIndex];
         if (!actor.IsAlive || _sched.HasActed(actor)) return default;
 
+        // 移動も「その個体が出す手」なので、個体に付く優先度（水のちから）は
+        // 技と同じように乗る。技が無いぶん move は null で渡す。
         if (input.IsMove)
-            return new BattleScheduler.Commitment(actor, new MoveAction(actor, input.Target), 0);
+            return new BattleScheduler.Commitment(actor, new MoveAction(actor, input.Target),
+                BattleScheduler.EffectivePriority(actor, null));
 
         if (input.MoveSlot >= actor.Moves.Slots.Count) return default;
         var slot = actor.Moves.Slots[input.MoveSlot];
@@ -552,7 +555,7 @@ public partial class BattleFlow : Control
         // マスに立っている個体から中心を引き直してはいけない。
         return new BattleScheduler.Commitment(
             actor, new AttackAction(actor, defender, slot, Floor, input.Target),
-            slot.Data?.Priority ?? 0);
+            BattleScheduler.EffectivePriority(actor, slot.Data));
     }
 
     public override void _Process(double delta)

@@ -103,6 +103,9 @@ public sealed class BattleScheduler
 
     // リジェネバンド(持続): 自分のターン終了時にHPを10%回復。
     // パージバンド(持続): 自分のターン終了時に全状態異常蓄積値を100減少。
+    // 闇のちから: 天候がきりの間、自分のターン終了時にHPを5%回復。
+    // ——持ち物と特性で条件の文言（「自分のターン終了時」）が同じなので、
+    // 同じ場所・同じ順で解決する。
     private static void ResolveTurnEndItems(Entity e)
     {
         if (!e.IsAlive) return;
@@ -119,7 +122,25 @@ public sealed class BattleScheduler
             e.StatusEffects.DecayAccumulation(100);
             GD.Print($"[Battle] {e.ActorName} パージバンドで蓄積値-100");
         }
+
+        float ratio = Combat.PowerTraitWeather.TurnEndHealRatio(
+            e, e.FloorController?.Weather?.Current ?? Dungeon.WeatherType.None);
+        if (ratio > 0f)
+        {
+            int heal = Math.Max(1, (int)(e.Stats.MaxHp * ratio));
+            e.Stats.Heal(heal);
+            GD.Print($"[Battle] {e.ActorName} 闇のちから(きり)でHP{heal}回復");
+        }
     }
+
+    // 行動順に使う実効優先度。技そのものの優先度に、天候で開く特性ぶんを足す。
+    //
+    // 水のちから: 天候があめの間、保持者の優先度+1。**技ではなく個体に付く**
+    // ので、その個体が出す手すべてが速くなる（移動も含む——移動の優先度0に
+    // 対しても同じように+1される）。
+    public static int EffectivePriority(Entity actor, Combat.MoveData move) =>
+        (move?.Priority ?? 0) + Combat.PowerTraitWeather.PriorityBonus(
+            actor, actor?.FloorController?.Weather?.Current ?? Dungeon.WeatherType.None);
 
     // 行動順。優先度が最初で、合計種族値はその次。どちらも同じならランダム。
     // 対戦仕様の中核なので、検証から直接叩けるように公開している。

@@ -429,6 +429,7 @@ public partial class BattleTestScene : Node2D
         VerifyAoeAim();
         VerifyTurnOrder();
         VerifyEntryWeather();
+        VerifyPowerTraitWeather();
 
         var headbutt = MoveDatabase.Get("MV_140");
         GD.Print($"[検証] ヘッドバットの優先度: {headbutt?.Priority} (期待 1)");
@@ -477,6 +478,77 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 対戦開始の天候は低種族値側が勝つ: "
                  + $"{(a == WeatherType.Snow && b == WeatherType.Snow ? "OK" : "NG")} "
                  + $"(高種族値を先に立てた場合 {a} / 後に立てた場合 {b}、期待 Snow)");
+    }
+
+    // 「〇〇のちから」6種に付いた天候効果（§27）。条件判定は
+    // PowerTraitWeather に括り出してあるので、天候と特性を渡して戻り値を
+    // 見るだけで乱数なしに確かめられる——命中ランク・回避ランクは命中判定の
+    // 乱数の奥にあり、実際に撃たせて数えるとブレるため。
+    //
+    // 「効く条件で効く」と「効かない条件で効かない」を必ず対で見る。片方だけ
+    // だと、天候を無視して常に発動する実装が通ってしまう。
+    private void VerifyPowerTraitWeather()
+    {
+        var player = _sched.Roster.First(e => e.Faction == Faction.Player);
+        var foe = _sched.Roster.First(e => e.Faction == Faction.Enemy);
+        string savedP = player.Stats.Trait, savedF = foe.Stats.Trait;
+        string savedT1 = foe.Stats.Type1, savedT2 = foe.Stats.Type2;
+
+        void Check(string label, bool ok, string detail)
+            => GD.Print($"[検証] {label}: {(ok ? "OK" : "NG")} ({detail})");
+
+        // 闇のちから: きりのとき自分のターン終了時にHP5%回復。
+        player.Stats.Trait = Combat.PowerTraitWeather.Dark;
+        float fog = Combat.PowerTraitWeather.TurnEndHealRatio(player, WeatherType.Fog);
+        float sunnyHeal = Combat.PowerTraitWeather.TurnEndHealRatio(player, WeatherType.Sunny);
+        Check("闇のちから きりでターン終了時5%回復", fog == 0.05f && sunnyHeal == 0f,
+              $"きり{fog:P0} / はれ{sunnyHeal:P0}");
+
+        // 炎のちから: はれのとき水属性の相手への炎技+10。
+        player.Stats.Trait = Combat.PowerTraitWeather.Fire;
+        foe.Stats.Type1 = "Water"; foe.Stats.Type2 = null;
+        float vsWater = Combat.PowerTraitWeather.FlatPowerBonus(player, foe, "Fire", WeatherType.Sunny);
+        float vsWaterRain = Combat.PowerTraitWeather.FlatPowerBonus(player, foe, "Fire", WeatherType.Rain);
+        float grassMove = Combat.PowerTraitWeather.FlatPowerBonus(player, foe, "Grass", WeatherType.Sunny);
+        foe.Stats.Type1 = "Fire";
+        float vsFire = Combat.PowerTraitWeather.FlatPowerBonus(player, foe, "Fire", WeatherType.Sunny);
+        Check("炎のちから はれ×水相手の炎技+10",
+              vsWater == 10f && vsWaterRain == 0f && grassMove == 0f && vsFire == 0f,
+              $"水相手{vsWater} / あめ{vsWaterRain} / 草技{grassMove} / 炎相手{vsFire}");
+
+        // 水のちから: あめのとき優先度+1（技だけでなく移動にも乗る）。
+        player.Stats.Trait = Combat.PowerTraitWeather.Water;
+        int rain = Combat.PowerTraitWeather.PriorityBonus(player, WeatherType.Rain);
+        int snow = Combat.PowerTraitWeather.PriorityBonus(player, WeatherType.Snow);
+        Check("水のちから あめで優先度+1", rain == 1 && snow == 0, $"あめ+{rain} / ゆき+{snow}");
+
+        // 草のちから: はれのとき自分の草技の命中ランク+1。
+        player.Stats.Trait = Combat.PowerTraitWeather.Grass;
+        int gSunny = Combat.PowerTraitWeather.AccuracyBonus(player, "Grass", WeatherType.Sunny);
+        int gOther = Combat.PowerTraitWeather.AccuracyBonus(player, "Fire", WeatherType.Sunny);
+        int gRain = Combat.PowerTraitWeather.AccuracyBonus(player, "Grass", WeatherType.Rain);
+        Check("草のちから はれで草技の命中ランク+1",
+              gSunny == 1 && gOther == 0 && gRain == 0, $"はれ草+{gSunny} / はれ炎+{gOther} / あめ草+{gRain}");
+
+        // 地のちから: すなあらしのとき回避ランク+1（技の射程を問わない）。
+        foe.Stats.Trait = Combat.PowerTraitWeather.Ground;
+        int sand = Combat.PowerTraitWeather.EvasionBonus(foe, MoveRange.Adjacent, WeatherType.Sandstorm);
+        int sandOff = Combat.PowerTraitWeather.EvasionBonus(foe, MoveRange.Adjacent, WeatherType.Snow);
+        Check("地のちから すなあらしで回避ランク+1", sand == 1 && sandOff == 0,
+              $"すなあらし+{sand} / ゆき+{sandOff}");
+
+        // 氷のちから: ゆきのとき**部屋/全体技に対してだけ**回避ランク+2。
+        foe.Stats.Trait = Combat.PowerTraitWeather.Ice;
+        int room = Combat.PowerTraitWeather.EvasionBonus(foe, MoveRange.Room, WeatherType.Snow);
+        int full = Combat.PowerTraitWeather.EvasionBonus(foe, MoveRange.FullFloor, WeatherType.Snow);
+        int area = Combat.PowerTraitWeather.EvasionBonus(foe, MoveRange.Area, WeatherType.Snow);
+        int adj = Combat.PowerTraitWeather.EvasionBonus(foe, MoveRange.Room, WeatherType.Sunny);
+        Check("氷のちから ゆきで部屋/全体技に回避ランク+2",
+              room == 2 && full == 2 && area == 0 && adj == 0,
+              $"部屋+{room} / 全体+{full} / 範囲+{area} / はれ部屋+{adj}");
+
+        player.Stats.Trait = savedP; foe.Stats.Trait = savedF;
+        foe.Stats.Type1 = savedT1; foe.Stats.Type2 = savedT2;
     }
 
     // 範囲技の着弾中心。**指定した空マスへ落ちる**ことを確かめる。
@@ -1257,6 +1329,7 @@ public partial class BattleTestScene : Node2D
         actor.FaceDirection(delta);
 
         var action = new AttackAction(actor, target, slot, _floor);
-        return new BattleScheduler.Commitment(actor, action, slot.Data.Priority);
+        return new BattleScheduler.Commitment(
+            actor, action, BattleScheduler.EffectivePriority(actor, slot.Data));
     }
 }
