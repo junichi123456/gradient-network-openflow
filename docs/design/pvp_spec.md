@@ -1563,3 +1563,31 @@ C5のように種族値合計200台のパルを中心にしても上位に食い
 見た事前予測は今回も実戦の勝率を的中させられなかったが、**種族値の
 低いパルでも、生存を優先する行動判断と組み合わせれば上位に食い込める**
 ——という、ユーザーの仮説を支持する結果が出た。
+
+---
+
+## 24. データ確認用Artifact（species/moves の変更に追随させる）
+
+`Data/species.json`・`Data/moves.json` を眺めるための参照ツールを2つ、
+Artifactとして公開している。**learnsetや個体の性能（種族値・技）を
+変更したら、都度この2つを最新化する。**
+
+| Artifact | URL | 何を映すか |
+|---|---|---|
+| learnset インスペクタ | `.../artifact/188eb9b1-d49d-4c39-bf77-895a30185e99` | 287種の種族値・learnset・技の到達性 |
+| 技データベース エディタ | `.../artifact/975b54fe-5c46-4597-ae30-26d694ac3eb2` | moves.json 582技の一覧・絞り込み |
+
+生成元は `Tools/artifacts/`（テンプレートと、そこから作った最新版の両方を
+リポジトリにコミットしてある——scratchpad依存だとセッションをまたいで
+消える）。
+
+```
+python3 Tools/build_ls_payload.py      # species.json/moves.json → learnset_viewer.html
+python3 Tools/refresh_move_editor.py   # moves.json → move_editor.html（moves.json自体を変えたときだけ要る）
+```
+
+その後、Artifact publish で `Tools/artifacts/learnset_viewer.html` /
+`Tools/artifacts/move_editor.html` を上表のURLへ（`url` パラメータ指定で）
+再公開する。species.json のlearnset差し替え（技IDを別の技に振り替えるだけ）
+は `build_ls_payload.py` だけで足り、`refresh_move_editor.py` は
+moves.json自体（技の威力・命中・射程など）を変更したときだけ要る。

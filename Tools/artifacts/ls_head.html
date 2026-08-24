@@ -1,0 +1,187 @@
+<title>learnset インスペクタ — 287種</title>
+<style>
+:root{
+  --ground:#f2f4f2; --surface:#ffffff; --surface-2:#e8ebe8; --sunk:#e2e6e2;
+  --ink:#191c21; --ink-2:#48525d; --muted:#6c7683; --line:#dadfda; --line-2:#c4cac5;
+  --brass:#8a5f16; --brass-bg:#f2e7d0;
+  --el-mu:#7c848d; --el-hi:#c24a26; --el-mi:#2073b8; --el-ku:#3f8c3c; --el-de:#a08016;
+  --el-ti:#8a6b3f; --el-ko:#33899d; --el-ry:#6b4bb5; --el-ya:#5d4f70;
+  --f-ui:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic Medium",sans-serif;
+  --f-num:ui-monospace,SFMono-Regular,Menlo,Consolas,"Noto Sans Mono",monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#13161a; --surface:#1b1f25; --surface-2:#232831; --sunk:#171b20;
+    --ink:#e5e9ee; --ink-2:#b2bcc7; --muted:#8a95a2; --line:#2a2f37; --line-2:#3a414b;
+    --brass:#d9ab52; --brass-bg:#332a17;
+    --el-mu:#a3abb4; --el-hi:#e8734b; --el-mi:#5aa6e0; --el-ku:#6cbf68; --el-de:#d8b53a;
+    --el-ti:#c09a63; --el-ko:#5fc0d4; --el-ry:#a084e8; --el-ya:#9b87b5;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#13161a; --surface:#1b1f25; --surface-2:#232831; --sunk:#171b20;
+  --ink:#e5e9ee; --ink-2:#b2bcc7; --muted:#8a95a2; --line:#2a2f37; --line-2:#3a414b;
+  --brass:#d9ab52; --brass-bg:#332a17;
+  --el-mu:#a3abb4; --el-hi:#e8734b; --el-mi:#5aa6e0; --el-ku:#6cbf68; --el-de:#d8b53a;
+  --el-ti:#c09a63; --el-ko:#5fc0d4; --el-ry:#a084e8; --el-ya:#9b87b5;
+}
+
+body{background:var(--ground);color:var(--ink);font-family:var(--f-ui);
+     font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1500px;margin:0 auto;padding:22px 20px 60px;display:flex;flex-direction:column;gap:18px;min-width:0}
+
+.masthead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;
+          padding-bottom:14px;border-bottom:2px solid var(--ink)}
+h1{font-size:19px;font-weight:650;letter-spacing:.01em;margin:0}
+.sub{color:var(--muted);font-size:12.5px}
+.tally{margin-left:auto;display:flex;flex-wrap:wrap;gap:6px 16px;font-family:var(--f-num);font-size:12px;
+       font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.tally b{color:var(--ink);font-weight:600}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;min-width:0}
+.panel-h{padding:9px 13px;border-bottom:1px solid var(--line);display:flex;
+         align-items:center;gap:10px;flex-wrap:wrap}
+.panel-t{font-size:11px;font-weight:650;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+
+/* ---- reachability strip ---- */
+.bands{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:1px;
+       background:var(--line);border-radius:0 0 4px 4px;overflow:hidden}
+.band{background:var(--surface);padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.band-l{font-family:var(--f-num);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.band-v{font-family:var(--f-num);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.meter{height:4px;background:var(--sunk);border-radius:2px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--el-ku)}
+.meter.part i{background:var(--el-de)}
+.meter.none i{background:var(--el-hi)}
+
+/* ---- filters ---- */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input[type=search],select{font:inherit;font-size:13px;color:var(--ink);background:var(--surface);
+  border:1px solid var(--line-2);border-radius:3px;padding:5px 9px}
+input[type=search]{min-width:190px}
+input:focus-visible,select:focus-visible,button:focus-visible,.row:focus-visible{
+  outline:2px solid var(--brass);outline-offset:1px}
+.chipset{display:flex;gap:4px;flex-wrap:wrap}
+.chip{font:inherit;font-size:12px;padding:4px 9px;border:1px solid var(--line-2);
+      background:var(--surface);color:var(--ink-2);border-radius:99px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.count{margin-left:auto;font-family:var(--f-num);font-size:12px;color:var(--muted);
+       font-variant-numeric:tabular-nums}
+
+/* ---- two pane ---- */
+.pane{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:900px){.pane{grid-template-columns:1fr}}
+
+.list{max-height:70vh;overflow-y:auto;overflow-x:hidden}
+.row{display:grid;grid-template-columns:38px 1fr auto;gap:9px;align-items:center;
+     padding:7px 12px;border-bottom:1px solid var(--line);cursor:pointer;width:100%;
+     text-align:left;background:none;border-left:0;border-right:0;border-top:0;
+     font:inherit;color:inherit}
+.row:hover{background:var(--surface-2)}
+.row[aria-current="true"]{background:var(--brass-bg)}
+.row-id{font-family:var(--f-num);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.row-n{font-size:13.5px;display:flex;align-items:center;gap:6px;min-width:0}
+.row-n span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row-r{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.bst{font-family:var(--f-num);font-size:11.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.bstbar{width:44px;height:3px;background:var(--sunk);border-radius:2px;overflow:hidden}
+.bstbar i{display:block;height:100%;background:var(--ink-2)}
+
+/* 狭い画面では一覧の右側を落として、本文が横スクロールしないようにする */
+@media (max-width:520px){
+  .bstbar{display:none}
+  .row{grid-template-columns:32px minmax(0,1fr) auto;gap:6px;padding:7px 9px}
+  .row-r{gap:5px}
+  .pf{font-size:9.5px;padding:1px 4px}
+  .wrap{padding:16px 12px 48px}
+}
+
+.el{font-size:10.5px;font-weight:650;padding:1px 5px;border-radius:2px;line-height:1.5;
+    border:1px solid currentColor}
+.el.mu{color:var(--el-mu)} .el.hi{color:var(--el-hi)} .el.mi{color:var(--el-mi)}
+.el.ku{color:var(--el-ku)} .el.de{color:var(--el-de)} .el.ti{color:var(--el-ti)}
+.el.ko{color:var(--el-ko)} .el.ry{color:var(--el-ry)} .el.ya{color:var(--el-ya)}
+
+.pf{font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:2px;
+    background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
+
+/* ---- detail ---- */
+.dh{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;min-width:0;
+    flex-wrap:wrap;gap:12px 22px;align-items:flex-start}
+.dh-name{font-size:17px;font-weight:650;display:flex;align-items:center;gap:8px}
+.stats{display:flex;flex-wrap:wrap;gap:8px 16px;font-family:var(--f-num);font-size:12px;
+       font-variant-numeric:tabular-nums;min-width:0}
+.stats div{display:flex;flex-direction:column;gap:1px}
+.stats dt{font-size:10px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.stats dd{margin:0;font-size:14px;font-weight:600}
+.trait{flex-basis:100%;font-size:12.5px;color:var(--ink-2);border-left:2px solid var(--brass);
+       padding-left:10px}
+.trait b{color:var(--ink);font-weight:600}
+
+.tblwrap{overflow-x:auto;max-height:62vh;overflow-y:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+thead th{position:sticky;top:0;background:var(--surface);z-index:1;
+         font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+         font-weight:650;text-align:left;padding:7px 10px;border-bottom:1px solid var(--line-2);
+         white-space:nowrap}
+tbody td{padding:5px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr:hover{background:var(--surface-2)}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.lv{color:var(--brass);font-weight:600}
+.cat{font-family:var(--f-num);font-size:11px;font-weight:600}
+.cat.P{color:var(--el-hi)} .cat.S{color:var(--el-mi)} .cat.T{color:var(--muted)}
+.tag{font-size:10.5px;color:var(--muted)}
+.sig{color:var(--brass);font-weight:650}
+.shr{font-family:var(--f-num);font-size:11px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.shr.hot{color:var(--el-hi)}
+.empty{padding:34px 16px;color:var(--muted);text-align:center}
+.note{font-size:12px;color:var(--muted);line-height:1.6}
+.note b{color:var(--ink-2);font-weight:600}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <h1>learnset インスペクタ</h1>
+    <span class="sub">Data/species.json &middot; 全287種</span>
+    <div class="tally" id="tally"></div>
+  </header>
+
+  <section class="panel">
+    <div class="panel-h">
+      <span class="panel-t">威力帯の到達性</span>
+      <span class="note">その威力帯の技のうち、実際に誰かが習得できるものの割合</span>
+    </div>
+    <div class="bands" id="bands"></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-h filters">
+      <input type="search" id="q" placeholder="種族名・技名で検索" aria-label="検索">
+      <div class="chipset" id="els"></div>
+      <div class="chipset" id="pfs"></div>
+      <span class="count" id="count"></span>
+    </div>
+  </section>
+
+  <div class="pane">
+    <section class="panel">
+      <div class="panel-h"><span class="panel-t">種族</span>
+        <select id="sort" aria-label="並び順">
+          <option value="id">図鑑番号順</option>
+          <option value="bst">種族値合計が高い順</option>
+          <option value="mx">最大威力が高い順</option>
+          <option value="st">変化技が多い順</option>
+          <option value="nt">攻撃属性が多い順</option>
+          <option value="ad">特性適応技が少ない順</option>
+        </select>
+      </div>
+      <div class="list" id="list"></div>
+    </section>
+
+    <section class="panel">
+      <div id="detail"></div>
+    </section>
+  </div>
+</div>
+
+<script id="payload" type="application/json">

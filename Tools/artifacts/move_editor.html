@@ -1,0 +1,1065 @@
+<title>技データベース エディタ</title>
+
+<style>
+  .ed{
+    color-scheme:light;
+    --plane:#f7f7f5; --surface:#fff; --sunk:#f2f1ee;
+    --ink:#111110; --ink-2:#55544f; --ink-muted:#8b8981;
+    --line:#e3e2dc; --line-2:#cecdc5;
+    --accent:#2a68c4; --accent-soft:#e8f0fb;
+    --phys:#2a78d6; --spec:#eb6834; --stat:#1baf7a;
+    --warn:#b3540f; --warn-bg:#fdf1e5;
+    --dirty:#8a6d00; --dirty-bg:#fdf6dd;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:where(:not([data-theme="light"])) .ed{
+      color-scheme:dark;
+      --plane:#101010; --surface:#1b1b1a; --sunk:#232322;
+      --ink:#f5f5f2; --ink-2:#c1c0b8; --ink-muted:#8b8981;
+      --line:#2e2e2b; --line-2:#3d3d39;
+      --accent:#5a9bef; --accent-soft:#16283f;
+      --phys:#3987e5; --spec:#d95926; --stat:#199e70;
+      --warn:#f0a35e; --warn-bg:#2e2113;
+      --dirty:#e8c95a; --dirty-bg:#2b2617;
+    }
+  }
+  :root[data-theme="dark"] .ed{
+    color-scheme:dark;
+    --plane:#101010; --surface:#1b1b1a; --sunk:#232322;
+    --ink:#f5f5f2; --ink-2:#c1c0b8; --ink-muted:#8b8981;
+    --line:#2e2e2b; --line-2:#3d3d39;
+    --accent:#5a9bef; --accent-soft:#16283f;
+    --phys:#3987e5; --spec:#d95926; --stat:#199e70;
+    --warn:#f0a35e; --warn-bg:#2e2113;
+    --dirty:#e8c95a; --dirty-bg:#2b2617;
+  }
+
+  .ed{
+    background:var(--plane); color:var(--ink); min-height:100%;
+    font-family:system-ui,-apple-system,"Segoe UI","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+    font-size:14px; line-height:1.55;
+  }
+  .ed *{box-sizing:border-box}
+  .shell{max-width:1240px;margin:0 auto;padding:22px 16px 90px;display:flex;flex-direction:column;gap:14px}
+
+  /* ---- header ---- */
+  .top{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px}
+  .top h1{font-size:21px;font-weight:670;letter-spacing:-.01em;margin:0}
+  .top .meta{font-size:12.5px;color:var(--ink-muted);font-variant-numeric:tabular-nums}
+  .top .spacer{flex:1}
+  .btn{
+    font:inherit;font-size:13px;font-weight:560;color:var(--ink);background:var(--surface);
+    border:1px solid var(--line-2);border-radius:7px;padding:7px 13px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  }
+  .btn:hover{background:var(--sunk)}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primary:hover{filter:brightness(1.08)}
+  .btn.ghost{border-color:transparent;background:transparent;color:var(--ink-2)}
+  .btn.ghost:hover{background:var(--sunk)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+
+  .dirty-pill{
+    font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;
+    background:var(--dirty-bg);color:var(--dirty);border:1px solid currentColor;
+  }
+
+  /* ---- tabs ---- */
+  .tabs{display:flex;gap:2px;border-bottom:1px solid var(--line)}
+  .tab{
+    font:inherit;font-size:13.5px;font-weight:580;color:var(--ink-2);background:none;border:0;
+    padding:9px 15px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;
+  }
+  .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+  .tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:4px 4px 0 0}
+
+  /* ---- filters ---- */
+  .filters{
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 15px;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:11px 14px;
+  }
+  .f{display:flex;flex-direction:column;gap:4px;min-width:0}
+  .f > label{font-size:11px;font-weight:620;letter-spacing:.04em;color:var(--ink-muted)}
+  .f input,.f select{
+    font:inherit;font-size:13px;color:var(--ink);background:var(--surface);
+    border:1px solid var(--line-2);border-radius:6px;padding:5px 8px;width:100%;min-width:0;
+  }
+  .f input:focus-visible,.f select:focus-visible{outline:2px solid var(--accent);outline-offset:-1px}
+  .f .pair{display:flex;align-items:center;gap:5px}
+  .f .pair input{width:100%}
+  .f .pair span{color:var(--ink-muted);font-size:12px}
+  .chks{display:flex;flex-wrap:wrap;gap:4px}
+  .chk{
+    font-size:12px;padding:3px 9px;border-radius:20px;border:1px solid var(--line-2);
+    background:var(--surface);color:var(--ink-2);cursor:pointer;user-select:none;
+  }
+  .chk[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+  .chk:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+  .filter-foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .result{font-size:12.5px;color:var(--ink-muted);font-variant-numeric:tabular-nums}
+
+  /* ---- table ---- */
+  .tablewrap{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:auto;max-height:70vh}
+  table{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;min-width:1050px}
+  thead th{
+    position:sticky;top:0;z-index:2;background:var(--surface);
+    font-size:11px;font-weight:620;color:var(--ink-muted);text-align:right;
+    padding:8px 9px;border-bottom:1px solid var(--line-2);white-space:nowrap;cursor:pointer;user-select:none;
+  }
+  thead th.l{text-align:left}
+  thead th:hover{color:var(--ink)}
+  thead th[aria-sort]:not([aria-sort="none"]){color:var(--accent)}
+  thead th .arrow{font-size:9px;margin-left:3px}
+  tbody td{padding:6px 9px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}
+  tbody td.l{text-align:left;font-variant-numeric:normal}
+  tbody tr{cursor:pointer}
+  tbody tr:hover td{background:var(--sunk)}
+  tbody tr.dirty td:first-child{box-shadow:inset 3px 0 0 var(--dirty)}
+  .cat{display:inline-block;min-width:2.4em;text-align:center;border-radius:4px;color:#fff;font-size:11px;font-weight:650;padding:1px 5px}
+  .c物理{background:var(--phys)} .c特殊{background:var(--spec)} .c変化{background:var(--stat)}
+  .tag{font-size:11px;padding:1px 7px;border-radius:20px;background:var(--sunk);border:1px solid var(--line-2);color:var(--ink-2)}
+  .tag.custom{background:var(--warn-bg);border-color:var(--warn);color:var(--warn)}
+  .muted{color:var(--ink-muted)}
+
+  /* ---- inline editor (expands under the tapped row) ---- */
+  tbody tr.open td{background:var(--accent-soft)}
+  tr.editrow > td{padding:0;background:var(--sunk);border-bottom:2px solid var(--line-2);
+                  text-align:left;font-variant-numeric:normal;white-space:normal}
+  /* sticky+left keeps the panel on screen even when the wide table is
+     scrolled horizontally, so it never slides out of view on a phone. */
+  .editor{position:sticky;left:0;width:min(880px,92vw);padding:15px 16px 14px;
+          display:flex;flex-direction:column;gap:14px}
+  .editor h3{font-size:11px;font-weight:640;letter-spacing:.06em;color:var(--ink-muted);
+             margin:0 0 7px;text-transform:uppercase}
+  .grp{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:11px 13px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:9px 14px}
+  .row{display:grid;grid-template-columns:96px 1fr;align-items:center;gap:8px;min-width:0}
+  .row.wide{grid-column:span 2}
+  .row > label{font-size:12px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row input,.row select{
+    font:inherit;font-size:13px;color:var(--ink);background:var(--surface);
+    border:1px solid var(--line-2);border-radius:6px;padding:5px 7px;width:100%;min-width:0;
+  }
+  .row input:focus-visible,.row select:focus-visible{outline:2px solid var(--accent);outline-offset:-1px}
+  .row input[type=checkbox]{width:16px;height:16px;justify-self:start}
+  .jsonfield{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.45;
+    width:100%;resize:vertical;color:var(--ink);background:var(--sunk);
+    border:1px solid var(--line-2);border-radius:6px;padding:6px 8px;white-space:pre;
+  }
+  .jsonfield:focus-visible{outline:2px solid var(--accent);outline-offset:-1px}
+  .editor .hint code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;
+                     background:var(--sunk);border-radius:4px;padding:1px 4px}
+  .editor .hint{margin-top:8px}
+
+  .editor .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .editor .acts .sp{flex:1}
+  .btn.danger{background:var(--warn);border-color:var(--warn);color:#fff}
+  .btn.danger:hover{filter:brightness(1.08)}
+  .confirmbar{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;
+    background:var(--warn-bg);border:1px solid var(--warn);border-radius:8px;padding:8px 11px;
+  }
+  .confirmbar span{font-size:12.5px;color:var(--warn);font-weight:560}
+
+  /* ---- output panel (export target) ---- */
+  /* Any explicit display: wins over the UA rule behind the hidden attribute,
+     so restate it - otherwise #outPanel is stuck open from first paint. */
+  [hidden]{display:none !important}
+  #outPanel{background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:14px 16px;
+            display:flex;flex-direction:column;gap:10px}
+  #outPanel .oHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  #outPanel .oHead strong{font-size:14px}
+  #outPanel .oHead .sp{flex:1}
+  #outText{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.45;
+    width:100%;height:230px;resize:vertical;color:var(--ink);background:var(--sunk);
+    border:1px solid var(--line-2);border-radius:7px;padding:9px 10px;white-space:pre;
+  }
+  #outText:focus-visible{outline:2px solid var(--accent);outline-offset:-1px}
+  .hint{font-size:12px;color:var(--ink-2)}
+
+  .note{font-size:12px;color:var(--warn);background:var(--warn-bg);border:1px solid var(--warn);border-radius:7px;padding:8px 10px}
+
+  /* ---- tags view ---- */
+  .taglist{display:flex;flex-direction:column;gap:8px}
+  .tagcard{
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 15px;
+    display:grid;grid-template-columns:140px 1fr auto;gap:12px;align-items:center;
+  }
+  .tagcard input{
+    font:inherit;font-size:13px;color:var(--ink);background:var(--surface);
+    border:1px solid var(--line-2);border-radius:6px;padding:5px 8px;width:100%;
+  }
+  .tagcard input:focus-visible{outline:2px solid var(--accent);outline-offset:-1px}
+  .tagcard .use{font-size:12px;color:var(--ink-muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .tagcard.builtin{background:var(--sunk)}
+  .badge{font-size:10.5px;padding:1px 7px;border-radius:20px;border:1px solid var(--line-2);color:var(--ink-muted);white-space:nowrap}
+  .badge.new{border-color:var(--warn);color:var(--warn);background:var(--warn-bg)}
+  .addrow{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+  .addrow .f{flex:1 1 150px}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .card h3{font-size:13.5px;font-weight:640;margin:0 0 8px}
+  .card p{margin:0 0 8px;font-size:13px;color:var(--ink-2)}
+  .card p:last-child{margin-bottom:0}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:var(--sunk);padding:1px 5px;border-radius:4px}
+
+  .toast{
+    position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(8px);z-index:60;
+    background:var(--ink);color:var(--plane);font-size:13px;padding:9px 16px;border-radius:8px;
+    opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;
+  }
+  .toast.on{opacity:1;transform:translateX(-50%)}
+
+  @media (prefers-reduced-motion:reduce){ .toast{transition:none} }
+  /* Two editor columns need ~380px of panel to stay legible; below that the
+     inner inputs collapse to ~80px and the labels win the space war. Drop to
+     one column rather than shrink further. */
+  @media (max-width:560px){
+    .grid{grid-template-columns:1fr}
+    .row.wide{grid-column:span 1}
+    .row{grid-template-columns:88px 1fr}
+    .tagcard{grid-template-columns:1fr;gap:8px}
+    .editor{width:min(880px,94vw);padding:12px 12px 12px}
+  }
+</style>
+
+<div class="ed"><div class="shell">
+
+  <div class="top">
+    <div>
+      <h1>技データベース エディタ</h1>
+      <div class="meta" id="meta"></div>
+    </div>
+    <div class="spacer"></div>
+    <span class="dirty-pill" id="dirtyPill" hidden></span>
+    <button class="btn ghost" id="btnRevert" disabled>変更を破棄</button>
+    <button class="btn" id="btnTags">weapon_tags.json</button>
+    <button class="btn primary" id="btnExport">moves.json を書き出す</button>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tabMoves" aria-selected="true">技リスト</button>
+    <button class="tab" role="tab" id="tabTags" aria-selected="false">ウェポンタグ</button>
+  </div>
+
+  <section id="outPanel" hidden>
+    <div class="oHead">
+      <strong id="outName">moves.json</strong>
+      <span class="hint" id="outMeta"></span>
+      <span class="sp"></span>
+      <button class="btn primary" id="outCopy">全文をコピー</button>
+      <button class="btn" id="outDownload">ファイルとして保存</button>
+      <button class="btn ghost" id="outClose">閉じる</button>
+    </div>
+    <textarea id="outText" readonly spellcheck="false"></textarea>
+    <p class="hint" id="outHint"></p>
+  </section>
+
+  <!-- ============ MOVES ============ -->
+  <section id="viewMoves" style="display:flex;flex-direction:column;gap:12px">
+
+    <div class="filters">
+      <div class="f"><label for="fq">検索（技名 / ID）</label><input type="search" id="fq" placeholder="ぐれんげき / MVP_021"></div>
+
+      <div class="f"><label>分類</label><div class="chks" id="fCat"></div></div>
+      <div class="f"><label>属性</label><div class="chks" id="fType"></div></div>
+
+      <div class="f"><label for="fRange">対象範囲</label><select id="fRange"></select></div>
+      <div class="f"><label for="fTag">ウェポンタグ</label><select id="fTag"></select></div>
+
+      <div class="f"><label for="fContact">接触判定</label><select id="fContact">
+        <option value="">指定なし</option><option value="1">接触技のみ</option><option value="0">非接触のみ</option></select></div>
+
+      <div class="f"><label for="fAil">追加効果（状態異常）</label><select id="fAil">
+        <option value="">指定なし</option><option value="1">あり</option><option value="0">なし</option></select></div>
+
+      <div class="f"><label for="fAilKind">状態異常の種類</label><select id="fAilKind"></select></div>
+
+      <div class="f"><label for="fRank">ランク変化</label><select id="fRank">
+        <option value="">指定なし</option><option value="1">あり</option><option value="0">なし</option></select></div>
+
+      <div class="f"><label for="fMulti">多段ヒット</label><select id="fMulti">
+        <option value="">指定なし</option><option value="1">あり</option><option value="0">なし</option>
+        <option value="Variable2To5">2〜5発</option><option value="RepeatPerHit">発ごと命中</option></select></div>
+
+      <div class="f"><label for="fExtra">その他の効果</label><select id="fExtra">
+        <option value="">指定なし</option>
+        <option value="recoil">反動あり</option><option value="drain">ドレインあり</option>
+        <option value="crit">急所ランク+</option><option value="guaranteed">必中</option>
+        <option value="dragon">ダメージ倍率あり</option><option value="field">設置技</option>
+        <option value="selfdeath">自滅</option><option value="selfstun">使用後スタン</option></select></div>
+
+      <div class="f"><label>威力</label><div class="pair">
+        <input type="number" id="fPwMin" placeholder="下限" min="0"><span>〜</span><input type="number" id="fPwMax" placeholder="上限" min="0"></div></div>
+
+      <div class="f"><label>命中率</label><div class="pair">
+        <input type="number" id="fAcMin" placeholder="下限" min="0" max="100"><span>〜</span><input type="number" id="fAcMax" placeholder="上限" min="0" max="100"></div></div>
+
+      <div class="f"><label>PP</label><div class="pair">
+        <input type="number" id="fPpMin" placeholder="下限" min="0"><span>〜</span><input type="number" id="fPpMax" placeholder="上限" min="0"></div></div>
+    </div>
+
+    <div class="filter-foot">
+      <button class="btn ghost" id="btnClear">絞込みを解除</button>
+      <span class="result" id="result"></span>
+      <span class="spacer" style="flex:1"></span>
+      <button class="btn" id="btnNew">技を新規追加</button>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr id="head"></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ TAGS ============ -->
+  <section id="viewTags" style="display:none;flex-direction:column;gap:12px">
+    <div class="card">
+      <h3>ウェポンタグとは</h3>
+      <p>
+        特性「いっせん」（斬る系の与ダメージ+10%）と「ツメのかりうど」（ツメ・こぶし系+10%）、
+        「発煙器官」（ブレス/息系の威力+10）が参照する技のグループです。
+      </p>
+      <p class="note" id="tagWarn" hidden></p>
+    </div>
+
+    <div class="card">
+      <h3>タグを追加</h3>
+      <div class="addrow">
+        <div class="f"><label for="ntId">ID（英数字）</label><input id="ntId" placeholder="Pierce"></div>
+        <div class="f"><label for="ntName">表示名</label><input id="ntName" placeholder="貫く系"></div>
+        <div class="f"><label for="ntNote">説明</label><input id="ntNote" placeholder="突き技のグループ"></div>
+        <button class="btn primary" id="btnAddTag">追加</button>
+      </div>
+    </div>
+
+    <div class="taglist" id="tagList"></div>
+  </section>
+
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const MOVES_SEED =[{"id":"be_quiet","name":"ビー・クワイエット","type":"Grass","category":"Special","power":130,"accuracy":100,"max_pp":4,"range":"Room"},{"id":"megaton_self_destruct","name":"メガデストラクト","type":"Neutral","category":"Special","power":180,"accuracy":100,"max_pp":4,"range":"Surrounding","self_guaranteed_death":true},{"id":"thunder_rail","name":"サンダーレール","type":"Electric","category":"Special","power":110,"accuracy":100,"max_pp":6,"range":"Area"},{"id":"water_pillar_burst","name":"ウォーターピラーバースト","type":"Water","category":"Special","power":115,"accuracy":100,"max_pp":6,"range":"Area"},{"id":"sand_twister","name":"サンドツイスター","type":"Ground","category":"Special","power":100,"accuracy":100,"max_pp":6,"range":"Area"},{"id":"dark_wisp","name":"ダークウィスプ","type":"Dark","category":"Special","power":85,"accuracy":100,"max_pp":6,"range":"Room"},{"id":"hydro_stream","name":"ハイドロストリーム","type":"Water","category":"Special","power":90,"accuracy":100,"max_pp":6,"range":"Line"},{"id":"dark_laser","name":"ダークレーザー","type":"Dark","category":"Special","power":90,"accuracy":100,"max_pp":6,"range":"Line"},{"id":"volcanic_rain","name":"ボルカニックレイン","type":"Fire","category":"Special","power":90,"accuracy":100,"max_pp":9,"range":"Area"},{"id":"beam_slicer","name":"ビームスライサー","type":"Dragon","category":"Special","power":65,"accuracy":100,"max_pp":9,"range":"Room"},{"id":"all_range_thunder","name":"オールレンジサンダー","type":"Electric","category":"Special","power":70,"accuracy":100,"max_pp":9,"range":"Room"},{"id":"flame_funnel","name":"フレイムファンネル","type":"Fire","category":"Special","power":70,"accuracy":100,"max_pp":12,"range":"Line"},{"id":"circle_vine","name":"サークルヴァイン","type":"Grass","category":"Special","power":75,"accuracy":100,"max_pp":12,"range":"Line"},{"id":"comet","name":"コメット","type":"Dragon","category":"Special","power":70,"accuracy":100,"max_pp":15,"range":"Line"},{"id":"high_pressure_water","name":"ハイプレッシャーウォーター","type":"Water","category":"Special","power":75,"accuracy":100,"max_pp":15,"range":"Line"},{"id":"nightmare_ball","name":"ナイトメアボール","type":"Dark","category":"Special","power":70,"accuracy":100,"max_pp":18,"range":"Line"},{"id":"spine_vine","name":"スパインヴァイン","type":"Grass","category":"Special","power":45,"accuracy":100,"max_pp":21,"range":"Room"},{"id":"power_bomb","name":"パワーボム","type":"Neutral","category":"Special","power":45,"accuracy":100,"max_pp":27,"range":"Line"},{"id":"lock_on_laser","name":"ロックオンレーザー","type":"Electric","category":"Special","power":40,"accuracy":100,"max_pp":30,"range":"Line"},{"id":"ice_cutter","name":"アイスカッター","type":"Ice","category":"Special","power":30,"accuracy":100,"max_pp":33,"range":"Line"},{"id":"aqua_gun","name":"アクアショット","type":"Water","category":"Special","power":25,"accuracy":100,"max_pp":36,"range":"Line"},{"id":"shockwave","name":"ショックウェーブ","type":"Electric","category":"Special","power":30,"accuracy":100,"max_pp":36,"range":"Line"},{"id":"dark_shot","name":"ダークショット","type":"Dark","category":"Special","power":30,"accuracy":100,"max_pp":36,"range":"Line"},{"id":"air_cannon","name":"エアーキャノン","type":"Neutral","category":"Special","power":15,"accuracy":100,"max_pp":42,"range":"Line","weapon_tag":"Wind"},{"id":"poison_fog","name":"ポイズンフォグ","type":"Dark","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Area","ailment_effect":"Poison","ailment_chance":100,"ailment_target":"Enemy"},{"id":"MV_098","name":"ドラゴンクラッシュ","type":"Dragon","category":"Physical","power":135,"accuracy":65,"max_pp":4,"range":"Adjacent","recoil_hp_percent":50,"is_contact":true,"weapon_tag":"Crush"},{"id":"MV_099","name":"スケイルクラッシュ","type":"Dragon","category":"Physical","power":125,"accuracy":65,"max_pp":6,"range":"Adjacent","rank_effect_stat":"Atk","rank_effect_delta":-2,"is_contact":true,"weapon_tag":"Crush"},{"id":"MV_100","name":"ドラゴンヴェインバースト","type":"Dragon","category":"Special","power":130,"accuracy":65,"max_pp":6,"range":"Line","recoil_hp_percent":33},{"id":"MV_101","name":"アルティメットドラゴンカノン","type":"Dragon","category":"Special","power":100,"accuracy":70,"max_pp":6,"range":"Room","self_stun_next_turn":true},{"id":"MV_102","name":"ドラゴンスレイヤーロア","type":"Dragon","category":"Special","power":120,"accuracy":70,"max_pp":6,"range":"Area","rank_effect_stat":"Atk","rank_effect_delta":-1},{"id":"MV_108","name":"アウトレイジピアス","type":"Dragon","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":-1,"is_contact":true},{"id":"MV_109","name":"ドラゴンスケイルスラッシュ","type":"Dragon","category":"Physical","power":75,"accuracy":100,"max_pp":9,"range":"Adjacent","is_contact":true,"weapon_tag":"Slash"},{"id":"MV_110","name":"ツインドラゴンファング","type":"Dragon","category":"Physical","power":70,"accuracy":95,"max_pp":13,"range":"Adjacent","is_contact":true,"recoil_hp_percent":25},{"id":"MV_112","name":"ドラゴンクローコンボ","type":"Dragon","category":"Physical","power":65,"accuracy":100,"max_pp":15,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MV_115","name":"ヤングドラゴンロア","type":"Dragon","category":"Special","power":60,"accuracy":100,"max_pp":24,"range":"Area"},{"id":"MV_116","name":"ドラゴンファングスラスト","type":"Dragon","category":"Physical","power":55,"accuracy":100,"max_pp":27,"range":"TwoTile","is_contact":false,"weapon_tag":"Thrust"},{"id":"MV_121","name":"シャドウピアス","type":"Dark","category":"Physical","power":35,"accuracy":100,"max_pp":34,"range":"Adjacent","crit_rank_bonus":1,"is_contact":true},{"id":"MV_122","name":"カースウィスパー","type":"Dark","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Atk","rank_effect_delta":-2,"rank_effect_target":"Enemy"},{"id":"MV_123","name":"ダスクブレード","type":"Dark","category":"Physical","power":35,"accuracy":100,"max_pp":32,"range":"Adjacent","is_contact":true,"crit_rank_bonus":1},{"id":"MV_124","name":"シャドウステッチ","type":"Dark","category":"Physical","power":40,"accuracy":100,"max_pp":32,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":-1,"rank_effect_target":"Enemy","is_contact":true},{"id":"MV_125","name":"ダークウェッジ","type":"Dark","category":"Physical","power":40,"accuracy":100,"max_pp":32,"range":"Adjacent","rank_effect_stat":"Evasion","rank_effect_delta":-1,"rank_effect_target":"Enemy","weapon_tag":"Slash","is_contact":true},{"id":"MV_126","name":"カースチェイン","type":"Dark","category":"Physical","power":45,"accuracy":100,"max_pp":32,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":-1,"rank_effect_target":"Enemy","weapon_tag":"None","is_contact":true},{"id":"MV_127","name":"ダークスケイルスマッシュ","type":"Dark","category":"Special","power":25,"accuracy":100,"max_pp":30,"range":"Area","crit_rank_bonus":1},{"id":"MV_128","name":"シャドウウルフファング","type":"Dark","category":"Physical","power":55,"accuracy":100,"max_pp":26,"range":"Adjacent","rank_effect_stat":"Atk","rank_effect_delta":-1,"rank_effect_target":"Enemy","is_contact":true},{"id":"MV_129","name":"ネザーコール","type":"Dark","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":-2,"rank_effect_target":"Enemy"},{"id":"MV_135","name":"アビスジョー","type":"Dark","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","is_contact":true,"crit_rank_bonus":1},{"id":"MV_136","name":"ハデスジャッジメント","type":"Dark","category":"Special","power":105,"accuracy":70,"max_pp":6,"range":"Area","rank_effect_stat":"Def","rank_effect_delta":-1,"rank_effect_target":"Enemy"},{"id":"MV_137","name":"バックナックル","type":"Neutral","category":"Physical","power":30,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MV_138","name":"ダブルスラスト","type":"Neutral","category":"Physical","power":35,"accuracy":100,"max_pp":33,"range":"TwoTile","is_contact":false,"weapon_tag":"Thrust"},{"id":"MV_139","name":"テイルスイープ","type":"Neutral","category":"Physical","power":35,"accuracy":100,"max_pp":33,"range":"Adjacent","is_contact":true},{"id":"MV_140","name":"ヘッドバット","type":"Neutral","category":"Physical","power":40,"accuracy":100,"max_pp":33,"range":"Adjacent","is_contact":true,"priority":1},{"id":"MV_141","name":"スピンタックル","type":"Neutral","category":"Physical","power":40,"accuracy":100,"max_pp":33,"range":"Adjacent","is_contact":true},{"id":"MV_142","name":"フライングキック","type":"Neutral","category":"Physical","power":45,"accuracy":100,"max_pp":33,"range":"Adjacent","is_contact":true},{"id":"MV_143","name":"ブラントエッジ","type":"Neutral","category":"Physical","power":45,"accuracy":100,"max_pp":33,"range":"Adjacent","is_contact":true},{"id":"MV_144","name":"クラッシュバッシュ","type":"Neutral","category":"Physical","power":55,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"MV_145","name":"ラッシュピアス","type":"Neutral","category":"Physical","power":50,"accuracy":100,"max_pp":33,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MV_146","name":"シビアインパクト","type":"Neutral","category":"Physical","power":60,"accuracy":100,"max_pp":27,"range":"Adjacent","is_contact":true},{"id":"MV_151","name":"ゲイルスラッシュ","type":"Neutral","category":"Special","power":65,"accuracy":100,"max_pp":27,"range":"Line","weapon_tag":"Wind"},{"id":"MV_153","name":"エナジーブラスト","type":"Neutral","category":"Special","power":50,"accuracy":100,"max_pp":18,"range":"Room"},{"id":"MV_154","name":"ライトフラッド","type":"Neutral","category":"Special","power":80,"accuracy":100,"max_pp":15,"range":"Line"},{"id":"MV_158","name":"オーロラカノン","type":"Neutral","category":"Special","power":110,"accuracy":100,"max_pp":6,"range":"Line"},{"id":"MV_159","name":"シャッタースカイ","type":"Neutral","category":"Special","power":130,"accuracy":65,"max_pp":4,"range":"Area","recoil_hp_percent":33},{"id":"MV_160","name":"クリティカルエイム","type":"Neutral","category":"Special","power":25,"accuracy":100,"max_pp":28,"range":"Room","crit_rank_bonus":1},{"id":"MV_161","name":"ディスラプト","type":"Neutral","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":-1,"rank_effect_target":"Enemy"},{"id":"MV_162","name":"インティミデート","type":"Neutral","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Atk","rank_effect_delta":-1,"rank_effect_target":"Enemy"},{"id":"MV_163","name":"フォーカスパワー","type":"Neutral","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Atk","rank_effect_delta":1},{"id":"MV_164","name":"コンセントレート","type":"Neutral","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1},{"id":"MV_166","name":"パーシュートブロー","type":"Neutral","category":"Physical","power":65,"accuracy":100,"max_pp":27,"range":"Adjacent","is_contact":true,"weapon_tag":"Fist"},{"id":"MV_168","name":"スパークボルト","type":"Electric","category":"Physical","power":45,"accuracy":95,"max_pp":28,"range":"Adjacent","ailment_effect":"Paralyze","ailment_chance":10,"is_contact":true},{"id":"MV_170","name":"ディスチャージパンチ","type":"Electric","category":"Physical","power":60,"accuracy":95,"max_pp":24,"range":"Room","ailment_effect":"Paralyze","ailment_chance":10,"is_contact":false,"weapon_tag":"Punch"},{"id":"MV_175","name":"レールガン","type":"Electric","category":"Special","power":115,"accuracy":65,"max_pp":6,"range":"Line","recoil_hp_percent":25},{"id":"MV_176","name":"ボルトルアー","type":"Electric","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1},{"id":"MV_177","name":"チャージアップ","type":"Electric","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Atk","rank_effect_delta":1},{"id":"MV_178","name":"マグネティックバリア","type":"Electric","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1},{"id":"MV_179","name":"アクセラレート","type":"Electric","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Evasion","rank_effect_delta":1},{"id":"MV_182","name":"ショックスティング","type":"Electric","category":"Physical","power":50,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"MV_183","name":"ライトニングスラスト","type":"Electric","category":"Physical","power":55,"accuracy":100,"max_pp":27,"range":"TwoTile","is_contact":false,"weapon_tag":"Thrust"},{"id":"MV_185","name":"ボルトライトバレット","type":"Electric","category":"Special","power":25,"accuracy":100,"max_pp":33,"range":"Area"},{"id":"MV_186","name":"ロアリングサンダー","type":"Electric","category":"Special","power":85,"accuracy":100,"max_pp":9,"range":"Room"},{"id":"MV_187","name":"アイスペブル","type":"Ice","category":"Physical","power":35,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"MV_188","name":"アイスブレード","type":"Ice","category":"Physical","power":40,"accuracy":100,"max_pp":33,"range":"Adjacent","is_contact":true},{"id":"MV_189","name":"フロストショット","type":"Ice","category":"Physical","power":50,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"MV_190","name":"アイスニードル","type":"Ice","category":"Physical","power":55,"accuracy":100,"max_pp":27,"range":"Line","is_contact":false},{"id":"MV_191","name":"フリーズウェーブ","type":"Ice","category":"Special","power":60,"accuracy":100,"max_pp":24,"range":"Room"},{"id":"MV_192","name":"ブリザードパンチ","type":"Ice","category":"Physical","power":65,"accuracy":100,"max_pp":21,"range":"Adjacent","is_contact":true,"weapon_tag":"Punch","ailment_effect":"Freeze","ailment_chance":20,"ailment_target":"Enemy"},{"id":"MV_193","name":"フロストバーンブレス","type":"Ice","category":"Special","power":70,"accuracy":100,"max_pp":18,"range":"Room","ailment_effect":"Freeze","ailment_chance":5,"weapon_tag":"Breath"},{"id":"MV_195","name":"アイスファング","type":"Ice","category":"Physical","power":60,"accuracy":95,"max_pp":24,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":10,"is_contact":true},{"id":"MV_196","name":"アイスストーム","type":"Ice","category":"Special","power":85,"accuracy":100,"max_pp":12,"range":"Room"},{"id":"MV_197","name":"アブソリュートゼロウェーブ","type":"Ice","category":"Special","power":95,"accuracy":85,"max_pp":6,"range":"Room","ailment_effect":"Freeze","ailment_chance":5},{"id":"MV_199","name":"ダイヤモンドダスト","type":"Ice","category":"Special","power":135,"accuracy":100,"max_pp":6,"range":"Line"},{"id":"MV_200","name":"アイスブレードコンボ","type":"Ice","category":"Physical","power":65,"accuracy":100,"max_pp":21,"range":"Adjacent","is_contact":true},{"id":"MV_201","name":"アイシクルドロップ","type":"Ice","category":"Special","power":80,"accuracy":100,"max_pp":9,"range":"Line"},{"id":"MV_205","name":"フロストネット","type":"Ice","category":"Special","power":30,"accuracy":95,"max_pp":28,"range":"Area","ailment_effect":"Freeze","ailment_chance":15},{"id":"MV_207","name":"サブゼロインパクト","type":"Ice","category":"Physical","power":100,"accuracy":70,"max_pp":6,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":5,"is_contact":true},{"id":"MV_210","name":"フロストゲイルブレス","type":"Ice","category":"Special","power":135,"accuracy":65,"max_pp":4,"range":"Area","ailment_effect":"Freeze","ailment_chance":5,"weapon_tag":"Breath"},{"id":"MV_211","name":"フローズンブレード","type":"Ice","category":"Physical","power":55,"accuracy":95,"max_pp":26,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":10,"is_contact":true},{"id":"MV_212","name":"アクアスラスト","type":"Water","category":"Physical","power":35,"accuracy":100,"max_pp":36,"range":"TwoTile","is_contact":false,"weapon_tag":"Thrust"},{"id":"MV_214","name":"タイドピアス","type":"Water","category":"Physical","power":45,"accuracy":100,"max_pp":33,"range":"Adjacent","weapon_tag":"Slash","is_contact":true},{"id":"MV_215","name":"ウォーターカッター","type":"Water","category":"Special","power":35,"accuracy":100,"max_pp":30,"range":"Area"},{"id":"MV_216","name":"スプレーピアス","type":"Water","category":"Physical","power":55,"accuracy":100,"max_pp":27,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MV_217","name":"アクアランス","type":"Water","category":"Special","power":55,"accuracy":100,"max_pp":24,"range":"Line"},{"id":"MV_221","name":"ストリームコンボ","type":"Water","category":"Physical","power":55,"accuracy":100,"max_pp":27,"range":"Adjacent","is_contact":true},{"id":"MV_222","name":"ミラーウォータースラッシュ","type":"Water","category":"Physical","power":60,"accuracy":100,"max_pp":24,"range":"Adjacent","is_contact":true,"weapon_tag":"Slash"},{"id":"MV_223","name":"タイダルウェーブ","type":"Water","category":"Special","power":100,"accuracy":100,"max_pp":6,"range":"Room"},{"id":"MV_224","name":"グレートタイダルボア","type":"Water","category":"Special","power":125,"accuracy":65,"max_pp":6,"range":"Room","recoil_hp_percent":25},{"id":"MV_227","name":"アクアジェット","type":"Water","category":"Physical","power":60,"accuracy":100,"max_pp":27,"range":"Adjacent","is_contact":true},{"id":"MV_228","name":"ウォータートルネード","type":"Water","category":"Special","power":80,"accuracy":100,"max_pp":15,"range":"Room","weapon_tag":"Wind"},{"id":"MV_230","name":"アクアパンチ","type":"Water","category":"Physical","power":65,"accuracy":100,"max_pp":24,"range":"Adjacent","is_contact":true,"weapon_tag":"Punch","ailment_effect":"Soaked","ailment_chance":20,"ailment_target":"Enemy"},{"id":"MV_231","name":"バブルビーム","type":"Water","category":"Special","power":70,"accuracy":100,"max_pp":15,"range":"Room"},{"id":"MV_232","name":"クリアストリームスタンス","type":"Water","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1},{"id":"MV_233","name":"シンダー","type":"Fire","category":"Physical","power":35,"accuracy":95,"max_pp":32,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":10,"is_contact":true},{"id":"MV_234","name":"ブレイズバレット","type":"Fire","category":"Special","power":30,"accuracy":95,"max_pp":30,"range":"Line","ailment_effect":"Burn","ailment_chance":10},{"id":"MV_236","name":"フレイムクロー","type":"Fire","category":"Physical","power":45,"accuracy":95,"max_pp":26,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":10,"is_contact":true,"weapon_tag":"None"},{"id":"MV_237","name":"ブレイズスラッシュ","type":"Fire","category":"Physical","power":55,"accuracy":95,"max_pp":24,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":10,"is_contact":true,"weapon_tag":"Slash"},{"id":"MV_238","name":"ワイルドファイアナックル","type":"Fire","category":"Physical","power":65,"accuracy":95,"max_pp":21,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":10,"is_contact":true,"weapon_tag":"None"},{"id":"MV_242","name":"インフェルナルフレイム","type":"Fire","category":"Special","power":105,"accuracy":65,"max_pp":6,"range":"Line","ailment_effect":"Burn","ailment_chance":10},{"id":"MV_243","name":"ヘルファイアヴォルテックス","type":"Fire","category":"Special","power":110,"accuracy":65,"max_pp":6,"range":"Room","recoil_hp_percent":25},{"id":"MV_244","name":"フレイムゲイルブレス","type":"Fire","category":"Special","power":120,"accuracy":65,"max_pp":6,"range":"Room","recoil_hp_percent":33,"weapon_tag":"Breath"},{"id":"MV_245","name":"フレイムホイール","type":"Fire","category":"Physical","power":55,"accuracy":95,"max_pp":24,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":10,"is_contact":true},{"id":"MV_246","name":"フレイムファング","type":"Fire","category":"Physical","power":50,"accuracy":95,"max_pp":26,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":10,"is_contact":true},{"id":"MV_247","name":"ファイアスフィア","type":"Fire","category":"Special","power":20,"accuracy":100,"max_pp":30,"range":"Room"},{"id":"MV_248","name":"フレイムバーンブレス","type":"Fire","category":"Special","power":65,"accuracy":100,"max_pp":21,"range":"Area","weapon_tag":"Breath"},{"id":"MV_250","name":"フレイムスラスト","type":"Fire","category":"Physical","power":50,"accuracy":100,"max_pp":27,"range":"TwoTile","is_contact":false,"weapon_tag":"Thrust"},{"id":"MV_252","name":"シアリングスラッシュ","type":"Fire","category":"Physical","power":65,"accuracy":100,"max_pp":21,"range":"Adjacent","is_contact":true,"weapon_tag":"Slash"},{"id":"MV_253","name":"ブレイジングパンチ","type":"Fire","category":"Physical","power":60,"accuracy":100,"max_pp":24,"range":"Adjacent","is_contact":true,"weapon_tag":"Punch","ailment_effect":"Burn","ailment_chance":20,"ailment_target":"Enemy"},{"id":"MV_255","name":"ブレイズバラージ","type":"Fire","category":"Special","power":40,"accuracy":95,"max_pp":26,"range":"Line","ailment_effect":"Burn","ailment_chance":10},{"id":"MV_256","name":"ストーンペブル","type":"Ground","category":"Physical","power":35,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"MV_257","name":"ロックバレット","type":"Ground","category":"Physical","power":45,"accuracy":100,"max_pp":33,"range":"Adjacent","is_contact":true},{"id":"MV_258","name":"フィッシャースラスト","type":"Ground","category":"Physical","power":55,"accuracy":100,"max_pp":27,"range":"TwoTile","is_contact":false,"weapon_tag":"Thrust"},{"id":"MV_259","name":"サンドスプレー","type":"Ground","category":"Physical","power":45,"accuracy":100,"max_pp":30,"range":"Adjacent","rank_effect_stat":"Evasion","rank_effect_delta":-1,"rank_effect_target":"Enemy","rank_effect_chance":0.2,"weapon_tag":"Slash","is_contact":true},{"id":"MV_260","name":"ブラインドサンド","type":"Ground","category":"Physical","power":40,"accuracy":100,"max_pp":32,"range":"Adjacent","rank_effect_stat":"Evasion","rank_effect_delta":-1,"rank_effect_target":"Enemy","rank_effect_chance":0.2,"weapon_tag":"None","is_contact":true},{"id":"MV_263","name":"ロックスマッシュ","type":"Ground","category":"Physical","power":65,"accuracy":100,"max_pp":18,"range":"Adjacent","is_contact":true},{"id":"MV_265","name":"テクトニックシフト","type":"Ground","category":"Special","power":110,"accuracy":100,"max_pp":6,"range":"Room"},{"id":"MV_266","name":"アースクエイク","type":"Ground","category":"Special","power":110,"accuracy":100,"max_pp":6,"range":"Line"},{"id":"MV_268","name":"サンドストームスマッシュ","type":"Ground","category":"Special","power":65,"accuracy":100,"max_pp":24,"range":"Area","rank_effect_stat":"Evasion","rank_effect_delta":-1,"rank_effect_target":"Enemy","rank_effect_chance":0.2,"weapon_tag":"Wind"},{"id":"MV_272","name":"シャープロックピアス","type":"Ground","category":"Physical","power":60,"accuracy":100,"max_pp":24,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MV_273","name":"サンドダストスタンス","type":"Ground","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1},{"id":"MV_274","name":"ロックパンチ","type":"Ground","category":"Physical","power":70,"accuracy":100,"max_pp":12,"range":"Adjacent","is_contact":true,"weapon_tag":"Punch","ailment_effect":"MudCaked","ailment_chance":20,"ailment_target":"Enemy"},{"id":"MV_276","name":"アースレンドスラッシュ","type":"Ground","category":"Special","power":70,"accuracy":100,"max_pp":18,"range":"Line","weapon_tag":"Slash"},{"id":"MV_279","name":"コラプスロックスマッシュ","type":"Ground","category":"Special","power":120,"accuracy":65,"max_pp":6,"range":"Room","recoil_hp_percent":25},{"id":"MV_280","name":"サンドバインド","type":"Ground","category":"Special","power":20,"accuracy":100,"max_pp":28,"range":"Room","rank_effect_stat":"Evasion","rank_effect_delta":-1,"rank_effect_target":"Enemy","rank_effect_chance":0.2},{"id":"MV_281","name":"リーフブレード","type":"Grass","category":"Physical","power":35,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"MV_282","name":"シードショット","type":"Grass","category":"Physical","power":40,"accuracy":100,"max_pp":33,"range":"Adjacent","is_contact":true},{"id":"MV_283","name":"ヴァインウィップ","type":"Grass","category":"Physical","power":45,"accuracy":100,"max_pp":33,"range":"Adjacent","is_contact":true},{"id":"MV_285","name":"グラスノット","type":"Grass","category":"Special","power":25,"accuracy":100,"max_pp":28,"range":"Area","rank_effect_stat":"Accuracy","rank_effect_delta":-1,"rank_effect_target":"Enemy"},{"id":"MV_287","name":"アイビーバインド","type":"Grass","category":"Physical","power":55,"accuracy":100,"max_pp":27,"range":"Adjacent","is_contact":true},{"id":"MV_288","name":"ソーンウィップ","type":"Grass","category":"Physical","power":55,"accuracy":100,"max_pp":24,"range":"Adjacent","is_contact":true},{"id":"MV_289","name":"パワーウィップパンチ","type":"Grass","category":"Physical","power":70,"accuracy":100,"max_pp":12,"range":"Adjacent","is_contact":true,"weapon_tag":"Punch","ailment_effect":"VineBound","ailment_chance":20,"ailment_target":"Enemy"},{"id":"MV_290","name":"フォトシンセシスカノン","type":"Grass","category":"Special","power":100,"accuracy":100,"max_pp":6,"range":"Line"},{"id":"MV_292","name":"フォレストラース","type":"Grass","category":"Special","power":125,"accuracy":65,"max_pp":6,"range":"Area","recoil_hp_percent":25},{"id":"MV_296","name":"ブライアウィップ","type":"Grass","category":"Physical","power":60,"accuracy":100,"max_pp":21,"range":"Adjacent","is_contact":true},{"id":"MV_297","name":"ティンバーストレート","type":"Grass","category":"Physical","power":70,"accuracy":100,"max_pp":15,"range":"Adjacent","is_contact":true,"weapon_tag":"Straight"},{"id":"MV_299","name":"ライフスタンス","type":"Grass","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1},{"id":"MV_300","name":"リーフハイドスタンス","type":"Grass","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Evasion","rank_effect_delta":1},{"id":"mvn_003","name":"ヴォイドエコー","type":"Neutral","category":"Special","power":30,"accuracy":90,"max_pp":32,"range":"Line","ailment_effect":"Stun","ailment_chance":20},{"id":"mvn_004","name":"ベアスマッシュ","type":"Neutral","category":"Special","power":30,"accuracy":90,"max_pp":30,"range":"Area","ailment_effect":"Stun","ailment_chance":20},{"id":"mvn_012","name":"フレイムブレス","type":"Fire","category":"Special","power":15,"accuracy":85,"max_pp":36,"range":"Line","ailment_effect":"Burn","ailment_chance":30,"weapon_tag":"Breath"},{"id":"mvn_018","name":"フレイム","type":"Fire","category":"Special","power":50,"accuracy":100,"max_pp":24,"range":"Line"},{"id":"mvn_022","name":"カーボナイズ","type":"Fire","category":"Special","power":55,"accuracy":100,"max_pp":18,"range":"Room"},{"id":"mvn_023","name":"クリアストリーム","type":"Water","category":"Special","power":15,"accuracy":100,"max_pp":36,"range":"Line","rank_effect_stat":"Accuracy","rank_effect_delta":1},{"id":"mvn_028","name":"スプラッシュ","type":"Water","category":"Special","power":45,"accuracy":100,"max_pp":26,"range":"Line","rank_effect_stat":"Accuracy","rank_effect_delta":1},{"id":"mvn_034","name":"バイオレットボルト","type":"Electric","category":"Special","power":15,"accuracy":85,"max_pp":36,"range":"Line","ailment_effect":"Paralyze","ailment_chance":30},{"id":"mvn_040","name":"ボルトトレイル","type":"Electric","category":"Special","power":45,"accuracy":100,"max_pp":24,"range":"Room"},{"id":"mvn_041","name":"スタティック","type":"Electric","category":"Special","power":55,"accuracy":95,"max_pp":24,"range":"Line","ailment_effect":"Paralyze","ailment_chance":10},{"id":"mvn_044","name":"ボルトグレイン","type":"Electric","category":"Special","power":70,"accuracy":100,"max_pp":18,"range":"Line"},{"id":"mvn_045","name":"クロッド","type":"Ground","category":"Special","power":15,"accuracy":100,"max_pp":36,"range":"Line","rank_effect_stat":"Def","rank_effect_delta":1},{"id":"mvn_048","name":"クラッシュソイル","type":"Ground","category":"Special","power":30,"accuracy":100,"max_pp":30,"range":"Line","rank_effect_stat":"Def","rank_effect_delta":1},{"id":"mvn_049","name":"アースヴェール","type":"Ground","category":"Special","power":40,"accuracy":100,"max_pp":28,"range":"Line","rank_effect_stat":"Def","rank_effect_delta":1},{"id":"mvn_051","name":"アースウォール","type":"Ground","category":"Special","power":50,"accuracy":100,"max_pp":24,"range":"Line"},{"id":"mvn_055","name":"ソリッドソイル","type":"Ground","category":"Special","power":55,"accuracy":100,"max_pp":18,"range":"Room"},{"id":"mvn_056","name":"グリーンリーフ","type":"Grass","category":"Special","power":15,"accuracy":100,"max_pp":36,"range":"Line","drain_hp_percent":50},{"id":"mvn_059","name":"フレッシュリーフ","type":"Grass","category":"Special","power":30,"accuracy":100,"max_pp":30,"range":"Line","drain_hp_percent":50},{"id":"mvn_060","name":"グラスリング","type":"Grass","category":"Special","power":25,"accuracy":100,"max_pp":28,"range":"Room","drain_hp_percent":50},{"id":"mvn_061","name":"ヴァーダントリーフ","type":"Grass","category":"Special","power":45,"accuracy":100,"max_pp":26,"range":"Line","drain_hp_percent":50},{"id":"mvn_064","name":"ヴァインバッシュ","type":"Grass","category":"Special","power":55,"accuracy":100,"max_pp":24,"range":"Line","drain_hp_percent":50},{"id":"mvn_067","name":"フロストブレス","type":"Ice","category":"Special","power":15,"accuracy":85,"max_pp":36,"range":"Line","ailment_effect":"Freeze","ailment_chance":30,"weapon_tag":"Breath"},{"id":"mvn_073","name":"フローズンクラウド","type":"Ice","category":"Special","power":45,"accuracy":100,"max_pp":24,"range":"Line"},{"id":"mvn_078","name":"ドラゴンブレス","type":"Dragon","category":"Special","power":15,"accuracy":100,"max_pp":36,"range":"Line","recoil_hp_percent":25,"dragon_multiplier":1.25,"weapon_tag":"Breath"},{"id":"mvn_080","name":"ドラゴンヴェインショット","type":"Dragon","category":"Special","power":30,"accuracy":100,"max_pp":32,"range":"Line","recoil_hp_percent":25,"dragon_multiplier":1.25},{"id":"mvn_082","name":"ドラゴンクロー","type":"Dragon","category":"Special","power":30,"accuracy":100,"max_pp":28,"range":"Room","recoil_hp_percent":25,"dragon_multiplier":1.25,"weapon_tag":"None"},{"id":"mvn_083","name":"ドラゴンリング","type":"Dragon","category":"Special","power":45,"accuracy":100,"max_pp":26,"range":"Line","recoil_hp_percent":25,"dragon_multiplier":1.25},{"id":"mvn_086","name":"ドラゴンピアス","type":"Dragon","category":"Special","power":55,"accuracy":100,"max_pp":24,"range":"Line","recoil_hp_percent":33,"dragon_multiplier":1.5},{"id":"mvn_089","name":"アビスブレス","type":"Dark","category":"Special","power":15,"accuracy":85,"max_pp":36,"range":"Line","ailment_effect":"Poison","ailment_chance":30,"weapon_tag":"Breath"},{"id":"mvn_092","name":"ダークネス","type":"Dark","category":"Special","power":20,"accuracy":90,"max_pp":30,"range":"Room","ailment_effect":"Poison","ailment_chance":20},{"id":"mvn_093","name":"ダークリング","type":"Dark","category":"Special","power":45,"accuracy":95,"max_pp":28,"range":"Line","ailment_effect":"Poison","ailment_chance":10},{"id":"mvn_098","name":"ダークヴェール","type":"Dark","category":"Special","power":60,"accuracy":90,"max_pp":24,"range":"Line","ailment_effect":"Poison","ailment_chance":20},{"id":"mvn_099","name":"シャドウアレイ","type":"Dark","category":"Special","power":55,"accuracy":100,"max_pp":21,"range":"Room"},{"id":"bakugeki","name":"ボムレイドレンド","type":"Dragon","category":"Physical","power":120,"accuracy":100,"max_pp":10,"range":"Adjacent","is_guaranteed_hit":true,"is_contact":true,"weapon_tag":"Rend"},{"id":"mizutamari","name":"パドル","type":"Water","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","is_guaranteed_hit":true,"field_effect":"Puddle","field_placement":"HalfArea"},{"id":"bloom_garden","name":"ブルームガーデン","type":"Grass","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","is_guaranteed_hit":true,"field_effect":"FlowerBed","field_placement":"HalfArea"},{"id":"moudoku_no_kiri","name":"トキシックミスト","type":"Grass","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","is_guaranteed_hit":true,"field_effect":"ToxicMist","field_placement":"HalfArea"},{"id":"usurahi_no_ue","name":"シンアイス","type":"Ice","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","is_guaranteed_hit":true,"field_effect":"ThinIce","field_placement":"HalfArea"},{"id":"crevasse","name":"クレバス","type":"Ice","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","is_guaranteed_hit":true,"field_effect":"Crevasse","field_placement":"FourEmptyTiles"},{"id":"jiware","name":"フィッシャー","type":"Ground","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","is_guaranteed_hit":true,"field_effect":"Fissure","field_placement":"FourEmptyTiles"},{"id":"gekiryuu","name":"レイジングトレント","type":"Dragon","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","is_guaranteed_hit":true,"field_effect":"None","field_placement":"ClearRadiusFour"},{"id":"MVP_001","name":"ホワイトストレート","type":"Neutral","category":"Physical","power":30,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true,"ailment_effect":"Stun","ailment_chance":30,"weapon_tag":"Straight"},{"id":"MVP_002","name":"マッチレスバッシュ","type":"Neutral","category":"Physical","power":25,"accuracy":100,"max_pp":28,"range":"Adjacent","ailment_effect":"Stun","ailment_chance":30,"is_contact":true},{"id":"MVP_003","name":"ヴォイドクラッシュ","type":"Neutral","category":"Physical","power":55,"accuracy":100,"max_pp":28,"range":"Adjacent","ailment_effect":"Stun","ailment_chance":30,"is_contact":true,"weapon_tag":"Crush"},{"id":"MVP_004","name":"ベアパンチ","type":"Neutral","category":"Physical","power":60,"accuracy":100,"max_pp":26,"range":"Adjacent","is_contact":true,"ailment_effect":"Stun","ailment_chance":30,"weapon_tag":"Punch"},{"id":"MVP_005","name":"モデレートフィスト","type":"Neutral","category":"Physical","power":65,"accuracy":100,"max_pp":21,"range":"Adjacent","is_contact":true,"weapon_tag":"Fist"},{"id":"MVP_006","name":"マインドレスバッシュ","type":"Neutral","category":"Physical","power":70,"accuracy":100,"max_pp":18,"range":"Adjacent","ailment_effect":"Stun","ailment_chance":20,"is_contact":true},{"id":"MVP_007","name":"ベアブレードパンチ","type":"Neutral","category":"Physical","power":70,"accuracy":100,"max_pp":15,"range":"Adjacent","ailment_effect":"Stun","ailment_chance":20,"is_contact":true,"weapon_tag":"Punch"},{"id":"MVP_008","name":"プレーンバッシュ","type":"Neutral","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","is_contact":true,"ailment_effect":"Stun","ailment_chance":10},{"id":"MVP_009","name":"ブラインドストレート","type":"Neutral","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","ailment_effect":"Stun","ailment_chance":10,"is_contact":true,"weapon_tag":"Straight"},{"id":"MVP_010","name":"サイレントブレイクナックル","type":"Neutral","category":"Physical","power":80,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MVP_011","name":"ピュアインパクト","type":"Neutral","category":"Physical","power":80,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Stun","ailment_chance":10,"is_contact":true},{"id":"MVP_012","name":"リミットレスジャブ","type":"Neutral","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Stun","ailment_chance":10,"is_contact":true},{"id":"MVP_013","name":"ホワイトフラッシュ","type":"Neutral","category":"Physical","power":50,"accuracy":90,"max_pp":8,"range":"Adjacent","is_contact":false,"ailment_effect":"Stun","ailment_chance":10,"weapon_tag":"Flash","is_guaranteed_hit":true,"guaranteed_crit":true},{"id":"MVP_014","name":"ソートレススラスト","type":"Neutral","category":"Physical","power":90,"accuracy":90,"max_pp":8,"range":"TwoTile","ailment_effect":"Stun","ailment_chance":10,"is_contact":false,"weapon_tag":"Thrust"},{"id":"MVP_015","name":"ヴォイドレンド","type":"Neutral","category":"Physical","power":90,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true,"weapon_tag":"Rend"},{"id":"MVP_016","name":"ベアバッシュ","type":"Neutral","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","is_contact":true,"ailment_effect":"Stun","ailment_chance":10},{"id":"MVP_017","name":"ミドルスマッシュ","type":"Neutral","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","ailment_effect":"Stun","ailment_chance":10,"is_contact":true},{"id":"MVP_018","name":"マインドレスナックル","type":"Neutral","category":"Physical","power":110,"accuracy":100,"max_pp":6,"range":"Adjacent","weapon_tag":"None","is_contact":true},{"id":"MVP_019","name":"ホワイトクラッシャー","type":"Neutral","category":"Physical","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_020","name":"リミットレスバッシュ","type":"Neutral","category":"Physical","power":120,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_021","name":"クリムゾンスマッシュ","type":"Fire","category":"Physical","power":35,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true,"ailment_effect":"Burn","ailment_chance":30},{"id":"MVP_022","name":"スコーチナックル","type":"Fire","category":"Physical","power":40,"accuracy":100,"max_pp":28,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":30,"weapon_tag":"None","is_contact":true},{"id":"MVP_023","name":"フォスファーバッシュ","type":"Fire","category":"Physical","power":40,"accuracy":100,"max_pp":28,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":30,"is_contact":true},{"id":"MVP_024","name":"ロースパンチ","type":"Fire","category":"Physical","power":45,"accuracy":100,"max_pp":26,"range":"Adjacent","is_contact":true,"ailment_effect":"Burn","ailment_chance":30,"weapon_tag":"Punch"},{"id":"MVP_025","name":"シアリングピアス","type":"Fire","category":"Physical","power":60,"accuracy":100,"max_pp":21,"range":"Adjacent","is_contact":true},{"id":"MVP_026","name":"エンバーフィスト","type":"Fire","category":"Physical","power":70,"accuracy":100,"max_pp":18,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":20,"weapon_tag":"Fist","is_contact":true},{"id":"MVP_027","name":"フレイムストレート","type":"Fire","category":"Physical","power":70,"accuracy":100,"max_pp":15,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":20,"is_contact":true,"weapon_tag":"Straight"},{"id":"MVP_028","name":"フレイムアレイブロー","type":"Fire","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","is_contact":true,"ailment_effect":"Burn","ailment_chance":10,"weapon_tag":"Fist"},{"id":"MVP_029","name":"ヘルフレイムジャブ","type":"Fire","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":10,"is_contact":true},{"id":"MVP_030","name":"フレイムスウォームピアス","type":"Fire","category":"Physical","power":80,"accuracy":100,"max_pp":6,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MVP_031","name":"カーボナイズナックル","type":"Fire","category":"Physical","power":80,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":10,"weapon_tag":"None","is_contact":true},{"id":"MVP_032","name":"ワイルドフレイムスマッシュ","type":"Fire","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":10,"is_contact":true},{"id":"MVP_033","name":"クリムゾンジャブ","type":"Fire","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","is_contact":true,"ailment_effect":"Burn","ailment_chance":10},{"id":"MVP_034","name":"スコーチバッシュ","type":"Fire","category":"Physical","power":90,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":10,"is_contact":true},{"id":"MVP_035","name":"バーストヒートピアス","type":"Fire","category":"Physical","power":90,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_036","name":"エンバーフレイムナックル","type":"Fire","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","is_contact":true,"ailment_effect":"Burn","ailment_chance":10,"weapon_tag":"None"},{"id":"MVP_037","name":"フレイムファングスマッシュ","type":"Fire","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","ailment_effect":"Burn","ailment_chance":10,"is_contact":true},{"id":"MVP_038","name":"ヘルファイアジャブ","type":"Fire","category":"Physical","power":110,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_039","name":"フレイムレンド","type":"Fire","category":"Physical","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true,"weapon_tag":"Rend"},{"id":"MVP_040","name":"ワイルドファイアピアス","type":"Fire","category":"Physical","power":120,"accuracy":100,"max_pp":6,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MVP_041","name":"クリアストリームスマッシュ","type":"Water","category":"Physical","power":40,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true,"rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self"},{"id":"MVP_042","name":"ミラーウォーターバッシュ","type":"Water","category":"Physical","power":45,"accuracy":100,"max_pp":28,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_043","name":"サーフサウンドナックル","type":"Water","category":"Physical","power":40,"accuracy":100,"max_pp":28,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"None","is_contact":true},{"id":"MVP_044","name":"ドロップストレートパンチ","type":"Water","category":"Physical","power":50,"accuracy":100,"max_pp":26,"range":"Adjacent","is_contact":true,"rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"Punch"},{"id":"MVP_045","name":"ウォーターリングピアス","type":"Water","category":"Physical","power":65,"accuracy":100,"max_pp":21,"range":"Adjacent","is_contact":true},{"id":"MVP_046","name":"スプラッシュフィスト","type":"Water","category":"Physical","power":70,"accuracy":100,"max_pp":18,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"Fist","is_contact":true},{"id":"MVP_047","name":"ウォーターヴェインストレート","type":"Water","category":"Physical","power":70,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true,"weapon_tag":"Straight"},{"id":"MVP_048","name":"アズールウェーブブロー","type":"Water","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","is_contact":true,"rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"Fist"},{"id":"MVP_049","name":"ドロップレットジャブ","type":"Water","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_050","name":"アクアヴェールナックル","type":"Water","category":"Physical","power":80,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MVP_051","name":"リップルスマッシュ","type":"Water","category":"Physical","power":80,"accuracy":90,"max_pp":8,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_052","name":"モイスチャーピアス","type":"Water","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_053","name":"クリアストリームジャブ","type":"Water","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","is_contact":true,"rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self"},{"id":"MVP_054","name":"ミラーウォーターナックル","type":"Water","category":"Physical","power":90,"accuracy":90,"max_pp":8,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"None","is_contact":true},{"id":"MVP_055","name":"サーフサウンドスマッシュ","type":"Water","category":"Physical","power":90,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_056","name":"ドロップバッシュ","type":"Water","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","is_contact":true,"rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self"},{"id":"MVP_057","name":"ウォーターリングジャブ","type":"Water","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_058","name":"スプラッシュピアス","type":"Water","category":"Physical","power":110,"accuracy":65,"max_pp":6,"range":"TwoTile","rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":false,"weapon_tag":"None"},{"id":"MVP_059","name":"アクアフラッシュ","type":"Water","category":"Physical","power":50,"accuracy":65,"max_pp":6,"range":"Adjacent","is_contact":false,"rank_effect_stat":"Accuracy","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"Flash","is_guaranteed_hit":true,"guaranteed_crit":true},{"id":"MVP_060","name":"アクアクラッシュ","type":"Water","category":"Physical","power":120,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true,"weapon_tag":"Crush"},{"id":"MVP_061","name":"バイオレットボルトスマッシュ","type":"Electric","category":"Physical","power":40,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true,"ailment_effect":"Paralyze","ailment_chance":30},{"id":"MVP_062","name":"サンダーロアナックル","type":"Electric","category":"Physical","power":40,"accuracy":100,"max_pp":28,"range":"Adjacent","ailment_effect":"Paralyze","ailment_chance":30,"weapon_tag":"None","is_contact":true},{"id":"MVP_063","name":"フラッシュボルトバッシュ","type":"Electric","category":"Physical","power":45,"accuracy":100,"max_pp":28,"range":"Adjacent","ailment_effect":"Paralyze","ailment_chance":30,"is_contact":true},{"id":"MVP_064","name":"ボルトチャージパンチ","type":"Electric","category":"Physical","power":50,"accuracy":100,"max_pp":26,"range":"Adjacent","is_contact":true,"ailment_effect":"Paralyze","ailment_chance":30,"weapon_tag":"Punch"},{"id":"MVP_065","name":"スイフトボルトピアス","type":"Electric","category":"Physical","power":60,"accuracy":100,"max_pp":21,"range":"Adjacent","is_contact":true},{"id":"MVP_066","name":"ボルトリングフィスト","type":"Electric","category":"Physical","power":65,"accuracy":100,"max_pp":18,"range":"Adjacent","ailment_effect":"Paralyze","ailment_chance":20,"weapon_tag":"Fist","is_contact":true},{"id":"MVP_067","name":"ボルトトレイルストレート","type":"Electric","category":"Physical","power":70,"accuracy":100,"max_pp":15,"range":"Adjacent","ailment_effect":"Paralyze","ailment_chance":20,"is_contact":true,"weapon_tag":"Straight"},{"id":"MVP_068","name":"スタティックブロー","type":"Electric","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","is_contact":true,"ailment_effect":"Paralyze","ailment_chance":10,"weapon_tag":"Fist"},{"id":"MVP_069","name":"ボルトコアジャブ","type":"Electric","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","ailment_effect":"Paralyze","ailment_chance":10,"is_contact":true},{"id":"MVP_070","name":"ボルトフラッシュピアス","type":"Electric","category":"Physical","power":80,"accuracy":100,"max_pp":6,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MVP_071","name":"ボルトグレインナックル","type":"Electric","category":"Physical","power":80,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Paralyze","ailment_chance":10,"weapon_tag":"None","is_contact":true},{"id":"MVP_072","name":"ボルトヴェールスマッシュ","type":"Electric","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Paralyze","ailment_chance":10,"is_contact":true},{"id":"MVP_073","name":"バイオレットボルトジャブ","type":"Electric","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","is_contact":true,"ailment_effect":"Paralyze","ailment_chance":10},{"id":"MVP_074","name":"サンダーロアバッシュ","type":"Electric","category":"Physical","power":90,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Paralyze","ailment_chance":10,"is_contact":true},{"id":"MVP_075","name":"フラッシュボルトピアス","type":"Electric","category":"Physical","power":90,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_076","name":"ボルトチャージナックル","type":"Electric","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","is_contact":true,"ailment_effect":"Paralyze","ailment_chance":10,"weapon_tag":"None"},{"id":"MVP_077","name":"スイフトボルトスマッシュ","type":"Electric","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","ailment_effect":"Paralyze","ailment_chance":10,"is_contact":true},{"id":"MVP_078","name":"ボルトリングジャブ","type":"Electric","category":"Physical","power":110,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_079","name":"ボルトトレイルバッシュ","type":"Electric","category":"Physical","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_080","name":"スタティックピアス","type":"Electric","category":"Physical","power":120,"accuracy":100,"max_pp":6,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MVP_081","name":"クロッドスマッシュ","type":"Ground","category":"Physical","power":40,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true,"rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self"},{"id":"MVP_082","name":"ベッドロックナックル","type":"Ground","category":"Physical","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"None","is_contact":true},{"id":"MVP_083","name":"レイラインバッシュ","type":"Ground","category":"Physical","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_084","name":"クラッシュソイルパンチ","type":"Ground","category":"Physical","power":55,"accuracy":100,"max_pp":26,"range":"Adjacent","is_contact":true,"rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"Punch"},{"id":"MVP_085","name":"アースヴェールピアス","type":"Ground","category":"Physical","power":60,"accuracy":100,"max_pp":21,"range":"Adjacent","is_contact":true},{"id":"MVP_086","name":"ロックシャードフィスト","type":"Ground","category":"Physical","power":65,"accuracy":100,"max_pp":18,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"Fist","is_contact":true},{"id":"MVP_087","name":"アースウォールストレート","type":"Ground","category":"Physical","power":70,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true,"weapon_tag":"Straight"},{"id":"MVP_088","name":"ハードグラウンドブロー","type":"Ground","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","is_contact":true,"rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"Fist"},{"id":"MVP_089","name":"ペブルブロージャブ","type":"Ground","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_090","name":"アースリングナックル","type":"Ground","category":"Physical","power":80,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MVP_091","name":"ソリッドソイルスマッシュ","type":"Ground","category":"Physical","power":80,"accuracy":90,"max_pp":8,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_092","name":"ロックヴェールピアス","type":"Ground","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_093","name":"クロッドジャブ","type":"Ground","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","is_contact":true,"rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self"},{"id":"MVP_094","name":"ベッドロックバッシュ","type":"Ground","category":"Physical","power":90,"accuracy":90,"max_pp":8,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_095","name":"レイラインピアス","type":"Ground","category":"Physical","power":90,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_096","name":"クラッシュソイルナックル","type":"Ground","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","is_contact":true,"rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"None"},{"id":"MVP_097","name":"アースヴェールスマッシュ","type":"Ground","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_098","name":"ロックシャードジャブ","type":"Ground","category":"Physical","power":110,"accuracy":65,"max_pp":6,"range":"Adjacent","rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","is_contact":true},{"id":"MVP_099","name":"アースウォールナックル","type":"Ground","category":"Physical","power":115,"accuracy":65,"max_pp":6,"range":"Adjacent","is_contact":true,"rank_effect_stat":"Def","rank_effect_delta":1,"rank_effect_target":"Self","weapon_tag":"None"},{"id":"MVP_100","name":"ハードグラウンドピアス","type":"Ground","category":"Physical","power":120,"accuracy":100,"max_pp":6,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MVP_101","name":"グリーンリーフスマッシュ","type":"Grass","category":"Physical","power":40,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true,"drain_hp_percent":50},{"id":"MVP_102","name":"アイビーストレートナックル","type":"Grass","category":"Physical","power":45,"accuracy":100,"max_pp":28,"range":"Adjacent","drain_hp_percent":50,"weapon_tag":"None","is_contact":true},{"id":"MVP_103","name":"リーフヴェインバッシュ","type":"Grass","category":"Physical","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent","drain_hp_percent":50,"is_contact":true},{"id":"MVP_104","name":"フレッシュリーフパンチ","type":"Grass","category":"Physical","power":50,"accuracy":100,"max_pp":26,"range":"Adjacent","is_contact":true,"drain_hp_percent":50,"weapon_tag":"Punch","ailment_effect":"VineBound","ailment_chance":20,"ailment_target":"Enemy"},{"id":"MVP_105","name":"グラスリングスラスト","type":"Grass","category":"Physical","power":60,"accuracy":100,"max_pp":21,"range":"TwoTile","is_contact":false,"weapon_tag":"Thrust"},{"id":"MVP_106","name":"ヴァーダントリーフフィスト","type":"Grass","category":"Physical","power":65,"accuracy":100,"max_pp":18,"range":"Adjacent","drain_hp_percent":50,"weapon_tag":"Fist","is_contact":true},{"id":"MVP_107","name":"リーフスウォームスマッシュ","type":"Grass","category":"Physical","power":65,"accuracy":100,"max_pp":15,"range":"Adjacent","drain_hp_percent":50,"is_contact":true},{"id":"MVP_108","name":"グラスヴェールブロー","type":"Grass","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","is_contact":true,"drain_hp_percent":50,"weapon_tag":"Fist"},{"id":"MVP_109","name":"ヴァインブロージャブ","type":"Grass","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","drain_hp_percent":50,"is_contact":true},{"id":"MVP_110","name":"グリーンアレイナックル","type":"Grass","category":"Physical","power":80,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MVP_111","name":"リーフハイドスマッシュ","type":"Grass","category":"Physical","power":80,"accuracy":90,"max_pp":8,"range":"Adjacent","drain_hp_percent":50,"is_contact":true},{"id":"MVP_112","name":"ブッシュピアス","type":"Grass","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","drain_hp_percent":50,"is_contact":true},{"id":"MVP_113","name":"グリーンリーフジャブ","type":"Grass","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","is_contact":true,"drain_hp_percent":50},{"id":"MVP_114","name":"アイビーストレートバッシュ","type":"Grass","category":"Physical","power":90,"accuracy":90,"max_pp":8,"range":"Adjacent","drain_hp_percent":50,"is_contact":true},{"id":"MVP_115","name":"リーフヴェインピアス","type":"Grass","category":"Physical","power":90,"accuracy":100,"max_pp":6,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MVP_116","name":"フレッシュリーフナックル","type":"Grass","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","is_contact":true,"drain_hp_percent":50,"weapon_tag":"None"},{"id":"MVP_117","name":"グラスリングスマッシュ","type":"Grass","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","drain_hp_percent":50,"is_contact":true},{"id":"MVP_118","name":"ヴァーダントリーフジャブ","type":"Grass","category":"Physical","power":110,"accuracy":65,"max_pp":6,"range":"Adjacent","drain_hp_percent":50,"is_contact":true},{"id":"MVP_119","name":"リーフスウォームナックル","type":"Grass","category":"Physical","power":115,"accuracy":65,"max_pp":6,"range":"Adjacent","is_contact":true,"drain_hp_percent":50,"weapon_tag":"None"},{"id":"MVP_120","name":"グラスヴェールピアス","type":"Grass","category":"Physical","power":120,"accuracy":100,"max_pp":6,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MVP_121","name":"ホワイトアイススマッシュ","type":"Ice","category":"Physical","power":40,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true,"ailment_effect":"Freeze","ailment_chance":30},{"id":"MVP_122","name":"フリーズナックル","type":"Ice","category":"Physical","power":45,"accuracy":100,"max_pp":28,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":30,"weapon_tag":"None","is_contact":true},{"id":"MVP_123","name":"フロストストレートバッシュ","type":"Ice","category":"Physical","power":45,"accuracy":100,"max_pp":28,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":30,"is_contact":true},{"id":"MVP_124","name":"アイスリングパンチ","type":"Ice","category":"Physical","power":50,"accuracy":100,"max_pp":26,"range":"Adjacent","is_contact":true,"ailment_effect":"Freeze","ailment_chance":30,"weapon_tag":"Punch"},{"id":"MVP_125","name":"チルスラスト","type":"Ice","category":"Physical","power":60,"accuracy":100,"max_pp":21,"range":"TwoTile","is_contact":false,"weapon_tag":"Thrust"},{"id":"MVP_126","name":"アイスシャードフィスト","type":"Ice","category":"Physical","power":70,"accuracy":100,"max_pp":18,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":20,"weapon_tag":"Fist","is_contact":true},{"id":"MVP_127","name":"フローズンクラウドストレート","type":"Ice","category":"Physical","power":70,"accuracy":100,"max_pp":15,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":20,"is_contact":true,"weapon_tag":"Straight"},{"id":"MVP_128","name":"アイスヴェールバッシュ","type":"Ice","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","is_contact":true,"ailment_effect":"Freeze","ailment_chance":10},{"id":"MVP_129","name":"フロストブロッサムジャブ","type":"Ice","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":10,"is_contact":true},{"id":"MVP_130","name":"アイスコアナックル","type":"Ice","category":"Physical","power":80,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MVP_131","name":"コールドストレートピアス","type":"Ice","category":"Physical","power":80,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":10,"is_contact":true},{"id":"MVP_132","name":"アイスアレイスマッシュ","type":"Ice","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":10,"is_contact":true},{"id":"MVP_133","name":"ホワイトアイスジャブ","type":"Ice","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","is_contact":true,"ailment_effect":"Freeze","ailment_chance":10},{"id":"MVP_134","name":"フリーズバッシュ","type":"Ice","category":"Physical","power":90,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":10,"is_contact":true},{"id":"MVP_135","name":"フロストストレートピアス","type":"Ice","category":"Physical","power":90,"accuracy":100,"max_pp":6,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MVP_136","name":"アイスリングナックル","type":"Ice","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","is_contact":true,"ailment_effect":"Freeze","ailment_chance":10,"weapon_tag":"None"},{"id":"MVP_137","name":"チルスマッシュ","type":"Ice","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","ailment_effect":"Freeze","ailment_chance":10,"is_contact":true},{"id":"MVP_138","name":"アイスシャードジャブ","type":"Ice","category":"Physical","power":110,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_139","name":"フローズンクラウドナックル","type":"Ice","category":"Physical","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MVP_140","name":"アイスヴェールピアス","type":"Ice","category":"Physical","power":120,"accuracy":100,"max_pp":6,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MVP_141","name":"ドラゴンファングスマッシュ","type":"Dragon","category":"Physical","power":45,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true,"recoil_hp_percent":25,"dragon_multiplier":1.25},{"id":"MVP_142","name":"ドラゴンスケイルナックル","type":"Dragon","category":"Physical","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent","recoil_hp_percent":25,"dragon_multiplier":1.25,"weapon_tag":"None","is_contact":true},{"id":"MVP_143","name":"ドラゴンヴェインバッシュ","type":"Dragon","category":"Physical","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent","recoil_hp_percent":25,"dragon_multiplier":1.25,"is_contact":true},{"id":"MVP_144","name":"ドラゴンブレスパンチ","type":"Dragon","category":"Physical","power":55,"accuracy":100,"max_pp":26,"range":"Adjacent","is_contact":true,"recoil_hp_percent":25,"dragon_multiplier":1.25,"weapon_tag":"Punch","ailment_effect":"Stun","ailment_chance":20,"ailment_target":"Enemy"},{"id":"MVP_145","name":"ドラゴンクローピアス","type":"Dragon","category":"Physical","power":60,"accuracy":100,"max_pp":21,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MVP_146","name":"ドラゴンリングフィスト","type":"Dragon","category":"Physical","power":60,"accuracy":100,"max_pp":18,"range":"Adjacent","recoil_hp_percent":33,"dragon_multiplier":1.5,"weapon_tag":"Fist","is_contact":true},{"id":"MVP_147","name":"ドラゴンヴェールストレート","type":"Dragon","category":"Physical","power":65,"accuracy":100,"max_pp":15,"range":"Adjacent","recoil_hp_percent":33,"dragon_multiplier":1.5,"is_contact":true,"weapon_tag":"Straight"},{"id":"MVP_148","name":"ドラゴンパンチ","type":"Dragon","category":"Physical","power":70,"accuracy":90,"max_pp":11,"range":"Adjacent","is_contact":true,"recoil_hp_percent":33,"dragon_multiplier":1.5,"weapon_tag":"Punch","ailment_effect":"Stun","ailment_chance":20,"ailment_target":"Enemy"},{"id":"MVP_149","name":"ドラゴンピアスジャブ","type":"Dragon","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","recoil_hp_percent":33,"dragon_multiplier":1.5,"is_contact":true},{"id":"MVP_150","name":"ドラゴンフォスファーナックル","type":"Dragon","category":"Physical","power":80,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MVP_151","name":"ドラゴンハートスマッシュ","type":"Dragon","category":"Physical","power":80,"accuracy":90,"max_pp":8,"range":"Adjacent","recoil_hp_percent":33,"dragon_multiplier":1.5,"is_contact":true},{"id":"MVP_152","name":"ドラゴンラースピアス","type":"Dragon","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"TwoTile","recoil_hp_percent":33,"dragon_multiplier":1.5,"is_contact":false,"weapon_tag":"None"},{"id":"MVP_153","name":"ドラゴンファングジャブ","type":"Dragon","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","is_contact":true,"recoil_hp_percent":33,"dragon_multiplier":1.5},{"id":"MVP_154","name":"ドラゴンスケイルバッシュ","type":"Dragon","category":"Physical","power":90,"accuracy":90,"max_pp":8,"range":"Adjacent","recoil_hp_percent":33,"dragon_multiplier":1.5,"is_contact":true},{"id":"MVP_155","name":"ドラゴンヴェインピアス","type":"Dragon","category":"Physical","power":90,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_156","name":"ドラゴンブレスナックル","type":"Dragon","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","is_contact":true,"recoil_hp_percent":33,"dragon_multiplier":1.5,"weapon_tag":"None"},{"id":"MVP_158","name":"ドラゴンリングジャブ","type":"Dragon","category":"Physical","power":110,"accuracy":65,"max_pp":6,"range":"Adjacent","recoil_hp_percent":33,"dragon_multiplier":1.5,"is_contact":true},{"id":"MVP_159","name":"ドラゴンヴェールナックル","type":"Dragon","category":"Physical","power":115,"accuracy":65,"max_pp":6,"range":"Adjacent","is_contact":true,"recoil_hp_percent":33,"dragon_multiplier":1.5,"weapon_tag":"None"},{"id":"MVP_160","name":"ドラゴンヴォイスピアス","type":"Dragon","category":"Physical","power":120,"accuracy":100,"max_pp":6,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MVP_161","name":"ブラックミストスマッシュ","type":"Dark","category":"Physical","power":45,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true,"ailment_effect":"Darkness","ailment_chance":30},{"id":"MVP_162","name":"シャドウストレートナックル","type":"Dark","category":"Physical","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent","ailment_effect":"Darkness","ailment_chance":30,"weapon_tag":"None","is_contact":true},{"id":"MVP_163","name":"カースブローパンチ","type":"Dark","category":"Physical","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent","ailment_effect":"Darkness","ailment_chance":30,"is_contact":true,"weapon_tag":"Punch"},{"id":"MVP_164","name":"ダークネススラスト","type":"Dark","category":"Physical","power":55,"accuracy":100,"max_pp":26,"range":"TwoTile","is_contact":false,"ailment_effect":"Darkness","ailment_chance":30,"weapon_tag":"Thrust"},{"id":"MVP_165","name":"ダークリングナックル","type":"Dark","category":"Physical","power":65,"accuracy":100,"max_pp":21,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MVP_166","name":"シャドウバレットストレート","type":"Dark","category":"Physical","power":70,"accuracy":100,"max_pp":18,"range":"Adjacent","ailment_effect":"Darkness","ailment_chance":20,"is_contact":true,"weapon_tag":"Straight"},{"id":"MVP_167","name":"シャドウパンチ","type":"Dark","category":"Physical","power":70,"accuracy":100,"max_pp":15,"range":"Adjacent","ailment_effect":"Darkness","ailment_chance":20,"is_contact":true,"weapon_tag":"Punch"},{"id":"MVP_168","name":"カースシャドウジャブ","type":"Dark","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","is_contact":true,"ailment_effect":"Darkness","ailment_chance":10},{"id":"MVP_169","name":"ダークストレートピアス","type":"Dark","category":"Physical","power":75,"accuracy":90,"max_pp":11,"range":"Adjacent","ailment_effect":"Darkness","ailment_chance":10,"is_contact":true},{"id":"MVP_170","name":"ダークヴェールナックル","type":"Dark","category":"Physical","power":80,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true,"weapon_tag":"None"},{"id":"MVP_171","name":"シャドウアレイスマッシュ","type":"Dark","category":"Physical","power":80,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Darkness","ailment_chance":10,"is_contact":true},{"id":"MVP_172","name":"ブラックソートバッシュ","type":"Dark","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","ailment_effect":"Darkness","ailment_chance":10,"is_contact":true},{"id":"MVP_173","name":"ブラックミストジャブ","type":"Dark","category":"Physical","power":85,"accuracy":90,"max_pp":8,"range":"Adjacent","is_contact":true,"ailment_effect":"Darkness","ailment_chance":10},{"id":"MVP_174","name":"シャドウストレートピアス","type":"Dark","category":"Physical","power":90,"accuracy":90,"max_pp":8,"range":"TwoTile","ailment_effect":"Darkness","ailment_chance":10,"is_contact":false,"weapon_tag":"None"},{"id":"MVP_175","name":"カースブローナックル","type":"Dark","category":"Physical","power":90,"accuracy":100,"max_pp":6,"range":"Adjacent","weapon_tag":"None","is_contact":true},{"id":"MVP_176","name":"ダークネススマッシュ","type":"Dark","category":"Physical","power":95,"accuracy":85,"max_pp":6,"range":"Adjacent","is_contact":true,"ailment_effect":"Darkness","ailment_chance":10},{"id":"MVP_178","name":"シャドウバレットバッシュ","type":"Dark","category":"Physical","power":110,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"MVP_179","name":"ブラックヴェールピアス","type":"Dark","category":"Physical","power":115,"accuracy":100,"max_pp":6,"range":"TwoTile","is_contact":false,"weapon_tag":"None"},{"id":"MVP_180","name":"シャドウクラッシュ","type":"Dark","category":"Physical","power":120,"accuracy":100,"max_pp":6,"range":"Adjacent","weapon_tag":"Crush","is_contact":true},{"id":"mvh_water","name":"タービュレントラッシュ","type":"Water","category":"Physical","power":25,"accuracy":95,"max_pp":15,"range":"Adjacent","is_contact":true,"multi_hit":"Variable2To5","weapon_tag":"None"},{"id":"mvh_electric","name":"トリプルボルトスマッシュ","type":"Electric","category":"Physical","power":35,"accuracy":90,"max_pp":10,"range":"Adjacent","is_contact":true,"multi_hit":"RepeatPerHit","multi_hit_count":3,"weapon_tag":"Slash"},{"id":"mvh_ground","name":"ロックバラージバッシュ","type":"Ground","category":"Physical","power":25,"accuracy":95,"max_pp":15,"range":"Adjacent","is_contact":true,"multi_hit":"Variable2To5","weapon_tag":"None"},{"id":"mvh_ice","name":"トリプルアイスブレード","type":"Ice","category":"Physical","power":35,"accuracy":90,"max_pp":10,"range":"Adjacent","is_contact":true,"multi_hit":"RepeatPerHit","multi_hit_count":3,"weapon_tag":"Slash"},{"id":"mvh_dark","name":"シャドウバラージ","type":"Dark","category":"Physical","power":25,"accuracy":95,"max_pp":15,"range":"Adjacent","is_contact":true,"multi_hit":"Variable2To5","weapon_tag":"None"},{"id":"mvw_sunny","name":"サンライトソング","type":"Fire","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","weather_effect":"Sunny","weather_turns":20},{"id":"mvw_rain","name":"レインダンス","type":"Water","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","weather_effect":"Rain","weather_turns":20},{"id":"mvw_snow","name":"スノーダンス","type":"Ice","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","weather_effect":"Snow","weather_turns":20},{"id":"mvw_sandstorm","name":"サンドストーム","type":"Ground","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","weather_effect":"Sandstorm","weather_turns":20},{"id":"mvw_gale","name":"ゲイルコール","type":"Grass","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","weather_effect":"Gale","weather_turns":20},{"id":"mvw_fog","name":"フォグヴェール","type":"Dark","category":"Status","power":0,"accuracy":100,"max_pp":16,"range":"Adjacent","weather_effect":"Fog","weather_turns":20},{"id":"mvs_ep_neutral","name":"マッチレスピーク","type":"Neutral","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","rank_effect_stat":"ElementPower","rank_effect_delta":2,"rank_effect_target":"Self"},{"id":"mvs_ep_fire","name":"ヘルファイアピーク","type":"Fire","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","rank_effect_stat":"ElementPower","rank_effect_delta":2,"rank_effect_target":"Self"},{"id":"mvs_ep_water","name":"ディープウォーターピーク","type":"Water","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","rank_effect_stat":"ElementPower","rank_effect_delta":2,"rank_effect_target":"Self"},{"id":"mvs_ep_grass","name":"ヴァーダントピーク","type":"Grass","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","rank_effect_stat":"ElementPower","rank_effect_delta":2,"rank_effect_target":"Self"},{"id":"mvs_ep_electric","name":"サンダーロアピーク","type":"Electric","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","rank_effect_stat":"ElementPower","rank_effect_delta":2,"rank_effect_target":"Self"},{"id":"mvs_ep_ground","name":"アースコアピーク","type":"Ground","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","rank_effect_stat":"ElementPower","rank_effect_delta":2,"rank_effect_target":"Self"},{"id":"mvs_ep_ice","name":"フリーズピーク","type":"Ice","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","rank_effect_stat":"ElementPower","rank_effect_delta":2,"rank_effect_target":"Self"},{"id":"mvs_ep_dragon","name":"ドラゴンハートピーク","type":"Dragon","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","rank_effect_stat":"ElementPower","rank_effect_delta":2,"rank_effect_target":"Self"},{"id":"mvs_ep_dark","name":"アビスピーク","type":"Dark","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","rank_effect_stat":"ElementPower","rank_effect_delta":2,"rank_effect_target":"Self"},{"id":"mvs_neutral_atk_def","name":"マッチレスガード","type":"Neutral","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Atk","delta":1,"target":"Self","chance":1.0},{"stat":"Def","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_neutral_atk_accuracy","name":"マッチレスエイム","type":"Neutral","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Atk","delta":1,"target":"Self","chance":1.0},{"stat":"Accuracy","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_fire_atk_evasion","name":"フレイムステップ","type":"Fire","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Atk","delta":1,"target":"Self","chance":1.0},{"stat":"Evasion","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_fire_atk_crit","name":"フレイムファングスタンス","type":"Fire","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Atk","delta":1,"target":"Self","chance":1.0},{"stat":"Crit","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_water_def_accuracy","name":"サーフェスガード","type":"Water","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Def","delta":1,"target":"Self","chance":1.0},{"stat":"Accuracy","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_water_def_evasion","name":"サーフェスヴェール","type":"Water","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Def","delta":1,"target":"Self","chance":1.0},{"stat":"Evasion","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_grass_def_crit","name":"フレッシュグリーンアーマー","type":"Grass","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Def","delta":1,"target":"Self","chance":1.0},{"stat":"Crit","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_grass_accuracy_evasion","name":"フレッシュグリーンアイ","type":"Grass","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Accuracy","delta":1,"target":"Self","chance":1.0},{"stat":"Evasion","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_electric_accuracy_crit","name":"ボルトサイト","type":"Electric","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Accuracy","delta":1,"target":"Self","chance":1.0},{"stat":"Crit","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_electric_evasion_crit","name":"ボルトミラージュ","type":"Electric","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Evasion","delta":1,"target":"Self","chance":1.0},{"stat":"Crit","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_ground_atk_def","name":"アーススタンス","type":"Ground","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Atk","delta":1,"target":"Self","chance":1.0},{"stat":"Def","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_ground_atk_accuracy","name":"アースエイム","type":"Ground","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Atk","delta":1,"target":"Self","chance":1.0},{"stat":"Accuracy","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_ice_atk_evasion","name":"グレイシャーステップ","type":"Ice","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Atk","delta":1,"target":"Self","chance":1.0},{"stat":"Evasion","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_ice_atk_crit","name":"グレイシャーファングスタンス","type":"Ice","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Atk","delta":1,"target":"Self","chance":1.0},{"stat":"Crit","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_dragon_def_accuracy","name":"ドラゴンオーラガード","type":"Dragon","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Def","delta":1,"target":"Self","chance":1.0},{"stat":"Accuracy","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_dragon_def_evasion","name":"ドラゴンオーラヴェール","type":"Dragon","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Def","delta":1,"target":"Self","chance":1.0},{"stat":"Evasion","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_dark_def_crit","name":"ダークナイトアーマー","type":"Dark","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Def","delta":1,"target":"Self","chance":1.0},{"stat":"Crit","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_dark_accuracy_evasion","name":"ダークナイトアイ","type":"Dark","category":"Status","power":0,"accuracy":100,"max_pp":15,"range":"Adjacent","rank_effects":[{"stat":"Accuracy","delta":1,"target":"Self","chance":1.0},{"stat":"Evasion","delta":1,"target":"Self","chance":1.0}]},{"id":"mvs_big_neutral","name":"リックレススタンス","type":"Neutral","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","rank_effects":[{"stat":"Atk","delta":2,"target":"Self","chance":1.0},{"stat":"Crit","delta":2,"target":"Self","chance":1.0},{"stat":"Def","delta":-2,"target":"Self","chance":1.0}]},{"id":"mvs_big_water","name":"ラピッドストリームスタンス","type":"Water","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","rank_effects":[{"stat":"Atk","delta":2,"target":"Self","chance":1.0},{"stat":"Evasion","delta":2,"target":"Self","chance":1.0},{"stat":"Def","delta":-2,"target":"Self","chance":1.0}]},{"id":"mvs_toxic_dark","name":"トキシックドロップ","type":"Dark","category":"Status","power":0,"accuracy":100,"max_pp":10,"range":"Adjacent","ailment_effect":"Toxic","ailment_chance":100,"ailment_target":"Enemy"},{"id":"gap_neutral_p_15","name":"プレーンスマッシュ","type":"Neutral","category":"Physical","power":15,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"gap_neutral_p_20","name":"プレーンビート","type":"Neutral","category":"Physical","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_neutral_p_100","name":"プレーンスラム","type":"Neutral","category":"Physical","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_neutral_p_105","name":"プレーンインパクト","type":"Neutral","category":"Physical","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_fire_p_15","name":"フレイムスマッシュ","type":"Fire","category":"Physical","power":15,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"gap_fire_p_20","name":"フレイムビート","type":"Fire","category":"Physical","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_fire_p_25","name":"フレイムスラム","type":"Fire","category":"Physical","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_fire_p_30","name":"フレイムインパクト","type":"Fire","category":"Physical","power":30,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_fire_p_100","name":"フレイムハンマー","type":"Fire","category":"Physical","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_fire_p_105","name":"フレイムドライブ","type":"Fire","category":"Physical","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_water_p_15","name":"アクアスマッシュ","type":"Water","category":"Physical","power":15,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"gap_water_p_20","name":"アクアビート","type":"Water","category":"Physical","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_water_p_25","name":"アクアスラム","type":"Water","category":"Physical","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_water_p_30","name":"アクアインパクト","type":"Water","category":"Physical","power":30,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_water_p_100","name":"アクアハンマー","type":"Water","category":"Physical","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_water_p_105","name":"アクアドライブ","type":"Water","category":"Physical","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_water_p_115","name":"アクアバッシュ","type":"Water","category":"Physical","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_grass_p_15","name":"リーフスマッシュ","type":"Grass","category":"Physical","power":15,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"gap_grass_p_20","name":"リーフビート","type":"Grass","category":"Physical","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_grass_p_25","name":"リーフスラム","type":"Grass","category":"Physical","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_grass_p_30","name":"リーフインパクト","type":"Grass","category":"Physical","power":30,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_grass_p_100","name":"リーフハンマー","type":"Grass","category":"Physical","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_grass_p_105","name":"リーフドライブ","type":"Grass","category":"Physical","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_electric_p_15","name":"ボルトスマッシュ","type":"Electric","category":"Physical","power":15,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"gap_electric_p_20","name":"ボルトビート","type":"Electric","category":"Physical","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_electric_p_25","name":"ボルトスラム","type":"Electric","category":"Physical","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_electric_p_30","name":"ボルトインパクト","type":"Electric","category":"Physical","power":30,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_electric_p_35","name":"ボルトハンマー","type":"Electric","category":"Physical","power":35,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_electric_p_100","name":"ボルトドライブ","type":"Electric","category":"Physical","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_electric_p_105","name":"ボルトバッシュ","type":"Electric","category":"Physical","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_ground_p_15","name":"ロックビート","type":"Ground","category":"Physical","power":15,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"gap_ground_p_20","name":"ロックスラム","type":"Ground","category":"Physical","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_ground_p_25","name":"ロックインパクト","type":"Ground","category":"Physical","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_ground_p_30","name":"ロックハンマー","type":"Ground","category":"Physical","power":30,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_ground_p_100","name":"ロックドライブ","type":"Ground","category":"Physical","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_ground_p_105","name":"ロックバッシュ","type":"Ground","category":"Physical","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_ice_p_15","name":"フロストスマッシュ","type":"Ice","category":"Physical","power":15,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"gap_ice_p_20","name":"フロストビート","type":"Ice","category":"Physical","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_ice_p_25","name":"フロストスラム","type":"Ice","category":"Physical","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_ice_p_30","name":"フロストインパクト","type":"Ice","category":"Physical","power":30,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_ice_p_105","name":"フロストハンマー","type":"Ice","category":"Physical","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_dragon_p_15","name":"ドラゴンスマッシュ","type":"Dragon","category":"Physical","power":15,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"gap_dragon_p_20","name":"ドラゴンビート","type":"Dragon","category":"Physical","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_dragon_p_25","name":"ドラゴンスラム","type":"Dragon","category":"Physical","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_dragon_p_30","name":"ドラゴンインパクト","type":"Dragon","category":"Physical","power":30,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_dragon_p_35","name":"ドラゴンハンマー","type":"Dragon","category":"Physical","power":35,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_dragon_p_40","name":"ドラゴンドライブ","type":"Dragon","category":"Physical","power":40,"accuracy":100,"max_pp":28,"range":"Adjacent","is_contact":true},{"id":"gap_dragon_p_100","name":"ドラゴンバッシュ","type":"Dragon","category":"Physical","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_dragon_p_105","name":"ドラゴンノック","type":"Dragon","category":"Physical","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_dark_p_15","name":"シャドウスマッシュ","type":"Dark","category":"Physical","power":15,"accuracy":100,"max_pp":36,"range":"Adjacent","is_contact":true},{"id":"gap_dark_p_20","name":"シャドウビート","type":"Dark","category":"Physical","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_dark_p_25","name":"シャドウスラム","type":"Dark","category":"Physical","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_dark_p_30","name":"シャドウインパクト","type":"Dark","category":"Physical","power":30,"accuracy":100,"max_pp":30,"range":"Adjacent","is_contact":true},{"id":"gap_dark_p_60","name":"シャドウハンマー","type":"Dark","category":"Physical","power":60,"accuracy":100,"max_pp":18,"range":"Adjacent","is_contact":true},{"id":"gap_dark_p_100","name":"シャドウドライブ","type":"Dark","category":"Physical","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_dark_p_105","name":"シャドウバッシュ","type":"Dark","category":"Physical","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent","is_contact":true},{"id":"gap_neutral_s_20","name":"ヴォイドブレス","type":"Neutral","category":"Special","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent","weapon_tag":"Breath"},{"id":"gap_neutral_s_35","name":"プレーンバレット","type":"Neutral","category":"Special","power":35,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_neutral_s_40","name":"プレーンウェーブ","type":"Neutral","category":"Special","power":40,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_neutral_s_55","name":"プレーンレイ","type":"Neutral","category":"Special","power":55,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_neutral_s_60","name":"プレーンビーム","type":"Neutral","category":"Special","power":60,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_neutral_s_70","name":"プレーンパルス","type":"Neutral","category":"Special","power":70,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_neutral_s_75","name":"プレーンノヴァ","type":"Neutral","category":"Special","power":75,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_neutral_s_85","name":"プレーンバースト","type":"Neutral","category":"Special","power":85,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_neutral_s_90","name":"プレーンブラスト","type":"Neutral","category":"Special","power":90,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_neutral_s_95","name":"プレーンスフィア","type":"Neutral","category":"Special","power":95,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_neutral_s_100","name":"プレーンオーブ","type":"Neutral","category":"Special","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_neutral_s_105","name":"プレーンランス","type":"Neutral","category":"Special","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_neutral_s_115","name":"プレーンスピア","type":"Neutral","category":"Special","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_neutral_s_120","name":"プレーンアロー","type":"Neutral","category":"Special","power":120,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_fire_s_25","name":"フレイムショット","type":"Fire","category":"Special","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_fire_s_35","name":"フレイムバレット","type":"Fire","category":"Special","power":35,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_fire_s_45","name":"フレイムウェーブ","type":"Fire","category":"Special","power":45,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_fire_s_60","name":"フレイムレイ","type":"Fire","category":"Special","power":60,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_fire_s_75","name":"フレイムビーム","type":"Fire","category":"Special","power":75,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_fire_s_80","name":"フレイムパルス","type":"Fire","category":"Special","power":80,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_fire_s_85","name":"フレイムノヴァ","type":"Fire","category":"Special","power":85,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_fire_s_95","name":"フレイムバースト","type":"Fire","category":"Special","power":95,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_fire_s_100","name":"フレイムブラスト","type":"Fire","category":"Special","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_fire_s_115","name":"フレイムスフィア","type":"Fire","category":"Special","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_water_s_20","name":"アクアバレット","type":"Water","category":"Special","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_water_s_30","name":"アクアウェーブ","type":"Water","category":"Special","power":30,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_water_s_40","name":"アクアレイ","type":"Water","category":"Special","power":40,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_water_s_50","name":"アクアビーム","type":"Water","category":"Special","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_water_s_60","name":"アクアパルス","type":"Water","category":"Special","power":60,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_water_s_65","name":"アクアノヴァ","type":"Water","category":"Special","power":65,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_water_s_85","name":"アクアバースト","type":"Water","category":"Special","power":85,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_water_s_95","name":"アクアブラスト","type":"Water","category":"Special","power":95,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_water_s_105","name":"アクアスフィア","type":"Water","category":"Special","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_water_s_110","name":"アクアオーブ","type":"Water","category":"Special","power":110,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_water_s_120","name":"アクアスピア","type":"Water","category":"Special","power":120,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_grass_s_20","name":"リーフショット","type":"Grass","category":"Special","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_grass_s_35","name":"リーフバレット","type":"Grass","category":"Special","power":35,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_grass_s_40","name":"リーフウェーブ","type":"Grass","category":"Special","power":40,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_grass_s_50","name":"リーフレイ","type":"Grass","category":"Special","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_grass_s_60","name":"リーフビーム","type":"Grass","category":"Special","power":60,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_grass_s_65","name":"リーフパルス","type":"Grass","category":"Special","power":65,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_grass_s_70","name":"リーフノヴァ","type":"Grass","category":"Special","power":70,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_grass_s_80","name":"リーフバースト","type":"Grass","category":"Special","power":80,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_grass_s_85","name":"リーフブラスト","type":"Grass","category":"Special","power":85,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_grass_s_90","name":"リーフスフィア","type":"Grass","category":"Special","power":90,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_grass_s_95","name":"リーフオーブ","type":"Grass","category":"Special","power":95,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_grass_s_105","name":"リーフランス","type":"Grass","category":"Special","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_grass_s_110","name":"リーフスピア","type":"Grass","category":"Special","power":110,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_grass_s_115","name":"リーフアロー","type":"Grass","category":"Special","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_grass_s_120","name":"リーフダート","type":"Grass","category":"Special","power":120,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_electric_s_20","name":"ボルトショット","type":"Electric","category":"Special","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_electric_s_35","name":"ボルトバレット","type":"Electric","category":"Special","power":35,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_electric_s_50","name":"ボルトウェーブ","type":"Electric","category":"Special","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_electric_s_60","name":"ボルトレイ","type":"Electric","category":"Special","power":60,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_electric_s_65","name":"ボルトビーム","type":"Electric","category":"Special","power":65,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_electric_s_75","name":"ボルトパルス","type":"Electric","category":"Special","power":75,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_electric_s_80","name":"ボルトノヴァ","type":"Electric","category":"Special","power":80,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_electric_s_90","name":"ボルトバースト","type":"Electric","category":"Special","power":90,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_electric_s_95","name":"ボルトブラスト","type":"Electric","category":"Special","power":95,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_electric_s_100","name":"ボルトスフィア","type":"Electric","category":"Special","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_electric_s_105","name":"ボルトオーブ","type":"Electric","category":"Special","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_electric_s_120","name":"ボルトランス","type":"Electric","category":"Special","power":120,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_ground_s_25","name":"ロックショット","type":"Ground","category":"Special","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_ground_s_35","name":"ロックウェーブ","type":"Ground","category":"Special","power":35,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_ground_s_45","name":"ロックレイ","type":"Ground","category":"Special","power":45,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_ground_s_60","name":"ロックビーム","type":"Ground","category":"Special","power":60,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_ground_s_75","name":"ロックパルス","type":"Ground","category":"Special","power":75,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_ground_s_80","name":"ロックノヴァ","type":"Ground","category":"Special","power":80,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_ground_s_85","name":"ロックバースト","type":"Ground","category":"Special","power":85,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_ground_s_90","name":"ロックブラスト","type":"Ground","category":"Special","power":90,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_ground_s_95","name":"ロックスフィア","type":"Ground","category":"Special","power":95,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_ground_s_105","name":"ロックオーブ","type":"Ground","category":"Special","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_ground_s_115","name":"ロックランス","type":"Ground","category":"Special","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_ice_s_20","name":"フロストバレット","type":"Ice","category":"Special","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_ice_s_25","name":"フロストウェーブ","type":"Ice","category":"Special","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_ice_s_35","name":"フロストレイ","type":"Ice","category":"Special","power":35,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_ice_s_40","name":"フロストビーム","type":"Ice","category":"Special","power":40,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_ice_s_50","name":"フロストパルス","type":"Ice","category":"Special","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_ice_s_55","name":"フロストノヴァ","type":"Ice","category":"Special","power":55,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_ice_s_65","name":"フロストバースト","type":"Ice","category":"Special","power":65,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_ice_s_75","name":"フロストブラスト","type":"Ice","category":"Special","power":75,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_ice_s_90","name":"フロストスフィア","type":"Ice","category":"Special","power":90,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_ice_s_100","name":"フロストオーブ","type":"Ice","category":"Special","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_ice_s_105","name":"フロストランス","type":"Ice","category":"Special","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_ice_s_110","name":"フロストスピア","type":"Ice","category":"Special","power":110,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_ice_s_115","name":"フロストアロー","type":"Ice","category":"Special","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_ice_s_120","name":"フロストダート","type":"Ice","category":"Special","power":120,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_dragon_s_20","name":"ドラゴンショット","type":"Dragon","category":"Special","power":20,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_dragon_s_25","name":"ドラゴンバレット","type":"Dragon","category":"Special","power":25,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_dragon_s_35","name":"ドラゴンウェーブ","type":"Dragon","category":"Special","power":35,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_dragon_s_40","name":"ドラゴンレイ","type":"Dragon","category":"Special","power":40,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_dragon_s_50","name":"ドラゴンビーム","type":"Dragon","category":"Special","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_dragon_s_75","name":"ドラゴンパルス","type":"Dragon","category":"Special","power":75,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_dragon_s_80","name":"ドラゴンノヴァ","type":"Dragon","category":"Special","power":80,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_dragon_s_85","name":"ドラゴンバースト","type":"Dragon","category":"Special","power":85,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_dragon_s_90","name":"ドラゴンブラスト","type":"Dragon","category":"Special","power":90,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_dragon_s_95","name":"ドラゴンスフィア","type":"Dragon","category":"Special","power":95,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_dragon_s_105","name":"ドラゴンオーブ","type":"Dragon","category":"Special","power":105,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_dragon_s_110","name":"ドラゴンランス","type":"Dragon","category":"Special","power":110,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_dragon_s_115","name":"ドラゴンスピア","type":"Dragon","category":"Special","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_dark_s_35","name":"シャドウショット","type":"Dark","category":"Special","power":35,"accuracy":100,"max_pp":30,"range":"Adjacent"},{"id":"gap_dark_s_40","name":"シャドウバレット","type":"Dark","category":"Special","power":40,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_dark_s_50","name":"シャドウウェーブ","type":"Dark","category":"Special","power":50,"accuracy":100,"max_pp":28,"range":"Adjacent"},{"id":"gap_dark_s_65","name":"シャドウレイ","type":"Dark","category":"Special","power":65,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_dark_s_75","name":"シャドウビーム","type":"Dark","category":"Special","power":75,"accuracy":100,"max_pp":18,"range":"Adjacent"},{"id":"gap_dark_s_80","name":"シャドウパルス","type":"Dark","category":"Special","power":80,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_dark_s_95","name":"シャドウノヴァ","type":"Dark","category":"Special","power":95,"accuracy":100,"max_pp":8,"range":"Adjacent"},{"id":"gap_dark_s_100","name":"シャドウバースト","type":"Dark","category":"Special","power":100,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_dark_s_110","name":"シャドウブラスト","type":"Dark","category":"Special","power":110,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_dark_s_115","name":"シャドウスフィア","type":"Dark","category":"Special","power":115,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"gap_dark_s_120","name":"シャドウオーブ","type":"Dark","category":"Special","power":120,"accuracy":100,"max_pp":6,"range":"Adjacent"},{"id":"nightmare_pulse","name":"ナイトメアパルス","type":"Dark","category":"Special","power":70,"accuracy":100,"max_pp":18,"range":"Adjacent"}];
+
+(function () {
+"use strict";
+
+/* ============================ constants ============================ */
+// Mirrors MoveData.cs. Export writes a key ONLY when it differs from the
+// default here, which is what keeps the round-trip byte-comparable with the
+// hand-authored moves.json rather than ballooning every entry to 25 keys.
+const DEFAULTS = {
+  rank_effect_stat:"None", rank_effect_delta:0, rank_effect_target:"Self", rank_effect_chance:1.0,
+  ailment_effect:"None", ailment_chance:100, ailment_target:"Enemy",
+  is_contact:false, is_guaranteed_hit:false, guaranteed_crit:false,
+  crit_rank_bonus:0, recoil_hp_percent:0, self_stun_next_turn:false,
+  dragon_multiplier:1.0, drain_hp_percent:0, self_guaranteed_death:false,
+  weapon_tag:"None", field_effect:"None", field_placement:"None",
+  weather_effect:"None", weather_turns:0,
+  multi_hit:"None", multi_hit_count:0,
+};
+const ALWAYS = ["id","name","type","category","power","accuracy","max_pp","range"];
+// rank_effects is not in DEFAULTS (it has no scalar default - it is either
+// absent or an array), but it MUST survive a round-trip: without it here,
+// normaliseRaw would silently drop the multi-rank moves' only content.
+const KEY_ORDER = ALWAYS.concat(Object.keys(DEFAULTS)).concat(["rank_effects"]);
+
+// How many rank changes a move declares, counting either authored form.
+function rankEffectList(m){
+  if (Array.isArray(m.rank_effects) && m.rank_effects.length) return m.rank_effects;
+  const stat = get(m,"rank_effect_stat");
+  if (stat === "None" || get(m,"rank_effect_delta") === 0) return [];
+  return [{stat, delta:get(m,"rank_effect_delta"),
+           target:get(m,"rank_effect_target"), chance:get(m,"rank_effect_chance")}];
+}
+function rankSummary(m){
+  const list = rankEffectList(m);
+  if (!list.length) return "";
+  return list.map(e => `${RANK_JA[e.stat]||e.stat}${e.delta>0?"+":""}${e.delta}`).join(" / ");
+}
+
+const TYPES  = ["Neutral","Fire","Water","Grass","Electric","Ground","Ice","Dragon","Dark"];
+const TYPE_JA= {Neutral:"無",Fire:"炎",Water:"水",Grass:"草",Electric:"雷",Ground:"地",Ice:"氷",Dragon:"竜",Dark:"闇"};
+const CATS   = ["Physical","Special","Status"];
+const CAT_JA = {Physical:"物理",Special:"特殊",Status:"変化"};
+const RANGES = ["Adjacent","Line","TwoTile","Area","Room","FullFloor","Surrounding"];
+const RANGE_JA={Adjacent:"単体",Line:"直線",TwoTile:"2マス",Area:"範囲",Room:"部屋",FullFloor:"フロア全体",Surrounding:"自身の周囲1マス"};
+const AILS   = ["None","Poison","Toxic","Burn","Paralyze","Freeze","Stun","Soaked","MudCaked","VineBound","Darkness"];
+const AIL_JA = {None:"なし",Poison:"毒",Toxic:"猛毒",Burn:"炎上",Paralyze:"帯電",Freeze:"凍結",Stun:"スタン",
+                Soaked:"ずぶ濡れ",MudCaked:"泥まみれ",VineBound:"ツタまみれ",Darkness:"暗闇"};
+const RANKS  = ["None","Atk","Def","Accuracy","Evasion","ElementPower","Crit"];
+const RANK_JA= {None:"なし",Atk:"攻撃",Def:"防御",Accuracy:"命中",Evasion:"回避",ElementPower:"属性威力",Crit:"急所"};
+const TARGETS= ["Self","Enemy"];
+const TARGET_JA={Self:"自分",Enemy:"相手"};
+const FIELDS = ["None","Puddle","FlowerBed","ToxicMist","ThinIce","Crevasse","Fissure"];
+const FIELD_JA={None:"なし",Puddle:"みずたまり",FlowerBed:"はなばたけ",ToxicMist:"もうどくのきり",
+                ThinIce:"うすらひ",Crevasse:"クレバス",Fissure:"じわれ"};
+const PLACES = ["None","HalfArea","FourEmptyTiles","ClearRadiusFour"];
+const PLACE_JA={None:"なし",HalfArea:"半分(12マス)",FourEmptyTiles:"空き4マス",ClearRadiusFour:"半径4を撤去"};
+const WEATHERS = ["None","Sunny","Rain","Snow","Sandstorm","Gale","Fog"];
+const WEATHER_JA={None:"なし",Sunny:"はれ",Rain:"あめ",Snow:"ゆき",Sandstorm:"すなあらし",Gale:"きょうふう",Fog:"きり"};
+
+const MULTIS = ["None","Variable2To5","RepeatPerHit"];
+const MULTI_JA={None:"なし",Variable2To5:"2〜5発(命中1回)",RepeatPerHit:"固定数(発ごと命中)"};
+
+// The four the C# WeaponTag enum already knows. Anything else is new and
+// needs an engine change before it does anything in game - see checkTags().
+const BUILTIN_TAGS = ["None","Slash","Fist","Breath","Wind",
+                      "Strike","Punch","Thrust","Crush","Rend","Flash"];
+
+// Same folding rule as normalise() below, declared early because the baseline
+// map is built at module load.
+function normaliseRaw(m){
+  const out = {};
+  for (const k of KEY_ORDER){
+    if (m[k] === undefined) continue;
+    if (k in DEFAULTS && m[k] === DEFAULTS[k]) continue;
+    out[k] = m[k];
+  }
+  return out;
+}
+
+/* ============================ state ============================ */
+// Baselines are stored NORMALISED, not raw. The seed file's key order and its
+// occasional redundant default (a move that spells out field_effect:"None")
+// differ from normalise()'s output, so comparing raw-against-normalised
+// marked 63 untouched moves as edited the moment the page loaded.
+const original = new Map(MOVES_SEED.map(m => [m.id, JSON.stringify(normaliseRaw(m))]));
+let moves = MOVES_SEED.map(m => Object.assign({}, m));
+let tags = [
+  {id:"None",     name:"なし",           note:"タグ未設定", builtin:true},
+  {id:"Slash",    name:"斬る系",         note:"特性「いっせん」が+10%", builtin:true},
+  {id:"Fist",     name:"フィスト系",     note:"フィスト系8種+ブロー系6種。特性「ツメのかりうど」が+10%", builtin:true},
+  {id:"Strike",   name:"ストライク系",   note:"上限10種・威力80以下", builtin:true},
+  {id:"Punch",    name:"パンチ系",       note:"各属性2種まで・威力70以下・全てに追加効果", builtin:true},
+  {id:"Thrust",   name:"スラスト系",     note:"全て2マス射程・非接触", builtin:true},
+  {id:"Crush",    name:"クラッシュ系",   note:"上限5種。命中時に対象を1マスノックバック", builtin:true},
+  {id:"Rend",     name:"レンド系",       note:"上限3種。使用者の足元のフィールド/トラップを消去", builtin:true},
+  {id:"Flash",    name:"フラッシュ系",   note:"上限2種。威力50固定・非接触・必中・確定急所", builtin:true},
+  {id:"Breath",   name:"ブレス/息系",    note:"特性「発煙器官」が威力+10", builtin:true},
+];
+let sortKey = "id", sortDir = 1, openId = null;
+const filters = {q:"", cat:new Set(), type:new Set(), range:"", tag:"", contact:"", ail:"", ailKind:"",
+                 rank:"", multi:"", extra:"", pwMin:"", pwMax:"", acMin:"", acMax:"", ppMin:"", ppMax:""};
+
+const $ = id => document.getElementById(id);
+const get = (m,k) => m[k] !== undefined ? m[k] : DEFAULTS[k];
+const isDirty = m => original.get(m.id) !== JSON.stringify(normalise(m)) || !original.has(m.id);
+
+const normalise = normaliseRaw;
+function dirtyCount(){
+  let n = 0;
+  for (const m of moves) if (isDirty(m)) n++;
+  for (const id of original.keys()) if (!moves.some(m => m.id === id)) n++;   // deletions count too
+  return n;
+}
+
+/* ============================ confirm ============================ */
+// window.confirm() is disabled inside the artifact's sandboxed iframe - the
+// call is ignored and reads as "cancel", so every delete silently did nothing.
+// This is a two-step inline confirmation instead, which needs no modal
+// permission and works the same everywhere.
+function askConfirm(host, message, onYes){
+  host.querySelectorAll(".confirmbar").forEach(b => b.remove());
+  const bar = document.createElement("div");
+  bar.className = "confirmbar";
+  const label = document.createElement("span"); label.textContent = message;
+  const yes = document.createElement("button"); yes.className = "btn danger"; yes.textContent = "実行する";
+  const no  = document.createElement("button"); no.className = "btn ghost";  no.textContent = "キャンセル";
+  bar.append(label, yes, no);
+  host.appendChild(bar);
+  yes.addEventListener("click", () => { bar.remove(); onYes(); });
+  no.addEventListener("click", () => bar.remove());
+  yes.focus();
+}
+
+/* ============================ toast ============================ */
+let toastT;
+function toast(msg){
+  const t = $("toast"); t.textContent = msg; t.classList.add("on");
+  clearTimeout(toastT); toastT = setTimeout(()=>t.classList.remove("on"), 2200);
+}
+
+/* ============================ filter UI ============================ */
+function chipSet(host, values, labels, set){
+  host.innerHTML = "";
+  values.forEach(v => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chk"; b.textContent = labels[v] || v;
+    b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", () => {
+      if (set.has(v)) set.delete(v); else set.add(v);
+      b.setAttribute("aria-pressed", set.has(v) ? "true" : "false");
+      render();
+    });
+    host.appendChild(b);
+  });
+}
+function fillSelect(sel, values, labels, allLabel){
+  sel.innerHTML = "";
+  const o = document.createElement("option"); o.value = ""; o.textContent = allLabel; sel.appendChild(o);
+  values.forEach(v => {
+    const op = document.createElement("option"); op.value = v; op.textContent = labels ? (labels[v]||v) : v;
+    sel.appendChild(op);
+  });
+}
+
+function buildFilters(){
+  chipSet($("fCat"), CATS, CAT_JA, filters.cat);
+  chipSet($("fType"), TYPES, TYPE_JA, filters.type);
+  fillSelect($("fRange"), RANGES, RANGE_JA, "指定なし");
+  fillSelect($("fAilKind"), AILS.filter(a=>a!=="None"), AIL_JA, "指定なし");
+  refreshTagSelect();
+
+  const bind = (id, key, ev) => $(id).addEventListener(ev || "input", e => { filters[key] = e.target.value; render(); });
+  bind("fq","q"); bind("fRange","range","change"); bind("fTag","tag","change");
+  bind("fContact","contact","change"); bind("fAil","ail","change"); bind("fAilKind","ailKind","change");
+  bind("fRank","rank","change"); bind("fMulti","multi","change"); bind("fExtra","extra","change");
+  ["fPwMin","fPwMax","fAcMin","fAcMax","fPpMin","fPpMax"].forEach(id => {
+    const key = id.slice(1); const k = key.charAt(0).toLowerCase()+key.slice(1);
+    $(id).addEventListener("input", e => { filters[k] = e.target.value; render(); });
+  });
+
+  $("btnClear").addEventListener("click", () => {
+    filters.q=""; filters.range=""; filters.tag=""; filters.contact=""; filters.ail="";
+    filters.ailKind=""; filters.rank=""; filters.multi=""; filters.extra="";
+    filters.pwMin=filters.pwMax=filters.acMin=filters.acMax=filters.ppMin=filters.ppMax="";
+    filters.cat.clear(); filters.type.clear();
+    ["fq","fRange","fTag","fContact","fAil","fAilKind","fRank","fMulti","fExtra",
+     "fPwMin","fPwMax","fAcMin","fAcMax","fPpMin","fPpMax"].forEach(id => $(id).value = "");
+    document.querySelectorAll(".chk").forEach(b => b.setAttribute("aria-pressed","false"));
+    render();
+  });
+}
+function refreshTagSelect(){
+  const cur = $("fTag").value;
+  fillSelect($("fTag"), tags.map(t=>t.id), Object.fromEntries(tags.map(t=>[t.id,t.name])), "指定なし");
+  $("fTag").value = cur;
+}
+
+/* ============================ filtering ============================ */
+function passes(m){
+  const f = filters;
+  if (f.q){
+    const q = f.q.toLowerCase();
+    if (!(m.name.toLowerCase().includes(q) || m.id.toLowerCase().includes(q))) return false;
+  }
+  if (f.cat.size && !f.cat.has(m.category)) return false;
+  if (f.type.size && !f.type.has(m.type)) return false;
+  if (f.range && m.range !== f.range) return false;
+  if (f.tag && get(m,"weapon_tag") !== f.tag) return false;
+
+  if (f.contact !== "" && (get(m,"is_contact") ? "1" : "0") !== f.contact) return false;
+
+  const hasAil = get(m,"ailment_effect") !== "None";
+  if (f.ail !== "" && (hasAil ? "1" : "0") !== f.ail) return false;
+  if (f.ailKind && get(m,"ailment_effect") !== f.ailKind) return false;
+
+  const hasRank = rankEffectList(m).length > 0;
+  if (f.rank !== "" && (hasRank ? "1" : "0") !== f.rank) return false;
+
+  const mh = get(m,"multi_hit");
+  if (f.multi === "1" && mh === "None") return false;
+  if (f.multi === "0" && mh !== "None") return false;
+  if (f.multi === "Variable2To5" || f.multi === "RepeatPerHit") { if (mh !== f.multi) return false; }
+
+  switch (f.extra){
+    case "recoil":      if (!get(m,"recoil_hp_percent")) return false; break;
+    case "drain":       if (!get(m,"drain_hp_percent")) return false; break;
+    case "crit":        if (!get(m,"crit_rank_bonus")) return false; break;
+    case "guaranteed":  if (!get(m,"is_guaranteed_hit")) return false; break;
+    case "dragon":      if (get(m,"dragon_multiplier") === 1.0) return false; break;
+    case "field":       if (get(m,"field_placement") === "None") return false; break;
+    case "selfdeath":   if (!get(m,"self_guaranteed_death")) return false; break;
+    case "selfstun":    if (!get(m,"self_stun_next_turn")) return false; break;
+  }
+
+  const num = (v, lo, hi) => (lo === "" || v >= +lo) && (hi === "" || v <= +hi);
+  if (!num(m.power,    f.pwMin, f.pwMax)) return false;
+  if (!num(m.accuracy, f.acMin, f.acMax)) return false;
+  if (!num(m.max_pp,   f.ppMin, f.ppMax)) return false;
+  return true;
+}
+
+/* ============================ table ============================ */
+const COLS = [
+  {k:"id",       t:"ID",     l:true,  v:m=>m.id},
+  {k:"name",     t:"技名",   l:true,  v:m=>m.name},
+  {k:"type",     t:"属性",   l:false, v:m=>TYPE_JA[m.type]||m.type},
+  {k:"category", t:"分類",   l:false, v:m=>`<span class="cat c${CAT_JA[m.category]}">${CAT_JA[m.category]}</span>`, s:m=>m.category},
+  {k:"power",    t:"威力",   l:false, v:m=>m.power||'<span class="muted">—</span>', s:m=>m.power},
+  {k:"accuracy", t:"命中",   l:false, v:m=>m.accuracy},
+  {k:"max_pp",   t:"PP",     l:false, v:m=>m.max_pp},
+  {k:"range",    t:"範囲",   l:false, v:m=>RANGE_JA[m.range]||m.range, s:m=>m.range},
+  {k:"is_contact", t:"接触", l:false, v:m=>get(m,"is_contact")?"接触":'<span class="muted">—</span>', s:m=>get(m,"is_contact")?1:0},
+  {k:"ailment_effect", t:"追加効果", l:true, s:m=>get(m,"ailment_effect"),
+   v:m=>{const a=get(m,"ailment_effect"); return a==="None" ? '<span class="muted">—</span>'
+        : `${AIL_JA[a]||a} <span class="muted">${get(m,"ailment_chance")}%</span>`;}},
+  {k:"weapon_tag", t:"タグ", l:true, s:m=>get(m,"weapon_tag"),
+   v:m=>{const t=get(m,"weapon_tag"); if(t==="None") return '<span class="muted">—</span>';
+        const known=tags.find(x=>x.id===t); const custom=!BUILTIN_TAGS.includes(t);
+        return `<span class="tag${custom?" custom":""}">${known?known.name:t}</span>`;}},
+  {k:"rank_effects", t:"ランク変化", l:true, s:m=>rankSummary(m),
+   v:m=>{const t=rankSummary(m); return t ? t : '<span class="muted">—</span>';}},
+  {k:"weather_effect", t:"天候", l:false, s:m=>get(m,"weather_effect"),
+   v:m=>{const x=get(m,"weather_effect"); return x==="None" ? '<span class="muted">—</span>'
+        : `${WEATHER_JA[x]||x} <span class="muted">${get(m,"weather_turns")}T</span>`;}},
+  {k:"multi_hit", t:"多段", l:false, s:m=>get(m,"multi_hit"),
+   v:m=>{const x=get(m,"multi_hit"); if(x==="None") return '<span class="muted">—</span>';
+        return x==="Variable2To5" ? "2〜5発" : `${get(m,"multi_hit_count")}発`;}},
+];
+
+function buildHead(){
+  const tr = $("head"); tr.innerHTML = "";
+  COLS.forEach(c => {
+    const th = document.createElement("th");
+    th.className = c.l ? "l" : "";
+    th.textContent = c.t;
+    th.setAttribute("aria-sort","none");
+    th.tabIndex = 0;
+    const go = () => {
+      if (sortKey === c.k) sortDir = -sortDir; else { sortKey = c.k; sortDir = 1; }
+      render();
+    };
+    th.addEventListener("click", go);
+    th.addEventListener("keydown", e => { if (e.key==="Enter"||e.key===" ") { e.preventDefault(); go(); } });
+    tr.appendChild(th);
+  });
+}
+
+function render(){
+  const list = moves.filter(passes);
+  const col = COLS.find(c => c.k === sortKey) || COLS[0];
+  const keyOf = col.s || (m => m[col.k]);
+  list.sort((a,b) => {
+    const x = keyOf(a), y = keyOf(b);
+    if (x === y) return a.id.localeCompare(b.id);
+    return (typeof x === "number" && typeof y === "number" ? x - y : String(x).localeCompare(String(y))) * sortDir;
+  });
+
+  $("head").querySelectorAll("th").forEach((th,i) =>
+    th.setAttribute("aria-sort", COLS[i].k === sortKey ? (sortDir>0?"ascending":"descending") : "none"));
+  $("head").querySelectorAll("th").forEach((th,i) => {
+    const base = COLS[i].t;
+    th.textContent = COLS[i].k === sortKey ? base + (sortDir>0 ? " ▲" : " ▼") : base;
+  });
+
+  $("rows").innerHTML = list.map(m => {
+    const d = isDirty(m);
+    return `<tr data-id="${m.id}" class="${d?"dirty":""}">` +
+      COLS.map(c => `<td class="${c.l?"l":""}">${c.v(m)}</td>`).join("") + "</tr>";
+  }).join("");
+  $("rows").querySelectorAll("tr").forEach(tr =>
+    tr.addEventListener("click", () => toggleRow(tr.dataset.id)));
+
+  // Re-mount the open editor after every re-render (sort/filter/edit all
+  // rebuild tbody). If the open move no longer passes the filter it simply
+  // stays closed rather than vanishing silently mid-edit.
+  if (openId){
+    const tr = $("rows").querySelector(`tr[data-id="${CSS.escape(openId)}"]`);
+    if (tr) mountEditor(tr); else openId = null;
+  }
+
+  $("result").textContent = `${list.length} 件を表示（全 ${moves.length} 技）`;
+  const n = dirtyCount();
+  $("dirtyPill").hidden = n === 0;
+  $("dirtyPill").textContent = `未書き出しの変更 ${n} 件`;
+  $("btnRevert").disabled = n === 0;
+  $("meta").textContent = `${moves.length} 技 · ${tags.length-1} タグ`;
+}
+
+/* ============================ inline editor ============================ */
+function field(label, inner, wide){ return `<div class="row${wide?" wide":""}"><label>${label}</label>${inner}</div>`; }
+function sel(id, values, labels, cur){
+  return `<select id="${id}">` + values.map(v =>
+    `<option value="${v}"${v===cur?" selected":""}>${labels?(labels[v]||v):v}</option>`).join("") + "</select>";
+}
+// The rank_effects array as editable text. Empty string when the move has
+// none, so the textarea reads as "nothing here" rather than "[]".
+function rankEffectsText(m){
+  return Array.isArray(m.rank_effects) && m.rank_effects.length
+    ? JSON.stringify(m.rank_effects, null, 1) : "";
+}
+
+function numI(id, cur, extra){ return `<input type="number" id="${id}" value="${cur}" ${extra||""}>`; }
+function chkI(id, cur){ return `<input type="checkbox" id="${id}"${cur?" checked":""}>`; }
+const esc = t => String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+
+function editorHTML(m){
+  const tagIds = tags.map(t => t.id);
+  const curTag = get(m,"weapon_tag");
+  if (!tagIds.includes(curTag)) tagIds.push(curTag);
+  const tagLabels = Object.fromEntries(tags.map(t=>[t.id,t.name]));
+
+  return `<div class="editor">
+    <div class="grp"><h3>基本</h3><div class="grid">
+      ${field("ID", `<input id="e_id" value="${esc(m.id)}">`)}
+      ${field("技名", `<input id="e_name" value="${esc(m.name)}">`, true)}
+      ${field("属性", sel("e_type", TYPES, TYPE_JA, m.type))}
+      ${field("分類", sel("e_category", CATS, CAT_JA, m.category))}
+      ${field("威力", numI("e_power", m.power, 'min="0"'))}
+      ${field("命中率", numI("e_accuracy", m.accuracy, 'min="0" max="100"'))}
+      ${field("PP", numI("e_max_pp", m.max_pp, 'min="0"'))}
+      ${field("対象範囲", sel("e_range", RANGES, RANGE_JA, m.range))}
+      ${field("接触判定", chkI("e_is_contact", get(m,"is_contact")))}
+      ${field("必中", chkI("e_is_guaranteed_hit", get(m,"is_guaranteed_hit")))}
+      ${field("確定急所", chkI("e_guaranteed_crit", get(m,"guaranteed_crit")))}
+      ${field("ウェポンタグ", sel("e_weapon_tag", tagIds, tagLabels, curTag))}
+    </div></div>
+
+    <div class="grp"><h3>状態異常</h3><div class="grid">
+      ${field("種類", sel("e_ailment_effect", AILS, AIL_JA, get(m,"ailment_effect")))}
+      ${field("確率(%)", numI("e_ailment_chance", get(m,"ailment_chance"), 'min="0" max="100"'))}
+      ${field("対象", sel("e_ailment_target", TARGETS, TARGET_JA, get(m,"ailment_target")))}
+    </div></div>
+
+    <div class="grp"><h3>ランク変化</h3><div class="grid">
+      ${field("対象ランク", sel("e_rank_effect_stat", RANKS, RANK_JA, get(m,"rank_effect_stat")))}
+      ${field("増減", numI("e_rank_effect_delta", get(m,"rank_effect_delta")))}
+      ${field("対象", sel("e_rank_effect_target", TARGETS, TARGET_JA, get(m,"rank_effect_target")))}
+      ${field("発動率", numI("e_rank_effect_chance", get(m,"rank_effect_chance"), 'min="0" max="1" step="0.05"'))}
+      ${field("複数ランク", `<textarea id="e_rank_effects" class="jsonfield" spellcheck="false" rows="4">${esc(rankEffectsText(m))}</textarea>`, true)}
+    </div>
+    <p class="hint">
+      1つだけ変えるなら上の4項目を使ってください。2つ以上変える技は「複数ランク」に
+      JSON配列で書きます（例: <code>[{"stat":"Atk","delta":1,"target":"Self","chance":1},
+      {"stat":"Def","delta":1,"target":"Self","chance":1}]</code>）。
+      配列が入っているとエンジンはそちらだけを読み、上の4項目は無視されます。
+    </p></div>
+
+    <div class="grp"><h3>多段ヒット</h3><div class="grid">
+      ${field("形式", sel("e_multi_hit", MULTIS, MULTI_JA, get(m,"multi_hit")))}
+      ${field("発数", numI("e_multi_hit_count", get(m,"multi_hit_count"), 'min="0" max="10"'))}
+    </div></div>
+
+    <div class="grp"><h3>その他</h3><div class="grid">
+      ${field("急所ランク+", numI("e_crit_rank_bonus", get(m,"crit_rank_bonus"), 'min="0" max="5"'))}
+      ${field("反動(%)", numI("e_recoil_hp_percent", get(m,"recoil_hp_percent"), 'min="0" max="100"'))}
+      ${field("ドレイン(%)", numI("e_drain_hp_percent", get(m,"drain_hp_percent"), 'min="0" max="100"'))}
+      ${field("ダメージ倍率", numI("e_dragon_multiplier", get(m,"dragon_multiplier"), 'min="0" step="0.05"'))}
+      ${field("使用後スタン", chkI("e_self_stun_next_turn", get(m,"self_stun_next_turn")))}
+      ${field("自滅", chkI("e_self_guaranteed_death", get(m,"self_guaranteed_death")))}
+    </div></div>
+
+    <div class="grp"><h3>設置（フィールド）</h3><div class="grid">
+      ${field("生成する地形", sel("e_field_effect", FIELDS, FIELD_JA, get(m,"field_effect")))}
+      ${field("設置方式", sel("e_field_placement", PLACES, PLACE_JA, get(m,"field_placement")))}
+    </div></div>
+
+    <div class="grp"><h3>天候</h3><div class="grid">
+      ${field("変える天候", sel("e_weather_effect", WEATHERS, WEATHER_JA, get(m,"weather_effect")))}
+      ${field("持続ターン", numI("e_weather_turns", get(m,"weather_turns"), 'min="0" max="99"'))}
+    </div></div>
+
+    <div class="acts">
+      <button class="btn primary" id="eSave">保存</button>
+      <button class="btn" id="eReset">元に戻す</button>
+      <button class="btn ghost" id="eDup">複製</button>
+      <span class="sp"></span>
+      <button class="btn ghost" id="eDel" style="color:var(--warn)">削除</button>
+      <button class="btn ghost" id="eClose">閉じる</button>
+    </div>
+  </div>`;
+}
+
+// Inserts the editor as a full-width row directly beneath the tapped one.
+// No fixed positioning anywhere - the panel is part of table flow, so it
+// cannot be clipped by a stacking context or trap its own scroll.
+function mountEditor(tr){
+  const m = moves.find(x => x.id === tr.dataset.id); if (!m) return;
+  tr.classList.add("open");
+  const er = document.createElement("tr");
+  er.className = "editrow";
+  const td = document.createElement("td");
+  td.colSpan = COLS.length;
+  td.innerHTML = editorHTML(m);
+  er.appendChild(td);
+  tr.after(er);
+
+  td.addEventListener("click", e => e.stopPropagation());   // don't re-toggle the parent row
+  $("eSave").addEventListener("click", saveEditor);
+  $("eClose").addEventListener("click", () => { openId = null; render(); });
+  $("eReset").addEventListener("click", () => {
+    const src = original.get(openId);
+    if (!src){ toast("この技は新規追加なので戻す元がありません"); return; }
+    moves[moves.findIndex(x => x.id === openId)] = JSON.parse(src);
+    render(); toast("元に戻しました");
+  });
+  $("eDup").addEventListener("click", () => {
+    const cur = moves.find(x => x.id === openId); if (!cur) return;
+    let n = 2, id = `${cur.id}_copy`;
+    while (moves.some(x => x.id === id)) id = `${cur.id}_copy${n++}`;
+    moves.splice(moves.indexOf(cur)+1, 0, Object.assign({}, cur, {id, name: cur.name + "（複製）"}));
+    openId = id; render(); toast(`${id} を作成しました`);
+  });
+  $("eDel").addEventListener("click", e => {
+    const cur = moves.find(x => x.id === openId); if (!cur) return;
+    askConfirm(e.target.closest(".editor"), `${cur.name}（${cur.id}）を削除します。`, () => {
+      moves.splice(moves.indexOf(cur),1);
+      openId = null; render(); toast("削除しました");
+    });
+  });
+}
+
+function toggleRow(id){
+  openId = (openId === id) ? null : id;
+  render();
+  if (openId){
+    const tr = $("rows").querySelector(`tr[data-id="${CSS.escape(openId)}"]`);
+    if (tr) tr.scrollIntoView({block:"nearest"});
+  }
+}
+
+function saveEditor(){
+  const m = moves.find(x => x.id === openId); if (!m) return;
+  const V = id => $(id).value;
+  const N = id => { const v = parseFloat($(id).value); return isNaN(v) ? 0 : v; };
+  const B = id => $(id).checked;
+
+  const newId = V("e_id").trim();
+  if (!newId){ toast("IDは空にできません"); return; }
+  if (newId !== m.id && moves.some(x => x.id === newId)){ toast(`ID「${newId}」は既に使われています`); return; }
+
+  m.id = newId;
+  m.name = V("e_name").trim() || m.id;
+  m.type = V("e_type"); m.category = V("e_category"); m.range = V("e_range");
+  m.power = Math.round(N("e_power")); m.accuracy = Math.round(N("e_accuracy")); m.max_pp = Math.round(N("e_max_pp"));
+  m.is_contact = B("e_is_contact"); m.is_guaranteed_hit = B("e_is_guaranteed_hit");
+  m.guaranteed_crit = B("e_guaranteed_crit");
+  m.weapon_tag = V("e_weapon_tag");
+  m.ailment_effect = V("e_ailment_effect");
+  m.ailment_chance = Math.round(N("e_ailment_chance"));
+  m.ailment_target = V("e_ailment_target");
+  m.rank_effect_stat = V("e_rank_effect_stat");
+  m.rank_effect_delta = Math.round(N("e_rank_effect_delta"));
+  m.rank_effect_target = V("e_rank_effect_target");
+  m.rank_effect_chance = N("e_rank_effect_chance");
+
+  // Multi-rank list. Blank clears it; anything unparseable aborts the save
+  // rather than silently discarding what was typed.
+  const rawRank = $("e_rank_effects").value.trim();
+  if (!rawRank){
+    delete m.rank_effects;
+  } else {
+    let parsed;
+    try { parsed = JSON.parse(rawRank); }
+    catch(e){ toast("複数ランクのJSONが読めません: " + e.message); return; }
+    if (!Array.isArray(parsed)){ toast("複数ランクは配列で書いてください"); return; }
+    for (const e of parsed){
+      if (!e || typeof e !== "object"){ toast("複数ランクの要素はオブジェクトにしてください"); return; }
+      if (!RANKS.includes(e.stat)){ toast(`stat「${e.stat}」は未知のランクです`); return; }
+      if (typeof e.delta !== "number" || !Number.isInteger(e.delta)){ toast("delta は整数にしてください"); return; }
+      if (e.target !== undefined && !TARGETS.includes(e.target)){ toast(`target「${e.target}」は Self か Enemy です`); return; }
+      if (e.chance !== undefined && typeof e.chance !== "number"){ toast("chance は数値にしてください"); return; }
+    }
+    m.rank_effects = parsed;
+  }
+  m.weather_effect = V("e_weather_effect");
+  m.weather_turns = Math.round(N("e_weather_turns"));
+  m.multi_hit = V("e_multi_hit");
+  m.multi_hit_count = Math.round(N("e_multi_hit_count"));
+  m.crit_rank_bonus = Math.round(N("e_crit_rank_bonus"));
+  m.recoil_hp_percent = Math.round(N("e_recoil_hp_percent"));
+  m.drain_hp_percent = Math.round(N("e_drain_hp_percent"));
+  m.dragon_multiplier = N("e_dragon_multiplier");
+  m.self_stun_next_turn = B("e_self_stun_next_turn");
+  m.self_guaranteed_death = B("e_self_guaranteed_death");
+  m.field_effect = V("e_field_effect");
+  m.field_placement = V("e_field_placement");
+
+  // Fold defaults away immediately so the row's dirty mark reflects real change.
+  const clean = normalise(m);
+  for (const k of Object.keys(m)) delete m[k];
+  Object.assign(m, clean);
+
+  openId = m.id;
+  render(); checkTags(); toast(`${m.name} を保存しました`);
+}
+
+/* ============================ tags view ============================ */
+function tagUsage(id){ return moves.filter(m => get(m,"weapon_tag") === id).length; }
+
+function renderTags(){
+  $("tagList").innerHTML = tags.map((t,i) => `
+    <div class="tagcard${t.builtin?" builtin":""}">
+      <div>
+        <input value="${t.id}" data-i="${i}" data-k="id" ${t.builtin?"disabled":""}>
+        <span class="badge${t.builtin?"":" new"}">${t.builtin?"組込み":"追加タグ"}</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input value="${(t.name||"").replace(/"/g,"&quot;")}" data-i="${i}" data-k="name" placeholder="表示名" style="flex:1 1 120px">
+        <input value="${(t.note||"").replace(/"/g,"&quot;")}" data-i="${i}" data-k="note" placeholder="説明" style="flex:2 1 180px">
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="use">${tagUsage(t.id)} 技</span>
+        ${t.id==="None" ? "" : `<button class="btn ghost" data-del="${i}" style="color:var(--warn)">削除</button>`}
+      </div>
+    </div>`).join("");
+
+  $("tagList").querySelectorAll("input[data-k]").forEach(inp => {
+    inp.addEventListener("change", e => {
+      const i = +e.target.dataset.i, k = e.target.dataset.k, v = e.target.value.trim();
+      if (k === "id"){
+        const old = tags[i].id;
+        if (!v){ toast("IDは空にできません"); renderTags(); return; }
+        if (tags.some((t,j) => j!==i && t.id===v)){ toast(`ID「${v}」は既にあります`); renderTags(); return; }
+        moves.forEach(m => { if (get(m,"weapon_tag") === old) m.weapon_tag = v; });
+        tags[i].id = v;
+      } else tags[i][k] = v;
+      renderTags(); refreshTagSelect(); render(); checkTags();
+    });
+  });
+  $("tagList").querySelectorAll("button[data-del]").forEach(b => {
+    b.addEventListener("click", e => {
+      const i = +e.target.dataset.del, t = tags[i], used = tagUsage(t.id);
+      if (t.builtin){ toast("組込みタグは削除できません"); return; }
+      const doDelete = () => {
+        moves.forEach(m => { if (get(m,"weapon_tag") === t.id) m.weapon_tag = "None"; });
+        tags.splice(i,1);
+        renderTags(); refreshTagSelect(); render(); checkTags();
+        toast("タグを削除しました");
+      };
+      if (!used) { doDelete(); return; }
+      askConfirm(e.target.closest(".tagcard"),
+        `「${t.name||t.id}」は ${used} 技で使用中です。削除して未設定に戻します。`, doDelete);
+    });
+  });
+  checkTags();
+}
+
+// Any tag outside the C# enum is inert in game until the engine is updated -
+// say so plainly rather than letting an export look complete when it isn't.
+function checkTags(){
+  const custom = tags.filter(t => !BUILTIN_TAGS.includes(t.id));
+  const used = custom.filter(t => tagUsage(t.id) > 0);
+  const w = $("tagWarn");
+  if (!custom.length){ w.hidden = true; return; }
+  w.hidden = false;
+  w.textContent =
+    `追加タグ ${custom.length} 件（うち技に割当済み ${used.length} 件）。` +
+    `現在の C# 側は WeaponTag が列挙型（None / Slash / Fist / Breath / Wind / Strike / Punch / Thrust / Crush / Rend / Flash）なので、` +
+    `列挙にない値は読み込み時に黙って None へ落ちます。` +
+    `追加タグをゲーム内で効かせるには、Trait/Ecology と同じくカタログ参照へ変更する必要があります。`;
+}
+
+/* ============================ export ============================ */
+// Downloads are blocked in the artifact's sandboxed iframe (no allow-downloads),
+// so the primary path is: render the JSON into a textarea the user can copy.
+// The download button stays as a convenience for when the page is opened
+// standalone, where it does work.
+let outFilename = "moves.json";
+
+function showOutput(name, text){
+  outFilename = name;
+  $("outName").textContent = name;
+  $("outText").value = text;
+  const bytes = new TextEncoder().encode(text).length;
+  $("outMeta").textContent = `${text.split("\n").length.toLocaleString()} 行 · ${(bytes/1024).toFixed(1)} KB`;
+  $("outHint").textContent =
+    "「全文をコピー」でクリップボードに入ります。うまくいかない場合はテキスト欄をタップして全選択してください。" +
+    "「ファイルとして保存」はこのページを単体で開いたときに使えます（埋め込み表示ではブラウザ側で抑止されます）。";
+  $("outPanel").hidden = false;
+  $("outPanel").scrollIntoView({block:"nearest"});
+}
+
+async function copyOutput(){
+  const ta = $("outText");
+  try{
+    await navigator.clipboard.writeText(ta.value);
+    toast("クリップボードにコピーしました"); return;
+  }catch(e){ /* permission or insecure context - fall through */ }
+  try{
+    ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length);
+    if (document.execCommand("copy")){ toast("クリップボードにコピーしました"); return; }
+  }catch(e){ /* ignore */ }
+  ta.focus(); ta.select();
+  toast("自動コピーができませんでした。全選択したので手動でコピーしてください");
+}
+
+function downloadOutput(){
+  try{
+    const blob = new Blob([$("outText").value], {type:"application/json;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = outFilename; a.rel = "noopener";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+    toast("保存を要求しました（抑止された場合はコピーをお使いください）");
+  }catch(e){
+    toast("この表示ではファイル保存が使えません。コピーをお使いください");
+  }
+}
+
+function exportMoves(){
+  const out = moves.map(normalise);
+  showOutput("moves.json", JSON.stringify(out, null, 2) + "\n");
+  toast(`moves.json を生成しました（${out.length} 技）`);
+}
+function exportTags(){
+  const out = tags.filter(t => t.id !== "None")
+                  .map(t => ({id:t.id, name:t.name, description:t.note||"", builtin:!!t.builtin}));
+  showOutput("weapon_tags.json", JSON.stringify(out, null, 2) + "\n");
+  toast(`weapon_tags.json を生成しました（${out.length} タグ）`);
+}
+
+/* ============================ wiring ============================ */
+function switchTab(which){
+  const isMoves = which === "moves";
+  $("tabMoves").setAttribute("aria-selected", isMoves);
+  $("tabTags").setAttribute("aria-selected", !isMoves);
+  $("viewMoves").style.display = isMoves ? "flex" : "none";
+  $("viewTags").style.display  = isMoves ? "none" : "flex";
+  if (!isMoves) renderTags();
+}
+
+buildFilters();
+buildHead();
+render();
+
+$("tabMoves").addEventListener("click", () => switchTab("moves"));
+$("tabTags").addEventListener("click", () => switchTab("tags"));
+$("btnExport").addEventListener("click", exportMoves);
+$("btnTags").addEventListener("click", exportTags);
+$("outCopy").addEventListener("click", copyOutput);
+$("outDownload").addEventListener("click", downloadOutput);
+$("outClose").addEventListener("click", () => { $("outPanel").hidden = true; });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && openId){ openId = null; render(); } });
+
+$("btnNew").addEventListener("click", () => {
+  let n = 1, id = "NEW_001";
+  while (moves.some(x => x.id === id)) id = "NEW_" + String(++n).padStart(3,"0");
+  moves.unshift({id, name:"新しい技", type:"Neutral", category:"Physical",
+                 power:50, accuracy:100, max_pp:15, range:"Adjacent"});
+  openId = id; render();
+});
+$("btnRevert").addEventListener("click", e => {
+  askConfirm(e.target.closest(".top"), "すべての変更を破棄して読み込み時の状態に戻します。", () => {
+    moves = MOVES_SEED.map(m => Object.assign({}, m));
+    tags = tags.filter(t => t.builtin);
+    openId = null;
+    render(); refreshTagSelect(); renderTags(); toast("変更を破棄しました");
+  });
+});
+$("btnAddTag").addEventListener("click", () => {
+  const id = $("ntId").value.trim(), name = $("ntName").value.trim(), note = $("ntNote").value.trim();
+  if (!id){ toast("IDを入力してください"); return; }
+  if (!/^[A-Za-z][A-Za-z0-9_]*$/.test(id)){ toast("IDは英字で始まる英数字とアンダースコアのみです"); return; }
+  if (tags.some(t => t.id === id)){ toast(`ID「${id}」は既にあります`); return; }
+  tags.push({id, name: name || id, note, builtin:false});
+  $("ntId").value = $("ntName").value = $("ntNote").value = "";
+  renderTags(); refreshTagSelect(); render(); toast(`タグ「${name||id}」を追加しました`);
+});
+
+window.addEventListener("beforeunload", e => {
+  if (dirtyCount() > 0){ e.preventDefault(); e.returnValue = ""; }
+});
+})();
+</script>
