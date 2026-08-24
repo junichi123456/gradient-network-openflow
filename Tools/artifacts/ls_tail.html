@@ -40,12 +40,21 @@ document.getElementById('bands').innerHTML = BANDS.map(([lo, hi]) => {
 }).join('');
 
 // ---- filters ----------------------------------------------------------
-let fEl = null, fPf = null, fQ = '', fSort = 'id', sel = SP[0].id;
+let fEl = null, fPf = null, fQ = '', fSort = 'id', fTrait = '', sel = SP[0].id;
 
 document.getElementById('els').innerHTML =
   ELS.map(t => `<button class="chip" data-el="${t}" aria-pressed="false">${t}</button>`).join('');
 document.getElementById('pfs').innerHTML =
   Object.entries(PFJA).map(([k, v]) => `<button class="chip" data-pf="${k}" aria-pressed="false">${v}</button>`).join('');
+
+// 特性は99種と多いので、実際に使われているものだけをドロップダウンで絞る
+// （名前の五十音順——頻度順だと同じ特性が探すたびに違う位置に来て使いにくい）。
+const traitCount = new Map();
+SP.forEach(s => traitCount.set(s.tr, (traitCount.get(s.tr) || 0) + 1));
+const traitList = [...traitCount.keys()].sort((a, b) => a.localeCompare(b, 'ja'));
+document.getElementById('traitf').insertAdjacentHTML('beforeend',
+  traitList.map(t => `<option value="${esc(t)}">${esc(t)} (${traitCount.get(t)})</option>`).join(''));
+document.getElementById('traitf').addEventListener('change', e => { fTrait = e.target.value; render(); });
 
 function toggle(group, attr, cur, val, setter) {
   group.querySelectorAll('.chip').forEach(b => {
@@ -68,6 +77,7 @@ document.getElementById('sort').addEventListener('change', e => { fSort = e.targ
 function matches(s) {
   if (fEl && !s.ty.includes(fEl)) return false;
   if (fPf && s.pf !== fPf) return false;
+  if (fTrait && s.tr !== fTrait) return false;
   if (fQ && !(s.n.includes(fQ) || s.tr.includes(fQ) || s.mv.some(m => m[1].includes(fQ)))) return false;
   return true;
 }
