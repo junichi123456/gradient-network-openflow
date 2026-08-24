@@ -230,6 +230,9 @@ public partial class BattleFlow : Control
         {
             _arena.Spawn(_deployment, _sched);
             if (_npc != null) _arena.Spawn(_npc.Deployment, _sched);
+            // 両陣営が立ち終わってから天候特性を発動させる（発動順が
+            // 両陣営の合計種族値で決まるので、片側だけでは決められない）。
+            _arena.ApplyEntryWeather(_sched);
             return;
         }
 

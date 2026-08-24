@@ -428,11 +428,55 @@ public partial class BattleTestScene : Node2D
 
         VerifyAoeAim();
         VerifyTurnOrder();
+        VerifyEntryWeather();
 
         var headbutt = MoveDatabase.Get("MV_140");
         GD.Print($"[検証] ヘッドバットの優先度: {headbutt?.Priority} (期待 1)");
         var other = MoveDatabase.Get("MV_141");
         GD.Print($"[検証] 他技の優先度: {other?.Priority} (期待 0)");
+    }
+
+    // 対戦開始時の天候（特性 weather_on_entry）。**合計種族値が低い側が
+    // 最後に発動して上書き勝ちする**——立てた順ではなく種族値の順で決まる
+    // ことを確かめたいので、spawn順を入れ替えた2回で同じ結果になるか見る。
+    private void VerifyEntryWeather()
+    {
+        // すなあらし=マグマンダー(BST350) / ゆき=ユキツネ(BST215)。
+        // 低種族値のユキツネ側が最後に発動するので、常にゆきが残るはず。
+        WeatherType Probe(bool highFirst)
+        {
+            var host = new Node { Name = "WeatherProbe" };
+            AddChild(host);
+            var arena = new BattleArena(host);
+            var sched = new BattleScheduler();
+
+            BattleEntry Entry(string id) => new()
+            {
+                SpeciesId = id,
+                MoveIds = DefaultLoadout.PickMoves(
+                    SpeciesDatabase.Instance?.Get(id), MoveManager.MaxMoves),
+            };
+            BattleDeployment One(Faction f, string id) => new(f,
+                new Dictionary<BattleEntry, Vector2I>
+                { [Entry(id)] = BattleDeployment.AvailableTiles(f)[0] });
+
+            var high = One(Faction.Player, "105");    // マグマンダー / すなあらし
+            var low = One(Faction.Enemy, "029B");     // ユキツネ / ゆき
+
+            if (highFirst) { arena.Spawn(high, sched); arena.Spawn(low, sched); }
+            else { arena.Spawn(low, sched); arena.Spawn(high, sched); }
+            arena.ApplyEntryWeather(sched);
+
+            var w = arena.Floor.Weather.Current;
+            host.Free();
+            return w;
+        }
+
+        var a = Probe(highFirst: true);
+        var b = Probe(highFirst: false);
+        GD.Print($"[検証] 対戦開始の天候は低種族値側が勝つ: "
+                 + $"{(a == WeatherType.Snow && b == WeatherType.Snow ? "OK" : "NG")} "
+                 + $"(高種族値を先に立てた場合 {a} / 後に立てた場合 {b}、期待 Snow)");
     }
 
     // 範囲技の着弾中心。**指定した空マスへ落ちる**ことを確かめる。

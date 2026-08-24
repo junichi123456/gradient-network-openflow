@@ -96,14 +96,17 @@ public partial class BattleMatchScene : Node2D
                 ? args[ai + 1] : "both";
 
         _strongest = args.Contains("--strongest");
-        _teamCount = int.TryParse(Arg(args, "--teams"), out var tc) ? tc : 100;
-        _repeat = int.TryParse(Arg(args, "--repeat"), out var rp) ? rp : 10;
+        // --tactics は既定値が違う（35チーム・1組4戦・5ループ）ので、
+        // 指定が無いときの既定をモードごとに分ける。
+        bool tactics = args.Contains("--tactics");
+        _teamCount = int.TryParse(Arg(args, "--teams"), out var tc) ? tc : (tactics ? 35 : 100);
+        _repeat = int.TryParse(Arg(args, "--repeat"), out var rp) ? rp : (tactics ? 4 : 10);
         _shardIndex = int.TryParse(Arg(args, "--shard"), out var si) ? si : 0;
         _shardCount = int.TryParse(Arg(args, "--shards"), out var sc) ? sc : 1;
         _outPath = Arg(args, "--out");
         _challengerCount = int.TryParse(Arg(args, "--challengers"), out var cc) ? cc : 30;
         _loopSize = int.TryParse(Arg(args, "--loop-size"), out var ls) ? ls : 5;
-        _loops = int.TryParse(Arg(args, "--loops"), out var lp) ? lp : 4;
+        _loops = int.TryParse(Arg(args, "--loops"), out var lp) ? lp : (tactics ? 5 : 4);
 
         if (args.Contains("--dump-meta"))
         {
@@ -135,6 +138,7 @@ public partial class BattleMatchScene : Node2D
             return;
         }
 
+        if (tactics) { RunTactics(); return; }
         if (args.Contains("--meta-core")) { RunMetaCore(); return; }
         if (args.Contains("--meta-challengers")) { RunMetaChallengers(); return; }
         if (_strongest) { RunStrongestRoundRobin(); return; }
@@ -603,6 +607,180 @@ public partial class BattleMatchScene : Node2D
         if (allCycles.Count > 0)
             GD.Print($"[結果] 決着までのサイクル: 平均{allCycles.Average():F1} "
                      + $"/ 最短{allCycles.Min()} / 最長{allCycles.Max()}");
+
+        GetTree().Quit();
+    }
+
+    // ---- §25: 5戦術・35チームの適応総当たり ----
+    //
+    //   godot --headless -- --tactics [--teams 35 --repeat 4 --loops 5] --out path
+    //
+    // 5戦術（TacticalBuilder.Tactic）から2つずつ選んだ10通りの組を35チームへ
+    // 割り当て、C(35,2)=595ペア×4戦を1ループとして5ループ回す（計11,900試合）。
+    // **1試合ごとに、両陣営とも「いま戦っている相手」に勝てるよう6匹を
+    // 組み直す**——種族も含めて自由に入れ替わる。
+    //
+    // 組み直しは互いに相手の**直前の構築**を見て行う（同時に組み替えるので、
+    // 相手の"次"の構築は原理的に読めない）。両者ぶんを先にスナップショット
+    // してから同時に組み直すため、先後の有利不利は生じない。
+    //
+    // 全チームが適応し、その状態が試合をまたいで持ち越るので shard 分割は
+    // できない（並列化すると「どの試合がどの順に起きたか」が壊れる）。
+    private sealed class TacticTeam
+    {
+        public int Index;
+        public Tactic A, B;
+        public BattleTeam Build;
+        // 種族ごとの自己評価。「その種族を入れた試合の勝率」を -1..+1 に写す
+        // ——固定の加減点だとすぐ振り切れて差が潰れるので、勝率そのものを使う。
+        public readonly Dictionary<string, int> Plays = new();
+        public readonly Dictionary<string, int> Won = new();
+        public int Wins, Losses, Draws, Undecided;
+
+        public Dictionary<string, float> Memory()
+        {
+            var m = new Dictionary<string, float>(Plays.Count);
+            foreach (var (sp, n) in Plays)
+                if (n >= 4)   // 4戦未満は雑音なので効かせない
+                    m[sp] = (Won.GetValueOrDefault(sp) / (float)n - 0.5f) * 2f;
+            return m;
+        }
+
+        public void Record(bool won)
+        {
+            foreach (var e in Build.Entries)
+            {
+                Plays[e.SpeciesId] = Plays.GetValueOrDefault(e.SpeciesId) + 1;
+                if (won) Won[e.SpeciesId] = Won.GetValueOrDefault(e.SpeciesId) + 1;
+            }
+        }
+    }
+
+    // 5戦術から2つ選ぶ全10通り。35チームへ順に配るので、各組に3〜4チーム。
+    private static readonly (Tactic A, Tactic B)[] TacticPairs =
+    {
+        (Tactic.Guardian, Tactic.Burst),   (Tactic.Guardian, Tactic.Control),
+        (Tactic.Guardian, Tactic.HitAway), (Tactic.Guardian, Tactic.Weather),
+        (Tactic.Burst,    Tactic.Control), (Tactic.Burst,    Tactic.HitAway),
+        (Tactic.Burst,    Tactic.Weather), (Tactic.Control,  Tactic.HitAway),
+        (Tactic.Control,  Tactic.Weather), (Tactic.HitAway,  Tactic.Weather),
+    };
+
+    private static string TacticJa(Tactic t) => t switch
+    {
+        Tactic.Guardian => "仁王立ち",
+        Tactic.Burst => "ワンサイクル",
+        Tactic.Control => "コントロール",
+        Tactic.HitAway => "ヒットアンドアウェイ",
+        _ => "天候",
+    };
+
+    private void RunTactics()
+    {
+        var rng = new RandomNumberGenerator();
+        rng.Seed = MetaScenario.Seed + 7;
+
+        var teams = new List<TacticTeam>();
+        for (int i = 0; i < _teamCount; i++)
+        {
+            var (a, b) = TacticPairs[i % TacticPairs.Length];
+            var t = new TacticTeam { Index = i, A = a, B = b };
+            // 初手はまだ相手を知らないので、戦術の適性だけで組む。
+            t.Build = TacticalBuilder.Build(a, b, null, null, rng);
+            teams.Add(t);
+        }
+
+        var pairs = new List<(int I, int J)>();
+        for (int i = 0; i < teams.Count; i++)
+            for (int j = i + 1; j < teams.Count; j++)
+                pairs.Add((i, j));
+
+        GD.Print($"[戦術] {teams.Count}チーム / {pairs.Count}ペア × {_repeat}戦 × {_loops}ループ "
+                 + $"= {pairs.Count * _repeat * _loops:N0}試合");
+        foreach (var g in teams.GroupBy(t => (t.A, t.B)))
+            GD.Print($"  {TacticJa(g.Key.A)}＋{TacticJa(g.Key.B)}: {g.Count()}チーム "
+                     + $"({string.Join(",", g.Select(t => "T" + t.Index))})");
+        GD.Print("");
+
+        var csv = new List<string>();
+        var builds = new List<string>();
+        var allCycles = new List<int>();
+
+        for (int loop = 1; loop <= _loops; loop++)
+        {
+            int done = 0;
+            foreach (var (i, j) in pairs)
+            {
+                var ta = teams[i];
+                var tb = teams[j];
+                int winA = 0, winB = 0, draw = 0, undecided = 0;
+
+                for (int k = 0; k < _repeat; k++)
+                {
+                    // 互いに相手の「直前の構築」を見て同時に組み直す。
+                    var seenA = ta.Build.Entries.Select(e => e.SpeciesId).ToList();
+                    var seenB = tb.Build.Entries.Select(e => e.SpeciesId).ToList();
+                    ta.Build = TacticalBuilder.Build(ta.A, ta.B, seenB, ta.Memory(), rng);
+                    tb.Build = TacticalBuilder.Build(tb.A, tb.B, seenA, tb.Memory(), rng);
+
+                    bool aHome = k % 2 == 0;   // 先手/後手を戦ごとに入れ替える
+                    var home = aHome ? ta.Build : tb.Build;
+                    var away = aHome ? tb.Build : ta.Build;
+                    var awayProfile = new NpcTeam
+                    {
+                        Id = "tactic", Name = "戦術構築の相手", MainType = "Neutral", Team = away,
+                    };
+
+                    var r = RunMatch(home, awayProfile, verbose: false);
+                    allCycles.Add(r.Cycles);
+
+                    bool aWon = (aHome && r.Outcome == BattleOutcome.PlayerWin)
+                             || (!aHome && r.Outcome == BattleOutcome.EnemyWin);
+                    bool bWon = (aHome && r.Outcome == BattleOutcome.EnemyWin)
+                             || (!aHome && r.Outcome == BattleOutcome.PlayerWin);
+
+                    if (aWon) { winA++; ta.Wins++; tb.Losses++; }
+                    else if (bWon) { winB++; tb.Wins++; ta.Losses++; }
+                    else if (r.Outcome == BattleOutcome.Draw) { draw++; ta.Draws++; tb.Draws++; }
+                    else { undecided++; ta.Undecided++; tb.Undecided++; }
+
+                    ta.Record(aWon);
+                    tb.Record(bWon);
+                }
+
+                csv.Add($"{loop},{i},{j},{winA},{winB},{draw},{undecided}");
+                if (++done % 100 == 0)
+                    GD.Print($"[戦術] loop{loop}: {done}/{pairs.Count}ペア完了");
+            }
+
+            // このループ最後の試合を終えた時点の構築を記録する（5段階）。
+            foreach (var t in teams)
+                builds.Add($"{loop},{t.Index},{t.A},{t.B}," + string.Join(",",
+                    t.Build.Entries.Select(e =>
+                        $"{e.SpeciesId}:{e.ItemId}:{string.Join("|", e.MoveIds)}")));
+
+            var top = teams.OrderByDescending(t => t.Wins).First();
+            GD.Print($"[戦術] --- loop{loop} 完了 / 首位 T{top.Index}"
+                     + $"({TacticJa(top.A)}＋{TacticJa(top.B)}) 通算{top.Wins}勝{top.Losses}敗 ---");
+        }
+
+        if (!string.IsNullOrEmpty(_outPath))
+        {
+            System.IO.File.WriteAllLines(_outPath, csv);
+            System.IO.File.WriteAllLines(_outPath + ".builds.txt", builds);
+        }
+
+        GD.Print("");
+        if (allCycles.Count > 0)
+            GD.Print($"[結果] {allCycles.Count:N0}試合 / 決着までのサイクル: "
+                     + $"平均{allCycles.Average():F1} / 最短{allCycles.Min()} / 最長{allCycles.Max()}");
+        GD.Print("[結果] チーム別の通算成績（勝率順）:");
+        foreach (var t in teams.OrderByDescending(t => (double)t.Wins / Mathf.Max(1, t.Wins + t.Losses + t.Draws + t.Undecided)))
+        {
+            int played = t.Wins + t.Losses + t.Draws + t.Undecided;
+            GD.Print($"  T{t.Index,-3} {TacticJa(t.A)}＋{TacticJa(t.B),-12} "
+                     + $"{100.0 * t.Wins / played,5:F1}%  {t.Wins}勝{t.Losses}敗{t.Draws}分{t.Undecided}未決着");
+        }
 
         GetTree().Quit();
     }
