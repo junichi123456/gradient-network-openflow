@@ -1,0 +1,174 @@
+
+</script>
+<script>
+const SP = JSON.parse(document.getElementById('payload').textContent);
+const ELS = ['無','炎','水','草','電','地','氷','竜','闇'];
+const ELK = {'無':'mu','炎':'hi','水':'mi','草':'ku','電':'de','地':'ti','氷':'ko','竜':'ry','闇':'ya'};
+const PFJA = {Physical:'物理型', Special:'特殊型', Versatile:'打ち分け型'};
+const CATJA = {P:'物理', S:'特殊', T:'変化'};
+const SIG = 'メガデストラクト';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const elChip = t => `<em class="el ${ELK[t]}">${t}</em>`;
+
+// ---- aggregates -------------------------------------------------------
+const totalRows = SP.reduce((a, s) => a + s.mv.length, 0);
+const lean = {p:0, s:0, e:0};
+SP.forEach(s => { s.p > s.s ? lean.p++ : s.s > s.p ? lean.s++ : lean.e++; });
+document.getElementById('tally').innerHTML =
+  `<span>行 <b>${totalRows.toLocaleString()}</b></span>` +
+  `<span>物理寄り <b>${lean.p}</b></span>` +
+  `<span>特殊寄り <b>${lean.s}</b></span>` +
+  `<span>拮抗 <b>${lean.e}</b></span>`;
+
+// Reachability per power band, measured from the learnsets themselves.
+const seen = new Set();
+SP.forEach(s => s.mv.forEach(m => { if (m[4] > 0) seen.add(m[1] + '|' + m[4]); }));
+const pool = new Map();          // name|power -> power, over every move that appears
+SP.forEach(s => s.mv.forEach(m => { if (m[4] > 0) pool.set(m[1] + '|' + m[4], m[4]); }));
+// The move list itself is the denominator, so it is passed in as counts per band.
+const BANDS = [[15,29],[30,44],[45,59],[60,74],[75,89],[90,104],[105,119],[120,134],[135,149],[180,194]];
+const TOTALS = {"15": 58, "30": 71, "45": 80, "60": 79, "75": 80, "90": 72, "105": 55, "120": 25, "135": 3, "180": 1};
+const REACH  = {"15": 58, "30": 71, "45": 80, "60": 79, "75": 80, "90": 72, "105": 55, "120": 25, "135": 3, "180": 1};
+document.getElementById('bands').innerHTML = BANDS.map(([lo, hi]) => {
+  const t = TOTALS[lo], r = REACH[lo], pct = Math.round(r / t * 100);
+  const cls = pct === 0 ? 'none' : pct < 60 ? 'part' : '';
+  return `<div class="band">
+    <span class="band-l">威力 ${lo}–${hi}</span>
+    <span class="band-v">${r}<span style="color:var(--muted);font-size:12px">/${t}</span></span>
+    <span class="meter ${cls}"><i style="width:${pct}%"></i></span>
+  </div>`;
+}).join('');
+
+// ---- filters ----------------------------------------------------------
+let fEl = null, fPf = null, fQ = '', fSort = 'id', fTrait = '', sel = SP[0].id;
+
+document.getElementById('els').innerHTML =
+  ELS.map(t => `<button class="chip" data-el="${t}" aria-pressed="false">${t}</button>`).join('');
+document.getElementById('pfs').innerHTML =
+  Object.entries(PFJA).map(([k, v]) => `<button class="chip" data-pf="${k}" aria-pressed="false">${v}</button>`).join('');
+
+// 特性は99種と多いので、実際に使われているものだけをドロップダウンで絞る
+// （名前の五十音順——頻度順だと同じ特性が探すたびに違う位置に来て使いにくい）。
+const traitCount = new Map();
+SP.forEach(s => traitCount.set(s.tr, (traitCount.get(s.tr) || 0) + 1));
+const traitList = [...traitCount.keys()].sort((a, b) => a.localeCompare(b, 'ja'));
+document.getElementById('traitf').insertAdjacentHTML('beforeend',
+  traitList.map(t => `<option value="${esc(t)}">${esc(t)} (${traitCount.get(t)})</option>`).join(''));
+document.getElementById('traitf').addEventListener('change', e => { fTrait = e.target.value; render(); });
+
+function toggle(group, attr, cur, val, setter) {
+  group.querySelectorAll('.chip').forEach(b => {
+    const on = b.dataset[attr] === val && cur !== val;
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  setter(cur === val ? null : val);
+}
+document.getElementById('els').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  toggle(e.currentTarget, 'el', fEl, b.dataset.el, v => fEl = v); render();
+});
+document.getElementById('pfs').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  toggle(e.currentTarget, 'pf', fPf, b.dataset.pf, v => fPf = v); render();
+});
+document.getElementById('q').addEventListener('input', e => { fQ = e.target.value.trim(); render(); });
+document.getElementById('sort').addEventListener('change', e => { fSort = e.target.value; render(); });
+
+function matches(s) {
+  if (fEl && !s.ty.includes(fEl)) return false;
+  if (fPf && s.pf !== fPf) return false;
+  if (fTrait && s.tr !== fTrait) return false;
+  if (fQ && !(s.n.includes(fQ) || s.tr.includes(fQ) || s.mv.some(m => m[1].includes(fQ)))) return false;
+  return true;
+}
+
+// ---- render -----------------------------------------------------------
+function render() {
+  let rows = SP.filter(matches);
+  const key = {id: s => s.id, bst: s => -s.bst, mx: s => -s.mx, st: s => -s.st,
+               nt: s => -s.nt, ad: s => s.ad}[fSort];
+  rows = rows.slice().sort((a, b) => {
+    const ka = key(a), kb = key(b);
+    return ka < kb ? -1 : ka > kb ? 1 : a.id < b.id ? -1 : 1;
+  });
+  document.getElementById('count').textContent = `${rows.length} / ${SP.length} 種`;
+
+  document.getElementById('list').innerHTML = rows.length ? rows.map(s => `
+    <button class="row" data-id="${s.id}" aria-current="${s.id === sel}">
+      <span class="row-id">${s.id}</span>
+      <span class="row-n"><span>${esc(s.n)}</span>${s.ty.map(elChip).join('')}</span>
+      <span class="row-r">
+        <span class="pf">${PFJA[s.pf]}</span>
+        <span class="bst">${s.bst}</span>
+        <span class="bstbar"><i style="width:${Math.round((s.bst - 180) / 320 * 100)}%"></i></span>
+      </span>
+    </button>`).join('') : `<p class="empty">該当なし</p>`;
+
+  if (!rows.some(s => s.id === sel) && rows.length) sel = rows[0].id;
+  detail(SP.find(s => s.id === sel));
+}
+
+function detail(s) {
+  if (!s) { document.getElementById('detail').innerHTML = `<p class="empty">種族を選択</p>`; return; }
+  const atk = s.mv.filter(m => m[4] > 0);
+  const rows = s.mv.map(m => {
+    const isSig = m[1] === SIG;
+    return `<tr>
+      <td class="num lv">${m[0]}</td>
+      <td class="${isSig ? 'sig' : ''}">${esc(m[1])}${isSig ? ' <span class="tag">専用</span>' : ''}</td>
+      <td>${elChip(m[2])}</td>
+      <td class="cat ${m[3]}">${CATJA[m[3]] || m[3]}</td>
+      <td class="num">${m[4] || '—'}</td>
+      <td class="tag">${m[5]}</td>
+      <td class="tag">${m[6] || ''}</td>
+      <td class="shr ${m[7] >= 40 ? 'hot' : ''}">${m[7]}%</td>
+      <td class="tag">${m[8] ? '<span class="sig">適応</span>' : ''}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('detail').innerHTML = `
+    <div class="dh">
+      <div>
+        <div class="dh-name">${esc(s.n)} ${s.ty.map(elChip).join('')}
+          <span class="pf">${PFJA[s.pf]}<span style="color:var(--muted)">・${s.pb}で決定</span></span></div>
+        <div class="note">図鑑 ${s.id}</div>
+      </div>
+      <dl class="stats">
+        <div><dt>HP</dt><dd>${s.hp}</dd></div>
+        <div><dt>攻撃</dt><dd>${s.a}</dd></div>
+        <div><dt>防御</dt><dd>${s.d}</dd></div>
+        <div><dt>合計</dt><dd>${s.bst}</dd></div>
+      </dl>
+      <dl class="stats">
+        <div><dt>物理</dt><dd>${s.p}</dd></div>
+        <div><dt>特殊</dt><dd>${s.s}</dd></div>
+        <div><dt>変化</dt><dd>${s.st}</dd></div>
+        <div><dt>最大威力</dt><dd>${s.mx || '—'}</dd></div>
+        <div><dt>攻撃属性</dt><dd>${s.nt}</dd></div>
+        <div><dt>特性適応技</dt><dd>${s.ad}</dd></div>
+      </dl>
+      <p class="trait"><b>${esc(s.tr)}</b> — ${esc(s.td || '（説明なし）')}</p>
+    </div>
+    <div class="tblwrap">
+      <table>
+        <thead><tr>
+          <th class="num">Lv</th><th>技</th><th>属性</th><th>分類</th>
+          <th class="num">威力</th><th>射程</th><th>タグ</th><th>共有率</th><th>特性</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  if (!atk.length) {
+    document.getElementById('detail').insertAdjacentHTML('beforeend',
+      `<p class="note" style="padding:12px 16px">この種族は攻撃技を持たない。特性が攻撃技の使用を禁じているため。</p>`);
+  }
+}
+
+document.getElementById('list').addEventListener('click', e => {
+  const b = e.target.closest('.row'); if (!b) return;
+  sel = b.dataset.id; render();
+  document.getElementById('detail').scrollIntoView({block:'nearest', behavior:'smooth'});
+});
+
+render();
+</script>

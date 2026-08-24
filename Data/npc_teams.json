@@ -1,0 +1,546 @@
+[
+  {
+    "id": "npc_fire",
+    "name": "ほのおつかい コウ",
+    "main_type": "Fire",
+    "total_bst": 1360,
+    "entries": [
+      {
+        "species_id": "005B",
+        "move_ids": [
+          "MVP_040",
+          "gap_water_p_105",
+          "MVP_141",
+          "MVP_081"
+        ],
+        "item_id": "power_lens"
+      },
+      {
+        "species_id": "029",
+        "move_ids": [
+          "volcanic_rain",
+          "gap_electric_s_90",
+          "gap_ground_s_90",
+          "gap_neutral_s_85"
+        ],
+        "item_id": "iron_plate"
+      },
+      {
+        "species_id": "073B",
+        "move_ids": [
+          "volcanic_rain",
+          "MV_115",
+          "gap_electric_s_50",
+          "MVP_123"
+        ],
+        "item_id": "regen_band"
+      },
+      {
+        "species_id": "023B",
+        "move_ids": [
+          "MV_244",
+          "gap_dragon_s_85",
+          "gap_neutral_s_75",
+          "mvn_067"
+        ],
+        "item_id": "guard_tonic_50"
+      },
+      {
+        "species_id": "055B",
+        "move_ids": [
+          "MVP_039",
+          "MVP_150",
+          "MVP_045",
+          "MV_263"
+        ],
+        "item_id": "focus_lens"
+      },
+      {
+        "species_id": "128B",
+        "move_ids": [
+          "gap_water_p_115",
+          "gap_fire_p_105",
+          "MVP_137",
+          "MVP_014"
+        ],
+        "item_id": "endure_charm"
+      }
+    ]
+  },
+  {
+    "id": "npc_water",
+    "name": "みずつかい ナギ",
+    "main_type": "Water",
+    "total_bst": 1490,
+    "entries": [
+      {
+        "species_id": "007B",
+        "move_ids": [
+          "MVP_078",
+          "MVP_055",
+          "MVP_143",
+          "MV_282"
+        ],
+        "item_id": "focus_lens"
+      },
+      {
+        "species_id": "046",
+        "move_ids": [
+          "MV_224",
+          "gap_dark_s_110",
+          "comet",
+          "MV_191"
+        ],
+        "item_id": "mind_plate"
+      },
+      {
+        "species_id": "088",
+        "move_ids": [
+          "MV_224",
+          "gap_dragon_s_85",
+          "gap_electric_s_80",
+          "MV_193"
+        ],
+        "item_id": "guard_tonic_25"
+      },
+      {
+        "species_id": "128",
+        "move_ids": [
+          "gap_water_s_105",
+          "comet",
+          "mvn_099",
+          "MVP_123"
+        ],
+        "item_id": "purge_band"
+      },
+      {
+        "species_id": "075",
+        "move_ids": [
+          "gap_water_p_115",
+          "gap_fire_p_105",
+          "gap_neutral_p_105",
+          "gap_electric_p_25"
+        ],
+        "item_id": "power_lens"
+      },
+      {
+        "species_id": "037",
+        "move_ids": [
+          "high_pressure_water",
+          "mvn_083",
+          "MVP_061",
+          "gap_ground_s_35"
+        ],
+        "item_id": "rank_anchor"
+      }
+    ]
+  },
+  {
+    "id": "npc_grass",
+    "name": "くさつかい モエ",
+    "main_type": "Grass",
+    "total_bst": 1600,
+    "entries": [
+      {
+        "species_id": "060",
+        "move_ids": [
+          "MVP_119",
+          "MVP_154",
+          "MVP_072",
+          "MVP_089"
+        ],
+        "item_id": "regen_band"
+      },
+      {
+        "species_id": "067",
+        "move_ids": [
+          "MVP_119",
+          "gap_dragon_p_105",
+          "MVP_054",
+          "MVP_135"
+        ],
+        "item_id": "iron_plate"
+      },
+      {
+        "species_id": "136",
+        "move_ids": [
+          "MVP_119",
+          "MV_207",
+          "MVP_037",
+          "MVP_014"
+        ],
+        "item_id": "cure_bell"
+      },
+      {
+        "species_id": "076",
+        "move_ids": [
+          "MV_292",
+          "gap_dragon_s_50",
+          "gap_dark_s_40",
+          "gap_ice_s_35"
+        ],
+        "item_id": "focus_lens"
+      },
+      {
+        "species_id": "102",
+        "move_ids": [
+          "MVP_119",
+          "gap_ground_p_100",
+          "MVP_037",
+          "MVP_014"
+        ],
+        "item_id": "guard_tonic_25"
+      },
+      {
+        "species_id": "084",
+        "move_ids": [
+          "gap_dark_p_105",
+          "gap_grass_s_90",
+          "MVP_011",
+          "gap_dragon_s_50"
+        ],
+        "item_id": "wide_ward"
+      }
+    ]
+  },
+  {
+    "id": "npc_electric",
+    "name": "でんきつかい ライ",
+    "main_type": "Electric",
+    "total_bst": 1695,
+    "entries": [
+      {
+        "species_id": "167",
+        "move_ids": [
+          "gap_electric_s_120",
+          "gap_grass_s_95",
+          "gap_neutral_s_95",
+          "gap_dragon_s_50"
+        ],
+        "item_id": "power_lens"
+      },
+      {
+        "species_id": "098",
+        "move_ids": [
+          "MVP_079",
+          "MVP_158",
+          "MVP_094",
+          "MVP_032"
+        ],
+        "item_id": "focus_lens"
+      },
+      {
+        "species_id": "054",
+        "move_ids": [
+          "MVP_079",
+          "MVP_149",
+          "MV_195",
+          "MV_221"
+        ],
+        "item_id": "crit_shell"
+      },
+      {
+        "species_id": "141B",
+        "move_ids": [
+          "MVP_079",
+          "gap_ground_p_105",
+          "MVP_149",
+          "MVP_124"
+        ],
+        "item_id": "guard_tonic_50"
+      },
+      {
+        "species_id": "096",
+        "move_ids": [
+          "gap_electric_s_105",
+          "mvn_086",
+          "MVP_161",
+          "MVP_121"
+        ],
+        "item_id": "mind_plate"
+      },
+      {
+        "species_id": "083B",
+        "move_ids": [
+          "gap_electric_s_120",
+          "gap_dragon_s_90",
+          "gap_ice_s_75",
+          "MV_231"
+        ],
+        "item_id": "regen_band"
+      }
+    ]
+  },
+  {
+    "id": "npc_ice",
+    "name": "こおりつかい ユキ",
+    "main_type": "Ice",
+    "total_bst": 1885,
+    "entries": [
+      {
+        "species_id": "064B",
+        "move_ids": [
+          "gap_dark_p_105",
+          "gap_ice_s_90",
+          "MVP_147",
+          "MVP_102"
+        ],
+        "item_id": "mind_plate"
+      },
+      {
+        "species_id": "096B",
+        "move_ids": [
+          "MVP_139",
+          "gap_dragon_p_100",
+          "MVP_076",
+          "MVP_030"
+        ],
+        "item_id": "focus_lens"
+      },
+      {
+        "species_id": "114",
+        "move_ids": [
+          "MVP_140",
+          "MV_112",
+          "MVP_065",
+          "MVP_042"
+        ],
+        "item_id": "weakness_shell"
+      },
+      {
+        "species_id": "119",
+        "move_ids": [
+          "MV_210",
+          "gap_neutral_s_90",
+          "MVP_144",
+          "lock_on_laser"
+        ],
+        "item_id": "purge_band"
+      },
+      {
+        "species_id": "041B",
+        "move_ids": [
+          "MV_199",
+          "dark_wisp",
+          "comet",
+          "MV_217"
+        ],
+        "item_id": "iron_plate"
+      },
+      {
+        "species_id": "087B",
+        "move_ids": [
+          "MV_210",
+          "gap_ground_s_105",
+          "MV_154",
+          "gap_grass_s_80"
+        ],
+        "item_id": "guard_tonic_25"
+      }
+    ]
+  },
+  {
+    "id": "npc_ground",
+    "name": "じめんつかい ダイ",
+    "main_type": "Ground",
+    "total_bst": 1995,
+    "entries": [
+      {
+        "species_id": "087",
+        "move_ids": [
+          "MVP_120",
+          "gap_ground_p_105",
+          "MVP_152",
+          "MVP_126"
+        ],
+        "item_id": "iron_plate"
+      },
+      {
+        "species_id": "140",
+        "move_ids": [
+          "MV_279",
+          "dark_laser",
+          "gap_fire_s_75",
+          "gap_neutral_s_70"
+        ],
+        "item_id": "power_lens"
+      },
+      {
+        "species_id": "120",
+        "move_ids": [
+          "MVP_180",
+          "MV_098",
+          "MVP_060",
+          "MVP_096"
+        ],
+        "item_id": "endure_charm"
+      },
+      {
+        "species_id": "099B",
+        "move_ids": [
+          "MV_279",
+          "gap_neutral_s_100",
+          "gap_electric_s_35",
+          "dark_shot"
+        ],
+        "item_id": "room_mirror"
+      },
+      {
+        "species_id": "113",
+        "move_ids": [
+          "MVP_120",
+          "gap_ground_s_105",
+          "MV_109",
+          "MV_189"
+        ],
+        "item_id": "regen_band"
+      },
+      {
+        "species_id": "154",
+        "move_ids": [
+          "MVP_099",
+          "MVP_148",
+          "MVP_162",
+          "MVP_041"
+        ],
+        "item_id": "guard_tonic_50"
+      }
+    ]
+  },
+  {
+    "id": "npc_dark",
+    "name": "あくつかい クロ",
+    "main_type": "Dark",
+    "total_bst": 2130,
+    "entries": [
+      {
+        "species_id": "157B",
+        "move_ids": [
+          "MVP_179",
+          "MVP_152",
+          "MV_211",
+          "MV_258"
+        ],
+        "item_id": "power_lens"
+      },
+      {
+        "species_id": "138B",
+        "move_ids": [
+          "MV_279",
+          "gap_dark_s_95",
+          "gap_dragon_s_80",
+          "mvn_018"
+        ],
+        "item_id": "crit_shell"
+      },
+      {
+        "species_id": "186B",
+        "move_ids": [
+          "gap_dark_s_120",
+          "gap_dragon_s_85",
+          "gap_electric_s_80",
+          "mvn_022"
+        ],
+        "item_id": "focus_lens"
+      },
+      {
+        "species_id": "171",
+        "move_ids": [
+          "gap_dark_s_120",
+          "gap_dragon_p_105",
+          "mvn_022",
+          "gap_neutral_s_35"
+        ],
+        "item_id": "cure_bell"
+      },
+      {
+        "species_id": "195",
+        "move_ids": [
+          "gap_dark_s_120",
+          "gap_ground_s_80",
+          "MV_193",
+          "MV_151"
+        ],
+        "item_id": "area_aegis"
+      },
+      {
+        "species_id": "196",
+        "move_ids": [
+          "MV_098",
+          "gap_dark_s_120",
+          "MVP_011",
+          "MVP_082"
+        ],
+        "item_id": "mind_plate"
+      }
+    ]
+  },
+  {
+    "id": "npc_dragon",
+    "name": "ドラゴンつかい リュウ",
+    "main_type": "Dragon",
+    "total_bst": 2155,
+    "entries": [
+      {
+        "species_id": "160",
+        "move_ids": [
+          "gap_dragon_s_105",
+          "gap_dark_s_100",
+          "gap_ground_s_95",
+          "hydro_stream"
+        ],
+        "item_id": "power_lens"
+      },
+      {
+        "species_id": "121",
+        "move_ids": [
+          "MV_224",
+          "MV_101",
+          "gap_ice_s_65",
+          "gap_grass_s_60"
+        ],
+        "item_id": "focus_lens"
+      },
+      {
+        "species_id": "121B",
+        "move_ids": [
+          "MV_098",
+          "gap_fire_p_105",
+          "MVP_077",
+          "MVP_130"
+        ],
+        "item_id": "iron_plate"
+      },
+      {
+        "species_id": "146",
+        "move_ids": [
+          "gap_dragon_s_105",
+          "hydro_stream",
+          "volcanic_rain",
+          "gap_neutral_s_85"
+        ],
+        "item_id": "mind_plate"
+      },
+      {
+        "species_id": "187",
+        "move_ids": [
+          "gap_electric_s_120",
+          "gap_dragon_p_105",
+          "MV_151",
+          "gap_water_s_20"
+        ],
+        "item_id": "guard_tonic_50"
+      },
+      {
+        "species_id": "202",
+        "move_ids": [
+          "MV_098",
+          "MVP_071",
+          "MV_245",
+          "MV_142"
+        ],
+        "item_id": "endure_charm"
+      }
+    ]
+  }
+]

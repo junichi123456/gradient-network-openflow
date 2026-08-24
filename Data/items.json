@@ -1,0 +1,205 @@
+[
+  {
+    "id": "baked_berries",
+    "name": "ベイクドベリー",
+    "type": "Consumable",
+    "effect_target": "Belly",
+    "effect_value": 30
+  },
+  {
+    "id": "low_grade_medical_supplies",
+    "name": "低品質な医薬品",
+    "type": "Consumable",
+    "effect_target": "Hp",
+    "effect_value": 20
+  },
+  {
+    "id": "fire_bow_arrow",
+    "name": "火の弓矢",
+    "type": "Throwable",
+    "effect_target": "Damage",
+    "effect_value": 15,
+    "element_type": "Fire"
+  },
+  {
+    "id": "pal_fluids",
+    "name": "パルの体液",
+    "type": "Material",
+    "effect_target": "None",
+    "effect_value": 0
+  },
+  {
+    "id": "flame_organ",
+    "name": "発火器官",
+    "type": "Material",
+    "effect_target": "None",
+    "effect_value": 0
+  },
+  {
+    "id": "wood",
+    "name": "木材",
+    "type": "Material",
+    "effect_target": "None",
+    "effect_value": 0
+  },
+  {
+    "id": "guard_tonic_25",
+    "name": "ガードトニック",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "HealAt50",
+    "consumed_on_trigger": true,
+    "description": "HPが50%未満になると、最大HPの25%を回復する。"
+  },
+  {
+    "id": "guard_tonic_50",
+    "name": "ラストトニック",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "HealAt33",
+    "consumed_on_trigger": true,
+    "description": "HPが33%以下になると、最大HPの50%を回復する。"
+  },
+  {
+    "id": "endure_charm",
+    "name": "エンデュアチャーム",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "SurviveFromFull",
+    "consumed_on_trigger": true,
+    "description": "HPが最大の状態で、即死に至る威力の攻撃を受けた時、HPが1残る。"
+  },
+  {
+    "id": "crit_shell",
+    "name": "クリットシェル",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "CritCut90",
+    "consumed_on_trigger": true,
+    "description": "急所に攻撃を受けた時、受けるダメージを90%減らす。"
+  },
+  {
+    "id": "weakness_shell",
+    "name": "ウィークシェル",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "WeaknessCut75",
+    "consumed_on_trigger": true,
+    "description": "弱点属性の攻撃を受けた時、受けるダメージを75%減らす。"
+  },
+  {
+    "id": "room_mirror",
+    "name": "ルームミラー",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "CounterRoom",
+    "consumed_on_trigger": true,
+    "description": "room射程の攻撃技が使用されたとき、自分が受けるダメージを使用者にカウンターする。"
+  },
+  {
+    "id": "area_aegis",
+    "name": "エリアイージス",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "CoverAllies",
+    "consumed_on_trigger": true,
+    "description": "範囲射程の攻撃技が使用されたとき、自分以外の味方はダメージを受けない。"
+  },
+  {
+    "id": "rank_anchor",
+    "name": "ランクアンカー",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "RestoreRank",
+    "consumed_on_trigger": true,
+    "description": "自分のランクが下がると、元に戻す。"
+  },
+  {
+    "id": "cure_bell",
+    "name": "キュアベル",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "CureAilment",
+    "consumed_on_trigger": true,
+    "description": "自分が状態異常になると、状態異常が回復する。"
+  },
+  {
+    "id": "regen_band",
+    "name": "リジェネバンド",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "RegenOnTurnEnd",
+    "consumed_on_trigger": false,
+    "description": "自分のターン終了時、HPを10%回復する。"
+  },
+  {
+    "id": "purge_band",
+    "name": "パージバンド",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "PurgeOnTurnEnd",
+    "consumed_on_trigger": false,
+    "description": "自分のターン終了時、すべての状態異常蓄積値が100減少する。"
+  },
+  {
+    "id": "power_lens",
+    "name": "パワーレンズ",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "PhysAtkUp25",
+    "consumed_on_trigger": false,
+    "description": "物理技の使用時、実効威力が25%上がる。"
+  },
+  {
+    "id": "focus_lens",
+    "name": "フォーカスレンズ",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "SpecAtkUp25",
+    "consumed_on_trigger": false,
+    "description": "特殊技の使用時、実効威力が25%上がる。"
+  },
+  {
+    "id": "iron_plate",
+    "name": "アイアンプレート",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "PhysDefUp30",
+    "consumed_on_trigger": false,
+    "description": "物理技の被弾時、受ける技の実効威力が30%下がる。"
+  },
+  {
+    "id": "mind_plate",
+    "name": "マインドプレート",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "SpecDefUp40",
+    "consumed_on_trigger": false,
+    "description": "特殊技の被弾時、受ける技の実効威力が40%下がる。"
+  },
+  {
+    "id": "wide_ward",
+    "name": "ワイドウォード",
+    "type": "BattleHeld",
+    "effect_target": "None",
+    "effect_value": 0,
+    "battle_effect": "ImmuneWideRange",
+    "consumed_on_trigger": false,
+    "description": "全体攻撃技(room、area)の攻撃を受けない。"
+  }
+]

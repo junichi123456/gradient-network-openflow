@@ -1,0 +1,978 @@
+[
+  {
+    "id": "neutral_bond",
+    "name": "無のきずな",
+    "category": "template",
+    "element": "Neutral",
+    "template_kind": "bond",
+    "description": "同属性の味方が近くにいるほど自分の攻撃力が上昇する(+8%/体・3体で上限+24%)。"
+  },
+  {
+    "id": "neutral_power",
+    "name": "無のちから",
+    "category": "template",
+    "element": "Neutral",
+    "template_kind": "power",
+    "description": "同属性の味方の技威力+10%(重複不可)。"
+  },
+  {
+    "id": "neutral_guard",
+    "name": "無のまもり",
+    "category": "template",
+    "element": "Neutral",
+    "template_kind": "guard",
+    "description": "同属性の味方全員の防御+10%(重複不可)。"
+  },
+  {
+    "id": "neutral_resist",
+    "name": "無流",
+    "category": "template",
+    "element": "Neutral",
+    "template_kind": "resist",
+    "description": "被弾時、自分の属性と一致する技なら被ダメージ×0.15(85%軽減)。"
+  },
+  {
+    "id": "neutral_stab",
+    "name": "無派",
+    "category": "template",
+    "element": "Neutral",
+    "template_kind": "stab",
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+  },
+  {
+    "id": "neutral_weakness",
+    "name": "無式",
+    "category": "template",
+    "element": "Neutral",
+    "template_kind": "weakness",
+    "description": "自分がその属性の攻撃技を使うとき、対象への弱点倍率を2.0から2.5に引き上げる。"
+  },
+  {
+    "id": "fire_bond",
+    "name": "炎のきずな",
+    "category": "template",
+    "element": "Fire",
+    "template_kind": "bond",
+    "description": "同属性の味方が近くにいるほど自分の攻撃力が上昇する(+8%/体・3体で上限+24%)。"
+  },
+  {
+    "id": "fire_power",
+    "name": "炎のちから",
+    "category": "template",
+    "element": "Fire",
+    "template_kind": "power",
+    "description": "同属性の味方の技威力+10%(重複不可)。天候がはれのとき、水属性の相手に対する自身の炎属性のわざの威力+10。"
+  },
+  {
+    "id": "fire_guard",
+    "name": "炎のまもり",
+    "category": "template",
+    "element": "Fire",
+    "template_kind": "guard",
+    "description": "同属性の味方全員の防御+10%(重複不可)。"
+  },
+  {
+    "id": "fire_resist",
+    "name": "炎流",
+    "category": "template",
+    "element": "Fire",
+    "template_kind": "resist",
+    "description": "被弾時、自分の属性と一致する技なら被ダメージ×0.15(85%軽減)。"
+  },
+  {
+    "id": "fire_stab",
+    "name": "炎派",
+    "category": "template",
+    "element": "Fire",
+    "template_kind": "stab",
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+  },
+  {
+    "id": "fire_weakness",
+    "name": "炎式",
+    "category": "template",
+    "element": "Fire",
+    "template_kind": "weakness",
+    "description": "自分がその属性の攻撃技を使うとき、対象への弱点倍率を2.0から2.5に引き上げる。"
+  },
+  {
+    "id": "water_bond",
+    "name": "水のきずな",
+    "category": "template",
+    "element": "Water",
+    "template_kind": "bond",
+    "description": "同属性の味方が近くにいるほど自分の攻撃力が上昇する(+8%/体・3体で上限+24%)。"
+  },
+  {
+    "id": "water_power",
+    "name": "水のちから",
+    "category": "template",
+    "element": "Water",
+    "template_kind": "power",
+    "description": "同属性の味方の技威力+10%(重複不可)。天候があめのとき、自身の優先度+1。"
+  },
+  {
+    "id": "water_guard",
+    "name": "水のまもり",
+    "category": "template",
+    "element": "Water",
+    "template_kind": "guard",
+    "description": "同属性の味方全員の防御+10%(重複不可)。"
+  },
+  {
+    "id": "water_resist",
+    "name": "水流",
+    "category": "template",
+    "element": "Water",
+    "template_kind": "resist",
+    "description": "被弾時、自分の属性と一致する技なら被ダメージ×0.15(85%軽減)。"
+  },
+  {
+    "id": "water_stab",
+    "name": "水派",
+    "category": "template",
+    "element": "Water",
+    "template_kind": "stab",
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+  },
+  {
+    "id": "water_weakness",
+    "name": "水式",
+    "category": "template",
+    "element": "Water",
+    "template_kind": "weakness",
+    "description": "自分がその属性の攻撃技を使うとき、対象への弱点倍率を2.0から2.5に引き上げる。"
+  },
+  {
+    "id": "grass_bond",
+    "name": "草のきずな",
+    "category": "template",
+    "element": "Grass",
+    "template_kind": "bond",
+    "description": "同属性の味方が近くにいるほど自分の攻撃力が上昇する(+8%/体・3体で上限+24%)。"
+  },
+  {
+    "id": "grass_power",
+    "name": "草のちから",
+    "category": "template",
+    "element": "Grass",
+    "template_kind": "power",
+    "description": "同属性の味方の技威力+10%(重複不可)。天候がはれのとき、自身が使用する草技の命中ランク+1。"
+  },
+  {
+    "id": "grass_guard",
+    "name": "草のまもり",
+    "category": "template",
+    "element": "Grass",
+    "template_kind": "guard",
+    "description": "同属性の味方全員の防御+10%(重複不可)。"
+  },
+  {
+    "id": "grass_resist",
+    "name": "草流",
+    "category": "template",
+    "element": "Grass",
+    "template_kind": "resist",
+    "description": "被弾時、自分の属性と一致する技なら被ダメージ×0.15(85%軽減)。"
+  },
+  {
+    "id": "grass_stab",
+    "name": "草派",
+    "category": "template",
+    "element": "Grass",
+    "template_kind": "stab",
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+  },
+  {
+    "id": "grass_weakness",
+    "name": "草式",
+    "category": "template",
+    "element": "Grass",
+    "template_kind": "weakness",
+    "description": "自分がその属性の攻撃技を使うとき、対象への弱点倍率を2.0から2.5に引き上げる。"
+  },
+  {
+    "id": "electric_bond",
+    "name": "雷のきずな",
+    "category": "template",
+    "element": "Electric",
+    "template_kind": "bond",
+    "description": "同属性の味方が近くにいるほど自分の攻撃力が上昇する(+8%/体・3体で上限+24%)。"
+  },
+  {
+    "id": "electric_power",
+    "name": "雷のちから",
+    "category": "template",
+    "element": "Electric",
+    "template_kind": "power",
+    "description": "同属性の味方の技威力+10%(重複不可)。"
+  },
+  {
+    "id": "electric_guard",
+    "name": "雷のまもり",
+    "category": "template",
+    "element": "Electric",
+    "template_kind": "guard",
+    "description": "同属性の味方全員の防御+10%(重複不可)。"
+  },
+  {
+    "id": "electric_resist",
+    "name": "雷流",
+    "category": "template",
+    "element": "Electric",
+    "template_kind": "resist",
+    "description": "被弾時、自分の属性と一致する技なら被ダメージ×0.15(85%軽減)。"
+  },
+  {
+    "id": "electric_stab",
+    "name": "雷派",
+    "category": "template",
+    "element": "Electric",
+    "template_kind": "stab",
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+  },
+  {
+    "id": "electric_weakness",
+    "name": "雷式",
+    "category": "template",
+    "element": "Electric",
+    "template_kind": "weakness",
+    "description": "自分がその属性の攻撃技を使うとき、対象への弱点倍率を2.0から2.5に引き上げる。"
+  },
+  {
+    "id": "ground_bond",
+    "name": "地のきずな",
+    "category": "template",
+    "element": "Ground",
+    "template_kind": "bond",
+    "description": "同属性の味方が近くにいるほど自分の攻撃力が上昇する(+8%/体・3体で上限+24%)。"
+  },
+  {
+    "id": "ground_power",
+    "name": "地のちから",
+    "category": "template",
+    "element": "Ground",
+    "template_kind": "power",
+    "description": "同属性の味方の技威力+10%(重複不可)。天候がすなあらしのとき、自身の回避ランク+1。"
+  },
+  {
+    "id": "ground_guard",
+    "name": "地のまもり",
+    "category": "template",
+    "element": "Ground",
+    "template_kind": "guard",
+    "description": "同属性の味方全員の防御+10%(重複不可)。"
+  },
+  {
+    "id": "ground_resist",
+    "name": "地流",
+    "category": "template",
+    "element": "Ground",
+    "template_kind": "resist",
+    "description": "被弾時、自分の属性と一致する技なら被ダメージ×0.15(85%軽減)。"
+  },
+  {
+    "id": "ground_stab",
+    "name": "地派",
+    "category": "template",
+    "element": "Ground",
+    "template_kind": "stab",
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+  },
+  {
+    "id": "ground_weakness",
+    "name": "地式",
+    "category": "template",
+    "element": "Ground",
+    "template_kind": "weakness",
+    "description": "自分がその属性の攻撃技を使うとき、対象への弱点倍率を2.0から2.5に引き上げる。"
+  },
+  {
+    "id": "ice_bond",
+    "name": "氷のきずな",
+    "category": "template",
+    "element": "Ice",
+    "template_kind": "bond",
+    "description": "同属性の味方が近くにいるほど自分の攻撃力が上昇する(+8%/体・3体で上限+24%)。"
+  },
+  {
+    "id": "ice_power",
+    "name": "氷のちから",
+    "category": "template",
+    "element": "Ice",
+    "template_kind": "power",
+    "description": "同属性の味方の技威力+10%(重複不可)。天候がゆきのとき、対象範囲が部屋またはフロア全体の技に対する回避ランク+2。"
+  },
+  {
+    "id": "ice_guard",
+    "name": "氷のまもり",
+    "category": "template",
+    "element": "Ice",
+    "template_kind": "guard",
+    "description": "同属性の味方全員の防御+10%(重複不可)。"
+  },
+  {
+    "id": "ice_resist",
+    "name": "氷流",
+    "category": "template",
+    "element": "Ice",
+    "template_kind": "resist",
+    "description": "被弾時、自分の属性と一致する技なら被ダメージ×0.15(85%軽減)。"
+  },
+  {
+    "id": "ice_stab",
+    "name": "氷派",
+    "category": "template",
+    "element": "Ice",
+    "template_kind": "stab",
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+  },
+  {
+    "id": "ice_weakness",
+    "name": "氷式",
+    "category": "template",
+    "element": "Ice",
+    "template_kind": "weakness",
+    "description": "自分がその属性の攻撃技を使うとき、対象への弱点倍率を2.0から2.5に引き上げる。"
+  },
+  {
+    "id": "dragon_bond",
+    "name": "竜のきずな",
+    "category": "template",
+    "element": "Dragon",
+    "template_kind": "bond",
+    "description": "同属性の味方が近くにいるほど自分の攻撃力が上昇する(+8%/体・3体で上限+24%)。"
+  },
+  {
+    "id": "dragon_power",
+    "name": "竜のちから",
+    "category": "template",
+    "element": "Dragon",
+    "template_kind": "power",
+    "description": "同属性の味方の技威力+10%(重複不可)。"
+  },
+  {
+    "id": "dragon_guard",
+    "name": "竜のまもり",
+    "category": "template",
+    "element": "Dragon",
+    "template_kind": "guard",
+    "description": "同属性の味方全員の防御+10%(重複不可)。"
+  },
+  {
+    "id": "dragon_resist",
+    "name": "竜流",
+    "category": "template",
+    "element": "Dragon",
+    "template_kind": "resist",
+    "description": "被弾時、自分の属性と一致する技なら被ダメージ×0.15(85%軽減)。"
+  },
+  {
+    "id": "dragon_stab",
+    "name": "竜派",
+    "category": "template",
+    "element": "Dragon",
+    "template_kind": "stab",
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+  },
+  {
+    "id": "dragon_weakness",
+    "name": "竜式",
+    "category": "template",
+    "element": "Dragon",
+    "template_kind": "weakness",
+    "description": "自分がその属性の攻撃技を使うとき、対象への弱点倍率を2.0から2.5に引き上げる。"
+  },
+  {
+    "id": "dark_bond",
+    "name": "闇のきずな",
+    "category": "template",
+    "element": "Dark",
+    "template_kind": "bond",
+    "description": "同属性の味方が近くにいるほど自分の攻撃力が上昇する(+8%/体・3体で上限+24%)。"
+  },
+  {
+    "id": "dark_power",
+    "name": "闇のちから",
+    "category": "template",
+    "element": "Dark",
+    "template_kind": "power",
+    "description": "同属性の味方の技威力+10%(重複不可)。天候がきりのとき、自分のターン終了時にHPを5%回復する。"
+  },
+  {
+    "id": "dark_guard",
+    "name": "闇のまもり",
+    "category": "template",
+    "element": "Dark",
+    "template_kind": "guard",
+    "description": "同属性の味方全員の防御+10%(重複不可)。"
+  },
+  {
+    "id": "dark_resist",
+    "name": "闇流",
+    "category": "template",
+    "element": "Dark",
+    "template_kind": "resist",
+    "description": "被弾時、自分の属性と一致する技なら被ダメージ×0.15(85%軽減)。"
+  },
+  {
+    "id": "dark_stab",
+    "name": "闇派",
+    "category": "template",
+    "element": "Dark",
+    "template_kind": "stab",
+    "description": "自分が一致する属性の技を使うとき、STAB倍率を1.2から1.5に差し替える。"
+  },
+  {
+    "id": "dark_weakness",
+    "name": "闇式",
+    "category": "template",
+    "element": "Dark",
+    "template_kind": "weakness",
+    "description": "自分がその属性の攻撃技を使うとき、対象への弱点倍率を2.0から2.5に引き上げる。"
+  },
+  {
+    "id": "quick_step",
+    "name": "クイックステップ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "常時、回避ランク+1相当の効果を持つ。"
+  },
+  {
+    "id": "kinuinui",
+    "name": "きぬぬい",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "氷技を使用した次のターン、自分が受けるダメージが-10%になる(1回限定)。"
+  },
+  {
+    "id": "kyoujin_na_karada",
+    "name": "きょうじんなからだ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "被弾時、相手の技が持つ追加効果(AilmentEffect/RankEffect/CritRankBonus/RecoilHpPercent/SelfStunNextTurn/DragonMultiplier/DrainHalf/状態異常蓄積の加算)を全てブロックする(泥まみれの実装を流用)。"
+  },
+  {
+    "id": "battery",
+    "name": "バッテリー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "常時「帯電」状態を占有し(相互排他ルールにより他の状態異常を受け付けない)、帯電本来の効果(移動不可)は無効化される。"
+  },
+  {
+    "id": "issen",
+    "name": "いっせん",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "Slash・Thrustの技の与ダメージ+10%。"
+  },
+  {
+    "id": "tsume_no_kariudo",
+    "name": "ツメのかりうど",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "Fist・Punch系の技の与ダメージ+10%。"
+  },
+  {
+    "id": "let_us_hug",
+    "name": "レッツハギング",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "特性発の状態異常蓄積付与(技のAilmentChanceとは別枠)。具体的な発動条件・対象状態異常・確率は段階2-b実装時に個別確定する。"
+  },
+  {
+    "id": "hyouten_ma",
+    "name": "ひょうてんま",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "特性発の状態異常蓄積付与(技のAilmentChanceとは別枠)。具体的な発動条件・対象状態異常・確率は段階2-b実装時に個別確定する。"
+  },
+  {
+    "id": "koushu_ittai",
+    "name": "攻守一体",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "既存の10ターン減衰ランクとは別に、2ターン限定の一時ランクバフを付与する。"
+  },
+  {
+    "id": "akumu_no_hitomi",
+    "name": "あくむのひとみ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "特定技名(ナイトメアボール/ナイトメアパルス)使用時のみ発動するドレイン(技名を直接参照)。"
+  },
+  {
+    "id": "watahoushi",
+    "name": "わたほうし",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "被弾時、攻撃者側の状態異常(ツタまみれ)を参照して軽減率を決定する(通常と逆方向の参照)。"
+  },
+  {
+    "id": "shunkan_reitou",
+    "name": "瞬間冷凍",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "ずぶ濡れ状態の相手への攻撃が命中したとき、蓄積値を無視して即座に凍結を発現させる。"
+  },
+  {
+    "id": "zankyou_no_shugosha",
+    "name": "ざんきょうのしゅごしゃ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "攻撃技の使用が禁止される代わりに、周囲2マス以内の味方が被弾した際にダメージを15%軽減して肩代わりする。"
+  },
+  {
+    "id": "chaser",
+    "name": "チェイサー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "同室の味方が攻撃した際にトリガーが発動し、敵の隣接マスへ瞬間移動して自己スタンを受ける。"
+  },
+  {
+    "id": "bakusen",
+    "name": "ばくせん",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "炎上中の相手に炎技が命中したとき、相手レベル×0.8の固定追加ダメージを相性倍率の影響を受けない別枠で加算する。"
+  },
+  {
+    "id": "glorious_mist",
+    "name": "グロリアスミスト",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "ずぶ濡れ状態の相手への水技を強制的に弱点扱いへ格上げする(通常は水vs水で中立になるところを上書き)。"
+  },
+  {
+    "id": "ganbari_support",
+    "name": "がんばりサポート",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "パーティ内の他の味方が使う接触技の威力+10%(きずな系と同じパーティ全体参照の応用)。"
+  },
+  {
+    "id": "fire_oshie",
+    "name": "炎のおしえ",
+    "category": "template",
+    "element": "Fire",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "water_oshie",
+    "name": "水のおしえ",
+    "category": "template",
+    "element": "Water",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "grass_oshie",
+    "name": "草のおしえ",
+    "category": "template",
+    "element": "Grass",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "electric_oshie",
+    "name": "雷のおしえ",
+    "category": "template",
+    "element": "Electric",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "ground_oshie",
+    "name": "地のおしえ",
+    "category": "template",
+    "element": "Ground",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "ice_oshie",
+    "name": "氷のおしえ",
+    "category": "template",
+    "element": "Ice",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "dragon_oshie",
+    "name": "竜のおしえ",
+    "category": "template",
+    "element": "Dragon",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "dark_oshie",
+    "name": "闇のおしえ",
+    "category": "template",
+    "element": "Dark",
+    "template_kind": "oshie",
+    "description": "無属性技を使用したとき、その技の実効属性をこの特性の属性として扱う(技解決時、move.Type==Neutralかつ本特性所持者の場合に上書き。相性計算・STAB・属性技威力補正・状態異常蓄積のいずれにも及ぶ)。"
+  },
+  {
+    "id": "takane_no_hana",
+    "name": "たかねのはな",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手の技が急所に当たらない(被弾側で会心を強制不発)。"
+  },
+  {
+    "id": "kyoushinzou",
+    "name": "きょうしんぞう",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手の技を急所に受けたとき、自分の攻撃ランクが最大(+6)まで上昇する。"
+  },
+  {
+    "id": "hatsuen_kikan",
+    "name": "発煙器官",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "ブレス/息系の技(WeaponTag=Breath)の威力+10。"
+  },
+  {
+    "id": "blitz_beat",
+    "name": "ブリッツビート",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "(ダンジョン)回避ランクが低下しない。(対戦)優先順位+1 - PvP未実装のため宣言のみ。"
+  },
+  {
+    "id": "moeru_kobushi",
+    "name": "燃えるこぶし",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "接触技の使用時、技本来の属性に加えて炎属性の相性も乗算する。技が既に炎属性なら乗算せず威力+5。"
+  },
+  {
+    "id": "needle_armor",
+    "name": "ニードルアーマー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "接触技を受けたとき、ダメージ処理後に攻撃者へ攻撃者の最大HPの5%のダメージを与える。"
+  },
+  {
+    "id": "hard_block",
+    "name": "ハードブロック",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "特殊技を受けるとき、自分の防御力を2倍にしてダメージ計算を行う。"
+  },
+  {
+    "id": "hard_armor",
+    "name": "ハードアーマー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "物理技を受けるとき、自分の防御力を2倍にしてダメージ計算を行う。"
+  },
+  {
+    "id": "dokusen_body",
+    "name": "どくせんボディ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "物理技を受けると攻撃者へ毒蓄積+250。自分の物理技を当てると相手へ毒蓄積+75(いずれも技データ非依存)。"
+  },
+  {
+    "id": "bakugeki",
+    "name": "ばくげき",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "自分の竜属性技がすべて固定技「ばくげき」(命中100/威力120/PP10、命中・回避ランクの影響を受けない)に置き換わる。"
+  },
+  {
+    "id": "keikaikan",
+    "name": "けいかいかん",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手の遠距離技(非接触技)を受けるとき、防御力+10。"
+  },
+  {
+    "id": "koufun",
+    "name": "こうふん",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "隣接している相手(チェビシェフ距離1)への攻撃技の威力+15。"
+  },
+  {
+    "id": "free_fall",
+    "name": "フリーフォール",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "生態「グライド」を持つ相手への攻撃技の威力+25。"
+  },
+  {
+    "id": "zetsuentai",
+    "name": "ぜつえんたい",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "敵の電属性技を完全に無効化する(ダメージ・追加効果とも0)。"
+  },
+  {
+    "id": "over_heal",
+    "name": "オーバーヒール",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "技によってHPを回復したとき、追加で最大HPの6%を回復する。"
+  },
+  {
+    "id": "akui",
+    "name": "あくい",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手の闇属性技を受けたとき、本来受けるダメージの半分を回復する。"
+  },
+  {
+    "id": "deep_dive",
+    "name": "ディープダイブ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手の水属性技を無効化し、次に自分が使う水属性技の威力+25(1回限定)。"
+  },
+  {
+    "id": "konton_no_shukufuku",
+    "name": "こんとんのしゅくふく",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "パーティにいる間、味方全員の攻撃力1.2倍。保有者は行動後に最大HPの15%を失う。"
+  },
+  {
+    "id": "guardian_mode",
+    "name": "ガーディアンモード",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "自分のHPが最大値の1/2未満の間、攻撃力・防御力が2倍(現在値基準の倍率系)。"
+  },
+  {
+    "id": "jiyuu_no_tsubasa",
+    "name": "じゆうのつばさ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "パーティにいる他の竜または闇属性のパル1体につき命中ランク+1(最大2)。"
+  },
+  {
+    "id": "fundo_no_tsubasa",
+    "name": "ふんどのつばさ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "パーティにいる他の竜または炎属性のパル1体につき技威力+5。与ダメージの33%の反動を追加で受ける。"
+  },
+  {
+    "id": "build_up",
+    "name": "ビルドアップ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "自分の次に行動する味方1体は、その行動を完了するまで被ダメージ-25%(反動は対象外)。"
+  },
+  {
+    "id": "mure_no_ichiin",
+    "name": "むれのいちいん",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "『〇〇のリーダー』保有パルがパーティにいる間、自分のHPが満タンなら被ダメージ-15%。"
+  },
+  {
+    "id": "reikyaku_leader",
+    "name": "冷却のリーダー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "『むれのいちいん』保有パル1体につき防御力+10%(上限30%・種族値基準の固定加算)、氷技の与ダメージ+5%(上限15%)。"
+  },
+  {
+    "id": "chikaramochi_leader",
+    "name": "力持ちのリーダー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "『むれのいちいん』保有パル1体につき防御力+10%(上限30%・種族値基準)、無属性技の与ダメージ+5%(上限15%)。"
+  },
+  {
+    "id": "mofumofu_leader",
+    "name": "もふもふのリーダー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "『むれのいちいん』保有パル1体につき攻撃力・防御力+10%(上限30%・ともに種族値基準)。"
+  },
+  {
+    "id": "tousotsu_leader",
+    "name": "とうそつのリーダー",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "『むれのいちいん』保有パル1体につき攻撃力+15%(上限45%・種族値基準)。"
+  },
+  {
+    "id": "okorinbo",
+    "name": "おこりんぼ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "接触技の与ダメージ+10%。"
+  },
+  {
+    "id": "eisou",
+    "name": "えいそう",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "接触技の急所ランク+1。"
+  },
+  {
+    "id": "foehn",
+    "name": "フェーン",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をはれにする。",
+    "weather_on_entry": "Sunny"
+  },
+  {
+    "id": "amagumo",
+    "name": "あまぐも",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をあめにする。",
+    "weather_on_entry": "Rain"
+  },
+  {
+    "id": "tamayuki",
+    "name": "たまゆき",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をゆきにする。",
+    "weather_on_entry": "Snow"
+  },
+  {
+    "id": "haboob",
+    "name": "ハブーブ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をすなあらしにする。",
+    "weather_on_entry": "Sandstorm"
+  },
+  {
+    "id": "maikaze",
+    "name": "まいかぜ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をきょうふうにする。",
+    "weather_on_entry": "Gale"
+  },
+  {
+    "id": "haze",
+    "name": "ヘイズ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をきりにする。",
+    "weather_on_entry": "Fog"
+  },
+  {
+    "id": "purple_haze",
+    "name": "パープルヘイズ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をきりにする。天候がきりの間、自分が使う闇属性で威力55以下の技の威力+15。",
+    "weather_on_entry": "Fog"
+  },
+  {
+    "id": "kagerou_body",
+    "name": "かげろうボディ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "フロアに出たとき、天候をはれにする。天候がはれの間、回避ランク+1相当の効果を持つ。",
+    "weather_on_entry": "Sunny"
+  },
+  {
+    "id": "fuwafuwa",
+    "name": "ふわふわ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "天候がきょうふうの間、攻撃した後に1マス移動できる。"
+  },
+  {
+    "id": "yukisuberi",
+    "name": "ゆきすべり",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "天候がゆきの間、攻撃した後に1マス移動できる。"
+  },
+  {
+    "id": "sandbag",
+    "name": "サンドバッグ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "相手から接触技を受けると、天候をすなあらしにする。"
+  },
+  {
+    "id": "body_press",
+    "name": "ボディプレス",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "ウェポンタグ Crush・Rend の技が必中になる。"
+  },
+  {
+    "id": "poker_face",
+    "name": "ポーカーフェイス",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "ウェポンタグ Straight・Flash の技を使うとき、技の威力1.5倍。"
+  }
+]

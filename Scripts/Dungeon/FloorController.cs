@@ -1,0 +1,1165 @@
+using Godot;
+using System.Collections.Generic;
+using MysteryDungeon.Grid;
+using MysteryDungeon.Turn;
+using MysteryDungeon.Entities;
+using MysteryDungeon.Combat;
+using MysteryDungeon.Hub;
+using MysteryDungeon.Progression;
+using MysteryDungeon.UI;
+using MysteryDungeon.Visuals;
+
+namespace MysteryDungeon.Dungeon;
+
+// Owns the full lifecycle of "the current floor": generating the map,
+// marking a Monster House, scattering stairs/item/trap placeholders,
+// spawning enemies into the TurnScheduler, detecting the player
+// stepping onto stairs or into a Monster House, and tearing all of
+// that down again when the next floor is generated.
+//
+// Both the stairs and the Monster House are detected by listening to
+// TurnManager.TurnEnded rather than having Player/MoveAction know
+// about them directly - Player only ever deals with terrain
+// walkability, keeping the two modules decoupled.
+public partial class FloorController : Node2D
+{
+    private const float MarkerSize = 12f;
+    private static readonly Color StairsColor = new(0.7f, 0.2f, 1f);   // purple/magenta
+    private static readonly Color ItemColor = new(0.2f, 0.9f, 0.2f);   // green
+    private static readonly Color TrapColor = new(0.9f, 0.15f, 0.15f); // red
+
+    private const int BossRoomSize = 20;
+
+    private GridManager _grid;
+    private TurnManager _turnManager;
+    private Player _player;
+    private DungeonRule _rule;
+    private DungeonConfig _config;
+    private AStarPathfinder _pathfinder;
+    private BossEntity _bossEntity; // non-null only on a FreeDungeonBoss final floor
+    private bool _isGameCleared;
+    private bool _storyEventCompleted; // framework hook for DungeonEndType.StoryNoBossFinalFloor
+
+    private readonly DungeonObjectManager _objects = new();
+
+    // Trap-move field overlays (see FieldManager). Cleared with the rest of
+    // the floor state, which is what makes fields "floor-permanent".
+    private readonly FieldManager _fields = new();
+
+    // Floor-wide weather (see WeatherState). Seeded from the dungeon
+    // definition at generation; a move/trait can override it temporarily.
+    private readonly WeatherState _weather = new();
+    private readonly List<Entity> _spawnedEnemies = new();
+    private readonly List<AllyEntity> _spawnedAllies = new();
+    private readonly List<(Vector2I Pos, Sprite2D Sprite)> _spawnedMarkers = new();
+    private List<Room> _rooms = new();
+
+    // Persist for the whole run (NOT cleared in CleanupCurrentFloor,
+    // unlike _spawnedEnemies/_objects/_rooms) - RunTracker counts kills
+    // across every floor.
+    private readonly RunTracker _runTracker = new();
+
+    // Phase 19: run-scoped party persistence (same lifetime pattern as
+    // RunTracker above). Ally Level/EXP/HP dehydrate into this before
+    // each floor teardown and hydrate back after each floor's spawn -
+    // see PartyState for the full contract.
+    private readonly PartyState _partyState = new();
+
+    // PartyManager's roster must survive Dungeon<->Hub scene transitions
+    // too (not just floor transitions within one dungeon), so it lives
+    // on HubUpgradeManager (a persistent autoload) instead of here - a
+    // FloorController-owned instance would be destroyed and silently
+    // lose every recruited pal the moment the player returned to base.
+    // The local fallback only matters if this scene somehow runs
+    // without the autoload registered (shouldn't happen in practice).
+    private readonly PartyManager _fallbackPartyManager = new();
+    private PartyManager ActivePartyManager => HubUpgradeManager.Instance?.PartyManager ?? _fallbackPartyManager;
+
+    private int _floorNumber;
+    private Vector2I _lastPlayerPos;
+
+    // Where PlaceStairs put this floor's stairs - kept so ひらめきのよかん
+    // can point at them without re-scanning the object map. Null on a floor
+    // that has no stairs (the boss/final floor).
+    private Vector2I? _stairsPos;
+
+    // Read-only access for presentation code (MinimapUI/HUD) -
+    // FloorController stays the only thing that mutates these.
+    public DungeonObjectManager Objects => _objects;
+    public FieldManager Fields => _fields;
+    public WeatherState Weather => _weather;
+    public IReadOnlyList<Entity> SpawnedEnemies => _spawnedEnemies;
+    public IReadOnlyList<AllyEntity> SpawnedAllies => _spawnedAllies;
+    public int FloorNumber => _floorNumber;
+    public RunTracker RunTracker => _runTracker;
+    public PartyManager PartyManager => ActivePartyManager;
+    public PartyState PartyState => _partyState;
+
+    // Phase 18-A: defeat -> EXP -> level-up coordinator. Created in
+    // Initialize (needs the player reference), childed here so it lives
+    // and dies with the dungeon run.
+    public ExperienceSystem Experience { get; private set; }
+
+    private static readonly Vector2I[] EightDirections =
+    {
+        new(0, -1), new(0, 1), new(-1, 0), new(1, 0),
+        new(-1, -1), new(1, -1), new(-1, 1), new(1, 1),
+    };
+
+    // Entity-occupancy lookup for Player's bump-to-attack input.
+    // GridManager only knows about terrain, so this is the closest thing
+    // this project has to a "what's standing here" query.
+    public Entity GetEnemyAt(Vector2I pos)
+    {
+        foreach (var enemy in _spawnedEnemies)
+            if (GodotObject.IsInstanceValid(enemy) && enemy.IsAlive && enemy.GridPosition == pos)
+                return enemy;
+        return null;
+    }
+
+    // Full occupancy lookup across all three groups (player, allies,
+    // enemies). Movement code checks this before stepping so two
+    // entities can never end up stacked on the same tile.
+    public Entity GetEntityAt(Vector2I pos)
+    {
+        if (_player != null && _player.IsAlive && _player.GridPosition == pos) return _player;
+
+        foreach (var actor in _arenaActors)
+            if (GodotObject.IsInstanceValid(actor) && actor.IsAlive && actor.GridPosition == pos)
+                return actor;
+
+        foreach (var ally in _spawnedAllies)
+            if (GodotObject.IsInstanceValid(ally) && ally.IsAlive && ally.GridPosition == pos)
+                return ally;
+
+        return GetEnemyAt(pos);
+    }
+
+    // Every live actor on the floor (player + allies + enemies/boss).
+    // Downed allies/enemies are already pruned from their lists and
+    // QueueFree'd on death, so this is naturally "the living roster" -
+    // used by TargetResolver for AoE target collection.
+    public IEnumerable<Entity> AllActors()
+    {
+        if (_player != null && _player.IsAlive) yield return _player;
+
+        // 対戦の参加者。迷宮では常に空なので、既存の挙動は変わらない。
+        foreach (var actor in _arenaActors)
+            if (GodotObject.IsInstanceValid(actor) && actor.IsAlive) yield return actor;
+
+        foreach (var ally in _spawnedAllies)
+            if (GodotObject.IsInstanceValid(ally) && ally.IsAlive) yield return ally;
+
+        foreach (var enemy in _spawnedEnemies)
+            if (GodotObject.IsInstanceValid(enemy) && enemy.IsAlive) yield return enemy;
+    }
+
+    // ---- Trap-move field placement ----
+
+    // Tiles of the 5x5 centred on `centre` that a field may be placed on:
+    // in bounds, not a Wall, and Pal-free (the confirmed "パルがいないマス
+    // のみ" rule). Returned unshuffled; callers draw from it at random.
+    private List<Vector2I> FieldCandidates(Vector2I centre, int radius = 2)
+    {
+        var list = new List<Vector2I>();
+        for (int dx = -radius; dx <= radius; dx++)
+        {
+            for (int dy = -radius; dy <= radius; dy++)
+            {
+                var pos = centre + new Vector2I(dx, dy);
+                if (!_grid.InBounds(pos)) continue;
+                if (_grid.GetTile(pos).Terrain == TerrainType.Wall) continue;
+                if (GetEntityAt(pos) != null) continue;
+                list.Add(pos);
+            }
+        }
+        return list;
+    }
+
+    // Places `type` on up to `count` randomly drawn candidate tiles around
+    // `centre`. Returns how many actually landed - fewer than requested when
+    // the area is crowded, which is a legitimate outcome, not an error.
+    public int PlaceField(Vector2I centre, FieldType type, int count)
+    {
+        var candidates = FieldCandidates(centre);
+        var rng = new RandomNumberGenerator();
+        rng.Randomize();
+
+        int placed = 0;
+        while (placed < count && candidates.Count > 0)
+        {
+            int i = rng.RandiRange(0, candidates.Count - 1);
+            _fields.Set(candidates[i], type);
+            candidates.RemoveAt(i);
+            placed++;
+        }
+        return placed;
+    }
+
+    // げきりゅう.
+    public int ClearFieldsAround(Vector2I centre, int radius) => _fields.ClearWithinRadius(centre, radius);
+
+    // The Rect2I of the room containing `pos`, or null if `pos` is in a
+    // corridor (RoomId < 0) - TargetResolver falls back to single-target
+    // for a Room-range move fired from a corridor (§4-1).
+    public Rect2I? GetRoomBoundsAt(Vector2I pos)
+    {
+        int roomId = _grid.GetRoomId(pos);
+        if (roomId < 0 || roomId >= _rooms.Count) return null;
+        return _rooms[roomId].Bounds;
+    }
+
+    // Auto-aim for menu-invoked moves (Phase 6 dropped the manual
+    // direction-picker for moves so future room-wide/self-buff moves
+    // don't need one): prefers whatever the actor is currently facing,
+    // then falls back to the first enemy found among the 8 surrounding
+    // tiles. Diagonal candidates blocked by a Wall shoulder
+    // (GridManager.CanCutCorner) are skipped - a move can't bend around
+    // a wall corner. Returns null if nothing reachable is adjacent -
+    // the move then swings at empty air.
+    public Entity FindAutoAimTarget(Vector2I origin, Vector2I facingDirection)
+    {
+        var facingPos = origin + facingDirection;
+        var facingTarget = GetEnemyAt(facingPos);
+        if (facingTarget != null && _grid.CanCutCorner(origin, facingPos)) return facingTarget;
+
+        foreach (var dir in EightDirections)
+        {
+            var pos = origin + dir;
+            var enemy = GetEnemyAt(pos);
+            if (enemy != null && _grid.CanCutCorner(origin, pos)) return enemy;
+        }
+
+        return null;
+    }
+
+    public void Initialize(GridManager grid, TurnManager turnManager, Player player, string dungeonId, DungeonConfig config)
+    {
+        _grid = grid;
+        _turnManager = turnManager;
+        _player = player;
+        _rule = DungeonRuleLoader.Load(dungeonId);
+        _config = config;
+
+        Experience = new ExperienceSystem { Name = "ExperienceSystem" };
+        AddChild(Experience);
+        Experience.Initialize(player, this);
+
+        _turnManager.TurnEnded += OnTurnEnded;
+
+        GenerateFloor();
+    }
+
+    // 対戦(PvP)用の初期化。迷宮生成をまるごと飛ばし、8x7の開けた1部屋だけを
+    // 作る。ExperienceSystem・ダンジョンルール・階段・敵湧きは対戦に無関係
+    // なので一切立ち上げない。
+    //
+    // 全タイルに同じ RoomId を振るのが要点で、これだけで GetRoomBoundsAt が
+    // 盤面全体を返すようになり、TargetResolver の Room 射程が
+    // 「盤面全体（味方は除外）」として無改造で動く。Line/TwoTile/Area/
+    // Surrounding と設置技も、迷宮と同じコードのまま意図どおりに機能する。
+    public void InitializeArena(GridManager grid, TurnManager turnManager)
+    {
+        _grid = grid;
+        _turnManager = turnManager;
+        _player = null;              // 対戦には「プレイヤー個体」がいない。4匹とも対等
+        _config = new DungeonConfig();
+
+        _grid.Resize(Battle.BattleBoard.Width, Battle.BattleBoard.Height, TerrainType.Wall);
+        for (int x = 0; x < Battle.BattleBoard.Width; x++)
+            for (int y = 0; y < Battle.BattleBoard.Height; y++)
+                _grid.SetRoomFloor(new Vector2I(x, y), Battle.BattleBoard.ArenaRoomId);
+        _grid.RefreshTileMap();
+
+        _rooms = new List<Room>
+        {
+            new(Battle.BattleBoard.ArenaRoomId,
+                new Rect2I(Vector2I.Zero, new Vector2I(Battle.BattleBoard.Width, Battle.BattleBoard.Height))),
+        };
+
+        // 対戦盤に霧はかからない。全マス可視。
+        _grid.ClearVisibility();
+        _grid.RevealRoom(Battle.BattleBoard.ArenaRoomId);
+
+        _weather.SetBaseline(WeatherType.None);
+    }
+
+    // 対戦の参加者。迷宮の player/ally/enemy という区分は対戦に無いので、
+    // 8匹すべてをここへ入れ、陣営は Entity.Faction だけで見る。
+    private readonly List<Entity> _arenaActors = new();
+
+    public IReadOnlyList<Entity> ArenaActors => _arenaActors;
+
+    public void AddArenaActor(Entity actor)
+    {
+        if (!_arenaActors.Contains(actor)) _arenaActors.Add(actor);
+    }
+
+    // Framework hook for DungeonEndType.StoryNoBossFinalFloor (end
+    // pattern 3): a future scenario/event-flag system calls this once
+    // its trigger condition completes; OnTurnEnded then clears the
+    // dungeon the same way a boss kill or EscapePortal would. No actual
+    // story-event system exists yet, so nothing calls this today.
+    public void CompleteStoryEvent() => _storyEventCompleted = true;
+
+    private void OnTurnEnded(int turnNumber)
+    {
+        // Enemies killed by the player's own action this turn (bump
+        // attack) are already QueueFree()'d by Entity.Die() - drop them
+        // from our bookkeeping list before anything else touches it.
+        PruneDeadEnemies();
+        PruneDeadAllies();
+
+        // The player might have just died too (an adjacent enemy's
+        // AttackAction runs during the NPC tick, right before this
+        // signal fires). Stop here rather than process a dead player's
+        // surroundings.
+        if (CheckPlayerDeath()) return;
+
+        // Once cleared, nothing else in this method should run again -
+        // HandleDungeonCleared() already disabled player input, but this
+        // is a belt-and-suspenders guard against any further processing.
+        if (_isGameCleared) return;
+
+        // Temporary (move/trait-set) weather expires per GAME TURN, not
+        // per action-cycle - a fast actor taking two actions in one turn
+        // must not burn two turns off it. Dungeon-defined weather is
+        // Endless and this is a no-op for it.
+        _weather.AdvanceTurn();
+
+        // IsAlive flips false the instant Entity.Die() runs (before the
+        // deferred QueueFree()), so this is safe to check every turn
+        // without an IsInstanceValid race.
+        if (_bossEntity != null && !_bossEntity.IsAlive)
+        {
+            HandleDungeonCleared();
+            return;
+        }
+
+        // Both no-boss clear conditions only count on the FINAL floor of
+        // their matching EndType - a stray story flag or portal object on
+        // an earlier floor must never end the run.
+        bool onFinalFloor = _floorNumber >= _config.MaxFloors;
+
+        if (onFinalFloor && _config.EndType == DungeonEndType.StoryNoBossFinalFloor && _storyEventCompleted)
+        {
+            HandleDungeonCleared();
+            return;
+        }
+
+        if (onFinalFloor && _config.EndType == DungeonEndType.FreeDungeonNoBossFinalFloor
+            && _objects.Get(_player.GridPosition) == MapObjectType.EscapePortal)
+        {
+            HandleDungeonCleared();
+            return;
+        }
+
+        if (_objects.IsStairs(_player.GridPosition))
+        {
+            NextFloor();
+            return;
+        }
+
+        // Only auto-pick-up when the player actually stepped onto this
+        // tile this turn (position changed) - otherwise resting on top
+        // of a just-dropped item (DropItemAction) would immediately
+        // re-pick it back up in the same turn.
+        if (_player.GridPosition != _lastPlayerPos)
+            TryPickupItemAt(_player.GridPosition);
+        _lastPlayerPos = _player.GridPosition;
+
+        _player.Stats.TickBelly();
+        if (CheckPlayerDeath()) return; // ...or from starvation just now
+
+        CheckMonsterHouseTrigger(); // may spawn enemies before FOV is recomputed below
+
+        RefreshFieldOfView();
+    }
+
+    private void PruneDeadEnemies()
+    {
+        _spawnedEnemies.RemoveAll(e => !GodotObject.IsInstanceValid(e) || !e.IsAlive);
+    }
+
+    private void PruneDeadAllies()
+    {
+        int before = _spawnedAllies.Count;
+        _spawnedAllies.RemoveAll(a => !GodotObject.IsInstanceValid(a) || !a.IsAlive);
+
+        // A fallen ally breaks the conga line - re-link the whole chain
+        // (Player -> survivor 1 -> survivor 2 ...) so the followers
+        // behind the gap don't keep trailing a dead leader's last
+        // footprint forever.
+        if (_spawnedAllies.Count != before)
+            RelinkFollowChain();
+    }
+
+    private void RelinkFollowChain()
+    {
+        Entity previous = _player;
+        foreach (var ally in _spawnedAllies)
+        {
+            ally.TargetToFollow = previous;
+            previous = ally;
+        }
+    }
+
+    private void NextFloor()
+    {
+        MessageLogger.Log("You descended to the next floor.", MessageLogger.ProgressionColor);
+        GenerateFloor(); // regenerates the floor and refreshes FOV itself
+    }
+
+    // Common "the run is over, in a win" path for every DungeonEndType:
+    // a boss kill, an EscapePortal step, or a completed story event all
+    // funnel through here. Stops further play (mirrors Player.Die()'s
+    // DisableInput() on the loss side), rolls RunTracker's kills into
+    // CompleteDungeon()'s recruitment results, banks whatever materials
+    // the player is carrying, hands the rest of the inventory off to
+    // HubUpgradeManager for the trip back, and returns to the Hub scene.
+    private void HandleDungeonCleared()
+    {
+        if (_isGameCleared) return;
+        _isGameCleared = true;
+
+        _player.DisableInput();
+        MessageLogger.Log("Dungeon cleared!", MessageLogger.ProgressionColor);
+        CompleteDungeon();
+
+        var hub = HubUpgradeManager.Instance;
+        if (hub != null)
+        {
+            hub.DepositMaterials(_player.MaterialInventory);
+            hub.SaveInventory(_player.Inventory);
+            GetTree().ChangeSceneToFile("res://Scenes/HubScene.tscn");
+        }
+    }
+
+    // Rolls RunTracker's accumulated kills into party-join attempts and,
+    // on success, adds the species to PartyManager's roster. Also
+    // callable directly for testing/verification without having to
+    // actually reach a win condition.
+    public void CompleteDungeon()
+    {
+        var rng = new RandomNumberGenerator();
+        rng.Seed = GD.Randi();
+
+        foreach (var speciesId in _runTracker.CompleteDungeon(rng))
+            ActivePartyManager.AddToRoster(speciesId);
+    }
+
+    // Returns true (and triggers game-over) if the player's HP has
+    // reached 0. Player.Die() is idempotent, so calling this more than
+    // once in the same turn is harmless.
+    private bool CheckPlayerDeath()
+    {
+        if (_player.Stats.IsAlive) return false;
+        _player.Die();
+        return true;
+    }
+
+    // Recomputes which tiles are currently visible/explored, then syncs
+    // the Visible flag on every dynamic (enemies) and semi-static
+    // (stairs/item/trap markers) presentation node to match.
+    private void RefreshFieldOfView()
+    {
+        FovManager.UpdateVisibility(_grid, _player.GridPosition);
+
+        // AllyEntity trails one tile behind its leader (the "conga line"
+        // - see AllyEntity's follow logic), so an ally can be standing
+        // right on the doorway/corridor tile just outside the room the
+        // player stepped into. That tile isn't part of the new room and
+        // isn't a corridor-radius tile around the player either, so
+        // without this it goes dark and the ally flickers invisible mid-
+        // follow. A party member always reveals its own tile, same as
+        // the player does simply by being there.
+        foreach (var ally in _spawnedAllies)
+            _grid.RevealAround(ally.GridPosition, 0);
+
+        foreach (var enemy in _spawnedEnemies)
+            enemy.Visible = _grid.GetTile(enemy.GridPosition).IsVisible;
+
+        foreach (var ally in _spawnedAllies)
+            ally.Visible = _grid.GetTile(ally.GridPosition).IsVisible;
+
+        foreach (var (pos, sprite) in _spawnedMarkers)
+            sprite.Visible = _grid.GetTile(pos).IsExplored;
+    }
+
+    // O(1): the tile the player is standing on already knows which
+    // room it belongs to (Tile.RoomId, stamped by DungeonGenerator).
+    private void CheckMonsterHouseTrigger()
+    {
+        int roomId = _grid.GetRoomId(_player.GridPosition);
+        if (roomId < 0 || roomId >= _rooms.Count) return;
+
+        var room = _rooms[roomId];
+        if (!room.IsMonsterHouse || room.IsTriggered) return;
+
+        TriggerMonsterHouse(room);
+    }
+
+    // Entry point for every floor transition (initial spawn and
+    // NextFloor() alike). Handles the shared cleanup/bookkeeping, then
+    // branches: everything before DungeonConfig.MaxFloors uses the
+    // normal BSP pipeline, the final floor's shape depends on
+    // DungeonConfig.EndType (see GenerateFinalFloor).
+    private void GenerateFloor()
+    {
+        // Phase 19 dehydrate: snapshot every living ally's progress
+        // BEFORE CleanupCurrentFloor QueueFrees their nodes. On the very
+        // first floor (Initialize -> here) the list is empty - no-op.
+        _partyState.Dehydrate(_spawnedAllies);
+
+        CleanupCurrentFloor();
+        _floorNumber++;
+
+        // Phase 21: battle effects (ranks/ailments) are floor-local.
+        // Allies/enemies get this for free every floor (their nodes are
+        // QueueFree()'d above and rebuilt fresh below/on next spawn) -
+        // the Player's node is the one exception, since it's never
+        // destroyed between floors, so it needs an explicit reset here
+        // to stay symmetric with everyone else.
+        _player.StatusEffects.Reset();
+
+        // Weather is floor-scoped like ranks and fields: the dungeon's own
+        // weather is re-applied fresh, which also discards any temporary
+        // weather a move set on the previous floor.
+        _weather.SetBaseline(_rule.Weather);
+
+        if (_floorNumber >= _config.MaxFloors)
+        {
+            GenerateFinalFloor();
+            return;
+        }
+
+        GenerateNormalFloor();
+    }
+
+    private void GenerateNormalFloor()
+    {
+        var rng = new RandomNumberGenerator();
+        rng.Seed = GD.Randi();
+        GD.Print($"[Dungeon] Generating floor {_floorNumber} (seed={rng.Seed})");
+
+        var result = new DungeonGenerator().Generate(_grid, _rule, rng, _config.GenerateWaterPools, _config.GenerateLavaPools);
+        _rooms = result.Rooms;
+        if (_rooms.Count == 0)
+        {
+            GD.PushError("[FloorController] DungeonGenerator produced no rooms.");
+            return;
+        }
+
+        // Built once per floor and shared by every chasing enemy - walls
+        // don't change mid-floor, so there's no need to rebuild this per
+        // entity or per turn (see AStarPathfinder for the full rationale).
+        _pathfinder = new AStarPathfinder(_grid);
+
+        var occupied = new HashSet<Vector2I>();
+
+        var playerRoom = _rooms[0];
+        _player.PlaceAt(playerRoom.Center);
+        _lastPlayerPos = playerRoom.Center;
+        occupied.Add(playerRoom.Center);
+
+        MarkMonsterHouse(playerRoom, rng);
+        var normalRooms = GetNormalSpawnRooms(playerRoom);
+
+        PlaceStairs(normalRooms, occupied, rng);
+        PlaceItemsAndTraps(occupied, rng);
+        SpawnEnemies(normalRooms, occupied, rng);
+        SpawnPartyMembers(occupied);
+
+        // Both run after SpawnPartyMembers so allies exist to be polled,
+        // and before the FOV refresh below so anything they reveal or
+        // change is drawn in the same frame.
+        TryStairsSense(rng);
+        ApplyTraitWeather();
+
+        // First reveal of the new floor - without this the player would
+        // see nothing until their first action fires OnTurnEnded.
+        RefreshFieldOfView();
+
+        GD.Print($"[Dungeon] Floor {_floorNumber} ready: {_rooms.Count} rooms, {_spawnedEnemies.Count} enemies.");
+    }
+
+    // DungeonConfig.MaxFloors reached - which of the 5 end patterns
+    // applies depends on DungeonConfig.EndType. Only FreeDungeonBoss is
+    // implemented as of Phase 8; the others log a placeholder so the
+    // branch point exists for their own future phases.
+    private void GenerateFinalFloor()
+    {
+        GD.Print($"[Dungeon] Reached the final floor (Floor {_floorNumber}, EndType={_config.EndType}).");
+
+        switch (_config.EndType)
+        {
+            case DungeonEndType.FreeDungeonBoss:
+                GenerateFreeDungeonBossFloor();
+                break;
+
+            case DungeonEndType.StoryBoss:
+                GD.PrintErr("[Dungeon] DungeonEndType.StoryBoss final-floor generation: Not implemented yet. Falling back to a normal floor.");
+                GenerateNormalFloor();
+                break;
+
+            case DungeonEndType.StoryMultiEnemyBattle:
+                GD.PrintErr("[Dungeon] DungeonEndType.StoryMultiEnemyBattle final-floor generation: Not implemented yet. Falling back to a normal floor.");
+                GenerateNormalFloor();
+                break;
+
+            case DungeonEndType.StoryNoBossFinalFloor:
+                // No special floor shape (framework only, per spec) -
+                // the clear itself is driven by CompleteStoryEvent() /
+                // OnTurnEnded's _storyEventCompleted check.
+                GD.PrintErr("[Dungeon] DungeonEndType.StoryNoBossFinalFloor final-floor generation: Not implemented yet. Falling back to a normal floor.");
+                GenerateNormalFloor();
+                break;
+
+            case DungeonEndType.FreeDungeonNoBossFinalFloor:
+                // EscapePortal placement isn't implemented yet - only
+                // the MapObjectType.EscapePortal identifier and
+                // OnTurnEnded's step-on-it check exist so far.
+                GD.PrintErr("[Dungeon] DungeonEndType.FreeDungeonNoBossFinalFloor final-floor generation: Not implemented yet. Falling back to a normal floor.");
+                GenerateNormalFloor();
+                break;
+
+            default:
+                GD.PrintErr($"[Dungeon] Unhandled DungeonEndType {_config.EndType}. Falling back to a normal floor.");
+                GenerateNormalFloor();
+                break;
+        }
+    }
+
+    // End pattern 4: a single BossRoomSize x BossRoomSize room (no BSP
+    // generation, no stairs/items/traps/normal enemies) with one
+    // BossEntity at its center. The party still spawns normally.
+    private void GenerateFreeDungeonBossFloor()
+    {
+        int gridSize = BossRoomSize + 2; // 1-tile wall border
+        _grid.Resize(gridSize, gridSize, TerrainType.Wall);
+
+        var bounds = new Rect2I(1, 1, BossRoomSize, BossRoomSize);
+        var bossRoom = new Room(0, bounds);
+        _rooms = new List<Room> { bossRoom };
+
+        for (int x = bounds.Position.X; x < bounds.Position.X + bounds.Size.X; x++)
+            for (int y = bounds.Position.Y; y < bounds.Position.Y + bounds.Size.Y; y++)
+                _grid.SetRoomFloor(new Vector2I(x, y), bossRoom.Id);
+
+        _pathfinder = new AStarPathfinder(_grid);
+
+        var playerPos = bounds.Position + new Vector2I(1, 1); // corner, away from the boss at center
+        _player.PlaceAt(playerPos);
+        _lastPlayerPos = playerPos;
+
+        var occupied = new HashSet<Vector2I> { playerPos };
+        SpawnPartyMembers(occupied);
+
+        _bossEntity = new BossEntity();
+        AddChild(_bossEntity);
+        _bossEntity.Grid = _grid;
+        _bossEntity.Pathfinder = _pathfinder;
+        _bossEntity.TargetPlayer = _player;
+        _bossEntity.FloorController = this;
+        _bossEntity.Stats.Level += (_floorNumber - 1) * 2; // same per-floor scaling as normal enemies (enemies/boss ONLY - see SpawnEnemyAt's note on the ally exclusion)
+        _bossEntity.PlaceAt(bossRoom.Center);
+        _bossEntity.Visible = false; // hidden until RefreshFieldOfView() reveals it
+
+        _turnManager.RegisterActor(_bossEntity);
+        _spawnedEnemies.Add(_bossEntity);
+
+        // Same floor-entry weather pass the normal floor runs - the boss is
+        // as much "a Pal coming out onto the floor" as any spawned enemy.
+        ApplyTraitWeather();
+
+        RefreshFieldOfView();
+
+        GD.Print($"[Dungeon] Boss floor {_floorNumber} ready: {_bossEntity.ActorName} (Lv {_bossEntity.Stats.Level}, HP {_bossEntity.Stats.MaxHp}) spawned at {bossRoom.Center}.");
+    }
+
+    private void CleanupCurrentFloor()
+    {
+        foreach (var enemy in _spawnedEnemies)
+        {
+            _turnManager.UnregisterActor(enemy);
+            enemy.QueueFree();
+        }
+        _spawnedEnemies.Clear();
+        _bossEntity = null;
+
+        // Allies are rebuilt fresh from PartyManager's roster every
+        // floor (same as enemies) - only the roster itself (who's in
+        // the party) survives the transition, not the live instances.
+        foreach (var ally in _spawnedAllies)
+        {
+            _turnManager.UnregisterActor(ally);
+            ally.QueueFree();
+        }
+        _spawnedAllies.Clear();
+
+        foreach (var (_, sprite) in _spawnedMarkers)
+            sprite.QueueFree();
+        _spawnedMarkers.Clear();
+
+        _objects.Clear();
+        _fields.Clear();
+        _weather.Reset();
+        _rooms = new List<Room>();
+
+        // Cleared with the rest of the floor state so a stairs-less floor
+        // (the boss/final floor) can't inherit the previous floor's stairs
+        // tile and have ひらめきのよかん sense a position that no longer exists.
+        _stairsPos = null;
+
+        // A ビルドアップ token armed on the floor just left has no valid
+        // recipient here - every ally instance is rebuilt on the new floor.
+        Turn.BuildUpRelay.Reset();
+    }
+
+    // Rolls once per floor for a single Monster House, chosen from any
+    // room other than the player's spawn room.
+    private void MarkMonsterHouse(Room playerRoom, RandomNumberGenerator rng)
+    {
+        if (_rooms.Count <= 1) return;
+        if (rng.Randf() >= _rule.MonsterHouseChance) return;
+
+        var candidates = new List<Room>();
+        foreach (var room in _rooms)
+            if (room.Id != playerRoom.Id)
+                candidates.Add(room);
+
+        var chosen = candidates[rng.RandiRange(0, candidates.Count - 1)];
+        chosen.IsMonsterHouse = true;
+        GD.Print($"[Dungeon] Monster House generated at Room ID: {chosen.Id}, Center: {chosen.Center}");
+    }
+
+    // Rooms eligible for stairs / normal enemy spawning: not the
+    // player's room, not the (hidden) Monster House room. Computed
+    // once per floor and reused, instead of re-rolling per placement.
+    private List<Room> GetNormalSpawnRooms(Room playerRoom)
+    {
+        var candidates = new List<Room>();
+        foreach (var room in _rooms)
+            if (room.Id != playerRoom.Id && !room.IsMonsterHouse)
+                candidates.Add(room);
+
+        return candidates.Count > 0 ? candidates : _rooms;
+    }
+
+    private void PlaceStairs(List<Room> candidateRooms, HashSet<Vector2I> occupied, RandomNumberGenerator rng)
+    {
+        var stairsRoom = candidateRooms[rng.RandiRange(0, candidateRooms.Count - 1)];
+        var pos = RandomFreeTileInRoom(stairsRoom.Bounds, occupied, rng) ?? stairsRoom.Center;
+
+        _objects.Set(pos, MapObjectType.Stairs);
+        occupied.Add(pos);
+        AddMarker(pos, StairsColor);
+        _stairsPos = pos;
+    }
+
+    // ひらめきのよかん (trait_catalog_v2 §6 stage 4): on arriving at a new
+    // floor, each party member holding the ecology rolls its own Level/120
+    // to sense where the stairs are; one success is enough. Level 120+ is a
+    // guaranteed sense, which is why the roll is written as a < compare
+    // against a ratio rather than a percentage lookup.
+    //
+    // "Sensing" marks the tile explored (map memory) rather than visible -
+    // see GridManager.MarkExplored for why the distinction is load-bearing.
+    // The whole party is polled, not just the player: nothing in the source
+    // text scopes it to the leader, and every other party-wide effect in
+    // this project (きずな/ちから/まもり) already reads the full roster.
+    // Third weather source (after the dungeon definition and the weather
+    // moves): a Pal whose trait declares WeatherOnEntry brings that weather
+    // onto the floor "the moment it comes out onto the floor". Applied as a
+    // new baseline rather than as a timed change - a trait is a standing
+    // property, not a cast.
+    //
+    // EVERY actor is polled, enemies included, not just the party: the
+    // effect is worded for any Pal appearing on the floor, and サンドバッグ
+    // (an enemy-triggerable weather trait) only makes sense under the same
+    // reading. AllActors' order is player -> allies -> enemies, and the LAST
+    // holder to fire wins ("常に最後に発動した天候に上書きされる") - so this
+    // deliberately runs the whole loop instead of returning at the first hit.
+    //
+    // A holder whose weather is already the current one changes nothing and
+    // logs nothing ("すでにその天候になっている場合、天候を変化する部分に
+    // 関しては発動しない"). Traits that ALSO carry a separate effect
+    // (パープルヘイズ, かげろうボディ) are unaffected by that skip: their
+    // other halves are standing "while it is X" conditions evaluated in
+    // combat, not one-shot effects fired from here.
+    private void ApplyTraitWeather()
+    {
+        foreach (var actor in AllActors())
+            ApplyWeatherOnEntry(actor);
+    }
+
+    // One actor's share of the pass above. Public because "a Pal has just
+    // arrived on the floor" is not only a generation-time event - a
+    // mid-floor spawn or a recruit joining is the same moment, and each
+    // should go through this rather than re-deriving the rule.
+    //
+    // Returns true when the weather actually changed.
+    public bool ApplyWeatherOnEntry(Entity actor)
+    {
+        var trait = Combat.TraitDatabase.Get(actor?.Stats.Trait);
+        if (trait == null || trait.WeatherOnEntry == WeatherType.None) return false;
+
+        // すでにその天候になっている場合、天候を変化する部分に関しては発動しない.
+        if (_weather.Current == trait.WeatherOnEntry) return false;
+
+        _weather.SetBaseline(trait.WeatherOnEntry);
+        MessageLogger.Log(
+            $"{actor.ActorName}'s {trait.Name} brought {WeatherTypeNames.Japanese(trait.WeatherOnEntry)}!",
+            MessageLogger.ProgressionColor);
+        return true;
+    }
+
+    private void TryStairsSense(RandomNumberGenerator rng)
+    {
+        if (_stairsPos == null) return;
+
+        foreach (var actor in AllActors())
+        {
+            if (actor.Faction != Faction.Player) continue;
+            if (!actor.Stats.HasEcologyHook("stairs_sense_on_floor_start")) continue;
+
+            float chance = actor.Stats.Level / 120f;
+            if (rng.Randf() >= chance) continue;
+
+            _grid.MarkExplored(_stairsPos.Value);
+            _grid.RefreshTileMap();
+            MessageLogger.Log($"{actor.ActorName} senses where the stairs are!", MessageLogger.ProgressionColor);
+            return; // one success is enough - no reason to keep rolling
+        }
+    }
+
+    // Every room gets its normal item/trap counts, except a Monster
+    // House room, which uses the heavier MonsterHouse* range instead -
+    // its items/traps are visible immediately (same green/red markers,
+    // just far denser), only the enemies stay hidden until triggered.
+    private void PlaceItemsAndTraps(HashSet<Vector2I> occupied, RandomNumberGenerator rng)
+    {
+        // Materials only ever come from Player-side kills
+        // (MaterialDropTable), never from regular floor loot.
+        var itemIds = ItemDatabase.AllIds().FindAll(id => ItemDatabase.Get(id)?.Type != ItemType.Material);
+
+        foreach (var room in _rooms)
+        {
+            int minItems = room.IsMonsterHouse ? _rule.MonsterHouseMinItems : _rule.MinItemsPerRoom;
+            int maxItems = room.IsMonsterHouse ? _rule.MonsterHouseMaxItems : _rule.MaxItemsPerRoom;
+            int itemCount = rng.RandiRange(minItems, maxItems);
+            for (int i = 0; i < itemCount; i++)
+                TryPlaceItem(room.Bounds, occupied, rng, itemIds);
+
+            int minTraps = room.IsMonsterHouse ? _rule.MonsterHouseMinTraps : _rule.MinTrapsPerRoom;
+            int maxTraps = room.IsMonsterHouse ? _rule.MonsterHouseMaxTraps : _rule.MaxTrapsPerRoom;
+            int trapCount = rng.RandiRange(minTraps, maxTraps);
+            for (int i = 0; i < trapCount; i++)
+                TryPlaceObject(room.Bounds, occupied, rng, MapObjectType.Trap, TrapColor);
+        }
+    }
+
+    private void TryPlaceItem(Rect2I roomBounds, HashSet<Vector2I> occupied, RandomNumberGenerator rng, List<string> itemIds)
+    {
+        if (itemIds.Count == 0) return;
+
+        var pos = RandomFreeTileInRoom(roomBounds, occupied, rng);
+        if (pos == null) return;
+
+        var itemId = itemIds[rng.RandiRange(0, itemIds.Count - 1)];
+        _objects.SetItem(pos.Value, itemId);
+        occupied.Add(pos.Value);
+        AddMarker(pos.Value, ItemColor);
+    }
+
+    private void TryPlaceObject(Rect2I roomBounds, HashSet<Vector2I> occupied, RandomNumberGenerator rng, MapObjectType type, Color color)
+    {
+        var pos = RandomFreeTileInRoom(roomBounds, occupied, rng);
+        if (pos == null) return;
+
+        _objects.Set(pos.Value, type);
+        occupied.Add(pos.Value);
+        AddMarker(pos.Value, color);
+    }
+
+    // Called every turn the player doesn't step onto stairs. Type
+    // decides which of the two independent inventories it goes into
+    // (Material -> MaterialInventory, everything else -> Inventory); on
+    // failure (that inventory is full) the item is left on the ground
+    // for a later attempt.
+    private void TryPickupItemAt(Vector2I pos)
+    {
+        if (_objects.Get(pos) != MapObjectType.Item) return;
+
+        var itemId = _objects.GetItemId(pos);
+        var data = ItemDatabase.Get(itemId);
+        if (data == null) return;
+
+        bool picked = data.Type == ItemType.Material
+            ? _player.MaterialInventory.AddItem(itemId)
+            : _player.Inventory.AddItem(itemId);
+
+        if (picked)
+        {
+            _objects.RemoveAt(pos);
+            RemoveMarkerAt(pos);
+            string destination = data.Type == ItemType.Material ? "Material Inventory" : "Inventory";
+            GD.Print($"[Inventory] Player picked up {data.Name} into the {destination}.");
+        }
+        else
+        {
+            string full = data.Type == ItemType.Material ? "Material Inventory full" : "Inventory full";
+            GD.Print($"[Inventory] {full}, could not pick up {data.Name}.");
+        }
+    }
+
+    // Places a thrown-and-missed (or dropped) item back onto the floor.
+    // If the landing tile is already occupied by another item, scatters
+    // to a free adjacent walkable tile instead; Lava/Chasm destroy the
+    // item outright, Water leaves it floating (unreachable, but not
+    // destroyed) - only Floor tiles are freely walkable/pickup-able.
+    public void DropItem(Vector2I pos, string itemId)
+    {
+        var data = ItemDatabase.Get(itemId);
+        string itemName = data?.Name ?? itemId;
+
+        var finalPos = FindDropPosition(pos);
+        if (finalPos == null)
+        {
+            GD.Print($"[Item] {itemName} had nowhere to land near ({pos.X}, {pos.Y}) and was lost.");
+            return;
+        }
+
+        var terrain = _grid.GetTile(finalPos.Value).Terrain;
+        if (terrain == TerrainType.Lava || terrain == TerrainType.Chasm)
+        {
+            GD.Print($"[Item] {itemName} fell into {terrain} at ({finalPos.Value.X}, {finalPos.Value.Y}) and was destroyed!");
+            return;
+        }
+
+        if (finalPos.Value != pos)
+            GD.Print($"[Item] ({pos.X}, {pos.Y}) was already occupied, so {itemName} scattered to ({finalPos.Value.X}, {finalPos.Value.Y}).");
+
+        _objects.SetItem(finalPos.Value, itemId);
+        AddMarker(finalPos.Value, ItemColor);
+
+        if (terrain == TerrainType.Water)
+            GD.Print($"[Item] {itemName} landed in the water at ({finalPos.Value.X}, {finalPos.Value.Y}) and floats there.");
+        else
+            GD.Print($"[Item] {itemName} dropped at ({finalPos.Value.X}, {finalPos.Value.Y}).");
+    }
+
+    // A tile can hold an item only if NO map object occupies it - not
+    // just "no item": Stairs/Trap/EscapePortal tiles must scatter the
+    // drop too, or _objects.SetItem would silently overwrite them (a
+    // thrown item landing on the stairs used to delete the stairs and
+    // strand the player on the floor).
+    private Vector2I? FindDropPosition(Vector2I pos)
+    {
+        if (_objects.Get(pos) == MapObjectType.None) return pos;
+
+        Vector2I[] neighbors =
+        {
+            new(0, -1), new(0, 1), new(-1, 0), new(1, 0),
+            new(-1, -1), new(1, -1), new(-1, 1), new(1, 1),
+        };
+
+        foreach (var dir in neighbors)
+        {
+            var candidate = pos + dir;
+            if (_grid.IsWalkable(candidate) && _objects.Get(candidate) == MapObjectType.None)
+                return candidate;
+        }
+
+        return null;
+    }
+
+    private void RemoveMarkerAt(Vector2I pos)
+    {
+        for (int i = _spawnedMarkers.Count - 1; i >= 0; i--)
+        {
+            if (_spawnedMarkers[i].Pos != pos) continue;
+            _spawnedMarkers[i].Sprite.QueueFree();
+            _spawnedMarkers.RemoveAt(i);
+            return;
+        }
+    }
+
+    private void SpawnEnemies(List<Room> candidateRooms, HashSet<Vector2I> occupied, RandomNumberGenerator rng)
+    {
+        int count = rng.RandiRange(_rule.MinEnemyCount, _rule.MaxEnemyCount);
+        for (int i = 0; i < count; i++)
+        {
+            var room = candidateRooms[rng.RandiRange(0, candidateRooms.Count - 1)];
+            var pos = RandomFreeTileInRoom(room.Bounds, occupied, rng);
+            if (pos == null) continue;
+
+            SpawnEnemyAt(pos.Value, rng);
+            occupied.Add(pos.Value);
+        }
+    }
+
+    // Fired once, the instant the player steps into a Monster House
+    // room: dumps a burst of enemies into its free floor tiles and
+    // permanently marks the room as triggered so this never fires again.
+    private void TriggerMonsterHouse(Room room)
+    {
+        room.IsTriggered = true;
+        MessageLogger.Log("You sense a horde of enemies nearby!", MessageLogger.FaintColor);
+
+        var rng = new RandomNumberGenerator();
+        rng.Seed = GD.Randi();
+
+        var occupied = CollectOccupiedTilesInRoom(room);
+        int count = rng.RandiRange(_rule.MonsterHouseMinEnemies, _rule.MonsterHouseMaxEnemies);
+        int spawned = 0;
+        for (int i = 0; i < count; i++)
+        {
+            var pos = RandomFreeTileInRoom(room.Bounds, occupied, rng);
+            if (pos == null) break; // room is full, stop trying
+
+            SpawnEnemyAt(pos.Value, rng);
+            occupied.Add(pos.Value);
+            spawned++;
+        }
+
+        GD.Print($"[Dungeon] Spawned {spawned} enemies in the Monster House (Room ID: {room.Id}).");
+
+        // A Monster House pack is "coming out onto the floor" as much as a
+        // floor-generation spawn is, so it gets the same weather pass.
+        if (spawned > 0) ApplyTraitWeather();
+    }
+
+    private HashSet<Vector2I> CollectOccupiedTilesInRoom(Room room)
+    {
+        var occupied = new HashSet<Vector2I> { _player.GridPosition };
+
+        foreach (var enemy in _spawnedEnemies)
+            if (_grid.GetRoomId(enemy.GridPosition) == room.Id)
+                occupied.Add(enemy.GridPosition);
+
+        var bounds = room.Bounds;
+        for (int x = bounds.Position.X; x < bounds.Position.X + bounds.Size.X; x++)
+            for (int y = bounds.Position.Y; y < bounds.Position.Y + bounds.Size.Y; y++)
+            {
+                var pos = new Vector2I(x, y);
+                if (_objects.Get(pos) != MapObjectType.None)
+                    occupied.Add(pos);
+            }
+
+        return occupied;
+    }
+
+    private void SpawnEnemyAt(Vector2I pos, RandomNumberGenerator rng)
+    {
+        HostileEntity enemy = rng.Randf() < _rule.DummyNpcRatio ? new DummyNPC() : new FastNPC();
+        AddChild(enemy);
+        enemy.Grid = _grid;
+        enemy.Pathfinder = _pathfinder;
+        enemy.TargetPlayer = _player;
+        enemy.FloorController = this;
+        // Deeper floors -> stronger enemies, on top of each species' own
+        // base level. ENEMIES ONLY - allies must never receive this bump:
+        // their Level authority is PartyState's hydrate (Phase 19), and
+        // extending this scaling to allies would clobber the carried-over
+        // Level (PartyState.TryHydrate's tripwire would fire).
+        enemy.Stats.Level += (_floorNumber - 1) * 2;
+        enemy.PlaceAt(pos);
+        enemy.Visible = false; // hidden until RefreshFieldOfView() reveals it
+
+        _turnManager.RegisterActor(enemy);
+        _spawnedEnemies.Add(enemy);
+    }
+
+    // Spawns PartyManager's whole roster around the player's spawn tile,
+    // in roster order, chaining each ally's TargetToFollow to the
+    // previously-spawned member (Player -> Ally1 -> Ally2 -> Ally3) -
+    // see AllyEntity for how that chain drives the follow behavior.
+    private void SpawnPartyMembers(HashSet<Vector2I> occupied)
+    {
+        Entity previous = _player;
+        int memberId = 0;
+
+        foreach (var speciesId in ActivePartyManager.AllMemberSpeciesIds())
+        {
+            int id = memberId++;
+            _partyState.EnsureRecord(id, speciesId);
+
+            // Phase 19 downed policy: a fainted member sits out the rest
+            // of the run - no node, no turn slot, no EXP share. The
+            // record itself is kept (IsDowned), so the roster slot stays
+            // reserved and a future revive mechanic has data to work on.
+            if (_partyState.IsDowned(id)) continue;
+
+            var pos = FindFreeAdjacentTile(previous.GridPosition, occupied);
+
+            var ally = new AllyEntity { SpeciesId = speciesId, PartyMemberId = id };
+            AddChild(ally);
+            ally.Grid = _grid;
+            ally.Pathfinder = _pathfinder;
+            ally.FloorController = this;
+            ally.TargetToFollow = previous;
+            ally.PlaceAt(pos);
+            ally.Visible = false; // hidden until RefreshFieldOfView() reveals it
+
+            _turnManager.RegisterActor(ally);
+            _spawnedAllies.Add(ally);
+            occupied.Add(pos);
+
+            // Phase 19 hydrate - deliberately the LAST stat-touching
+            // step of the spawn: _Ready()'s species defaults are set
+            // by AddChild above, and allies are never part of the
+            // per-floor Level scaling (that only targets SpawnEnemies/
+            // boss), so the record is the final authority on
+            // Level/CurrentExp/CurrentHp. No-op on floor 1 (no
+            // snapshot yet - the fresh defaults ARE the start state).
+            _partyState.TryHydrate(ally);
+
+            previous = ally;
+        }
+    }
+
+    private Vector2I FindFreeAdjacentTile(Vector2I center, HashSet<Vector2I> occupied)
+    {
+        foreach (var dir in EightDirections)
+        {
+            var candidate = center + dir;
+            if (_grid.IsWalkable(candidate) && !occupied.Contains(candidate))
+                return candidate;
+        }
+        return center; // extremely unlikely: no free tile nearby at all
+    }
+
+    // Instance method (not static) specifically so it can check
+    // _grid.IsWalkable - with Water/Lava pools now possible inside a
+    // room (DungeonGenerator.GenerateHazardBlob), stairs/items/traps/
+    // enemies must never be able to land on a hazard tile.
+    private Vector2I? RandomFreeTileInRoom(Rect2I room, HashSet<Vector2I> occupied, RandomNumberGenerator rng)
+    {
+        const int maxAttempts = 20;
+        for (int attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            int x = rng.RandiRange(room.Position.X, room.Position.X + room.Size.X - 1);
+            int y = rng.RandiRange(room.Position.Y, room.Position.Y + room.Size.Y - 1);
+            var pos = new Vector2I(x, y);
+            if (!occupied.Contains(pos) && _grid.IsWalkable(pos))
+                return pos;
+        }
+        return null;
+    }
+
+    private void AddMarker(Vector2I pos, Color color)
+    {
+        // Ground decoration, not a character - center-anchored on the
+        // tile (no feet Offset), unlike Entity's Sprite2D visual.
+        var marker = new Sprite2D
+        {
+            Texture = SpriteTextureLibrary.GetTexture("", color, (int)MarkerSize),
+            Centered = true,
+            Position = _grid.GridToWorld(pos),
+            Visible = false, // hidden until RefreshFieldOfView() reveals it
+        };
+        AddChild(marker);
+        _spawnedMarkers.Add((pos, marker));
+    }
+}

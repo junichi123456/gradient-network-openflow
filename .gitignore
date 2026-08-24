@@ -1,0 +1,15 @@
+# Godot 4 + .NET
+.godot/
+.mono/
+data_*/
+mono_crash.*.json
+
+# .NET build output
+bin/
+obj/
+*.sln.DotSettings.user
+
+# OS
+.DS_Store
+Thumbs.db
+__pycache__/
