@@ -3,6 +3,7 @@ package jp.mcserver.core;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -32,6 +33,7 @@ public final class CoreTests {
         sanction();
         war();
         unification();
+        republic();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -961,18 +963,18 @@ public final class CoreTests {
                 Unification.mergeCumulative(strong, weak) == 8_000);
 
         check("消滅法人の首長はチーフへ移行する",
-                Unification.headTransition(Government.REPUBLIC) == Unification.Role.CHIEF);
+                Unification.headTransition(Government.REPUBLIC) == Role.CHIEF);
         check("君主制では市民になる",
-                Unification.headTransition(Government.MONARCHY) == Unification.Role.CITIZEN);
+                Unification.headTransition(Government.MONARCHY) == Role.CITIZEN);
 
         // 定員超過の除名: 市民 → チーフ → リーダー、首長は除外
         List<Unification.Member> members = List.of(
-                new Unification.Member("首長", Unification.Role.HEAD, 1),
-                new Unification.Member("リーダーA", Unification.Role.LEADER, 2),
-                new Unification.Member("チーフA", Unification.Role.CHIEF, 3),
-                new Unification.Member("市民A", Unification.Role.CITIZEN, 50),
-                new Unification.Member("市民B", Unification.Role.CITIZEN, 10),
-                new Unification.Member("市民C", Unification.Role.CITIZEN, 30));
+                new Unification.Member("首長", Role.HEAD, 1),
+                new Unification.Member("リーダーA", Role.LEADER, 2),
+                new Unification.Member("チーフA", Role.CHIEF, 3),
+                new Unification.Member("市民A", Role.CITIZEN, 50),
+                new Unification.Member("市民B", Role.CITIZEN, 10),
+                new Unification.Member("市民C", Role.CITIZEN, 30));
 
         var one = Unification.selectExpulsions(members, 5);
         check("活動が最も少ない市民から除名される",
@@ -995,7 +997,7 @@ public final class CoreTests {
 
         var all = Unification.selectExpulsions(members, 0);
         check("首長は除名されない",
-                all.size() == 5 && all.stream().noneMatch(m -> m.role() == Unification.Role.HEAD));
+                all.size() == 5 && all.stream().noneMatch(m -> m.role() == Role.HEAD));
 
         check("定員に収まっていれば除名しない",
                 Unification.selectExpulsions(members, 6).isEmpty());
@@ -1003,6 +1005,148 @@ public final class CoreTests {
         check("統一ポイントは rank20 以上かつ自国領土内でのみ有効",
                 Unification.pointsActive(20, true) && !Unification.pointsActive(19, true)
                         && !Unification.pointsActive(25, false));
+    }
+
+    // ---------------------------------------------------------------- §6.1 / §9.1
+
+    private static void republic() {
+        section("§6.1 役職定員");
+
+        check("首長は常に1名",
+                Roles.slots(Role.HEAD, 0, Government.NONE) == 1
+                        && Roles.slots(Role.HEAD, 25, Government.MONARCHY) == 1);
+        check("リーダーは rank7 で解禁",
+                Roles.slots(Role.LEADER, 6, Government.NONE) == 0
+                        && Roles.slots(Role.LEADER, 7, Government.NONE) == 1);
+        check("リーダーは rank20 で2枠",
+                Roles.slots(Role.LEADER, 20, Government.NONE) == 2);
+        check("チーフは rank15 で2枠、rank20 で3枠",
+                Roles.slots(Role.CHIEF, 14, Government.NONE) == 0
+                        && Roles.slots(Role.CHIEF, 15, Government.NONE) == 2
+                        && Roles.slots(Role.CHIEF, 20, Government.NONE) == 3);
+        check("共和制は首長以外が +1",
+                Roles.slots(Role.LEADER, 20, Government.REPUBLIC) == 3
+                        && Roles.slots(Role.CHIEF, 20, Government.REPUBLIC) == 4
+                        && Roles.slots(Role.HEAD, 20, Government.REPUBLIC) == 1);
+        check("君主制は首長以外を廃止",
+                Roles.slots(Role.LEADER, 25, Government.MONARCHY) == 0
+                        && Roles.slots(Role.CHIEF, 25, Government.MONARCHY) == 0);
+
+        check("議会規模は仕様書の表と一致する",
+                Roles.assemblySize(0, Government.NONE) == 1
+                        && Roles.assemblySize(7, Government.NONE) == 2
+                        && Roles.assemblySize(15, Government.NONE) == 4
+                        && Roles.assemblySize(20, Government.NONE) == 6);
+        check("共和制 rank20〜25 の議会は8名",
+                Roles.assemblySize(20, Government.REPUBLIC) == 8);
+        check("君主制の議会は首長のみ",
+                Roles.assemblySize(25, Government.MONARCHY) == 1);
+
+        section("§9.1 議会の承認");
+
+        var balances = new NationalAccounts.Balances(100_000, 200_000);
+        check("統一・体制変更・首都変更は常に承認を要する",
+                Assembly.requiresApproval(Government.REPUBLIC, Assembly.Matter.UNIFICATION, 0, balances)
+                        && Assembly.requiresApproval(Government.REPUBLIC,
+                        Assembly.Matter.GOVERNMENT_CHANGE, 0, balances)
+                        && Assembly.requiresApproval(Government.REPUBLIC,
+                        Assembly.Matter.CAPITAL_CHANGE, 0, balances));
+        check("国庫の10%以上の支出は承認を要する",
+                Assembly.requiresApproval(Government.REPUBLIC, Assembly.Matter.TREASURY_SPEND,
+                        10_000, balances)
+                        && !Assembly.requiresApproval(Government.REPUBLIC,
+                        Assembly.Matter.TREASURY_SPEND, 9_999, balances));
+        check("外交準備高の10%以上の援助は承認を要する",
+                Assembly.requiresApproval(Government.REPUBLIC, Assembly.Matter.DIPLOMATIC_AID,
+                        20_000, balances)
+                        && !Assembly.requiresApproval(Government.REPUBLIC,
+                        Assembly.Matter.DIPLOMATIC_AID, 19_999, balances));
+        check("君主制には議会の承認が存在しない",
+                !Assembly.requiresApproval(Government.MONARCHY, Assembly.Matter.UNIFICATION, 0, balances));
+
+        var vote = Assembly.tally(6, 4, 2);
+        check("過半数で可決する", vote.passed() && vote.required() == 4);
+        check("同数では可決しない", !Assembly.tally(6, 3, 3).passed());
+        check("棄権は賛成に数えない",
+                Assembly.tally(8, 4, 0).abstained() == 4 && !Assembly.tally(8, 4, 0).passed());
+        check("8名の議会は5票で可決", Assembly.tally(8, 5, 0).passed());
+
+        section("§9.1 首長の選出");
+
+        check("立候補できるのはリーダーとチーフのみ",
+                Election.canRun(Role.LEADER) && Election.canRun(Role.CHIEF)
+                        && !Election.canRun(Role.CITIZEN) && !Election.canRun(Role.HEAD));
+        check("任期は60日", Election.TERM_DAYS == 60
+                && Election.nextElectionDay(10) == 70);
+
+        var candidates = List.of(
+                new Election.Candidate("リーダーA", Role.LEADER, 50),
+                new Election.Candidate("チーフB", Role.CHIEF, 80));
+        var elected = Election.tally(candidates, Map.of("リーダーA", 7, "チーフB", 5), "現職");
+        check("得票の多い候補が当選する",
+                elected.outcome() == Election.Outcome.ELECTED
+                        && elected.headName().equals("リーダーA") && elected.votes() == 7);
+
+        var tie = Election.tally(candidates, Map.of("リーダーA", 6, "チーフB", 6), "現職");
+        check("同数なら貢献度の高い候補が当選する", tie.headName().equals("チーフB"));
+
+        var noCandidate = Election.tally(List.of(), Map.of(), "現職");
+        check("立候補者ゼロなら現職が続投する",
+                noCandidate.incumbentContinues()
+                        && noCandidate.outcome() == Election.Outcome.NO_CANDIDATE
+                        && noCandidate.headName().equals("現職"));
+
+        var noVoter = Election.tally(candidates, Map.of(), "現職");
+        check("投票者ゼロなら現職が続投する",
+                noVoter.outcome() == Election.Outcome.NO_VOTER && noVoter.headName().equals("現職"));
+
+        var ineligible = Election.tally(
+                List.of(new Election.Candidate("市民C", Role.CITIZEN, 100)), Map.of("市民C", 9), "現職");
+        check("資格のない立候補は除外される",
+                ineligible.outcome() == Election.Outcome.NO_CANDIDATE);
+
+        section("§9.1 弾劾");
+
+        check("議会構成員は発議できる",
+                Impeachment.canPropose(Government.REPUBLIC, 20, Role.CHIEF, 1, 20).allowed());
+        check("市民は発議できない",
+                Impeachment.canPropose(Government.REPUBLIC, 20, Role.CITIZEN, 1, 20).denial()
+                        == Impeachment.Denial.NOT_ASSEMBLY_MEMBER);
+        check("君主制に弾劾はない",
+                Impeachment.canPropose(Government.MONARCHY, 20, Role.CHIEF, 1, 20).denial()
+                        == Impeachment.Denial.NOT_REPUBLIC);
+        check("rank7未満は実効国民の1/3の連名で発議できる",
+                Impeachment.requiredCosigners(9) == 3
+                        && Impeachment.canPropose(Government.REPUBLIC, 3, Role.CITIZEN, 3, 9).allowed()
+                        && Impeachment.canPropose(Government.REPUBLIC, 3, Role.CITIZEN, 2, 9).denial()
+                        == Impeachment.Denial.INSUFFICIENT_COSIGNERS);
+
+        check("罷免には実効国民の2/3以上が必要",
+                Impeachment.requiredVotes(9) == 6 && Impeachment.requiredVotes(10) == 7
+                        && Impeachment.requiredVotes(3) == 2);
+        check("2/3に達すれば罷免される", Impeachment.tally(9, 6).removed());
+        check("2/3に届かなければ否決される",
+                !Impeachment.tally(9, 5).removed()
+                        && Impeachment.tally(9, 5).message().contains("発議者は市民に降格"));
+
+        var members = List.of(
+                new Impeachment.Member("首長", Role.HEAD, 90),
+                new Impeachment.Member("リーダーA", Role.LEADER, 30),
+                new Impeachment.Member("リーダーB", Role.LEADER, 45),
+                new Impeachment.Member("チーフC", Role.CHIEF, 70));
+        check("後任はリーダーのうち貢献度が最大の者",
+                Impeachment.successor(members).orElseThrow().playerName().equals("リーダーB"));
+
+        var noLeaders = List.of(
+                new Impeachment.Member("首長", Role.HEAD, 90),
+                new Impeachment.Member("市民D", Role.CITIZEN, 20),
+                new Impeachment.Member("市民E", Role.CITIZEN, 60));
+        check("リーダーがいなければ貢献度が最大の実効国民が就任する",
+                Impeachment.successor(noLeaders).orElseThrow().playerName().equals("市民E"));
+        check("後任は残任期を引き継ぐ",
+                Impeachment.termEndDay(10) == Election.nextElectionDay(10));
+        check("罷免された首長は90日間就任できない", Impeachment.BAN_DAYS == 90);
+        check("投票期間は48時間", Impeachment.VOTING_HOURS == 48);
     }
 
     private static Set<ChunkPos> minus(Set<ChunkPos> set, ChunkPos c) {

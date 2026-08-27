@@ -29,18 +29,6 @@ public final class Unification {
     /** 除名された国民が被統一側国家に加入できない期間（日）。 */
     public static final int REJOIN_BAN_DAYS = 90;
 
-    /** 国家の役職（§6.1）。 */
-    public enum Role {
-        /** 首長。 */
-        HEAD,
-        /** リーダー。 */
-        LEADER,
-        /** チーフ。 */
-        CHIEF,
-        /** 市民。 */
-        CITIZEN
-    }
-
     /** 統一の当事国。 */
     public record Party(String nationName, int rank, double activity30d, long cumulativeHours,
                         boolean isVassal) {}
