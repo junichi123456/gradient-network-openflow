@@ -37,15 +37,15 @@ public final class RaidSpecies {
     private final String displayName;
     private final long baseHealth;
     private final Rig rig;
-    private final Map<String, Animation> animations = new LinkedHashMap<>();
+    private final Map<String, MotionSpec> motions = new LinkedHashMap<>();
     private final List<Phase> phases;
 
     public RaidSpecies(String id, String displayName, long baseHealth, Rig rig,
-                       List<Animation> animations, List<Phase> phases) {
+                       List<MotionSpec> motions, List<Phase> phases) {
         if (baseHealth <= 0) {
             throw new IllegalArgumentException("体力が0以下である: " + baseHealth);
         }
-        if (animations.isEmpty()) {
+        if (motions.isEmpty()) {
             throw new IllegalArgumentException("モーションが1つもない");
         }
         if (phases.isEmpty()) {
@@ -55,10 +55,10 @@ public final class RaidSpecies {
         this.displayName = displayName;
         this.baseHealth = baseHealth;
         this.rig = rig;
-        for (Animation animation : animations) {
-            animation.validateAgainst(rig);
-            if (this.animations.put(animation.name(), animation) != null) {
-                throw new IllegalArgumentException("モーション名が重複している: " + animation.name());
+        for (MotionSpec motion : motions) {
+            motion.validateAgainst(rig);
+            if (this.motions.put(motion.name(), motion) != null) {
+                throw new IllegalArgumentException("モーション名が重複している: " + motion.name());
             }
         }
         this.phases = List.copyOf(phases);
@@ -76,7 +76,7 @@ public final class RaidSpecies {
         }
         for (Phase phase : phases) {
             for (String animation : phase.animations()) {
-                if (!animations.containsKey(animation)) {
+                if (!motions.containsKey(animation)) {
                     throw new IllegalArgumentException(
                             "存在しないモーションを参照している: " + phase.name() + " → " + animation);
                 }
@@ -104,16 +104,26 @@ public final class RaidSpecies {
         return phases;
     }
 
-    public Animation animation(String name) {
-        Animation animation = animations.get(name);
-        if (animation == null) {
+    public MotionSpec motion(String name) {
+        MotionSpec motion = motions.get(name);
+        if (motion == null) {
             throw new IllegalArgumentException("存在しないモーションである: " + name);
         }
-        return animation;
+        return motion;
+    }
+
+    public Animation animation(String name) {
+        return motion(name).animation();
     }
 
     public List<String> animationNames() {
-        return new ArrayList<>(animations.keySet());
+        return new ArrayList<>(motions.keySet());
+    }
+
+    /** パリイ可能なモーション名。 */
+    public List<String> parryableMotions() {
+        return motions.values().stream().filter(MotionSpec::parryable)
+                .map(MotionSpec::name).toList();
     }
 
     /** 現在の体力割合に対応する段階。 */
@@ -138,8 +148,8 @@ public final class RaidSpecies {
     /** 動く部位が最も多いモーションでの、必要な更新間隔（§12.6）。 */
     public int requiredUpdateInterval(int viewers) {
         int maxMoving = 0;
-        for (Animation animation : animations.values()) {
-            maxMoving = Math.max(maxMoving, animation.animatedParts().size());
+        for (MotionSpec motion : motions.values()) {
+            maxMoving = Math.max(maxMoving, motion.animation().animatedParts().size());
         }
         return MotionBudget.requiredInterval(maxMoving, viewers);
     }

@@ -21,15 +21,23 @@ public final class Rig {
      *
      * @param name    部位名。個体内で一意
      * @param parent  親の部位名。根は null
-     * @param base    静止時の変換
-     * @param modelId リソースパック側のモデル識別子
+     * @param base       静止時の変換
+     * @param modelId    リソースパック側のモデル識別子
+     * @param damageable この部位への攻撃が個体にダメージを与えるか。
+     *                   騎士型の槍のように、当てても通らない部位がある
      */
-    public record Part(String name, String parent, Transform base, int modelId) {
+    public record Part(String name, String parent, Transform base, int modelId,
+                       boolean damageable) {
 
         public Part {
             if (name == null || name.isBlank()) {
                 throw new IllegalArgumentException("部位名が空である");
             }
+        }
+
+        /** 被弾する部位。 */
+        public Part(String name, String parent, Transform base, int modelId) {
+            this(name, parent, base, modelId, true);
         }
 
         public boolean isRoot() {
@@ -42,8 +50,8 @@ public final class Rig {
     private final double hitboxWidth;
 
     /**
-     * @param heightBlocks 体高（ブロック）
-     * @param hitboxWidth  当たり判定の幅（ブロック）
+     * @param heightBlocks 体高。<b>全長</b>で測る（§12.6）
+     * @param hitboxWidth  幅。<b>胴体と並行にした両腕を含む長さ</b>で測る（§12.6）
      */
     public Rig(List<Part> parts, double heightBlocks, double hitboxWidth) {
         if (parts.isEmpty()) {
@@ -60,6 +68,9 @@ public final class Rig {
         this.heightBlocks = heightBlocks;
         this.hitboxWidth = hitboxWidth;
         validate();
+        if (damageablePartCount() == 0) {
+            throw new IllegalArgumentException("被弾する部位が1つもない");
+        }
     }
 
     private void validate() {
@@ -105,6 +116,11 @@ public final class Rig {
 
     public int partCount() {
         return parts.size();
+    }
+
+    /** 被弾する部位の数。すべての部位が無敵な骨格は成立しない。 */
+    public int damageablePartCount() {
+        return (int) parts.values().stream().filter(Part::damageable).count();
     }
 
     public double heightBlocks() {
