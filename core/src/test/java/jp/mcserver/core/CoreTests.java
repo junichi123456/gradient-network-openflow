@@ -4,6 +4,12 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import jp.mcserver.core.raid.Animation;
+import jp.mcserver.core.raid.MotionBudget;
+import jp.mcserver.core.raid.RaidSpecies;
+import jp.mcserver.core.raid.Rig;
+import jp.mcserver.core.raid.Transform;
+import jp.mcserver.core.raid.Vec3;
 import java.util.Set;
 
 /**
@@ -38,6 +44,7 @@ public final class CoreTests {
         market();
         menu();
         raid();
+        raidSpecies();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -1602,6 +1609,135 @@ public final class CoreTests {
         check("初回討伐の称号は種ごとに一度だけ",
                 Raid.firstClearTitle(Set.of(), "個体A")
                         && !Raid.firstClearTitle(Set.of("個体A"), "個体A"));
+    }
+
+    // ---------------------------------------------------------------- §12.6
+
+    private static void raidSpecies() {
+        section("§12.6 個体の定義");
+
+        // 骨格
+        var rig = new Rig(List.of(
+                new Rig.Part("胴", null, Transform.IDENTITY, 1001),
+                new Rig.Part("頭", "胴", new Transform(new Vec3(0, 1.2, 0), Vec3.ZERO, Vec3.ONE), 1002),
+                new Rig.Part("右腕", "胴", new Transform(new Vec3(0.6, 0.8, 0), Vec3.ZERO, Vec3.ONE), 1003),
+                new Rig.Part("左腕", "胴", new Transform(new Vec3(-0.6, 0.8, 0), Vec3.ZERO, Vec3.ONE), 1004),
+                new Rig.Part("大剣", "右腕", new Transform(new Vec3(0, -0.4, 0), Vec3.ZERO, Vec3.ONE), 1005)),
+                4.5, 1.8);
+
+        check("部位数と体型を持つ",
+                rig.partCount() == 5 && rig.heightBlocks() == 4.5 && rig.hitboxWidth() == 1.8);
+        check("根は1つだけ", rig.root().name().equals("胴"));
+        check("階層の深さを数えられる", rig.depth() == 3);
+        check("根から部位までの連鎖を得られる",
+                rig.chain("大剣").stream().map(Rig.Part::name).toList()
+                        .equals(List.of("胴", "右腕", "大剣")));
+        check("根が2つある骨格は拒否される",
+                thrown(() -> new Rig(List.of(
+                        new Rig.Part("A", null, Transform.IDENTITY, 1),
+                        new Rig.Part("B", null, Transform.IDENTITY, 2)), 2, 1)));
+        check("存在しない親を指す骨格は拒否される",
+                thrown(() -> new Rig(List.of(
+                        new Rig.Part("A", null, Transform.IDENTITY, 1),
+                        new Rig.Part("B", "X", Transform.IDENTITY, 2)), 2, 1)));
+        check("部位名の重複は拒否される",
+                thrown(() -> new Rig(List.of(
+                        new Rig.Part("A", null, Transform.IDENTITY, 1),
+                        new Rig.Part("A", "A", Transform.IDENTITY, 2)), 2, 1)));
+
+        // 変換の補間
+        var from = new Transform(new Vec3(0, 0, 0), new Vec3(0, 0, 0), Vec3.ONE);
+        var to = new Transform(new Vec3(0, 2, 0), new Vec3(90, 0, 0), new Vec3(2, 2, 2));
+        var mid = from.lerp(to, 0.5);
+        check("変換は成分ごとに補間される",
+                mid.translation().y() == 1.0 && mid.rotationDeg().x() == 45.0
+                        && mid.scale().x() == 1.5);
+        check("同一の変換を検出できる",
+                Transform.IDENTITY.sameAs(Transform.IDENTITY, 1e-9)
+                        && !from.sameAs(to, 1e-9));
+
+        // モーション
+        var swing = new Animation("大振り", 20, false, Map.of(
+                "右腕", List.of(
+                        new Animation.Keyframe(0, Transform.IDENTITY),
+                        new Animation.Keyframe(10, new Transform(Vec3.ZERO, new Vec3(-120, 0, 0), Vec3.ONE)),
+                        new Animation.Keyframe(20, new Transform(Vec3.ZERO, new Vec3(60, 0, 0), Vec3.ONE))),
+                "大剣", List.of(
+                        new Animation.Keyframe(0, Transform.IDENTITY),
+                        new Animation.Keyframe(20, new Transform(Vec3.ZERO, new Vec3(30, 0, 0), Vec3.ONE)))));
+
+        check("キーフレームの間は補間される",
+                swing.sample("右腕", 5).rotationDeg().x() == -60.0);
+        check("キーフレーム上では厳密な値を返す",
+                swing.sample("右腕", 10).rotationDeg().x() == -120.0);
+        check("長さを超えた指定は最後の姿勢を返す",
+                swing.sample("右腕", 40).rotationDeg().x() == 60.0);
+        check("動かさない部位のサンプリングは拒否される",
+                thrown(() -> swing.sample("頭", 0)));
+        check("骨格との整合を検証できる",
+                thrown(() -> new Animation("不整合", 10, false, Map.of(
+                        "存在しない部位", List.of(new Animation.Keyframe(0, Transform.IDENTITY))))
+                        .validateAgainst(rig)));
+        check("tick0のキーフレームがなければ拒否される",
+                thrown(() -> new Animation("欠落", 10, false, Map.of(
+                        "頭", List.of(new Animation.Keyframe(5, Transform.IDENTITY))))));
+        check("昇順でないキーフレームは拒否される",
+                thrown(() -> new Animation("逆順", 10, false, Map.of(
+                        "頭", List.of(new Animation.Keyframe(0, Transform.IDENTITY),
+                                new Animation.Keyframe(0, Transform.IDENTITY))))));
+
+        var idle = new Animation("待機", 40, true, Map.of(
+                "頭", List.of(
+                        new Animation.Keyframe(0, Transform.IDENTITY),
+                        new Animation.Keyframe(20, new Transform(Vec3.ZERO, new Vec3(10, 0, 0), Vec3.ONE)),
+                        new Animation.Keyframe(40, Transform.IDENTITY))));
+        check("ループするモーションは長さで折り返す",
+                idle.sample("頭", 60).rotationDeg().x() == 10.0);
+
+        // 通信量
+        check("部位15・10Hz・20名で毎秒3,000件",
+                MotionBudget.updatesPerSecond(15, 2, 20) == 3_000);
+        check("上限4,000件を超える構成を検出する",
+                !MotionBudget.withinBudget(15, 1, 20)
+                        && MotionBudget.withinBudget(15, 2, 20));
+        check("上限に収まる更新間隔を求められる",
+                MotionBudget.requiredInterval(15, 20) == 2
+                        && MotionBudget.requiredInterval(40, 20) == 4
+                        && MotionBudget.updatesPerSecond(40, 4, 20) == 4_000);
+
+        // 個体
+        var phases = List.of(
+                new RaidSpecies.Phase("第一形態", 100, List.of("待機", "大振り"),
+                        "遠距離から近づいて大振りを誘い、隙に反撃する", null),
+                new RaidSpecies.Phase("第二形態", 50, List.of("大振り"),
+                        "全身が硬化する。背後の結晶を破壊した数秒間のみ有効打が入る", "結晶の破壊"));
+
+        var species = new RaidSpecies("crystal_warden", "結晶の守り手", 2_000, rig,
+                List.of(swing, idle), phases);
+
+        check("個体は骨格とモーションと段階を持つ",
+                species.rig().partCount() == 5 && species.animationNames().size() == 2
+                        && species.phases().size() == 2);
+        check("体力割合から段階が決まる",
+                species.phaseAt(100).name().equals("第一形態")
+                        && species.phaseAt(51).name().equals("第一形態")
+                        && species.phaseAt(50).name().equals("第二形態")
+                        && species.phaseAt(0).name().equals("第二形態"));
+        check("参加人数で体力がスケールする",
+                species.healthFor(1) == 2_000 && species.healthFor(20) == 6_800);
+        check("必要な更新間隔を個体から求められる",
+                species.requiredUpdateInterval(20) == 1
+                        && species.requiredUpdateInterval(0) == 2);
+        check("段階が体力100%から始まらなければ拒否される",
+                thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(swing),
+                        List.of(new RaidSpecies.Phase("後半", 50, List.of("大振り"), "g", null)))));
+        check("段階の閾値が降順でなければ拒否される",
+                thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(swing), List.of(
+                        new RaidSpecies.Phase("A", 100, List.of("大振り"), "g", null),
+                        new RaidSpecies.Phase("B", 100, List.of("大振り"), "g", null)))));
+        check("存在しないモーションを参照する段階は拒否される",
+                thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(swing), List.of(
+                        new RaidSpecies.Phase("A", 100, List.of("存在しない"), "g", null)))));
     }
 
     private static boolean thrown(Runnable action) {
