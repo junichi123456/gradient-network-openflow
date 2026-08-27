@@ -37,6 +37,7 @@ public final class CoreTests {
         succession();
         market();
         menu();
+        raid();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -1523,6 +1524,93 @@ public final class CoreTests {
                 MenuScreen.build(wanderer).size() < MenuScreen.build(citizen).size()
                         && MenuScreen.build(citizen).size() < MenuScreen.build(leader).size()
                         && MenuScreen.build(leader).size() < republicSlots.size());
+    }
+
+    // ---------------------------------------------------------------- §12
+
+    private static void raid() {
+        section("§12 レイドイベント");
+
+        check("周期は2週間", Raid.CYCLE_DAYS == 14);
+        check("初回の開催日を跨ぐまでは初回が次回",
+                Raid.nextSessionDay(70, 70) == 70 && Raid.nextSessionDay(70, 60) == 70);
+        check("開催日を過ぎれば次の隔週へ",
+                Raid.nextSessionDay(70, 71) == 84 && Raid.nextSessionDay(70, 84) == 84
+                        && Raid.nextSessionDay(70, 85) == 98);
+        check("開催回を数えられる",
+                Raid.sessionNumber(70, 70) == 1 && Raid.sessionNumber(70, 84) == 2
+                        && Raid.sessionNumber(70, 69) == 0);
+
+        check("日曜21時は次元の再生成と衝突しない",
+                Raid.slotIsClear(7, 21, 15));
+        check("エンドの再生成（土曜15時）を検出する", !Raid.slotIsClear(6, 15, 20));
+        check("ネザーの再生成（1日05時）を検出する", !Raid.slotIsClear(3, 5, 1));
+        check("資源ワールドの再生成（火・金03時）を検出する",
+                !Raid.slotIsClear(2, 3, 10) && !Raid.slotIsClear(5, 3, 10));
+
+        // ローテーション
+        var rotation = new Raid.Rotation(List.of("個体A", "個体B", "個体C", "個体D", "個体E"));
+        check("初回リリースは5種", rotation.roster().size() == Raid.INITIAL_SPECIES);
+        check("出現順は固定で循環する",
+                rotation.speciesFor(1).equals("個体A") && rotation.speciesFor(5).equals("個体E")
+                        && rotation.speciesFor(6).equals("個体A") && rotation.speciesFor(11).equals("個体A"));
+        check("周回数を数えられる",
+                rotation.completedCycles(9) == 1 && rotation.completedCycles(10) == 2);
+        check("2周するまで追加できない",
+                !rotation.canAddSpecies(9) && rotation.canAddSpecies(10));
+        check("追加までの残り回数がわかる",
+                rotation.sessionsUntilAddition(0) == 10
+                        && rotation.sessionsUntilAddition(7) == 3
+                        && rotation.sessionsUntilAddition(10) == 0);
+        check("2周は約4.6か月に相当する",
+                rotation.roster().size() * Raid.CYCLES_BEFORE_ADDITION * Raid.CYCLE_DAYS == 140);
+
+        var expanded = rotation.add("個体F");
+        check("追加した種は末尾に入る",
+                expanded.roster().size() == 6 && expanded.speciesFor(6).equals("個体F"));
+        check("6種になれば次の追加は12回後",
+                expanded.sessionsUntilAddition(0) == 12);
+        check("構想の総数は11種", Raid.PLANNED_SPECIES == 11);
+
+        // 難易度
+        check("5人までは基準値",
+                Raid.difficulty(1).healthPercent() == 100 && Raid.difficulty(5).minions() == 2);
+        check("人数帯ごとに上がる",
+                Raid.difficulty(6).healthPercent() == 180
+                        && Raid.difficulty(11).healthPercent() == 260
+                        && Raid.difficulty(20).healthPercent() == 340);
+        check("倍率は誤差なく百分率から導かれる",
+                Raid.difficulty(20).healthMultiplier() == 3.4
+                        && Raid.difficulty(11).healthMultiplier() == 2.6);
+        check("取り巻きも人数帯で増える",
+                Raid.difficulty(10).minions() == 4 && Raid.difficulty(20).minions() == 8);
+        check("上限を超える人数は受け付けない",
+                thrown(() -> Raid.difficulty(21)));
+
+        // 報酬
+        var reward = Raid.reward(100_000, 20, true);
+        check("討伐expは参加者へ等分される",
+                reward.expPerParticipant() == 5_000 && reward.remainder() == 0);
+        var odd = Raid.reward(100, 3, true);
+        check("端数は世界政府へ寄せる",
+                odd.expPerParticipant() == 33 && odd.remainder() == 1);
+        var failed = Raid.reward(100_000, 20, false);
+        check("失敗時は報酬が一切ない",
+                failed.expPerParticipant() == 0 && !failed.nationBuff());
+        check("国家バフは7日間",
+                Raid.nationBuffExpiry(100) == 107 && Raid.NATION_BUFF_DAYS == 7);
+        check("初回討伐の称号は種ごとに一度だけ",
+                Raid.firstClearTitle(Set.of(), "個体A")
+                        && !Raid.firstClearTitle(Set.of("個体A"), "個体A"));
+    }
+
+    private static boolean thrown(Runnable action) {
+        try {
+            action.run();
+            return false;
+        } catch (RuntimeException e) {
+            return true;
+        }
     }
 
     private static Set<ChunkPos> minus(Set<ChunkPos> set, ChunkPos c) {
