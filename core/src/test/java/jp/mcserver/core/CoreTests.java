@@ -1155,9 +1155,12 @@ public final class CoreTests {
     private static void succession() {
         section("§9.2 君主制の継承");
 
-        check("48時間ログインがなければ不在",
-                Succession.absence(48, 10) == Succession.Absence.NO_LOGIN
-                        && Succession.absence(47, 10) == Succession.Absence.PRESENT);
+        check("君主制は120時間ログインがなければ不在",
+                Succession.absence(120, 10) == Succession.Absence.NO_LOGIN
+                        && Succession.absence(119, 10) == Succession.Absence.PRESENT);
+        check("48時間の全体規定は君主制には適用されない",
+                Succession.absence(48, 10) == Succession.Absence.PRESENT
+                        && Roles.HEAD_ABSENCE_HOURS == 48 && Succession.ABSENCE_HOURS == 120);
         check("実効国民でなくなった時点でも不在",
                 Succession.absence(0, 0.5) == Succession.Absence.NOT_EFFECTIVE_CITIZEN);
         check("毎日ログインしていても活動が足りなければ不在",

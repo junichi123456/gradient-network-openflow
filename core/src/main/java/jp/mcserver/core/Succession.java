@@ -15,8 +15,14 @@ public final class Succession {
 
     private Succession() {}
 
-    /** 不在と判定するログインなしの時間（§6.2）。 */
-    public static final int ABSENCE_HOURS = Roles.HEAD_ABSENCE_HOURS;
+    /**
+     * 不在と判定するログインなしの時間（§9.2）。
+     *
+     * <p>君主制の特則であり、全体規定の48時間（§6.2、{@link Roles#HEAD_ABSENCE_HOURS}）
+     * より長い。君主制は代行者を持たないため、48時間で全権限が停止すると
+     * 週末を挟む不在だけで国家が止まってしまう。
+     */
+    public static final int ABSENCE_HOURS = 120;
 
     /** 不在の警告を出す日数。 */
     public static final int WARNING_DAYS = 30;
@@ -38,7 +44,7 @@ public final class Succession {
     public enum Absence {
         /** 在任中。 */
         PRESENT,
-        /** 48時間ログインがない。 */
+        /** 120時間ログインがない。 */
         NO_LOGIN,
         /** 実効国民の要件を満たさなくなった。 */
         NOT_EFFECTIVE_CITIZEN;
@@ -51,7 +57,7 @@ public final class Succession {
     /**
      * 不在の判定（§9.2）。
      *
-     * <p>48時間ログインがない場合に加え、<b>首長が実効国民でなくなった時点</b>でも不在とする。
+     * <p>120時間ログインがない場合に加え、<b>首長が実効国民でなくなった時点</b>でも不在とする。
      * 後者がなければ、毎日わずかにログインするだけで権限を握り続けられてしまう。
      */
     public static Absence absence(double hoursSinceLogin, double activity30dHours) {
