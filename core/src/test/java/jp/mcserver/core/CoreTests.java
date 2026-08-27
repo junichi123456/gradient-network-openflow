@@ -651,11 +651,12 @@ public final class CoreTests {
     private static void ranking() {
         section("§7.2 国内総生産ランキング");
 
-        var rows = GdpRanking.rank(List.of(
-                new GdpRanking.Entry("北方連合", 50_000),
-                new GdpRanking.Entry("東方帝国", 120_000),
-                new GdpRanking.Entry("南方公国", 50_000),
-                new GdpRanking.Entry("西方王国", 10_000)));
+        List<GdpRanking.Entry> entries = List.of(
+                new GdpRanking.Entry("北方連合", 50_000, 9_000),
+                new GdpRanking.Entry("東方帝国", 120_000, 1_000),
+                new GdpRanking.Entry("南方公国", 50_000, 4_000),
+                new GdpRanking.Entry("西方王国", 10_000, 20_000));
+        var rows = GdpRanking.rank(entries);
 
         check("総額の大きい順に並ぶ",
                 rows.get(0).nationName().equals("東方帝国") && rows.get(0).rank() == 1);
@@ -666,6 +667,36 @@ public final class CoreTests {
                 rows.get(1).nationName().equals("北方連合")
                         && rows.get(2).nationName().equals("南方公国"));
         check("空でも落ちない", GdpRanking.rank(List.of()).isEmpty());
+
+        var byProduction = GdpRanking.rankByProduction(entries);
+        check("直近30日の生産額でも並べられる",
+                byProduction.get(0).nationName().equals("西方王国")
+                        && byProduction.get(0).rank() == 1);
+        check("蓄積の大国が生産では下位になりうる",
+                byProduction.get(3).nationName().equals("東方帝国"));
+        check("行は両方の指標を持つ",
+                rows.get(0).production30d() == 1_000 && rows.get(0).gdp() == 120_000);
+
+        section("§7.3 援助金の受領上限");
+
+        var ledger = new AidLedger();
+        check("上限は国内総生産の20%",
+                AidLedger.cap(1_000_000) == 200_000);
+        check("蓄積が乏しくても下限30,000は確保される",
+                AidLedger.cap(0) == 30_000 && AidLedger.cap(100_000) == 30_000);
+
+        check("上限内なら受領できる", ledger.check(100, 1_000_000, 200_000).allowed());
+        check("上限を超えると拒否される",
+                !ledger.check(100, 1_000_000, 200_001).allowed());
+
+        ledger.record(100, 150_000);
+        check("受領後は残枠が減る", ledger.remaining(100, 1_000_000) == 50_000);
+        check("残枠を超える受領は部分的にも実行しない",
+                !ledger.check(100, 1_000_000, 60_000).allowed()
+                        && ledger.check(100, 1_000_000, 50_000).allowed());
+        check("29日後はまだ枠に含まれる", ledger.receivedInWindow(129) == 150_000);
+        check("30日を過ぎた受領は枠から外れる", ledger.receivedInWindow(130) == 0);
+        check("枠が空けば再び受領できる", ledger.remaining(130, 1_000_000) == 200_000);
     }
 
     private static Set<ChunkPos> minus(Set<ChunkPos> set, ChunkPos c) {
