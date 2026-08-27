@@ -677,6 +677,28 @@ public final class CoreTests {
         check("行は両方の指標を持つ",
                 rows.get(0).production30d() == 1_000 && rows.get(0).gdp() == 120_000);
 
+        section("§7.1 外交準備高の月次減価");
+
+        var rich = new NationalAccounts.Balances(50_000, 1_000_000);
+        var decay = NationalAccounts.decayMonthly(rich);
+        check("外交準備高の10%が償却される",
+                decay.burned() == 100_000 && decay.after().reserve() == 900_000);
+        check("国庫は減価しない", decay.after().treasury() == 50_000);
+        check("端数は切り上げる", NationalAccounts.decayMonthly(
+                new NationalAccounts.Balances(0, 101)).burned() == 11);
+        check("残高0なら何も起きない", NationalAccounts.decayMonthly(
+                NationalAccounts.Balances.empty()).burned() == 0);
+
+        // 定常状態: 月間計上 P に対し、残高は概ね 10P に収束する
+        long monthly = 600_000;
+        var acc = NationalAccounts.Balances.empty();
+        for (int month = 0; month < 200; month++) {
+            acc = acc.withReserve(acc.reserve() + monthly);
+            acc = NationalAccounts.decayMonthly(acc).after();
+        }
+        check("月次10%の減価により残高は月間計上の約9倍で釣り合う",
+                acc.reserve() >= monthly * 89 / 10 && acc.reserve() <= monthly * 9);
+
         section("§7.3 援助金の受領上限");
 
         var ledger = new AidLedger();

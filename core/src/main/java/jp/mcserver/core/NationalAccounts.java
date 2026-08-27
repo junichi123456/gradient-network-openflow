@@ -23,6 +23,9 @@ public final class NationalAccounts {
     /** 援助金に対する世界政府への償却率（%）。 */
     public static final int AID_BURN_PERCENT = 3;
 
+    /** 外交準備高の月次減価率（%）。使われない準備高は毎月この割合が償却される。 */
+    public static final int DECAY_PERCENT = 10;
+
     /** 勘定の残高。 */
     public record Balances(long treasury, long reserve) {
 
@@ -157,6 +160,24 @@ public final class NationalAccounts {
                 ? receiver.withTreasury(receiver.treasury() + delivered)
                 : receiver.withReserve(receiver.reserve() + delivered);
         return new Aid(payment.after(), receiverAfter, burned, delivered, payment.unpaid());
+    }
+
+    /** 月次減価の結果。 */
+    public record Decay(Balances after, long burned) {}
+
+    /**
+     * 外交準備高の月次減価（§7.1）。
+     *
+     * <p>毎月1日 05:00 に、外交準備高の 10% を世界政府へ償却する。端数は切り上げる。
+     * 国庫は対象外である。
+     *
+     * <p>使われない準備高が無限に積み上がると、外交を行わない国が蓄積だけで
+     * 国内総生産の上位を占め続ける。減価はこれを防ぎ、準備高に「使う理由」を与える。
+     * 月間の計上額を P とすると、残高は (1-0.1)P/0.1 = 9P に収束する。
+     */
+    public static Decay decayMonthly(Balances b) {
+        long burned = (b.reserve() * DECAY_PERCENT + 99) / 100;
+        return new Decay(b.withReserve(b.reserve() - burned), burned);
     }
 
     private static void requireAmount(long amount) {
