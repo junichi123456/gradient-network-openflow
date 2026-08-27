@@ -1,0 +1,373 @@
+package jp.mcserver.core;
+
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * コア層の検証。外部依存を持たないため javac だけで実行できる。
+ *
+ * <p>実行: java -cp out jp.mcserver.core.CoreTests
+ */
+public final class CoreTests {
+
+    private static int passed = 0;
+    private static int failed = 0;
+
+    public static void main(String[] args) {
+        formulas();
+        activityWindow();
+        contribution();
+        newPlayerCoefficient();
+        coordinateAnnouncement();
+        territory();
+        chunkRelease();
+
+        System.out.println();
+        System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
+        if (failed > 0) {
+            System.exit(1);
+        }
+    }
+
+    // ---------------------------------------------------------------- §4.1
+
+    private static void formulas() {
+        section("§4.1 数式");
+
+        check("B(0)=10", Formulas.promotionCost(0) == 10);
+        check("B(1)=18", Formulas.promotionCost(1) == 18);
+        check("B(5)=70", Formulas.promotionCost(5) == 70);
+        check("B(10)=180", Formulas.promotionCost(10) == 180);
+        check("B(15)=340", Formulas.promotionCost(15) == 340);
+        check("B(20)=550", Formulas.promotionCost(20) == 550);
+
+        check("C(1)=10", Formulas.cumulativeCost(1) == 10);
+        check("C(5)=150", Formulas.cumulativeCost(5) == 150);
+        check("C(10)=700", Formulas.cumulativeCost(10) == 700);
+        check("C(15)=1900", Formulas.cumulativeCost(15) == 1900);
+        check("C(20)=4000", Formulas.cumulativeCost(20) == 4000);
+        check("C(25)=7250", Formulas.cumulativeCost(25) == 7250);
+
+        boolean sumMatches = true;
+        for (int n = 1; n <= 25; n++) {
+            long sum = 0;
+            for (int a = 0; a < n; a++) {
+                sum += Formulas.promotionCost(a);
+            }
+            if (sum != Formulas.cumulativeCost(n)) {
+                sumMatches = false;
+            }
+        }
+        check("C(n) = ΣB(a) が n=1..25 で成立", sumMatches);
+
+        check("定員 rank1=3", Formulas.capacity(1) == 3);
+        check("定員 rank25=27", Formulas.capacity(25) == 27);
+        check("M(1)=3", Formulas.maintenanceCapacity(1) == 3);
+        check("M(10)=9", Formulas.maintenanceCapacity(10) == 9);
+        check("M(15)=13", Formulas.maintenanceCapacity(15) == 13);
+        check("M(20)=17", Formulas.maintenanceCapacity(20) == 17);
+        check("M(25)=21", Formulas.maintenanceCapacity(25) == 21);
+
+        check("許容欠員 rank10=3", Formulas.capacity(10) - Formulas.maintenanceCapacity(10) == 3);
+        check("許容欠員 rank25=6", Formulas.capacity(25) - Formulas.maintenanceCapacity(25) == 6);
+
+        check("チャンク rank0=3", Formulas.chunks(0) == 3);
+        check("チャンク rank1=16", Formulas.chunks(1) == 16);
+        check("チャンク rank25=400", Formulas.chunks(25) == 400);
+
+        boolean inverse = true;
+        for (int n = 3; n <= 27; n++) {
+            int expected = -1;
+            for (int a = 0; a <= 25; a++) {
+                if (Formulas.maintenanceCapacity(a) <= n) {
+                    expected = a;
+                }
+            }
+            if (Formulas.rankSupportedBy(n) != expected) {
+                inverse = false;
+            }
+        }
+        check("a' = min(25, ⌊4N/3⌋−2) が M(a) の逆関数として一致（N=3..27）", inverse);
+
+        boolean sustained = true;
+        for (int a = 0; a <= 25; a++) {
+            double threshold = Formulas.maintenanceActivityHours(a);
+            if (Formulas.rankSustainedBy(threshold) != a) {
+                sustained = false;
+            }
+            if (a > 0 && Formulas.rankSustainedBy(threshold - 0.01) >= a) {
+                sustained = false;
+            }
+        }
+        check("rankSustainedBy が B(a)×0.1 の境界で正しく切り替わる", sustained);
+
+        check("シュルカー累計 6個=210,000", Formulas.shulkerCumulativeCost(6) == 210_000);
+        check("シュルカー累計 24個=1,272,000", Formulas.shulkerCumulativeCost(24) == 1_272_000);
+        check("シュルカー累計 54個=4,482,000", Formulas.shulkerCumulativeCost(54) == 4_482_000);
+        check("シュルカー上限 rank0=6", Formulas.shulkerLimit(0) == 6);
+        check("シュルカー上限 rank25=54", Formulas.shulkerLimit(25) == 54);
+        check("exp換算 3,750/h", Formulas.EXP_PER_HOUR == 3750);
+    }
+
+    // ---------------------------------------------------------------- §2.1
+
+    private static void activityWindow() {
+        section("§2.1 有効活動時間");
+
+        ActivityWindow w = new ActivityWindow();
+        w.onLogin();
+        int credited = w.advance(12 * 60, false);
+        check("12分間 pitch を動かさなければ計上されない", credited == 0 && w.countedTodayMinutes() == 0);
+
+        w = new ActivityWindow();
+        w.onLogin();
+        credited = w.advance(12 * 60, true);
+        check("12分間に pitch が動けば12分計上される", credited == 12 && w.countedTodayMinutes() == 12);
+
+        w = new ActivityWindow();
+        w.onLogin();
+        w.advance(7 * 60, true);
+        w.onLogout();
+        w.onLogin();
+        credited = w.advance(5 * 60, true);
+        check("端数の経過時間はセッションを跨いで繰り越される", credited == 12);
+
+        w = new ActivityWindow();
+        w.onLogin();
+        w.advance(11 * 60, true);   // ログイン直後に視線を動かす
+        w.onLogout();
+        w.onLogin();
+        credited = w.advance(60, false); // 残り1分を放置
+        check("pitch のフラグはセッションごとにリセットされる（抜け道の封鎖）", credited == 0);
+
+        w = new ActivityWindow();
+        w.onLogin();
+        int total = 0;
+        for (int i = 0; i < 40; i++) {
+            total += w.advance(12 * 60, true);
+        }
+        check("40窓で日次上限480分に到達する", total == 480 && w.dailyCapReached());
+        check("上限到達後は計上されない", w.advance(12 * 60, true) == 0);
+
+        w.onDayRollover();
+        check("日付が変われば計上枠が回復する", w.countedTodayMinutes() == 0 && !w.dailyCapReached());
+
+        w = new ActivityWindow();
+        w.onLogin();
+        credited = w.advance(36 * 60, true);
+        check("窓を跨ぐ一括加算では、変化の証拠がある最初の窓しか計上されない", credited == 12);
+
+        w = new ActivityWindow();
+        w.onLogin();
+        total = 0;
+        for (int i = 0; i < 36; i++) {
+            total += w.advance(60, true); // 1分ごとに操作あり
+        }
+        check("1分刻みで進めれば3窓ぶん36分が計上される", total == 36);
+    }
+
+    // ---------------------------------------------------------------- §6.3
+
+    private static void contribution() {
+        section("§6.3 貢献度");
+
+        check("納入ゼロなら活動時間そのもの", Contribution.score(10, 0) == 10.0);
+        check("活動時間と同額の納入で2倍になる", Contribution.score(10, 37_500) == 20.0);
+        check("納入が過大でも活動時間分で頭打ちになる", Contribution.score(10, 3_000_000) == 20.0);
+        check("上限に達したことを検出できる", Contribution.donationCapped(10, 3_000_000));
+        check("上限未満では検出しない", !Contribution.donationCapped(10, 1_000));
+        check("活動時間ゼロなら納入は貢献度にならない", Contribution.score(0, 1_000_000) == 0.0);
+    }
+
+    // ---------------------------------------------------------------- §5
+
+    private static void newPlayerCoefficient() {
+        section("§5 新規プレイヤー係数");
+
+        check("開始30日間は停止する", !NewPlayerCoefficient.applies(30, 1));
+        check("1日目参加は31日目のみ適用", NewPlayerCoefficient.applies(31, 1) && !NewPlayerCoefficient.applies(32, 1));
+        check("15日目参加は31〜45日", NewPlayerCoefficient.applies(31, 15)
+                && NewPlayerCoefficient.applies(45, 15) && !NewPlayerCoefficient.applies(46, 15));
+        check("25日目参加は31〜55日", NewPlayerCoefficient.applies(55, 25) && !NewPlayerCoefficient.applies(56, 25));
+        check("31日目参加は31〜61日", NewPlayerCoefficient.applies(61, 31) && !NewPlayerCoefficient.applies(62, 31));
+        check("適用時は1.5倍", NewPlayerCoefficient.toCumulative(10, 31, 15) == 15.0);
+        check("非適用時は等倍", NewPlayerCoefficient.toCumulative(10, 20, 15) == 10.0);
+    }
+
+    // ---------------------------------------------------------------- §4.8
+
+    private static void coordinateAnnouncement() {
+        section("§4.8 座標告知");
+
+        boolean inRange = true;
+        boolean deterministic = true;
+        Set<Integer> distinct = new HashSet<>();
+        for (int x = -50; x <= 50; x++) {
+            for (int z = -50; z <= 50; z++) {
+                int ox = CoordinateAnnouncement.offsetX(x, z);
+                int oz = CoordinateAnnouncement.offsetZ(x, z);
+                if (Math.abs(ox) > 64 || Math.abs(oz) > 64) {
+                    inRange = false;
+                }
+                if (ox != CoordinateAnnouncement.offsetX(x, z)) {
+                    deterministic = false;
+                }
+                distinct.add(ox);
+            }
+        }
+        check("オフセットが ±64 の範囲に収まる", inRange);
+        check("同じチャンクは常に同じオフセットを返す", deterministic);
+        check("オフセットが偏らず分散している", distinct.size() > 100);
+
+        check("100単位に丸められる", CoordinateAnnouncement.round(1234) == 1200
+                && CoordinateAnnouncement.round(1250) == 1300
+                && CoordinateAnnouncement.round(-1234) == -1200);
+
+        int a = CoordinateAnnouncement.announcedX(1000, 62, 62);
+        long sum = 0;
+        for (int i = 0; i < 100; i++) {
+            sum += CoordinateAnnouncement.announcedX(1000, 62, 62);
+        }
+        check("複数回の告知を平均しても真の座標に近づかない", sum / 100 == a);
+    }
+
+    // ---------------------------------------------------------------- §4.4 / §4.6
+
+    private static void territory() {
+        section("§4.4 昇格 / §4.6 降格");
+
+        var s = new Territory.NationState(0, 10, 5, 3);
+        check("rank0→1 の条件を満たせば昇格できる", Territory.canPromote(s, false).allowed());
+        check("同日に2回目の昇格はできない", !Territory.canPromote(s, true).allowed());
+
+        check("累計不足では昇格できない",
+                !Territory.canPromote(new Territory.NationState(0, 9, 5, 3), false).allowed());
+        check("実効国民不足では昇格できない",
+                !Territory.canPromote(new Territory.NationState(1, 100, 20, 3), false).allowed());
+        check("維持要件を満たさなければ昇格できない",
+                !Territory.canPromote(new Territory.NationState(10, 5000, 1, 12), false).allowed());
+
+        // rank10: 維持閾値 B(10)×0.1 = 18h、M(10)=9
+        var violating = new Territory.NationState(10, 700, 10, 12);
+        var first = Territory.evaluate(violating, 1);
+        check("活動要件違反の1回目は −1", first.newRank() == 9 && first.cause() == Territory.DemotionCause.ACTIVITY);
+
+        var second = Territory.evaluate(violating, 2);
+        int floor = Formulas.rankSustainedBy(10);
+        check("2回連続以降は −8、ただし維持可能ランクを下回らない",
+                second.newRank() == Math.max(floor, 2) && second.newRank() >= floor);
+
+        var shortStaffed = new Territory.NationState(10, 700, 100, 6);
+        var byCap = Territory.evaluate(shortStaffed, 0);
+        check("定員起因は N が支える最大ランクへ即時調整",
+                byCap.newRank() == Formulas.rankSupportedBy(6) && byCap.cause() == Territory.DemotionCause.CAPACITY);
+
+        var both = Territory.evaluate(new Territory.NationState(10, 700, 10, 6), 1);
+        check("両要件に抵触したらより低い方を採る",
+                both.newRank() == Math.min(9, Formulas.rankSupportedBy(6))
+                        && both.cause() == Territory.DemotionCause.BOTH);
+
+        check("要件を満たしていれば降格しない",
+                !Territory.evaluate(new Territory.NationState(10, 700, 100, 12), 0).demoted());
+
+        check("閾値の70%割れで警告する",
+                Territory.shouldWarn(new Territory.NationState(10, 700, 12, 12)));
+        check("余裕があれば警告しない",
+                !Territory.shouldWarn(new Territory.NationState(10, 700, 100, 12)));
+    }
+
+    // ---------------------------------------------------------------- §4.7
+
+    private static void chunkRelease() {
+        section("§4.7 チャンク解放");
+
+        ChunkPos capital = new ChunkPos(0, 0);
+
+        Set<ChunkPos> line = new LinkedHashSet<>(List.of(
+                new ChunkPos(0, 0), new ChunkPos(1, 0), new ChunkPos(2, 0), new ChunkPos(3, 0)));
+        List<ChunkPos> released = ChunkRelease.select(line, capital, 3);
+        check("一直線の領土は先端から解放される",
+                released.equals(List.of(new ChunkPos(3, 0), new ChunkPos(2, 0), new ChunkPos(1, 0))));
+
+        Set<ChunkPos> branch = new LinkedHashSet<>(List.of(
+                new ChunkPos(0, 0), new ChunkPos(1, 0), new ChunkPos(2, 0), new ChunkPos(2, 1)));
+        List<ChunkPos> first = ChunkRelease.select(branch, capital, 1);
+        check("距離が同じなら境界接触面が多い方から解放される",
+                first.equals(List.of(new ChunkPos(2, 1))));
+
+        // 連結性: どの段階でも残存領土は首都と連結していなければならない
+        Set<ChunkPos> shape = new LinkedHashSet<>();
+        for (int i = 0; i <= 3; i++) {
+            shape.add(new ChunkPos(i, 0));
+        }
+        shape.add(new ChunkPos(3, 1));
+        shape.add(new ChunkPos(3, 2));
+        shape.add(new ChunkPos(1, 1));
+        shape.add(new ChunkPos(1, 2));
+
+        boolean alwaysConnected = true;
+        for (int count = 1; count < shape.size(); count++) {
+            List<ChunkPos> out = ChunkRelease.select(shape, capital, count);
+            Set<ChunkPos> remain = new HashSet<>(shape);
+            out.forEach(remain::remove);
+            if (!ChunkRelease.isConnected(remain, capital)) {
+                alwaysConnected = false;
+            }
+            if (out.contains(capital)) {
+                alwaysConnected = false;
+            }
+        }
+        check("どの段階でも残存領土は首都と連結し、首都は解放されない", alwaysConnected);
+
+        check("連結判定が分断を検出する",
+                !ChunkRelease.isConnected(new HashSet<>(List.of(
+                        new ChunkPos(0, 0), new ChunkPos(2, 0))), capital));
+
+        Set<ChunkPos> rank1 = new LinkedHashSet<>(List.of(
+                new ChunkPos(0, 0), new ChunkPos(1, 0), new ChunkPos(0, 1), new ChunkPos(0, 2),
+                new ChunkPos(2, 0), new ChunkPos(3, 0)));
+        List<ChunkPos> toCity = ChunkRelease.selectDownToCityState(rank1, capital);
+        Set<ChunkPos> keptCity = new HashSet<>(rank1);
+        toCity.forEach(keptCity::remove);
+        check("rank1→都市国家では首都＋隣接2チャンクが残る",
+                keptCity.size() == 3 && keptCity.contains(capital)
+                        && keptCity.contains(new ChunkPos(0, 1)) && keptCity.contains(new ChunkPos(1, 0)));
+        check("都市国家に残る3チャンクは連結している", ChunkRelease.isConnected(keptCity, capital));
+
+        List<ChunkPos> toCamp = ChunkRelease.selectDownToCamp(keptCity, capital);
+        check("都市国家→野営地では首都のみが残る",
+                toCamp.size() == 2 && !toCamp.contains(capital));
+
+        Set<ChunkPos> wide = new LinkedHashSet<>();
+        for (int x = 0; x < 8; x++) {
+            for (int z = 0; z < 4; z++) {
+                wide.add(new ChunkPos(x, z));
+            }
+        }
+        List<ChunkPos> demoted = ChunkRelease.selectForDemotion(wide, capital, 2, 1);
+        check("rank2→rank1 は 32→16 チャンクへ縮小する", demoted.size() == 16);
+
+        check("自主放棄は最遠のチャンクのみ認められる",
+                ChunkRelease.canAbandon(line, capital, new ChunkPos(3, 0))
+                        && !ChunkRelease.canAbandon(line, capital, new ChunkPos(1, 0)));
+    }
+
+    // ---------------------------------------------------------------- helpers
+
+    private static void section(String name) {
+        System.out.println();
+        System.out.println("== " + name + " ==");
+    }
+
+    private static void check(String label, boolean ok) {
+        if (ok) {
+            passed++;
+            System.out.println("  [OK]   " + label);
+        } else {
+            failed++;
+            System.out.println("  [FAIL] " + label);
+        }
+    }
+}
