@@ -30,6 +30,7 @@ public final class CoreTests {
         alliance();
         vassalage();
         sanction();
+        war();
         unification();
 
         System.out.println();
@@ -850,25 +851,30 @@ public final class CoreTests {
                 Sanction.unpaidActivityPenaltyHours(35_000) == 3.5);
 
         check("共和制のみ発起できる",
-                Sanction.canInitiate(Government.MONARCHY, 25, false, 0, false, 5, 6, false).denial()
+                Sanction.canInitiate(Government.MONARCHY, 25, 61, false, 0, false, 5, 6, false).denial()
                         == Sanction.Denial.NOT_REPUBLIC);
         check("rank14以下では発起権が停止する",
-                Sanction.canInitiate(Government.REPUBLIC, 14, false, 0, false, 5, 6, false).denial()
+                Sanction.canInitiate(Government.REPUBLIC, 14, 61, false, 0, false, 5, 6, false).denial()
                         == Sanction.Denial.RANK_TOO_LOW);
         check("制裁中の国家は発起できない",
-                Sanction.canInitiate(Government.REPUBLIC, 20, true, 0, false, 5, 6, false).denial()
+                Sanction.canInitiate(Government.REPUBLIC, 20, 61, true, 0, false, 5, 6, false).denial()
                         == Sanction.Denial.UNDER_SANCTION);
         check("同一国家への再制裁はクールダウンに従う",
-                Sanction.canInitiate(Government.REPUBLIC, 20, false, 30, false, 5, 6, false).denial()
+                Sanction.canInitiate(Government.REPUBLIC, 20, 61, false, 30, false, 5, 6, false).denial()
                         == Sanction.Denial.COOLDOWN);
         check("同盟国・属国は対象にできない",
-                Sanction.canInitiate(Government.REPUBLIC, 20, false, 0, true, 5, 6, false).denial()
+                Sanction.canInitiate(Government.REPUBLIC, 20, 61, false, 0, true, 5, 6, false).denial()
                         == Sanction.Denial.TARGET_IS_ALLY);
         check("承認が足りなければ発起できない",
-                Sanction.canInitiate(Government.REPUBLIC, 20, false, 0, false, 1, 6, false).denial()
+                Sanction.canInitiate(Government.REPUBLIC, 20, 61, false, 0, false, 1, 6, false).denial()
                         == Sanction.Denial.INSUFFICIENT_APPROVALS);
         check("要件を満たせば発起できる",
-                Sanction.canInitiate(Government.REPUBLIC, 20, false, 0, false, 2, 6, false).allowed());
+                Sanction.canInitiate(Government.REPUBLIC, 20, 61, false, 0, false, 2, 6, false).allowed());
+        check("開始60日以内は制裁を発起できない",
+                Sanction.canInitiate(Government.REPUBLIC, 20, 60, false, 0, false, 2, 6, false).denial()
+                        == Sanction.Denial.EMBARGO);
+        check("解禁は61日目から",
+                Sanction.canInitiate(Government.REPUBLIC, 20, 61, false, 0, false, 2, 6, false).allowed());
 
         var target = new NationalAccounts.Balances(10_000, 40_000);
         var col = Sanction.collect(target, 50, 2);
@@ -881,6 +887,48 @@ public final class CoreTests {
                 drained.collected() == 0 && drained.unpaid() == 50_000);
         check("不払い分はランク減少に換算される",
                 Sanction.unpaidActivityPenaltyHours(drained.unpaid()) == 5.0);
+    }
+
+    // ---------------------------------------------------------------- §11
+
+    private static void war() {
+        section("§11 戦争");
+
+        check("開始60日間は実施できない",
+                !ServerTimeline.conflictAllowed(1) && !ServerTimeline.conflictAllowed(60)
+                        && ServerTimeline.conflictAllowed(61));
+        check("解禁までの残日数を数えられる",
+                ServerTimeline.daysUntilConflictAllowed(1) == 60
+                        && ServerTimeline.daysUntilConflictAllowed(60) == 1
+                        && ServerTimeline.daysUntilConflictAllowed(61) == 0);
+
+        check("君主制のみ発起できる",
+                War.canInitiate(Government.REPUBLIC, 61, false, 0, 0, false).denial()
+                        == War.Denial.NOT_MONARCHY);
+        check("開始60日以内は発起できない",
+                War.canInitiate(Government.MONARCHY, 60, false, 0, 0, false).denial()
+                        == War.Denial.EMBARGO);
+        check("関係性がある国には発起できない",
+                War.canInitiate(Government.MONARCHY, 61, true, 0, 0, false).denial()
+                        == War.Denial.RELATION_EXISTS);
+        check("免除期間中の国には発起できない",
+                War.canInitiate(Government.MONARCHY, 61, false, 30, 0, false).denial()
+                        == War.Denial.TARGET_IMMUNE);
+        check("自国の再発起クールダウン中は発起できない",
+                War.canInitiate(Government.MONARCHY, 61, false, 0, 100, false).denial()
+                        == War.Denial.INITIATOR_COOLDOWN);
+        check("要件を満たせば発起できる",
+                War.canInitiate(Government.MONARCHY, 61, false, 0, 0, false).allowed());
+
+        check("1〜3勝目は +8",
+                War.bonusChunks(1) == 8 && War.bonusChunks(2) == 16 && War.bonusChunks(3) == 24);
+        check("4勝目以降は +4",
+                War.bonusChunks(4) == 28 && War.bonusChunks(5) == 32);
+        check("累積上限は +40",
+                War.bonusChunks(7) == 40 && War.bonusChunks(20) == 40);
+        check("rank14以下ではボーナスを失う",
+                War.effectiveBonus(7, 15) == 40 && War.effectiveBonus(7, 14) == 0);
+        check("敗北でランクが1下がる", War.rankAfterDefeat(20) == 19 && War.rankAfterDefeat(0) == 0);
     }
 
     // ---------------------------------------------------------------- §8.3

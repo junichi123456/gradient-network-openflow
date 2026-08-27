@@ -73,7 +73,7 @@ public final class Sanction {
 
     public enum Denial {
         NONE, NOT_REPUBLIC, RANK_TOO_LOW, UNDER_SANCTION, COOLDOWN,
-        TARGET_IS_ALLY, TARGET_IS_VASSAL, INSUFFICIENT_APPROVALS, SELF
+        TARGET_IS_ALLY, TARGET_IS_VASSAL, INSUFFICIENT_APPROVALS, SELF, EMBARGO
     }
 
     public record Check(boolean allowed, Denial denial, String message) {}
@@ -82,8 +82,12 @@ public final class Sanction {
      * 発起の可否（§9・§10）。
      *
      * <p>rank14 以下に降格した場合、体制は保持されるが発起権のみ停止する（§9）。
+     * また、サーバー開始から60日間は実施できない（§10）。
+     *
+     * @param serverDay サーバー稼働日（1 始まり）
      */
-    public static Check canInitiate(Government government, int rank, boolean underSanction,
+    public static Check canInitiate(Government government, int rank, int serverDay,
+                                    boolean underSanction,
                                     int cooldownRemainingDays, boolean targetIsAllyOrVassal,
                                     int approvals, int governedOtherNations, boolean self) {
         if (self) {
@@ -91,6 +95,12 @@ public final class Sanction {
         }
         if (government != Government.REPUBLIC) {
             return new Check(false, Denial.NOT_REPUBLIC, "制裁を発起できるのは共和制のみです");
+        }
+        if (!ServerTimeline.conflictAllowed(serverDay)) {
+            return new Check(false, Denial.EMBARGO,
+                    "制裁はサーバー開始から " + ServerTimeline.CONFLICT_EMBARGO_DAYS
+                            + " 日間実施できません（解禁まであと "
+                            + ServerTimeline.daysUntilConflictAllowed(serverDay) + " 日）");
         }
         if (rank < 15) {
             return new Check(false, Denial.RANK_TOO_LOW,
