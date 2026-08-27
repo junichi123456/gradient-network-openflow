@@ -1,7 +1,10 @@
 package jp.mcserver.core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * 棒による領土の拡張・削除（§4.11）。
@@ -56,6 +59,11 @@ public final class ClaimService {
         public static ChunkCondition free() {
             return new ChunkCondition(false, false, false);
         }
+
+        /** 領土に組み入れられるか。 */
+        public boolean claimable() {
+            return !protectedZone && !ownedByOtherNation && !reacquisitionRestricted;
+        }
     }
 
     public enum ExpandDenial {
@@ -63,7 +71,11 @@ public final class ClaimService {
         PROTECTED_ZONE, OWNED_BY_OTHER, REACQUISITION_RESTRICTED
     }
 
-    public record ExpandResult(boolean ok, ExpandDenial denial, String message) {}
+    /**
+     * @param absorbed 囲い込みの解消のため同時に編入されたチャンク（§4.11）
+     */
+    public record ExpandResult(boolean ok, ExpandDenial denial, String message,
+                               List<ChunkPos> absorbed) {}
 
     public enum RemoveDenial {
         NONE, NOT_LEADER, NOT_OWNED, CAPITAL, WOULD_DISCONNECT, LAST_CHUNK, ENCLOSED
@@ -83,6 +95,21 @@ public final class ClaimService {
      */
     public static ExpandResult expand(TerritoryState state, ChunkPos target,
                                       ChunkCondition condition, boolean isLeader) {
+        return expand(state, target, condition, isLeader, c -> ChunkCondition.free());
+    }
+
+    /**
+     * 領土の拡張（囲い込みの自動編入つき）。
+     *
+     * <p>拡張の結果、自国領土に四方を塞がれて外部へ到達できなくなったチャンクが生じた場合、
+     * それらを同時に領土へ編入する。上限に余りが足りなければ拡張自体を拒否する。
+     * 編入しなければ、チャンクを消費しないまま領土外の土地を実質的な支配下に置けてしまう。
+     *
+     * @param conditions 周辺チャンクの外的条件を返す関数（編入可否の判定に用いる）
+     */
+    public static ExpandResult expand(TerritoryState state, ChunkPos target,
+                                      ChunkCondition condition, boolean isLeader,
+                                      Function<ChunkPos, ChunkCondition> conditions) {
         if (!isLeader) {
             return deny(ExpandDenial.NOT_LEADER, "領土を拡張できるのは首長のみです");
         }
@@ -106,9 +133,31 @@ public final class ClaimService {
         if (!state.chunks().isEmpty() && !isAdjacentToTerritory(state.chunks(), target)) {
             return deny(ExpandDenial.NOT_ADJACENT, "既存の領土に隣接していません");
         }
-        int remainingAfter = state.remaining() - 1;
-        return new ExpandResult(true, ExpandDenial.NONE,
-                "領土を拡張しました " + target + "（残り " + remainingAfter + "）");
+        Set<ChunkPos> tentative = new HashSet<>(state.chunks());
+        tentative.add(target);
+
+        List<ChunkPos> absorbed = new ArrayList<>();
+        for (ChunkPos c : Enclosure.findEnclosed(tentative)) {
+            if (conditions.apply(c).claimable()) {
+                absorbed.add(c);
+            }
+        }
+        absorbed.sort((a, b) -> a.x() != b.x() ? Integer.compare(a.x(), b.x())
+                : Integer.compare(a.z(), b.z()));
+
+        int needed = 1 + absorbed.size();
+        if (state.remaining() < needed) {
+            return deny(ExpandDenial.AT_LIMIT,
+                    "この拡張は囲い込んだ " + absorbed.size() + " チャンクの編入を伴うため、"
+                            + needed + " チャンク分の余りが必要です（残り " + state.remaining() + "）");
+        }
+
+        int remainingAfter = state.remaining() - needed;
+        String message = absorbed.isEmpty()
+                ? "領土を拡張しました " + target + "（残り " + remainingAfter + "）"
+                : "領土を拡張しました " + target + "。囲い込んだ " + absorbed.size()
+                        + " チャンクを編入しました（残り " + remainingAfter + "）";
+        return new ExpandResult(true, ExpandDenial.NONE, message, List.copyOf(absorbed));
     }
 
     /**
@@ -178,7 +227,7 @@ public final class ClaimService {
     }
 
     private static ExpandResult deny(ExpandDenial denial, String message) {
-        return new ExpandResult(false, denial, message);
+        return new ExpandResult(false, denial, message, List.of());
     }
 
     private static RemoveResult denyRemove(RemoveDenial denial, String message) {

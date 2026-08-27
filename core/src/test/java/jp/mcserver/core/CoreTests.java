@@ -459,6 +459,61 @@ public final class CoreTests {
         check("3×3の角は削除できる",
                 ClaimService.remove(squareState, new ChunkPos(2, 2), true).ok());
 
+        // 囲い込みの自動編入（拡張側）
+        // 環の南側 (1,0) が空いており、(1,1) は外へ抜けられる
+        Set<ChunkPos> openRing = new LinkedHashSet<>(List.of(
+                capital, new ChunkPos(0, 1), new ChunkPos(0, 2),
+                new ChunkPos(1, 2), new ChunkPos(2, 1), new ChunkPos(2, 0)));
+        check("環が閉じていなければ囲い込みは検出されない",
+                Enclosure.findEnclosed(openRing).isEmpty());
+
+        var ringState = new ClaimService.TerritoryState("環状国", 1, capital, openRing, 0);
+        var closing = ClaimService.expand(ringState, new ChunkPos(1, 0),
+                ClaimService.ChunkCondition.free(), true);
+        check("環を閉じる拡張は囲い込んだチャンクを自動編入する",
+                closing.ok() && closing.absorbed().equals(List.of(new ChunkPos(1, 1)))
+                        && closing.message().contains("編入"));
+        check("編入分も上限から差し引かれる", closing.message().contains("残り 8"));
+
+        var noEnclosure = ClaimService.expand(ringState, new ChunkPos(3, 0),
+                ClaimService.ChunkCondition.free(), true);
+        check("囲い込みを生まない拡張では編入が起きない",
+                noEnclosure.ok() && noEnclosure.absorbed().isEmpty());
+
+        check("編入できないチャンク（保護区など）は編入対象から外れる",
+                ClaimService.expand(ringState, new ChunkPos(1, 0),
+                        ClaimService.ChunkCondition.free(), true,
+                        c -> new ClaimService.ChunkCondition(true, false, false))
+                        .absorbed().isEmpty());
+
+        // 残り1チャンクでは、編入を伴う拡張（2チャンク分）ができない
+        Set<ChunkPos> tight = new LinkedHashSet<>(openRing);
+        for (int x = 3; x <= 11; x++) {
+            tight.add(new ChunkPos(x, 0));
+        }
+        var tightState = new ClaimService.TerritoryState("余裕なし国", 1, capital, tight, 0);
+        check("この時点で残りは1チャンクである", tightState.remaining() == 1);
+        var refused = ClaimService.expand(tightState, new ChunkPos(1, 0),
+                ClaimService.ChunkCondition.free(), true);
+        check("編入分の余りが足りなければ拡張自体を拒否する",
+                !refused.ok() && refused.denial() == ClaimService.ExpandDenial.AT_LIMIT
+                        && refused.message().contains("編入を伴う"));
+
+        // 複数チャンクの空洞も検出する
+        Set<ChunkPos> bigRing = new LinkedHashSet<>();
+        for (int x = 0; x <= 3; x++) {
+            for (int z = 0; z <= 3; z++) {
+                boolean hole = (x == 1 || x == 2) && (z == 1 || z == 2);
+                if (!hole) {
+                    bigRing.add(new ChunkPos(x, z));
+                }
+            }
+        }
+        check("2×2の空洞も囲い込みとして検出される",
+                Enclosure.findEnclosed(bigRing).size() == 4);
+        check("空洞が外へ繋がっていれば検出されない",
+                Enclosure.findEnclosed(minus(bigRing, new ChunkPos(1, 0))).isEmpty());
+
         var pending = new ClaimService.PendingRemoval(new ChunkPos(2, 0), 1_000);
         check("期限内の確認は成立する",
                 ClaimService.confirmRemoval(pending, new ChunkPos(2, 0), 1_020));
@@ -512,6 +567,12 @@ public final class CoreTests {
     }
 
     // ---------------------------------------------------------------- helpers
+
+    private static Set<ChunkPos> minus(Set<ChunkPos> set, ChunkPos c) {
+        Set<ChunkPos> copy = new LinkedHashSet<>(set);
+        copy.remove(c);
+        return copy;
+    }
 
     private static void section(String name) {
         System.out.println();
