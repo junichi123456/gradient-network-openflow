@@ -35,6 +35,7 @@ public final class CoreTests {
         unification();
         republic();
         succession();
+        market();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -1264,6 +1265,110 @@ public final class CoreTests {
         check("既に定員を割っていれば離脱を要しない",
                 Succession.departuresToForceDemotion(10, 9) == 1
                         && Succession.departuresToForceDemotion(10, 8) == 0);
+    }
+
+    // ---------------------------------------------------------------- §13
+
+    private static void market() {
+        section("§13 GUI市場");
+
+        check("手数料は売却額の5%（切り上げ）",
+                Market.fee(10_000) == 500 && Market.fee(1) == 1 && Market.fee(101) == 6);
+        check("出品者の手取りは95%", Market.proceeds(10_000) == 9_500);
+        check("有効期限は14日",
+                Market.expired(0, 13) == false && Market.expired(0, 14)
+                        && Market.EXPIRY_DAYS == 14);
+        check("自己取引は5%を失う", Market.washTradingLoss(100_000) == 5_000);
+
+        // 約定の基本
+        var book = new OrderBook("鉄インゴット");
+        var sell = book.place("売り手A", MarketOrder.Side.SELL, 64, 100, 0);
+        check("対当がなければ板に載る",
+                sell.trades().isEmpty() && sell.resting().isPresent() && book.openOrders() == 1);
+
+        var buy = book.place("買い手B", MarketOrder.Side.BUY, 10, 100, 0);
+        check("価格が合えば約定する",
+                buy.trades().size() == 1 && buy.filledQuantity() == 10);
+        var trade = buy.trades().get(0);
+        check("約定代金と手数料が計算される",
+                trade.gross() == 1_000 && trade.fee() == 50 && trade.sellerProceeds() == 950);
+        check("残数量は板に残る",
+                book.bestAsk().orElseThrow().quantity() == 54);
+
+        // 価格改善
+        var aggressive = book.place("買い手C", MarketOrder.Side.BUY, 4, 150, 0);
+        check("約定価格は板にあった側の指値",
+                aggressive.trades().get(0).price() == 100);
+        check("指値との差額は買い手へ返る",
+                aggressive.totalRefund() == (150 - 100) * 4);
+
+        // 対当しない
+        var lowBuy = book.place("買い手D", MarketOrder.Side.BUY, 5, 50, 0);
+        check("指値が届かなければ約定しない",
+                lowBuy.trades().isEmpty() && lowBuy.resting().isPresent());
+        check("預託額は数量×指値", lowBuy.deposit() == 250);
+
+        // 価格優先・時間優先
+        var book2 = new OrderBook("ダイヤモンド");
+        book2.place("売り手X", MarketOrder.Side.SELL, 5, 120, 0);
+        book2.place("売り手Y", MarketOrder.Side.SELL, 5, 100, 0);
+        book2.place("売り手Z", MarketOrder.Side.SELL, 5, 100, 0);
+        var sweep = book2.place("買い手W", MarketOrder.Side.BUY, 12, 120, 0);
+        check("安い売りから約定する",
+                sweep.trades().get(0).price() == 100 && sweep.trades().get(0).seller().equals("売り手Y"));
+        check("同値なら先に出した注文から約定する",
+                sweep.trades().get(1).seller().equals("売り手Z"));
+        check("最後に高い売りが部分約定する",
+                sweep.trades().get(2).price() == 120 && sweep.trades().get(2).quantity() == 2);
+        check("3件に分割して約定した", sweep.trades().size() == 3 && sweep.filledQuantity() == 12);
+
+        // 板情報
+        var depth = book2.depth(MarketOrder.Side.SELL);
+        check("価格ごとに数量を集計できる",
+                depth.size() == 1 && depth.get(120L) == 3);
+
+        // 取消と期限
+        var book3 = new OrderBook("石炭");
+        var pending = book3.place("買い手E", MarketOrder.Side.BUY, 20, 30, 0);
+        long refunded = book3.cancel(pending.resting().orElseThrow().id());
+        check("取消で預託が返る", refunded == 600 && book3.openOrders() == 0);
+        check("存在しない注文の取消は0", book3.cancel(999) == 0);
+
+        var book4 = new OrderBook("小麦");
+        book4.place("売り手F", MarketOrder.Side.SELL, 10, 20, 0);
+        book4.place("売り手G", MarketOrder.Side.SELL, 10, 20, 5);
+        check("14日を過ぎた注文だけが失効する",
+                book4.expire(14).size() == 1 && book4.openOrders() == 1);
+
+        // フリマ型
+        var flea = new FleaMarket();
+        var listing = flea.list("出品者H", "効率V ダイヤのつるはし", 50_000, 0, null);
+        check("出品できる", flea.openListings() == 1);
+        check("統一国家は出品者欄に国家名が出る",
+                flea.list("出品者I", "宝剣", 1_000, 0, "東方帝国").sellerDisplay()
+                        .equals("[東方帝国] 出品者I"));
+        check("通常の出品者は名前のみ", listing.sellerDisplay().equals("出品者H"));
+
+        var purchase = flea.buy(listing.id(), "買い手J", 50_000, 0);
+        check("購入すると手数料を引いた額が出品者へ",
+                purchase.ok() && purchase.trade().fee() == 2_500
+                        && purchase.trade().sellerProceeds() == 47_500);
+        check("受取窓口での受領を案内する",
+                purchase.message().contains("受取窓口"));
+        check("売れた出品は板から消える",
+                !flea.buy(listing.id(), "買い手K", 50_000, 0).ok());
+
+        var cheap = flea.list("出品者L", "革の帽子", 1_000, 0, null);
+        check("支払い不足では購入できない",
+                !flea.buy(cheap.id(), "買い手M", 999, 0).ok());
+        check("期限切れの出品は購入できない",
+                !flea.buy(cheap.id(), "買い手M", 1_000, 14).ok());
+
+        var flea2 = new FleaMarket();
+        flea2.list("出品者N", "品A", 100, 0, null);
+        flea2.list("出品者O", "品B", 100, 3, null);
+        check("14日を過ぎた出品だけが失効する",
+                flea2.expire(14).size() == 1 && flea2.openListings() == 1);
     }
 
     private static Set<ChunkPos> minus(Set<ChunkPos> set, ChunkPos c) {
