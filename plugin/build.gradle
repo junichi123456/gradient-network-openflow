@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+}
+
+dependencies {
+    // 対象バージョンに合わせて差し替える
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    implementation project(':core')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// core のクラスを jar に同梱する（core は外部依存を持たないため shadow は不要）
+jar {
+    archiveBaseName = 'raid-plugin'
+    from project(':core').sourceSets.main.output
+}
+
+processResources {
+    filteringCharset = 'UTF-8'
+}

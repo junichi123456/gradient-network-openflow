@@ -61,9 +61,14 @@ public final class RaidSpecies {
         private final String gimmick;
         private final String invulnerableUnless;
         private final Behavior behavior;
+        private final Rig rig;
 
+        /**
+         * 段階ごとに骨格が変わる場合は rig を与える。null なら個体の骨格を用いる。
+         * 騎士型のように形態で体型が変わる個体のために必要である。
+         */
         public Phase(String name, int healthThreshold, List<MotionSpec> motions, String gimmick,
-                     String invulnerableUnless, Behavior behavior) {
+                     String invulnerableUnless, Behavior behavior, Rig rig) {
             if (healthThreshold < 0 || healthThreshold > 100) {
                 throw new IllegalArgumentException("体力の割合が範囲外である: " + healthThreshold);
             }
@@ -80,13 +85,31 @@ public final class RaidSpecies {
             this.gimmick = gimmick;
             this.invulnerableUnless = invulnerableUnless;
             this.behavior = behavior;
+            this.rig = rig;
+        }
+
+        public Phase(String name, int healthThreshold, List<MotionSpec> motions, String gimmick,
+                     String invulnerableUnless, Behavior behavior) {
+            this(name, healthThreshold, motions, gimmick, invulnerableUnless, behavior, null);
         }
 
         /** 標準の行動サイクル（待機40tick・移動20tick）を用いる段階。 */
         public Phase(String name, int healthThreshold, List<MotionSpec> motions, String gimmick,
                      String invulnerableUnless, double blocksPer20Ticks) {
             this(name, healthThreshold, motions, gimmick, invulnerableUnless,
-                    Behavior.standard(blocksPer20Ticks));
+                    Behavior.standard(blocksPer20Ticks), null);
+        }
+
+        /** 標準の行動サイクルで、段階固有の骨格を持つ段階。 */
+        public Phase(String name, int healthThreshold, List<MotionSpec> motions, String gimmick,
+                     String invulnerableUnless, double blocksPer20Ticks, Rig rig) {
+            this(name, healthThreshold, motions, gimmick, invulnerableUnless,
+                    Behavior.standard(blocksPer20Ticks), rig);
+        }
+
+        /** 段階固有の骨格。持たない場合は空。 */
+        public java.util.Optional<Rig> rig() {
+            return java.util.Optional.ofNullable(rig);
         }
 
         public String name() {
@@ -175,8 +198,9 @@ public final class RaidSpecies {
             }
         }
         for (Phase phase : phases) {
+            Rig target = rigFor(phase);
             for (MotionSpec motion : phase.motions()) {
-                motion.validateAgainst(rig);
+                motion.validateAgainst(target);
             }
         }
     }
@@ -199,6 +223,11 @@ public final class RaidSpecies {
 
     public List<Phase> phases() {
         return phases;
+    }
+
+    /** その段階で用いる骨格。段階固有の指定があればそれを、なければ個体の骨格を返す。 */
+    public Rig rigFor(Phase phase) {
+        return phase.rig().orElse(rig);
     }
 
     /** 全段階に現れるモーション名。 */

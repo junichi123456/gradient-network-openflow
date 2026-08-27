@@ -18,7 +18,7 @@ public final class KnightDefinition {
 
     /** 両形態を持つ騎士型。 */
     public static RaidSpecies boss() {
-        return new RaidSpecies("knight", "騎士", BASE_HEALTH, centaurRig(),
+        return new RaidSpecies("knight", "騎士", BASE_HEALTH, knightRig(),
                 List.of(knightPhaseOne(), knightPhaseTwo()));
     }
 
@@ -125,7 +125,7 @@ public final class KnightDefinition {
                         sweep(new MotionSpec.Damage(22, 28)),
                         tripleThrust(20),
                         fourHit(10.0, 14.0, 11.0, 16.0)),
-                "槍に攻撃を当てて突進を止める。パリイで大きな隙を作る", null, 6.0);
+                "槍に攻撃を当てて突進を止める。パリイで大きな隙を作る", null, 6.0, knightRig());
     }
 
     public static RaidSpecies.Phase knightPhaseTwo() {
@@ -136,7 +136,7 @@ public final class KnightDefinition {
                         fourHit(12.0, 16.0, 13.0, 18.0),
                         orbitCharge(),
                         stomp()),
-                "半身半獣に変身し全モーションが加速。回旋突進と踏みつけが加わる", null, 7.0);
+                "半身半獣に変身し全モーションが加速。回旋突進と踏みつけが加わる", null, 7.0, centaurRig());
     }
 
 }

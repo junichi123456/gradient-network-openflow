@@ -1835,6 +1835,12 @@ public final class CoreTests {
                         .equals(List.of(10.0, 14.0, 11.0, 16.0)));
         check("最初の突きにノックバックはない", combo.knockback().isEmpty());
 
+        check("段階ごとに骨格が変わる（第一形態7部位・第二形態10部位）",
+                boss.rigFor(first).partCount() == 7 && boss.rigFor(second).partCount() == 10
+                        && first.rig().isPresent() && second.rig().isPresent());
+        check("段階固有の骨格がなければ個体の骨格を使う",
+                boss.rigFor(new RaidSpecies.Phase("仮", 100,
+                        List.of(first.motion("なぎ払い")), "g", null, 6.0)).partCount() == 7);
         check("第一形態は4モーション、パリイ可能は突進切り上げのみ",
                 first.motionNames().size() == 4
                         && first.parryableMotions().equals(List.of("突進切り上げ")));
@@ -1844,7 +1850,7 @@ public final class CoreTests {
 
         section("§12.7 騎士型（第二形態・ケンタウロス）");
 
-        var centaur = boss.rig();
+        var centaur = boss.rigFor(second);
         check("高さ4.6・幅2.0",
                 centaur.heightBlocks() == 4.6 && centaur.hitboxWidth() == 2.0);
         check("部位は10（人胴・頭・両腕・槍・馬胴・四足）", centaur.partCount() == 10);

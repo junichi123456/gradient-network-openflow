@@ -1,0 +1,14 @@
+name: RaidPlugin
+version: 0.1.0
+main: jp.mcserver.plugin.RaidPlugin
+api-version: '1.21'
+description: レイド個体の検証用プラグイン（§12）
+commands:
+  raid:
+    description: レイド個体の召喚と除去
+    usage: /raid spawn | /raid despawn | /raid info
+    permission: raid.test
+permissions:
+  raid.test:
+    description: レイド個体の検証コマンド
+    default: op
