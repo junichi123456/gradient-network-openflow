@@ -36,6 +36,7 @@ public final class CoreTests {
         republic();
         succession();
         market();
+        menu();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -1369,6 +1370,159 @@ public final class CoreTests {
         flea2.list("出品者O", "品B", 100, 3, null);
         check("14日を過ぎた出品だけが失効する",
                 flea2.expire(14).size() == 1 && flea2.openListings() == 1);
+    }
+
+    // ---------------------------------------------------------------- §14
+
+    private static void menu() {
+        section("§14 メニュー画面");
+
+        // 無所属プレイヤー
+        var wanderer = new MenuScreen.Context(null, -1, Government.NONE, false, false,
+                0, 100, false, false, false, 0);
+        var wandererSlots = MenuScreen.build(wanderer);
+        check("無所属でも情報と移動と市場は見える",
+                MenuScreen.find(wandererSlots, MenuEntry.LOCATION).isPresent()
+                        && MenuScreen.find(wandererSlots, MenuEntry.HUB_TRAVEL).isPresent()
+                        && MenuScreen.find(wandererSlots, MenuEntry.MARKET).isPresent());
+        check("無所属には自国情報も国庫も表示しない",
+                MenuScreen.find(wandererSlots, MenuEntry.NATION_INFO).isEmpty()
+                        && MenuScreen.find(wandererSlots, MenuEntry.TREASURY_VIEW).isEmpty());
+        check("無所属には首長の項目を表示しない",
+                MenuScreen.find(wandererSlots, MenuEntry.CLAIM_TOOL).isEmpty()
+                        && MenuScreen.find(wandererSlots, MenuEntry.PROMOTION).isEmpty());
+
+        // 市民
+        var citizen = new MenuScreen.Context(Role.CITIZEN, 10, Government.NONE, false, false,
+                0, 100, false, false, false, 12);
+        var citizenSlots = MenuScreen.build(citizen);
+        check("市民は国庫とシュルカーを見られる",
+                MenuScreen.find(citizenSlots, MenuEntry.TREASURY_VIEW).isPresent()
+                        && MenuScreen.find(citizenSlots, MenuEntry.SHULKER_BUY).isPresent());
+        check("市民にはチーフ以上の項目を表示しない",
+                MenuScreen.find(citizenSlots, MenuEntry.DISPUTE).isEmpty()
+                        && MenuScreen.find(citizenSlots, MenuEntry.MEMBER_EXPEL).isEmpty());
+
+        // チーフとリーダー
+        var chief = new MenuScreen.Context(Role.CHIEF, 15, Government.NONE, false, false,
+                0, 100, false, false, false, 17);
+        check("チーフは紛争対応と上申ができる",
+                MenuScreen.find(MenuScreen.build(chief), MenuEntry.DISPUTE).isPresent()
+                        && MenuScreen.find(MenuScreen.build(chief), MenuEntry.ESCALATE).isPresent());
+        check("チーフには除名の執行を表示しない",
+                MenuScreen.find(MenuScreen.build(chief), MenuEntry.MEMBER_EXPEL).isEmpty());
+
+        var leader = new MenuScreen.Context(Role.LEADER, 15, Government.NONE, false, false,
+                0, 100, false, false, false, 17);
+        check("リーダーは除名の執行とゲート設置ができる",
+                MenuScreen.find(MenuScreen.build(leader), MenuEntry.MEMBER_EXPEL).isPresent()
+                        && MenuScreen.find(MenuScreen.build(leader), MenuEntry.GATE_PLACE).isPresent());
+        check("リーダーにも首長専用の項目は出ない",
+                MenuScreen.find(MenuScreen.build(leader), MenuEntry.TREASURY_SPEND).isEmpty());
+
+        // 共和制の首長
+        var republicHead = new MenuScreen.Context(Role.HEAD, 20, Government.REPUBLIC, false, false,
+                0, 100, false, false, false, 22);
+        var republicSlots = MenuScreen.build(republicHead);
+        check("共和制の首長には制裁が出て戦争は出ない",
+                MenuScreen.find(republicSlots, MenuEntry.SANCTION).isPresent()
+                        && MenuScreen.find(republicSlots, MenuEntry.WAR).isEmpty());
+        check("共和制には継承者の指名を表示しない",
+                MenuScreen.find(republicSlots, MenuEntry.HEIR_NOMINATE).isEmpty());
+        check("議会の採決と弾劾は議会構成員に表示する",
+                MenuScreen.find(republicSlots, MenuEntry.ASSEMBLY_VOTE).isPresent()
+                        && MenuScreen.find(republicSlots, MenuEntry.IMPEACHMENT).isPresent());
+
+        // 君主制の首長
+        var monarchHead = new MenuScreen.Context(Role.HEAD, 20, Government.MONARCHY, false, false,
+                0, 100, false, false, false, 22);
+        var monarchSlots = MenuScreen.build(monarchHead);
+        check("君主制の首長には戦争と継承者の指名が出る",
+                MenuScreen.find(monarchSlots, MenuEntry.WAR).isPresent()
+                        && MenuScreen.find(monarchSlots, MenuEntry.HEIR_NOMINATE).isPresent());
+        check("君主制には制裁・議会・弾劾・選挙を表示しない",
+                MenuScreen.find(monarchSlots, MenuEntry.SANCTION).isEmpty()
+                        && MenuScreen.find(monarchSlots, MenuEntry.ASSEMBLY_VOTE).isEmpty()
+                        && MenuScreen.find(monarchSlots, MenuEntry.IMPEACHMENT).isEmpty()
+                        && MenuScreen.find(monarchSlots, MenuEntry.ELECTION).isEmpty());
+
+        // 条件による無効化
+        var onCooldown = new MenuScreen.Context(Role.CITIZEN, 10, Government.NONE, false, false,
+                180, 100, false, false, false, 12);
+        var hub = MenuScreen.find(MenuScreen.build(onCooldown), MenuEntry.HUB_TRAVEL).orElseThrow();
+        check("Hubのクールダウン中は表示したまま無効化する",
+                !hub.enabled() && hub.reason().contains("180 秒"));
+
+        var early = new MenuScreen.Context(Role.HEAD, 20, Government.MONARCHY, false, false,
+                0, 30, false, false, false, 22);
+        var war = MenuScreen.find(MenuScreen.build(early), MenuEntry.WAR).orElseThrow();
+        check("開始60日以内の戦争は理由つきで無効化される",
+                !war.enabled() && war.reason().contains("あと 31 日"));
+
+        var lowRank = new MenuScreen.Context(Role.HEAD, 14, Government.REPUBLIC, false, false,
+                0, 100, false, false, false, 17);
+        var sanction = MenuScreen.find(MenuScreen.build(lowRank), MenuEntry.SANCTION).orElseThrow();
+        check("rank14以下の制裁は無効化される",
+                !sanction.enabled() && sanction.reason().contains("rank14"));
+
+        var vassal = new MenuScreen.Context(Role.HEAD, 20, Government.REPUBLIC, false, false,
+                0, 100, false, true, false, 22);
+        var vassalSlots = MenuScreen.build(vassal);
+        check("属国は同盟と統一が無効化される",
+                !MenuScreen.find(vassalSlots, MenuEntry.ALLIANCE).orElseThrow().enabled()
+                        && !MenuScreen.find(vassalSlots, MenuEntry.UNIFICATION).orElseThrow().enabled());
+
+        var absent = new MenuScreen.Context(Role.HEAD, 20, Government.MONARCHY, false, false,
+                0, 100, true, false, false, 22);
+        var absentSlots = MenuScreen.build(absent);
+        check("首長の不在中は国庫支出と昇格申請が停止する",
+                !MenuScreen.find(absentSlots, MenuEntry.TREASURY_SPEND).orElseThrow().enabled()
+                        && !MenuScreen.find(absentSlots, MenuEntry.PROMOTION).orElseThrow().enabled());
+        check("不在中でも領土の操作は止まらない",
+                MenuScreen.find(absentSlots, MenuEntry.CLAIM_TOOL).orElseThrow().enabled());
+
+        // Hub 内での出し分け
+        var inHub = new MenuScreen.Context(Role.CITIZEN, 10, Government.NONE, true, false,
+                0, 100, false, false, true, 12);
+        var inHubSlots = MenuScreen.build(inHub);
+        check("Hub内では主世界へ戻る項目に切り替わる",
+                MenuScreen.find(inHubSlots, MenuEntry.RETURN_OVERWORLD).isPresent()
+                        && MenuScreen.find(inHubSlots, MenuEntry.HUB_TRAVEL).isEmpty());
+        check("Hub内では首都と追加ゲートへ行ける",
+                MenuScreen.find(inHubSlots, MenuEntry.CAPITAL_GATE).isPresent()
+                        && MenuScreen.find(inHubSlots, MenuEntry.EXTRA_GATE).isPresent());
+        check("Hub内では市場と求人が有効になる",
+                MenuScreen.find(inHubSlots, MenuEntry.MARKET).orElseThrow().enabled()
+                        && MenuScreen.find(inHubSlots, MenuEntry.RECRUITMENT).orElseThrow().enabled());
+        check("Hub外では市場が無効化され理由が出る",
+                MenuScreen.find(citizenSlots, MenuEntry.MARKET).orElseThrow().reason()
+                        .contains("Hub内でのみ"));
+
+        var noGate = new MenuScreen.Context(Role.CITIZEN, 10, Government.NONE, true, false,
+                0, 100, false, false, false, 12);
+        check("追加ゲートを持たなければ表示しない",
+                MenuScreen.find(MenuScreen.build(noGate), MenuEntry.EXTRA_GATE).isEmpty());
+
+        var atWar = new MenuScreen.Context(Role.CITIZEN, 10, Government.NONE, false, true,
+                0, 100, false, false, false, 12);
+        check("戦争サーバー在室中は移動項目を表示しない",
+                MenuScreen.find(MenuScreen.build(atWar), MenuEntry.HUB_TRAVEL).isEmpty()
+                        && MenuScreen.find(MenuScreen.build(atWar), MenuEntry.RETURN_OVERWORLD).isEmpty());
+
+        // 画面の形
+        check("スロットは9×6の範囲に収まる",
+                republicSlots.stream().allMatch(sl -> sl.slot() >= 0
+                        && sl.slot() < MenuScreen.COLUMNS * MenuScreen.ROWS));
+        check("同じスロットが重複しない",
+                republicSlots.stream().map(MenuScreen.Slot::slot).distinct().count()
+                        == republicSlots.size());
+        check("閉じるは常に表示される",
+                MenuScreen.find(wandererSlots, MenuEntry.CLOSE).isPresent()
+                        && MenuScreen.find(monarchSlots, MenuEntry.CLOSE).isPresent());
+        check("権限が上がるほど項目が増える",
+                MenuScreen.build(wanderer).size() < MenuScreen.build(citizen).size()
+                        && MenuScreen.build(citizen).size() < MenuScreen.build(leader).size()
+                        && MenuScreen.build(leader).size() < republicSlots.size());
     }
 
     private static Set<ChunkPos> minus(Set<ChunkPos> set, ChunkPos c) {
