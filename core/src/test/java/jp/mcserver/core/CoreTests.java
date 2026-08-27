@@ -351,9 +351,6 @@ public final class CoreTests {
         List<ChunkPos> demoted = ChunkRelease.selectForDemotion(wide, capital, 2, 1);
         check("rank2→rank1 は 32→16 チャンクへ縮小する", demoted.size() == 16);
 
-        check("自主放棄は最遠のチャンクのみ認められる",
-                ChunkRelease.canAbandon(line, capital, new ChunkPos(3, 0))
-                        && !ChunkRelease.canAbandon(line, capital, new ChunkPos(1, 0)));
     }
 
     // ---------------------------------------------------------------- §4.11 棒
@@ -432,6 +429,35 @@ public final class CoreTests {
         check("分断を生む削除は拒否される",
                 ClaimService.remove(lineState, new ChunkPos(1, 0), true).denial()
                         == ClaimService.RemoveDenial.WOULD_DISCONNECT);
+
+        // 囲い込みの防止: 四辺を自国領土に囲まれたチャンクは削除できない
+        Set<ChunkPos> plus = new LinkedHashSet<>(List.of(
+                capital,
+                new ChunkPos(1, 0), new ChunkPos(2, 0), new ChunkPos(3, 0),
+                new ChunkPos(2, 1), new ChunkPos(2, -1)));
+        var plusState = new ClaimService.TerritoryState("十字国", 1, capital, plus, 0);
+        var enclosedResult = ClaimService.remove(plusState, new ChunkPos(2, 0), true);
+        check("四辺を囲まれたチャンクは削除できない",
+                enclosedResult.denial() == ClaimService.RemoveDenial.ENCLOSED
+                        && enclosedResult.message().contains("囲い込む"));
+        check("三辺までなら削除できる",
+                ClaimService.remove(plusState, new ChunkPos(2, 1), true).ok());
+        check("囲まれていても首都の判定が優先される",
+                ClaimService.remove(plusState, capital, true).denial()
+                        == ClaimService.RemoveDenial.CAPITAL);
+
+        Set<ChunkPos> square = new LinkedHashSet<>();
+        for (int x = 0; x <= 2; x++) {
+            for (int z = 0; z <= 2; z++) {
+                square.add(new ChunkPos(x, z));
+            }
+        }
+        var squareState = new ClaimService.TerritoryState("方形国", 1, capital, square, 0);
+        check("3×3の中心は削除できない（穴を開けられない）",
+                ClaimService.remove(squareState, new ChunkPos(1, 1), true).denial()
+                        == ClaimService.RemoveDenial.ENCLOSED);
+        check("3×3の角は削除できる",
+                ClaimService.remove(squareState, new ChunkPos(2, 2), true).ok());
 
         var pending = new ClaimService.PendingRemoval(new ChunkPos(2, 0), 1_000);
         check("期限内の確認は成立する",

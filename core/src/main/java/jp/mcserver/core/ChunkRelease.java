@@ -101,12 +101,6 @@ public final class ChunkRelease {
         return released;
     }
 
-    /** 自主放棄（§4.10）。チェビシェフ距離が最大のチャンクからのみ放棄できる。 */
-    public static boolean canAbandon(Set<ChunkPos> territory, ChunkPos capital, ChunkPos target) {
-        ChunkPos expected = pickOne(new HashSet<>(territory), capital);
-        return target.equals(expected);
-    }
-
     private static ChunkPos pickOne(Set<ChunkPos> territory, ChunkPos capital) {
         List<ChunkPos> candidates = new ArrayList<>(territory);
         candidates.remove(capital);

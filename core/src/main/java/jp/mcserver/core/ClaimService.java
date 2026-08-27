@@ -66,7 +66,7 @@ public final class ClaimService {
     public record ExpandResult(boolean ok, ExpandDenial denial, String message) {}
 
     public enum RemoveDenial {
-        NONE, NOT_LEADER, NOT_OWNED, CAPITAL, WOULD_DISCONNECT, LAST_CHUNK
+        NONE, NOT_LEADER, NOT_OWNED, CAPITAL, WOULD_DISCONNECT, LAST_CHUNK, ENCLOSED
     }
 
     /**
@@ -116,6 +116,10 @@ public final class ClaimService {
      *
      * <p>首都チャンクは削除できない。削除により残存領土が首都と連結でなくなる場合も拒否する
      * （§4.7 の連結性の要件を、任意削除にも適用する）。
+     *
+     * <p>さらに、<b>四辺すべてを自国領土に囲まれたチャンクは削除できない</b>。
+     * これを認めると、領土の内側に領土外の穴を作り、チャンクを消費せずに囲い込んで
+     * 実質的な支配下に置けてしまうためである。
      */
     public static RemoveResult remove(TerritoryState state, ChunkPos target, boolean isLeader) {
         if (!isLeader) {
@@ -129,6 +133,10 @@ public final class ClaimService {
         }
         if (state.chunks().size() <= 1) {
             return denyRemove(RemoveDenial.LAST_CHUNK, "最後の1チャンクは削除できません");
+        }
+        if (ChunkRelease.exposure(state.chunks(), target) == 0) {
+            return denyRemove(RemoveDenial.ENCLOSED,
+                    "四辺を自国領土に囲まれたチャンクは削除できません（領土外の土地を囲い込むことになるため）");
         }
         Set<ChunkPos> after = new HashSet<>(state.chunks());
         after.remove(target);
