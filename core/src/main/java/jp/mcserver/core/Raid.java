@@ -129,12 +129,15 @@ public final class Raid {
 
     // ------------------------------------------------------------ 難易度
 
+    /** 参加者が1人増えるごとに加算される体力倍率（百分率）。 */
+    public static final int HEALTH_PERCENT_PER_EXTRA_PARTICIPANT = 90;
+
     /**
      * 難易度（§12.3）。参加人数でスケールする。
      *
-     * <p>体力倍率は<b>百分率の整数</b>で保持する。仕様書の 1.0 / 1.8 / 2.6 / 3.4 は
-     * それぞれ 100 / 180 / 260 / 340 に対応する。浮動小数で持つと、設定値どうしの
-     * 比較や保存の往復で誤差が出るためである。
+     * <p>体力倍率は <b>1 + 0.9 × (参加人数 − 1)</b>。2人で1.9倍、3人で2.8倍、20人で18.1倍。
+     * 百分率の整数で保持するのは、浮動小数だと設定値どうしの比較や保存の往復で
+     * 誤差が出るためである。
      */
     public record Difficulty(int healthPercent, int minions) {
 
@@ -147,8 +150,10 @@ public final class Raid {
         if (participants < 1 || participants > MAX_PARTICIPANTS) {
             throw new IllegalArgumentException("参加人数が範囲外である: " + participants);
         }
-        int tier = (participants - 1) / 5; // 0..3
-        return new Difficulty(100 + 80 * tier, 2 + 2 * tier);
+        int tier = (participants - 1) / 5; // 取り巻きは人数帯で増える
+        return new Difficulty(
+                100 + HEALTH_PERCENT_PER_EXTRA_PARTICIPANT * (participants - 1),
+                2 + 2 * tier);
     }
 
     // ------------------------------------------------------------ 報酬

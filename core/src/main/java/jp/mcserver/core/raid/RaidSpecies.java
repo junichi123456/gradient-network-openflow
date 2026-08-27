@@ -1,15 +1,16 @@
 package jp.mcserver.core.raid;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * レイド個体の定義（§12.6）。
  *
- * <p>体型と部位（{@link Rig}）、攻撃モーション（{@link Animation}）、段階（{@link Phase}）を持つ。
- * バニラのモブを流用しないため、これらはすべて個体ごとに定める。
+ * <p>体型と部位（{@link Rig}）は個体で共通、モーションと行動サイクルは<b>段階ごと</b>に持つ。
+ * 同じ名前のモーションでも段階によってダメージ量が変わるため、段階が自分のモーションを持つ。
  */
 public final class RaidSpecies {
 
@@ -18,10 +19,6 @@ public final class RaidSpecies {
      *
      * <p>待機モーションが明けたあと一定時間だけ移動し、最も近いプレイヤーに対して
      * 攻撃モーションを取る。
-     *
-     * @param idleTicks                 攻撃後に差し込む待機モーションの長さ
-     * @param approachTicks             待機明けに移動する時間
-     * @param approachBlocksPer20Ticks  移動速度（20tickあたりのブロック数）
      */
     public record Behavior(int idleTicks, int approachTicks, double approachBlocksPer20Ticks) {
 
@@ -53,28 +50,97 @@ public final class RaidSpecies {
     /**
      * 段階（§12.2 のギミック要件）。攻略の手順が段階ごとに変わる。
      *
-     * @param name                段階名
-     * @param healthThreshold     この段階に入る体力の割合（%）。降順に並べる
-     * @param animations          この段階で使うモーション名
-     * @param gimmick             攻略手順の要点
-     * @param invulnerableUnless  この条件を満たさないと有効打が入らない。無条件なら null
-     * @param behavior            この段階の行動サイクル
+     * @param healthThreshold    この段階に入る体力の割合（%）。降順に並べる
+     * @param invulnerableUnless この条件を満たさないと有効打が入らない。無条件なら null
      */
-    public record Phase(String name, int healthThreshold, List<String> animations,
-                        String gimmick, String invulnerableUnless, Behavior behavior) {
+    public static final class Phase {
 
-        /** 標準の行動サイクル（待機40tick・移動20tick）を用いる段階。 */
-        public Phase(String name, int healthThreshold, List<String> animations,
-                     String gimmick, String invulnerableUnless, double blocksPer20Ticks) {
-            this(name, healthThreshold, animations, gimmick, invulnerableUnless,
-                    Behavior.standard(blocksPer20Ticks));
-        }
+        private final String name;
+        private final int healthThreshold;
+        private final Map<String, MotionSpec> motions = new LinkedHashMap<>();
+        private final String gimmick;
+        private final String invulnerableUnless;
+        private final Behavior behavior;
 
-        public Phase {
+        public Phase(String name, int healthThreshold, List<MotionSpec> motions, String gimmick,
+                     String invulnerableUnless, Behavior behavior) {
             if (healthThreshold < 0 || healthThreshold > 100) {
                 throw new IllegalArgumentException("体力の割合が範囲外である: " + healthThreshold);
             }
-            animations = List.copyOf(animations);
+            if (motions.isEmpty()) {
+                throw new IllegalArgumentException("モーションが1つもない: " + name);
+            }
+            this.name = name;
+            this.healthThreshold = healthThreshold;
+            for (MotionSpec motion : motions) {
+                if (this.motions.put(motion.name(), motion) != null) {
+                    throw new IllegalArgumentException("モーション名が重複している: " + motion.name());
+                }
+            }
+            this.gimmick = gimmick;
+            this.invulnerableUnless = invulnerableUnless;
+            this.behavior = behavior;
+        }
+
+        /** 標準の行動サイクル（待機40tick・移動20tick）を用いる段階。 */
+        public Phase(String name, int healthThreshold, List<MotionSpec> motions, String gimmick,
+                     String invulnerableUnless, double blocksPer20Ticks) {
+            this(name, healthThreshold, motions, gimmick, invulnerableUnless,
+                    Behavior.standard(blocksPer20Ticks));
+        }
+
+        public String name() {
+            return name;
+        }
+
+        public int healthThreshold() {
+            return healthThreshold;
+        }
+
+        public String gimmick() {
+            return gimmick;
+        }
+
+        public String invulnerableUnless() {
+            return invulnerableUnless;
+        }
+
+        public Behavior behavior() {
+            return behavior;
+        }
+
+        public List<String> motionNames() {
+            return List.copyOf(motions.keySet());
+        }
+
+        public MotionSpec motion(String name) {
+            MotionSpec motion = motions.get(name);
+            if (motion == null) {
+                throw new IllegalArgumentException(
+                        "この段階では使わないモーションである: " + this.name + " / " + name);
+            }
+            return motion;
+        }
+
+        public List<MotionSpec> motions() {
+            return List.copyOf(motions.values());
+        }
+
+        /** パリイ可能なモーション名。 */
+        public List<String> parryableMotions() {
+            return motions.values().stream().filter(MotionSpec::parryable)
+                    .map(MotionSpec::name).toList();
+        }
+
+        /** 1サイクルの長さ。待機 → 移動 → 攻撃モーション。 */
+        public int cycleTicks(String motionName) {
+            return behavior.idleTicks() + behavior.approachTicks()
+                    + motion(motionName).animation().durationTicks();
+        }
+
+        /** 最も重いモーションの最大ダメージ。 */
+        public double heaviestMotionMaxDamage() {
+            return motions.values().stream().mapToDouble(MotionSpec::maxDamage).max().orElse(0);
         }
     }
 
@@ -82,16 +148,11 @@ public final class RaidSpecies {
     private final String displayName;
     private final long baseHealth;
     private final Rig rig;
-    private final Map<String, MotionSpec> motions = new LinkedHashMap<>();
     private final List<Phase> phases;
 
-    public RaidSpecies(String id, String displayName, long baseHealth, Rig rig,
-                       List<MotionSpec> motions, List<Phase> phases) {
+    public RaidSpecies(String id, String displayName, long baseHealth, Rig rig, List<Phase> phases) {
         if (baseHealth <= 0) {
             throw new IllegalArgumentException("体力が0以下である: " + baseHealth);
-        }
-        if (motions.isEmpty()) {
-            throw new IllegalArgumentException("モーションが1つもない");
         }
         if (phases.isEmpty()) {
             throw new IllegalArgumentException("段階が1つもない");
@@ -100,17 +161,11 @@ public final class RaidSpecies {
         this.displayName = displayName;
         this.baseHealth = baseHealth;
         this.rig = rig;
-        for (MotionSpec motion : motions) {
-            motion.validateAgainst(rig);
-            if (this.motions.put(motion.name(), motion) != null) {
-                throw new IllegalArgumentException("モーション名が重複している: " + motion.name());
-            }
-        }
         this.phases = List.copyOf(phases);
-        validatePhases();
+        validate();
     }
 
-    private void validatePhases() {
+    private void validate() {
         if (phases.get(0).healthThreshold() != 100) {
             throw new IllegalArgumentException("最初の段階は体力100%から始まる必要がある");
         }
@@ -120,11 +175,8 @@ public final class RaidSpecies {
             }
         }
         for (Phase phase : phases) {
-            for (String animation : phase.animations()) {
-                if (!motions.containsKey(animation)) {
-                    throw new IllegalArgumentException(
-                            "存在しないモーションを参照している: " + phase.name() + " → " + animation);
-                }
+            for (MotionSpec motion : phase.motions()) {
+                motion.validateAgainst(rig);
             }
         }
     }
@@ -149,26 +201,11 @@ public final class RaidSpecies {
         return phases;
     }
 
-    public MotionSpec motion(String name) {
-        MotionSpec motion = motions.get(name);
-        if (motion == null) {
-            throw new IllegalArgumentException("存在しないモーションである: " + name);
-        }
-        return motion;
-    }
-
-    public Animation animation(String name) {
-        return motion(name).animation();
-    }
-
-    public List<String> animationNames() {
-        return new ArrayList<>(motions.keySet());
-    }
-
-    /** パリイ可能なモーション名。 */
-    public List<String> parryableMotions() {
-        return motions.values().stream().filter(MotionSpec::parryable)
-                .map(MotionSpec::name).toList();
+    /** 全段階に現れるモーション名。 */
+    public Set<String> allMotionNames() {
+        Set<String> names = new LinkedHashSet<>();
+        phases.forEach(phase -> names.addAll(phase.motionNames()));
+        return names;
     }
 
     /** 現在の体力割合に対応する段階。 */
@@ -190,25 +227,13 @@ public final class RaidSpecies {
         return baseHealth * jp.mcserver.core.Raid.difficulty(participants).healthPercent() / 100;
     }
 
-    /**
-     * 1サイクルの長さ（§12.6）。待機 → 移動 → 攻撃モーション。
-     *
-     * @param motionName この段階で使う攻撃モーション名
-     */
-    public int cycleTicks(Phase phase, String motionName) {
-        if (!phase.animations().contains(motionName)) {
-            throw new IllegalArgumentException(
-                    "この段階では使わないモーションである: " + phase.name() + " / " + motionName);
-        }
-        return phase.behavior().idleTicks() + phase.behavior().approachTicks()
-                + motion(motionName).animation().durationTicks();
-    }
-
     /** 動く部位が最も多いモーションでの、必要な更新間隔（§12.6）。 */
     public int requiredUpdateInterval(int viewers) {
         int maxMoving = 0;
-        for (MotionSpec motion : motions.values()) {
-            maxMoving = Math.max(maxMoving, motion.animation().animatedParts().size());
+        for (Phase phase : phases) {
+            for (MotionSpec motion : phase.motions()) {
+                maxMoving = Math.max(maxMoving, motion.animation().animatedParts().size());
+            }
         }
         return MotionBudget.requiredInterval(maxMoving, viewers);
     }

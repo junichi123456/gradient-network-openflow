@@ -1584,15 +1584,17 @@ public final class CoreTests {
         check("構想の総数は11種", Raid.PLANNED_SPECIES == 11);
 
         // 難易度
-        check("5人までは基準値",
-                Raid.difficulty(1).healthPercent() == 100 && Raid.difficulty(5).minions() == 2);
-        check("人数帯ごとに上がる",
-                Raid.difficulty(6).healthPercent() == 180
-                        && Raid.difficulty(11).healthPercent() == 260
-                        && Raid.difficulty(20).healthPercent() == 340);
+        check("参加1名は基準値", Raid.difficulty(1).healthPercent() == 100);
+        check("1人増えるごとに体力が0.9倍ぶん増える",
+                Raid.difficulty(2).healthPercent() == 190
+                        && Raid.difficulty(3).healthPercent() == 280
+                        && Raid.difficulty(6).healthPercent() == 550);
+        check("20名では18.1倍",
+                Raid.difficulty(20).healthPercent() == 1810
+                        && Raid.difficulty(20).healthMultiplier() == 18.1);
         check("倍率は誤差なく百分率から導かれる",
-                Raid.difficulty(20).healthMultiplier() == 3.4
-                        && Raid.difficulty(11).healthMultiplier() == 2.6);
+                Raid.difficulty(3).healthMultiplier() == 2.8
+                        && Raid.difficulty(2).healthMultiplier() == 1.9);
         check("取り巻きも人数帯で増える",
                 Raid.difficulty(10).minions() == 4 && Raid.difficulty(20).minions() == 8);
         check("上限を超える人数は受け付けない",
@@ -1711,44 +1713,46 @@ public final class CoreTests {
 
         // 個体
         var phases = List.of(
-                new RaidSpecies.Phase("第一形態", 100, List.of("待機", "大振り"),
+                new RaidSpecies.Phase("第一形態", 100,
+                        List.of(MotionSpec.simple(idle), MotionSpec.simple(swing)),
                         "遠距離から近づいて大振りを誘い、隙に反撃する", null, 6.0),
-                new RaidSpecies.Phase("第二形態", 50, List.of("大振り"),
+                new RaidSpecies.Phase("第二形態", 50, List.of(MotionSpec.simple(swing)),
                         "全身が硬化する。背後の結晶を破壊した数秒間のみ有効打が入る", "結晶の破壊", 7.0));
 
-        var species = new RaidSpecies("crystal_warden", "結晶の守り手", 2_000, rig,
-                List.of(MotionSpec.simple(swing), MotionSpec.simple(idle)), phases);
+        var species = new RaidSpecies("crystal_warden", "結晶の守り手", 2_000, rig, phases);
 
-        check("個体は骨格とモーションと段階を持つ",
-                species.rig().partCount() == 5 && species.animationNames().size() == 2
-                        && species.phases().size() == 2);
+        check("個体は骨格を共有し、段階ごとにモーションを持つ",
+                species.rig().partCount() == 5 && species.phases().size() == 2
+                        && species.phaseAt(100).motionNames().size() == 2
+                        && species.phaseAt(50).motionNames().size() == 1);
         check("体力割合から段階が決まる",
                 species.phaseAt(100).name().equals("第一形態")
                         && species.phaseAt(51).name().equals("第一形態")
                         && species.phaseAt(50).name().equals("第二形態")
                         && species.phaseAt(0).name().equals("第二形態"));
         check("参加人数で体力がスケールする",
-                species.healthFor(1) == 2_000 && species.healthFor(20) == 6_800);
+                species.healthFor(1) == 2_000 && species.healthFor(2) == 3_800);
         check("必要な更新間隔を個体から求められる",
                 species.requiredUpdateInterval(20) == 1
                         && species.requiredUpdateInterval(0) == 2);
         check("段階が体力100%から始まらなければ拒否される",
-                thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(MotionSpec.simple(swing)),
-                        List.of(new RaidSpecies.Phase("後半", 50, List.of("大振り"), "g", null, 6.0)))));
+                thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(
+                        new RaidSpecies.Phase("後半", 50, List.of(MotionSpec.simple(swing)),
+                                "g", null, 6.0)))));
         check("段階の閾値が降順でなければ拒否される",
-                thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(MotionSpec.simple(swing)),
-                        List.of(new RaidSpecies.Phase("A", 100, List.of("大振り"), "g", null, 6.0),
-                                new RaidSpecies.Phase("B", 100, List.of("大振り"), "g", null, 6.0)))));
-        check("存在しないモーションを参照する段階は拒否される",
-                thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(MotionSpec.simple(swing)),
-                        List.of(new RaidSpecies.Phase("A", 100, List.of("存在しない"), "g", null, 6.0)))));
-
+                thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(
+                        new RaidSpecies.Phase("A", 100, List.of(MotionSpec.simple(swing)), "g", null, 6.0),
+                        new RaidSpecies.Phase("B", 100, List.of(MotionSpec.simple(swing)), "g", null, 6.0)))));
+        check("骨格にない部位を動かすモーションを持つ段階は拒否される",
+                thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(
+                        new RaidSpecies.Phase("A", 100, List.of(MotionSpec.simple(
+                                new Animation("外れ", 10, false, Map.of("存在しない部位",
+                                        List.of(new Animation.Keyframe(0, Transform.IDENTITY)))))),
+                                "g", null, 6.0)))));
         check("待機モーションの既定は40tick",
                 MotionSpec.DEFAULT_IDLE_TICKS == 40
                         && MotionSpec.simple(swing).totalTicks() == 60);
     }
-
-    // ---------------------------------------------------------------- §12.7 騎士型
 
     private static void knight() {
         section("§12.7 騎士型（第一形態）");
@@ -1776,123 +1780,142 @@ public final class CoreTests {
                 thrown(() -> new Rig(List.of(
                         new Rig.Part("A", null, Transform.IDENTITY, 1, false)), 2, 1)));
 
-        var charge = knightCharge();
-        check("突進は構え10tick＋突進20tickの30tick",
-                charge.animation().durationTicks() == 30);
-        check("突進速度は10.0ブロック/20tick＝毎秒10ブロック",
-                charge.charge().orElseThrow().blocksPerTick() == 0.5
-                        && charge.charge().orElseThrow().blocksPerSecond() == 10.0);
-        check("ノックバックは上3・後5",
-                charge.knockback().orElseThrow().upBlocks() == 3
-                        && charge.knockback().orElseThrow().backBlocks() == 5);
-        check("槍への攻撃で中断し、待機80tickが入る",
-                charge.interrupt().orElseThrow().part().equals("槍")
-                        && charge.interrupt().orElseThrow().idleTicks() == 80);
-        check("突進切り上げはパリイ可能", charge.parryable());
+        var boss = new RaidSpecies("knight", "騎士", 600, centaurRig(),
+                List.of(knightPhaseOne(), knightPhaseTwo()));
+        var first = boss.phaseAt(100);
+        var second = boss.phaseAt(50);
 
-        var thrust = knightTripleThrust();
-        check("3段突きは70tick",
-                thrust.animation().durationTicks() == 70);
-        check("突き判定は3回、各5tick",
-                thrust.damageWindows().size() == 3
-                        && thrust.damageWindows().stream().allMatch(w -> w.durationTicks() == 5));
+        // 体力
+        check("参加1名で600、2名で1.9倍の1,140",
+                boss.healthFor(1) == 600 && boss.healthFor(2) == 1_140);
+        check("3名で2.8倍の1,680", boss.healthFor(3) == 1_680);
+        check("1人増えるごとに0.9倍ぶん増える",
+                boss.healthFor(10) == 600 * 91 / 10 && boss.healthFor(20) == 10_860);
+
+        // 第一形態のモーション
+        var chargeOne = first.motion("突進切り上げ");
+        check("突進は構え10tick＋突進20tickの30tick",
+                chargeOne.animation().durationTicks() == 30);
+        check("突進速度は10.0ブロック/20tick＝毎秒10ブロック",
+                chargeOne.charge().orElseThrow().blocksPerSecond() == 10.0);
+        check("突進のダメージは25〜30の乱数",
+                chargeOne.damageWindows().get(0).damage().min() == 25
+                        && chargeOne.damageWindows().get(0).damage().max() == 30
+                        && chargeOne.damageWindows().get(0).damage().random());
+        check("ノックバックは上3・後5",
+                chargeOne.knockback().orElseThrow().upBlocks() == 3
+                        && chargeOne.knockback().orElseThrow().backBlocks() == 5);
+        check("槍への攻撃で中断し、待機80tickが入る",
+                chargeOne.interrupt().orElseThrow().part().equals("槍")
+                        && chargeOne.interrupt().orElseThrow().idleTicks() == 80);
+        check("突進切り上げはパリイ可能", chargeOne.parryable());
+
+        check("なぎ払いは22〜28の乱数",
+                first.motion("なぎ払い").damageWindows().get(0).damage().min() == 22
+                        && first.motion("なぎ払い").damageWindows().get(0).damage().max() == 28);
+
+        var thrust = first.motion("3段突き");
+        check("3段突きは70tick・判定3回・各20ダメージ",
+                thrust.animation().durationTicks() == 70
+                        && thrust.damageWindows().size() == 3
+                        && thrust.totalDamageIfAllHit() == 60);
         check("3回目は10tickのディレイぶん遅れる",
                 thrust.damageWindows().get(1).fromTick() == 35
                         && thrust.damageWindows().get(2).fromTick() == 65);
         check("槍の先端は常に対象を向く", thrust.tracksTarget());
 
-        var combo = knightFourHit();
-        check("追従4連切りは65tick", combo.animation().durationTicks() == 65);
-        check("判定は4回", combo.damageWindows().size() == 4);
+        var combo = first.motion("追従4連切り");
+        check("追従4連切りは65tick・判定4回・合計51ダメージ",
+                combo.animation().durationTicks() == 65
+                        && combo.damageWindows().size() == 4
+                        && combo.totalDamageIfAllHit() == 51.0);
+        check("各段は10・14・11・16",
+                combo.damageWindows().stream()
+                        .map(w -> w.damage().min()).toList()
+                        .equals(List.of(10.0, 14.0, 11.0, 16.0)));
         check("最初の突きにノックバックはない", combo.knockback().isEmpty());
 
-        var species = new RaidSpecies("knight", "騎士", 3_000, rig,
-                List.of(charge, knightSweep(), thrust, combo),
-                List.of(new RaidSpecies.Phase("第一形態", 100,
-                        List.of("突進切り上げ", "なぎ払い", "3段突き", "追従4連切り"),
-                        "槍に攻撃を当てて突進を止める。パリイで大きな隙を作る", null, 6.0)));
-        check("第一形態は4モーションを持つ", species.animationNames().size() == 4);
-        check("パリイ可能なモーションは突進切り上げのみ",
-                species.parryableMotions().equals(List.of("突進切り上げ")));
+        check("第一形態は4モーション、パリイ可能は突進切り上げのみ",
+                first.motionNames().size() == 4
+                        && first.parryableMotions().equals(List.of("突進切り上げ")));
         check("すべてのモーションに40tickの待機が続く",
-                species.motion("なぎ払い").idleAfterTicks() == 40
-                        && species.motion("3段突き").idleAfterTicks() == 40);
+                first.motion("なぎ払い").idleAfterTicks() == 40
+                        && first.motion("3段突き").idleAfterTicks() == 40);
 
         section("§12.7 騎士型（第二形態・ケンタウロス）");
 
-        var centaur = centaurRig();
+        var centaur = boss.rig();
         check("高さ4.6・幅2.0",
                 centaur.heightBlocks() == 4.6 && centaur.hitboxWidth() == 2.0);
-        check("部位は10（人胴・頭・両腕・槍・馬胴・四足）",
-                centaur.partCount() == 10);
+        check("部位は10（人胴・頭・両腕・槍・馬胴・四足）", centaur.partCount() == 10);
         check("四足は馬胴の子である",
                 centaur.chain("右前足").stream().map(Rig.Part::name).toList()
                         .equals(List.of("人胴", "馬胴", "右前足")));
 
-        var orbit = centaurOrbitCharge();
+        check("第二形態の突進は28〜32、なぎ払いは27〜32",
+                second.motion("突進切り上げ").damageWindows().get(0).damage().max() == 32
+                        && second.motion("なぎ払い").damageWindows().get(0).damage().min() == 27);
+        check("第二形態の3段突きは24×3＝72",
+                second.motion("3段突き").totalDamageIfAllHit() == 72);
+        check("第二形態の追従4連切りは12・16・13・18で合計59",
+                second.motion("追従4連切り").totalDamageIfAllHit() == 59.0);
+
+        var orbit = second.motion("回旋突進");
         var path = orbit.orbit().orElseThrow();
         check("回旋は直径30ブロックを1.5周",
                 path.diameterBlocks() == 30 && path.laps() == 1.5);
-        check("移動距離は約141.4ブロック",
-                Math.abs(path.pathLength() - 141.37) < 0.01);
+        check("移動距離は約141.4ブロック", Math.abs(path.pathLength() - 141.37) < 0.01);
         check("回旋の速度は毎秒約28.3ブロック（突進の約2倍に収まる）",
                 Math.abs(path.blocksPerSecond() - 28.27) < 0.05
                         && path.blocksPerSecond() < orbit.charge().orElseThrow().blocksPerSecond() * 2.1);
-        check("回旋後の突進は14.0ブロック/20tick＝毎秒14ブロック",
-                orbit.charge().orElseThrow().blocksPerSecond() == 14.0);
-        check("ノックバックは上3・後7",
-                orbit.knockback().orElseThrow().backBlocks() == 7);
+        check("回旋後の突進は毎秒14ブロック、ダメージ40、ノックバック後7",
+                orbit.charge().orElseThrow().blocksPerSecond() == 14.0
+                        && orbit.damageWindows().get(0).damage().min() == 40
+                        && orbit.knockback().orElseThrow().backBlocks() == 7);
 
-        var stomp = centaurStomp();
+        var stomp = second.motion("踏みつけ");
         check("踏みつけは前足を20tick持ち上げてから着地",
                 stomp.animation().durationTicks() == 20);
-        check("範囲は半径10・高さ0.3",
+        check("着地は両前足でそれぞれ5ダメージ",
+                stomp.damageWindows().size() == 2
+                        && stomp.damageWindows().stream().allMatch(w -> w.damage().min() == 5));
+        check("衝撃波は半径10・高さ0.3で28ダメージ",
                 stomp.area().orElseThrow().radiusBlocks() == 10
-                        && stomp.area().orElseThrow().heightBlocks() == 0.3);
+                        && stomp.area().orElseThrow().heightBlocks() == 0.3
+                        && stomp.area().orElseThrow().damage().min() == 28);
+        check("踏みつけの最大ダメージは着地5×2＋衝撃波28＝38",
+                stomp.maxDamage() == 38.0);
         check("頭への攻撃で中断し、待機40tickが入る",
                 stomp.interrupt().orElseThrow().part().equals("頭")
                         && stomp.interrupt().orElseThrow().idleTicks() == 40);
         check("踏みつけはパリイ可能", stomp.parryable());
 
-        var boss = new RaidSpecies("knight", "騎士", 3_000, centaur,
-                List.of(centaurCharge(), centaurSweep(), centaurTripleThrust(), centaurFourHit(),
-                        orbit, stomp),
-                List.of(new RaidSpecies.Phase("第一形態", 100,
-                                List.of("突進切り上げ", "なぎ払い", "3段突き", "追従4連切り"),
-                                "槍に攻撃を当てて突進を止める", null, 6.0),
-                        new RaidSpecies.Phase("第二形態", 50,
-                                List.of("突進切り上げ", "なぎ払い", "3段突き", "追従4連切り",
-                                        "回旋突進", "踏みつけ"),
-                                "半身半獣に変身し全モーションが加速。回旋突進と踏みつけが加わる", null, 7.0)));
-
-        check("第二形態は6モーションを持つ",
-                boss.phaseAt(50).animations().size() == 6);
+        check("第二形態は6モーション、パリイ可能は突進切り上げと踏みつけ",
+                second.motionNames().size() == 6
+                        && second.parryableMotions().equals(List.of("突進切り上げ", "踏みつけ")));
         check("体力半分で第二形態に入る",
                 boss.phaseAt(51).name().equals("第一形態")
                         && boss.phaseAt(50).name().equals("第二形態"));
-        check("第二形態でパリイ可能なのは突進切り上げと踏みつけ",
-                boss.parryableMotions().equals(List.of("突進切り上げ", "踏みつけ")));
-        check("参加20名で体力は10,200",
-                boss.healthFor(20) == 10_200);
 
-        var first = boss.phaseAt(100);
-        var second = boss.phaseAt(50);
-        check("第一形態の移動は6.0ブロック/20tick",
+        // 行動サイクル
+        check("第一形態の移動は6.0ブロック/20tick、第二形態は7.0",
                 first.behavior().approachBlocksPer20Ticks() == 6.0
                         && first.behavior().blocksPerTick() == 0.3
-                        && first.behavior().blocksPerSecond() == 6.0);
-        check("第二形態の移動は7.0ブロック/20tick",
-                second.behavior().approachBlocksPer20Ticks() == 7.0
-                        && second.behavior().blocksPerTick() == 0.35);
-        check("待機明けの移動は20tick、距離は形態ごとに6.0と7.0ブロック",
+                        && second.behavior().approachBlocksPer20Ticks() == 7.0);
+        check("待機明けの移動は20tick、距離は6.0と7.0ブロック",
                 first.behavior().approachTicks() == 20
                         && first.behavior().approachDistance() == 6.0
                         && second.behavior().approachDistance() == 7.0);
         check("1サイクルは待機40＋移動20＋モーション長",
-                boss.cycleTicks(first, "3段突き") == 40 + 20 + 70
-                        && boss.cycleTicks(second, "踏みつけ") == 40 + 20 + 20);
-        check("その段階で使わないモーションのサイクルは求められない",
-                thrown(() -> boss.cycleTicks(first, "踏みつけ")));
+                first.cycleTicks("3段突き") == 130 && second.cycleTicks("踏みつけ") == 80);
+        check("その段階で使わないモーションは参照できない",
+                thrown(() -> first.motion("踏みつけ")));
+
+        // 一撃の重さ
+        check("第一形態の最も重い一撃は突進の30",
+                first.heaviestMotionMaxDamage() == 60.0);
+        check("第二形態の最も重い一撃は3段突きの合計72",
+                second.heaviestMotionMaxDamage() == 72.0);
     }
 
     // ---- 騎士型の定義（§12.7）
@@ -1935,76 +1958,82 @@ public final class CoreTests {
         return new Animation(name, duration, loop, Map.of("右腕", keys));
     }
 
-    private static MotionSpec knightCharge() {
+    private static MotionSpec charge(MotionSpec.Damage damage, double back) {
         return new MotionSpec("突進切り上げ", arm("突進切り上げ", 30, false, 0, 10, 30), 40, true,
-                List.of(new MotionSpec.DamageWindow("槍", 10, 30)),
+                List.of(new MotionSpec.DamageWindow("槍", 10, 30, damage)),
                 Optional.of(new MotionSpec.Interrupt("槍", 30, 80)),
                 Optional.of(new MotionSpec.Charge(10.0, 20)), Optional.empty(),
-                Optional.of(new MotionSpec.Knockback(3, 5)), Optional.empty(), false);
+                Optional.of(new MotionSpec.Knockback(3, back)), Optional.empty(), false);
     }
 
-    private static MotionSpec knightSweep() {
+    private static MotionSpec sweep(MotionSpec.Damage damage) {
         return new MotionSpec("なぎ払い", arm("なぎ払い", 18, false, 0, 5, 10, 18), 40, false,
-                List.of(new MotionSpec.DamageWindow("槍", 10, 18)),
+                List.of(new MotionSpec.DamageWindow("槍", 10, 18, damage)),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), false);
     }
 
-    private static MotionSpec knightTripleThrust() {
+    private static MotionSpec tripleThrust(double perHit) {
+        var damage = MotionSpec.Damage.of(perHit);
         return new MotionSpec("3段突き", arm("3段突き", 70, false, 0, 15, 20, 35, 40, 55, 65, 70), 40, false,
-                List.of(new MotionSpec.DamageWindow("槍", 15, 20),
-                        new MotionSpec.DamageWindow("槍", 35, 40),
-                        new MotionSpec.DamageWindow("槍", 65, 70)),
+                List.of(new MotionSpec.DamageWindow("槍", 15, 20, damage),
+                        new MotionSpec.DamageWindow("槍", 35, 40, damage),
+                        new MotionSpec.DamageWindow("槍", 65, 70, damage)),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), true);
     }
 
-    private static MotionSpec knightFourHit() {
+    private static MotionSpec fourHit(double a, double b, double c, double d) {
         return new MotionSpec("追従4連切り",
                 arm("追従4連切り", 65, false, 0, 15, 20, 30, 35, 45, 50, 60, 65), 40, false,
-                List.of(new MotionSpec.DamageWindow("槍", 15, 20),
-                        new MotionSpec.DamageWindow("槍", 30, 35),
-                        new MotionSpec.DamageWindow("槍", 45, 50),
-                        new MotionSpec.DamageWindow("槍", 60, 65)),
+                List.of(new MotionSpec.DamageWindow("槍", 15, 20, MotionSpec.Damage.of(a)),
+                        new MotionSpec.DamageWindow("槍", 30, 35, MotionSpec.Damage.of(b)),
+                        new MotionSpec.DamageWindow("槍", 45, 50, MotionSpec.Damage.of(c)),
+                        new MotionSpec.DamageWindow("槍", 60, 65, MotionSpec.Damage.of(d))),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), true);
     }
 
-    private static MotionSpec centaurCharge() {
-        return knightCharge();
-    }
-
-    private static MotionSpec centaurSweep() {
-        return knightSweep();
-    }
-
-    private static MotionSpec centaurTripleThrust() {
-        return knightTripleThrust();
-    }
-
-    private static MotionSpec centaurFourHit() {
-        return knightFourHit();
-    }
-
-    private static MotionSpec centaurOrbitCharge() {
+    private static MotionSpec orbitCharge() {
         return new MotionSpec("回旋突進", arm("回旋突進", 120, false, 0, 100, 120), 40, false,
-                List.of(new MotionSpec.DamageWindow("槍", 100, 120)),
+                List.of(new MotionSpec.DamageWindow("槍", 100, 120, MotionSpec.Damage.of(40))),
                 Optional.empty(), Optional.of(new MotionSpec.Charge(14.0, 20)),
                 Optional.of(new MotionSpec.Orbit(30, 1.5, 100)),
                 Optional.of(new MotionSpec.Knockback(3, 7)), Optional.empty(), false);
     }
 
-    private static MotionSpec centaurStomp() {
+    private static MotionSpec stomp() {
         Animation lift = new Animation("踏みつけ", 20, false, Map.of(
                 "右前足", List.of(new Animation.Keyframe(0, Transform.IDENTITY),
                         new Animation.Keyframe(20, new Transform(new Vec3(0, 1.5, 0), Vec3.ZERO, Vec3.ONE))),
                 "左前足", List.of(new Animation.Keyframe(0, Transform.IDENTITY),
                         new Animation.Keyframe(20, new Transform(new Vec3(0, 1.5, 0), Vec3.ZERO, Vec3.ONE)))));
         return new MotionSpec("踏みつけ", lift, 40, true,
-                List.of(),
+                List.of(new MotionSpec.DamageWindow("右前足", 20, 20, MotionSpec.Damage.of(5)),
+                        new MotionSpec.DamageWindow("左前足", 20, 20, MotionSpec.Damage.of(5))),
                 Optional.of(new MotionSpec.Interrupt("頭", 20, 40)),
                 Optional.empty(), Optional.empty(), Optional.empty(),
-                Optional.of(new MotionSpec.AreaEffect(10, 0.3)), false);
+                Optional.of(new MotionSpec.AreaEffect(10, 0.3, MotionSpec.Damage.of(28))), false);
+    }
+
+    private static RaidSpecies.Phase knightPhaseOne() {
+        return new RaidSpecies.Phase("第一形態", 100,
+                List.of(charge(new MotionSpec.Damage(25, 30), 5),
+                        sweep(new MotionSpec.Damage(22, 28)),
+                        tripleThrust(20),
+                        fourHit(10.0, 14.0, 11.0, 16.0)),
+                "槍に攻撃を当てて突進を止める。パリイで大きな隙を作る", null, 6.0);
+    }
+
+    private static RaidSpecies.Phase knightPhaseTwo() {
+        return new RaidSpecies.Phase("第二形態", 50,
+                List.of(charge(new MotionSpec.Damage(28, 32), 5),
+                        sweep(new MotionSpec.Damage(27, 32)),
+                        tripleThrust(24),
+                        fourHit(12.0, 16.0, 13.0, 18.0),
+                        orbitCharge(),
+                        stomp()),
+                "半身半獣に変身し全モーションが加速。回旋突進と踏みつけが加わる", null, 7.0);
     }
 
     private static boolean thrown(Runnable action) {

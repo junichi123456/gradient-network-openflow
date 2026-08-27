@@ -23,11 +23,41 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks, b
     public static final int DEFAULT_IDLE_TICKS = 40;
 
     /**
+     * ダメージ量。範囲で与えると、その範囲の一様乱数になる。
+     */
+    public record Damage(double min, double max) {
+
+        public Damage {
+            if (min <= 0 || max < min) {
+                throw new IllegalArgumentException("ダメージ量が不正である: " + min + "-" + max);
+            }
+        }
+
+        /** 固定値。 */
+        public static Damage of(double fixed) {
+            return new Damage(fixed, fixed);
+        }
+
+        public boolean random() {
+            return max > min;
+        }
+
+        public double average() {
+            return (min + max) / 2;
+        }
+
+        @Override
+        public String toString() {
+            return random() ? min + "〜" + max : String.valueOf(min);
+        }
+    }
+
+    /**
      * ダメージ判定が発生する区間。
      *
      * @param part 判定を持つ部位
      */
-    public record DamageWindow(String part, int fromTick, int toTick) {
+    public record DamageWindow(String part, int fromTick, int toTick, Damage damage) {
 
         public DamageWindow {
             if (fromTick < 0 || toTick < fromTick) {
@@ -100,7 +130,7 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks, b
     public record Knockback(double upBlocks, double backBlocks) {}
 
     /** 範囲攻撃。 */
-    public record AreaEffect(double radiusBlocks, double heightBlocks) {
+    public record AreaEffect(double radiusBlocks, double heightBlocks, Damage damage) {
 
         public AreaEffect {
             if (radiusBlocks <= 0 || heightBlocks <= 0) {
@@ -146,5 +176,25 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks, b
     /** モーション開始から待機モーション終了までの合計 tick。 */
     public int totalTicks() {
         return animation.durationTicks() + idleAfterTicks;
+    }
+
+    /** すべての判定が命中した場合の合計ダメージ（範囲攻撃を含む、平均値）。 */
+    public double totalDamageIfAllHit() {
+        double total = 0;
+        for (DamageWindow window : damageWindows) {
+            total += window.damage().average();
+        }
+        total += area.map(a -> a.damage().average()).orElse(0.0);
+        return total;
+    }
+
+    /** 最大ダメージ（乱数の上限で命中した場合）。 */
+    public double maxDamage() {
+        double total = 0;
+        for (DamageWindow window : damageWindows) {
+            total += window.damage().max();
+        }
+        total += area.map(a -> a.damage().max()).orElse(0.0);
+        return total;
     }
 }
