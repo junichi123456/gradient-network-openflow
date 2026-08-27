@@ -23,6 +23,8 @@ public final class CoreTests {
         coordinateAnnouncement();
         territory();
         chunkRelease();
+        claimTool();
+        boundary();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -352,6 +354,135 @@ public final class CoreTests {
         check("自主放棄は最遠のチャンクのみ認められる",
                 ChunkRelease.canAbandon(line, capital, new ChunkPos(3, 0))
                         && !ChunkRelease.canAbandon(line, capital, new ChunkPos(1, 0)));
+    }
+
+    // ---------------------------------------------------------------- §4.11 棒
+
+    private static void claimTool() {
+        section("§4.11 棒による拡張・削除");
+
+        ChunkPos capital = new ChunkPos(0, 0);
+        Set<ChunkPos> owned = new LinkedHashSet<>(List.of(capital, new ChunkPos(1, 0)));
+        var state = new ClaimService.TerritoryState("テスト国", 1, capital, owned, 0);
+
+        check("上限は 16a ＋ ボーナス", state.limit() == 16 && state.remaining() == 14);
+
+        var ok = ClaimService.expand(state, new ChunkPos(2, 0), ClaimService.ChunkCondition.free(), true);
+        check("隣接し余りがあれば拡張できる", ok.ok() && ok.message().contains("残り 13"));
+
+        check("首長でなければ拡張できない",
+                ClaimService.expand(state, new ChunkPos(2, 0), ClaimService.ChunkCondition.free(), false)
+                        .denial() == ClaimService.ExpandDenial.NOT_LEADER);
+        check("既に自国領土なら拡張できない",
+                ClaimService.expand(state, capital, ClaimService.ChunkCondition.free(), true)
+                        .denial() == ClaimService.ExpandDenial.ALREADY_OWNED);
+        check("隣接していなければ拡張できない",
+                ClaimService.expand(state, new ChunkPos(5, 5), ClaimService.ChunkCondition.free(), true)
+                        .denial() == ClaimService.ExpandDenial.NOT_ADJACENT);
+        check("保護区は拡張できない",
+                ClaimService.expand(state, new ChunkPos(2, 0),
+                        new ClaimService.ChunkCondition(true, false, false), true)
+                        .denial() == ClaimService.ExpandDenial.PROTECTED_ZONE);
+        check("他国領土は拡張できない",
+                ClaimService.expand(state, new ChunkPos(2, 0),
+                        new ClaimService.ChunkCondition(false, true, false), true)
+                        .denial() == ClaimService.ExpandDenial.OWNED_BY_OTHER);
+        check("再取得制限圏内は拡張できない",
+                ClaimService.expand(state, new ChunkPos(2, 0),
+                        new ClaimService.ChunkCondition(false, false, true), true)
+                        .denial() == ClaimService.ExpandDenial.REACQUISITION_RESTRICTED);
+
+        Set<ChunkPos> full = new LinkedHashSet<>();
+        for (int x = 0; x < 16; x++) {
+            full.add(new ChunkPos(x, 0));
+        }
+        var atLimit = new ClaimService.TerritoryState("満杯国", 1, capital, full, 0);
+        var denied = ClaimService.expand(atLimit, new ChunkPos(16, 0), ClaimService.ChunkCondition.free(), true);
+        check("上限に達していれば拡張できない旨が示される",
+                denied.denial() == ClaimService.ExpandDenial.AT_LIMIT
+                        && denied.message().contains("上限 16"));
+
+        var withBonus = new ClaimService.TerritoryState("戦勝国", 1, capital, full, 8);
+        check("ボーナスチャンクは上限に加算される",
+                withBonus.limit() == 24
+                        && ClaimService.expand(withBonus, new ChunkPos(16, 0),
+                        ClaimService.ChunkCondition.free(), true).ok());
+
+        var empty = new ClaimService.TerritoryState("新興国", 0, capital, Set.of(), 0);
+        check("領土が空なら隣接を要求しない（最初の野営地）",
+                ClaimService.expand(empty, new ChunkPos(9, 9), ClaimService.ChunkCondition.free(), true).ok());
+
+        // 削除
+        Set<ChunkPos> line = new LinkedHashSet<>(List.of(
+                capital, new ChunkPos(1, 0), new ChunkPos(2, 0)));
+        var lineState = new ClaimService.TerritoryState("直線国", 1, capital, line, 0);
+
+        var removal = ClaimService.remove(lineState, new ChunkPos(2, 0), true);
+        check("削除は確認を要求する",
+                removal.ok() && removal.requiresConfirmation()
+                        && removal.message().contains("/territory confirm"));
+        check("首都は削除できない",
+                ClaimService.remove(lineState, capital, true).denial() == ClaimService.RemoveDenial.CAPITAL);
+        check("自国領土でなければ削除できない",
+                ClaimService.remove(lineState, new ChunkPos(9, 9), true).denial()
+                        == ClaimService.RemoveDenial.NOT_OWNED);
+        check("首長でなければ削除できない",
+                ClaimService.remove(lineState, new ChunkPos(2, 0), false).denial()
+                        == ClaimService.RemoveDenial.NOT_LEADER);
+        check("分断を生む削除は拒否される",
+                ClaimService.remove(lineState, new ChunkPos(1, 0), true).denial()
+                        == ClaimService.RemoveDenial.WOULD_DISCONNECT);
+
+        var pending = new ClaimService.PendingRemoval(new ChunkPos(2, 0), 1_000);
+        check("期限内の確認は成立する",
+                ClaimService.confirmRemoval(pending, new ChunkPos(2, 0), 1_020));
+        check("30秒を超えた確認は無効",
+                !ClaimService.confirmRemoval(pending, new ChunkPos(2, 0), 1_031));
+        check("別チャンクでの確認は無効",
+                !ClaimService.confirmRemoval(pending, new ChunkPos(1, 0), 1_010));
+        check("確認待ちが無ければ削除は成立しない",
+                !ClaimService.confirmRemoval(null, new ChunkPos(2, 0), 1_010));
+    }
+
+    // ---------------------------------------------------------------- §4.11 表示
+
+    private static void boundary() {
+        section("§4.11 領域の出入り表示");
+
+        ChunkOwner own = ChunkOwner.of(TerritoryRelation.OWN, "自国");
+        ChunkOwner ally = ChunkOwner.of(TerritoryRelation.ALLY, "北方連合");
+        ChunkOwner vassal = ChunkOwner.of(TerritoryRelation.VASSAL, "南方公国");
+        ChunkOwner foreign = ChunkOwner.of(TerritoryRelation.FOREIGN, "東方帝国");
+        ChunkOwner wild = ChunkOwner.wilderness();
+        ChunkOwner zone = ChunkOwner.protectedZone();
+
+        check("領土外から自国へ入ると進入のみ表示",
+                BoundaryMessages.onCross(wild, own).equals(List.of("自国の領土に入りました")));
+        check("自国から領土外へ出ると退出のみ表示",
+                BoundaryMessages.onCross(own, wild).equals(List.of("自国の領土から出ました")));
+        check("領土から領土へ直接移ると退出と進入の両方を表示",
+                BoundaryMessages.onCross(own, ally)
+                        .equals(List.of("自国の領土から出ました", "同盟国「北方連合」の領土に入りました")));
+        check("同一領土内の移動では何も表示しない",
+                BoundaryMessages.onCross(own, own).isEmpty());
+        check("同じ関係でも国家が異なれば表示する",
+                BoundaryMessages.onCross(foreign, ChunkOwner.of(TerritoryRelation.FOREIGN, "西方王国")).size() == 2);
+        check("属国の領土を表示できる",
+                BoundaryMessages.onCross(wild, vassal).equals(List.of("属国「南方公国」の領土に入りました")));
+        check("他国は国家名のみで表示する",
+                BoundaryMessages.onCross(wild, foreign).equals(List.of("東方帝国の領土に入りました")));
+        check("保護区の出入りも表示する",
+                BoundaryMessages.onCross(wild, zone).equals(List.of("保護区に入りました"))
+                        && BoundaryMessages.onCross(zone, wild).equals(List.of("保護区から出ました")));
+        check("初回ログイン時（直前が不明）は進入のみ表示",
+                BoundaryMessages.onCross(null, own).equals(List.of("自国の領土に入りました")));
+        check("領土外どうしの移動では何も表示しない",
+                BoundaryMessages.onCross(wild, wild).isEmpty());
+
+        check("棒の所持時は保有数と残りを併記する",
+                BoundaryMessages.inspect(own, 12, 16).contains("残り 4"));
+        check("領土外でも状態を表示する",
+                BoundaryMessages.inspect(wild, 12, 16).contains("領土外"));
     }
 
     // ---------------------------------------------------------------- helpers
