@@ -27,6 +27,10 @@ public final class CoreTests {
         boundary();
         accounts();
         ranking();
+        alliance();
+        vassalage();
+        sanction();
+        unification();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -719,6 +723,238 @@ public final class CoreTests {
         check("29日後はまだ枠に含まれる", ledger.receivedInWindow(129) == 150_000);
         check("30日を過ぎた受領は枠から外れる", ledger.receivedInWindow(130) == 0);
         check("枠が空けば再び受領できる", ledger.remaining(130, 1_000_000) == 200_000);
+    }
+
+    // ---------------------------------------------------------------- §8.1
+
+    private static void alliance() {
+        section("§8.1 同盟");
+
+        check("継続料は 2,000 × 自国ランク", Alliance.upkeep(10) == 20_000);
+        check("初期費用は継続料1回分", Alliance.initialCost(10) == Alliance.upkeep(10));
+        check("保有数は体制で決まる",
+                Government.REPUBLIC.allianceLimit() == 2 && Government.MONARCHY.allianceLimit() == 1
+                        && Government.NONE.allianceLimit() == 1);
+
+        check("双方 rank5 以上で締結できる",
+                Alliance.canForm(5, 5, Government.NONE, 0, 0, false, false, false).allowed());
+        check("自国が rank5 未満では締結できない",
+                Alliance.canForm(4, 10, Government.NONE, 0, 0, false, false, false).denial()
+                        == Alliance.Denial.RANK_TOO_LOW);
+        check("相手が rank5 未満でも締結できない",
+                Alliance.canForm(10, 4, Government.NONE, 0, 0, false, false, false).denial()
+                        == Alliance.Denial.PARTNER_RANK_TOO_LOW);
+        check("君主制は2つ目の同盟を結べない",
+                Alliance.canForm(20, 20, Government.MONARCHY, 1, 0, false, false, false).denial()
+                        == Alliance.Denial.LIMIT_REACHED);
+        check("共和制は2つ目まで結べる",
+                Alliance.canForm(20, 20, Government.REPUBLIC, 1, 0, false, false, false).allowed());
+        check("再締結クールダウン中は結べない",
+                Alliance.canForm(20, 20, Government.REPUBLIC, 0, 5, false, false, false).denial()
+                        == Alliance.Denial.COOLDOWN);
+        check("属国は同盟を発議できない",
+                Alliance.canForm(20, 20, Government.REPUBLIC, 0, 0, false, true, false).denial()
+                        == Alliance.Denial.IS_VASSAL);
+
+        var rich = new NationalAccounts.Balances(0, 100_000);
+        var billing = Alliance.bill(rich, 10);
+        check("継続料は外交準備高から引き落とされる",
+                !billing.dissolved() && billing.paid() == 20_000
+                        && billing.after().reserve() == 80_000);
+
+        var broke = new NationalAccounts.Balances(1_000, 2_000);
+        var failed = Alliance.bill(broke, 10);
+        check("払えなければ即解消となる",
+                failed.dissolved() && failed.paid() == 3_000 && failed.after().gdp() == 0);
+    }
+
+    // ---------------------------------------------------------------- §8.2
+
+    private static void vassalage() {
+        section("§8.2 属国");
+
+        check("rank7未満は属国を持てない", Vassalage.limit(6, Government.NONE) == 0);
+        check("rank7〜19 は1国", Vassalage.limit(10, Government.NONE) == 1);
+        check("rank20以上は2国", Vassalage.limit(20, Government.NONE) == 2);
+        check("共和制は +1 で最大3国", Vassalage.limit(20, Government.REPUBLIC) == 3);
+        check("君主制は保有不可",
+                Vassalage.limit(25, Government.MONARCHY) == 0);
+
+        check("上納は 100 × 属国ランク / 日", Vassalage.tributePerDay(10) == 1_000);
+        check("独立時は直前30日分を一括支払い", Vassalage.independenceCost(10) == 30_000);
+
+        var vassal = new NationalAccounts.Balances(0, 10_000);
+        var tribute = Vassalage.collect(vassal, 10);
+        check("上納は10%が世界政府、90%が宗主国へ",
+                tribute.total() == 1_000 && tribute.toWorld() == 100
+                        && tribute.toSuzerain() == 900 && tribute.unpaid() == 0);
+
+        var poorVassal = new NationalAccounts.Balances(0, 400);
+        var partial = Vassalage.collect(poorVassal, 10);
+        check("払えない分は不履行として残る",
+                partial.total() == 400 && partial.unpaid() == 600);
+
+        check("成立には宗主国の承認が必要",
+                Vassalage.canSubjugate(20, Government.NONE, 0, false, false, false, false, 0, false, false)
+                        .denial() == Vassalage.Denial.NOT_APPROVED);
+        check("承認があれば成立する",
+                Vassalage.canSubjugate(20, Government.NONE, 0, false, false, false, false, 0, true, false)
+                        .allowed());
+        check("君主制は属国を取れない",
+                Vassalage.canSubjugate(25, Government.MONARCHY, 0, false, false, false, false, 0, true, false)
+                        .denial() == Vassalage.Denial.MONARCHY);
+        check("属国は属国を持てない",
+                Vassalage.canSubjugate(20, Government.NONE, 0, false, false, true, false, 0, true, false)
+                        .denial() == Vassalage.Denial.SUZERAIN_IS_VASSAL);
+        check("属国を持つ国家は従属できない",
+                Vassalage.canSubjugate(20, Government.NONE, 0, false, true, false, false, 0, true, false)
+                        .denial() == Vassalage.Denial.VASSAL_HAS_VASSALS);
+        check("既に他国の属国なら従属できない",
+                Vassalage.canSubjugate(20, Government.NONE, 0, true, false, false, false, 0, true, false)
+                        .denial() == Vassalage.Denial.ALREADY_VASSAL);
+        check("野営地は従属できない",
+                Vassalage.canSubjugate(20, Government.NONE, 0, false, false, false, true, 0, true, false)
+                        .denial() == Vassalage.Denial.CAMP);
+        check("再従属クールダウン中は成立しない",
+                Vassalage.canSubjugate(20, Government.NONE, 0, false, false, false, false, 10, true, false)
+                        .denial() == Vassalage.Denial.COOLDOWN);
+
+        var joined = List.of("先発国", "中堅国", "後発国");
+        check("上限超過は最後に加盟した属国から解消する",
+                Vassalage.resolveExcess(joined, 1).equals(List.of("後発国", "中堅国")));
+        check("上限内なら解消しない", Vassalage.resolveExcess(joined, 3).isEmpty());
+    }
+
+    // ---------------------------------------------------------------- §10
+
+    private static void sanction() {
+        section("§10 制裁");
+
+        check("承認は他国の1/3（切り上げ）",
+                Sanction.requiredApprovals(3) == 1 && Sanction.requiredApprovals(4) == 2
+                        && Sanction.requiredApprovals(6) == 2 && Sanction.requiredApprovals(0) == 0);
+
+        check("1回の制裁額は合計ランク × 1,000", Sanction.installment(50) == 50_000);
+        check("7日で合計 350,000（rank25×2）", Sanction.total(50) == 350_000);
+
+        var dist = Sanction.distribute(50_000, 2);
+        check("15%を賛成国で等分し、残りは世界政府へ",
+                dist.perSupporter() == 3_750 && dist.toWorld() == 50_000 - 7_500);
+        var odd = Sanction.distribute(100, 3);
+        check("端数は世界政府に寄せる",
+                odd.perSupporter() == 5 && odd.toWorld() == 85);
+
+        check("否決時は対象国のランク × 1,000 を各賛成国が支払う",
+                Sanction.rejectionPenaltyPerSupporter(20) == 20_000);
+        check("不払いは10,000expあたり1hの減算",
+                Sanction.unpaidActivityPenaltyHours(35_000) == 3.5);
+
+        check("共和制のみ発起できる",
+                Sanction.canInitiate(Government.MONARCHY, 25, false, 0, false, 5, 6, false).denial()
+                        == Sanction.Denial.NOT_REPUBLIC);
+        check("rank14以下では発起権が停止する",
+                Sanction.canInitiate(Government.REPUBLIC, 14, false, 0, false, 5, 6, false).denial()
+                        == Sanction.Denial.RANK_TOO_LOW);
+        check("制裁中の国家は発起できない",
+                Sanction.canInitiate(Government.REPUBLIC, 20, true, 0, false, 5, 6, false).denial()
+                        == Sanction.Denial.UNDER_SANCTION);
+        check("同一国家への再制裁はクールダウンに従う",
+                Sanction.canInitiate(Government.REPUBLIC, 20, false, 30, false, 5, 6, false).denial()
+                        == Sanction.Denial.COOLDOWN);
+        check("同盟国・属国は対象にできない",
+                Sanction.canInitiate(Government.REPUBLIC, 20, false, 0, true, 5, 6, false).denial()
+                        == Sanction.Denial.TARGET_IS_ALLY);
+        check("承認が足りなければ発起できない",
+                Sanction.canInitiate(Government.REPUBLIC, 20, false, 0, false, 1, 6, false).denial()
+                        == Sanction.Denial.INSUFFICIENT_APPROVALS);
+        check("要件を満たせば発起できる",
+                Sanction.canInitiate(Government.REPUBLIC, 20, false, 0, false, 2, 6, false).allowed());
+
+        var target = new NationalAccounts.Balances(10_000, 40_000);
+        var col = Sanction.collect(target, 50, 2);
+        check("徴収は外交準備高から行い、不足分を国庫で補う",
+                col.collected() == 50_000 && col.unpaid() == 0
+                        && col.after().reserve() == 0 && col.after().treasury() == 0);
+
+        var drained = Sanction.collect(NationalAccounts.Balances.empty(), 50, 2);
+        check("残高がなければ全額が不払いになる",
+                drained.collected() == 0 && drained.unpaid() == 50_000);
+        check("不払い分はランク減少に換算される",
+                Sanction.unpaidActivityPenaltyHours(drained.unpaid()) == 5.0);
+    }
+
+    // ---------------------------------------------------------------- §8.3
+
+    private static void unification() {
+        section("§8.3 統一");
+
+        var strong = new Unification.Party("東方帝国", 22, 300, 5_000, false);
+        var weak = new Unification.Party("西方王国", 20, 100, 3_000, false);
+        var small = new Unification.Party("南方公国", 12, 500, 1_000, false);
+
+        check("rank20以上なら発議できる", Unification.canPropose(strong, small, 0).allowed());
+        check("rank20未満は発議できない",
+                Unification.canPropose(small, strong, 0).denial()
+                        == Unification.Denial.PROPOSER_RANK_TOO_LOW);
+        check("属国は発議できない",
+                Unification.canPropose(new Unification.Party("属国", 22, 300, 100, true), small, 0)
+                        .denial() == Unification.Denial.IS_VASSAL);
+        check("再発議クールダウン中は発議できない",
+                Unification.canPropose(strong, small, 30).denial() == Unification.Denial.COOLDOWN);
+
+        check("活動が活発な側が存続する",
+                Unification.resolveSurvivor(strong, weak).nationName().equals("東方帝国"));
+        check("活動が上でも rank20 未満なら存続できない",
+                Unification.resolveSurvivor(small, weak).nationName().equals("西方王国"));
+        check("両者が rank20 未満なら不成立",
+                Unification.resolveSurvivor(small, new Unification.Party("北方連合", 15, 900, 1, false))
+                        == null);
+        check("累計は単純合算し、C(25) 超も保持する",
+                Unification.mergeCumulative(strong, weak) == 8_000);
+
+        check("消滅法人の首長はチーフへ移行する",
+                Unification.headTransition(Government.REPUBLIC) == Unification.Role.CHIEF);
+        check("君主制では市民になる",
+                Unification.headTransition(Government.MONARCHY) == Unification.Role.CITIZEN);
+
+        // 定員超過の除名: 市民 → チーフ → リーダー、首長は除外
+        List<Unification.Member> members = List.of(
+                new Unification.Member("首長", Unification.Role.HEAD, 1),
+                new Unification.Member("リーダーA", Unification.Role.LEADER, 2),
+                new Unification.Member("チーフA", Unification.Role.CHIEF, 3),
+                new Unification.Member("市民A", Unification.Role.CITIZEN, 50),
+                new Unification.Member("市民B", Unification.Role.CITIZEN, 10),
+                new Unification.Member("市民C", Unification.Role.CITIZEN, 30));
+
+        var one = Unification.selectExpulsions(members, 5);
+        check("活動が最も少ない市民から除名される",
+                one.size() == 1 && one.get(0).playerName().equals("市民B"));
+
+        var three = Unification.selectExpulsions(members, 3);
+        check("市民から順に除名される",
+                three.size() == 3
+                        && three.get(0).playerName().equals("市民B")
+                        && three.get(1).playerName().equals("市民C")
+                        && three.get(2).playerName().equals("市民A"));
+
+        var four = Unification.selectExpulsions(members, 2);
+        check("市民が尽きたらチーフを剥奪して対象に加える",
+                four.size() == 4 && four.get(3).playerName().equals("チーフA"));
+
+        var five = Unification.selectExpulsions(members, 1);
+        check("次にリーダーを剥奪する",
+                five.size() == 5 && five.get(4).playerName().equals("リーダーA"));
+
+        var all = Unification.selectExpulsions(members, 0);
+        check("首長は除名されない",
+                all.size() == 5 && all.stream().noneMatch(m -> m.role() == Unification.Role.HEAD));
+
+        check("定員に収まっていれば除名しない",
+                Unification.selectExpulsions(members, 6).isEmpty());
+
+        check("統一ポイントは rank20 以上かつ自国領土内でのみ有効",
+                Unification.pointsActive(20, true) && !Unification.pointsActive(19, true)
+                        && !Unification.pointsActive(25, false));
     }
 
     private static Set<ChunkPos> minus(Set<ChunkPos> set, ChunkPos c) {
