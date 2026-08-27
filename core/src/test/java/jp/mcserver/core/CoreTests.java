@@ -34,6 +34,7 @@ public final class CoreTests {
         war();
         unification();
         republic();
+        succession();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -1147,6 +1148,119 @@ public final class CoreTests {
                 Impeachment.termEndDay(10) == Election.nextElectionDay(10));
         check("罷免された首長は90日間就任できない", Impeachment.BAN_DAYS == 90);
         check("投票期間は48時間", Impeachment.VOTING_HOURS == 48);
+    }
+
+    // ---------------------------------------------------------------- §9.2
+
+    private static void succession() {
+        section("§9.2 君主制の継承");
+
+        check("48時間ログインがなければ不在",
+                Succession.absence(48, 10) == Succession.Absence.NO_LOGIN
+                        && Succession.absence(47, 10) == Succession.Absence.PRESENT);
+        check("実効国民でなくなった時点でも不在",
+                Succession.absence(0, 0.5) == Succession.Absence.NOT_EFFECTIVE_CITIZEN);
+        check("毎日ログインしていても活動が足りなければ不在",
+                Succession.absence(1, 0.9).absent());
+        check("要件を満たしていれば在任",
+                !Succession.absence(1, 1.0).absent());
+
+        // 停止する権限
+        check("不在中は国庫支出が止まる",
+                !Succession.available(Succession.Power.TREASURY_SPEND, true));
+        check("不在中も領土の保護は続く",
+                Succession.available(Succession.Power.TERRITORY_PROTECTION, true));
+        check("不在中も自動引き落としは止まらない",
+                Succession.available(Succession.Power.AUTOMATIC_BILLING, true));
+        check("不在中も維持要件の判定は行われる",
+                Succession.available(Succession.Power.MAINTENANCE_JUDGEMENT, true));
+        check("不在中も国民の物流は使える",
+                Succession.available(Succession.Power.PLAYER_LOGISTICS, true));
+        check("在任中はすべて実行できる",
+                Succession.available(Succession.Power.WAR, false)
+                        && Succession.available(Succession.Power.UNIFICATION, false));
+
+        int suspended = 0;
+        for (Succession.Power p : Succession.Power.values()) {
+            if (p.suspendedWhenAbsent()) {
+                suspended++;
+            }
+        }
+        check("停止する処理は8種、継続する処理は7種",
+                suspended == 8 && Succession.Power.values().length - suspended == 7);
+
+        // 発動
+        check("不在30日で警告", Succession.trigger(30, false) == Succession.Trigger.WARNING);
+        check("不在90日で継承を発動", Succession.trigger(90, false) == Succession.Trigger.SUCCESSION);
+        check("89日ではまだ発動しない", Succession.trigger(89, false) == Succession.Trigger.WARNING);
+        check("任意退位は即時発動", Succession.trigger(0, true) == Succession.Trigger.ABDICATION);
+        check("不在が短ければ何も起きない", Succession.trigger(29, false) == Succession.Trigger.NONE);
+
+        // 指名
+        var validNominee = new Succession.Member("王太子", 40, true, true);
+        check("実効国民の指名は有効", Succession.nominationValid(validNominee));
+        check("離脱した指名者は失効",
+                !Succession.nominationValid(new Succession.Member("元国民", 90, true, false)));
+        check("実効国民でなくなった指名者は失効",
+                !Succession.nominationValid(new Succession.Member("休眠者", 90, false, true)));
+        check("指名がなければ無効", !Succession.nominationValid(null));
+
+        // 継承順位
+        List<Succession.Member> members = List.of(
+                new Succession.Member("重臣A", 80, true, true),
+                new Succession.Member("重臣B", 60, true, true),
+                new Succession.Member("休眠C", 95, false, true),
+                new Succession.Member("離脱D", 99, true, false),
+                validNominee);
+
+        var order = Succession.order(validNominee, members);
+        check("指名された継承者が最優先",
+                order.get(0).playerName().equals("王太子"));
+        check("以降は貢献度の高い順",
+                order.get(1).playerName().equals("重臣A") && order.get(2).playerName().equals("重臣B"));
+        check("実効国民でない者と離脱者は順位に入らない", order.size() == 3);
+
+        var noNominee = Succession.order(null, members);
+        check("指名がなければ貢献度が最大の実効国民から",
+                noNominee.get(0).playerName().equals("重臣A") && noNominee.size() == 3);
+        check("実効国民がいなければ継承しない",
+                Succession.order(null, List.of(
+                        new Succession.Member("休眠", 50, false, true))).isEmpty());
+
+        // 打診と応答
+        var offer = new Succession.Offer("王太子", 100);
+        check("48時間以内の受諾は成立",
+                Succession.resolve(offer, true, 147) == Succession.Response.ACCEPTED);
+        check("辞退は次順位へ送る",
+                Succession.resolve(offer, false, 110) == Succession.Response.DECLINED);
+        check("48時間を過ぎれば期限切れ",
+                Succession.resolve(offer, true, 148) == Succession.Response.TIMEOUT);
+        check("無応答も期限切れとして扱う",
+                Succession.resolve(offer, null, 110) == Succession.Response.TIMEOUT);
+
+        // 空位からの自動就任
+        check("7日未満では自動就任しない",
+                Succession.forcedSuccessor(6, members).isEmpty());
+        check("7日を過ぎれば貢献度が最大の実効国民が就任する",
+                Succession.forcedSuccessor(7, members).orElseThrow().playerName().equals("重臣A"));
+        check("実効国民がいなければ自動就任も起きない",
+                Succession.forcedSuccessor(30, List.of(
+                        new Succession.Member("休眠", 50, false, true))).isEmpty());
+
+        // 継承後
+        var outcome = Succession.succeed("重臣A", 120);
+        check("体制は君主制のまま", outcome.government() == Government.MONARCHY);
+        check("体制変更クールダウンは継承でリセットされない",
+                outcome.governmentChangeCooldown() == 120);
+        check("同盟は維持される", outcome.alliancesRetained());
+        check("前首長は市民になる", outcome.previousHeadRole() == Role.CITIZEN);
+
+        // 国民の対抗手段
+        check("rank10（M=9）で実効国民12名なら4名の離脱で降格を招く",
+                Succession.departuresToForceDemotion(10, 12) == 4);
+        check("既に定員を割っていれば離脱を要しない",
+                Succession.departuresToForceDemotion(10, 9) == 1
+                        && Succession.departuresToForceDemotion(10, 8) == 0);
     }
 
     private static Set<ChunkPos> minus(Set<ChunkPos> set, ChunkPos c) {
