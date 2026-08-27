@@ -25,6 +25,8 @@ public final class CoreTests {
         chunkRelease();
         claimTool();
         boundary();
+        accounts();
+        ranking();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -567,6 +569,104 @@ public final class CoreTests {
     }
 
     // ---------------------------------------------------------------- helpers
+
+    // ---------------------------------------------------------------- §7
+
+    private static void accounts() {
+        section("§7 国庫と外交準備高");
+
+        var b = NationalAccounts.Balances.empty();
+        check("初期残高は0", b.gdp() == 0);
+
+        check("稼得expの0.5倍が計上される", NationalAccounts.accrual(30_000) == 15_000);
+        check("端数は切り捨てる", NationalAccounts.accrual(101) == 50);
+
+        b = NationalAccounts.accrue(b, 30_000);
+        check("計上は外交準備高に入り、国庫は増えない",
+                b.reserve() == 15_000 && b.treasury() == 0);
+
+        b = NationalAccounts.donate(b, 5_000);
+        check("納入は国庫に入る", b.treasury() == 5_000 && b.reserve() == 15_000);
+        check("国内総生産は両者の合計", b.gdp() == 20_000);
+
+        var pay = NationalAccounts.payDiplomatic(b, 10_000);
+        check("外交コストは外交準備高から支払う",
+                pay.fulfilled() && pay.fromReserve() == 10_000 && pay.fromTreasury() == 0
+                        && pay.after().treasury() == 5_000);
+
+        pay = NationalAccounts.payDiplomatic(b, 18_000);
+        check("外交準備高が不足すれば国庫から補填する",
+                pay.fulfilled() && pay.fromReserve() == 15_000 && pay.fromTreasury() == 3_000
+                        && pay.after().gdp() == 2_000);
+
+        pay = NationalAccounts.payDiplomatic(b, 25_000);
+        check("両方を使っても足りなければ不履行額が残る",
+                !pay.fulfilled() && pay.unpaid() == 5_000 && pay.after().gdp() == 0);
+
+        pay = NationalAccounts.payDomestic(b, 10_000);
+        check("国内の支払いは外交準備高に手を付けない",
+                !pay.fulfilled() && pay.fromReserve() == 0 && pay.fromTreasury() == 5_000
+                        && pay.unpaid() == 5_000 && pay.after().reserve() == 15_000);
+
+        var received = NationalAccounts.receiveDiplomatic(b, 1_000);
+        check("対外受取は外交準備高に入る",
+                received.reserve() == 16_000 && received.treasury() == 5_000);
+
+        // 援助金
+        check("償却は3%（切り上げ）",
+                NationalAccounts.aidBurn(10_000) == 300 && NationalAccounts.aidBurn(1) == 1
+                        && NationalAccounts.aidBurn(101) == 4);
+
+        var donor = new NationalAccounts.Balances(0, 100_000);
+        var receiver = NationalAccounts.Balances.empty();
+        var aid = NationalAccounts.sendAid(donor, receiver, 10_000, true);
+        check("援助金は外交準備高から出て、受領国の国庫に入る",
+                aid.fulfilled() && aid.burned() == 300 && aid.delivered() == 9_700
+                        && aid.senderAfter().reserve() == 90_000
+                        && aid.receiverAfter().treasury() == 9_700);
+        check("償却分は国内総生産の合計から失われる",
+                aid.senderAfter().gdp() + aid.receiverAfter().gdp() == 100_000 - 300);
+
+        var aidToReserve = NationalAccounts.sendAid(donor, receiver, 10_000, false);
+        check("受領国は外交準備高で受け取ることもできる",
+                aidToReserve.receiverAfter().reserve() == 9_700
+                        && aidToReserve.receiverAfter().treasury() == 0);
+
+        var poor = new NationalAccounts.Balances(0, 4_000);
+        var partial = NationalAccounts.sendAid(poor, receiver, 10_000, true);
+        check("残高を超える援助は払える分だけ実行され、不履行額が残る",
+                !partial.fulfilled() && partial.unpaid() == 6_000
+                        && partial.delivered() == 4_000 - NationalAccounts.aidBurn(4_000));
+
+        // 往復による資金洗浄の摩擦
+        long start = 1_000_000;
+        var a1 = NationalAccounts.sendAid(new NationalAccounts.Balances(0, start),
+                NationalAccounts.Balances.empty(), start, true);
+        check("外交準備高から国庫への転換は必ず3%を失う",
+                a1.receiverAfter().treasury() == start - NationalAccounts.aidBurn(start));
+    }
+
+    // ---------------------------------------------------------------- §7.2
+
+    private static void ranking() {
+        section("§7.2 国内総生産ランキング");
+
+        var rows = GdpRanking.rank(List.of(
+                new GdpRanking.Entry("北方連合", 50_000),
+                new GdpRanking.Entry("東方帝国", 120_000),
+                new GdpRanking.Entry("南方公国", 50_000),
+                new GdpRanking.Entry("西方王国", 10_000)));
+
+        check("総額の大きい順に並ぶ",
+                rows.get(0).nationName().equals("東方帝国") && rows.get(0).rank() == 1);
+        check("同額は同順位になる",
+                rows.get(1).rank() == 2 && rows.get(2).rank() == 2);
+        check("同順位の次は順位が飛ぶ", rows.get(3).rank() == 4);
+        check("同額どうしは国家名で安定して並ぶ",
+                rows.get(1).nationName().equals("北方連合")
+                        && rows.get(2).nationName().equals("南方公国"));
+        check("空でも落ちない", GdpRanking.rank(List.of()).isEmpty());
+    }
 
     private static Set<ChunkPos> minus(Set<ChunkPos> set, ChunkPos c) {
         Set<ChunkPos> copy = new LinkedHashSet<>(set);
