@@ -14,6 +14,43 @@ import java.util.Map;
 public final class RaidSpecies {
 
     /**
+     * 行動サイクル（§12.6）。
+     *
+     * <p>待機モーションが明けたあと一定時間だけ移動し、最も近いプレイヤーに対して
+     * 攻撃モーションを取る。
+     *
+     * @param idleTicks                 攻撃後に差し込む待機モーションの長さ
+     * @param approachTicks             待機明けに移動する時間
+     * @param approachBlocksPer20Ticks  移動速度（20tickあたりのブロック数）
+     */
+    public record Behavior(int idleTicks, int approachTicks, double approachBlocksPer20Ticks) {
+
+        public Behavior {
+            if (idleTicks < 0 || approachTicks < 0 || approachBlocksPer20Ticks <= 0) {
+                throw new IllegalArgumentException("行動サイクルの指定が不正である");
+            }
+        }
+
+        /** 標準の待機40tick・移動20tick。 */
+        public static Behavior standard(double blocksPer20Ticks) {
+            return new Behavior(MotionSpec.DEFAULT_IDLE_TICKS, 20, blocksPer20Ticks);
+        }
+
+        public double blocksPerTick() {
+            return approachBlocksPer20Ticks / 20.0;
+        }
+
+        public double blocksPerSecond() {
+            return approachBlocksPer20Ticks;
+        }
+
+        /** 移動時間のあいだに詰められる距離。 */
+        public double approachDistance() {
+            return blocksPerTick() * approachTicks;
+        }
+    }
+
+    /**
      * 段階（§12.2 のギミック要件）。攻略の手順が段階ごとに変わる。
      *
      * @param name                段階名
@@ -21,9 +58,17 @@ public final class RaidSpecies {
      * @param animations          この段階で使うモーション名
      * @param gimmick             攻略手順の要点
      * @param invulnerableUnless  この条件を満たさないと有効打が入らない。無条件なら null
+     * @param behavior            この段階の行動サイクル
      */
     public record Phase(String name, int healthThreshold, List<String> animations,
-                        String gimmick, String invulnerableUnless) {
+                        String gimmick, String invulnerableUnless, Behavior behavior) {
+
+        /** 標準の行動サイクル（待機40tick・移動20tick）を用いる段階。 */
+        public Phase(String name, int healthThreshold, List<String> animations,
+                     String gimmick, String invulnerableUnless, double blocksPer20Ticks) {
+            this(name, healthThreshold, animations, gimmick, invulnerableUnless,
+                    Behavior.standard(blocksPer20Ticks));
+        }
 
         public Phase {
             if (healthThreshold < 0 || healthThreshold > 100) {
@@ -143,6 +188,20 @@ public final class RaidSpecies {
     /** 参加人数を反映した体力（§12.3）。 */
     public long healthFor(int participants) {
         return baseHealth * jp.mcserver.core.Raid.difficulty(participants).healthPercent() / 100;
+    }
+
+    /**
+     * 1サイクルの長さ（§12.6）。待機 → 移動 → 攻撃モーション。
+     *
+     * @param motionName この段階で使う攻撃モーション名
+     */
+    public int cycleTicks(Phase phase, String motionName) {
+        if (!phase.animations().contains(motionName)) {
+            throw new IllegalArgumentException(
+                    "この段階では使わないモーションである: " + phase.name() + " / " + motionName);
+        }
+        return phase.behavior().idleTicks() + phase.behavior().approachTicks()
+                + motion(motionName).animation().durationTicks();
     }
 
     /** 動く部位が最も多いモーションでの、必要な更新間隔（§12.6）。 */

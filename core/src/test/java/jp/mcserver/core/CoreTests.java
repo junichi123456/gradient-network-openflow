@@ -1712,9 +1712,9 @@ public final class CoreTests {
         // 個体
         var phases = List.of(
                 new RaidSpecies.Phase("第一形態", 100, List.of("待機", "大振り"),
-                        "遠距離から近づいて大振りを誘い、隙に反撃する", null),
+                        "遠距離から近づいて大振りを誘い、隙に反撃する", null, 6.0),
                 new RaidSpecies.Phase("第二形態", 50, List.of("大振り"),
-                        "全身が硬化する。背後の結晶を破壊した数秒間のみ有効打が入る", "結晶の破壊"));
+                        "全身が硬化する。背後の結晶を破壊した数秒間のみ有効打が入る", "結晶の破壊", 7.0));
 
         var species = new RaidSpecies("crystal_warden", "結晶の守り手", 2_000, rig,
                 List.of(MotionSpec.simple(swing), MotionSpec.simple(idle)), phases);
@@ -1734,14 +1734,14 @@ public final class CoreTests {
                         && species.requiredUpdateInterval(0) == 2);
         check("段階が体力100%から始まらなければ拒否される",
                 thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(MotionSpec.simple(swing)),
-                        List.of(new RaidSpecies.Phase("後半", 50, List.of("大振り"), "g", null)))));
+                        List.of(new RaidSpecies.Phase("後半", 50, List.of("大振り"), "g", null, 6.0)))));
         check("段階の閾値が降順でなければ拒否される",
                 thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(MotionSpec.simple(swing)),
-                        List.of(new RaidSpecies.Phase("A", 100, List.of("大振り"), "g", null),
-                                new RaidSpecies.Phase("B", 100, List.of("大振り"), "g", null)))));
+                        List.of(new RaidSpecies.Phase("A", 100, List.of("大振り"), "g", null, 6.0),
+                                new RaidSpecies.Phase("B", 100, List.of("大振り"), "g", null, 6.0)))));
         check("存在しないモーションを参照する段階は拒否される",
                 thrown(() -> new RaidSpecies("x", "X", 100, rig, List.of(MotionSpec.simple(swing)),
-                        List.of(new RaidSpecies.Phase("A", 100, List.of("存在しない"), "g", null)))));
+                        List.of(new RaidSpecies.Phase("A", 100, List.of("存在しない"), "g", null, 6.0)))));
 
         check("待機モーションの既定は40tick",
                 MotionSpec.DEFAULT_IDLE_TICKS == 40
@@ -1810,7 +1810,7 @@ public final class CoreTests {
                 List.of(charge, knightSweep(), thrust, combo),
                 List.of(new RaidSpecies.Phase("第一形態", 100,
                         List.of("突進切り上げ", "なぎ払い", "3段突き", "追従4連切り"),
-                        "槍に攻撃を当てて突進を止める。パリイで大きな隙を作る", null)));
+                        "槍に攻撃を当てて突進を止める。パリイで大きな隙を作る", null, 6.0)));
         check("第一形態は4モーションを持つ", species.animationNames().size() == 4);
         check("パリイ可能なモーションは突進切り上げのみ",
                 species.parryableMotions().equals(List.of("突進切り上げ")));
@@ -1831,12 +1831,13 @@ public final class CoreTests {
 
         var orbit = centaurOrbitCharge();
         var path = orbit.orbit().orElseThrow();
-        check("回旋は直径30ブロックを3.4周",
-                path.diameterBlocks() == 30 && path.laps() == 3.4);
-        check("移動距離は約320.4ブロック",
-                Math.abs(path.pathLength() - 320.44) < 0.01);
-        check("回旋の速度は毎秒約64ブロック",
-                Math.abs(path.blocksPerSecond() - 64.09) < 0.05);
+        check("回旋は直径30ブロックを1.5周",
+                path.diameterBlocks() == 30 && path.laps() == 1.5);
+        check("移動距離は約141.4ブロック",
+                Math.abs(path.pathLength() - 141.37) < 0.01);
+        check("回旋の速度は毎秒約28.3ブロック（突進の約2倍に収まる）",
+                Math.abs(path.blocksPerSecond() - 28.27) < 0.05
+                        && path.blocksPerSecond() < orbit.charge().orElseThrow().blocksPerSecond() * 2.1);
         check("回旋後の突進は14.0ブロック/20tick＝毎秒14ブロック",
                 orbit.charge().orElseThrow().blocksPerSecond() == 14.0);
         check("ノックバックは上3・後7",
@@ -1858,11 +1859,11 @@ public final class CoreTests {
                         orbit, stomp),
                 List.of(new RaidSpecies.Phase("第一形態", 100,
                                 List.of("突進切り上げ", "なぎ払い", "3段突き", "追従4連切り"),
-                                "槍に攻撃を当てて突進を止める", null),
+                                "槍に攻撃を当てて突進を止める", null, 6.0),
                         new RaidSpecies.Phase("第二形態", 50,
                                 List.of("突進切り上げ", "なぎ払い", "3段突き", "追従4連切り",
                                         "回旋突進", "踏みつけ"),
-                                "半身半獣に変身し全モーションが加速。回旋突進と踏みつけが加わる", null)));
+                                "半身半獣に変身し全モーションが加速。回旋突進と踏みつけが加わる", null, 7.0)));
 
         check("第二形態は6モーションを持つ",
                 boss.phaseAt(50).animations().size() == 6);
@@ -1873,6 +1874,25 @@ public final class CoreTests {
                 boss.parryableMotions().equals(List.of("突進切り上げ", "踏みつけ")));
         check("参加20名で体力は10,200",
                 boss.healthFor(20) == 10_200);
+
+        var first = boss.phaseAt(100);
+        var second = boss.phaseAt(50);
+        check("第一形態の移動は6.0ブロック/20tick",
+                first.behavior().approachBlocksPer20Ticks() == 6.0
+                        && first.behavior().blocksPerTick() == 0.3
+                        && first.behavior().blocksPerSecond() == 6.0);
+        check("第二形態の移動は7.0ブロック/20tick",
+                second.behavior().approachBlocksPer20Ticks() == 7.0
+                        && second.behavior().blocksPerTick() == 0.35);
+        check("待機明けの移動は20tick、距離は形態ごとに6.0と7.0ブロック",
+                first.behavior().approachTicks() == 20
+                        && first.behavior().approachDistance() == 6.0
+                        && second.behavior().approachDistance() == 7.0);
+        check("1サイクルは待機40＋移動20＋モーション長",
+                boss.cycleTicks(first, "3段突き") == 40 + 20 + 70
+                        && boss.cycleTicks(second, "踏みつけ") == 40 + 20 + 20);
+        check("その段階で使わないモーションのサイクルは求められない",
+                thrown(() -> boss.cycleTicks(first, "踏みつけ")));
     }
 
     // ---- 騎士型の定義（§12.7）
@@ -1970,7 +1990,7 @@ public final class CoreTests {
         return new MotionSpec("回旋突進", arm("回旋突進", 120, false, 0, 100, 120), 40, false,
                 List.of(new MotionSpec.DamageWindow("槍", 100, 120)),
                 Optional.empty(), Optional.of(new MotionSpec.Charge(14.0, 20)),
-                Optional.of(new MotionSpec.Orbit(30, 3.4, 100)),
+                Optional.of(new MotionSpec.Orbit(30, 1.5, 100)),
                 Optional.of(new MotionSpec.Knockback(3, 7)), Optional.empty(), false);
     }
 
