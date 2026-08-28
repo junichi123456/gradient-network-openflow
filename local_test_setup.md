@@ -8,7 +8,7 @@
 
 ---
 
-> **置き場所は自由。** 以下は `C:\raid-dev`（ソース）と `C:\raid-test`（サーバー）を例にする。別のドライブに置く場合は読み替えてよい（例: `E:\raid-dev`、`E:\raid-test`）。**ワールドの書き込みが多いため、サーバー本体は SSD 上に置く。**
+> **置き場所は自由。** 以下は `E:\raid-dev`（ソース）と `E:\raid-test`（サーバー）を例にする。別のドライブに置く場合は読み替えてよい（例: `C:\raid-dev`、`C:\raid-test`）。**ワールドの書き込みが多いため、サーバー本体は SSD 上に置く。**
 
 ## 手順の全体像
 
@@ -71,7 +71,7 @@ C:\gradle\gradle-9.7.1\bin\gradle.bat -v
 1. ブラウザでリポジトリを開く
 2. ブランチを `claude/litematica-rules-usufg6` に切り替える
 3. 緑の **Code** ボタン → **Download ZIP**
-4. ダウンロードした ZIP を右クリック →「すべて展開」→ `C:\raid-dev` に展開する
+4. ダウンロードした ZIP を右クリック →「すべて展開」→ `E:\raid-dev` に展開する
 
 **方法B（Git を使う。推奨）**
 
@@ -96,13 +96,13 @@ git pull
 
 ### 2.2 対象バージョンを合わせる
 
-`C:\raid-dev\plugin\build.gradle` をメモ帳で開き、次の行のバージョンを**立てるサーバーのバージョン**に合わせる。
+`E:\raid-dev\plugin\build.gradle` をメモ帳で開き、次の行のバージョンを**立てるサーバーのバージョン**に合わせる。
 
 ```gradle
 compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
 ```
 
-同じく `C:\raid-dev\plugin\src\main\resources\plugin.yml` の `api-version` も合わせる。
+同じく `E:\raid-dev\plugin\src\main\resources\plugin.yml` の `api-version` も合わせる。
 
 ### 2.3 ビルドする
 
@@ -128,8 +128,8 @@ E:\raid-dev\plugin\build\libs\raid-plugin.jar
 ### 3.1 フォルダと jar
 
 ```powershell
-mkdir C:\raid-test
-cd C:\raid-test
+mkdir E:\raid-test
+cd E:\raid-test
 ```
 
 **ブラウザで取得する。** [papermc.io/downloads/paper](https://papermc.io/downloads/paper) を開き、バージョン選択で対象バージョン（例: 1.21.4）を選び、**Download** を押す。
@@ -146,7 +146,7 @@ Move-Item "$HOME\Downloads\paper-1.21.4-*.jar" E:\raid-test\paper.jar
 
 ### 3.2 起動用のファイルを作る
 
-メモ帳を開き、次を貼り付けて `C:\raid-test\start.bat` として保存する（**ファイルの種類を「すべてのファイル」にする**。`start.bat.txt` にならないよう注意）。
+メモ帳を開き、次を貼り付けて `E:\raid-test\start.bat` として保存する（**ファイルの種類を「すべてのファイル」にする**。`start.bat.txt` にならないよう注意）。
 
 ```bat
 @echo off
@@ -162,7 +162,9 @@ EULA に同意する。PowerShell で書き換えられる。
 
 ```powershell
 (Get-Content E:\raid-test\eula.txt) -replace 'eula=false','eula=true' | Set-Content E:\raid-test\eula.txt
-```もう一度 `start.bat` を実行すると、ワールドが生成されて `Done` と表示される。コンソールに `stop` と入力して停止する。
+```
+
+もう一度 `start.bat` を実行すると、ワールドが生成されて `Done` と表示される。コンソールに `stop` と入力して停止する。
 
 ### 3.4 検証向けの設定
 
@@ -196,7 +198,7 @@ copy E:\raid-dev\plugin\build\libs\raid-plugin.jar E:\raid-test\plugins\
 `plugins` フォルダが無ければ作る。
 
 ```powershell
-mkdir C:\raid-test\plugins
+mkdir E:\raid-test\plugins
 ```
 
 `start.bat` を実行し、コンソールに次が出れば読み込み成功。
@@ -235,6 +237,16 @@ op <あなたのMinecraft名>
 | `/raid despawn` | 除去する |
 
 > **リソースパックが無くても検証できる。** 部位は既定の見た目（紙）で出る。モーション・当たり判定・段階移行・ノックバックはこの状態で確認できる。
+
+> **被弾側の確認はサバイバルで行う。** クリエイティブでは被弾もノックバックもパリイも起きない。表示とモーションを見るまではクリエイティブでよいが、§6「戦闘」以降は次に切り替える。
+>
+> ```
+> /gamemode survival
+> /give @s netherite_chestplate
+> /give @s shield
+> ```
+>
+> 騎士型の攻撃は25〜30であり、素肌の20では一撃で死ぬ。**防具を着てから当たること。** 死んで検証が中断したら `/gamemode creative` に戻し、`/raid despawn` → `/raid spawn` でやり直す。
 
 ---
 
@@ -282,6 +294,8 @@ op <あなたのMinecraft名>
 | プラグインが読み込まれない | 起動ログの警告を読む。`api-version` の不一致が多い |
 | 個体が見えない | 表示エンティティに未対応のバージョン。または `/raid despawn` 後に召喚し直す |
 | 動きがおかしい | まず `/raid info` で状態と tick を確認する |
+| 叩いても体力が減らない | 槍を叩いている（仕様どおり無敵）。胴か頭を叩く。それでも減らなければ `/raid info` で生存を確認する |
+| ノックバックもパリイも起きない | クリエイティブのまま。`/gamemode survival` に切り替える |
 
 ---
 
@@ -290,14 +304,14 @@ op <あなたのMinecraft名>
 数値の整合は Minecraft を使わずに確認できる。
 
 ```powershell
-cd C:\raid-dev\core
+cd E:\raid-dev\core
 .\run-tests.sh          # Git Bash か WSL がある場合
 ```
 
 Windows で PowerShell だけの場合は次を直接実行する。
 
 ```powershell
-cd C:\raid-dev\core
+cd E:\raid-dev\core
 javac -encoding UTF-8 -d out (Get-ChildItem -Recurse -Filter *.java src | % FullName)
 java -Dstdout.encoding=UTF-8 -cp out jp.mcserver.core.CoreTests
 java -Dstdout.encoding=UTF-8 -cp out jp.mcserver.core.raid.KnightSimulation 20 8 80
@@ -313,5 +327,5 @@ java -Dstdout.encoding=UTF-8 -cp out jp.mcserver.core.raid.KnightSimulation 20 8
 |---|---|
 | 実装済み | 部位の生成、親子の変換合成、待機→移動→攻撃の周期、ダメージ判定、ノックバック、妨害、パリイ、段階移行と骨格の入れ替え、除去 |
 | 未実装 | リソースパックのモデル、取り巻き、報酬、レイド次元、参加登録 |
-| 未検証 | **作成環境から PaperMC のリポジトリへ到達できないため、コンパイルの確認ができていない。** 最初のビルドでエラーが出る可能性がある |
+| 検証済み | **Paper 1.21.4 上でビルドと読み込みまで通っている**（`Initialized 1 plugin` / `RaidPlugin (0.1.0)` / `レイド検証プラグインを有効化しました`）。以降はゲーム内の見た目と体感の確認のみ残っている |
 | 調整が要るとみられる箇所 | 当たり判定の実体（Interaction）への攻撃をどのイベントで拾うか、槍の判定距離（既定5ブロック）、パリイの判定（盾を構えているか） |
