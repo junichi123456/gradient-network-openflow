@@ -132,7 +132,17 @@ mkdir C:\raid-test
 cd C:\raid-test
 ```
 
-ブラウザで [papermc.io](https://papermc.io/downloads/paper) を開き、**対象バージョンの最新ビルド**をダウンロードして、`C:\raid-test\paper.jar` という名前で置く。
+**ブラウザで取得する。** [papermc.io/downloads/paper](https://papermc.io/downloads/paper) を開き、バージョン選択で対象バージョン（例: 1.21.4）を選び、**Download** を押す。
+
+> **API 経由の取得は避ける。** Paper の v2 API は停止しており（`{"error":"sunset"}` が返る）、後継のエンドポイントは変わりうる。ブラウザからの取得が確実である。
+
+落としたファイルを配置する。ビルド番号はワイルドカードで拾える。
+
+```powershell
+Move-Item "$HOME\Downloads\paper-1.21.4-*.jar" E:\raid-test\paper.jar
+```
+
+**バージョンは3か所で揃える。** サーバーの jar、`plugin/build.gradle` の `paper-api`、Minecraft クライアント。1つでも違うと接続できないか、プラグインが動かない。
 
 ### 3.2 起動用のファイルを作る
 
@@ -148,23 +158,22 @@ pause
 
 `start.bat` をダブルクリックする。`eula.txt` が作られて終了する。
 
-`C:\raid-test\eula.txt` をメモ帳で開き、
+EULA に同意する。PowerShell で書き換えられる。
 
-```
-eula=false
-```
-
-を
-
-```
-eula=true
-```
-
-に変えて保存する。もう一度 `start.bat` を実行すると、ワールドが生成されて `Done` と表示される。コンソールに `stop` と入力して停止する。
+```powershell
+(Get-Content E:\raid-test\eula.txt) -replace 'eula=false','eula=true' | Set-Content E:\raid-test\eula.txt
+```もう一度 `start.bat` を実行すると、ワールドが生成されて `Done` と表示される。コンソールに `stop` と入力して停止する。
 
 ### 3.4 検証向けの設定
 
-`C:\raid-test\server.properties` をメモ帳で開き、次の行を書き換える。
+PowerShell で一度に書き換えられる。
+
+```powershell
+$p = "E:\raid-test\server.properties"
+(Get-Content $p) -replace '^online-mode=.*','online-mode=false' -replace '^difficulty=.*','difficulty=hard' -replace '^spawn-protection=.*','spawn-protection=0' -replace '^gamemode=.*','gamemode=creative' | Set-Content $p
+```
+
+設定の意味は次のとおり。
 
 ```
 online-mode=false
