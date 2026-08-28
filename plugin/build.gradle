@@ -30,6 +30,8 @@ tasks.withType(JavaCompile).configureEach {
 jar {
     archiveBaseName = 'raid-plugin'
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    // 閉包の中で解決するため、core の jar 生成を明示的に先行させる
+    dependsOn ':core:jar'
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
