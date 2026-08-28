@@ -29,7 +29,10 @@ tasks.withType(JavaCompile).configureEach {
 // core のクラスを jar に同梱する（core は外部依存を持たないため shadow は不要）
 jar {
     archiveBaseName = 'raid-plugin'
-    from project(':core').sourceSets.main.output
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 processResources {

@@ -22,21 +22,41 @@
 
 ## 1. Java 21 と Gradle を入れる
 
-PowerShell で次を順に実行する。
+### 1.1 Java 21
+
+PowerShell で実行する。
 
 ```powershell
 winget install Microsoft.OpenJDK.21
-winget install Gradle.Gradle
 ```
 
-インストール後、**PowerShell を閉じて開き直す**（PATH を反映させるため）。確認する。
+終わったら **PowerShell を閉じて開き直し**、確認する。
 
 ```powershell
 java -version
-gradle -v
 ```
 
-`java version "21..."` と Gradle のバージョンが出れば成功。`winget` が使えない場合は、Java は [Adoptium](https://adoptium.net/)、Gradle は [公式](https://gradle.org/install/) から入れる。
+`openjdk version "21..."` と出れば成功。
+
+### 1.2 Gradle
+
+> **Gradle は winget では入らない。** `winget install Gradle.Gradle` は「パッケージが見つかりません」になる。ZIP を展開して使う。
+
+```powershell
+cd $HOME
+Invoke-WebRequest -Uri https://services.gradle.org/distributions/gradle-9.7.1-bin.zip -OutFile gradle.zip
+Expand-Archive -Path gradle.zip -DestinationPath C:\gradle -Force
+```
+
+確認する（**フルパスで呼ぶ**ので、PATH の設定は不要）。
+
+```powershell
+C:\gradle\gradle-9.7.1\bin\gradle.bat -v
+```
+
+`Gradle 9.7.1` と Java 21 が表示されれば成功。
+
+> **毎回このフルパスで呼ぶ。** 短くしたい場合は、PowerShell で `Set-Alias gradle C:\gradle\gradle-9.7.1\bin\gradle.bat` を実行すると、そのウィンドウの間だけ `gradle` と打てる。
 
 ---
 
@@ -72,7 +92,7 @@ compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
 
 ```powershell
 cd C:\raid-dev
-gradle :plugin:jar
+C:\gradle\gradle-9.7.1\bin\gradle.bat :plugin:jar
 ```
 
 初回は依存の取得に数分かかる。成功すると次の場所に jar ができる。
@@ -227,7 +247,8 @@ op <あなたのMinecraft名>
 
 | 症状 | 対処 |
 |---|---|
-| `gradle` が見つからない | PowerShell を開き直す。それでも駄目なら Gradle を再インストール |
+| `gradle` が見つからない | **フルパス**で呼ぶ（`C:\gradle\gradle-9.7.1\bin\gradle.bat`）。winget では入らない |
+| `winget install Gradle.Gradle` が失敗する | 正常。Gradle は winget に登録されていない。手順1.2 の ZIP を使う |
 | ビルドで paper-api が見つからない | `build.gradle` のバージョン指定が対象と合っていない。エラーメッセージを共有してほしい |
 | 起動直後に閉じる | `eula.txt` が `false` のまま。または Java 21 が入っていない |
 | クライアントが接続できない | **サーバーとクライアントのバージョンが違う**。25565 番ポートの競合も確認 |
