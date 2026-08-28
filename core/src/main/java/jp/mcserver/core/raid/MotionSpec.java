@@ -12,12 +12,63 @@ import java.util.Optional;
  * @param idleAfterTicks モーション後に差し込む待機モーションの長さ（tick）
  * @param parryable      パリイ可能か
  * @param tracksTarget   武器の先端が常に対象を向くか
+ * @param usage          どんな状況で選ばれるモーションか（§12.6）
  */
 public record MotionSpec(String name, Animation animation, int idleAfterTicks, boolean parryable,
                          List<DamageWindow> damageWindows, Optional<Interrupt> interrupt,
                          Optional<Charge> charge, Optional<Orbit> orbit,
                          Optional<Knockback> knockback, Optional<AreaEffect> area,
-                         boolean tracksTarget) {
+                         boolean tracksTarget, Usage usage) {
+
+
+    /**
+     * 使用条件（§12.6）。モーションを固定順で回すと攻略が暗記になるため、
+     * <b>距離と囲まれ具合</b>で候補を絞り、重みで選ぶ。
+     *
+     * @param minRange       この距離以上で使う（ブロック）
+     * @param maxRange       この距離以下で使う（ブロック）
+     * @param minSurrounding 近接圏内のプレイヤーがこの数以上のときだけ使う
+     * @param weight         候補が複数あるときの相対的な出やすさ
+     * @param cooldownTicks  一度使ったあと、この時間は選ばれない
+     * @param maxConsecutive 同じモーションを連続で使える上限
+     * @param enragedOnly    激昂中にだけ使うか
+     */
+    public record Usage(double minRange, double maxRange, int minSurrounding, int weight,
+                        int cooldownTicks, int maxConsecutive, boolean enragedOnly) {
+
+        /** 「囲まれている」と判定する半径（ブロック）。 */
+        public static final double CROWD_RADIUS = 6.0;
+
+        /** 条件を持たないモーション。 */
+        public static final Usage ANY = new Usage(0, 64, 0, 10, 0, 2, false);
+
+        public Usage {
+            if (minRange < 0 || maxRange < minRange) {
+                throw new IllegalArgumentException("距離の指定が不正である: " + minRange + "-" + maxRange);
+            }
+            if (minSurrounding < 0 || weight <= 0 || cooldownTicks < 0 || maxConsecutive < 1) {
+                throw new IllegalArgumentException("使用条件の指定が不正である");
+            }
+        }
+
+        /** 距離と重みだけを指定する。 */
+        public static Usage at(double minRange, double maxRange, int weight, int cooldownTicks) {
+            return new Usage(minRange, maxRange, 0, weight, cooldownTicks, 1, false);
+        }
+
+        /** 囲まれているときに出す技。 */
+        public static Usage crowd(double maxRange, int minSurrounding, int weight, int cooldownTicks) {
+            return new Usage(0, maxRange, minSurrounding, weight, cooldownTicks, 1, false);
+        }
+
+        /** 距離と囲まれ具合の条件を満たすか。 */
+        public boolean matches(double distance, int surrounding, boolean enraged) {
+            if (enragedOnly && !enraged) {
+                return false;
+            }
+            return distance >= minRange && distance <= maxRange && surrounding >= minSurrounding;
+        }
+    }
 
     /** 標準の待機モーションの長さ（tick）。すべての個体で共通（§12.6）。 */
     public static final int DEFAULT_IDLE_TICKS = 40;
@@ -140,6 +191,9 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks, b
     }
 
     public MotionSpec {
+        if (usage == null) {
+            throw new IllegalArgumentException("使用条件が null である: " + name);
+        }
         if (idleAfterTicks < 0) {
             throw new IllegalArgumentException("待機モーションが負である: " + idleAfterTicks);
         }
@@ -155,6 +209,22 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks, b
                 throw new IllegalArgumentException("妨害の期限がモーションの長さを超えている: " + name);
             }
         });
+    }
+
+    /** 使用条件を指定しないモーション。条件は {@link Usage#ANY} になる。 */
+    public MotionSpec(String name, Animation animation, int idleAfterTicks, boolean parryable,
+                      List<DamageWindow> damageWindows, Optional<Interrupt> interrupt,
+                      Optional<Charge> charge, Optional<Orbit> orbit,
+                      Optional<Knockback> knockback, Optional<AreaEffect> area,
+                      boolean tracksTarget) {
+        this(name, animation, idleAfterTicks, parryable, damageWindows, interrupt, charge, orbit,
+                knockback, area, tracksTarget, Usage.ANY);
+    }
+
+    /** 使用条件を差し替えた同じモーション。 */
+    public MotionSpec using(Usage value) {
+        return new MotionSpec(name, animation, idleAfterTicks, parryable, damageWindows, interrupt,
+                charge, orbit, knockback, area, tracksTarget, value);
     }
 
     /** 標準の待機モーションを伴う、追加要素のないモーション。 */

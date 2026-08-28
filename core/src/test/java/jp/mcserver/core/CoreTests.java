@@ -10,6 +10,10 @@ import jp.mcserver.core.raid.KnightDefinition;
 import jp.mcserver.core.raid.Animation;
 import jp.mcserver.core.raid.MotionSpec;
 import jp.mcserver.core.raid.MotionBudget;
+import jp.mcserver.core.raid.MotionSelector;
+import jp.mcserver.core.raid.PartTracker;
+import jp.mcserver.core.raid.RageMeter;
+import jp.mcserver.core.raid.Appearance;
 import jp.mcserver.core.raid.RaidSpecies;
 import jp.mcserver.core.raid.Rig;
 import jp.mcserver.core.raid.Transform;
@@ -50,6 +54,7 @@ public final class CoreTests {
         raid();
         raidSpecies();
         knight();
+        raidCombat();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -1771,9 +1776,25 @@ public final class CoreTests {
 
         var rig = KnightDefinition.knightRig();
         check("高さ3.5・幅1.6", rig.heightBlocks() == 3.5 && rig.hitboxWidth() == 1.6);
-        check("部位は胴・頭・両腕・両足・槍の7つ", rig.partCount() == 7);
+        check("部位は13（胴・頭・角2・頭飾り・肩装甲2・両腕・両足・槍・穂先）",
+                rig.partCount() == 13);
         check("槍は被弾しない",
-                !rig.part("槍").damageable() && rig.damageablePartCount() == 6);
+                !rig.part("槍").damageable() && rig.damageablePartCount() == 8);
+        check("角・頭飾り・穂先は見た目だけで当たり判定を持たない",
+                rig.interactiveParts().size() == 9
+                        && rig.part("右角").decoration() && rig.part("穂先").decoration()
+                        && !rig.part("右角").damageable());
+        check("頭は露出条件つきの弱点、胴は装甲破壊条件つきの弱点",
+                rig.part("頭").vulnerability() == KnightDefinition.HEAD_VULNERABILITY
+                        && rig.part("頭").gate() == Rig.Gate.ON_EXPOSURE
+                        && rig.part("胴").vulnerability() == KnightDefinition.CORE_VULNERABILITY
+                        && rig.part("胴").gate() == Rig.Gate.ON_ARMOR_BROKEN);
+        check("両肩装甲は最大体力の6%で破壊できる",
+                rig.breakableParts().stream().map(Rig.Part::name).toList()
+                        .equals(List.of("右肩装甲", "左肩装甲"))
+                        && rig.part("右肩装甲").breakThreshold() == 0.06);
+        check("すべての部位に見た目が指定されている",
+                rig.partNames().stream().allMatch(name -> rig.part(name).appearance() != null));
         check("槍は右腕の子である",
                 rig.chain("槍").stream().map(Rig.Part::name).toList()
                         .equals(List.of("胴", "右腕", "槍")));
@@ -1835,12 +1856,31 @@ public final class CoreTests {
                         .equals(List.of(10.0, 14.0, 11.0, 16.0)));
         check("最初の突きにノックバックはない", combo.knockback().isEmpty());
 
-        check("段階ごとに骨格が変わる（第一形態7部位・第二形態10部位）",
-                boss.rigFor(first).partCount() == 7 && boss.rigFor(second).partCount() == 10
+        check("段階ごとに骨格が変わる（第一形態13部位・第二形態16部位）",
+                boss.rigFor(first).partCount() == 13 && boss.rigFor(second).partCount() == 16
                         && first.rig().isPresent() && second.rig().isPresent());
         check("段階固有の骨格がなければ個体の骨格を使う",
                 boss.rigFor(new RaidSpecies.Phase("仮", 100,
-                        List.of(first.motion("なぎ払い")), "g", null, 6.0)).partCount() == 7);
+                        List.of(first.motion("なぎ払い")), "g", null, 6.0)).partCount() == 13);
+        check("両形態に待機と歩行のループモーションがある",
+                first.behavior().idleAnimation().isPresent()
+                        && first.behavior().walkAnimation().isPresent()
+                        && second.behavior().idleAnimation().isPresent()
+                        && second.behavior().walkAnimation().isPresent());
+        check("待機は40tick・歩行は20tickでループする",
+                first.behavior().idleAnimation().orElseThrow().durationTicks() == 40
+                        && first.behavior().idleAnimation().orElseThrow().loop()
+                        && first.behavior().walkAnimation().orElseThrow().durationTicks() == 20);
+        check("二足の歩行は左右の足を逆位相で振る",
+                first.behavior().walkAnimation().orElseThrow()
+                        .sample("右足", 5).rotationDeg().x() == -28.0
+                        && first.behavior().walkAnimation().orElseThrow()
+                        .sample("左足", 5).rotationDeg().x() == 24.0);
+        check("四足の歩行は対角の足が同位相である",
+                second.behavior().walkAnimation().orElseThrow()
+                        .sample("右前足", 5).rotationDeg().x()
+                        == second.behavior().walkAnimation().orElseThrow()
+                        .sample("左後足", 5).rotationDeg().x());
         check("第一形態は4モーション、パリイ可能は突進切り上げのみ",
                 first.motionNames().size() == 4
                         && first.parryableMotions().equals(List.of("突進切り上げ")));
@@ -1853,7 +1893,11 @@ public final class CoreTests {
         var centaur = boss.rigFor(second);
         check("高さ4.6・幅2.0",
                 centaur.heightBlocks() == 4.6 && centaur.hitboxWidth() == 2.0);
-        check("部位は10（人胴・頭・両腕・槍・馬胴・四足）", centaur.partCount() == 10);
+        check("部位は16（人胴・頭・角2・頭飾り・肩装甲2・両腕・槍・穂先・馬胴・四足）",
+                centaur.partCount() == 16);
+        check("第二形態でも装甲は張り直される",
+                centaur.breakableParts().size() == 2
+                        && centaur.damageablePartCount() == 11);
         check("四足は馬胴の子である",
                 centaur.chain("右前足").stream().map(Rig.Part::name).toList()
                         .equals(List.of("人胴", "馬胴", "右前足")));
@@ -1937,6 +1981,240 @@ public final class CoreTests {
         Set<ChunkPos> copy = new LinkedHashSet<>(set);
         copy.remove(c);
         return copy;
+    }
+
+    private static void raidCombat() {
+        section("§12.6 状況依存の技選択・弱点・激昂");
+
+        var boss = KnightDefinition.boss();
+        var first = boss.phases().get(0);
+        var second = boss.phases().get(1);
+        var rig = boss.rigFor(first);
+
+        // ---------------- 使用条件
+        check("突進切り上げは距離を問わず使う（弱点を開く唯一の道を潰さないため）",
+                first.motion("突進切り上げ").usage().minRange() == 0.0
+                        && first.motion("突進切り上げ").usage().maxRange() == 30.0);
+        check("突進切り上げだけは2連続まで許す（遠距離で手が無くなるため）",
+                first.motion("突進切り上げ").usage().maxConsecutive() == 2
+                        && first.motion("なぎ払い").usage().maxConsecutive() == 1);
+        check("3段突きは至近距離だけで使う",
+                first.motion("3段突き").usage().maxRange() == 5.5
+                        && first.motion("3段突き").usage().minRange() == 0.0);
+        check("踏みつけは2人以上に囲まれたときだけ使う",
+                second.motion("踏みつけ").usage().minSurrounding() == 2);
+        check("囲まれ判定の半径は6ブロック",
+                MotionSpec.Usage.CROWD_RADIUS == 6.0);
+        check("距離が条件外なら候補にならない",
+                !first.motion("3段突き").usage().matches(9.0, 1, false)
+                        && first.motion("3段突き").usage().matches(4.0, 1, false));
+        check("突進切り上げは30ブロックを超えると候補から外れる",
+                !first.motion("突進切り上げ").usage().matches(40.0, 1, false));
+        check("囲まれ数が足りなければ候補にならない",
+                !second.motion("踏みつけ").usage().matches(4.0, 1, false)
+                        && second.motion("踏みつけ").usage().matches(4.0, 3, false));
+        check("重みは正でなければならない",
+                thrown(() -> new MotionSpec.Usage(0, 10, 0, 0, 0, 1, false)));
+        check("使用条件を指定しないモーションは無条件になる",
+                MotionSpec.simple(first.motion("なぎ払い").animation()).usage()
+                        == MotionSpec.Usage.ANY);
+
+        // ---------------- 選択
+        var selector = new MotionSelector(20240828L);
+        check("至近距離では近接技も突進も混ざる",
+                new HashSet<>(repeatSelect(selector, first, 2.0, 1, 40)).size() == 4);
+
+        var farSelector = new MotionSelector(1L);
+        check("弱点を開く手が第一形態に2つある（突進の妨害と3段突きの妨害）",
+                first.motions().stream().filter(m -> m.interrupt().isPresent()).count() == 2
+                        && first.motion("3段突き").interrupt().orElseThrow().part().equals("槍")
+                        && first.motion("3段突き").interrupt().orElseThrow().beforeTick() == 65);
+        check("遠距離では突進切り上げしか候補がない",
+                repeatSelect(farSelector, first, 20.0, 1, 200).stream()
+                        .allMatch(name -> name.equals("突進切り上げ")));
+
+        var mixed = new MotionSelector(7L);
+        var sequence = repeatSelect(mixed, first, 4.0, 3, 30);
+        check("近距離では複数のモーションが混ざる",
+                new HashSet<>(sequence).size() >= 3);
+        check("同じモーションが連続しない",
+                noRepeats(sequence));
+
+        var cooldown = new MotionSelector(3L);
+        cooldown.select(first, new MotionSelector.Situation(4.0, 1, false), 0);
+        check("使ったモーションは待ち時間のあいだ選ばれない",
+                cooldown.onCooldown(cooldown.last(), 30)
+                        && !cooldown.onCooldown(cooldown.last(), 200));
+
+        var relaxed = new MotionSelector(9L);
+        var choice = relaxed.select(first, new MotionSelector.Situation(60.0, 1, false), 0);
+        check("どの距離帯にも入らなくても必ず1つ返す",
+                choice.motion() != null);
+        check("候補が無いときは緩和されたことが分かる", choice.relaxed());
+        check("距離帯より先に連続の上限が緩められる",
+                repeatSelect(new MotionSelector(11L), first, 20.0, 1, 10).stream()
+                        .allMatch(name -> name.equals("突進切り上げ")));
+
+        var reset = new MotionSelector(5L);
+        reset.select(first, new MotionSelector.Situation(3.0, 1, false), 0);
+        reset.reset();
+        check("形態移行で選択の履歴が消える",
+                reset.last() == null && reset.consecutive() == 0);
+
+        // ---------------- 弱点と装甲
+        var tracker = new PartTracker(rig, 1_000);
+        check("露出していない頭には倍率が乗らない",
+                tracker.multiplier("頭", false) == 1.0);
+        tracker.expose(PartTracker.EXPOSURE_TICKS);
+        check("露出中の頭には倍率が乗る",
+                tracker.exposed()
+                        && tracker.multiplier("頭", false) == KnightDefinition.HEAD_VULNERABILITY);
+        check("激昂中は露出していても倍率が乗らない",
+                tracker.multiplier("頭", true) == 1.0);
+        check("露出は60tickで閉じる", PartTracker.EXPOSURE_TICKS == 60);
+        for (int i = 0; i < PartTracker.EXPOSURE_TICKS; i++) {
+            tracker.tick();
+        }
+        check("時間が経つと露出が閉じる", !tracker.exposed());
+        check("空振りの露出はパリイより短い",
+                PartTracker.WHIFF_EXPOSURE_TICKS == 40
+                        && PartTracker.WHIFF_EXPOSURE_TICKS < PartTracker.EXPOSURE_TICKS);
+        check("露出は長いほうが残る",
+                exposureAfter(rig, PartTracker.EXPOSURE_TICKS, PartTracker.WHIFF_EXPOSURE_TICKS)
+                        == PartTracker.EXPOSURE_TICKS);
+
+        check("槍にはダメージが通らない",
+                tracker.hit("槍", 50, false).immune()
+                        && tracker.hit("槍", 50, false).dealt() == 0);
+
+        var armor = new PartTracker(rig, 1_000);
+        check("装甲は60ダメージ（最大体力の6%）で壊れる",
+                armor.remainingToBreak("右肩装甲") == 60.0);
+        check("閾値に届かなければ壊れない",
+                !armor.hit("右肩装甲", 59, false).broke() && !armor.isBroken("右肩装甲"));
+        var absorb = new PartTracker(rig, 1_000);
+        var absorbed = absorb.hit("右肩装甲", 12, false);
+        check("装甲へのダメージは体力に入らず装甲が受け止める",
+                absorbed.dealt() == 0 && absorbed.absorbed() == 12.0
+                        && absorbed.absorbedByArmor() && !absorbed.effective());
+        check("閾値に届くと壊れる",
+                armor.hit("右肩装甲", 1, false).broke() && armor.isBroken("右肩装甲"));
+        check("壊れた部位にはもう判定がない",
+                armor.multiplier("右肩装甲", false) == 0
+                        && armor.hit("右肩装甲", 30, false).immune());
+        check("片方だけでは胴の弱点は開かない",
+                !armor.allArmorBroken() && armor.multiplier("胴", false) == 1.0);
+        armor.hit("左肩装甲", 60, false);
+        check("両方壊すと胴が恒久的な弱点になる",
+                armor.allArmorBroken()
+                        && armor.multiplier("胴", false) == KnightDefinition.CORE_VULNERABILITY);
+        check("装甲破壊による弱点は露出を必要としない",
+                !armor.exposed()
+                        && armor.multiplier("胴", false) == KnightDefinition.CORE_VULNERABILITY);
+        check("倍率はダメージに乗って返る",
+                armor.hit("胴", 10, false).dealt() == 18.0
+                        && armor.hit("胴", 10, false).critical());
+        check("装甲を壊すには先払いが要る（吸収した分は体力に入らない）",
+                armorCostToBreak(rig, 1_000) == 120.0);
+
+        // ---------------- 激昂
+        var meter = new RageMeter();
+        check("最初は激昂していない", !meter.enraged() && meter.untilEnrage() == 400);
+        for (int i = 0; i < RageMeter.STALL_TICKS - 1; i++) {
+            meter.tick();
+        }
+        check("停滞が閾値に届くまでは激昂しない", !meter.enraged() && meter.untilEnrage() == 1);
+        meter.tick();
+        check("停滞が400tick続くと激昂する",
+                meter.enraged() && meter.remaining() == RageMeter.ENRAGED_TICKS);
+        check("激昂中は待機が15tickに縮む",
+                meter.idleTicks(40) == RageMeter.ENRAGED_IDLE_TICKS);
+        check("激昂中はダメージが1.2倍になる",
+                meter.damageMultiplier() == RageMeter.DAMAGE_MULTIPLIER);
+        for (int i = 0; i < RageMeter.ENRAGED_TICKS; i++) {
+            meter.tick();
+        }
+        check("激昂は200tickで明ける",
+                !meter.enraged() && meter.idleTicks(40) == 40
+                        && meter.damageMultiplier() == 1.0);
+        check("明けた直後は停滞の蓄積がゼロに戻る", meter.stall() == 0);
+
+        var landing = new RageMeter();
+        for (int i = 0; i < RageMeter.STALL_TICKS - 1; i++) {
+            landing.tick();
+            if (i % 100 == 0) {
+                landing.landedHit();
+            }
+        }
+        check("攻撃が命中していれば激昂しない", !landing.enraged());
+
+        var during = new RageMeter();
+        for (int i = 0; i < RageMeter.STALL_TICKS; i++) {
+            during.tick();
+        }
+        during.landedHit();
+        check("激昂中の命中では激昂が解けない", during.enraged());
+        during.reset();
+        check("形態移行で激昂がやり直される",
+                !during.enraged() && during.stall() == 0);
+
+        // ---------------- 見た目
+        var box = Appearance.box("WHITE_CONCRETE", 0.85, 1.30, 0.60);
+        check("箱の見た目は中心を原点に合わせる",
+                box.offset().x() == -0.425 && box.offset().y() == -0.65
+                        && box.scale().y() == 1.30);
+        var limb = Appearance.limb("END_ROD", 0.14, 3.40, 0.14);
+        check("手足の見た目は付け根を原点に合わせる",
+                limb.offset().y() == -3.40 && limb.scale().y() == 3.40);
+        check("アイテムの見た目は原点が中心である",
+                Appearance.item("NETHERITE_SWORD", 1.2).offset().y() == 0
+                        && !Appearance.item("NETHERITE_SWORD", 1.2).block());
+        check("装飾は当たり判定を持たない",
+                box.asDecoration().decoration() && !box.decoration());
+        check("寸法が0以下の見た目は拒否される",
+                thrown(() -> Appearance.box("STONE", 0, 1, 1)));
+    }
+
+    /** 選択を繰り返してモーション名の並びを得る。 */
+    private static List<String> repeatSelect(MotionSelector selector, RaidSpecies.Phase phase,
+                                             double distance, int surrounding, int times) {
+        List<String> names = new java.util.ArrayList<>();
+        int now = 0;
+        for (int i = 0; i < times; i++) {
+            now += 200; // 待ち時間を跨ぐ間隔で回す
+            names.add(selector.select(phase,
+                    new MotionSelector.Situation(distance, surrounding, false), now).motion().name());
+        }
+        return names;
+    }
+
+    private static boolean noRepeats(List<String> names) {
+        for (int i = 1; i < names.size(); i++) {
+            if (names.get(i).equals(names.get(i - 1))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** 装甲をすべて壊すまでに支払うダメージ量。 */
+    private static double armorCostToBreak(Rig rig, long maxHealth) {
+        var tracker = new PartTracker(rig, maxHealth);
+        double paid = 0;
+        for (Rig.Part armor : rig.breakableParts()) {
+            while (!tracker.isBroken(armor.name())) {
+                var result = tracker.hit(armor.name(), 1.0, false);
+                paid += result.absorbed();
+            }
+        }
+        return paid;
+    }
+
+    private static int exposureAfter(Rig rig, int first, int second) {
+        var tracker = new PartTracker(rig, 1_000);
+        tracker.expose(first);
+        tracker.expose(second);
+        return tracker.exposureRemaining();
     }
 
     private static void section(String name) {

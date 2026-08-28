@@ -83,6 +83,7 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
             if (boss.handleHit(event.getEntity().getUniqueId(), attacker, event.getDamage())) {
                 event.setCancelled(true); // ダメージは個体側で処理する
                 if (boss.isDead()) {
+                    boss.playDefeat();
                     boss.despawn();
                     active.remove(boss);
                     getServer().broadcastMessage("騎士型を討伐しました");

@@ -20,12 +20,34 @@ public final class RaidSpecies {
      * <p>待機モーションが明けたあと一定時間だけ移動し、最も近いプレイヤーに対して
      * 攻撃モーションを取る。
      */
-    public record Behavior(int idleTicks, int approachTicks, double approachBlocksPer20Ticks) {
+    public record Behavior(int idleTicks, int approachTicks, double approachBlocksPer20Ticks,
+                           Animation idle, Animation walk) {
 
         public Behavior {
             if (idleTicks < 0 || approachTicks < 0 || approachBlocksPer20Ticks <= 0) {
                 throw new IllegalArgumentException("行動サイクルの指定が不正である");
             }
+            if (idle != null && !idle.loop()) {
+                throw new IllegalArgumentException("待機モーションはループする必要がある");
+            }
+            if (walk != null && !walk.loop()) {
+                throw new IllegalArgumentException("歩行モーションはループする必要がある");
+            }
+        }
+
+        /** 待機・歩行のモーションを持たない行動サイクル。 */
+        public Behavior(int idleTicks, int approachTicks, double approachBlocksPer20Ticks) {
+            this(idleTicks, approachTicks, approachBlocksPer20Ticks, null, null);
+        }
+
+        /** 立ち止まっているあいだのループモーション。持たない場合は空。 */
+        public java.util.Optional<Animation> idleAnimation() {
+            return java.util.Optional.ofNullable(idle);
+        }
+
+        /** 移動しているあいだのループモーション。持たない場合は空。 */
+        public java.util.Optional<Animation> walkAnimation() {
+            return java.util.Optional.ofNullable(walk);
         }
 
         /** 標準の待機40tick・移動20tick。 */
@@ -202,6 +224,8 @@ public final class RaidSpecies {
             for (MotionSpec motion : phase.motions()) {
                 motion.validateAgainst(target);
             }
+            phase.behavior().idleAnimation().ifPresent(idle -> idle.validateAgainst(target));
+            phase.behavior().walkAnimation().ifPresent(walk -> walk.validateAgainst(target));
         }
     }
 

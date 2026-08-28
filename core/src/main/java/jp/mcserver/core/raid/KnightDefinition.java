@@ -1,5 +1,7 @@
 package jp.mcserver.core.raid;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -8,6 +10,10 @@ import java.util.Optional;
  * 騎士型の定義（§12.7 / raid_species.md）。
  *
  * <p>検証とシミュレーションで共有する。実運用ではデータファイルから読み込む。
+ *
+ * <p>見た目はリソースパックを配布する前提だが、それが無い状態でも体型が分かるよう
+ * バニラの素材で組んである（{@link Appearance}）。白〜アイボリーの装甲に
+ * 機械関節が覗く配色を、コンクリート・骨ブロック・磨かれた安山岩で表している。
  */
 public final class KnightDefinition {
 
@@ -16,127 +22,340 @@ public final class KnightDefinition {
     /** 基準体力（参加1名）。 */
     public static final long BASE_HEALTH = 600;
 
+    /** 装甲部位の破壊に要するダメージ（最大体力に対する割合）。 */
+    public static final double ARMOR_THRESHOLD = 0.06;
+
+    /** 頭の弱点倍率。パリイ・妨害の直後だけ開く。 */
+    public static final double HEAD_VULNERABILITY = 2.5;
+
+    /** 装甲をすべて壊したあとの胴の倍率。 */
+    public static final double CORE_VULNERABILITY = 1.8;
+
     /** 両形態を持つ騎士型。 */
     public static RaidSpecies boss() {
         return new RaidSpecies("knight", "騎士", BASE_HEALTH, knightRig(),
                 List.of(knightPhaseOne(), knightPhaseTwo()));
     }
 
+    // ------------------------------------------------------------ 骨格
+
+    /** 素材。白装甲・骨・機械関節・発光する槍。 */
+    private static final String ARMOR = "WHITE_CONCRETE";
+    private static final String PLATE = "QUARTZ_BLOCK";
+    private static final String BONE = "BONE_BLOCK";
+    private static final String JOINT = "POLISHED_ANDESITE";
+    private static final String SHAFT = "END_ROD";
+    private static final String BLADE = "NETHERITE_SWORD";
+    private static final String CREST = "NETHERITE_AXE";
 
     public static Rig knightRig() {
-        return new Rig(List.of(
-                new Rig.Part("胴", null, Transform.IDENTITY, 2001),
-                new Rig.Part("頭", "胴", new Transform(new Vec3(0, 1.0, 0), Vec3.ZERO, Vec3.ONE), 2002),
-                new Rig.Part("右腕", "胴", new Transform(new Vec3(0.5, 0.8, 0), Vec3.ZERO, Vec3.ONE), 2003),
-                new Rig.Part("左腕", "胴", new Transform(new Vec3(-0.5, 0.8, 0), Vec3.ZERO, Vec3.ONE), 2004),
-                new Rig.Part("右足", "胴", new Transform(new Vec3(0.25, -0.9, 0), Vec3.ZERO, Vec3.ONE), 2005),
-                new Rig.Part("左足", "胴", new Transform(new Vec3(-0.25, -0.9, 0), Vec3.ZERO, Vec3.ONE), 2006),
-                new Rig.Part("槍", "右腕", new Transform(new Vec3(0, -0.6, 0), Vec3.ZERO, Vec3.ONE),
-                        2007, false)),
-                3.5, 1.6);
+        List<Rig.Part> parts = new ArrayList<>();
+        parts.add(part("胴", null, pos(0, 1.85, 0), 2001)
+                .looks(Appearance.box(ARMOR, 0.85, 1.30, 0.60))
+                .weakPoint(CORE_VULNERABILITY, Rig.Gate.ON_ARMOR_BROKEN));
+        parts.add(part("頭", "胴", pos(0, 0.90, 0), 2002)
+                .looks(Appearance.box(BONE, 0.55, 0.55, 0.55))
+                .weakPoint(HEAD_VULNERABILITY, Rig.Gate.ON_EXPOSURE));
+        parts.add(part("右角", "頭", posRot(0.16, 0.26, -0.08, 160, 0, 14), 2003)
+                .looks(Appearance.limb(SHAFT, 0.10, 0.55, 0.10).asDecoration()));
+        parts.add(part("左角", "頭", posRot(-0.16, 0.26, -0.08, 160, 0, -14), 2004)
+                .looks(Appearance.limb(SHAFT, 0.10, 0.55, 0.10).asDecoration()));
+        parts.add(part("頭飾り", "頭", posRot(0, 0.30, 0.10, 0, 0, 90), 2005)
+                .looks(Appearance.item(CREST, 0.75).asDecoration()));
+        parts.add(part("右肩装甲", "胴", pos(0.50, 0.50, 0), 2006)
+                .looks(Appearance.box(PLATE, 0.50, 0.45, 0.55))
+                .breakableAt(ARMOR_THRESHOLD));
+        parts.add(part("左肩装甲", "胴", pos(-0.50, 0.50, 0), 2007)
+                .looks(Appearance.box(PLATE, 0.50, 0.45, 0.55))
+                .breakableAt(ARMOR_THRESHOLD));
+        parts.add(part("右腕", "胴", pos(0.55, 0.45, 0), 2008)
+                .looks(Appearance.limb(ARMOR, 0.28, 0.95, 0.28)));
+        parts.add(part("左腕", "胴", pos(-0.55, 0.45, 0), 2009)
+                .looks(Appearance.limb(ARMOR, 0.28, 0.95, 0.28)));
+        parts.add(part("右足", "胴", pos(0.22, -0.65, 0), 2010)
+                .looks(Appearance.limb(JOINT, 0.30, 1.20, 0.30)));
+        parts.add(part("左足", "胴", pos(-0.22, -0.65, 0), 2011)
+                .looks(Appearance.limb(JOINT, 0.30, 1.20, 0.30)));
+        parts.add(part("槍", "右腕", posRot(0, -0.80, 0, -90, 0, 0), 2012)
+                .looks(Appearance.limb(SHAFT, 0.14, 3.40, 0.14))
+                .immune());
+        parts.add(part("穂先", "槍", pos(0, -3.40, 0), 2013)
+                .looks(Appearance.item(BLADE, 1.20).asDecoration()));
+        return new Rig(parts, 3.5, 1.6);
     }
 
     public static Rig centaurRig() {
-        return new Rig(List.of(
-                new Rig.Part("人胴", null, Transform.IDENTITY, 2101),
-                new Rig.Part("頭", "人胴", new Transform(new Vec3(0, 1.0, 0), Vec3.ZERO, Vec3.ONE), 2102),
-                new Rig.Part("右腕", "人胴", new Transform(new Vec3(0.5, 0.8, 0), Vec3.ZERO, Vec3.ONE), 2103),
-                new Rig.Part("左腕", "人胴", new Transform(new Vec3(-0.5, 0.8, 0), Vec3.ZERO, Vec3.ONE), 2104),
-                new Rig.Part("槍", "右腕", new Transform(new Vec3(0, -0.6, 0), Vec3.ZERO, Vec3.ONE),
-                        2105, false),
-                new Rig.Part("馬胴", "人胴", new Transform(new Vec3(0, -1.2, 0), Vec3.ZERO, Vec3.ONE), 2106),
-                new Rig.Part("右前足", "馬胴", new Transform(new Vec3(0.5, -0.8, 0.7), Vec3.ZERO, Vec3.ONE), 2107),
-                new Rig.Part("左前足", "馬胴", new Transform(new Vec3(-0.5, -0.8, 0.7), Vec3.ZERO, Vec3.ONE), 2108),
-                new Rig.Part("右後足", "馬胴", new Transform(new Vec3(0.5, -0.8, -0.7), Vec3.ZERO, Vec3.ONE), 2109),
-                new Rig.Part("左後足", "馬胴", new Transform(new Vec3(-0.5, -0.8, -0.7), Vec3.ZERO, Vec3.ONE), 2110)),
-                4.6, 2.0);
+        List<Rig.Part> parts = new ArrayList<>();
+        parts.add(part("人胴", null, pos(0, 3.00, 0), 2101)
+                .looks(Appearance.box(ARMOR, 0.90, 1.30, 0.60))
+                .weakPoint(CORE_VULNERABILITY, Rig.Gate.ON_ARMOR_BROKEN));
+        parts.add(part("頭", "人胴", pos(0, 0.95, 0), 2102)
+                .looks(Appearance.box(BONE, 0.60, 0.60, 0.60))
+                .weakPoint(HEAD_VULNERABILITY, Rig.Gate.ON_EXPOSURE));
+        parts.add(part("右角", "頭", posRot(0.18, 0.28, -0.08, 158, 0, 16), 2103)
+                .looks(Appearance.limb(SHAFT, 0.11, 0.60, 0.11).asDecoration()));
+        parts.add(part("左角", "頭", posRot(-0.18, 0.28, -0.08, 158, 0, -16), 2104)
+                .looks(Appearance.limb(SHAFT, 0.11, 0.60, 0.11).asDecoration()));
+        parts.add(part("頭飾り", "頭", posRot(0, 0.33, 0.10, 0, 0, 90), 2105)
+                .looks(Appearance.item(CREST, 0.85).asDecoration()));
+        parts.add(part("右肩装甲", "人胴", pos(0.62, 0.50, 0), 2106)
+                .looks(Appearance.box(PLATE, 0.60, 0.50, 0.60))
+                .breakableAt(ARMOR_THRESHOLD));
+        parts.add(part("左肩装甲", "人胴", pos(-0.62, 0.50, 0), 2107)
+                .looks(Appearance.box(PLATE, 0.60, 0.50, 0.60))
+                .breakableAt(ARMOR_THRESHOLD));
+        parts.add(part("右腕", "人胴", pos(0.62, 0.45, 0), 2108)
+                .looks(Appearance.limb(ARMOR, 0.30, 1.00, 0.30)));
+        parts.add(part("左腕", "人胴", pos(-0.62, 0.45, 0), 2109)
+                .looks(Appearance.limb(ARMOR, 0.30, 1.00, 0.30)));
+        parts.add(part("槍", "右腕", posRot(0, -0.85, 0, -90, 0, 0), 2110)
+                .looks(Appearance.limb(SHAFT, 0.16, 3.80, 0.16))
+                .immune());
+        parts.add(part("穂先", "槍", pos(0, -3.80, 0), 2111)
+                .looks(Appearance.item(BLADE, 1.30).asDecoration()));
+        parts.add(part("馬胴", "人胴", pos(0, -1.00, -0.35), 2112)
+                .looks(Appearance.box(ARMOR, 1.00, 0.90, 1.90)));
+        parts.add(part("右前足", "馬胴", pos(0.35, -0.45, 0.65), 2113)
+                .looks(Appearance.limb(JOINT, 0.28, 1.55, 0.28)));
+        parts.add(part("左前足", "馬胴", pos(-0.35, -0.45, 0.65), 2114)
+                .looks(Appearance.limb(JOINT, 0.28, 1.55, 0.28)));
+        parts.add(part("右後足", "馬胴", pos(0.35, -0.45, -0.65), 2115)
+                .looks(Appearance.limb(JOINT, 0.28, 1.55, 0.28)));
+        parts.add(part("左後足", "馬胴", pos(-0.35, -0.45, -0.65), 2116)
+                .looks(Appearance.limb(JOINT, 0.28, 1.55, 0.28)));
+        return new Rig(parts, 4.6, 2.0);
     }
 
-    static Animation arm(String name, int duration, boolean loop, int... ticks) {
-        List<Animation.Keyframe> keys = new java.util.ArrayList<>();
-        for (int i = 0; i < ticks.length; i++) {
-            keys.add(new Animation.Keyframe(ticks[i],
-                    new Transform(Vec3.ZERO, new Vec3(0, 10.0 * i, 0), Vec3.ONE)));
+    private static Rig.Part part(String name, String parent, Transform base, int modelId) {
+        return new Rig.Part(name, parent, base, modelId);
+    }
+
+    private static Transform pos(double x, double y, double z) {
+        return new Transform(new Vec3(x, y, z), Vec3.ZERO, Vec3.ONE);
+    }
+
+    private static Transform posRot(double x, double y, double z,
+                                    double rx, double ry, double rz) {
+        return new Transform(new Vec3(x, y, z), new Vec3(rx, ry, rz), Vec3.ONE);
+    }
+
+    // ------------------------------------------------------------ モーション
+
+    /** 回転だけのキーフレーム。 */
+    private static Animation.Keyframe rot(int tick, double x, double y, double z) {
+        return new Animation.Keyframe(tick, new Transform(Vec3.ZERO, new Vec3(x, y, z), Vec3.ONE));
+    }
+
+    /** 平行移動だけのキーフレーム。 */
+    private static Animation.Keyframe move(int tick, double x, double y, double z) {
+        return new Animation.Keyframe(tick, new Transform(new Vec3(x, y, z), Vec3.ZERO, Vec3.ONE));
+    }
+
+    /** 平行移動と回転を持つキーフレーム。 */
+    private static Animation.Keyframe pose(int tick, double tz, double rx) {
+        return new Animation.Keyframe(tick,
+                new Transform(new Vec3(0, 0, tz), new Vec3(rx, 0, 0), Vec3.ONE));
+    }
+
+    private static Animation animation(String name, int duration, boolean loop,
+                                       Object... trackPairs) {
+        Map<String, List<Animation.Keyframe>> tracks = new LinkedHashMap<>();
+        for (int i = 0; i < trackPairs.length; i += 2) {
+            @SuppressWarnings("unchecked")
+            List<Animation.Keyframe> keys = (List<Animation.Keyframe>) trackPairs[i + 1];
+            tracks.put((String) trackPairs[i], keys);
         }
-        return new Animation(name, duration, loop, Map.of("右腕", keys));
+        return new Animation(name, duration, loop, tracks);
     }
 
-    static MotionSpec charge(MotionSpec.Damage damage, double back) {
-        return new MotionSpec("突進切り上げ", arm("突進切り上げ", 30, false, 0, 10, 30), 40, true,
+    /**
+     * 突進切り上げ。前傾して槍を水平に構え、突進の終端で振り上げる。
+     */
+    static MotionSpec charge(MotionSpec.Damage damage, double back, String body) {
+        Animation animation = animation("突進切り上げ", 30, false,
+                body, List.of(rot(0, 0, 0, 0), rot(10, 8, 0, 0), rot(25, 14, 0, 0),
+                        rot(30, -6, 0, 0)),
+                "頭", List.of(rot(0, 0, 0, 0), rot(10, -8, 0, 0), rot(30, -16, 0, 0)),
+                "右腕", List.of(pose(0, 0, 0), pose(10, 0.15, -25), pose(25, 0.35, -22),
+                        pose(30, 0.10, -95)));
+        return new MotionSpec("突進切り上げ", animation, 40, true,
                 List.of(new MotionSpec.DamageWindow("槍", 10, 30, damage)),
                 Optional.of(new MotionSpec.Interrupt("槍", 30, 80)),
                 Optional.of(new MotionSpec.Charge(10.0, 20)), Optional.empty(),
-                Optional.of(new MotionSpec.Knockback(3, back)), Optional.empty(), false);
+                Optional.of(new MotionSpec.Knockback(3, back)), Optional.empty(), false,
+                new MotionSpec.Usage(0, 30.0, 0, 25, 120, 2, false));
     }
 
-    static MotionSpec sweep(MotionSpec.Damage damage) {
-        return new MotionSpec("なぎ払い", arm("なぎ払い", 18, false, 0, 5, 10, 18), 40, false,
+    /**
+     * なぎ払い。槍を左 210 度へ構え、5 tick 静止してから −30 度まで 240 度振る。
+     */
+    static MotionSpec sweep(MotionSpec.Damage damage, String body) {
+        Animation animation = animation("なぎ払い", 18, false,
+                body, List.of(rot(0, 0, 0, 0), rot(5, 0, 28, 0), rot(10, 0, 28, 0),
+                        rot(18, 0, -38, 0)),
+                "右腕", List.of(rot(0, 0, 0, 0), rot(5, -18, 120, 0), rot(10, -18, 120, 0),
+                        rot(18, -12, -120, 0)));
+        return new MotionSpec("なぎ払い", animation, 40, false,
                 List.of(new MotionSpec.DamageWindow("槍", 10, 18, damage)),
                 Optional.empty(), Optional.empty(), Optional.empty(),
-                Optional.empty(), Optional.empty(), false);
+                Optional.empty(), Optional.empty(), false,
+                MotionSpec.Usage.at(0, 6.5, 30, 60));
     }
 
-    static MotionSpec tripleThrust(double perHit) {
+    /**
+     * 3段突き。3回目だけ 10 tick のディレイが入る。
+     *
+     * <p>そのディレイは予備動作を見せる時間であり、同時に<b>咎める時間</b>でもある。
+     * 3段目が出る前（65 tick まで）に槍を叩けば止められ、弱点が露出する。
+     */
+    static MotionSpec tripleThrust(double perHit, String body) {
         var damage = MotionSpec.Damage.of(perHit);
-        return new MotionSpec("3段突き", arm("3段突き", 70, false, 0, 15, 20, 35, 40, 55, 65, 70), 40, false,
+        Animation animation = animation("3段突き", 70, false,
+                body, List.of(rot(0, 0, 0, 0), rot(20, 6, 0, 0), rot(40, 6, 0, 0),
+                        rot(55, 2, 0, 0), rot(70, 12, 0, 0)),
+                "右腕", List.of(pose(0, 0, 0), pose(15, -0.35, -88), pose(20, 1.15, -92),
+                        pose(25, -0.35, -88), pose(35, -0.35, -88), pose(40, 1.15, -92),
+                        pose(45, -0.35, -88), pose(55, -0.55, -84), pose(65, -0.55, -84),
+                        pose(70, 1.35, -94)));
+        return new MotionSpec("3段突き", animation, 40, false,
                 List.of(new MotionSpec.DamageWindow("槍", 15, 20, damage),
                         new MotionSpec.DamageWindow("槍", 35, 40, damage),
                         new MotionSpec.DamageWindow("槍", 65, 70, damage)),
-                Optional.empty(), Optional.empty(), Optional.empty(),
-                Optional.empty(), Optional.empty(), true);
+                Optional.of(new MotionSpec.Interrupt("槍", 65, 60)),
+                Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(), true,
+                MotionSpec.Usage.at(0, 5.5, 20, 90));
     }
 
-    static MotionSpec fourHit(double a, double b, double c, double d) {
-        return new MotionSpec("追従4連切り",
-                arm("追従4連切り", 65, false, 0, 15, 20, 30, 35, 45, 50, 60, 65), 40, false,
+    /**
+     * 追従4連切り。突き → 振り下ろし → 真上からの突き → 振り下ろし。
+     */
+    static MotionSpec fourHit(double a, double b, double c, double d, String body) {
+        Animation animation = animation("追従4連切り", 65, false,
+                "頭", List.of(rot(0, 0, 0, 0), rot(35, 12, 0, 0), rot(65, 10, 0, 0)),
+                body, List.of(rot(0, 0, 0, 0), rot(20, 5, 0, 0), rot(45, -8, 0, 0),
+                        rot(65, 10, 0, 0)),
+                "右腕", List.of(pose(0, 0, 0), pose(15, -0.30, -85), pose(20, 1.00, -90),
+                        pose(30, 0, -160), pose(35, 0.30, -10), pose(45, 0, -185),
+                        pose(50, 0.90, -95), pose(60, 0, -160), pose(65, 0.30, -5)));
+        return new MotionSpec("追従4連切り", animation, 40, false,
                 List.of(new MotionSpec.DamageWindow("槍", 15, 20, MotionSpec.Damage.of(a)),
                         new MotionSpec.DamageWindow("槍", 30, 35, MotionSpec.Damage.of(b)),
                         new MotionSpec.DamageWindow("槍", 45, 50, MotionSpec.Damage.of(c)),
                         new MotionSpec.DamageWindow("槍", 60, 65, MotionSpec.Damage.of(d))),
                 Optional.empty(), Optional.empty(), Optional.empty(),
-                Optional.empty(), Optional.empty(), true);
+                Optional.empty(), Optional.empty(), true,
+                MotionSpec.Usage.at(0, 7.5, 20, 110));
     }
 
+    /** 回旋突進。円周を 1.5 周してから最短距離のプレイヤーへ突進する。 */
     static MotionSpec orbitCharge() {
-        return new MotionSpec("回旋突進", arm("回旋突進", 120, false, 0, 100, 120), 40, false,
+        Animation animation = animation("回旋突進", 120, false,
+                "人胴", List.of(rot(0, 0, 0, 0), rot(20, 0, 0, 18), rot(100, 0, 0, 18),
+                        rot(120, 16, 0, 0)),
+                "右腕", List.of(rot(0, 0, 0, 0), rot(20, -90, 0, 0), rot(100, -90, 0, 0),
+                        rot(120, -98, 0, 0)));
+        return new MotionSpec("回旋突進", animation, 40, false,
                 List.of(new MotionSpec.DamageWindow("槍", 100, 120, MotionSpec.Damage.of(40))),
                 Optional.empty(), Optional.of(new MotionSpec.Charge(14.0, 20)),
                 Optional.of(new MotionSpec.Orbit(30, 1.5, 100)),
-                Optional.of(new MotionSpec.Knockback(3, 7)), Optional.empty(), false);
+                Optional.of(new MotionSpec.Knockback(3, 7)), Optional.empty(), false,
+                MotionSpec.Usage.at(6.0, 40.0, 25, 320));
     }
 
+    /** 踏みつけ。両前足を持ち上げて叩きつけ、半径10ブロックに衝撃波を出す。 */
     static MotionSpec stomp() {
-        Animation lift = new Animation("踏みつけ", 20, false, Map.of(
-                "右前足", List.of(new Animation.Keyframe(0, Transform.IDENTITY),
-                        new Animation.Keyframe(20, new Transform(new Vec3(0, 1.5, 0), Vec3.ZERO, Vec3.ONE))),
-                "左前足", List.of(new Animation.Keyframe(0, Transform.IDENTITY),
-                        new Animation.Keyframe(20, new Transform(new Vec3(0, 1.5, 0), Vec3.ZERO, Vec3.ONE)))));
-        return new MotionSpec("踏みつけ", lift, 40, true,
+        Animation animation = animation("踏みつけ", 20, false,
+                "人胴", List.of(rot(0, 0, 0, 0), rot(12, -26, 0, 0), rot(20, 6, 0, 0)),
+                "右前足", List.of(move(0, 0, 0, 0),
+                        new Animation.Keyframe(12,
+                                new Transform(new Vec3(0, 1.30, 0), new Vec3(-35, 0, 0), Vec3.ONE)),
+                        move(20, 0, 0, 0)),
+                "左前足", List.of(move(0, 0, 0, 0),
+                        new Animation.Keyframe(12,
+                                new Transform(new Vec3(0, 1.30, 0), new Vec3(-35, 0, 0), Vec3.ONE)),
+                        move(20, 0, 0, 0)));
+        return new MotionSpec("踏みつけ", animation, 40, true,
                 List.of(new MotionSpec.DamageWindow("右前足", 20, 20, MotionSpec.Damage.of(5)),
                         new MotionSpec.DamageWindow("左前足", 20, 20, MotionSpec.Damage.of(5))),
                 Optional.of(new MotionSpec.Interrupt("頭", 20, 40)),
                 Optional.empty(), Optional.empty(), Optional.empty(),
-                Optional.of(new MotionSpec.AreaEffect(10, 0.3, MotionSpec.Damage.of(28))), false);
+                Optional.of(new MotionSpec.AreaEffect(10, 0.3, MotionSpec.Damage.of(28))), false,
+                MotionSpec.Usage.crowd(9.0, 2, 30, 220));
     }
 
+    // ------------------------------------------------------------ 待機と歩行
+
+    /** 二足形態の待機。呼吸と首の振り。 */
+    static Animation knightIdle() {
+        return animation("待機", 40, true,
+                "胴", List.of(move(0, 0, 0, 0), move(20, 0, 0.08, 0), move(40, 0, 0, 0)),
+                "頭", List.of(rot(0, 0, 0, 0), rot(10, 0, 10, 0), rot(30, 0, -10, 0),
+                        rot(40, 0, 0, 0)),
+                "右腕", List.of(rot(0, 0, 0, 0), rot(20, 5, 0, 0), rot(40, 0, 0, 0)),
+                "左腕", List.of(rot(0, 0, 0, 0), rot(20, -5, 0, 0), rot(40, 0, 0, 0)));
+    }
+
+    /** 二足形態の歩行。左右の足と腕を交互に振る。 */
+    static Animation knightWalk() {
+        return animation("歩行", 20, true,
+                "右足", List.of(rot(0, 0, 0, 0), rot(5, -28, 0, 0), rot(10, 0, 0, 0),
+                        rot(15, 24, 0, 0), rot(20, 0, 0, 0)),
+                "左足", List.of(rot(0, 0, 0, 0), rot(5, 24, 0, 0), rot(10, 0, 0, 0),
+                        rot(15, -28, 0, 0), rot(20, 0, 0, 0)),
+                "右腕", List.of(rot(0, 0, 0, 0), rot(10, 14, 0, 0), rot(20, 0, 0, 0)),
+                "胴", List.of(move(0, 0, 0, 0), move(5, 0, 0.06, 0), move(10, 0, 0, 0),
+                        move(15, 0, 0.06, 0), move(20, 0, 0, 0)));
+    }
+
+    /** 四足形態の待機。 */
+    static Animation centaurIdle() {
+        return animation("待機", 40, true,
+                "人胴", List.of(move(0, 0, 0, 0), move(20, 0, 0.07, 0), move(40, 0, 0, 0)),
+                "頭", List.of(rot(0, 0, 0, 0), rot(10, 0, 12, 0), rot(30, 0, -12, 0),
+                        rot(40, 0, 0, 0)),
+                "右前足", List.of(rot(0, 0, 0, 0), rot(20, -6, 0, 0), rot(40, 0, 0, 0)),
+                "左前足", List.of(rot(0, 0, 0, 0), rot(20, 6, 0, 0), rot(40, 0, 0, 0)));
+    }
+
+    /** 四足形態の歩行。対角の足が同時に出る。 */
+    static Animation centaurWalk() {
+        return animation("歩行", 20, true,
+                "右前足", List.of(rot(0, 0, 0, 0), rot(5, -30, 0, 0), rot(10, 0, 0, 0),
+                        rot(15, 26, 0, 0), rot(20, 0, 0, 0)),
+                "左後足", List.of(rot(0, 0, 0, 0), rot(5, -30, 0, 0), rot(10, 0, 0, 0),
+                        rot(15, 26, 0, 0), rot(20, 0, 0, 0)),
+                "左前足", List.of(rot(0, 0, 0, 0), rot(5, 26, 0, 0), rot(10, 0, 0, 0),
+                        rot(15, -30, 0, 0), rot(20, 0, 0, 0)),
+                "右後足", List.of(rot(0, 0, 0, 0), rot(5, 26, 0, 0), rot(10, 0, 0, 0),
+                        rot(15, -30, 0, 0), rot(20, 0, 0, 0)));
+    }
+
+    // ------------------------------------------------------------ 段階
+
     public static RaidSpecies.Phase knightPhaseOne() {
+        var behavior = new RaidSpecies.Behavior(MotionSpec.DEFAULT_IDLE_TICKS, 20, 6.0,
+                knightIdle(), knightWalk());
         return new RaidSpecies.Phase("第一形態", 100,
-                List.of(charge(new MotionSpec.Damage(25, 30), 5),
-                        sweep(new MotionSpec.Damage(22, 28)),
-                        tripleThrust(20),
-                        fourHit(10.0, 14.0, 11.0, 16.0)),
-                "槍に攻撃を当てて突進を止める。パリイで大きな隙を作る", null, 6.0, knightRig());
+                List.of(charge(new MotionSpec.Damage(25, 30), 5, "胴"),
+                        sweep(new MotionSpec.Damage(22, 28), "胴"),
+                        tripleThrust(20, "胴"),
+                        fourHit(10.0, 14.0, 11.0, 16.0, "胴")),
+                "槍を叩いて突進を止め、パリイで頭を露出させる。肩装甲を両方壊すと胴が弱点になる",
+                null, behavior, knightRig());
     }
 
     public static RaidSpecies.Phase knightPhaseTwo() {
+        var behavior = new RaidSpecies.Behavior(MotionSpec.DEFAULT_IDLE_TICKS, 20, 7.0,
+                centaurIdle(), centaurWalk());
         return new RaidSpecies.Phase("第二形態", 50,
-                List.of(charge(new MotionSpec.Damage(28, 32), 5),
-                        sweep(new MotionSpec.Damage(27, 32)),
-                        tripleThrust(24),
-                        fourHit(12.0, 16.0, 13.0, 18.0),
+                List.of(charge(new MotionSpec.Damage(28, 32), 5, "人胴"),
+                        sweep(new MotionSpec.Damage(27, 32), "人胴"),
+                        tripleThrust(24, "人胴"),
+                        fourHit(12.0, 16.0, 13.0, 18.0, "人胴"),
                         orbitCharge(),
                         stomp()),
-                "半身半獣に変身し全モーションが加速。回旋突進と踏みつけが加わる", null, 7.0, centaurRig());
+                "半身半獣に変身し全モーションが加速。回旋突進と踏みつけが加わり、装甲も張り直される",
+                null, behavior, centaurRig());
     }
-
 }
