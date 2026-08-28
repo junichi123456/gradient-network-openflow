@@ -8,6 +8,8 @@
 
 ---
 
+> **置き場所は自由。** 以下は `C:\raid-dev`（ソース）と `C:\raid-test`（サーバー）を例にする。別のドライブに置く場合は読み替えてよい（例: `E:\raid-dev`、`E:\raid-test`）。**ワールドの書き込みが多いため、サーバー本体は SSD 上に置く。**
+
 ## 手順の全体像
 
 | 段 | やること |
@@ -71,11 +73,25 @@ C:\gradle\gradle-9.7.1\bin\gradle.bat -v
 3. 緑の **Code** ボタン → **Download ZIP**
 4. ダウンロードした ZIP を右クリック →「すべて展開」→ `C:\raid-dev` に展開する
 
-**方法B（Git がある場合）**
+**方法B（Git を使う。推奨）**
+
+修正が入ったとき `git pull` の一行で最新を取り込める。
 
 ```powershell
-cd C:\
-git clone -b claude/litematica-rules-usufg6 <リポジトリのURL> raid-dev
+winget install Git.Git
+```
+
+インストール後、**PowerShell を閉じて開き直してから**実行する。
+
+```powershell
+git clone -b claude/litematica-rules-usufg6 <リポジトリのURL> E:\raid-dev
+```
+
+以降、最新を取り込むときは次を実行する。
+
+```powershell
+cd E:\raid-dev
+git pull
 ```
 
 ### 2.2 対象バージョンを合わせる
@@ -91,14 +107,16 @@ compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
 ### 2.3 ビルドする
 
 ```powershell
-cd C:\raid-dev
+cd E:\raid-dev
 C:\gradle\gradle-9.7.1\bin\gradle.bat :plugin:jar
 ```
+
+> Gradle は `C:\gradle` に置いたままで、別ドライブのプロジェクトをビルドできる。
 
 初回は依存の取得に数分かかる。成功すると次の場所に jar ができる。
 
 ```
-C:\raid-dev\plugin\build\libs\raid-plugin.jar
+E:\raid-dev\plugin\build\libs\raid-plugin.jar
 ```
 
 > **エラーが出たら、そのメッセージをそのまま伝えてほしい。** 特に paper-api のバージョン指定は、対象バージョンによって書き方が変わる。
@@ -163,7 +181,7 @@ max-players=20
 ## 4. プラグインを入れる
 
 ```powershell
-copy C:\raid-dev\plugin\build\libs\raid-plugin.jar C:\raid-test\plugins\
+copy E:\raid-dev\plugin\build\libs\raid-plugin.jar E:\raid-test\plugins\
 ```
 
 `plugins` フォルダが無ければ作る。
