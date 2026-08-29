@@ -269,18 +269,24 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks,
      * <p>盾で受けることでは成立しない。<b>その区間に個体へ与えたダメージ</b>で判定する。
      * 受け身の防御ではなく、踏み込んで打ち返すことを成立条件に置く。
      *
-     * @param fromTick       判定が始まる tick
-     * @param toTick         判定が終わる tick
-     * @param damageFraction 成立に要する累積ダメージ（個体の最大体力に対する割合）
+     * <p>必要なダメージは<b>パリイに成功するたびに増える</b>。1回目は軽く、
+     * 繰り返すほど重くなる。個体の体力に比例させないのは、人数が増えるほど
+     * 成立しにくくなる形を避けるためである。回数で重くするなら、
+     * 少人数でも大人数でも「何度も止め続けることはできない」という同じ制約になる。
+     *
+     * @param fromTick         判定が始まる tick
+     * @param toTick           判定が終わる tick
+     * @param baseDamage       1回目の成立に要する累積ダメージ
+     * @param increasePerParry パリイ1回ごとに増える必要ダメージ
      */
-    public record Parry(int fromTick, int toTick, double damageFraction) {
+    public record Parry(int fromTick, int toTick, double baseDamage, double increasePerParry) {
 
         public Parry {
             if (fromTick < 0 || toTick < fromTick) {
                 throw new IllegalArgumentException("パリイの区間が不正である");
             }
-            if (damageFraction <= 0 || damageFraction > 1) {
-                throw new IllegalArgumentException("パリイの必要ダメージが範囲外である");
+            if (baseDamage <= 0 || increasePerParry < 0) {
+                throw new IllegalArgumentException("パリイの必要ダメージが不正である");
             }
         }
 
@@ -288,9 +294,16 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks,
             return tick >= fromTick && tick <= toTick;
         }
 
-        /** 成立に要するダメージ量。 */
-        public double requiredDamage(long maxHealth) {
-            return damageFraction * maxHealth;
+        /**
+         * 成立に要するダメージ量。
+         *
+         * @param parriesSoFar その戦闘でこれまでに成功したパリイの回数
+         */
+        public double requiredDamage(int parriesSoFar) {
+            if (parriesSoFar < 0) {
+                throw new IllegalArgumentException("パリイの回数が負である: " + parriesSoFar);
+            }
+            return baseDamage + increasePerParry * parriesSoFar;
         }
     }
 

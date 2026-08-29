@@ -56,6 +56,7 @@ public final class KnightSimulation {
         double exposedDamage;
         double normalDamage;
         int exposureCount;
+        int parryCount;
         final Map<String, Integer> motionCounts = new LinkedHashMap<>();
     }
 
@@ -86,9 +87,8 @@ public final class KnightSimulation {
                 Raid.difficulty(participants).healthMultiplier());
         System.out.printf("1人あたりDPS %.1f / 被ダメ軽減 %.0f%% / パリイ区間の攻撃通過率 %.0f%% / 制限時間 %d分%n",
                 dpsPerPlayer, reductionPercent, parryPercent, Raid.TIME_LIMIT_MINUTES);
-        System.out.printf("パリイに要するダメージ: 最大体力の %.1f%% ＝ %,.0f%n",
-                KnightDefinition.PARRY_DAMAGE_FRACTION * 100,
-                KnightDefinition.PARRY_DAMAGE_FRACTION * fight.maxHealth);
+        System.out.printf("パリイに要するダメージ: 1回目 %.0f、成功するたびに +%.0f%n",
+                KnightDefinition.PARRY_BASE_DAMAGE, KnightDefinition.PARRY_DAMAGE_INCREASE);
         System.out.printf("弱点 頭 ×%.1f（露出中のみ %d tick / 空振りは %d tick）%n%n",
                 KnightDefinition.HEAD_VULNERABILITY, PartTracker.EXPOSURE_TICKS,
                 PartTracker.WHIFF_EXPOSURE_TICKS);
@@ -144,15 +144,17 @@ public final class KnightSimulation {
                 int windowTicks = parry.toTick() - parry.fromTick();
                 double reachable = dpsPerPlayer * aliveCount(players) * windowTicks / 20.0
                         * (parryPercent / 100.0);
-                double required = parry.requiredDamage(fight.maxHealth);
+                double required = parry.requiredDamage(fight.parryCount);
                 if (reachable >= required) {
                     parried = true;
+                    fight.parryCount++;
                     fight.parts.expose(PartTracker.EXPOSURE_TICKS);
                     fight.exposureCount++;
                     System.out.printf(
-                            "[%s] パリイ成功 — %s を止めた（%.0f / %.0f ダメージ・弱点が %dtick 露出）%n",
-                            time(fight.tick), motion.name(), reachable, required,
-                            PartTracker.EXPOSURE_TICKS);
+                            "[%s] パリイ成功（%d回目） — %s を止めた"
+                                    + "（%.0f / %.0f ダメージ・弱点が %dtick 露出）次は %.0f 必要%n",
+                            time(fight.tick), fight.parryCount, motion.name(), reachable, required,
+                            PartTracker.EXPOSURE_TICKS, parry.requiredDamage(fight.parryCount));
                 }
             }
 
@@ -299,7 +301,8 @@ public final class KnightSimulation {
         System.out.printf("倍率が乗ったダメージ %,.0f（%.0f%%）/ 素のダメージ %,.0f%n",
                 fight.exposedDamage, total == 0 ? 0 : fight.exposedDamage * 100 / total,
                 fight.normalDamage);
-        System.out.printf("弱点の露出を作った回数 %d 回%n", fight.exposureCount);
+        System.out.printf("弱点の露出を作った回数 %d 回（うちパリイ %d 回）%n",
+                fight.exposureCount, fight.parryCount);
         System.out.printf("激昂 %d 回%n", fight.enrageCount);
 
         System.out.println();

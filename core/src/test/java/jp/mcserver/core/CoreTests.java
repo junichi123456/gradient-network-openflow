@@ -1949,15 +1949,25 @@ public final class CoreTests {
                         && chargeOne.knockback().orElseThrow().backBlocks() == 5);
         check("突進はパリイされない限り中断されない",
                 chargeOne.interrupt().isEmpty() && chargeOne.parryable());
+        var parry = chargeOne.parry().orElseThrow();
         check("パリイは盾ではなく、区間に与えた累積ダメージで判定する",
-                chargeOne.parry().orElseThrow().fromTick() == 10
-                        && chargeOne.parry().orElseThrow().toTick() == 47
-                        && chargeOne.parry().orElseThrow().damageFraction()
-                        == KnightDefinition.PARRY_DAMAGE_FRACTION);
-        check("パリイに要するダメージは最大体力に比例する",
-                Math.abs(chargeOne.parry().orElseThrow().requiredDamage(600) - 9.0) < 1e-9
-                        && Math.abs(chargeOne.parry().orElseThrow().requiredDamage(6_540) - 98.1)
-                        < 1e-9);
+                parry.fromTick() == 10 && parry.toTick() == 47
+                        && parry.baseDamage() == KnightDefinition.PARRY_BASE_DAMAGE);
+        check("1回目のパリイに要するダメージは10",
+                parry.requiredDamage(0) == 10.0);
+        check("パリイに成功するたびに必要量が10ずつ増える",
+                parry.requiredDamage(1) == 20.0 && parry.requiredDamage(2) == 30.0
+                        && parry.requiredDamage(5) == 60.0
+                        && parry.increasePerParry() == KnightDefinition.PARRY_DAMAGE_INCREASE);
+        check("必要量は参加人数にも体力にも依存しない",
+                second.motion("突進切り上げ").parry().orElseThrow().requiredDamage(0)
+                        == parry.requiredDamage(0));
+        check("パリイの回数に負の値は渡せない",
+                thrown(() -> parry.requiredDamage(-1)));
+        check("踏みつけも同じ条件でパリイできる",
+                second.motion("踏みつけ").parry().orElseThrow().requiredDamage(0) == 10.0
+                        && second.motion("踏みつけ").parry().orElseThrow().requiredDamage(3)
+                        == 40.0);
         check("パリイの判定は突進の区間だけである",
                 !chargeOne.parry().orElseThrow().covers(9)
                         && chargeOne.parry().orElseThrow().covers(10)

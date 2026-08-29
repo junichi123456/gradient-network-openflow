@@ -85,6 +85,8 @@ final class KnightBoss {
     private Vector chargeDirection;
     /** パリイの区間に与えられた累積ダメージ */
     private double parryDamage;
+    /** その戦闘で成功したパリイの回数。成功するたびに次の必要量が増える（§12.6） */
+    private int parryCount;
     /** この突進ですでに当てたプレイヤー。走り抜けても二重に当てない */
     private final Set<UUID> struck = new HashSet<>();
 
@@ -130,7 +132,8 @@ final class KnightBoss {
             motion.charge().ifPresent(run -> text.append(String.format(
                     " / 突進 %.1f / %.0f ブロック", chargeTravelled, run.distanceBlocks())));
             motion.parry().ifPresent(parry -> text.append(String.format(
-                    " / パリイ %.0f / %.0f", parryDamage, parry.requiredDamage(maxHealth))));
+                    " / パリイ %.0f / %.0f（成功 %d回）", parryDamage,
+                    parry.requiredDamage(parryCount), parryCount)));
         }
         return text.toString();
     }
@@ -447,16 +450,19 @@ final class KnightBoss {
         if (parry == null || !parry.covers(stateTick)) {
             return;
         }
-        double required = parry.requiredDamage(maxHealth);
+        double required = parry.requiredDamage(parryCount);
         parryDamage += dealt;
         if (parryDamage < required) {
-            attacker.sendActionBar(Component.text(String.format("パリイまで %.0f",
-                    Math.max(0, required - parryDamage))));
+            attacker.sendActionBar(Component.text(String.format("パリイまで %.0f / %.0f",
+                    Math.max(0, required - parryDamage), required)));
             return;
         }
         interrupted = true;
+        parryCount++;
         parts.expose(PartTracker.EXPOSURE_TICKS);
-        announce("§bパリイ成功 — " + motion.name() + " を止めた（弱点が露出）");
+        announce(String.format("§bパリイ成功（%d回目） — %s を止めた（弱点が露出）"
+                + " / 次は %.0f 必要", parryCount, motion.name(),
+                parry.requiredDamage(parryCount)));
         sound("item.shield.block", 1.4f, 0.8f);
         sound("block.anvil_land", 1.0f, 1.8f);
         particles(Particle.CRIT, rig.centerOf("槍"), 40, 0.6);
@@ -535,6 +541,7 @@ final class KnightBoss {
         selector.reset();
         rage.reset();
         wasExposed = false;
+        // パリイの回数は引き継ぐ。形態が変わっても「止め続けられない」制約は続く
         // 骨格が変わるので作り直す（§12.7 の形態変化）
         Location origin = rig.origin();
         rig.despawn();

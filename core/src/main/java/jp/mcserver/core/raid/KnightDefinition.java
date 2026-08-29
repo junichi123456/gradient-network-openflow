@@ -31,14 +31,16 @@ public final class KnightDefinition {
     /** 槍の先端の細さ。手元の断面に対する比率で、円錐状に絞る。 */
     public static final double SPEAR_TAPER = 0.30;
 
+    /** 1回目のパリイに要する累積ダメージ。 */
+    public static final double PARRY_BASE_DAMAGE = 10.0;
+
     /**
-     * パリイの成立に要する累積ダメージ（最大体力に対する割合）。
+     * パリイ1回ごとに増える必要ダメージ。
      *
-     * <p>最大体力に比例させるのは、人数が増えれば火力も増えるためである。
-     * 参加1名で 9、上限の12名で 98 になる。<b>実測で調整する値である</b>（§22）。
-     * 突進中の個体は走り抜けていくため、実際に殴れる時間は区間より短い。
+     * <p>1回目 10、2回目 20、3回目 30 と重くなる。<b>止め続けることはできない</b>。
+     * 個体の体力に比例させないのは、人数が増えるほど成立しにくくなる形を避けるためである。
      */
-    public static final double PARRY_DAMAGE_FRACTION = 0.015;
+    public static final double PARRY_DAMAGE_INCREASE = 10.0;
 
     /** 突進の前の後ずさり（ブロック / tick）。 */
     public static final double BACKSTEP_BLOCKS = 0.5;
@@ -243,7 +245,7 @@ public final class KnightDefinition {
                         pose(end, 0.20, -60), pose(duration, 0.10, -105)));
         return new MotionSpec("突進切り上げ", animation, 40,
                 Optional.of(new MotionSpec.Parry(run.runFromTick(), end,
-                        PARRY_DAMAGE_FRACTION)),
+                        PARRY_BASE_DAMAGE, PARRY_DAMAGE_INCREASE)),
                 List.of(new MotionSpec.DamageWindow("槍", run.runFromTick() + 2, end, damage)),
                 Optional.empty(),
                 Optional.of(run), Optional.empty(),
@@ -347,7 +349,8 @@ public final class KnightDefinition {
                                 new Transform(new Vec3(0, 1.30, 0), new Vec3(-35, 0, 0), Vec3.ONE)),
                         move(20, 0, 0, 0)));
         return new MotionSpec("踏みつけ", animation, 40,
-                Optional.of(new MotionSpec.Parry(0, 20, PARRY_DAMAGE_FRACTION)),
+                Optional.of(new MotionSpec.Parry(0, 20, PARRY_BASE_DAMAGE,
+                        PARRY_DAMAGE_INCREASE)),
                 List.of(new MotionSpec.DamageWindow("右前足", 20, 20, MotionSpec.Damage.of(5)),
                         new MotionSpec.DamageWindow("左前足", 20, 20, MotionSpec.Damage.of(5))),
                 Optional.of(new MotionSpec.Interrupt("頭", 20, 40)),
