@@ -1595,25 +1595,27 @@ public final class CoreTests {
                 Raid.difficulty(2).healthPercent() == 190
                         && Raid.difficulty(3).healthPercent() == 280
                         && Raid.difficulty(6).healthPercent() == 550);
-        check("20名では18.1倍",
-                Raid.difficulty(20).healthPercent() == 1810
-                        && Raid.difficulty(20).healthMultiplier() == 18.1);
+        check("上限の12名では10.9倍",
+                Raid.difficulty(12).healthPercent() == 1090
+                        && Raid.difficulty(12).healthMultiplier() == 10.9);
+        check("参加人数の上限は12名（描画の実体数から決めた線・§12.6）",
+                Raid.MAX_PARTICIPANTS == 12);
         check("倍率は誤差なく百分率から導かれる",
                 Raid.difficulty(3).healthMultiplier() == 2.8
                         && Raid.difficulty(2).healthMultiplier() == 1.9);
         check("取り巻きも人数帯で増える",
-                Raid.difficulty(10).minions() == 4 && Raid.difficulty(20).minions() == 8);
+                Raid.difficulty(10).minions() == 4 && Raid.difficulty(12).minions() == 6);
         check("上限を超える人数は受け付けない",
-                thrown(() -> Raid.difficulty(21)));
+                thrown(() -> Raid.difficulty(13)));
 
         // 報酬
-        var reward = Raid.reward(100_000, 20, true);
+        var reward = Raid.reward(120_000, 12, true);
         check("討伐expは参加者へ等分される",
-                reward.expPerParticipant() == 5_000 && reward.remainder() == 0);
+                reward.expPerParticipant() == 10_000 && reward.remainder() == 0);
         var odd = Raid.reward(100, 3, true);
         check("端数は世界政府へ寄せる",
                 odd.expPerParticipant() == 33 && odd.remainder() == 1);
-        var failed = Raid.reward(100_000, 20, false);
+        var failed = Raid.reward(120_000, 12, false);
         check("失敗時は報酬が一切ない",
                 failed.expPerParticipant() == 0 && !failed.nationBuff());
         check("国家バフは7日間",
@@ -1833,7 +1835,7 @@ public final class CoreTests {
                 boss.healthFor(1) == 600 && boss.healthFor(2) == 1_140);
         check("3名で2.8倍の1,680", boss.healthFor(3) == 1_680);
         check("1人増えるごとに0.9倍ぶん増える",
-                boss.healthFor(10) == 600 * 91 / 10 && boss.healthFor(20) == 10_860);
+                boss.healthFor(10) == 600 * 91 / 10 && boss.healthFor(12) == 6_540);
 
         // 第一形態のモーション
         var chargeOne = first.motion("突進切り上げ");

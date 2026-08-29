@@ -305,10 +305,24 @@ public final class KnightSimulation {
 
         System.out.println();
         System.out.println("--- 通信量 ---");
-        System.out.printf("必要な更新間隔: %dtick（観戦20名）%n",
-                fight.boss.requiredUpdateInterval(20));
-        System.out.printf("動く部位3・更新間隔2tick・20名 → 毎秒 %d 件（上限 %d）%n",
-                MotionBudget.updatesPerSecond(3, 2, 20), MotionBudget.MAX_UPDATES_PER_SECOND);
+        int viewers = Raid.MAX_PARTICIPANTS;
+        Rig rig = fight.boss.rigFor(fight.boss.phases().get(fight.boss.phases().size() - 1));
+        int moving = rig.movingDisplays(rig.partNames().stream()
+                .filter(name -> rig.part(name).isRoot()).toList());
+        int hitboxes = rig.interactiveParts().stream()
+                .mapToInt(Rig.Part::hitboxSegments).sum();
+        System.out.printf("必要な更新間隔: %dtick（観戦 %d名）%n",
+                fight.boss.requiredUpdateInterval(viewers), viewers);
+        System.out.printf("姿勢更新: 表示 %d × 10Hz × %d名 → 毎秒 %,d 件（上限 %,d）%n",
+                moving, viewers, MotionBudget.updatesPerSecond(moving, 2, viewers),
+                MotionBudget.MAX_UPDATES_PER_SECOND);
+        System.out.printf("位置の追従: (表示 %d ＋ 判定 %d) × 20Hz × %d名 → 毎秒 %,d 件%n",
+                rig.displayCount(), hitboxes, viewers,
+                (rig.displayCount() + hitboxes) * 20 * viewers);
+        System.out.printf("合計 毎秒 %,d 件。参加人数の上限 %d名 は、この数から引いた線である%n",
+                MotionBudget.updatesPerSecond(moving, 2, viewers)
+                        + (rig.displayCount() + hitboxes) * 20 * viewers,
+                Raid.MAX_PARTICIPANTS);
     }
 
     private static double roll(MotionSpec.Damage damage, Random random) {
