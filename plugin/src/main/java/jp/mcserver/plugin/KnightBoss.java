@@ -56,6 +56,15 @@ final class KnightBoss {
     private static final int GROUND_UP = 3;
     private static final int GROUND_DOWN = 8;
 
+    /**
+     * 帰還の歩行を1回あたり何tickまで続けるか（§12.6）。
+     *
+     * <p>上限を超えても中心に着かない場合は<b>攻撃モーションを挟む</b>。
+     * 歩いて戻るだけの時間が長く続くと、戦闘が止まって見えるためである。
+     */
+    private static final int RETURN_WALK_MIN_TICKS = 20;
+    private static final int RETURN_WALK_MAX_TICKS = 40;
+
     private enum State { IDLE, APPROACH, MOTION, RETURN }
 
     private final RaidPlugin plugin;
@@ -101,6 +110,15 @@ final class KnightBoss {
     private int parryCount;
     /** この突進ですでに当てたプレイヤー。走り抜けても二重に当てない */
     private final Set<UUID> struck = new HashSet<>();
+    /** 待機の長さや帰還の歩行時間を選ぶ乱数 */
+    private final java.util.Random random = new java.util.Random();
+    /** 今回の帰還で歩き続ける tick。これを超えたら攻撃モーションを挟む */
+    private int returnWalkTarget;
+    /** 跳躍の始点と着地点 */
+    private Location leapFrom;
+    private Location leapTo;
+    /** 広がる衝撃波の中心 */
+    private Location waveCenter;
 
     KnightBoss(RaidPlugin plugin, Location origin) {
         this.plugin = plugin;
@@ -238,6 +256,10 @@ final class KnightBoss {
         state = next;
         stateTick = 0;
         transition.begin(lastPose);
+        if (next == State.RETURN) {
+            returnWalkTarget = RETURN_WALK_MIN_TICKS
+                    + random.nextInt(RETURN_WALK_MAX_TICKS - RETURN_WALK_MIN_TICKS + 1);
+        }
     }
 
     /** 待機・歩行のループモーションを流す。止まって見えないようにするため常に動かす。 */
@@ -294,6 +316,11 @@ final class KnightBoss {
             enter(State.APPROACH);
             return;
         }
+        // 歩き続けるのは上限まで。着かなければ攻撃モーションを挟む（§12.6）
+        if (stateTick >= returnWalkTarget) {
+            startMotion();
+            return;
+        }
         step(direction.normalize(), phase.behavior().blocksPerTick());
         if (stateTick % 8 == 0) {
             sound("entity.iron_golem.step", 0.7f, 0.8f);
@@ -322,6 +349,16 @@ final class KnightBoss {
         chargeTravelled = 0;
         chargeDirection = null;
         parryDamage = 0;
+        leapFrom = null;
+        leapTo = null;
+        waveCenter = null;
+        motion.leap().ifPresent(leap -> {
+            leapFrom = rig.origin();
+            Location center = rig.origin();
+            center.setX(stage.centerX());
+            center.setZ(stage.centerZ());
+            leapTo = grounded(center);
+        });
         enter(State.MOTION);
         announceMotion();
     }
@@ -339,7 +376,8 @@ final class KnightBoss {
             applyPose(sampled);
         }
 
-        // 突進・回旋の移動
+        // 跳躍・突進・回旋の移動
+        motion.leap().ifPresent(leap -> runLeap(leap, tick));
         motion.charge().ifPresent(run -> runCharge(run, tick));
         motion.orbit().ifPresent(orbit -> {
             if (tick <= orbit.ticks()) {
@@ -362,8 +400,15 @@ final class KnightBoss {
             }
         }
         motion.area().ifPresent(area -> {
-            if (tick == animation.durationTicks()) {
-                shockwave(area);
+            int start = motion.leap().map(MotionSpec.Leap::landingTick)
+                    .orElse(animation.durationTicks());
+            if (area.instant()) {
+                if (tick == start) {
+                    waveCenter = rig.origin();
+                    shockwave(area);
+                }
+            } else if (tick >= start && tick <= start + area.ticksToFullRadius()) {
+                expandingWave(area, tick - start);
             }
         });
 
@@ -374,10 +419,19 @@ final class KnightBoss {
                 announce("§e" + motion.name() + " を空振りした — 弱点が露出");
                 sound("block.beacon.activate", 1.0f, 1.6f);
             }
-            idleTarget = rage.idleTicks(interrupted
-                    ? motion.interrupt().map(MotionSpec.Interrupt::idleTicks)
-                            .orElse(phase.behavior().idleTicks())
-                    : phase.behavior().idleTicks());
+            // モーションが自前の待機を持つ場合はそれに従う。
+            // 幅のある待機（大ジャンプ衝撃波の20〜60tickなど）は「必ず挟む」ものであり、
+            // 激昂による短縮の対象にしない
+            if (interrupted) {
+                idleTarget = rage.idleTicks(motion.interrupt()
+                        .map(MotionSpec.Interrupt::idleTicks)
+                        .orElse(phase.behavior().idleTicks()));
+            } else if (motion.idleAfter().fixed()) {
+                idleTarget = rage.idleTicks(motion.idleAfter().minTicks());
+            } else {
+                idleTarget = motion.idleAfter().pick(random);
+                announce("§7着地の隙 — " + idleTarget + "tick");
+            }
             enter(State.IDLE);
         }
     }
@@ -407,6 +461,77 @@ final class KnightBoss {
         step(chargeDirection, step);
         chargeTravelled += step;
         trail();
+    }
+
+    /**
+     * 跳躍を進める（§12.6）。水平は等速、垂直は放物線を描いて戦場の中心へ着地する。
+     *
+     * <p>滞空中は接地させない。着地の瞬間だけ地面へ合わせる。
+     */
+    private void runLeap(MotionSpec.Leap leap, int tick) {
+        if (leapFrom == null || leapTo == null) {
+            return;
+        }
+        if (tick == leap.startTick()) {
+            sound("entity.ravager.roar", 1.2f, 1.4f);
+            particles(Particle.EXPLOSION, rig.origin(), 6, 0.8);
+        }
+        if (tick <= leap.startTick() || tick > leap.landingTick()) {
+            return;
+        }
+        int since = tick - leap.startTick();
+        double progress = leap.progress(since);
+        Location next = leapFrom.clone();
+        next.setX(leapFrom.getX() + (leapTo.getX() - leapFrom.getX()) * progress);
+        next.setZ(leapFrom.getZ() + (leapTo.getZ() - leapFrom.getZ()) * progress);
+        next.setY(leapFrom.getY() + (leapTo.getY() - leapFrom.getY()) * progress
+                + leap.archHeight(since));
+        rig.moveTo(next);
+        if (since % 4 == 0) {
+            particles(Particle.SOUL_FIRE_FLAME, rig.origin().add(0, 0.5, 0), 3, 0.3);
+        }
+        if (tick == leap.landingTick()) {
+            rig.moveTo(leapTo.clone());
+            waveCenter = leapTo.clone();
+            sound("entity.generic.explode", 1.8f, 0.6f);
+            sound("block.anvil_land", 1.6f, 0.5f);
+            particles(Particle.EXPLOSION_EMITTER, leapTo.clone().add(0, 0.5, 0), 3, 0.8);
+        }
+    }
+
+    /**
+     * 広がる衝撃波（§12.6）。着地からの経過に応じて外へ伝わる。
+     *
+     * <p>距離があれば見てから逃げられ、近ければ間に合わない。即時の範囲攻撃と違い、
+     * <b>立っている位置で猶予が変わる</b>。
+     */
+    private void expandingWave(MotionSpec.AreaEffect area, int since) {
+        if (waveCenter == null) {
+            waveCenter = rig.origin();
+        }
+        double inner = area.radiusAt(since - 1);
+        double outer = area.radiusAt(since);
+        for (double degrees = 0; degrees < 360; degrees += 6) {
+            double radians = Math.toRadians(degrees);
+            Location edge = waveCenter.clone().add(Math.cos(radians) * outer,
+                    area.heightBlocks(), Math.sin(radians) * outer);
+            waveCenter.getWorld().spawnParticle(Particle.SWEEP_ATTACK, edge, 1, 0, 0, 0, 0);
+        }
+        for (Player player : waveCenter.getWorld().getPlayers()) {
+            Location at = player.getLocation();
+            if (!stage.contains(at.getX(), at.getZ())) {
+                continue;
+            }
+            double distance = at.toVector().setY(waveCenter.getY())
+                    .distance(waveCenter.toVector());
+            if (distance <= inner || distance > outer) {
+                continue;
+            }
+            if (!struck.add(player.getUniqueId())) {
+                continue;
+            }
+            hit(player, area.damage());
+        }
     }
 
     /** 走り抜けながら当てる。同じプレイヤーには1回の突進で1度しか当てない。 */

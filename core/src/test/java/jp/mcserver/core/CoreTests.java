@@ -2145,12 +2145,12 @@ public final class CoreTests {
                         .sample("右前足", 5).rotationDeg().x()
                         == second.behavior().walkAnimation().orElseThrow()
                         .sample("左後足", 5).rotationDeg().x());
-        check("第一形態は4モーション、パリイ可能は突進切り上げのみ",
-                first.motionNames().size() == 4
+        check("第一形態は5モーション、パリイ可能は突進切り上げのみ",
+                first.motionNames().size() == 5
                         && first.parryableMotions().equals(List.of("突進切り上げ")));
         check("すべてのモーションに40tickの待機が続く",
-                first.motion("なぎ払い").idleAfterTicks() == 40
-                        && first.motion("3段突き").idleAfterTicks() == 40);
+                first.motion("なぎ払い").idleAfter().minTicks() == 40
+                        && first.motion("3段突き").idleAfter().fixed());
 
         section("§12.7 騎士型（第二形態・ケンタウロス）");
 
@@ -2232,10 +2232,64 @@ public final class CoreTests {
         check("頭への攻撃で中断し、待機40tickが入る",
                 stomp.interrupt().orElseThrow().part().equals("頭")
                         && stomp.interrupt().orElseThrow().idleTicks() == 40);
+        // 大ジャンプ衝撃波（§12.7）
+        var leapSlam = second.motion("大ジャンプ衝撃波");
+        var arc = leapSlam.leap().orElseThrow();
+        check("その場から20ブロック跳び上がる",
+                arc.apexBlocks() == 20.0 && arc.startTick() == 15
+                        && arc.flightTicks() == 60 && arc.landingTick() == 75);
+        check("経路は弧を描く（頂点で最も高く、両端で0）",
+                arc.archHeight(0) == 0 && arc.archHeight(60) == 0
+                        && arc.archHeight(30) == 20.0
+                        && arc.archHeight(15) > 0 && arc.archHeight(15) < 20.0);
+        check("弧は上りと下りが対称である",
+                Math.abs(arc.archHeight(10) - arc.archHeight(50)) < 1e-9);
+        var slamWave = leapSlam.area().orElseThrow();
+        check("着地の衝撃波は高さ0.3・半径10",
+                slamWave.heightBlocks() == 0.3 && slamWave.radiusBlocks() == 10.0);
+        check("衝撃波は毎秒10ブロックで伝わる",
+                !slamWave.instant() && slamWave.travelSpeedPerSecond() == 10.0
+                        && slamWave.ticksToFullRadius() == 20);
+        check("波の到達半径は経過に比例する",
+                slamWave.radiusAt(0) == 0 && slamWave.radiusAt(10) == 5.0
+                        && slamWave.radiusAt(20) == 10.0);
+        check("波は半径で頭打ちになる", slamWave.radiusAt(100) == 10.0);
+        check("着地の衝撃波は35ダメージ",
+                slamWave.damage().min() == KnightDefinition.LEAP_WAVE_DAMAGE);
+        check("着地後は必ず20〜60tickの待機モーションが入る",
+                leapSlam.idleAfter().minTicks() == 20 && leapSlam.idleAfter().maxTicks() == 60
+                        && !leapSlam.idleAfter().fixed());
+        check("モーションは波が端まで届くまで続く",
+                leapSlam.animation().durationTicks()
+                        == arc.landingTick() + slamWave.ticksToFullRadius());
+        check("両形態が大ジャンプ衝撃波を持つ",
+                first.motionNames().contains("大ジャンプ衝撃波")
+                        && second.motionNames().contains("大ジャンプ衝撃波"));
+        check("踏みつけの衝撃波は即時のままである",
+                second.motion("踏みつけ").area().orElseThrow().instant());
+        check("着地する前に終わるモーションは拒否される",
+                thrown(() -> new MotionSpec("短い", leapSlam.animation(),
+                        MotionSpec.Idle.of(40),
+                        Optional.empty(), List.of(), Optional.empty(), Optional.empty(),
+                        Optional.empty(), Optional.empty(), Optional.empty(), false,
+                        MotionSpec.Usage.ANY,
+                        Optional.of(new MotionSpec.Leap(50, 60, 20)))));
+
+        // 待機モーションの長さ（§12.6）
+        check("長さの決まった待機は幅を持たない",
+                MotionSpec.Idle.of(40).fixed() && MotionSpec.Idle.of(40).minTicks() == 40);
+        check("幅のある待機は範囲内から選ばれる",
+                java.util.stream.IntStream.range(0, 200)
+                        .map(i -> MotionSpec.Idle.between(20, 60)
+                                .pick(new java.util.Random(i)))
+                        .allMatch(picked -> picked >= 20 && picked <= 60));
+        check("下限が上限を超える待機は拒否される",
+                thrown(() -> MotionSpec.Idle.between(60, 20)));
+
         check("踏みつけはパリイ可能", stomp.parryable());
 
-        check("第二形態は6モーション、パリイ可能は突進切り上げと踏みつけ",
-                second.motionNames().size() == 6
+        check("第二形態は7モーション、パリイ可能は突進切り上げと踏みつけ",
+                second.motionNames().size() == 7
                         && second.parryableMotions().equals(List.of("突進切り上げ", "踏みつけ")));
         check("体力半分で第二形態に入る",
                 boss.phaseAt(51).name().equals("第一形態")
@@ -2315,8 +2369,8 @@ public final class CoreTests {
 
         // ---------------- 選択
         var selector = new MotionSelector(20240828L);
-        check("至近距離では近接技も突進も混ざる",
-                new HashSet<>(repeatSelect(selector, first, 2.0, 1, 40)).size() == 4);
+        check("至近距離では第一形態の5モーションがすべて出る",
+                new HashSet<>(repeatSelect(selector, first, 2.0, 1, 40)).size() == 5);
 
         var farSelector = new MotionSelector(1L);
         check("弱点を開く手が第一形態に2つある（突進のパリイと3段突きの妨害）",
@@ -2325,16 +2379,23 @@ public final class CoreTests {
                                 .filter(m -> m.interrupt().isPresent()).count() == 1
                         && first.motion("3段突き").interrupt().orElseThrow().part().equals("槍")
                         && first.motion("3段突き").interrupt().orElseThrow().beforeTick() == 65);
-        check("遠距離では突進切り上げしか候補がない",
+        check("遠距離では距離帯に入る2つ（突進切り上げ・大ジャンプ衝撃波）だけが出る",
                 repeatSelect(farSelector, first, 20.0, 1, 200).stream()
-                        .allMatch(name -> name.equals("突進切り上げ")));
+                        .allMatch(name -> name.equals("突進切り上げ")
+                                || name.equals("大ジャンプ衝撃波")));
+        check("近接技は遠距離では出ない",
+                repeatSelect(new MotionSelector(2L), first, 20.0, 1, 60).stream()
+                        .noneMatch(name -> name.equals("3段突き")
+                                || name.equals("なぎ払い") || name.equals("追従4連切り")));
 
         var mixed = new MotionSelector(7L);
         var sequence = repeatSelect(mixed, first, 4.0, 3, 30);
         check("近距離では複数のモーションが混ざる",
                 new HashSet<>(sequence).size() >= 3);
-        check("同じモーションが連続しない",
-                noRepeats(sequence));
+        check("連続できるのは上限を持つ突進切り上げだけである",
+                repeatsOnlyAllowed(sequence, first));
+        check("同じモーションが3回以上続くことはない",
+                maxRun(sequence) <= 2);
 
         var cooldown = new MotionSelector(3L);
         cooldown.select(first, new MotionSelector.Situation(4.0, 1, false), 0);
@@ -2347,9 +2408,10 @@ public final class CoreTests {
         check("どの距離帯にも入らなくても必ず1つ返す",
                 choice.motion() != null);
         check("候補が無いときは緩和されたことが分かる", choice.relaxed());
-        check("距離帯より先に連続の上限が緩められる",
+        check("候補が尽きても距離帯は守られる（近接技へ落ちない）",
                 repeatSelect(new MotionSelector(11L), first, 20.0, 1, 10).stream()
-                        .allMatch(name -> name.equals("突進切り上げ")));
+                        .allMatch(name -> name.equals("突進切り上げ")
+                                || name.equals("大ジャンプ衝撃波")));
 
         var reset = new MotionSelector(5L);
         reset.select(first, new MotionSelector.Situation(3.0, 1, false), 0);
@@ -2459,6 +2521,30 @@ public final class CoreTests {
                     new MotionSelector.Situation(distance, surrounding, false), now).motion().name());
         }
         return names;
+    }
+
+    /** 連続しているのが、連続を許されたモーションだけかを調べる。 */
+    private static boolean repeatsOnlyAllowed(List<String> names, RaidSpecies.Phase phase) {
+        for (int i = 1; i < names.size(); i++) {
+            if (names.get(i).equals(names.get(i - 1))
+                    && phase.motion(names.get(i)).usage().maxConsecutive() < 2) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** 同じモーションが続いた最大の回数。 */
+    private static int maxRun(List<String> names) {
+        int best = 0;
+        int run = 0;
+        String previous = null;
+        for (String name : names) {
+            run = name.equals(previous) ? run + 1 : 1;
+            previous = name;
+            best = Math.max(best, run);
+        }
+        return best;
     }
 
     private static boolean noRepeats(List<String> names) {

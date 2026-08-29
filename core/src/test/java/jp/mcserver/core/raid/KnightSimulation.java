@@ -221,7 +221,7 @@ public final class KnightSimulation {
             // 中断・パリイの後は長い隙、それ以外は通常の待機
             int after = parried
                     ? motion.interrupt().map(MotionSpec.Interrupt::idleTicks)
-                            .orElse(motion.idleAfterTicks())
+                            .orElse(motion.idleAfter().minTicks())
                     : 0;
             advance(fight, players, dpsPerPlayer, after);
 

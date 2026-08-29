@@ -9,17 +9,17 @@ import java.util.Optional;
  * <p>{@link Animation} が部位の動きを持つのに対し、本レコードは
  * ダメージ判定・移動・ノックバック・妨害・パリイ可否といった戦闘上の性質を持つ。
  *
- * @param idleAfterTicks モーション後に差し込む待機モーションの長さ（tick）
+ * @param idleAfter      モーション後に差し込む待機モーションの長さ
  * @param parry          パリイの成立条件。持たないモーションは空
  * @param tracksTarget   武器の先端が常に対象を向くか
  * @param usage          どんな状況で選ばれるモーションか（§12.6）
  */
-public record MotionSpec(String name, Animation animation, int idleAfterTicks,
+public record MotionSpec(String name, Animation animation, Idle idleAfter,
                          Optional<Parry> parry,
                          List<DamageWindow> damageWindows, Optional<Interrupt> interrupt,
                          Optional<Charge> charge, Optional<Orbit> orbit,
                          Optional<Knockback> knockback, Optional<AreaEffect> area,
-                         boolean tracksTarget, Usage usage) {
+                         boolean tracksTarget, Usage usage, Optional<Leap> leap) {
 
 
     /**
@@ -68,6 +68,85 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks,
                 return false;
             }
             return distance >= minRange && distance <= maxRange && surrounding >= minSurrounding;
+        }
+    }
+
+    /**
+     * モーション後に差し込む待機モーションの長さ（§12.6）。
+     *
+     * <p>幅を持たせられるのは、大技のあとの隙を毎回同じ長さにしないためである。
+     * 同じ長さだと、隙の終わりを秒読みできてしまう。
+     */
+    public record Idle(int minTicks, int maxTicks) {
+
+        public Idle {
+            if (minTicks < 0 || maxTicks < minTicks) {
+                throw new IllegalArgumentException("待機モーションの長さが不正である: "
+                        + minTicks + "-" + maxTicks);
+            }
+        }
+
+        /** 長さの決まった待機。 */
+        public static Idle of(int ticks) {
+            return new Idle(ticks, ticks);
+        }
+
+        /** 幅のある待機。 */
+        public static Idle between(int minTicks, int maxTicks) {
+            return new Idle(minTicks, maxTicks);
+        }
+
+        public boolean fixed() {
+            return minTicks == maxTicks;
+        }
+
+        /** 幅の中から1つ選ぶ。 */
+        public int pick(java.util.random.RandomGenerator random) {
+            return fixed() ? minTicks : minTicks + random.nextInt(maxTicks - minTicks + 1);
+        }
+
+        @Override
+        public String toString() {
+            return fixed() ? minTicks + "tick" : minTicks + "〜" + maxTicks + "tick";
+        }
+    }
+
+    /**
+     * 大きく跳んで着地する移動（§12.6）。
+     *
+     * <p>水平方向は等速、垂直方向は放物線を描く。着地点は戦場の中心であり、
+     * <b>個体の位置を戦場の中心へ戻す手段を兼ねる</b>。
+     *
+     * @param startTick   跳び上がる tick
+     * @param flightTicks 滞空時間
+     * @param apexBlocks  弧の頂点の高さ（跳び上がる位置からの相対）
+     */
+    public record Leap(int startTick, int flightTicks, double apexBlocks) {
+
+        public Leap {
+            if (startTick < 0 || flightTicks <= 0 || apexBlocks <= 0) {
+                throw new IllegalArgumentException("跳躍の指定が不正である");
+            }
+        }
+
+        /** 着地する tick。 */
+        public int landingTick() {
+            return startTick + flightTicks;
+        }
+
+        /** 跳び上がってからの経過に対する進み具合（0〜1）。 */
+        public double progress(int tickSinceStart) {
+            return Math.max(0, Math.min(1.0, (double) tickSinceStart / flightTicks));
+        }
+
+        /**
+         * 弧の高さ（着地点と跳び上がり点を結んだ線からの持ち上がり）。
+         *
+         * <p>頂点で {@code apexBlocks} に達し、両端で 0 になる放物線である。
+         */
+        public double archHeight(int tickSinceStart) {
+            double t = progress(tickSinceStart);
+            return apexBlocks * 4 * t * (1 - t);
         }
     }
 
@@ -310,13 +389,48 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks,
     /** ノックバック。 */
     public record Knockback(double upBlocks, double backBlocks) {}
 
-    /** 範囲攻撃。 */
-    public record AreaEffect(double radiusBlocks, double heightBlocks, Damage damage) {
+    /**
+     * 範囲攻撃。
+     *
+     * @param travelSpeedPerSecond 波が広がる速さ（毎秒のブロック数）。
+     *                             0 なら<b>即時</b>に全範囲へ届く
+     */
+    public record AreaEffect(double radiusBlocks, double heightBlocks, Damage damage,
+                             double travelSpeedPerSecond) {
 
         public AreaEffect {
             if (radiusBlocks <= 0 || heightBlocks <= 0) {
                 throw new IllegalArgumentException("範囲の指定が不正である");
             }
+            if (travelSpeedPerSecond < 0) {
+                throw new IllegalArgumentException("伝播の速さが負である");
+            }
+        }
+
+        /** 即時に全範囲へ届く範囲攻撃。 */
+        public AreaEffect(double radiusBlocks, double heightBlocks, Damage damage) {
+            this(radiusBlocks, heightBlocks, damage, 0);
+        }
+
+        /** 即時か。 */
+        public boolean instant() {
+            return travelSpeedPerSecond == 0;
+        }
+
+        /** 発生からの経過 tick 時点で波が届いている半径。 */
+        public double radiusAt(int ticksSince) {
+            if (instant()) {
+                return radiusBlocks;
+            }
+            return Math.min(radiusBlocks, travelSpeedPerSecond / 20.0 * Math.max(0, ticksSince));
+        }
+
+        /** 波が端まで届くのに要する tick。 */
+        public int ticksToFullRadius() {
+            if (instant()) {
+                return 0;
+            }
+            return (int) Math.ceil(radiusBlocks / (travelSpeedPerSecond / 20.0));
         }
     }
 
@@ -324,8 +438,8 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks,
         if (usage == null) {
             throw new IllegalArgumentException("使用条件が null である: " + name);
         }
-        if (idleAfterTicks < 0) {
-            throw new IllegalArgumentException("待機モーションが負である: " + idleAfterTicks);
+        if (idleAfter == null) {
+            throw new IllegalArgumentException("待機モーションの指定が null である: " + name);
         }
         damageWindows = List.copyOf(damageWindows);
         for (DamageWindow window : damageWindows) {
@@ -344,6 +458,13 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks,
                 throw new IllegalArgumentException("パリイの区間がモーションの長さを超えている: " + name);
             }
         });
+        leap.ifPresent(value -> {
+            if (value.landingTick() > animation.durationTicks()) {
+                throw new IllegalArgumentException(
+                        "着地する前にモーションが終わる: " + name + " / 着地 " + value.landingTick()
+                                + "tick、モーション " + animation.durationTicks() + "tick");
+            }
+        });
         charge.ifPresent(value -> {
             if (value.endTick() > animation.durationTicks()) {
                 throw new IllegalArgumentException(
@@ -354,14 +475,24 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks,
     }
 
     /** 使用条件を指定しないモーション。条件は {@link Usage#ANY} になる。 */
-    public MotionSpec(String name, Animation animation, int idleAfterTicks,
+    public MotionSpec(String name, Animation animation, Idle idleAfter,
                       Optional<Parry> parry,
                       List<DamageWindow> damageWindows, Optional<Interrupt> interrupt,
                       Optional<Charge> charge, Optional<Orbit> orbit,
                       Optional<Knockback> knockback, Optional<AreaEffect> area,
                       boolean tracksTarget) {
-        this(name, animation, idleAfterTicks, parry, damageWindows, interrupt, charge, orbit,
-                knockback, area, tracksTarget, Usage.ANY);
+        this(name, animation, idleAfter, parry, damageWindows, interrupt, charge, orbit,
+                knockback, area, tracksTarget, Usage.ANY, Optional.empty());
+    }
+
+    /** 使用条件だけを指定するモーション。 */
+    public MotionSpec(String name, Animation animation, Idle idleAfter, Optional<Parry> parry,
+                      List<DamageWindow> damageWindows, Optional<Interrupt> interrupt,
+                      Optional<Charge> charge, Optional<Orbit> orbit,
+                      Optional<Knockback> knockback, Optional<AreaEffect> area,
+                      boolean tracksTarget, Usage usage) {
+        this(name, animation, idleAfter, parry, damageWindows, interrupt, charge, orbit,
+                knockback, area, tracksTarget, usage, Optional.empty());
     }
 
     /** パリイできるモーションか。 */
@@ -371,13 +502,14 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks,
 
     /** 使用条件を差し替えた同じモーション。 */
     public MotionSpec using(Usage value) {
-        return new MotionSpec(name, animation, idleAfterTicks, parry, damageWindows, interrupt,
-                charge, orbit, knockback, area, tracksTarget, value);
+        return new MotionSpec(name, animation, idleAfter, parry, damageWindows, interrupt,
+                charge, orbit, knockback, area, tracksTarget, value, leap);
     }
 
     /** 標準の待機モーションを伴う、追加要素のないモーション。 */
     public static MotionSpec simple(Animation animation) {
-        return new MotionSpec(animation.name(), animation, DEFAULT_IDLE_TICKS, Optional.empty(),
+        return new MotionSpec(animation.name(), animation, Idle.of(DEFAULT_IDLE_TICKS),
+                Optional.empty(),
                 List.of(), Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), false);
     }
@@ -391,9 +523,9 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks,
         interrupt.ifPresent(value -> rig.part(value.part()));
     }
 
-    /** モーション開始から待機モーション終了までの合計 tick。 */
+    /** モーション開始から待機モーション終了までの合計 tick（待機は最短で数える）。 */
     public int totalTicks() {
-        return animation.durationTicks() + idleAfterTicks;
+        return animation.durationTicks() + idleAfter.minTicks();
     }
 
     /** すべての判定が命中した場合の合計ダメージ（範囲攻撃を含む、平均値）。 */

@@ -53,6 +53,25 @@ public final class KnightDefinition {
     /** 突進が走り切る距離。パリイされない限りここまで止まらない。 */
     public static final double CHARGE_DISTANCE = 20.0;
 
+    // 大ジャンプ衝撃波
+    /** 沈み込みに要する時間（tick）。ここから跳び上がる。 */
+    public static final int LEAP_START_TICK = 15;
+    /** 滞空時間（tick）。 */
+    public static final int LEAP_FLIGHT_TICKS = 60;
+    /** 弧の頂点の高さ（ブロック）。 */
+    public static final double LEAP_APEX_BLOCKS = 20.0;
+    /** 着地の衝撃波の半径（ブロック）。 */
+    public static final double LEAP_WAVE_RADIUS = 10.0;
+    /** 着地の衝撃波の高さ（ブロック）。 */
+    public static final double LEAP_WAVE_HEIGHT = 0.3;
+    /** 衝撃波が広がる速さ（毎秒のブロック数）。 */
+    public static final double LEAP_WAVE_SPEED = 10.0;
+    /** 着地の衝撃波のダメージ。 */
+    public static final double LEAP_WAVE_DAMAGE = 35.0;
+    /** 着地後の待機モーションの長さ（tick）。 */
+    public static final int LEAP_IDLE_MIN = 20;
+    public static final int LEAP_IDLE_MAX = 60;
+
     /** 前足の太さ。 */
     public static final double FORE_LEG = 0.34;
 
@@ -265,7 +284,7 @@ public final class KnightDefinition {
                         pose(BACKSTEP_TICKS + 10, 0.30, -25, STRIKE),
                         pose(end - 2, 0.40, -22, HOLD),
                         pose(end, 0.20, -60, STRIKE), pose(duration, 0.10, -105, STRIKE)));
-        return new MotionSpec("突進切り上げ", animation, 40,
+        return new MotionSpec("突進切り上げ", animation, MotionSpec.Idle.of(40),
                 Optional.of(new MotionSpec.Parry(run.runFromTick(), end,
                         PARRY_BASE_DAMAGE, PARRY_DAMAGE_INCREASE)),
                 List.of(new MotionSpec.DamageWindow("槍", run.runFromTick() + 2, end, damage)),
@@ -285,7 +304,7 @@ public final class KnightDefinition {
                 "右腕", List.of(rot(0, 0, 0, 0), rot(5, -18, 120, 0, SET),
                         rot(10, -18, 120, 0, HOLD),
                         rot(18, -12, -120, 0, STRIKE)));
-        return new MotionSpec("なぎ払い", animation, 40, Optional.empty(),
+        return new MotionSpec("なぎ払い", animation, MotionSpec.Idle.of(40), Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 10, 18, damage)),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), false,
@@ -308,7 +327,7 @@ public final class KnightDefinition {
                         pose(35, -0.35, -88, HOLD), pose(40, 1.15, -92, STRIKE),
                         pose(45, -0.35, -88), pose(55, -0.55, -84, SET),
                         pose(65, -0.55, -84, HOLD), pose(70, 1.35, -94, STRIKE)));
-        return new MotionSpec("3段突き", animation, 40, Optional.empty(),
+        return new MotionSpec("3段突き", animation, MotionSpec.Idle.of(40), Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 15, 20, damage),
                         new MotionSpec.DamageWindow("槍", 35, 40, damage),
                         new MotionSpec.DamageWindow("槍", 65, 70, damage)),
@@ -331,7 +350,7 @@ public final class KnightDefinition {
                         pose(35, 0.30, -10, STRIKE), pose(45, 0, -185, SET),
                         pose(50, 0.90, -95, STRIKE), pose(60, 0, -160, SET),
                         pose(65, 0.30, -5, STRIKE)));
-        return new MotionSpec("追従4連切り", animation, 40, Optional.empty(),
+        return new MotionSpec("追従4連切り", animation, MotionSpec.Idle.of(40), Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 15, 20, MotionSpec.Damage.of(a)),
                         new MotionSpec.DamageWindow("槍", 30, 35, MotionSpec.Damage.of(b)),
                         new MotionSpec.DamageWindow("槍", 45, 50, MotionSpec.Damage.of(c)),
@@ -353,13 +372,46 @@ public final class KnightDefinition {
                         rot(120, 16, 0, 0, STRIKE)),
                 "右腕", List.of(rot(0, 0, 0, 0), rot(20, -90, 0, 0, SET),
                         rot(100, -90, 0, 0, HOLD), rot(120, -98, 0, 0, STRIKE)));
-        return new MotionSpec("回旋突進", animation, 40, Optional.empty(),
+        return new MotionSpec("回旋突進", animation, MotionSpec.Idle.of(40), Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 100, 120, MotionSpec.Damage.of(40))),
                 Optional.empty(),
                 Optional.of(new MotionSpec.Charge(100, 0, 0, 15.0, 20.0, 20, 17.6)),
                 Optional.of(new MotionSpec.Orbit(30, 1.5, 100)),
                 Optional.of(new MotionSpec.Knockback(3, 7)), Optional.empty(), false,
                 MotionSpec.Usage.at(6.0, 40.0, 25, 320));
+    }
+
+    /**
+     * 大ジャンプ衝撃波。その場から20ブロック跳び上がり、弧を描いて<b>戦場の中心へ着地</b>する。
+     *
+     * <p>着地の衝撃波は即時ではなく<b>毎秒10ブロックで外へ広がる</b>。
+     * 距離があれば見てから逃げられるが、近ければ間に合わない。
+     *
+     * <p>着地点が戦場の中心であるため、この技は<b>位置を戻す手段を兼ねる</b>。
+     * 帰還の歩行が長引く場面で選ばれれば、歩いて戻る時間を跳んで詰められる。
+     */
+    static MotionSpec leapSlam(String body) {
+        var leap = new MotionSpec.Leap(LEAP_START_TICK, LEAP_FLIGHT_TICKS, LEAP_APEX_BLOCKS);
+        var wave = new MotionSpec.AreaEffect(LEAP_WAVE_RADIUS, LEAP_WAVE_HEIGHT,
+                MotionSpec.Damage.of(LEAP_WAVE_DAMAGE), LEAP_WAVE_SPEED);
+        int landing = leap.landingTick();
+        int duration = landing + wave.ticksToFullRadius();
+        Animation animation = animation("大ジャンプ衝撃波", duration, false,
+                body, List.of(rot(0, 0, 0, 0), rot(LEAP_START_TICK, 25, 0, 0, SET),
+                        rot(LEAP_START_TICK + 10, -15, 0, 0, STRIKE),
+                        rot(landing - 20, -5, 0, 0, HOLD),
+                        rot(landing, 30, 0, 0, STRIKE), rot(duration, 0, 0, 0)),
+                "頭", List.of(rot(0, 0, 0, 0), rot(LEAP_START_TICK, 15, 0, 0, SET),
+                        rot(landing, -10, 0, 0, STRIKE), rot(duration, 0, 0, 0)),
+                "右腕", List.of(pose(0, 0, 0), pose(LEAP_START_TICK, -0.30, 20, SET),
+                        pose(LEAP_START_TICK + 15, 0, -140, STRIKE),
+                        pose(landing - 15, 0, -150, HOLD),
+                        pose(landing, 0.20, 30, STRIKE), pose(duration, 0, 0)));
+        return new MotionSpec("大ジャンプ衝撃波", animation,
+                MotionSpec.Idle.between(LEAP_IDLE_MIN, LEAP_IDLE_MAX), Optional.empty(),
+                List.of(), Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.of(wave), false,
+                MotionSpec.Usage.at(0, 40.0, 20, 400), Optional.of(leap));
     }
 
     /** 踏みつけ。両前足を持ち上げて叩きつけ、半径10ブロックに衝撃波を出す。 */
@@ -377,7 +429,7 @@ public final class KnightDefinition {
                                 new Transform(new Vec3(0, 1.30, 0), new Vec3(-35, 0, 0), Vec3.ONE),
                                 SET),
                         move(20, 0, 0, 0).with(STRIKE)));
-        return new MotionSpec("踏みつけ", animation, 40,
+        return new MotionSpec("踏みつけ", animation, MotionSpec.Idle.of(40),
                 Optional.of(new MotionSpec.Parry(0, 20, PARRY_BASE_DAMAGE,
                         PARRY_DAMAGE_INCREASE)),
                 List.of(new MotionSpec.DamageWindow("右前足", 20, 20, MotionSpec.Damage.of(5)),
@@ -444,7 +496,8 @@ public final class KnightDefinition {
                 List.of(charge(new MotionSpec.Damage(25, 30), 5, "胴"),
                         sweep(new MotionSpec.Damage(22, 28), "胴"),
                         tripleThrust(20, "胴"),
-                        fourHit(10.0, 14.0, 11.0, 16.0, "胴")),
+                        fourHit(10.0, 14.0, 11.0, 16.0, "胴"),
+                        leapSlam("胴")),
                 "槍を叩いて突進を止め、パリイで頭を露出させる。露出中の頭だけが倍率の乗る的である",
                 null, behavior, knightRig());
     }
@@ -457,6 +510,7 @@ public final class KnightDefinition {
                         sweep(new MotionSpec.Damage(27, 32), "人胴"),
                         tripleThrust(24, "人胴"),
                         fourHit(12.0, 16.0, 13.0, 18.0, "人胴"),
+                        leapSlam("人胴"),
                         orbitCharge(),
                         stomp()),
                 "半身半獣に変身し全モーションが加速。回旋突進と踏みつけが加わる",
