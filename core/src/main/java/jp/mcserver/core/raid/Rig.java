@@ -25,9 +25,7 @@ public final class Rig {
         /** 常に有効。 */
         ALWAYS,
         /** パリイ・妨害の成功などで<b>露出している間</b>だけ有効。 */
-        ON_EXPOSURE,
-        /** <b>破壊可能な部位をすべて壊す</b>と恒久的に有効。 */
-        ON_ARMOR_BROKEN
+        ON_EXPOSURE
     }
 
     /**
@@ -41,12 +39,14 @@ public final class Rig {
      *                       騎士型の槍のように、当てても通らない部位がある
      * @param vulnerability  被弾倍率。1.0 より大きい部位が弱点である
      * @param gate           弱点倍率が有効になる条件
-     * @param breakThreshold 破壊に要するダメージ量（個体の最大体力に対する割合）。0 なら破壊不可
+     * @param hitboxSegments 当たり判定をいくつに分けるか。
+     *                       当たり判定は軸に沿った直方体しか取れないため、
+     *                       槍のように細長く傾く部位は<b>長さ方向に分割して並べる</b>
      * @param appearance     見た目。null なら描画側の既定に任せる
      */
     public record Part(String name, String parent, Transform base, int modelId,
                        boolean damageable, double vulnerability, Gate gate,
-                       double breakThreshold, Appearance appearance) {
+                       int hitboxSegments, Appearance appearance) {
 
         public Part {
             if (name == null || name.isBlank()) {
@@ -55,39 +55,31 @@ public final class Rig {
             if (vulnerability < 0) {
                 throw new IllegalArgumentException("被弾倍率が負である: " + name);
             }
-            if (breakThreshold < 0 || breakThreshold > 1) {
-                throw new IllegalArgumentException("破壊の閾値が範囲外である: " + name);
-            }
-            if (!damageable && breakThreshold > 0) {
-                throw new IllegalArgumentException("ダメージが通らない部位は破壊できない: " + name);
-            }
             if (gate == null) {
                 throw new IllegalArgumentException("弱点の条件が null である: " + name);
             }
+            if (hitboxSegments < 1) {
+                throw new IllegalArgumentException("当たり判定の分割数が1未満である: " + name);
+            }
         }
 
-        /** 被弾する、倍率も破壊もない部位。 */
+        /** 被弾する、倍率を持たない部位。 */
         public Part(String name, String parent, Transform base, int modelId) {
-            this(name, parent, base, modelId, true, 1.0, Gate.ALWAYS, 0, null);
+            this(name, parent, base, modelId, true, 1.0, Gate.ALWAYS, 1, null);
         }
 
         /** 被弾可否だけを指定する部位。 */
         public Part(String name, String parent, Transform base, int modelId, boolean damageable) {
-            this(name, parent, base, modelId, damageable, 1.0, Gate.ALWAYS, 0, null);
+            this(name, parent, base, modelId, damageable, 1.0, Gate.ALWAYS, 1, null);
         }
 
-        /**
-         * 見た目を差し替えた同じ部位。
-         *
-         * <p>見た目だけの部位（{@link Appearance#decoration()}）には当たり判定を置かないため、
-         * 被弾対象からも外す。角や穂先を「殴れるはずの部位」として数えないためである。
-         */
+        /** 見た目を差し替えた同じ部位。 */
         public Part looks(Appearance value) {
             if (value != null && value.decoration()) {
-                return new Part(name, parent, base, modelId, false, 1.0, Gate.ALWAYS, 0, value);
+                return new Part(name, parent, base, modelId, false, 1.0, Gate.ALWAYS, 1, value);
             }
             return new Part(name, parent, base, modelId, damageable, vulnerability, gate,
-                    breakThreshold, value);
+                    hitboxSegments, value);
         }
 
         /** 弱点にした同じ部位。 */
@@ -96,27 +88,23 @@ public final class Rig {
                 throw new IllegalArgumentException("弱点の倍率が1.0以下である: " + name);
             }
             return new Part(name, parent, base, modelId, damageable, multiplier, condition,
-                    breakThreshold, appearance);
+                    hitboxSegments, appearance);
         }
 
-        /** 破壊可能にした同じ部位。 */
-        public Part breakableAt(double fractionOfMaxHealth) {
+        /** 当たり判定を長さ方向に分割した同じ部位。 */
+        public Part segments(int count) {
             return new Part(name, parent, base, modelId, damageable, vulnerability, gate,
-                    fractionOfMaxHealth, appearance);
+                    count, appearance);
         }
 
         /** ダメージが通らない同じ部位。 */
         public Part immune() {
-            return new Part(name, parent, base, modelId, false, 1.0, Gate.ALWAYS, 0, appearance);
+            return new Part(name, parent, base, modelId, false, 1.0, Gate.ALWAYS,
+                    hitboxSegments, appearance);
         }
 
         public boolean isRoot() {
             return parent == null;
-        }
-
-        /** 破壊可能か。 */
-        public boolean breakable() {
-            return breakThreshold > 0;
         }
 
         /** 弱点か。 */
@@ -229,11 +217,6 @@ public final class Rig {
             ordered.add(reversed.get(i));
         }
         return ordered;
-    }
-
-    /** 破壊可能な部位。すべて壊すと {@link Gate#ON_ARMOR_BROKEN} の弱点が開く。 */
-    public List<Part> breakableParts() {
-        return parts.values().stream().filter(Part::breakable).toList();
     }
 
     /** 弱点となる部位。 */

@@ -13,11 +13,12 @@ import jp.mcserver.core.raid.MotionSpec;
 import jp.mcserver.core.raid.PartTracker;
 import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.RaidSpecies;
-import jp.mcserver.core.raid.Rig;
 import jp.mcserver.core.raid.Transform;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -31,10 +32,9 @@ import org.bukkit.util.Vector;
  * <p>周期は 待機 → 移動 → 攻撃モーション（§12.6）。攻撃モーションの選択は固定順ではなく、
  * 距離と囲まれ具合に応じて {@link MotionSelector} が決める。
  *
- * <p>被弾側には3つの機構がある。
+ * <p>被弾側には2つの機構がある。
  * <ul>
  *   <li>弱点（頭）— パリイ・妨害・空振りの直後だけ露出し、倍率が乗る</li>
- *   <li>装甲（両肩）— 累積ダメージで破壊でき、両方壊すと胴が恒久的な弱点になる</li>
  *   <li>激昂 — 個体の攻撃が長く命中しないと発動し、待機が縮みダメージが増すかわりに弱点が閉じる</li>
  * </ul>
  */
@@ -45,6 +45,10 @@ final class KnightBoss {
 
     /** 回旋突進の判定が届く距離（ブロック）。 */
     private static final double LONG_REACH = 7.0;
+
+    /** 接地を探す高さの範囲（ブロック）。段差と坂を登り、崖では落ちる。 */
+    private static final int GROUND_UP = 3;
+    private static final int GROUND_DOWN = 8;
 
     private enum State { IDLE, APPROACH, MOTION }
 
@@ -71,7 +75,6 @@ final class KnightBoss {
     private boolean interrupted;
     private boolean landedThisMotion;
     private boolean wasExposed;
-    private final Set<String> cracked = new HashSet<>();
 
     KnightBoss(RaidPlugin plugin, Location origin) {
         this.plugin = plugin;
@@ -80,8 +83,8 @@ final class KnightBoss {
         this.maxHealth = species.healthFor(participants);
         this.health = maxHealth;
         this.phase = species.phaseAt(100);
-        this.rig = new BossRig(species.rigFor(phase), origin);
-        this.parts = new PartTracker(species.rigFor(phase), maxHealth);
+        this.rig = new BossRig(species.rigFor(phase), grounded(origin));
+        this.parts = new PartTracker(species.rigFor(phase));
         this.idleTarget = phase.behavior().idleTicks();
         this.bar = Bukkit.createBossBar(species.displayName(), BarColor.WHITE,
                 BarStyle.SEGMENTED_10);
@@ -110,12 +113,7 @@ final class KnightBoss {
         text.append(rage.enraged()
                 ? " 激昂 残り " + rage.remaining() + "tick"
                 : " 激昂まで " + rage.untilEnrage() + "tick");
-        for (Rig.Part armor : rig.rig().breakableParts()) {
-            text.append(String.format(" / %s %s", armor.name(),
-                    parts.isBroken(armor.name())
-                            ? "破壊"
-                            : String.format("残り %.0f", parts.remainingToBreak(armor.name()))));
-        }
+        text.append(String.format(" / 足元 Y %.1f", rig.origin().getY()));
         return text.toString();
     }
 
@@ -204,7 +202,7 @@ final class KnightBoss {
             return;
         }
         direction.normalize().multiply(phase.behavior().blocksPerTick());
-        rig.moveTo(origin.add(direction));
+        rig.moveTo(grounded(origin.add(direction)));
     }
 
     /** 状況に応じて次のモーションを選ぶ（§12.6）。 */
@@ -330,8 +328,13 @@ final class KnightBoss {
         }
     }
 
-    /** 部位への攻撃。倍率・装甲の破壊・妨害をまとめて処理する。 */
-    boolean handleHit(UUID hitEntity, Player attacker, double damage) {
+    /**
+     * 部位への攻撃。倍率と妨害をまとめて処理する。
+     *
+     * <p>ダメージ量はイベントの値ではなく {@link WeaponDamage} で組み立てる。
+     * 当たり判定に使う Interaction は生き物ではないため、イベントが運ぶ値は武器を反映しない。
+     */
+    boolean handleHit(UUID hitEntity, Player attacker) {
         String part = rig.partOfHitbox(hitEntity);
         if (part == null) {
             return false;
@@ -348,7 +351,7 @@ final class KnightBoss {
             });
         }
 
-        PartTracker.Result result = parts.hit(part, damage, rage.enraged());
+        PartTracker.Result result = parts.hit(part, WeaponDamage.of(attacker), rage.enraged());
         if (result.immune()) {
             attacker.sendMessage(part + " にダメージは通らない");
             sound("entity.zombie.attack_iron_door", 0.8f, 1.6f);
@@ -356,12 +359,7 @@ final class KnightBoss {
         }
         health -= result.dealt();
 
-        if (result.absorbedByArmor()) {
-            // 装甲が受け止めたダメージは体力に入らない（§12.6）
-            attacker.sendMessage(String.format("§7%s が %.1f を受け止めた（破壊まで %.0f）",
-                    part, result.absorbed(), parts.remainingToBreak(part)));
-            sound("block.anvil_place", 0.5f, 1.8f);
-        } else if (result.critical()) {
+        if (result.critical()) {
             attacker.sendMessage(String.format("§c会心 %s に %.1f（×%.1f / 残り %.0f）",
                     part, result.dealt(), result.multiplier(), Math.max(0, health)));
             sound("entity.player.attack.crit", 1.0f, 1.2f);
@@ -370,40 +368,7 @@ final class KnightBoss {
             attacker.sendMessage(String.format("%s に %.1f（残り %.0f）",
                     part, result.dealt(), Math.max(0, health)));
         }
-
-        if (result.broke()) {
-            onArmorBroken(part);
-        } else {
-            updateCrackedState(part);
-        }
         return true;
-    }
-
-    private void onArmorBroken(String part) {
-        rig.breakPart(part);
-        cracked.remove(part);
-        announce("§6" + part + " を破壊した");
-        sound("entity.item_frame.break", 1.4f, 0.7f);
-        particles(Particle.EXPLOSION, rig.centerOf(part), 6, 0.6);
-        if (parts.allArmorBroken()) {
-            announce("§c装甲がすべて剥がれた — 胴が弱点になった");
-            sound("block.beacon.power_select", 1.4f, 0.6f);
-            rig.setCracked(rig.rig().root().name(), true);
-        }
-    }
-
-    /** 装甲が半分以上削れたら発光で伝える。 */
-    private void updateCrackedState(String part) {
-        Rig.Part target = rig.rig().part(part);
-        if (!target.breakable()) {
-            return;
-        }
-        double threshold = target.breakThreshold() * maxHealth;
-        if (parts.takenBy(part) >= threshold / 2 && cracked.add(part)) {
-            rig.setCracked(part, true);
-            announce("§e" + part + " に亀裂が入った");
-            sound("block.glass.break", 0.9f, 1.5f);
-        }
     }
 
     // ------------------------------------------------------------ 状態の演出
@@ -441,9 +406,6 @@ final class KnightBoss {
         if (parts.exposed()) {
             title.append(" §c[弱点露出]");
         }
-        if (parts.allArmorBroken()) {
-            title.append(" §6[装甲破壊]");
-        }
         bar.setTitle(title.toString());
         bar.setColor(rage.enraged() ? BarColor.RED
                 : parts.exposed() ? BarColor.YELLOW
@@ -480,13 +442,12 @@ final class KnightBoss {
         idleTarget = phase.behavior().idleTicks();
         selector.reset();
         rage.reset();
-        cracked.clear();
         wasExposed = false;
-        // 骨格が変わるので作り直す（§12.7 の形態変化）。装甲も張り直される
+        // 骨格が変わるので作り直す（§12.7 の形態変化）
         Location origin = rig.origin();
         rig.despawn();
         rig = new BossRig(species.rigFor(phase), origin);
-        parts = new PartTracker(species.rigFor(phase), maxHealth);
+        parts = new PartTracker(species.rigFor(phase));
         rig.spawn();
         enter(State.IDLE);
         announce("§5" + phase.name() + " へ移行 — " + phase.gimmick());
@@ -509,7 +470,7 @@ final class KnightBoss {
         if (direction.lengthSquared() < 0.01) {
             return;
         }
-        rig.moveTo(origin.add(direction.normalize().multiply(blocks)));
+        rig.moveTo(grounded(origin.add(direction.normalize().multiply(blocks))));
     }
 
     private void orbitStep(MotionSpec.Orbit orbit) {
@@ -523,8 +484,31 @@ final class KnightBoss {
         Location center = target.getLocation();
         Location next = center.clone().add(
                 Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
-        next.setY(center.getY());
-        rig.moveTo(next);
+        rig.moveTo(grounded(next));
+    }
+
+    /**
+     * 足元の地面に合わせた位置を返す。
+     *
+     * <p>これがないと、召喚した高さのまま水平に滑って地形を無視する。
+     * 上に {@value #GROUND_UP} ブロックまで登り、下に {@value #GROUND_DOWN} ブロックまで降りる。
+     * その範囲に地面が無ければ元の高さを保ち、空中へ吸い込まれないようにする。
+     */
+    private Location grounded(Location target) {
+        World world = target.getWorld();
+        int x = target.getBlockX();
+        int z = target.getBlockZ();
+        int from = target.getBlockY() + GROUND_UP;
+        int to = target.getBlockY() - GROUND_DOWN;
+        for (int y = from; y >= to; y--) {
+            Block block = world.getBlockAt(x, y, z);
+            if (block.getType().isSolid()) {
+                Location grounded = target.clone();
+                grounded.setY(y + 1);
+                return grounded;
+            }
+        }
+        return target;
     }
 
     private Player nearest() {

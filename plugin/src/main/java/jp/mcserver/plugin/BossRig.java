@@ -1,6 +1,8 @@
 package jp.mcserver.plugin;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import jp.mcserver.core.raid.Appearance;
@@ -27,23 +29,25 @@ import org.joml.Vector3f;
  * <p>部位ごとに表示エンティティを1体持ち、当たり判定を持つ部位には {@link Interaction} を重ねる。
  * 親子の変換合成はここで行う（コア層は構造の妥当性のみを扱う）。
  *
- * <p>見た目は {@link Appearance} に従う。リソースパックが無い状態でも体型が分かるよう、
- * バニラのブロックとアイテムを寸法どおりに拡大して並べる。
+ * <p>当たり判定は<b>軸に沿った直方体しか取れず、回転もできない</b>。槍のように細長く傾く部位は、
+ * 部位の長辺に沿って複数の判定を並べて表す（{@link Rig.Part#hitboxSegments()}）。
+ * 判定を1つで済ませると、3.4ブロックの槍が他の部位と同じ大きさの箱になってしまう。
  */
 final class BossRig {
 
     /** 変換の更新間隔（tick）。補間時間と揃える（§12.6）。 */
     static final int UPDATE_INTERVAL = 2;
 
+    /** 当たり判定の最小の辺（ブロック）。細すぎると狙って当てられない。 */
+    private static final double MIN_HITBOX = 0.42;
+
     /** 弱点が露出しているときの発光色。 */
     private static final Color EXPOSED_COLOR = Color.fromRGB(0xFF, 0x30, 0x30);
 
-    /** 装甲が残り少ないときの発光色。 */
-    private static final Color CRACKED_COLOR = Color.fromRGB(0xFF, 0xC0, 0x40);
-
     private final Rig rig;
     private final Map<String, Display> displays = new LinkedHashMap<>();
-    private final Map<String, Interaction> hitboxes = new LinkedHashMap<>();
+    private final Map<String, List<Interaction>> hitboxes = new LinkedHashMap<>();
+    private final Map<String, List<Vector3f>> segmentCenters = new LinkedHashMap<>();
     private final Map<String, Vector3f> centers = new LinkedHashMap<>();
     private Location origin;
 
@@ -85,14 +89,19 @@ final class BossRig {
             if (part.decoration()) {
                 continue;
             }
-            Vector3f size = scaleOf(part);
-            Interaction hitbox = world.spawn(origin, Interaction.class, entity -> {
-                entity.setInteractionWidth((float) Math.max(0.5, Math.max(size.x(), size.z())));
-                entity.setInteractionHeight((float) Math.max(0.5, size.y()));
-                entity.setResponsive(true);
-                entity.setPersistent(false);
-            });
-            hitboxes.put(name, hitbox);
+            Vector3f size = segmentSize(part);
+            float width = (float) Math.max(MIN_HITBOX, Math.max(size.x(), size.z()));
+            float height = (float) Math.max(MIN_HITBOX, size.y());
+            List<Interaction> segments = new ArrayList<>();
+            for (int i = 0; i < part.hitboxSegments(); i++) {
+                segments.add(world.spawn(origin, Interaction.class, entity -> {
+                    entity.setInteractionWidth(width);
+                    entity.setInteractionHeight(height);
+                    entity.setResponsive(true);
+                    entity.setPersistent(false);
+                }));
+            }
+            hitboxes.put(name, segments);
         }
         pose(Transform.IDENTITY, 0);
     }
@@ -100,31 +109,11 @@ final class BossRig {
     /** 生成した実体をすべて除去する。討伐・失敗・停止のいずれでも呼ぶ。 */
     void despawn() {
         displays.values().forEach(Display::remove);
-        hitboxes.values().forEach(Interaction::remove);
+        hitboxes.values().forEach(list -> list.forEach(Interaction::remove));
         displays.clear();
         hitboxes.clear();
+        segmentCenters.clear();
         centers.clear();
-    }
-
-    /** 破壊された部位を消す。子の部位もまとめて消える。 */
-    void breakPart(String name) {
-        for (String candidate : rig.partNames()) {
-            if (rig.chain(candidate).stream().anyMatch(part -> part.name().equals(name))) {
-                Display display = displays.remove(candidate);
-                if (display != null) {
-                    display.remove();
-                }
-                Interaction hitbox = hitboxes.remove(candidate);
-                if (hitbox != null) {
-                    hitbox.remove();
-                }
-            }
-        }
-    }
-
-    /** その部位がまだ残っているか。 */
-    boolean hasPart(String name) {
-        return displays.containsKey(name);
     }
 
     /** 部位の中心のワールド座標。演出の発生点に使う。 */
@@ -138,9 +127,11 @@ final class BossRig {
 
     /** 当たり判定の実体が、どの部位に対応するかを返す。 */
     String partOfHitbox(UUID entityId) {
-        for (Map.Entry<String, Interaction> entry : hitboxes.entrySet()) {
-            if (entry.getValue().getUniqueId().equals(entityId)) {
-                return entry.getKey();
+        for (Map.Entry<String, List<Interaction>> entry : hitboxes.entrySet()) {
+            for (Interaction hitbox : entry.getValue()) {
+                if (hitbox.getUniqueId().equals(entityId)) {
+                    return entry.getKey();
+                }
             }
         }
         return null;
@@ -158,16 +149,6 @@ final class BossRig {
         }
     }
 
-    /** 装甲に亀裂が入っていることを発光で伝える。 */
-    void setCracked(String part, boolean cracked) {
-        Display display = displays.get(part);
-        if (display == null) {
-            return;
-        }
-        display.setGlowing(cracked);
-        display.setGlowColorOverride(cracked ? CRACKED_COLOR : null);
-    }
-
     /** 個体を移動させる。表示エンティティは補間で追従する。 */
     void moveTo(Location location) {
         this.origin = location.clone();
@@ -177,16 +158,20 @@ final class BossRig {
         syncHitboxes();
     }
 
-    /** 直前に求めた部位の中心を使い、当たり判定だけを現在の原点へ追従させる。 */
+    /** 直前に求めた部位ごとの判定位置を、現在の原点へ追従させる。 */
     private void syncHitboxes() {
-        for (Map.Entry<String, Interaction> entry : hitboxes.entrySet()) {
-            Vector3f center = centers.get(entry.getKey());
-            if (center == null) {
+        for (Map.Entry<String, List<Interaction>> entry : hitboxes.entrySet()) {
+            List<Vector3f> points = segmentCenters.get(entry.getKey());
+            if (points == null) {
                 continue;
             }
-            float height = scaleOf(rig.part(entry.getKey())).y();
-            entry.getValue().teleport(origin.clone().add(center.x(),
-                    center.y() - height / 2, center.z()));
+            float height = (float) Math.max(MIN_HITBOX, segmentSize(rig.part(entry.getKey())).y());
+            List<Interaction> segments = entry.getValue();
+            for (int i = 0; i < segments.size() && i < points.size(); i++) {
+                Vector3f point = points.get(i);
+                segments.get(i).teleport(origin.clone().add(point.x(),
+                        point.y() - height / 2, point.z()));
+            }
         }
     }
 
@@ -203,6 +188,7 @@ final class BossRig {
     void applyMotion(Map<String, Transform> sampled, double bodyYawDegrees) {
         Matrix4f base = new Matrix4f().rotateY((float) Math.toRadians(-bodyYawDegrees));
         walk(rig.root().name(), base, sampled);
+        syncHitboxes();
     }
 
     private void walk(String partName, Matrix4f parent, Map<String, Transform> sampled) {
@@ -215,9 +201,7 @@ final class BossRig {
             Vector3f size = scaleOf(part);
             Vector3f offset = offsetOf(part);
 
-            Matrix4f model = new Matrix4f(world)
-                    .translate(offset)
-                    .scale(size);
+            Matrix4f model = new Matrix4f(world).translate(offset).scale(size);
             Vector3f translation = model.getTranslation(new Vector3f());
             Quaternionf rotation = model.getNormalizedRotation(new Quaternionf());
 
@@ -225,17 +209,11 @@ final class BossRig {
             display.setTransformation(new Transformation(
                     translation, rotation, size, new Quaternionf()));
 
-            Vector3f center = new Matrix4f(world)
+            centers.put(partName, new Matrix4f(world)
                     .translate(offset.x() + size.x() / 2, offset.y() + size.y() / 2,
                             offset.z() + size.z() / 2)
-                    .getTranslation(new Vector3f());
-            centers.put(partName, center);
-
-            Interaction hitbox = hitboxes.get(partName);
-            if (hitbox != null) {
-                hitbox.teleport(origin.clone().add(center.x(),
-                        center.y() - size.y() / 2, center.z()));
-            }
+                    .getTranslation(new Vector3f()));
+            segmentCenters.put(partName, segmentPoints(part, world, size, offset));
         }
 
         for (String name : rig.partNames()) {
@@ -244,6 +222,43 @@ final class BossRig {
                 walk(name, world, sampled);
             }
         }
+    }
+
+    /** 部位の長辺に沿って、判定を並べる位置を求める。 */
+    private static List<Vector3f> segmentPoints(Rig.Part part, Matrix4f world,
+                                                Vector3f size, Vector3f offset) {
+        int count = part.hitboxSegments();
+        int axis = longestAxis(size);
+        List<Vector3f> points = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            float ratio = (i + 0.5f) / count;
+            float x = offset.x() + size.x() * (axis == 0 ? ratio : 0.5f);
+            float y = offset.y() + size.y() * (axis == 1 ? ratio : 0.5f);
+            float z = offset.z() + size.z() * (axis == 2 ? ratio : 0.5f);
+            points.add(new Matrix4f(world).translate(x, y, z).getTranslation(new Vector3f()));
+        }
+        return points;
+    }
+
+    /** 判定1つぶんの寸法。長辺だけを分割数で割る。 */
+    private static Vector3f segmentSize(Rig.Part part) {
+        Vector3f size = scaleOf(part);
+        int count = part.hitboxSegments();
+        if (count <= 1) {
+            return size;
+        }
+        int axis = longestAxis(size);
+        return new Vector3f(
+                axis == 0 ? size.x() / count : size.x(),
+                axis == 1 ? size.y() / count : size.y(),
+                axis == 2 ? size.z() / count : size.z());
+    }
+
+    private static int longestAxis(Vector3f size) {
+        if (size.y() >= size.x() && size.y() >= size.z()) {
+            return 1;
+        }
+        return size.x() >= size.z() ? 0 : 2;
     }
 
     private static Vector3f scaleOf(Rig.Part part) {

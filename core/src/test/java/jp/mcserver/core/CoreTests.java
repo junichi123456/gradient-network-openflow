@@ -1776,7 +1776,7 @@ public final class CoreTests {
 
         var rig = KnightDefinition.knightRig();
         check("高さ3.5・幅1.6", rig.heightBlocks() == 3.5 && rig.hitboxWidth() == 1.6);
-        check("部位は13（胴・頭・角2・頭飾り・肩装甲2・両腕・両足・槍・穂先）",
+        check("部位は13（胴・頭・角2・頭飾り・肩2・両腕・両足・槍・穂先）",
                 rig.partCount() == 13);
         check("槍は被弾しない",
                 !rig.part("槍").damageable() && rig.damageablePartCount() == 8);
@@ -1784,17 +1784,27 @@ public final class CoreTests {
                 rig.interactiveParts().size() == 9
                         && rig.part("右角").decoration() && rig.part("穂先").decoration()
                         && !rig.part("右角").damageable());
-        check("頭は露出条件つきの弱点、胴は装甲破壊条件つきの弱点",
-                rig.part("頭").vulnerability() == KnightDefinition.HEAD_VULNERABILITY
-                        && rig.part("頭").gate() == Rig.Gate.ON_EXPOSURE
-                        && rig.part("胴").vulnerability() == KnightDefinition.CORE_VULNERABILITY
-                        && rig.part("胴").gate() == Rig.Gate.ON_ARMOR_BROKEN);
-        check("両肩装甲は最大体力の6%で破壊できる",
-                rig.breakableParts().stream().map(Rig.Part::name).toList()
-                        .equals(List.of("右肩装甲", "左肩装甲"))
-                        && rig.part("右肩装甲").breakThreshold() == 0.06);
+        check("弱点は頭だけで、露出中しか倍率が乗らない",
+                rig.weakPoints().stream().map(Rig.Part::name).toList().equals(List.of("頭"))
+                        && rig.part("頭").vulnerability() == KnightDefinition.HEAD_VULNERABILITY
+                        && rig.part("頭").gate() == Rig.Gate.ON_EXPOSURE);
+        check("槍は当たり判定を長さ方向に5分割する",
+                rig.part("槍").hitboxSegments() == KnightDefinition.SPEAR_SEGMENTS
+                        && rig.part("槍").appearance().scale().y() == 3.40);
+        check("分割は必要な部位だけに使う（判定は毎tick追従させるため増やしすぎない）",
+                rig.part("右腕").hitboxSegments() == 1 && rig.part("右足").hitboxSegments() == 1
+                        && rig.part("頭").hitboxSegments() == 1);
+        check("第一形態の当たり判定は13個に収まる",
+                rig.interactiveParts().stream()
+                        .mapToInt(Rig.Part::hitboxSegments).sum() == 13);
         check("すべての部位に見た目が指定されている",
                 rig.partNames().stream().allMatch(name -> rig.part(name).appearance() != null));
+        check("足元0から積み上げて全長3.5に収まる",
+                Math.abs(bottomOf(rig, "右足") - 0.0) < 1e-9
+                        && Math.abs(topOf(rig, "頭") - 3.08) < 1e-9);
+        check("肩の外縁が幅1.6に収まる",
+                Math.abs(rig.part("右肩").base().translation().x()
+                        + rig.part("右肩").appearance().scale().x() / 2 - 0.795) < 1e-9);
         check("槍は右腕の子である",
                 rig.chain("槍").stream().map(Rig.Part::name).toList()
                         .equals(List.of("胴", "右腕", "槍")));
@@ -1893,11 +1903,20 @@ public final class CoreTests {
         var centaur = boss.rigFor(second);
         check("高さ4.6・幅2.0",
                 centaur.heightBlocks() == 4.6 && centaur.hitboxWidth() == 2.0);
-        check("部位は16（人胴・頭・角2・頭飾り・肩装甲2・両腕・槍・穂先・馬胴・四足）",
+        check("部位は16（人胴・頭・角2・頭飾り・肩2・両腕・槍・穂先・馬胴・四足）",
                 centaur.partCount() == 16);
-        check("第二形態でも装甲は張り直される",
-                centaur.breakableParts().size() == 2
-                        && centaur.damageablePartCount() == 11);
+        check("馬胴は前後に2.6あり、四足を前後±1.0に置く",
+                centaur.part("馬胴").appearance().scale().z() == 2.60
+                        && centaur.part("右前足").base().translation().z() == 1.00
+                        && centaur.part("右後足").base().translation().z() == -1.00);
+        check("足は人胴より長い（四足獣としての体型）",
+                centaur.part("右前足").appearance().scale().y()
+                        > centaur.part("人胴").appearance().scale().y());
+        check("馬胴は前後に2分割して判定を並べる",
+                centaur.part("馬胴").hitboxSegments() == 2);
+        check("第二形態の当たり判定は17個に収まる",
+                centaur.interactiveParts().stream()
+                        .mapToInt(Rig.Part::hitboxSegments).sum() == 17);
         check("四足は馬胴の子である",
                 centaur.chain("右前足").stream().map(Rig.Part::name).toList()
                         .equals(List.of("人胴", "馬胴", "右前足")));
@@ -2061,8 +2080,8 @@ public final class CoreTests {
         check("形態移行で選択の履歴が消える",
                 reset.last() == null && reset.consecutive() == 0);
 
-        // ---------------- 弱点と装甲
-        var tracker = new PartTracker(rig, 1_000);
+        // ---------------- 弱点
+        var tracker = new PartTracker(rig);
         check("露出していない頭には倍率が乗らない",
                 tracker.multiplier("頭", false) == 1.0);
         tracker.expose(PartTracker.EXPOSURE_TICKS);
@@ -2082,40 +2101,17 @@ public final class CoreTests {
         check("露出は長いほうが残る",
                 exposureAfter(rig, PartTracker.EXPOSURE_TICKS, PartTracker.WHIFF_EXPOSURE_TICKS)
                         == PartTracker.EXPOSURE_TICKS);
+        check("形態移行などで露出を閉じられる",
+                closedExposure(rig));
 
         check("槍にはダメージが通らない",
                 tracker.hit("槍", 50, false).immune()
                         && tracker.hit("槍", 50, false).dealt() == 0);
-
-        var armor = new PartTracker(rig, 1_000);
-        check("装甲は60ダメージ（最大体力の6%）で壊れる",
-                armor.remainingToBreak("右肩装甲") == 60.0);
-        check("閾値に届かなければ壊れない",
-                !armor.hit("右肩装甲", 59, false).broke() && !armor.isBroken("右肩装甲"));
-        var absorb = new PartTracker(rig, 1_000);
-        var absorbed = absorb.hit("右肩装甲", 12, false);
-        check("装甲へのダメージは体力に入らず装甲が受け止める",
-                absorbed.dealt() == 0 && absorbed.absorbed() == 12.0
-                        && absorbed.absorbedByArmor() && !absorbed.effective());
-        check("閾値に届くと壊れる",
-                armor.hit("右肩装甲", 1, false).broke() && armor.isBroken("右肩装甲"));
-        check("壊れた部位にはもう判定がない",
-                armor.multiplier("右肩装甲", false) == 0
-                        && armor.hit("右肩装甲", 30, false).immune());
-        check("片方だけでは胴の弱点は開かない",
-                !armor.allArmorBroken() && armor.multiplier("胴", false) == 1.0);
-        armor.hit("左肩装甲", 60, false);
-        check("両方壊すと胴が恒久的な弱点になる",
-                armor.allArmorBroken()
-                        && armor.multiplier("胴", false) == KnightDefinition.CORE_VULNERABILITY);
-        check("装甲破壊による弱点は露出を必要としない",
-                !armor.exposed()
-                        && armor.multiplier("胴", false) == KnightDefinition.CORE_VULNERABILITY);
         check("倍率はダメージに乗って返る",
-                armor.hit("胴", 10, false).dealt() == 18.0
-                        && armor.hit("胴", 10, false).critical());
-        check("装甲を壊すには先払いが要る（吸収した分は体力に入らない）",
-                armorCostToBreak(rig, 1_000) == 120.0);
+                exposedHit(rig, 10).dealt() == 25.0 && exposedHit(rig, 10).critical());
+        check("露出していなければ素のダメージが入る",
+                tracker.hit("胴", 10, false).dealt() == 10.0
+                        && !tracker.hit("胴", 10, false).critical());
 
         // ---------------- 激昂
         var meter = new RageMeter();
@@ -2197,24 +2193,44 @@ public final class CoreTests {
         return true;
     }
 
-    /** 装甲をすべて壊すまでに支払うダメージ量。 */
-    private static double armorCostToBreak(Rig rig, long maxHealth) {
-        var tracker = new PartTracker(rig, maxHealth);
-        double paid = 0;
-        for (Rig.Part armor : rig.breakableParts()) {
-            while (!tracker.isBroken(armor.name())) {
-                var result = tracker.hit(armor.name(), 1.0, false);
-                paid += result.absorbed();
-            }
-        }
-        return paid;
-    }
-
     private static int exposureAfter(Rig rig, int first, int second) {
-        var tracker = new PartTracker(rig, 1_000);
+        var tracker = new PartTracker(rig);
         tracker.expose(first);
         tracker.expose(second);
         return tracker.exposureRemaining();
+    }
+
+    private static boolean closedExposure(Rig rig) {
+        var tracker = new PartTracker(rig);
+        tracker.expose(PartTracker.EXPOSURE_TICKS);
+        tracker.closeExposure();
+        return !tracker.exposed();
+    }
+
+    private static PartTracker.Result exposedHit(Rig rig, double raw) {
+        var tracker = new PartTracker(rig);
+        tracker.expose(PartTracker.EXPOSURE_TICKS);
+        return tracker.hit("頭", raw, false);
+    }
+
+    /** 部位の下端のワールドY。付け根合わせの部位は付け根から長さぶん下へ伸びる。 */
+    private static double bottomOf(Rig rig, String name) {
+        double y = 0;
+        for (Rig.Part part : rig.chain(name)) {
+            y += part.base().translation().y();
+        }
+        var look = rig.part(name).appearance();
+        return y + look.offset().y();
+    }
+
+    /** 部位の上端のワールドY。 */
+    private static double topOf(Rig rig, String name) {
+        double y = 0;
+        for (Rig.Part part : rig.chain(name)) {
+            y += part.base().translation().y();
+        }
+        var look = rig.part(name).appearance();
+        return y + look.offset().y() + look.scale().y();
     }
 
     private static void section(String name) {

@@ -11,7 +11,7 @@ import jp.mcserver.core.Raid;
  * 騎士型の戦闘をオフラインで再現する（§12.7）。
  *
  * <p>Minecraft を起動せず、定義どおりに tick を進めて挙動を確認する。
- * モーションの選択・弱点の露出・装甲の破壊・激昂まで、実機と同じ機構を通す。
+ * モーションの選択・弱点の露出・激昂まで、実機と同じ機構を通す。
  *
  * <p>実行:
  * {@code java -cp out jp.mcserver.core.raid.KnightSimulation [参加人数] [1人あたりDPS] [被ダメ軽減%] [パリイ成功率%]}
@@ -55,8 +55,8 @@ public final class KnightSimulation {
         int enrageCount;
         double exposedDamage;
         double normalDamage;
+        int exposureCount;
         final Map<String, Integer> motionCounts = new LinkedHashMap<>();
-        final Map<String, String> brokenAt = new LinkedHashMap<>();
     }
 
     public static void main(String[] args) {
@@ -71,7 +71,7 @@ public final class KnightSimulation {
         fight.phase = fight.boss.phaseAt(100);
         fight.maxHealth = fight.boss.healthFor(participants);
         fight.health = fight.maxHealth;
-        fight.parts = new PartTracker(fight.boss.rigFor(fight.phase), fight.maxHealth);
+        fight.parts = new PartTracker(fight.boss.rigFor(fight.phase));
 
         List<Player> players = new ArrayList<>();
         for (int i = 1; i <= participants; i++) {
@@ -84,11 +84,9 @@ public final class KnightSimulation {
                 Raid.difficulty(participants).healthMultiplier());
         System.out.printf("1人あたりDPS %.1f / 被ダメ軽減 %.0f%% / パリイ成功率 %.0f%% / 制限時間 %d分%n",
                 dpsPerPlayer, reductionPercent, parryPercent, Raid.TIME_LIMIT_MINUTES);
-        System.out.printf("装甲 %s（各 %,.0f ダメージで破壊）/ 頭の倍率 ×%.1f / 胴の倍率 ×%.1f%n%n",
-                fight.boss.rigFor(fight.phase).breakableParts().stream()
-                        .map(Rig.Part::name).toList(),
-                KnightDefinition.ARMOR_THRESHOLD * fight.maxHealth,
-                KnightDefinition.HEAD_VULNERABILITY, KnightDefinition.CORE_VULNERABILITY);
+        System.out.printf("弱点 頭 ×%.1f（露出中のみ %d tick / 空振りは %d tick）%n%n",
+                KnightDefinition.HEAD_VULNERABILITY, PartTracker.EXPOSURE_TICKS,
+                PartTracker.WHIFF_EXPOSURE_TICKS);
 
         int cycle = 0;
         String phaseName = fight.phase.name();
@@ -101,10 +99,10 @@ public final class KnightSimulation {
             if (!next.name().equals(phaseName)) {
                 fight.phase = next;
                 phaseName = next.name();
-                fight.parts = new PartTracker(fight.boss.rigFor(next), fight.maxHealth);
+                fight.parts = new PartTracker(fight.boss.rigFor(next));
                 fight.rage.reset();
                 fight.selector.reset();
-                System.out.printf("[%s] %s へ移行（体力 %,.0f / %d%%）— 装甲は張り直される%n",
+                System.out.printf("[%s] %s へ移行（体力 %,.0f / %d%%）%n",
                         time(fight.tick), phaseName, fight.health, percent);
             }
 
@@ -146,6 +144,7 @@ public final class KnightSimulation {
                 if (motion.parryable() && random.nextDouble() * 100 < parryPercent) {
                     parried = true;
                     fight.parts.expose(PartTracker.EXPOSURE_TICKS);
+                    fight.exposureCount++;
                     System.out.printf("[%s] プレイヤー%d がパリイ成功 — 弱点が %dtick 露出%n",
                             time(fight.tick), target.id, PartTracker.EXPOSURE_TICKS);
                     break;
@@ -192,6 +191,7 @@ public final class KnightSimulation {
             // 空振りは隙になる
             if (!parried && !landed && motion.charge().isPresent()) {
                 fight.parts.expose(PartTracker.WHIFF_EXPOSURE_TICKS);
+                fight.exposureCount++;
                 System.out.printf("[%s] %s が空振り — 弱点が %dtick 露出%n",
                         time(fight.tick), motion.name(), PartTracker.WHIFF_EXPOSURE_TICKS);
             }
@@ -244,27 +244,17 @@ public final class KnightSimulation {
             } else {
                 fight.normalDamage += result.dealt();
             }
-            if (result.broke()) {
-                fight.brokenAt.put(target, time(fight.tick));
-                System.out.printf("[%s] %s を破壊した%s%n", time(fight.tick), target,
-                        fight.parts.allArmorBroken() ? " — 装甲が全て剥がれ、胴が弱点になった" : "");
-            }
         }
     }
 
     /**
-     * プレイヤー側の狙い方。露出しているなら頭、装甲が残っていれば装甲、それ以外は胴。
-     * 「弱点を殴り続けるだけ」にならないことを、この方針で確かめる。
+     * プレイヤー側の狙い方。露出しているなら頭、そうでなければ胴を殴る。
+     * 倍率が乗るのは露出を作れた時間だけである、という設計をこの方針で確かめる。
      */
     private static String chooseTarget(Fight fight) {
         Rig rig = fight.boss.rigFor(fight.phase);
         if (fight.parts.exposed() && !fight.rage.enraged()) {
             return "頭";
-        }
-        for (Rig.Part armor : rig.breakableParts()) {
-            if (!fight.parts.isBroken(armor.name())) {
-                return armor.name();
-            }
         }
         return rig.root().name();
     }
@@ -289,7 +279,7 @@ public final class KnightSimulation {
         System.out.printf("倍率が乗ったダメージ %,.0f（%.0f%%）/ 素のダメージ %,.0f%n",
                 fight.exposedDamage, total == 0 ? 0 : fight.exposedDamage * 100 / total,
                 fight.normalDamage);
-        System.out.printf("装甲の破壊 %s%n", fight.brokenAt.isEmpty() ? "なし" : fight.brokenAt);
+        System.out.printf("弱点の露出を作った回数 %d 回%n", fight.exposureCount);
         System.out.printf("激昂 %d 回%n", fight.enrageCount);
 
         System.out.println();

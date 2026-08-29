@@ -80,7 +80,7 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
             return;
         }
         for (KnightBoss boss : new ArrayList<>(active)) {
-            if (boss.handleHit(event.getEntity().getUniqueId(), attacker, event.getDamage())) {
+            if (boss.handleHit(event.getEntity().getUniqueId(), attacker)) {
                 event.setCancelled(true); // ダメージは個体側で処理する
                 if (boss.isDead()) {
                     boss.playDefeat();
