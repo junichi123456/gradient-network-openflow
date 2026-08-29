@@ -17,6 +17,7 @@ import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.Appearance;
 import jp.mcserver.core.raid.RaidSpecies;
 import jp.mcserver.core.raid.Rig;
+import jp.mcserver.core.raid.Stage;
 import jp.mcserver.core.raid.Transform;
 import jp.mcserver.core.raid.Vec3;
 import java.util.Set;
@@ -1867,6 +1868,44 @@ public final class CoreTests {
                 !startedTransition().running());
         check("つなぎの時間が0以下なら拒否される",
                 thrown(() -> new PoseTransition(0, Animation.Easing.LINEAR)));
+
+        // 戦場（§12.6）
+        var stage = new Stage(100, -200);
+        check("戦場は召喚位置を中心とした半径30ブロックの円筒",
+                stage.centerX() == 100 && stage.centerZ() == -200
+                        && stage.radius() == Stage.DEFAULT_RADIUS);
+        check("中心からの距離を測れる",
+                stage.distanceFromCenter(100, -200) == 0
+                        && stage.distanceFromCenter(130, -200) == 30.0
+                        && Math.abs(stage.distanceFromCenter(103, -204) - 5.0) < 1e-9);
+        check("境界の上は内側とみなす",
+                stage.contains(130, -200) && !stage.contains(130.01, -200));
+        check("高さは問わない（円筒である）",
+                stage.contains(100, -200) && stage.contains(120, -190));
+        check("外から放たれた攻撃は受け付けない",
+                stage.allowsAttackFrom(120, -195) && !stage.allowsAttackFrom(140, -200));
+        check("半径が0以下の戦場は拒否される",
+                thrown(() -> new Stage(0, 0, 0)));
+
+        var visit = new Stage.CenterVisit();
+        check("最初は中心へ戻る義務がない", !visit.owed() && visit.exits() == 0);
+        visit.observe(stage, 120, -200);
+        check("内側にいるうちは義務が生じない", !visit.owed());
+        visit.observe(stage, 140, -200);
+        check("外へ出ると中心を経由する義務を負う", visit.owed() && visit.exits() == 1);
+        visit.observe(stage, 120, -200);
+        check("戻っただけでは義務が消えない（中心を通る必要がある）", visit.owed());
+        visit.observe(stage, 101, -201);
+        check("中心に到達すると義務が消える", !visit.owed());
+        visit.observe(stage, 140, -200);
+        visit.observe(stage, 145, -200);
+        check("外に居続けても出た回数は1回と数える",
+                visit.owed() && visit.exits() == 2);
+        check("中心とみなす距離は2ブロック",
+                Stage.CENTER_TOLERANCE == 2.0 && stage.atCenter(102, -200)
+                        && !stage.atCenter(102.01, -200));
+        visit.clear();
+        check("義務はやり直せる", !visit.owed());
 
         // 通信量
         check("部位15・10Hz・20名で毎秒3,000件",

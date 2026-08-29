@@ -14,6 +14,7 @@ import jp.mcserver.core.raid.PartTracker;
 import jp.mcserver.core.raid.PoseTransition;
 import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.RaidSpecies;
+import jp.mcserver.core.raid.Stage;
 import jp.mcserver.core.raid.Transform;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -55,7 +56,7 @@ final class KnightBoss {
     private static final int GROUND_UP = 3;
     private static final int GROUND_DOWN = 8;
 
-    private enum State { IDLE, APPROACH, MOTION }
+    private enum State { IDLE, APPROACH, MOTION, RETURN }
 
     private final RaidPlugin plugin;
     private final RaidSpecies species;
@@ -65,6 +66,12 @@ final class KnightBoss {
     private final RageMeter rage = new RageMeter();
     /** モーションの切り替わりを埋めるつなぎ（§12.6） */
     private final PoseTransition transition = new PoseTransition();
+    /** 戦場。召喚位置の x, z を中心とした半径30ブロックの円筒（§12.6） */
+    private final Stage stage;
+    /** 戦場の外へ出るたびに負う「中心を経由する」義務 */
+    private final Stage.CenterVisit centerVisit = new Stage.CenterVisit();
+    /** 戦場の中心の足元。境界の描画に使う */
+    private final Location stageCenter;
     /** 直前に適用した姿勢。つなぎの起点になる */
     private Map<String, Transform> lastPose = new HashMap<>();
     private final BossBar bar;
@@ -98,11 +105,18 @@ final class KnightBoss {
     KnightBoss(RaidPlugin plugin, Location origin) {
         this.plugin = plugin;
         this.species = KnightDefinition.boss();
-        this.participants = Math.max(1, origin.getWorld().getPlayers().size());
-        this.maxHealth = species.healthFor(participants);
+        Location spawn = grounded(origin);
+        this.stage = new Stage(spawn.getX(), spawn.getZ());
+        this.stageCenter = spawn.clone();
+        // 参加人数は戦場の内側にいる者で数える。外の見物人で体力が増えては困る
+        this.participants = Math.max(1, (int) spawn.getWorld().getPlayers().stream()
+                .filter(player -> stage.contains(player.getLocation().getX(),
+                        player.getLocation().getZ()))
+                .count());
+        this.maxHealth = species.healthFor(Math.min(participants, Raid.MAX_PARTICIPANTS));
         this.health = maxHealth;
         this.phase = species.phaseAt(100);
-        this.rig = new BossRig(species.rigFor(phase), grounded(origin));
+        this.rig = new BossRig(species.rigFor(phase), spawn);
         this.parts = new PartTracker(species.rigFor(phase));
         this.idleTarget = phase.behavior().idleTicks();
         this.bar = Bukkit.createBossBar(species.displayName(), BarColor.WHITE,
@@ -132,7 +146,13 @@ final class KnightBoss {
         text.append(rage.enraged()
                 ? " 激昂 残り " + rage.remaining() + "tick"
                 : " 激昂まで " + rage.untilEnrage() + "tick");
-        text.append(String.format(" / 足元 Y %.1f", rig.origin().getY()));
+        Location here = rig.origin();
+        text.append(String.format(" / 足元 Y %.1f / 中心から %.1f（半径 %.0f）",
+                here.getY(), stage.distanceFromCenter(here.getX(), here.getZ()),
+                stage.radius()));
+        if (centerVisit.owed()) {
+            text.append(" / 中心へ帰還中");
+        }
         if (motion != null && state == State.MOTION) {
             motion.charge().ifPresent(run -> text.append(String.format(
                     " / 突進 %.1f / %.0f ブロック", chargeTravelled, run.distanceBlocks())));
@@ -177,11 +197,22 @@ final class KnightBoss {
         syncExposure();
         updateBar();
 
+        Location here = rig.origin();
+        boolean wasOwed = centerVisit.owed();
+        centerVisit.observe(stage, here.getX(), here.getZ());
+        if (!wasOwed && centerVisit.owed()) {
+            announce("§7騎士が戦場の外へ出た — 中心へ戻る");
+        }
+        if (totalTick % 20 == 0) {
+            drawBoundary();
+        }
+
         switch (state) {
             case IDLE -> {
                 animateLoop(phase.behavior().idleAnimation().orElse(null));
                 if (stateTick >= idleTarget) {
-                    enter(State.APPROACH);
+                    // 戦場の外へ出ていたら、暴れる前に中心を経由する（§12.6）
+                    enter(centerVisit.owed() ? State.RETURN : State.APPROACH);
                 }
             }
             case APPROACH -> {
@@ -194,6 +225,7 @@ final class KnightBoss {
                     startMotion();
                 }
             }
+            case RETURN -> returnToCenter();
             case MOTION -> runMotion();
             default -> { }
         }
@@ -244,6 +276,38 @@ final class KnightBoss {
         }
         direction.normalize().multiply(phase.behavior().blocksPerTick());
         rig.moveTo(grounded(origin.add(direction)));
+    }
+
+    /**
+     * 中心へ歩いて戻る（§12.6）。
+     *
+     * <p>瞬間移動はしない。歩いて戻るあいだは攻撃モーションを取らないため、
+     * <b>突進を釣って避けることが、そのまま反撃の時間になる</b>。
+     */
+    private void returnToCenter() {
+        animateLoop(phase.behavior().walkAnimation().orElse(null));
+        Location here = rig.origin();
+        Vector direction = new Vector(stage.centerX() - here.getX(), 0,
+                stage.centerZ() - here.getZ());
+        if (direction.lengthSquared() < 0.01 || !centerVisit.owed()) {
+            announce("§7騎士が戦場の中心へ戻った");
+            enter(State.APPROACH);
+            return;
+        }
+        step(direction.normalize(), phase.behavior().blocksPerTick());
+        if (stateTick % 8 == 0) {
+            sound("entity.iron_golem.step", 0.7f, 0.8f);
+        }
+    }
+
+    /** 戦場の境界を粒子で示す。どこから撃っても通らないかを目で分かるようにする。 */
+    private void drawBoundary() {
+        for (int degrees = 0; degrees < 360; degrees += 10) {
+            double radians = Math.toRadians(degrees);
+            Location edge = stageCenter.clone().add(Math.cos(radians) * stage.radius(), 0.4,
+                    Math.sin(radians) * stage.radius());
+            stageCenter.getWorld().spawnParticle(Particle.END_ROD, edge, 1, 0, 0, 0, 0);
+        }
     }
 
     /** 状況に応じて次のモーションを選ぶ（§12.6）。 */
@@ -353,7 +417,8 @@ final class KnightBoss {
             if (player.isDead() || player.getGameMode().name().equals("SPECTATOR")) {
                 continue;
             }
-            if (player.getLocation().distance(origin) > reach) {
+            Location at = player.getLocation();
+            if (!stage.contains(at.getX(), at.getZ()) || at.distance(origin) > reach) {
                 continue;
             }
             if (!struck.add(player.getUniqueId())) {
@@ -418,10 +483,19 @@ final class KnightBoss {
      * <p>ダメージ量はイベントの値ではなく {@link WeaponDamage} で組み立てる。
      * 当たり判定に使う Interaction は生き物ではないため、イベントが運ぶ値は武器を反映しない。
      */
-    boolean handleHit(UUID hitEntity, Player attacker) {
+    boolean handleHit(UUID hitEntity, Player attacker, Location origin, boolean ranged) {
         String part = rig.partOfHitbox(hitEntity);
         if (part == null) {
             return false;
+        }
+        // 戦場の外から放たれた攻撃は通さない（§12.6）
+        if (!stage.allowsAttackFrom(origin.getX(), origin.getZ())) {
+            attacker.sendMessage(ranged
+                    ? "§7戦場の外から放たれた攻撃は通らない（中心から半径 "
+                            + (int) stage.radius() + " ブロック以内から撃つこと）"
+                    : "§7戦場の外からの攻撃は通らない");
+            sound("entity.zombie.attack_iron_door", 0.6f, 1.9f);
+            return true;
         }
         if (state == State.MOTION && motion != null) {
             motion.interrupt().ifPresent(interrupt -> {
@@ -648,6 +722,12 @@ final class KnightBoss {
         return target;
     }
 
+    /**
+     * 最も近いプレイヤー。<b>戦場の内側にいる者だけを狙う</b>。
+     *
+     * <p>外にいる者を追うと、際限なく引き離されて戦場が意味をなさなくなる。
+     * 外に出た者には攻撃も通らないため、追う理由もない。
+     */
     private Player nearest() {
         Location origin = rig.origin();
         Player closest = null;
@@ -656,7 +736,11 @@ final class KnightBoss {
             if (player.isDead() || player.getGameMode().name().equals("SPECTATOR")) {
                 continue;
             }
-            double distance = player.getLocation().distanceSquared(origin);
+            Location at = player.getLocation();
+            if (!stage.contains(at.getX(), at.getZ())) {
+                continue;
+            }
+            double distance = at.distanceSquared(origin);
             if (distance < best) {
                 best = distance;
                 closest = player;
@@ -678,7 +762,9 @@ final class KnightBoss {
             if (player.isDead() || player.getGameMode().name().equals("SPECTATOR")) {
                 continue;
             }
-            if (player.getLocation().distance(origin) <= MotionSpec.Usage.CROWD_RADIUS) {
+            Location at = player.getLocation();
+            if (stage.contains(at.getX(), at.getZ())
+                    && at.distance(origin) <= MotionSpec.Usage.CROWD_RADIUS) {
                 count++;
             }
         }
