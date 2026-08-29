@@ -98,14 +98,12 @@ final class BossRig {
             if (part.decoration()) {
                 continue;
             }
-            Vector3f size = segmentSize(part);
-            float width = (float) Math.max(MIN_HITBOX, Math.max(size.x(), size.z()));
-            float height = (float) Math.max(MIN_HITBOX, size.y());
+            float side = hitboxSide(part);
             List<Interaction> segments = new ArrayList<>();
             for (int i = 0; i < part.hitboxSegments(); i++) {
                 segments.add(world.spawn(origin, Interaction.class, entity -> {
-                    entity.setInteractionWidth(width);
-                    entity.setInteractionHeight(height);
+                    entity.setInteractionWidth(side);
+                    entity.setInteractionHeight(side);
                     entity.setResponsive(true);
                     entity.setPersistent(false);
                 }));
@@ -172,12 +170,12 @@ final class BossRig {
             if (points == null) {
                 continue;
             }
-            float height = (float) Math.max(MIN_HITBOX, segmentSize(rig.part(entry.getKey())).y());
+            float side = hitboxSide(rig.part(entry.getKey()));
             List<Interaction> segments = entry.getValue();
             for (int i = 0; i < segments.size() && i < points.size(); i++) {
                 Vector3f point = points.get(i);
                 segments.get(i).teleport(origin.clone().add(point.x(),
-                        point.y() - height / 2, point.z()));
+                        point.y() - side / 2, point.z()));
             }
         }
     }
@@ -208,8 +206,13 @@ final class BossRig {
             Appearance look = part.appearance();
             for (int i = 0; i < slices.size(); i++) {
                 Appearance piece = look == null ? null : look.slice(i);
-                Vector3f pieceSize = scale(piece);
-                Vector3f pieceOffset = offset(piece);
+                // 描いたモデルは寸法をモデル側が持つ。拡大せずそのまま出す
+                boolean authored = piece != null && piece.authored();
+                float modelScale = authored ? (float) piece.modelScale() : 1;
+                Vector3f pieceSize = authored
+                        ? new Vector3f(modelScale, modelScale, modelScale)
+                        : scale(piece);
+                Vector3f pieceOffset = authored ? new Vector3f(0, 0, 0) : offset(piece);
 
                 Matrix4f model = new Matrix4f(world).translate(pieceOffset).scale(pieceSize);
                 Display display = slices.get(i);
@@ -251,6 +254,20 @@ final class BossRig {
             points.add(new Matrix4f(world).translate(x, y, z).getTranslation(new Vector3f()));
         }
         return points;
+    }
+
+    /**
+     * 判定1つぶんの一辺。
+     *
+     * <p><b>立方体にする。</b>当たり判定は軸に沿った箱しか取れず回転もできないため、
+     * 部位が傾くと「局所座標の高さ」と「world座標の高さ」がずれる。
+     * 槍のように横倒しになる部位では、縦に半分ぶん沈んだ位置に置かれてしまう。
+     * 立方体なら向きが変わっても包み込む形が変わらず、中心に置くだけで済む。
+     */
+    private static float hitboxSide(Rig.Part part) {
+        Vector3f size = segmentSize(part);
+        return (float) Math.max(MIN_HITBOX,
+                Math.max(size.x(), Math.max(size.y(), size.z())));
     }
 
     /** 判定1つぶんの寸法。長辺だけを分割数で割る。 */
@@ -322,6 +339,14 @@ final class BossRig {
         Appearance look = part.appearance();
         if (look == null) {
             ItemStack stack = new ItemStack(Material.PAPER);
+            ItemMeta meta = stack.getItemMeta();
+            meta.setCustomModelData(part.modelId());
+            stack.setItemMeta(meta);
+            return stack;
+        }
+        if (look.authored()) {
+            // 描いたモデルは、部位ごとのモデル識別子で引く
+            ItemStack stack = new ItemStack(material(look.material()));
             ItemMeta meta = stack.getItemMeta();
             meta.setCustomModelData(part.modelId());
             stack.setItemMeta(meta);

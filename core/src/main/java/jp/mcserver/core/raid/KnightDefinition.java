@@ -100,6 +100,33 @@ public final class KnightDefinition {
 
     // ------------------------------------------------------------ 骨格
 
+    /**
+     * リソースパックで描いたモデルを使うか。
+     *
+     * <p>false のあいだはバニラの素材を寸法どおりに引き伸ばして体型を示す。
+     * モデルが揃ったら true にする。描画側は拡大率1でモデルをそのまま出すようになり、
+     * 寸法の宣言は当たり判定にだけ使われる。<b>切り替えはこの1行で済む。</b>
+     */
+    public static final boolean AUTHORED_MODELS = false;
+
+    /** 描いたモデルを載せるアイテム。 */
+    public static final String MODEL_ITEM = "PAPER";
+
+    /** 見た目を、その時点の方式（バニラの素材 / 描いたモデル）に合わせる。 */
+    private static Appearance look(Appearance vanilla) {
+        if (!AUTHORED_MODELS) {
+            return vanilla;
+        }
+        return vanilla.authoredAs(MODEL_ITEM,
+                vanilla.fitsModelSpace() ? 1.0 : LONG_PART_MODEL_SCALE);
+    }
+
+    /**
+     * 描いたモデルの縮小率。モデルの座標が −16〜32（3ブロック）に収まらない部位は、
+     * この率で縮めて描き、描画側で戻す。槍だけが該当する。
+     */
+    public static final double LONG_PART_MODEL_SCALE = 4.0;
+
     /** 素材。白装甲・骨・機械関節・発光する槍。 */
     private static final String ARMOR = "WHITE_CONCRETE";
     private static final String PLATE = "QUARTZ_BLOCK";
@@ -115,38 +142,41 @@ public final class KnightDefinition {
      * <p>寸法は足元を 0 とした積み上げで決めてある。
      * 足 1.20（0〜1.20）→ 胴 1.20（1.20〜2.40）→ 頭 0.68（2.40〜3.08）→ 角で 3.50。
      * 幅は胴 0.95 に肩を x=±0.52 で置き、外縁が ±0.80 になって 1.60 に収まる。
+     *
+     * <p><b>x の符号は Minecraft の座標系に合わせてある。</b>個体の正面は +Z であり、
+     * +Z を向いた実体から見て右は −X である。したがって「右」の部位は x が負になる。
      */
     public static Rig knightRig() {
         List<Rig.Part> parts = new ArrayList<>();
         parts.add(part("胴", null, pos(0, 1.80, 0), 2001)
-                .looks(Appearance.box(ARMOR, 0.95, 1.20, 0.62)));
+                .looks(look(Appearance.box(ARMOR, 0.95, 1.20, 0.62))));
         parts.add(part("頭", "胴", pos(0, 0.94, 0), 2002)
-                .looks(Appearance.box(BONE, 0.68, 0.68, 0.68))
+                .looks(look(Appearance.box(BONE, 0.68, 0.68, 0.68)))
                 .weakPoint(HEAD_VULNERABILITY, Rig.Gate.ON_EXPOSURE));
-        parts.add(part("右角", "頭", posRot(0.20, 0.20, 0.20, -130, 0, 14), 2003)
-                .looks(Appearance.limb(SHAFT, 0.11, 0.72, 0.11).asDecoration()));
-        parts.add(part("左角", "頭", posRot(-0.20, 0.20, 0.20, -130, 0, -14), 2004)
-                .looks(Appearance.limb(SHAFT, 0.11, 0.72, 0.11).asDecoration()));
+        parts.add(part("右角", "頭", posRot(-0.20, 0.20, 0.20, -130, 0, -14), 2003)
+                .looks(look(Appearance.limb(SHAFT, 0.11, 0.72, 0.11).asDecoration())));
+        parts.add(part("左角", "頭", posRot(0.20, 0.20, 0.20, -130, 0, 14), 2004)
+                .looks(look(Appearance.limb(SHAFT, 0.11, 0.72, 0.11).asDecoration())));
         parts.add(part("頭飾り", "頭", posRot(0, 0.30, -0.34, 0, 0, 90), 2005)
-                .looks(Appearance.item(CREST, 0.60).asDecoration()));
-        parts.add(part("右肩", "胴", pos(0.52, 0.45, 0), 2006)
-                .looks(Appearance.box(PLATE, 0.55, 0.42, 0.60)));
-        parts.add(part("左肩", "胴", pos(-0.52, 0.45, 0), 2007)
-                .looks(Appearance.box(PLATE, 0.55, 0.42, 0.60)));
-        parts.add(part("右腕", "胴", pos(0.52, 0.45, 0), 2008)
-                .looks(Appearance.limb(ARMOR, 0.40, 1.10, 0.40)));
-        parts.add(part("左腕", "胴", pos(-0.52, 0.45, 0), 2009)
-                .looks(Appearance.limb(ARMOR, 0.40, 1.10, 0.40)));
-        parts.add(part("右足", "胴", pos(0.26, -0.60, 0), 2010)
-                .looks(Appearance.limb(JOINT, 0.44, 1.20, 0.44)));
-        parts.add(part("左足", "胴", pos(-0.26, -0.60, 0), 2011)
-                .looks(Appearance.limb(JOINT, 0.44, 1.20, 0.44)));
+                .looks(look(Appearance.item(CREST, 0.60).asDecoration())));
+        parts.add(part("右肩", "胴", pos(-0.52, 0.45, 0), 2006)
+                .looks(look(Appearance.box(PLATE, 0.55, 0.42, 0.60))));
+        parts.add(part("左肩", "胴", pos(0.52, 0.45, 0), 2007)
+                .looks(look(Appearance.box(PLATE, 0.55, 0.42, 0.60))));
+        parts.add(part("右腕", "胴", pos(-0.52, 0.45, 0), 2008)
+                .looks(look(Appearance.limb(ARMOR, 0.40, 1.10, 0.40))));
+        parts.add(part("左腕", "胴", pos(0.52, 0.45, 0), 2009)
+                .looks(look(Appearance.limb(ARMOR, 0.40, 1.10, 0.40))));
+        parts.add(part("右足", "胴", pos(-0.26, -0.60, 0), 2010)
+                .looks(look(Appearance.limb(JOINT, 0.44, 1.20, 0.44))));
+        parts.add(part("左足", "胴", pos(0.26, -0.60, 0), 2011)
+                .looks(look(Appearance.limb(JOINT, 0.44, 1.20, 0.44))));
         parts.add(part("槍", "右腕", posRot(0, -1.00, 0, -90, 0, 0), 2012)
-                .looks(Appearance.limb(SHAFT, 0.26, 3.40, 0.26).taperedTo(SPEAR_TAPER))
+                .looks(look(Appearance.limb(SHAFT, 0.26, 3.40, 0.26).taperedTo(SPEAR_TAPER)))
                 .segments(SPEAR_SEGMENTS)
                 .immune());
         parts.add(part("穂先", "槍", posRot(0, -3.35, 0, 0, 0, 45), 2013)
-                .looks(Appearance.item(BLADE, 0.70).asDecoration()));
+                .looks(look(Appearance.item(BLADE, 0.70).asDecoration())));
         return new Rig(parts, 3.5, 1.6);
     }
 
@@ -161,41 +191,41 @@ public final class KnightDefinition {
     public static Rig centaurRig() {
         List<Rig.Part> parts = new ArrayList<>();
         parts.add(part("人胴", null, pos(0, 2.975, 0), 2101)
-                .looks(Appearance.box(ARMOR, 1.00, 1.15, TORSO_DEPTH)));
+                .looks(look(Appearance.box(ARMOR, 1.00, 1.15, TORSO_DEPTH))));
         parts.add(part("頭", "人胴", pos(0, 0.915, 0), 2102)
-                .looks(Appearance.box(BONE, 0.68, 0.68, 0.68))
+                .looks(look(Appearance.box(BONE, 0.68, 0.68, 0.68)))
                 .weakPoint(HEAD_VULNERABILITY, Rig.Gate.ON_EXPOSURE));
-        parts.add(part("右角", "頭", posRot(0.20, 0.20, 0.20, -130, 0, 14), 2103)
-                .looks(Appearance.limb(SHAFT, 0.12, 0.78, 0.12).asDecoration()));
-        parts.add(part("左角", "頭", posRot(-0.20, 0.20, 0.20, -130, 0, -14), 2104)
-                .looks(Appearance.limb(SHAFT, 0.12, 0.78, 0.12).asDecoration()));
+        parts.add(part("右角", "頭", posRot(-0.20, 0.20, 0.20, -130, 0, -14), 2103)
+                .looks(look(Appearance.limb(SHAFT, 0.12, 0.78, 0.12).asDecoration())));
+        parts.add(part("左角", "頭", posRot(0.20, 0.20, 0.20, -130, 0, 14), 2104)
+                .looks(look(Appearance.limb(SHAFT, 0.12, 0.78, 0.12).asDecoration())));
         parts.add(part("頭飾り", "頭", posRot(0, 0.32, -0.36, 0, 0, 90), 2105)
-                .looks(Appearance.item(CREST, 0.68).asDecoration()));
-        parts.add(part("右肩", "人胴", pos(0.66, 0.425, 0), 2106)
-                .looks(Appearance.box(PLATE, 0.65, 0.48, 0.62)));
-        parts.add(part("左肩", "人胴", pos(-0.66, 0.425, 0), 2107)
-                .looks(Appearance.box(PLATE, 0.65, 0.48, 0.62)));
-        parts.add(part("右腕", "人胴", pos(0.66, 0.425, 0), 2108)
-                .looks(Appearance.limb(ARMOR, 0.42, 1.10, 0.42)));
-        parts.add(part("左腕", "人胴", pos(-0.66, 0.425, 0), 2109)
-                .looks(Appearance.limb(ARMOR, 0.42, 1.10, 0.42)));
+                .looks(look(Appearance.item(CREST, 0.68).asDecoration())));
+        parts.add(part("右肩", "人胴", pos(-0.66, 0.425, 0), 2106)
+                .looks(look(Appearance.box(PLATE, 0.65, 0.48, 0.62))));
+        parts.add(part("左肩", "人胴", pos(0.66, 0.425, 0), 2107)
+                .looks(look(Appearance.box(PLATE, 0.65, 0.48, 0.62))));
+        parts.add(part("右腕", "人胴", pos(-0.66, 0.425, 0), 2108)
+                .looks(look(Appearance.limb(ARMOR, 0.42, 1.10, 0.42))));
+        parts.add(part("左腕", "人胴", pos(0.66, 0.425, 0), 2109)
+                .looks(look(Appearance.limb(ARMOR, 0.42, 1.10, 0.42))));
         parts.add(part("槍", "右腕", posRot(0, -1.00, 0, -90, 0, 0), 2110)
-                .looks(Appearance.limb(SHAFT, 0.28, 3.80, 0.28).taperedTo(SPEAR_TAPER))
+                .looks(look(Appearance.limb(SHAFT, 0.28, 3.80, 0.28).taperedTo(SPEAR_TAPER)))
                 .segments(SPEAR_SEGMENTS)
                 .immune());
         parts.add(part("穂先", "槍", posRot(0, -3.75, 0, 0, 0, 45), 2111)
-                .looks(Appearance.item(BLADE, 0.75).asDecoration()));
+                .looks(look(Appearance.item(BLADE, 0.75).asDecoration())));
         parts.add(part("馬胴", "人胴", pos(0, -1.025, HORSE_BODY_Z), 2112)
-                .looks(Appearance.box(ARMOR, 1.15, 0.90, HORSE_DEPTH))
+                .looks(look(Appearance.box(ARMOR, 1.15, 0.90, HORSE_DEPTH)))
                 .segments(2));
-        parts.add(part("右前足", "馬胴", pos(0.38, -0.45, 1.00), 2113)
-                .looks(Appearance.limb(JOINT, FORE_LEG, 1.50, FORE_LEG)));
-        parts.add(part("左前足", "馬胴", pos(-0.38, -0.45, 1.00), 2114)
-                .looks(Appearance.limb(JOINT, FORE_LEG, 1.50, FORE_LEG)));
-        parts.add(part("右後足", "馬胴", pos(0.38, -0.45, -1.00), 2115)
-                .looks(Appearance.limb(JOINT, HIND_LEG, 1.50, HIND_LEG)));
-        parts.add(part("左後足", "馬胴", pos(-0.38, -0.45, -1.00), 2116)
-                .looks(Appearance.limb(JOINT, HIND_LEG, 1.50, HIND_LEG)));
+        parts.add(part("右前足", "馬胴", pos(-0.38, -0.45, 1.00), 2113)
+                .looks(look(Appearance.limb(JOINT, FORE_LEG, 1.50, FORE_LEG))));
+        parts.add(part("左前足", "馬胴", pos(0.38, -0.45, 1.00), 2114)
+                .looks(look(Appearance.limb(JOINT, FORE_LEG, 1.50, FORE_LEG))));
+        parts.add(part("右後足", "馬胴", pos(-0.38, -0.45, -1.00), 2115)
+                .looks(look(Appearance.limb(JOINT, HIND_LEG, 1.50, HIND_LEG))));
+        parts.add(part("左後足", "馬胴", pos(0.38, -0.45, -1.00), 2116)
+                .looks(look(Appearance.limb(JOINT, HIND_LEG, 1.50, HIND_LEG))));
         return new Rig(parts, 4.6, 2.0);
     }
 

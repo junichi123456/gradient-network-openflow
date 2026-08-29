@@ -2016,8 +2016,13 @@ public final class CoreTests {
                 Math.abs(bottomOf(rig, "右足") - 0.0) < 1e-9
                         && Math.abs(topOf(rig, "頭") - 3.08) < 1e-9);
         check("肩の外縁が幅1.6に収まる",
-                Math.abs(rig.part("右肩").base().translation().x()
+                Math.abs(Math.abs(rig.part("右肩").base().translation().x())
                         + rig.part("右肩").appearance().scale().x() / 2 - 0.795) < 1e-9);
+        check("「右」の部位は x が負である（正面 +Z から見た右は −X）",
+                rig.part("右肩").base().translation().x() < 0
+                        && rig.part("右腕").base().translation().x() < 0
+                        && rig.part("右足").base().translation().x() < 0
+                        && rig.part("左肩").base().translation().x() > 0);
         check("槍は右腕の子である",
                 rig.chain("槍").stream().map(Rig.Part::name).toList()
                         .equals(List.of("胴", "右腕", "槍")));
@@ -2159,6 +2164,10 @@ public final class CoreTests {
                 centaur.heightBlocks() == 4.6 && centaur.hitboxWidth() == 2.0);
         check("部位は16（人胴・頭・角2・頭飾り・肩2・両腕・槍・穂先・馬胴・四足）",
                 centaur.partCount() == 16);
+        check("第二形態でも「右」の部位は x が負である",
+                centaur.part("右前足").base().translation().x() < 0
+                        && centaur.part("右後足").base().translation().x() < 0
+                        && centaur.part("左前足").base().translation().x() > 0);
         check("馬胴は前後に2.6あり、四足を前後±1.0に置く",
                 centaur.part("馬胴").appearance().scale().z() == 2.60
                         && centaur.part("右前足").base().translation().z() == 1.00
