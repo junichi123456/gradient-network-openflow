@@ -1600,6 +1600,84 @@ public final class CoreTests {
                         && Raid.difficulty(12).healthMultiplier() == 10.9);
         check("参加人数の上限は12名（描画の実体数から決めた線・§12.6）",
                 Raid.MAX_PARTICIPANTS == 12);
+
+        // 開催枠（§12.1）
+        check("同じ開催日に3時間ごとの枠を並べる",
+                Raid.SLOT_INTERVAL_HOURS == 3 && Raid.SLOTS_PER_DAY == 6
+                        && Raid.slotHours().equals(List.of(6, 9, 12, 15, 18, 21)));
+        check("枠番号と開始時刻が対応する",
+                Raid.slotHour(1) == 6 && Raid.slotHour(6) == 21
+                        && Raid.slotAt(12) == 3 && Raid.slotAt(21) == 6);
+        check("枠でない時刻は枠番号を持たない",
+                Raid.slotAt(5) == 0 && Raid.slotAt(13) == 0 && Raid.slotAt(0) == 0
+                        && Raid.slotAt(24) == 0);
+        check("範囲外の枠番号は拒否される",
+                thrown(() -> Raid.slotHour(0)) && thrown(() -> Raid.slotHour(7)));
+        check("1日の延べ受け入れは72名",
+                Raid.dailyCapacity() == 72);
+        check("最初の登録開始も最後の終了も同じ日に収まる",
+                Raid.registrationFitsInDay()
+                        && Raid.lastSlotEndMinuteOfDay() == 21 * 60 + 40);
+        check("すべての枠が次元の再生成と衝突しない（日曜開催）",
+                Raid.slotHours().stream().allMatch(hour -> Raid.slotIsClear(0, hour, 15)));
+        check("開催日が1日でもネザーの再生成と衝突しない",
+                Raid.slotHours().stream().allMatch(hour -> Raid.slotIsClear(0, hour, 1)));
+
+        // 参加登録（§12.1）
+        var entry = new Raid.DailyEntry();
+        check("登録を受け付ける",
+                entry.register(70, 1, "太郎") == Raid.Entry.ACCEPTED
+                        && entry.slotOf(70, "太郎") == 1
+                        && entry.participants(70, 1).equals(List.of("太郎")));
+        check("同じ開催日の別の枠には入れない",
+                entry.register(70, 3, "太郎") == Raid.Entry.ALREADY_TODAY
+                        && entry.slotOf(70, "太郎") == 1);
+        check("同じ枠への二重登録も拒否される",
+                entry.register(70, 1, "太郎") == Raid.Entry.ALREADY_TODAY);
+        check("次の開催日には参加できる",
+                entry.register(84, 2, "太郎") == Raid.Entry.ACCEPTED
+                        && entry.slotOf(84, "太郎") == 2);
+        check("存在しない枠は拒否される",
+                entry.register(70, 0, "花子") == Raid.Entry.NO_SLOT
+                        && entry.register(70, 7, "花子") == Raid.Entry.NO_SLOT);
+
+        var full = new Raid.DailyEntry();
+        for (int i = 1; i <= Raid.MAX_PARTICIPANTS; i++) {
+            full.register(70, 2, "参加者" + i);
+        }
+        check("枠は12名で満員になる",
+                full.isFull(70, 2) && full.remaining(70, 2) == 0
+                        && full.register(70, 2, "溢れた人") == Raid.Entry.SLOT_FULL);
+        check("満員の枠を弾いても、ほかの枠には入れる",
+                full.register(70, 3, "溢れた人") == Raid.Entry.ACCEPTED);
+        check("空きのある枠を案内できる",
+                full.openSlots(70).equals(List.of(1, 3, 4, 5, 6)));
+        check("その日の延べ参加者を数えられる",
+                full.participantCount(70) == Raid.MAX_PARTICIPANTS + 1);
+        check("辞退すると枠が空き、同じ日に別の枠へ入り直せる",
+                full.cancel(70, "溢れた人") && !full.hasParticipated(70, "溢れた人")
+                        && full.register(70, 1, "溢れた人") == Raid.Entry.ACCEPTED);
+        check("入っていない者の辞退は何も起きない",
+                !full.cancel(70, "いない人"));
+
+        var started = new Raid.DailyEntry();
+        started.register(70, 4, "次郎");
+        started.start(70, 4);
+        check("開始した枠からは辞退できない",
+                started.started(70, 4) && !started.cancel(70, "次郎")
+                        && started.hasParticipated(70, "次郎"));
+        check("開始後は成否を問わず別の枠に入り直せない",
+                started.register(70, 5, "次郎") == Raid.Entry.ALREADY_TODAY);
+        check("開始していない枠は辞退できる",
+                started.register(70, 5, "三郎") == Raid.Entry.ACCEPTED
+                        && started.cancel(70, "三郎"));
+
+        // 国家バフの重複（§12.4）
+        check("同じ開催日の最初の討伐でだけ国家バフが付く",
+                Raid.nationBuffGranted(Set.of(), "北方連合")
+                        && !Raid.nationBuffGranted(Set.of("北方連合"), "北方連合"));
+        check("別の国家には同じ日でも付く",
+                Raid.nationBuffGranted(Set.of("北方連合"), "南方公国"));
         check("倍率は誤差なく百分率から導かれる",
                 Raid.difficulty(3).healthMultiplier() == 2.8
                         && Raid.difficulty(2).healthMultiplier() == 1.9);

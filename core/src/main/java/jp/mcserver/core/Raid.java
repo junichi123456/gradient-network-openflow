@@ -1,8 +1,10 @@
 package jp.mcserver.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -31,6 +33,15 @@ public final class Raid {
     /** 登録の締切（開始前の分）。 */
     public static final int REGISTRATION_CLOSES_MINUTES = 10;
 
+    /** 開催枠の間隔（時）。同じ開催日に3時間ごとに実施する（§12.1）。 */
+    public static final int SLOT_INTERVAL_HOURS = 3;
+
+    /** 最初の枠の開始時刻（時）。 */
+    public static final int FIRST_SLOT_HOUR = 6;
+
+    /** 1日の開催枠数。 */
+    public static final int SLOTS_PER_DAY = 6;
+
     /** 制限時間（分）。 */
     public static final int TIME_LIMIT_MINUTES = 40;
 
@@ -45,6 +56,19 @@ public final class Raid {
 
     /** 国家バフの効果期間（日）。 */
     public static final int NATION_BUFF_DAYS = 7;
+
+    /**
+     * その国家に国家バフを付与できるか（§12.4）。
+     *
+     * <p><b>同じ開催日では重複しない。</b>その日の最初の討伐で7日間付与し、
+     * 以降の枠で討伐しても延長も重複もしない。枠を並べるのは参加できる人数を
+     * 増やすためであり、国民の多い国が枠を埋めて効果を重ねる道は塞ぐ。
+     *
+     * @param buffedToday その開催日にすでにバフを得た国家
+     */
+    public static boolean nationBuffGranted(Set<String> buffedToday, String nation) {
+        return !buffedToday.contains(nation);
+    }
 
     // ------------------------------------------------------------ 開催日
 
@@ -71,6 +95,62 @@ public final class Raid {
         return (today - anchorDay) / CYCLE_DAYS + 1;
     }
 
+    // ------------------------------------------------------------ 開催枠
+
+    /**
+     * 開催枠の開始時刻の一覧（§12.1）。
+     *
+     * <p>参加人数の上限が12名であるため（§12.3）、1枠だけでは同時接続の多い時間帯に
+     * 参加できない者が出る。同じ開催日に枠を並べ、<b>1人が入れるのは同日1枠だけ</b>とする。
+     */
+    public static List<Integer> slotHours() {
+        List<Integer> hours = new ArrayList<>(SLOTS_PER_DAY);
+        for (int i = 0; i < SLOTS_PER_DAY; i++) {
+            hours.add(FIRST_SLOT_HOUR + i * SLOT_INTERVAL_HOURS);
+        }
+        return hours;
+    }
+
+    /** 枠番号（1始まり）の開始時刻。 */
+    public static int slotHour(int slot) {
+        if (slot < 1 || slot > SLOTS_PER_DAY) {
+            throw new IllegalArgumentException("枠番号が範囲外である: " + slot);
+        }
+        return FIRST_SLOT_HOUR + (slot - 1) * SLOT_INTERVAL_HOURS;
+    }
+
+    /** その時刻に始まる枠の番号。枠でない時刻なら 0。 */
+    public static int slotAt(int hour) {
+        int offset = hour - FIRST_SLOT_HOUR;
+        if (offset < 0 || offset % SLOT_INTERVAL_HOURS != 0) {
+            return 0;
+        }
+        int slot = offset / SLOT_INTERVAL_HOURS + 1;
+        return slot <= SLOTS_PER_DAY ? slot : 0;
+    }
+
+    /** 1日に受け入れられる延べ人数。 */
+    public static int dailyCapacity() {
+        return SLOTS_PER_DAY * MAX_PARTICIPANTS;
+    }
+
+    /**
+     * 最後の枠が終わる時刻（時・分）。制限時間ぶんを足す。
+     * 日をまたがないことを確かめるために用いる。
+     */
+    public static int lastSlotEndMinuteOfDay() {
+        return (slotHour(SLOTS_PER_DAY) * 60) + TIME_LIMIT_MINUTES;
+    }
+
+    /**
+     * 最初の枠の登録開始が前日にずれ込まないか。
+     * 締切は開始の {@value #REGISTRATION_CLOSES_MINUTES} 分前である。
+     */
+    public static boolean registrationFitsInDay() {
+        return FIRST_SLOT_HOUR * 60 - REGISTRATION_CLOSES_MINUTES >= 0
+                && lastSlotEndMinuteOfDay() <= 24 * 60;
+    }
+
     /** 次元の再生成（§1.1）と衝突しないか。開催枠の検証に用いる。 */
     public static boolean slotIsClear(int dayOfWeek, int hour, int dayOfMonth) {
         // エンド: 毎週土曜 15:00 / ネザー: 毎月1日 05:00 / 資源: 毎週火・金 03:00
@@ -78,6 +158,139 @@ public final class Raid {
         boolean nether = dayOfMonth == 1 && hour == 5;
         boolean resource = (dayOfWeek == 2 || dayOfWeek == 5) && hour == 3;
         return !(end || nether || resource);
+    }
+
+    /** 登録の結果（§12.1）。 */
+    public enum Entry {
+        /** 受け付けた。 */
+        ACCEPTED,
+        /** その時刻に枠がない。 */
+        NO_SLOT,
+        /** その枠は満員である。 */
+        SLOT_FULL,
+        /** 同じ開催日にすでに参加している。 */
+        ALREADY_TODAY;
+
+        public boolean accepted() {
+            return this == ACCEPTED;
+        }
+    }
+
+    /**
+     * 同じ開催日の参加登録（§12.1）。
+     *
+     * <p><b>1人が参加できるのは同日1枠だけである。</b>枠を並べるのは参加できる人数を
+     * 増やすためであり、同じ人が周回して報酬を重ねるためではない。
+     */
+    public static final class DailyEntry {
+
+        /** 開催日 → 枠番号 → 参加者 */
+        private final Map<Integer, Map<Integer, Set<String>>> byDay = new HashMap<>();
+
+        /** 開催日 → 参加者 → 枠番号 */
+        private final Map<Integer, Map<String, Integer>> slotOfPlayer = new HashMap<>();
+
+        /** 開催日 → すでに開始した枠。開始後は辞退できない */
+        private final Map<Integer, Set<Integer>> started = new HashMap<>();
+
+        /**
+         * 登録する。
+         *
+         * @param day    開催日（サーバー稼働日）
+         * @param slot   枠番号（1始まり）
+         * @param player 参加者
+         */
+        public Entry register(int day, int slot, String player) {
+            if (slot < 1 || slot > SLOTS_PER_DAY) {
+                return Entry.NO_SLOT;
+            }
+            if (hasParticipated(day, player)) {
+                return Entry.ALREADY_TODAY;
+            }
+            Set<String> members = byDay
+                    .computeIfAbsent(day, key -> new HashMap<>())
+                    .computeIfAbsent(slot, key -> new LinkedHashSet<>());
+            if (members.size() >= MAX_PARTICIPANTS) {
+                return Entry.SLOT_FULL;
+            }
+            members.add(player);
+            slotOfPlayer.computeIfAbsent(day, key -> new HashMap<>()).put(player, slot);
+            return Entry.ACCEPTED;
+        }
+
+        /** その日にすでに参加しているか。 */
+        public boolean hasParticipated(int day, String player) {
+            return slotOfPlayer.getOrDefault(day, Map.of()).containsKey(player);
+        }
+
+        /** その日に入っている枠。入っていなければ 0。 */
+        public int slotOf(int day, String player) {
+            return slotOfPlayer.getOrDefault(day, Map.of()).getOrDefault(player, 0);
+        }
+
+        /** その枠の参加者。登録順に並ぶ。 */
+        public List<String> participants(int day, int slot) {
+            return List.copyOf(byDay.getOrDefault(day, Map.of())
+                    .getOrDefault(slot, Set.of()));
+        }
+
+        /** その枠の残り人数。 */
+        public int remaining(int day, int slot) {
+            return MAX_PARTICIPANTS - participants(day, slot).size();
+        }
+
+        /** その枠が満員か。 */
+        public boolean isFull(int day, int slot) {
+            return remaining(day, slot) <= 0;
+        }
+
+        /** その日にまだ空きのある枠。案内に用いる。 */
+        public List<Integer> openSlots(int day) {
+            List<Integer> open = new ArrayList<>();
+            for (int slot = 1; slot <= SLOTS_PER_DAY; slot++) {
+                if (!isFull(day, slot)) {
+                    open.add(slot);
+                }
+            }
+            return open;
+        }
+
+        /** その日の延べ参加者数。 */
+        public int participantCount(int day) {
+            return slotOfPlayer.getOrDefault(day, Map.of()).size();
+        }
+
+        /**
+         * 枠を開始する。以降その枠の参加者は辞退できない。
+         *
+         * <p><b>参加は成否を問わず使い切る</b>（§12.1）。全滅しても時間切れでも、
+         * その日は別の枠に入り直せない。開始した時点で枠を消費したものとして扱う。
+         */
+        public void start(int day, int slot) {
+            if (slot < 1 || slot > SLOTS_PER_DAY) {
+                throw new IllegalArgumentException("枠番号が範囲外である: " + slot);
+            }
+            started.computeIfAbsent(day, key -> new LinkedHashSet<>()).add(slot);
+        }
+
+        /** その枠がすでに開始しているか。 */
+        public boolean started(int day, int slot) {
+            return started.getOrDefault(day, Set.of()).contains(slot);
+        }
+
+        /** 登録を取り消す。締切前の辞退にのみ用いる。開始した枠からは抜けられない。 */
+        public boolean cancel(int day, String player) {
+            int slot = slotOf(day, player);
+            if (slot == 0 || started(day, slot)) {
+                return false;
+            }
+            Map<Integer, Set<String>> slots = byDay.get(day);
+            if (slots != null && slots.get(slot) != null) {
+                slots.get(slot).remove(player);
+            }
+            slotOfPlayer.get(day).remove(player);
+            return true;
+        }
     }
 
     // ------------------------------------------------------------ ローテーション
