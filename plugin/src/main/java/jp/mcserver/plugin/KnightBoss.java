@@ -14,6 +14,7 @@ import jp.mcserver.core.raid.PartTracker;
 import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.RaidSpecies;
 import jp.mcserver.core.raid.Transform;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -37,6 +38,9 @@ import org.bukkit.util.Vector;
  *   <li>弱点（頭）— パリイ・妨害・空振りの直後だけ露出し、倍率が乗る</li>
  *   <li>激昂 — 個体の攻撃が長く命中しないと発動し、待機が縮みダメージが増すかわりに弱点が閉じる</li>
  * </ul>
+ *
+ * <p>パリイは盾では成立しない。<b>その区間に個体へ与えた累積ダメージ</b>で判定する（§12.6）。
+ * 突進は走り出したらパリイされない限り止まらず、決めた距離を走り切る。
  */
 final class KnightBoss {
 
@@ -75,6 +79,14 @@ final class KnightBoss {
     private boolean interrupted;
     private boolean landedThisMotion;
     private boolean wasExposed;
+    /** 突進で走った距離。決めた距離を走り切るまで止まらない */
+    private double chargeTravelled;
+    /** 突進の向き。走り出した時点で固定する。追尾させると避けられない */
+    private Vector chargeDirection;
+    /** パリイの区間に与えられた累積ダメージ */
+    private double parryDamage;
+    /** この突進ですでに当てたプレイヤー。走り抜けても二重に当てない */
+    private final Set<UUID> struck = new HashSet<>();
 
     KnightBoss(RaidPlugin plugin, Location origin) {
         this.plugin = plugin;
@@ -114,6 +126,12 @@ final class KnightBoss {
                 ? " 激昂 残り " + rage.remaining() + "tick"
                 : " 激昂まで " + rage.untilEnrage() + "tick");
         text.append(String.format(" / 足元 Y %.1f", rig.origin().getY()));
+        if (motion != null && state == State.MOTION) {
+            motion.charge().ifPresent(run -> text.append(String.format(
+                    " / 突進 %.1f / %.0f ブロック", chargeTravelled, run.distanceBlocks())));
+            motion.parry().ifPresent(parry -> text.append(String.format(
+                    " / パリイ %.0f / %.0f", parryDamage, parry.requiredDamage(maxHealth))));
+        }
         return text.toString();
     }
 
@@ -211,8 +229,12 @@ final class KnightBoss {
                 distanceToNearest(), surrounding(), rage.enraged());
         motion = selector.select(phase, situation, totalTick).motion();
         firedWindows.clear();
+        struck.clear();
         interrupted = false;
         landedThisMotion = false;
+        chargeTravelled = 0;
+        chargeDirection = null;
+        parryDamage = 0;
         enter(State.MOTION);
         announceMotion();
     }
@@ -231,12 +253,7 @@ final class KnightBoss {
         }
 
         // 突進・回旋の移動
-        motion.charge().ifPresent(charge -> {
-            if (tick >= animation.durationTicks() - charge.perTicks()) {
-                moveForward(charge.blocksPerTick());
-                trail();
-            }
-        });
+        motion.charge().ifPresent(run -> runCharge(run, tick));
         motion.orbit().ifPresent(orbit -> {
             if (tick <= orbit.ticks()) {
                 orbitStep(orbit);
@@ -246,10 +263,14 @@ final class KnightBoss {
             }
         });
 
-        // ダメージ判定
+        // ダメージ判定。突進中は走り抜けながら当てるため、区間のあいだ毎tick判定する
         for (int i = 0; i < motion.damageWindows().size(); i++) {
             MotionSpec.DamageWindow window = motion.damageWindows().get(i);
-            if (tick == window.fromTick() && firedWindows.add(i)) {
+            if (motion.charge().isPresent()) {
+                if (tick >= window.fromTick() && tick <= window.toTick()) {
+                    sweepStrike(window);
+                }
+            } else if (tick == window.fromTick() && firedWindows.add(i)) {
                 strike(window);
             }
         }
@@ -274,25 +295,65 @@ final class KnightBoss {
         }
     }
 
+    /**
+     * 突進を進める。後ずさり → 加速 → 決めた距離を走り切る（§12.6）。
+     *
+     * <p>走り出した時点で向きを固定する。追尾させると避けようがなくなる。
+     */
+    private void runCharge(MotionSpec.Charge run, int tick) {
+        if (tick > run.startTick() && tick <= run.runFromTick()) {
+            step(backwardDirection(), run.backstepPerTick());
+            return;
+        }
+        if (tick <= run.runFromTick() || tick > run.endTick()) {
+            return;
+        }
+        if (chargeDirection == null) {
+            chargeDirection = forwardDirection();
+            sound("entity.ravager.attack", 1.3f, 1.1f);
+        }
+        int since = tick - run.runFromTick();
+        double step = Math.min(run.speedAt(since), run.distanceBlocks() - chargeTravelled);
+        if (step <= 0) {
+            return;
+        }
+        step(chargeDirection, step);
+        chargeTravelled += step;
+        trail();
+    }
+
+    /** 走り抜けながら当てる。同じプレイヤーには1回の突進で1度しか当てない。 */
+    private void sweepStrike(MotionSpec.DamageWindow window) {
+        double reach = motion.orbit().isPresent() ? LONG_REACH : REACH;
+        Location origin = rig.origin();
+        for (Player player : origin.getWorld().getPlayers()) {
+            if (player.isDead() || player.getGameMode().name().equals("SPECTATOR")) {
+                continue;
+            }
+            if (player.getLocation().distance(origin) > reach) {
+                continue;
+            }
+            if (!struck.add(player.getUniqueId())) {
+                continue;
+            }
+            hit(player, window.damage());
+        }
+    }
+
     // ------------------------------------------------------------ 攻撃
 
     private void strike(MotionSpec.DamageWindow window) {
-        double reach = motion.orbit().isPresent() ? LONG_REACH : REACH;
         Player target = nearest();
         swingEffect();
-        if (target == null || target.getLocation().distance(rig.origin()) > reach) {
+        if (target == null || target.getLocation().distance(rig.origin()) > REACH) {
             return;
         }
-        // パリイ: 盾で受けていれば無効化し、弱点を露出させる（§12.7）
-        if (motion.parryable() && target.isBlocking()) {
-            interrupted = true;
-            parts.expose(PartTracker.EXPOSURE_TICKS);
-            announce("§b" + target.getName() + " がパリイ成功 — 弱点が露出");
-            sound("item.shield.block", 1.4f, 0.8f);
-            particles(Particle.CRIT, target.getLocation().add(0, 1, 0), 30, 0.4);
-            return;
-        }
-        double amount = roll(window.damage()) * rage.damageMultiplier();
+        hit(target, window.damage());
+    }
+
+    /** 1人に当てる。ダメージ・ノックバック・演出をまとめる。 */
+    private void hit(Player target, MotionSpec.Damage damage) {
+        double amount = roll(damage) * rage.damageMultiplier();
         target.damage(amount);
         landedThisMotion = true;
         rage.landedHit();
@@ -358,6 +419,7 @@ final class KnightBoss {
             return true;
         }
         health -= result.dealt();
+        accumulateParry(result.dealt(), attacker);
 
         if (result.critical()) {
             attacker.sendMessage(String.format("§c会心 %s に %.1f（×%.1f / 残り %.0f）",
@@ -369,6 +431,36 @@ final class KnightBoss {
                     part, result.dealt(), Math.max(0, health)));
         }
         return true;
+    }
+
+    /**
+     * パリイの判定（§12.6）。盾では成立しない。
+     *
+     * <p>パリイの区間に与えた累積ダメージが閾値に達した時点で成立する。
+     * 成立すると突進は止まり、弱点が露出する。
+     */
+    private void accumulateParry(double dealt, Player attacker) {
+        if (motion == null || state != State.MOTION || interrupted) {
+            return;
+        }
+        MotionSpec.Parry parry = motion.parry().orElse(null);
+        if (parry == null || !parry.covers(stateTick)) {
+            return;
+        }
+        double required = parry.requiredDamage(maxHealth);
+        parryDamage += dealt;
+        if (parryDamage < required) {
+            attacker.sendActionBar(Component.text(String.format("パリイまで %.0f",
+                    Math.max(0, required - parryDamage))));
+            return;
+        }
+        interrupted = true;
+        parts.expose(PartTracker.EXPOSURE_TICKS);
+        announce("§bパリイ成功 — " + motion.name() + " を止めた（弱点が露出）");
+        sound("item.shield.block", 1.4f, 0.8f);
+        sound("block.anvil_land", 1.0f, 1.8f);
+        particles(Particle.CRIT, rig.centerOf("槍"), 40, 0.6);
+        particles(Particle.FLASH, rig.origin().add(0, 1.5, 0), 1, 0);
     }
 
     // ------------------------------------------------------------ 状態の演出
@@ -459,18 +551,33 @@ final class KnightBoss {
 
     // ------------------------------------------------------------ 補助
 
-    private void moveForward(double blocks) {
-        Player target = nearest();
-        if (target == null) {
+    /** 指定の向きへ1歩進める。 */
+    private void step(Vector direction, double blocks) {
+        if (direction == null || blocks <= 0) {
             return;
         }
         Location origin = rig.origin();
+        rig.moveTo(grounded(origin.add(direction.clone().multiply(blocks))));
+    }
+
+    /** 最も近いプレイヤーへの向き（水平・単位ベクトル）。 */
+    private Vector forwardDirection() {
+        Player target = nearest();
+        Location origin = rig.origin();
+        if (target == null) {
+            return new Vector(0, 0, 1);
+        }
         Vector direction = target.getLocation().toVector().subtract(origin.toVector());
         direction.setY(0);
         if (direction.lengthSquared() < 0.01) {
-            return;
+            return new Vector(0, 0, 1);
         }
-        rig.moveTo(grounded(origin.add(direction.normalize().multiply(blocks))));
+        return direction.normalize();
+    }
+
+    /** 後ずさりの向き。 */
+    private Vector backwardDirection() {
+        return forwardDirection().multiply(-1);
     }
 
     private void orbitStep(MotionSpec.Orbit orbit) {
@@ -548,7 +655,14 @@ final class KnightBoss {
         return count;
     }
 
+    /**
+     * 体の向き（度）。突進中は<b>走っている方向</b>を向く。
+     * 追尾させると、走りながら向きだけ変わって不自然になる。
+     */
     private double yawToTarget() {
+        if (chargeDirection != null) {
+            return Math.toDegrees(Math.atan2(-chargeDirection.getX(), chargeDirection.getZ()));
+        }
         Player target = nearest();
         if (target == null) {
             return 0;

@@ -10,11 +10,12 @@ import java.util.Optional;
  * ダメージ判定・移動・ノックバック・妨害・パリイ可否といった戦闘上の性質を持つ。
  *
  * @param idleAfterTicks モーション後に差し込む待機モーションの長さ（tick）
- * @param parryable      パリイ可能か
+ * @param parry          パリイの成立条件。持たないモーションは空
  * @param tracksTarget   武器の先端が常に対象を向くか
  * @param usage          どんな状況で選ばれるモーションか（§12.6）
  */
-public record MotionSpec(String name, Animation animation, int idleAfterTicks, boolean parryable,
+public record MotionSpec(String name, Animation animation, int idleAfterTicks,
+                         Optional<Parry> parry,
                          List<DamageWindow> damageWindows, Optional<Interrupt> interrupt,
                          Optional<Charge> charge, Optional<Orbit> orbit,
                          Optional<Knockback> knockback, Optional<AreaEffect> area,
@@ -136,21 +137,106 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks, b
         }
     }
 
-    /** 直線の突進。 */
-    public record Charge(double blocks, int perTicks) {
+    /**
+     * 直線の突進（§12.6）。
+     *
+     * <p>等速ではなく<b>後ずさり → 加速 → 一定距離を走り切る</b>という形をとる。
+     * 後ずさりは予備動作として見せる時間であり、加速は避ける方向を決める時間である。
+     * 走る距離を決めておくのは、<b>途中で止まらないことを保証する</b>ためである。
+     *
+     * @param startTick             モーション開始から突進の一連が始まる tick
+     * @param backstepBlocks        突進の前に後ずさりする距離
+     * @param backstepTicks         後ずさりに要する tick
+     * @param startSpeedPer20Ticks  走り出しの速度（20tickあたりのブロック数）
+     * @param topSpeedPer20Ticks    到達する速度（20tickあたりのブロック数）
+     * @param accelerationTicks     走り出しから到達速度までの tick
+     * @param distanceBlocks        開始位置から走る距離
+     */
+    public record Charge(int startTick, double backstepBlocks, int backstepTicks,
+                         double startSpeedPer20Ticks, double topSpeedPer20Ticks,
+                         int accelerationTicks, double distanceBlocks) {
 
         public Charge {
-            if (blocks <= 0 || perTicks <= 0) {
-                throw new IllegalArgumentException("突進の指定が不正である");
+            if (startTick < 0 || backstepBlocks < 0 || backstepTicks < 0) {
+                throw new IllegalArgumentException("突進の予備動作の指定が不正である");
+            }
+            if (startSpeedPer20Ticks < 0 || topSpeedPer20Ticks < startSpeedPer20Ticks) {
+                throw new IllegalArgumentException("突進の速度の指定が不正である");
+            }
+            if (accelerationTicks < 0 || distanceBlocks <= 0) {
+                throw new IllegalArgumentException("突進の距離の指定が不正である");
+            }
+            if (backstepBlocks > 0 && backstepTicks == 0) {
+                throw new IllegalArgumentException("後ずさりの時間が0である");
             }
         }
 
-        public double blocksPerTick() {
-            return blocks / perTicks;
+        /** 加速せず一定速度で走る突進。 */
+        public static Charge steady(int startTick, double speedPer20Ticks, double distanceBlocks) {
+            return new Charge(startTick, 0, 0, speedPer20Ticks, speedPer20Ticks, 0,
+                    distanceBlocks);
         }
 
-        public double blocksPerSecond() {
-            return blocksPerTick() * 20;
+        /** 後ずさりが終わり、走り出す tick。 */
+        public int runFromTick() {
+            return startTick + backstepTicks;
+        }
+
+        /** 後ずさりの1tickあたりの距離。 */
+        public double backstepPerTick() {
+            return backstepTicks == 0 ? 0 : backstepBlocks / backstepTicks;
+        }
+
+        /**
+         * 走り出しから数えた tick 時点の速度（1tickあたりのブロック数）。
+         *
+         * @param tickSinceRun 走り出しからの経過 tick（1以上）
+         */
+        public double speedAt(int tickSinceRun) {
+            if (tickSinceRun <= 0) {
+                return 0;
+            }
+            double start = startSpeedPer20Ticks / 20.0;
+            double top = topSpeedPer20Ticks / 20.0;
+            if (accelerationTicks <= 0) {
+                return top;
+            }
+            double ratio = Math.min(1.0, (double) tickSinceRun / accelerationTicks);
+            return start + (top - start) * ratio;
+        }
+
+        /** 走り出しから指定 tick までに進む距離。走る距離で頭打ちになる。 */
+        public double distanceAfter(int tickSinceRun) {
+            double total = 0;
+            for (int t = 1; t <= tickSinceRun; t++) {
+                total += speedAt(t);
+                if (total >= distanceBlocks) {
+                    return distanceBlocks;
+                }
+            }
+            return total;
+        }
+
+        /** 走り切るのに要する tick。 */
+        public int runTicks() {
+            double total = 0;
+            for (int t = 1; t <= 400; t++) {
+                total += speedAt(t);
+                if (total >= distanceBlocks) {
+                    return t;
+                }
+            }
+            throw new IllegalStateException("走り切れない突進である: " + distanceBlocks);
+        }
+
+        /** 突進の一連（後ずさりを含む）が終わる tick。 */
+        public int endTick() {
+            return runFromTick() + runTicks();
+        }
+
+        /** 到達速度（毎秒のブロック数）。 */
+        public double topBlocksPerSecond() {
+            return topSpeedPer20Ticks;
         }
     }
 
@@ -174,6 +260,37 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks, b
 
         public double blocksPerSecond() {
             return blocksPerTick() * 20;
+        }
+    }
+
+    /**
+     * パリイ（§12.6）。
+     *
+     * <p>盾で受けることでは成立しない。<b>その区間に個体へ与えたダメージ</b>で判定する。
+     * 受け身の防御ではなく、踏み込んで打ち返すことを成立条件に置く。
+     *
+     * @param fromTick       判定が始まる tick
+     * @param toTick         判定が終わる tick
+     * @param damageFraction 成立に要する累積ダメージ（個体の最大体力に対する割合）
+     */
+    public record Parry(int fromTick, int toTick, double damageFraction) {
+
+        public Parry {
+            if (fromTick < 0 || toTick < fromTick) {
+                throw new IllegalArgumentException("パリイの区間が不正である");
+            }
+            if (damageFraction <= 0 || damageFraction > 1) {
+                throw new IllegalArgumentException("パリイの必要ダメージが範囲外である");
+            }
+        }
+
+        public boolean covers(int tick) {
+            return tick >= fromTick && tick <= toTick;
+        }
+
+        /** 成立に要するダメージ量。 */
+        public double requiredDamage(long maxHealth) {
+            return damageFraction * maxHealth;
         }
     }
 
@@ -209,27 +326,45 @@ public record MotionSpec(String name, Animation animation, int idleAfterTicks, b
                 throw new IllegalArgumentException("妨害の期限がモーションの長さを超えている: " + name);
             }
         });
+        parry.ifPresent(value -> {
+            if (value.toTick() > animation.durationTicks()) {
+                throw new IllegalArgumentException("パリイの区間がモーションの長さを超えている: " + name);
+            }
+        });
+        charge.ifPresent(value -> {
+            if (value.endTick() > animation.durationTicks()) {
+                throw new IllegalArgumentException(
+                        "突進が走り切る前にモーションが終わる: " + name + " / 必要 " + value.endTick()
+                                + "tick、モーション " + animation.durationTicks() + "tick");
+            }
+        });
     }
 
     /** 使用条件を指定しないモーション。条件は {@link Usage#ANY} になる。 */
-    public MotionSpec(String name, Animation animation, int idleAfterTicks, boolean parryable,
+    public MotionSpec(String name, Animation animation, int idleAfterTicks,
+                      Optional<Parry> parry,
                       List<DamageWindow> damageWindows, Optional<Interrupt> interrupt,
                       Optional<Charge> charge, Optional<Orbit> orbit,
                       Optional<Knockback> knockback, Optional<AreaEffect> area,
                       boolean tracksTarget) {
-        this(name, animation, idleAfterTicks, parryable, damageWindows, interrupt, charge, orbit,
+        this(name, animation, idleAfterTicks, parry, damageWindows, interrupt, charge, orbit,
                 knockback, area, tracksTarget, Usage.ANY);
+    }
+
+    /** パリイできるモーションか。 */
+    public boolean parryable() {
+        return parry.isPresent();
     }
 
     /** 使用条件を差し替えた同じモーション。 */
     public MotionSpec using(Usage value) {
-        return new MotionSpec(name, animation, idleAfterTicks, parryable, damageWindows, interrupt,
+        return new MotionSpec(name, animation, idleAfterTicks, parry, damageWindows, interrupt,
                 charge, orbit, knockback, area, tracksTarget, value);
     }
 
     /** 標準の待機モーションを伴う、追加要素のないモーション。 */
     public static MotionSpec simple(Animation animation) {
-        return new MotionSpec(animation.name(), animation, DEFAULT_IDLE_TICKS, false,
+        return new MotionSpec(animation.name(), animation, DEFAULT_IDLE_TICKS, Optional.empty(),
                 List.of(), Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), false);
     }

@@ -63,6 +63,8 @@ public final class KnightSimulation {
         int participants = args.length > 0 ? Integer.parseInt(args[0]) : 5;
         double dpsPerPlayer = args.length > 1 ? Double.parseDouble(args[1]) : 8.0;
         double reductionPercent = args.length > 2 ? Double.parseDouble(args[2]) : 80.0;
+        // パリイは盾ではなく、区間に与えたダメージで判定する（§12.6）。
+        // ここでは「パリイの区間に攻撃を通せた割合」として与える
         double parryPercent = args.length > 3 ? Double.parseDouble(args[3]) : 30.0;
 
         Random random = new Random(20260827L);
@@ -82,8 +84,11 @@ public final class KnightSimulation {
         System.out.printf("参加人数 %d / 体力 %,d（基準600 × %.1f倍）%n",
                 participants, fight.maxHealth,
                 Raid.difficulty(participants).healthMultiplier());
-        System.out.printf("1人あたりDPS %.1f / 被ダメ軽減 %.0f%% / パリイ成功率 %.0f%% / 制限時間 %d分%n",
+        System.out.printf("1人あたりDPS %.1f / 被ダメ軽減 %.0f%% / パリイ区間の攻撃通過率 %.0f%% / 制限時間 %d分%n",
                 dpsPerPlayer, reductionPercent, parryPercent, Raid.TIME_LIMIT_MINUTES);
+        System.out.printf("パリイに要するダメージ: 最大体力の %.1f%% ＝ %,.0f%n",
+                KnightDefinition.PARRY_DAMAGE_FRACTION * 100,
+                KnightDefinition.PARRY_DAMAGE_FRACTION * fight.maxHealth);
         System.out.printf("弱点 頭 ×%.1f（露出中のみ %d tick / 空振りは %d tick）%n%n",
                 KnightDefinition.HEAD_VULNERABILITY, PartTracker.EXPOSURE_TICKS,
                 PartTracker.WHIFF_EXPOSURE_TICKS);
@@ -130,23 +135,38 @@ public final class KnightSimulation {
             }
 
             // 攻撃モーション
+            //
+            // パリイは区間に与えたダメージで判定する。区間のあいだに集団が通せる
+            // ダメージ量を見積もり、必要量に届くかで成否を決める
             boolean parried = false;
+            var parry = motion.parry().orElse(null);
+            if (parry != null) {
+                int windowTicks = parry.toTick() - parry.fromTick();
+                double reachable = dpsPerPlayer * aliveCount(players) * windowTicks / 20.0
+                        * (parryPercent / 100.0);
+                double required = parry.requiredDamage(fight.maxHealth);
+                if (reachable >= required) {
+                    parried = true;
+                    fight.parts.expose(PartTracker.EXPOSURE_TICKS);
+                    fight.exposureCount++;
+                    System.out.printf(
+                            "[%s] パリイ成功 — %s を止めた（%.0f / %.0f ダメージ・弱点が %dtick 露出）%n",
+                            time(fight.tick), motion.name(), reachable, required,
+                            PartTracker.EXPOSURE_TICKS);
+                }
+            }
+
             boolean landed = false;
             int hitsThisMotion = 0;
             int cursor = 0;
             for (MotionSpec.DamageWindow window : motion.damageWindows()) {
+                if (parried) {
+                    break;
+                }
                 advance(fight, players, dpsPerPlayer, window.fromTick() - cursor);
                 cursor = window.fromTick();
                 Player target = nearest(players);
                 if (target == null) {
-                    break;
-                }
-                if (motion.parryable() && random.nextDouble() * 100 < parryPercent) {
-                    parried = true;
-                    fight.parts.expose(PartTracker.EXPOSURE_TICKS);
-                    fight.exposureCount++;
-                    System.out.printf("[%s] プレイヤー%d がパリイ成功 — 弱点が %dtick 露出%n",
-                            time(fight.tick), target.id, PartTracker.EXPOSURE_TICKS);
                     break;
                 }
                 if (target.distance > REACH && motion.charge().isEmpty()

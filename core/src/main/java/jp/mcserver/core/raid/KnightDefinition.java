@@ -31,6 +31,26 @@ public final class KnightDefinition {
     /** 槍の先端の細さ。手元の断面に対する比率で、円錐状に絞る。 */
     public static final double SPEAR_TAPER = 0.30;
 
+    /**
+     * パリイの成立に要する累積ダメージ（最大体力に対する割合）。
+     *
+     * <p>最大体力に比例させるのは、人数が増えれば火力も増えるためである。
+     * 参加1名で 9、上限の12名で 98 になる。<b>実測で調整する値である</b>（§22）。
+     * 突進中の個体は走り抜けていくため、実際に殴れる時間は区間より短い。
+     */
+    public static final double PARRY_DAMAGE_FRACTION = 0.015;
+
+    /** 突進の前の後ずさり（ブロック / tick）。 */
+    public static final double BACKSTEP_BLOCKS = 0.5;
+    public static final int BACKSTEP_TICKS = 10;
+
+    /** 突進の到達速度（20tickあたりのブロック数）と、そこまでの加速時間。 */
+    public static final double CHARGE_TOP_SPEED = 18.0;
+    public static final int CHARGE_ACCELERATION_TICKS = 30;
+
+    /** 突進が走り切る距離。パリイされない限りここまで止まらない。 */
+    public static final double CHARGE_DISTANCE = 20.0;
+
     /** 前足の太さ。 */
     public static final double FORE_LEG = 0.34;
 
@@ -201,19 +221,32 @@ public final class KnightDefinition {
     }
 
     /**
-     * 突進切り上げ。前傾して槍を水平に構え、突進の終端で振り上げる。
+     * 突進切り上げ。後ずさってから加速し、20ブロックを走り切る。
+     *
+     * <p>走り出したら<b>パリイされない限り止まらない</b>。槍を叩いても中断しないため、
+     * 避けるか、踏み込んで打ち返すかの二択になる。避け切られた場合は空振りとして
+     * 弱点が露出する（§12.6）。
      */
     static MotionSpec charge(MotionSpec.Damage damage, double back, String body) {
-        Animation animation = animation("突進切り上げ", 30, false,
-                body, List.of(rot(0, 0, 0, 0), rot(10, 8, 0, 0), rot(25, 14, 0, 0),
-                        rot(30, -6, 0, 0)),
-                "頭", List.of(rot(0, 0, 0, 0), rot(10, -8, 0, 0), rot(30, -16, 0, 0)),
-                "右腕", List.of(pose(0, 0, 0), pose(10, 0.15, -25), pose(25, 0.35, -22),
-                        pose(30, 0.10, -95)));
-        return new MotionSpec("突進切り上げ", animation, 40, true,
-                List.of(new MotionSpec.DamageWindow("槍", 10, 30, damage)),
-                Optional.of(new MotionSpec.Interrupt("槍", 30, 80)),
-                Optional.of(new MotionSpec.Charge(10.0, 20)), Optional.empty(),
+        var run = new MotionSpec.Charge(0, BACKSTEP_BLOCKS, BACKSTEP_TICKS, 0,
+                CHARGE_TOP_SPEED, CHARGE_ACCELERATION_TICKS, CHARGE_DISTANCE);
+        int end = run.endTick();
+        int duration = end + 5;
+        Animation animation = animation("突進切り上げ", duration, false,
+                body, List.of(rot(0, 0, 0, 0), rot(BACKSTEP_TICKS, -12, 0, 0),
+                        rot(BACKSTEP_TICKS + 10, 10, 0, 0), rot(end - 2, 16, 0, 0),
+                        rot(duration, -8, 0, 0)),
+                "頭", List.of(rot(0, 0, 0, 0), rot(BACKSTEP_TICKS, 6, 0, 0),
+                        rot(end, -14, 0, 0)),
+                "右腕", List.of(pose(0, 0, 0), pose(BACKSTEP_TICKS, -0.45, -20),
+                        pose(BACKSTEP_TICKS + 10, 0.30, -25), pose(end - 2, 0.40, -22),
+                        pose(end, 0.20, -60), pose(duration, 0.10, -105)));
+        return new MotionSpec("突進切り上げ", animation, 40,
+                Optional.of(new MotionSpec.Parry(run.runFromTick(), end,
+                        PARRY_DAMAGE_FRACTION)),
+                List.of(new MotionSpec.DamageWindow("槍", run.runFromTick() + 2, end, damage)),
+                Optional.empty(),
+                Optional.of(run), Optional.empty(),
                 Optional.of(new MotionSpec.Knockback(3, back)), Optional.empty(), false,
                 new MotionSpec.Usage(0, 30.0, 0, 25, 120, 2, false));
     }
@@ -227,7 +260,7 @@ public final class KnightDefinition {
                         rot(18, 0, -38, 0)),
                 "右腕", List.of(rot(0, 0, 0, 0), rot(5, -18, 120, 0), rot(10, -18, 120, 0),
                         rot(18, -12, -120, 0)));
-        return new MotionSpec("なぎ払い", animation, 40, false,
+        return new MotionSpec("なぎ払い", animation, 40, Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 10, 18, damage)),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), false,
@@ -249,7 +282,7 @@ public final class KnightDefinition {
                         pose(25, -0.35, -88), pose(35, -0.35, -88), pose(40, 1.15, -92),
                         pose(45, -0.35, -88), pose(55, -0.55, -84), pose(65, -0.55, -84),
                         pose(70, 1.35, -94)));
-        return new MotionSpec("3段突き", animation, 40, false,
+        return new MotionSpec("3段突き", animation, 40, Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 15, 20, damage),
                         new MotionSpec.DamageWindow("槍", 35, 40, damage),
                         new MotionSpec.DamageWindow("槍", 65, 70, damage)),
@@ -270,7 +303,7 @@ public final class KnightDefinition {
                 "右腕", List.of(pose(0, 0, 0), pose(15, -0.30, -85), pose(20, 1.00, -90),
                         pose(30, 0, -160), pose(35, 0.30, -10), pose(45, 0, -185),
                         pose(50, 0.90, -95), pose(60, 0, -160), pose(65, 0.30, -5)));
-        return new MotionSpec("追従4連切り", animation, 40, false,
+        return new MotionSpec("追従4連切り", animation, 40, Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 15, 20, MotionSpec.Damage.of(a)),
                         new MotionSpec.DamageWindow("槍", 30, 35, MotionSpec.Damage.of(b)),
                         new MotionSpec.DamageWindow("槍", 45, 50, MotionSpec.Damage.of(c)),
@@ -280,16 +313,22 @@ public final class KnightDefinition {
                 MotionSpec.Usage.at(0, 7.5, 20, 110));
     }
 
-    /** 回旋突進。円周を 1.5 周してから最短距離のプレイヤーへ突進する。 */
+    /**
+     * 回旋突進。円周を 1.5 周してから最短距離のプレイヤーへ突進する。
+     *
+     * <p>突進は<b>すでに 15 ブロック毎秒で走っている状態から</b>始まり、
+     * 20 tick で 20 ブロック毎秒に達する。回旋の勢いをそのまま乗せる。
+     */
     static MotionSpec orbitCharge() {
         Animation animation = animation("回旋突進", 120, false,
                 "人胴", List.of(rot(0, 0, 0, 0), rot(20, 0, 0, 18), rot(100, 0, 0, 18),
                         rot(120, 16, 0, 0)),
                 "右腕", List.of(rot(0, 0, 0, 0), rot(20, -90, 0, 0), rot(100, -90, 0, 0),
                         rot(120, -98, 0, 0)));
-        return new MotionSpec("回旋突進", animation, 40, false,
+        return new MotionSpec("回旋突進", animation, 40, Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 100, 120, MotionSpec.Damage.of(40))),
-                Optional.empty(), Optional.of(new MotionSpec.Charge(14.0, 20)),
+                Optional.empty(),
+                Optional.of(new MotionSpec.Charge(100, 0, 0, 15.0, 20.0, 20, 17.6)),
                 Optional.of(new MotionSpec.Orbit(30, 1.5, 100)),
                 Optional.of(new MotionSpec.Knockback(3, 7)), Optional.empty(), false,
                 MotionSpec.Usage.at(6.0, 40.0, 25, 320));
@@ -307,7 +346,8 @@ public final class KnightDefinition {
                         new Animation.Keyframe(12,
                                 new Transform(new Vec3(0, 1.30, 0), new Vec3(-35, 0, 0), Vec3.ONE)),
                         move(20, 0, 0, 0)));
-        return new MotionSpec("踏みつけ", animation, 40, true,
+        return new MotionSpec("踏みつけ", animation, 40,
+                Optional.of(new MotionSpec.Parry(0, 20, PARRY_DAMAGE_FRACTION)),
                 List.of(new MotionSpec.DamageWindow("右前足", 20, 20, MotionSpec.Damage.of(5)),
                         new MotionSpec.DamageWindow("左前足", 20, 20, MotionSpec.Damage.of(5))),
                 Optional.of(new MotionSpec.Interrupt("頭", 20, 40)),

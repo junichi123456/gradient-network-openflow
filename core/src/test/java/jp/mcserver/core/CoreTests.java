@@ -1917,10 +1917,29 @@ public final class CoreTests {
 
         // 第一形態のモーション
         var chargeOne = first.motion("突進切り上げ");
-        check("突進は構え10tick＋突進20tickの30tick",
-                chargeOne.animation().durationTicks() == 30);
-        check("突進速度は10.0ブロック/20tick＝毎秒10ブロック",
-                chargeOne.charge().orElseThrow().blocksPerSecond() == 10.0);
+        var run = chargeOne.charge().orElseThrow();
+        check("突進の前に10tickかけて0.5ブロック後ずさりする",
+                run.backstepBlocks() == 0.5 && run.backstepTicks() == 10
+                        && run.startTick() == 0 && run.runFromTick() == 10);
+        check("走り出しは0から始まり、30tickで毎秒18ブロックに達する",
+                run.startSpeedPer20Ticks() == 0 && run.topSpeedPer20Ticks() == 18.0
+                        && run.accelerationTicks() == 30
+                        && run.speedAt(30) * 20 == 18.0);
+        check("加速は線形である",
+                Math.abs(run.speedAt(10) * 20 - 6.0) < 1e-9
+                        && Math.abs(run.speedAt(20) * 20 - 12.0) < 1e-9);
+        check("加速し切ったあとは到達速度を保つ",
+                run.speedAt(31) == run.speedAt(30) && run.speedAt(37) == run.speedAt(30));
+        check("開始位置から20ブロックを37tickで走り切る",
+                run.distanceBlocks() == 20.0 && run.runTicks() == 37
+                        && run.endTick() == 47
+                        && Math.abs(run.distanceAfter(37) - 20.0) < 1e-9);
+        check("加速の途中では距離が足りない",
+                Math.abs(run.distanceAfter(30) - 13.95) < 1e-9
+                        && run.distanceAfter(36) < 20.0);
+        check("モーションは突進が走り切るまで続く",
+                chargeOne.animation().durationTicks() == 52
+                        && chargeOne.animation().durationTicks() >= run.endTick());
         check("突進のダメージは25〜30の乱数",
                 chargeOne.damageWindows().get(0).damage().min() == 25
                         && chargeOne.damageWindows().get(0).damage().max() == 30
@@ -1928,10 +1947,22 @@ public final class CoreTests {
         check("ノックバックは上3・後5",
                 chargeOne.knockback().orElseThrow().upBlocks() == 3
                         && chargeOne.knockback().orElseThrow().backBlocks() == 5);
-        check("槍への攻撃で中断し、待機80tickが入る",
-                chargeOne.interrupt().orElseThrow().part().equals("槍")
-                        && chargeOne.interrupt().orElseThrow().idleTicks() == 80);
-        check("突進切り上げはパリイ可能", chargeOne.parryable());
+        check("突進はパリイされない限り中断されない",
+                chargeOne.interrupt().isEmpty() && chargeOne.parryable());
+        check("パリイは盾ではなく、区間に与えた累積ダメージで判定する",
+                chargeOne.parry().orElseThrow().fromTick() == 10
+                        && chargeOne.parry().orElseThrow().toTick() == 47
+                        && chargeOne.parry().orElseThrow().damageFraction()
+                        == KnightDefinition.PARRY_DAMAGE_FRACTION);
+        check("パリイに要するダメージは最大体力に比例する",
+                Math.abs(chargeOne.parry().orElseThrow().requiredDamage(600) - 9.0) < 1e-9
+                        && Math.abs(chargeOne.parry().orElseThrow().requiredDamage(6_540) - 98.1)
+                        < 1e-9);
+        check("パリイの判定は突進の区間だけである",
+                !chargeOne.parry().orElseThrow().covers(9)
+                        && chargeOne.parry().orElseThrow().covers(10)
+                        && chargeOne.parry().orElseThrow().covers(47)
+                        && !chargeOne.parry().orElseThrow().covers(48));
 
         check("なぎ払いは22〜28の乱数",
                 first.motion("なぎ払い").damageWindows().get(0).damage().min() == 22
@@ -2038,13 +2069,22 @@ public final class CoreTests {
         check("回旋は直径30ブロックを1.5周",
                 path.diameterBlocks() == 30 && path.laps() == 1.5);
         check("移動距離は約141.4ブロック", Math.abs(path.pathLength() - 141.37) < 0.01);
-        check("回旋の速度は毎秒約28.3ブロック（突進の約2倍に収まる）",
-                Math.abs(path.blocksPerSecond() - 28.27) < 0.05
-                        && path.blocksPerSecond() < orbit.charge().orElseThrow().blocksPerSecond() * 2.1);
-        check("回旋後の突進は毎秒14ブロック、ダメージ40、ノックバック後7",
-                orbit.charge().orElseThrow().blocksPerSecond() == 14.0
-                        && orbit.damageWindows().get(0).damage().min() == 40
+        check("回旋の速度は毎秒約28.3ブロック",
+                Math.abs(path.blocksPerSecond() - 28.27) < 0.05);
+        var orbitRun = orbit.charge().orElseThrow();
+        check("回旋突進は毎秒15ブロックから始まり、20tickで毎秒20ブロックに達する",
+                orbitRun.startSpeedPer20Ticks() == 15.0 && orbitRun.topSpeedPer20Ticks() == 20.0
+                        && orbitRun.accelerationTicks() == 20
+                        && Math.abs(orbitRun.speedAt(20) * 20 - 20.0) < 1e-9);
+        check("回旋突進は後ずさりを持たず、回旋の終わりから走り出す",
+                orbitRun.backstepBlocks() == 0 && orbitRun.startTick() == 100
+                        && orbitRun.runFromTick() == 100 && orbitRun.endTick() == 120);
+        check("回旋突進は勢いを保ったまま始まる（走り出しの時点で毎秒15ブロック超）",
+                orbitRun.speedAt(1) * 20 > 15.0);
+        check("回旋突進のダメージは40、ノックバック後7",
+                orbit.damageWindows().get(0).damage().min() == 40
                         && orbit.knockback().orElseThrow().backBlocks() == 7);
+        check("回旋突進はパリイできない", !orbit.parryable());
 
         var stomp = second.motion("踏みつけ");
         check("踏みつけは前足を20tick持ち上げてから着地",
@@ -2148,8 +2188,10 @@ public final class CoreTests {
                 new HashSet<>(repeatSelect(selector, first, 2.0, 1, 40)).size() == 4);
 
         var farSelector = new MotionSelector(1L);
-        check("弱点を開く手が第一形態に2つある（突進の妨害と3段突きの妨害）",
-                first.motions().stream().filter(m -> m.interrupt().isPresent()).count() == 2
+        check("弱点を開く手が第一形態に2つある（突進のパリイと3段突きの妨害）",
+                first.motions().stream().filter(m -> m.parryable()).count() == 1
+                        && first.motions().stream()
+                                .filter(m -> m.interrupt().isPresent()).count() == 1
                         && first.motion("3段突き").interrupt().orElseThrow().part().equals("槍")
                         && first.motion("3段突き").interrupt().orElseThrow().beforeTick() == 65);
         check("遠距離では突進切り上げしか候補がない",
