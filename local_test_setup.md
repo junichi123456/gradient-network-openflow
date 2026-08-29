@@ -359,7 +359,10 @@ cd E:\raid-dev\core
 javac -encoding UTF-8 -d out (Get-ChildItem -Recurse -Filter *.java src | % FullName)
 java -Dstdout.encoding=UTF-8 -cp out jp.mcserver.core.CoreTests
 java -Dstdout.encoding=UTF-8 -cp out jp.mcserver.core.raid.KnightSimulation 20 8 80 30
+java -Dstdout.encoding=UTF-8 -cp out jp.mcserver.core.raid.RigSketch > knight.svg
 ```
+
+最後の1行は骨格の略図（正面・側面 × 両形態）を SVG で書き出す。**ゲームに入る前に体型を確かめられる。** ブラウザで開けば見える。
 
 引数は順に **参加人数 / 1人あたりDPS / 被ダメ軽減% / パリイ成功率%** である。段階移行、被弾、弱点の露出回数、激昂の回数、倍率が乗ったダメージの割合、討伐時間、モーションの出現回数、通信量の見積りがその場で出る。**実機で見るべきは「見た目・当たり判定・体感」であり、数値はここで潰しておく。**
 

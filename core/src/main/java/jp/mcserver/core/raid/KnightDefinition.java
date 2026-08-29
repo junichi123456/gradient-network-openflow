@@ -59,12 +59,12 @@ public final class KnightDefinition {
         parts.add(part("頭", "胴", pos(0, 0.94, 0), 2002)
                 .looks(Appearance.box(BONE, 0.68, 0.68, 0.68))
                 .weakPoint(HEAD_VULNERABILITY, Rig.Gate.ON_EXPOSURE));
-        parts.add(part("右角", "頭", posRot(0.20, 0.32, -0.10, 155, 0, 16), 2003)
-                .looks(Appearance.limb(SHAFT, 0.11, 0.45, 0.11).asDecoration()));
-        parts.add(part("左角", "頭", posRot(-0.20, 0.32, -0.10, 155, 0, -16), 2004)
-                .looks(Appearance.limb(SHAFT, 0.11, 0.45, 0.11).asDecoration()));
-        parts.add(part("頭飾り", "頭", posRot(0, 0.34, -0.22, 0, 0, 90), 2005)
-                .looks(Appearance.item(CREST, 0.85).asDecoration()));
+        parts.add(part("右角", "頭", posRot(0.20, 0.20, 0.20, -130, 0, 14), 2003)
+                .looks(Appearance.limb(SHAFT, 0.11, 0.72, 0.11).asDecoration()));
+        parts.add(part("左角", "頭", posRot(-0.20, 0.20, 0.20, -130, 0, -14), 2004)
+                .looks(Appearance.limb(SHAFT, 0.11, 0.72, 0.11).asDecoration()));
+        parts.add(part("頭飾り", "頭", posRot(0, 0.30, -0.34, 0, 0, 90), 2005)
+                .looks(Appearance.item(CREST, 0.60).asDecoration()));
         parts.add(part("右肩", "胴", pos(0.52, 0.45, 0), 2006)
                 .looks(Appearance.box(PLATE, 0.55, 0.42, 0.60)));
         parts.add(part("左肩", "胴", pos(-0.52, 0.45, 0), 2007)
@@ -81,8 +81,8 @@ public final class KnightDefinition {
                 .looks(Appearance.limb(SHAFT, 0.18, 3.40, 0.18))
                 .segments(SPEAR_SEGMENTS)
                 .immune());
-        parts.add(part("穂先", "槍", posRot(0, -3.40, 0, 0, 0, 45), 2013)
-                .looks(Appearance.item(BLADE, 1.30).asDecoration()));
+        parts.add(part("穂先", "槍", posRot(0, -3.35, 0, 0, 0, 45), 2013)
+                .looks(Appearance.item(BLADE, 0.70).asDecoration()));
         return new Rig(parts, 3.5, 1.6);
     }
 
@@ -101,12 +101,12 @@ public final class KnightDefinition {
         parts.add(part("頭", "人胴", pos(0, 0.915, 0), 2102)
                 .looks(Appearance.box(BONE, 0.68, 0.68, 0.68))
                 .weakPoint(HEAD_VULNERABILITY, Rig.Gate.ON_EXPOSURE));
-        parts.add(part("右角", "頭", posRot(0.20, 0.32, -0.10, 155, 0, 16), 2103)
-                .looks(Appearance.limb(SHAFT, 0.12, 0.45, 0.12).asDecoration()));
-        parts.add(part("左角", "頭", posRot(-0.20, 0.32, -0.10, 155, 0, -16), 2104)
-                .looks(Appearance.limb(SHAFT, 0.12, 0.45, 0.12).asDecoration()));
-        parts.add(part("頭飾り", "頭", posRot(0, 0.34, -0.22, 0, 0, 90), 2105)
-                .looks(Appearance.item(CREST, 0.95).asDecoration()));
+        parts.add(part("右角", "頭", posRot(0.20, 0.20, 0.20, -130, 0, 14), 2103)
+                .looks(Appearance.limb(SHAFT, 0.12, 0.78, 0.12).asDecoration()));
+        parts.add(part("左角", "頭", posRot(-0.20, 0.20, 0.20, -130, 0, -14), 2104)
+                .looks(Appearance.limb(SHAFT, 0.12, 0.78, 0.12).asDecoration()));
+        parts.add(part("頭飾り", "頭", posRot(0, 0.32, -0.36, 0, 0, 90), 2105)
+                .looks(Appearance.item(CREST, 0.68).asDecoration()));
         parts.add(part("右肩", "人胴", pos(0.66, 0.425, 0), 2106)
                 .looks(Appearance.box(PLATE, 0.65, 0.48, 0.62)));
         parts.add(part("左肩", "人胴", pos(-0.66, 0.425, 0), 2107)
@@ -119,8 +119,8 @@ public final class KnightDefinition {
                 .looks(Appearance.limb(SHAFT, 0.20, 3.80, 0.20))
                 .segments(SPEAR_SEGMENTS)
                 .immune());
-        parts.add(part("穂先", "槍", posRot(0, -3.80, 0, 0, 0, 45), 2111)
-                .looks(Appearance.item(BLADE, 1.40).asDecoration()));
+        parts.add(part("穂先", "槍", posRot(0, -3.75, 0, 0, 0, 45), 2111)
+                .looks(Appearance.item(BLADE, 0.75).asDecoration()));
         parts.add(part("馬胴", "人胴", pos(0, -1.025, -0.55), 2112)
                 .looks(Appearance.box(ARMOR, 1.15, 0.90, 2.60))
                 .segments(2));
