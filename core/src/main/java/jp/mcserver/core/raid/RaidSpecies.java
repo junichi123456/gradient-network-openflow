@@ -280,12 +280,27 @@ public final class RaidSpecies {
         return baseHealth * jp.mcserver.core.Raid.difficulty(participants).healthPercent() / 100;
     }
 
-    /** 動く部位が最も多いモーションでの、必要な更新間隔（§12.6）。 */
+    /**
+     * 動く表示実体が最も多いモーションでの、必要な更新間隔（§12.6）。
+     *
+     * <p>数えるのはモーションが動かす部位ではなく、それにつられて動く<b>表示実体</b>である。
+     * 腕を1つ動かせば、その先の槍も穂先も動く。
+     */
     public int requiredUpdateInterval(int viewers) {
         int maxMoving = 0;
         for (Phase phase : phases) {
+            Rig target = rigFor(phase);
             for (MotionSpec motion : phase.motions()) {
-                maxMoving = Math.max(maxMoving, motion.animation().animatedParts().size());
+                maxMoving = Math.max(maxMoving,
+                        target.movingDisplays(motion.animation().animatedParts()));
+            }
+            // 待機と歩行も同じ間隔で送るため、同じ土俵で数える
+            for (java.util.Optional<Animation> loop : List.of(
+                    phase.behavior().idleAnimation(), phase.behavior().walkAnimation())) {
+                if (loop.isPresent()) {
+                    maxMoving = Math.max(maxMoving,
+                            target.movingDisplays(loop.get().animatedParts()));
+                }
             }
         }
         return MotionBudget.requiredInterval(maxMoving, viewers);

@@ -28,6 +28,29 @@ public final class KnightDefinition {
     /** 槍の当たり判定の分割数。細長い部位を軸に沿った直方体の連なりで表す。 */
     public static final int SPEAR_SEGMENTS = 5;
 
+    /** 槍の先端の細さ。手元の断面に対する比率で、円錐状に絞る。 */
+    public static final double SPEAR_TAPER = 0.30;
+
+    /** 前足の太さ。 */
+    public static final double FORE_LEG = 0.34;
+
+    /** 後足の太さ。前足の 1.2 倍とし、後脚に重心があることを見た目で示す。 */
+    public static final double HIND_LEG = FORE_LEG * 1.2;
+
+    /** 人胴の奥行き。正面はこの半分だけ前に出る。 */
+    private static final double TORSO_DEPTH = 0.62;
+
+    /** 馬胴の奥行き。 */
+    private static final double HORSE_DEPTH = 2.60;
+
+    /**
+     * 馬胴の中心の前後位置（人胴から見た相対）。
+     *
+     * <p><b>人胴の正面と馬胴の正面を揃える。</b>正面の位置は人胴の奥行きの半分であり、
+     * 馬胴の中心はそこから馬胴の奥行きの半分だけ後ろへ下がる。
+     */
+    private static final double HORSE_BODY_Z = TORSO_DEPTH / 2 - HORSE_DEPTH / 2;
+
     /** 両形態を持つ騎士型。 */
     public static RaidSpecies boss() {
         return new RaidSpecies("knight", "騎士", BASE_HEALTH, knightRig(),
@@ -78,7 +101,7 @@ public final class KnightDefinition {
         parts.add(part("左足", "胴", pos(-0.26, -0.60, 0), 2011)
                 .looks(Appearance.limb(JOINT, 0.44, 1.20, 0.44)));
         parts.add(part("槍", "右腕", posRot(0, -1.00, 0, -90, 0, 0), 2012)
-                .looks(Appearance.limb(SHAFT, 0.18, 3.40, 0.18))
+                .looks(Appearance.limb(SHAFT, 0.26, 3.40, 0.26).taperedTo(SPEAR_TAPER))
                 .segments(SPEAR_SEGMENTS)
                 .immune());
         parts.add(part("穂先", "槍", posRot(0, -3.35, 0, 0, 0, 45), 2013)
@@ -97,7 +120,7 @@ public final class KnightDefinition {
     public static Rig centaurRig() {
         List<Rig.Part> parts = new ArrayList<>();
         parts.add(part("人胴", null, pos(0, 2.975, 0), 2101)
-                .looks(Appearance.box(ARMOR, 1.00, 1.15, 0.62)));
+                .looks(Appearance.box(ARMOR, 1.00, 1.15, TORSO_DEPTH)));
         parts.add(part("頭", "人胴", pos(0, 0.915, 0), 2102)
                 .looks(Appearance.box(BONE, 0.68, 0.68, 0.68))
                 .weakPoint(HEAD_VULNERABILITY, Rig.Gate.ON_EXPOSURE));
@@ -116,22 +139,22 @@ public final class KnightDefinition {
         parts.add(part("左腕", "人胴", pos(-0.66, 0.425, 0), 2109)
                 .looks(Appearance.limb(ARMOR, 0.42, 1.10, 0.42)));
         parts.add(part("槍", "右腕", posRot(0, -1.00, 0, -90, 0, 0), 2110)
-                .looks(Appearance.limb(SHAFT, 0.20, 3.80, 0.20))
+                .looks(Appearance.limb(SHAFT, 0.28, 3.80, 0.28).taperedTo(SPEAR_TAPER))
                 .segments(SPEAR_SEGMENTS)
                 .immune());
         parts.add(part("穂先", "槍", posRot(0, -3.75, 0, 0, 0, 45), 2111)
                 .looks(Appearance.item(BLADE, 0.75).asDecoration()));
-        parts.add(part("馬胴", "人胴", pos(0, -1.025, -0.55), 2112)
-                .looks(Appearance.box(ARMOR, 1.15, 0.90, 2.60))
+        parts.add(part("馬胴", "人胴", pos(0, -1.025, HORSE_BODY_Z), 2112)
+                .looks(Appearance.box(ARMOR, 1.15, 0.90, HORSE_DEPTH))
                 .segments(2));
         parts.add(part("右前足", "馬胴", pos(0.38, -0.45, 1.00), 2113)
-                .looks(Appearance.limb(JOINT, 0.34, 1.50, 0.34)));
+                .looks(Appearance.limb(JOINT, FORE_LEG, 1.50, FORE_LEG)));
         parts.add(part("左前足", "馬胴", pos(-0.38, -0.45, 1.00), 2114)
-                .looks(Appearance.limb(JOINT, 0.34, 1.50, 0.34)));
+                .looks(Appearance.limb(JOINT, FORE_LEG, 1.50, FORE_LEG)));
         parts.add(part("右後足", "馬胴", pos(0.38, -0.45, -1.00), 2115)
-                .looks(Appearance.limb(JOINT, 0.34, 1.50, 0.34)));
+                .looks(Appearance.limb(JOINT, HIND_LEG, 1.50, HIND_LEG)));
         parts.add(part("左後足", "馬胴", pos(-0.38, -0.45, -1.00), 2116)
-                .looks(Appearance.limb(JOINT, 0.34, 1.50, 0.34)));
+                .looks(Appearance.limb(JOINT, HIND_LEG, 1.50, HIND_LEG)));
         return new Rig(parts, 4.6, 2.0);
     }
 

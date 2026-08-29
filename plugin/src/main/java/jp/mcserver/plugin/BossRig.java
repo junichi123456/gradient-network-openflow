@@ -32,6 +32,9 @@ import org.joml.Vector3f;
  * <p>当たり判定は<b>軸に沿った直方体しか取れず、回転もできない</b>。槍のように細長く傾く部位は、
  * 部位の長辺に沿って複数の判定を並べて表す（{@link Rig.Part#hitboxSegments()}）。
  * 判定を1つで済ませると、3.4ブロックの槍が他の部位と同じ大きさの箱になってしまう。
+ *
+ * <p>表示も同じ理由で1部位＝1実体とは限らない。表示できるのは直方体だけなので、
+ * 円錐は<b>断面を絞りながら積んだ輪切り</b>で表す（{@link Appearance#taper()}）。
  */
 final class BossRig {
 
@@ -45,7 +48,7 @@ final class BossRig {
     private static final Color EXPOSED_COLOR = Color.fromRGB(0xFF, 0x30, 0x30);
 
     private final Rig rig;
-    private final Map<String, Display> displays = new LinkedHashMap<>();
+    private final Map<String, List<Display>> displays = new LinkedHashMap<>();
     private final Map<String, List<Interaction>> hitboxes = new LinkedHashMap<>();
     private final Map<String, List<Vector3f>> segmentCenters = new LinkedHashMap<>();
     private final Map<String, Vector3f> centers = new LinkedHashMap<>();
@@ -71,20 +74,26 @@ final class BossRig {
             Rig.Part part = rig.part(name);
             Appearance look = part.appearance();
 
-            Display display;
-            if (look != null && look.block()) {
-                display = world.spawn(origin, BlockDisplay.class,
-                        entity -> entity.setBlock(material(look.material()).createBlockData()));
-            } else {
-                display = world.spawn(origin, ItemDisplay.class,
-                        entity -> entity.setItemStack(item(part)));
+            List<Display> slices = new ArrayList<>();
+            int sliceCount = look == null ? 1 : look.slices();
+            for (int i = 0; i < sliceCount; i++) {
+                Display display;
+                if (look != null && look.block()) {
+                    display = world.spawn(origin, BlockDisplay.class,
+                            entity -> entity.setBlock(
+                                    material(look.material()).createBlockData()));
+                } else {
+                    display = world.spawn(origin, ItemDisplay.class,
+                            entity -> entity.setItemStack(item(part)));
+                }
+                display.setInterpolationDuration(UPDATE_INTERVAL);
+                display.setTeleportDuration(UPDATE_INTERVAL);
+                display.setPersistent(false);
+                display.setBrightness(new Display.Brightness(15, 15));
+                display.setViewRange(2.0f);
+                slices.add(display);
             }
-            display.setInterpolationDuration(UPDATE_INTERVAL);
-            display.setTeleportDuration(UPDATE_INTERVAL);
-            display.setPersistent(false);
-            display.setBrightness(new Display.Brightness(15, 15));
-            display.setViewRange(2.0f);
-            displays.put(name, display);
+            displays.put(name, slices);
 
             if (part.decoration()) {
                 continue;
@@ -108,7 +117,7 @@ final class BossRig {
 
     /** 生成した実体をすべて除去する。討伐・失敗・停止のいずれでも呼ぶ。 */
     void despawn() {
-        displays.values().forEach(Display::remove);
+        displays.values().forEach(list -> list.forEach(Display::remove));
         hitboxes.values().forEach(list -> list.forEach(Interaction::remove));
         displays.clear();
         hitboxes.clear();
@@ -140,19 +149,17 @@ final class BossRig {
     /** 弱点の発光を切り替える。露出していることを見た目で伝える（§12.6）。 */
     void setExposed(boolean exposed) {
         for (Rig.Part part : rig.weakPoints()) {
-            Display display = displays.get(part.name());
-            if (display == null) {
-                continue;
+            for (Display display : displays.getOrDefault(part.name(), List.of())) {
+                display.setGlowing(exposed);
+                display.setGlowColorOverride(exposed ? EXPOSED_COLOR : null);
             }
-            display.setGlowing(exposed);
-            display.setGlowColorOverride(exposed ? EXPOSED_COLOR : null);
         }
     }
 
     /** 個体を移動させる。表示エンティティは補間で追従する。 */
     void moveTo(Location location) {
         this.origin = location.clone();
-        displays.values().forEach(display -> display.teleport(origin));
+        displays.values().forEach(list -> list.forEach(display -> display.teleport(origin)));
         // 姿勢の更新は更新間隔ごとだが、当たり判定は毎tick追従させる。
         // ここで一括して原点へ寄せてしまうと、更新の谷にあたるtickで全部位の判定が重なる
         syncHitboxes();
@@ -196,19 +203,25 @@ final class BossRig {
         Transform local = sampled.getOrDefault(partName, Transform.IDENTITY);
         Matrix4f world = new Matrix4f(parent).mul(toMatrix(part.base(), local));
 
-        Display display = displays.get(partName);
-        if (display != null) {
+        List<Display> slices = displays.get(partName);
+        if (slices != null && !slices.isEmpty()) {
+            Appearance look = part.appearance();
+            for (int i = 0; i < slices.size(); i++) {
+                Appearance piece = look == null ? null : look.slice(i);
+                Vector3f pieceSize = scale(piece);
+                Vector3f pieceOffset = offset(piece);
+
+                Matrix4f model = new Matrix4f(world).translate(pieceOffset).scale(pieceSize);
+                Display display = slices.get(i);
+                display.setInterpolationDelay(0);
+                display.setTransformation(new Transformation(
+                        model.getTranslation(new Vector3f()),
+                        model.getNormalizedRotation(new Quaternionf()),
+                        pieceSize, new Quaternionf()));
+            }
+
             Vector3f size = scaleOf(part);
             Vector3f offset = offsetOf(part);
-
-            Matrix4f model = new Matrix4f(world).translate(offset).scale(size);
-            Vector3f translation = model.getTranslation(new Vector3f());
-            Quaternionf rotation = model.getNormalizedRotation(new Quaternionf());
-
-            display.setInterpolationDelay(0);
-            display.setTransformation(new Transformation(
-                    translation, rotation, size, new Quaternionf()));
-
             centers.put(partName, new Matrix4f(world)
                     .translate(offset.x() + size.x() / 2, offset.y() + size.y() / 2,
                             offset.z() + size.z() / 2)
@@ -262,7 +275,14 @@ final class BossRig {
     }
 
     private static Vector3f scaleOf(Rig.Part part) {
-        Appearance look = part.appearance();
+        return scale(part.appearance());
+    }
+
+    private static Vector3f offsetOf(Rig.Part part) {
+        return offset(part.appearance());
+    }
+
+    private static Vector3f scale(Appearance look) {
         if (look == null) {
             return new Vector3f(1, 1, 1);
         }
@@ -270,8 +290,7 @@ final class BossRig {
                 (float) look.scale().z());
     }
 
-    private static Vector3f offsetOf(Rig.Part part) {
-        Appearance look = part.appearance();
+    private static Vector3f offset(Appearance look) {
         if (look == null) {
             return new Vector3f(0, 0, 0);
         }

@@ -69,16 +69,21 @@ public final class RigSketch {
                 continue;
             }
             double[] matrix = chainMatrix(rig, name);
-            List<P> corners = corners(look);
-            List<Q> projected = new ArrayList<>();
-            double depth = 0;
-            for (P corner : corners) {
-                P world = apply(matrix, corner);
-                projected.add(side ? new Q(world.z(), world.y()) : new Q(world.x(), world.y()));
-                depth += side ? world.x() : world.z();
+            // 円錐は輪切りの積み重ねで描かれる。図でも同じように1枚ずつ描く
+            for (int slice = 0; slice < look.slices(); slice++) {
+                Appearance piece = look.slice(slice);
+                List<P> corners = corners(piece);
+                List<Q> projected = new ArrayList<>();
+                double depth = 0;
+                for (P corner : corners) {
+                    P world = apply(matrix, corner);
+                    projected.add(side ? new Q(world.z(), world.y())
+                            : new Q(world.x(), world.y()));
+                    depth += side ? world.x() : world.z();
+                }
+                shapes.add(new Shape(name, piece.material(), hull(projected),
+                        depth / corners.size(), piece.decoration()));
             }
-            shapes.add(new Shape(name, look.material(), hull(projected), depth / corners.size(),
-                    look.decoration()));
         }
 
         // 奥から手前へ描く

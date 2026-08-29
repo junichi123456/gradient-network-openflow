@@ -224,6 +224,31 @@ public final class Rig {
         return parts.values().stream().filter(Part::isWeakPoint).toList();
     }
 
+    /**
+     * 指定の部位を動かしたときに、実際に姿勢が変わる<b>表示実体</b>の数。
+     *
+     * <p>親を動かせば子もついて動く。円錐状の部位は輪切りの枚数だけ実体を持つ。
+     * 通信量はモーションが動かす部位の数ではなく、この数で決まる。
+     */
+    public int movingDisplays(java.util.Collection<String> animated) {
+        int total = 0;
+        for (Part part : parts.values()) {
+            boolean moves = chain(part.name()).stream()
+                    .anyMatch(ancestor -> animated.contains(ancestor.name()));
+            if (moves) {
+                total += part.appearance() == null ? 1 : part.appearance().slices();
+            }
+        }
+        return total;
+    }
+
+    /** すべての表示実体の数。 */
+    public int displayCount() {
+        return parts.values().stream()
+                .mapToInt(part -> part.appearance() == null ? 1 : part.appearance().slices())
+                .sum();
+    }
+
     /** 当たり判定を持つ部位。見た目だけの部位は含まない。 */
     public List<Part> interactiveParts() {
         return parts.values().stream().filter(part -> !part.decoration()).toList();

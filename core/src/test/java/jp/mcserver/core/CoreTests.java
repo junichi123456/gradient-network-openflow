@@ -1791,6 +1791,18 @@ public final class CoreTests {
         check("槍は当たり判定を長さ方向に5分割する",
                 rig.part("槍").hitboxSegments() == KnightDefinition.SPEAR_SEGMENTS
                         && rig.part("槍").appearance().scale().y() == 3.40);
+        check("槍は手元から先端へ絞られる（円錐状に描く）",
+                rig.part("槍").appearance().tapered()
+                        && rig.part("槍").appearance().taper() == KnightDefinition.SPEAR_TAPER
+                        && rig.part("槍").appearance().slices() == Appearance.TAPER_SLICES);
+        check("輪切りは手元が最も太く、先端が最も細い",
+                sliceWidth(rig, "槍", 0) > sliceWidth(rig, "槍", 1)
+                        && sliceWidth(rig, "槍", 1) > sliceWidth(rig, "槍", 2)
+                        && sliceWidth(rig, "槍", 2) > sliceWidth(rig, "槍", 3));
+        check("輪切りは手元から先端まで隙間なく積まれる",
+                sliceTop(rig, "槍", 0) == 0.0
+                        && sliceBottom(rig, "槍", 0) == sliceTop(rig, "槍", 1)
+                        && sliceBottom(rig, "槍", 3) == -3.40);
         check("分割は必要な部位だけに使う（判定は毎tick追従させるため増やしすぎない）",
                 rig.part("右腕").hitboxSegments() == 1 && rig.part("右足").hitboxSegments() == 1
                         && rig.part("頭").hitboxSegments() == 1);
@@ -1909,6 +1921,18 @@ public final class CoreTests {
                 centaur.part("馬胴").appearance().scale().z() == 2.60
                         && centaur.part("右前足").base().translation().z() == 1.00
                         && centaur.part("右後足").base().translation().z() == -1.00);
+        check("馬胴の正面と人胴の正面が揃う",
+                Math.abs(frontOf(centaur, "馬胴") - frontOf(centaur, "人胴")) < 1e-9);
+        check("後足は前足の1.2倍の太さである",
+                Math.abs(centaur.part("右後足").appearance().scale().x()
+                        - centaur.part("右前足").appearance().scale().x() * 1.2) < 1e-9
+                        && centaur.part("右後足").appearance().scale().x()
+                        == centaur.part("右後足").appearance().scale().z());
+        check("後足も前足と同じ長さで接地する",
+                centaur.part("右後足").appearance().scale().y()
+                        == centaur.part("右前足").appearance().scale().y());
+        check("第二形態の槍も円錐状に描く",
+                centaur.part("槍").appearance().tapered());
         check("足は人胴より長い（四足獣としての体型）",
                 centaur.part("右前足").appearance().scale().y()
                         > centaur.part("人胴").appearance().scale().y());
@@ -2191,6 +2215,32 @@ public final class CoreTests {
             }
         }
         return true;
+    }
+
+    /** 輪切り1枚の断面。 */
+    private static double sliceWidth(Rig rig, String part, int index) {
+        return rig.part(part).appearance().slice(index).scale().x();
+    }
+
+    /** 輪切り1枚の付け根側の端（部位の局所Y）。 */
+    private static double sliceTop(Rig rig, String part, int index) {
+        var slice = rig.part(part).appearance().slice(index);
+        return slice.offset().y() + slice.scale().y();
+    }
+
+    /** 輪切り1枚の先端側の端（部位の局所Y）。 */
+    private static double sliceBottom(Rig rig, String part, int index) {
+        return rig.part(part).appearance().slice(index).offset().y();
+    }
+
+    /** 部位の正面（+Z 側の面）のワールドZ。 */
+    private static double frontOf(Rig rig, String name) {
+        double z = 0;
+        for (Rig.Part part : rig.chain(name)) {
+            z += part.base().translation().z();
+        }
+        var look = rig.part(name).appearance();
+        return z + look.offset().z() + look.scale().z();
     }
 
     private static int exposureAfter(Rig rig, int first, int second) {
