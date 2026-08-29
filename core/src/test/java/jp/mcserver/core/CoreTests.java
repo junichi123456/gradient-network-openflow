@@ -12,6 +12,7 @@ import jp.mcserver.core.raid.MotionSpec;
 import jp.mcserver.core.raid.MotionBudget;
 import jp.mcserver.core.raid.MotionSelector;
 import jp.mcserver.core.raid.PartTracker;
+import jp.mcserver.core.raid.PoseTransition;
 import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.Appearance;
 import jp.mcserver.core.raid.RaidSpecies;
@@ -1786,6 +1787,87 @@ public final class CoreTests {
         check("ループするモーションは長さで折り返す",
                 idle.sample("頭", 60).rotationDeg().x() == 10.0);
 
+        // 緩急（§12.6）
+        check("既定の緩急は両端が緩やか",
+                Animation.DEFAULT_EASING == Animation.Easing.EASE_IN_OUT);
+        check("どの緩急も両端では素通しである",
+                java.util.Arrays.stream(Animation.Easing.values())
+                        .allMatch(e -> e.apply(0) == 0 && e.apply(1) == 1));
+        check("等速は割合をそのまま返す",
+                Animation.Easing.LINEAR.apply(0.25) == 0.25);
+        check("両端が緩やかな曲線は中央で0.5を通る",
+                Animation.Easing.EASE_IN_OUT.apply(0.5) == 0.5);
+        check("両端が緩やかな曲線は序盤で遅く、終盤で速い",
+                Animation.Easing.EASE_IN_OUT.apply(0.25) < 0.25
+                        && Animation.Easing.EASE_IN_OUT.apply(0.75) > 0.75);
+        check("加速は序盤が遅い", Animation.Easing.EASE_IN.apply(0.5) == 0.25);
+        check("減速は序盤が速い", Animation.Easing.EASE_OUT.apply(0.5) == 0.75);
+        check("どの緩急も単調に増える",
+                java.util.Arrays.stream(Animation.Easing.values()).allMatch(e -> {
+                    for (int i = 1; i <= 100; i++) {
+                        if (e.apply(i / 100.0) < e.apply((i - 1) / 100.0)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }));
+
+        var eased = new Animation("緩急つき", 20, false, Map.of(
+                "頭", List.of(new Animation.Keyframe(0, Transform.IDENTITY),
+                        new Animation.Keyframe(20,
+                                new Transform(Vec3.ZERO, new Vec3(100, 0, 0), Vec3.ONE),
+                                Animation.Easing.EASE_IN_OUT))));
+        check("補間に緩急が乗る",
+                eased.sample("頭", 5).rotationDeg().x() < 25.0
+                        && eased.sample("頭", 10).rotationDeg().x() == 50.0
+                        && eased.sample("頭", 15).rotationDeg().x() > 75.0);
+        var linear = new Animation("等速", 20, false, Map.of(
+                "頭", List.of(new Animation.Keyframe(0, Transform.IDENTITY),
+                        new Animation.Keyframe(20,
+                                new Transform(Vec3.ZERO, new Vec3(100, 0, 0), Vec3.ONE),
+                                Animation.Easing.LINEAR))));
+        check("等速を指定すれば従来どおり直線になる",
+                linear.sample("頭", 5).rotationDeg().x() == 25.0);
+        check("キーフレームの緩急は差し替えられる",
+                new Animation.Keyframe(5, Transform.IDENTITY)
+                        .with(Animation.Easing.LINEAR).easing() == Animation.Easing.LINEAR);
+        check("緩急が null のキーフレームは拒否される",
+                thrown(() -> new Animation.Keyframe(0, Transform.IDENTITY, null)));
+
+        // モーションのつなぎ（§12.6）
+        var pose = new PoseTransition(6, Animation.Easing.EASE_IN_OUT);
+        check("つなぎを始める前は目標をそのまま返す",
+                !pose.running()
+                        && pose.apply(Map.of("頭", Transform.IDENTITY), 2).size() == 1);
+        var before = Map.of("右腕",
+                new Transform(Vec3.ZERO, new Vec3(-100, 0, 0), Vec3.ONE));
+        var after = Map.of("右足", new Transform(Vec3.ZERO, new Vec3(40, 0, 0), Vec3.ONE));
+        pose.begin(before);
+        check("つなぎは前後どちらかに現れる部位をすべて含む",
+                pose.running() && pose.apply(after, 2).keySet().equals(Set.of("右腕", "右足")));
+        var midway = new PoseTransition(6, Animation.Easing.EASE_IN_OUT);
+        midway.begin(before);
+        var blended = midway.apply(after, 2);
+        check("切り替えの直後は前の姿勢に近い",
+                blended.get("右腕").rotationDeg().x() < -50.0
+                        && blended.get("右足").rotationDeg().x() < 20.0);
+        check("最初の1回でもすでに動き始めている（前の姿勢で止まらない）",
+                blended.get("右腕").rotationDeg().x() > -100.0
+                        && blended.get("右足").rotationDeg().x() > 0.0);
+        check("片方にしかない部位は静止時の姿勢へ向かう",
+                blended.get("右腕").rotationDeg().x() > -100.0);
+        var finished = new PoseTransition(6, Animation.Easing.EASE_IN_OUT);
+        finished.begin(before);
+        for (int i = 0; i < 3; i++) {
+            finished.apply(after, 2);
+        }
+        check("指定の時間で終わり、以降は目標をそのまま返す",
+                !finished.running() && finished.apply(after, 2).equals(after));
+        check("つなぎは打ち切れる",
+                !startedTransition().running());
+        check("つなぎの時間が0以下なら拒否される",
+                thrown(() -> new PoseTransition(0, Animation.Easing.LINEAR)));
+
         // 通信量
         check("部位15・10Hz・20名で毎秒3,000件",
                 MotionBudget.updatesPerSecond(15, 2, 20) == 3_000);
@@ -2373,6 +2455,13 @@ public final class CoreTests {
         }
         var look = rig.part(name).appearance();
         return z + look.offset().z() + look.scale().z();
+    }
+
+    private static PoseTransition startedTransition() {
+        var transition = new PoseTransition();
+        transition.begin(Map.of("頭", Transform.IDENTITY));
+        transition.clear();
+        return transition;
     }
 
     private static int exposureAfter(Rig rig, int first, int second) {

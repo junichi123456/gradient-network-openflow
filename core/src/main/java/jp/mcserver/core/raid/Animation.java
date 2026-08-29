@@ -14,17 +14,79 @@ import java.util.Map;
 public final class Animation {
 
     /**
+     * キーフレーム間の速度の付け方（§12.6）。
+     *
+     * <p>線形のまま繋ぐと、キーフレームの境目で速度が急に変わり、
+     * 折れ線を辿るような動きに見える。緩急を付けることで、
+     * 同じキーフレームでも「重さのある動き」になる。
+     */
+    public enum Easing {
+        /** 等速。速度を一定に保ちたい区間に使う。 */
+        LINEAR {
+            @Override
+            public double apply(double ratio) {
+                return ratio;
+            }
+        },
+        /** 遅く始まり速く終わる。振りかぶりから打撃へ加速する区間に使う。 */
+        EASE_IN {
+            @Override
+            public double apply(double ratio) {
+                return ratio * ratio;
+            }
+        },
+        /** 速く始まり遅く終わる。素早く構えて止まる区間に使う。 */
+        EASE_OUT {
+            @Override
+            public double apply(double ratio) {
+                return 1 - (1 - ratio) * (1 - ratio);
+            }
+        },
+        /** 両端が緩やか。既定。つなぎ目で速度が飛ばない。 */
+        EASE_IN_OUT {
+            @Override
+            public double apply(double ratio) {
+                return ratio * ratio * (3 - 2 * ratio);
+            }
+        };
+
+        /**
+         * 経過の割合を、進み具合の割合へ変換する。
+         *
+         * @param ratio 0〜1
+         */
+        public abstract double apply(double ratio);
+    }
+
+    /** 指定のないキーフレームに使う緩急。 */
+    public static final Easing DEFAULT_EASING = Easing.EASE_IN_OUT;
+
+    /**
      * キーフレーム。
      *
      * @param tick      モーション開始からの経過tick
      * @param transform その時点の変換
+     * @param easing    <b>1つ前のキーフレームからこのキーフレームへ</b>向かうときの緩急
      */
-    public record Keyframe(int tick, Transform transform) {
+    public record Keyframe(int tick, Transform transform, Easing easing) {
 
         public Keyframe {
             if (tick < 0) {
                 throw new IllegalArgumentException("tickが負である: " + tick);
             }
+            if (easing == null) {
+                throw new IllegalArgumentException("緩急が null である");
+            }
+        }
+
+        /** 既定の緩急（両端が緩やか）を用いるキーフレーム。 */
+        public Keyframe(int tick, Transform transform) {
+            this(tick, transform, DEFAULT_EASING);
+        }
+
+        /** 緩急を差し替えた同じキーフレーム。 */
+        public Keyframe with(Easing value) {
+            return new Keyframe(tick, transform, value);
         }
     }
 
@@ -107,7 +169,7 @@ public final class Animation {
             if (key.tick() > t) {
                 int span = key.tick() - previous.tick();
                 double ratio = span == 0 ? 0 : (double) (t - previous.tick()) / span;
-                return previous.transform().lerp(key.transform(), ratio);
+                return previous.transform().lerp(key.transform(), key.easing().apply(ratio));
             }
             previous = key;
         }

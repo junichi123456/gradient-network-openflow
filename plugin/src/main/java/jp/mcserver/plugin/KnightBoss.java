@@ -11,6 +11,7 @@ import jp.mcserver.core.raid.KnightDefinition;
 import jp.mcserver.core.raid.MotionSelector;
 import jp.mcserver.core.raid.MotionSpec;
 import jp.mcserver.core.raid.PartTracker;
+import jp.mcserver.core.raid.PoseTransition;
 import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.RaidSpecies;
 import jp.mcserver.core.raid.Transform;
@@ -62,6 +63,10 @@ final class KnightBoss {
     private final int participants;
     private final MotionSelector selector = new MotionSelector();
     private final RageMeter rage = new RageMeter();
+    /** モーションの切り替わりを埋めるつなぎ（§12.6） */
+    private final PoseTransition transition = new PoseTransition();
+    /** 直前に適用した姿勢。つなぎの起点になる */
+    private Map<String, Transform> lastPose = new HashMap<>();
     private final BossBar bar;
 
     private double health;
@@ -194,9 +199,13 @@ final class KnightBoss {
         }
     }
 
+    /**
+     * 状態を切り替える。姿勢が飛ばないよう、直前の姿勢からのつなぎを始める（§12.6）。
+     */
     private void enter(State next) {
         state = next;
         stateTick = 0;
+        transition.begin(lastPose);
     }
 
     /** 待機・歩行のループモーションを流す。止まって見えないようにするため常に動かす。 */
@@ -208,7 +217,18 @@ final class KnightBoss {
         for (String part : animation.animatedParts()) {
             sampled.put(part, animation.sample(part, totalTick));
         }
-        rig.applyMotion(sampled, yawToTarget());
+        applyPose(sampled);
+    }
+
+    /**
+     * 姿勢を適用する。切り替わりの直後はつなぎを通し、前の姿勢から混ぜて渡す。
+     *
+     * <p>これがないと、攻撃モーションの最終姿勢から待機の姿勢へ次の更新で一気に飛ぶ。
+     */
+    private void applyPose(Map<String, Transform> sampled) {
+        Map<String, Transform> pose = transition.apply(sampled, BossRig.UPDATE_INTERVAL);
+        lastPose = new HashMap<>(pose);
+        rig.applyMotion(pose, yawToTarget());
     }
 
     private void approach() {
@@ -252,7 +272,7 @@ final class KnightBoss {
             for (String part : animation.animatedParts()) {
                 sampled.put(part, animation.sample(part, tick));
             }
-            rig.applyMotion(sampled, yawToTarget());
+            applyPose(sampled);
         }
 
         // 突進・回旋の移動
@@ -548,6 +568,9 @@ final class KnightBoss {
         rig = new BossRig(species.rigFor(phase), origin);
         parts = new PartTracker(species.rigFor(phase));
         rig.spawn();
+        // 骨格ごと入れ替わるため、前の形態の姿勢は引き継げない
+        lastPose = new HashMap<>();
+        transition.clear();
         enter(State.IDLE);
         announce("§5" + phase.name() + " へ移行 — " + phase.gimmick());
         title("§5" + phase.name(), "§7" + species.displayName() + "の姿が変わった");
