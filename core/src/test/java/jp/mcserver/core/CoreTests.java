@@ -208,55 +208,130 @@ public final class CoreTests {
     private static void villagerTrades() {
         section("§3.2 村人の取引テーブル");
 
-        check("エンチャント本は渡さない",
-                VillagerTrades.blocked(VillagerTrades.Offer.book(1)));
+        var book = VillagerTrades.Offer.book("unbreaking", 1);
+        check("エンチャント本は渡さない", VillagerTrades.blocked(book));
         check("中身のないエンチャント本も品目として弾く",
-                VillagerTrades.blocked(VillagerTrades.Offer.book(0)));
+                VillagerTrades.blocked(VillagerTrades.Offer.emptyBook()));
         check("名前空間付きの表記でも弾く",
                 VillagerTrades.blocked(VillagerTrades.Offer.plain("minecraft:enchanted_book")));
         check("エンチャント済みのダイヤの剣は渡さない",
-                VillagerTrades.blocked(VillagerTrades.Offer.enchanted("DIAMOND_SWORD", 1)));
-        check("複数付与でも同じ",
-                VillagerTrades.blocked(VillagerTrades.Offer.enchanted("DIAMOND_CHESTPLATE", 3)));
+                VillagerTrades.blocked(VillagerTrades.Offer.enchanted("DIAMOND_SWORD", "sharpness", 1)));
         check("素のダイヤの剣そのものは禁止しない（村人が売るかは取引表の側の問題）",
                 !VillagerTrades.blocked(VillagerTrades.Offer.plain("DIAMOND_SWORD")));
         check("エメラルドは通る", !VillagerTrades.blocked(VillagerTrades.Offer.plain("EMERALD")));
-        check("素の本は通る", !VillagerTrades.blocked(VillagerTrades.Offer.plain("BOOK")));
-        check("名札は通る", !VillagerTrades.blocked(VillagerTrades.Offer.plain("NAME_TAG")));
+        check("効能付きの矢はエンチャントではないので通る",
+                !VillagerTrades.blocked(VillagerTrades.Offer.plain("TIPPED_ARROW")));
 
-        // 司書の見習い相当: 紙の買取・エンチャント本・本棚
-        List<VillagerTrades.Offer> librarian = List.of(
+        // 代替表
+        check("防具鍛冶の熟練は耐久力I",
+                VillagerTrades.substituteAt("armorer", 4).orElseThrow().enchantment()
+                        .equals("unbreaking"));
+        check("防具鍛冶の達人はダメージ軽減I",
+                VillagerTrades.substituteAt("armorer", 5).orElseThrow().enchantment()
+                        .equals("protection"));
+        check("防具鍛冶の一人前には代替がない",
+                VillagerTrades.substituteAt("armorer", 3).isEmpty());
+        check("道具鍛冶は一人前・熟練・達人の3枠",
+                VillagerTrades.substitutesUpTo("toolsmith", 5).size() == 3);
+        check("道具鍛冶の割り当ては枠ごとに固定（耐久力I→効率強化I→幸運I）",
+                VillagerTrades.substitutesUpTo("toolsmith", 5).stream()
+                        .map(VillagerTrades.Substitute::enchantment).toList()
+                        .equals(List.of("unbreaking", "efficiency", "fortune")));
+        check("熟練の道具鍛冶はまだ幸運Iを持たない",
+                VillagerTrades.substitutesUpTo("toolsmith", 4).size() == 2);
+        check("武器鍛冶は達人のダメージ増加Iだけ",
+                VillagerTrades.substitutesUpTo("weaponsmith", 5).size() == 1
+                        && VillagerTrades.substituteAt("weaponsmith", 5).orElseThrow()
+                                .enchantment().equals("sharpness"));
+        check("司書には代替がない", VillagerTrades.substitutesUpTo("librarian", 5).isEmpty());
+        check("矢師の代替は本ではなく効能付きの矢",
+                !VillagerTrades.substituteAt("fletcher", 4).orElseThrow().book());
+        check("職業の表記ゆれを吸収する",
+                VillagerTrades.substituteAt("minecraft:ARMORER", 4).isPresent());
+        check("代替はすべてレベル1のエンチャント本か矢",
+                VillagerTrades.SUBSTITUTES.stream().allMatch(s ->
+                        s.itemKey().equals(VillagerTrades.ENCHANTED_BOOK)
+                                || s.itemKey().equals(VillagerTrades.TIPPED_ARROW)));
+        check("1レベルにつき代替は1枠まで",
+                VillagerTrades.SUBSTITUTES.stream()
+                        .map(s -> s.profession() + "/" + s.level()).distinct().count()
+                        == VillagerTrades.SUBSTITUTES.size());
+
+        // 代替そのものは残す
+        var armorer = VillagerTrades.substitutesUpTo("armorer", 5);
+        check("認めた耐久力Iの本は残る",
+                !VillagerTrades.blocked(VillagerTrades.Offer.book("unbreaking", 1), armorer));
+        check("認めたのはレベル1だけで、レベルIIの本は弾く",
+                VillagerTrades.blocked(VillagerTrades.Offer.book("unbreaking", 2), armorer));
+        check("2つ収めた本は代替ではない",
+                VillagerTrades.blocked(new VillagerTrades.Offer(VillagerTrades.ENCHANTED_BOOK,
+                        List.of(), List.of(new VillagerTrades.Enchant("unbreaking", 1),
+                                new VillagerTrades.Enchant("protection", 1))), armorer));
+        check("認めていない幸運Iの本は防具鍛冶では弾く",
+                VillagerTrades.blocked(VillagerTrades.Offer.book("fortune", 1), armorer));
+        check("熟練の防具鍛冶にはダメージ軽減Iをまだ認めない",
+                VillagerTrades.blocked(VillagerTrades.Offer.book("protection", 1),
+                        VillagerTrades.substitutesUpTo("armorer", 4)));
+
+        // 取引表の絞り込み
+        List<VillagerTrades.Offer> table = List.of(
                 VillagerTrades.Offer.plain("EMERALD"),
-                VillagerTrades.Offer.book(1),
-                VillagerTrades.Offer.plain("BOOKSHELF"));
-        List<VillagerTrades.Offer> kept = VillagerTrades.filter(librarian, o -> o);
-        check("司書はエンチャント本の枠だけ落ちる", kept.size() == 2);
-        check("司書に取引が残る（職業として機能する）",
-                kept.contains(VillagerTrades.Offer.plain("EMERALD"))
-                        && kept.contains(VillagerTrades.Offer.plain("BOOKSHELF")));
-
-        // 武器鍛冶の熟練相当: 石炭の買取・エンチャント済みの剣
-        List<VillagerTrades.Offer> smith = List.of(
-                VillagerTrades.Offer.plain("EMERALD"),
-                VillagerTrades.Offer.enchanted("DIAMOND_SWORD", 2));
-        check("鍛冶の完成品は枠ごと消え、素の装備に置き換わらない",
-                VillagerTrades.filter(smith, o -> o)
-                        .equals(List.of(VillagerTrades.Offer.plain("EMERALD"))));
-
-        check("並びの順序を保つ",
-                VillagerTrades.filter(
-                        List.of(VillagerTrades.Offer.plain("A"), VillagerTrades.Offer.book(1),
-                                VillagerTrades.Offer.plain("B")), o -> o)
-                        .equals(List.of(VillagerTrades.Offer.plain("A"),
-                                VillagerTrades.Offer.plain("B"))));
-        check("禁止品がなければ全件残る",
-                VillagerTrades.filter(List.of(VillagerTrades.Offer.plain("A")), o -> o).size() == 1);
+                VillagerTrades.Offer.enchanted("DIAMOND_LEGGINGS", "protection", 4),
+                VillagerTrades.Offer.book("unbreaking", 1),
+                VillagerTrades.Offer.plain("SHIELD"));
+        List<VillagerTrades.Offer> kept = VillagerTrades.filter(table, o -> o, armorer);
+        check("エンチャント済みの完成品だけが落ちる", kept.size() == 3);
+        check("代替の本は残り、順序も変わらない",
+                kept.equals(List.of(VillagerTrades.Offer.plain("EMERALD"),
+                        VillagerTrades.Offer.book("unbreaking", 1),
+                        VillagerTrades.Offer.plain("SHIELD"))));
+        check("代替を認めなければ本も落ちる",
+                VillagerTrades.filter(table, o -> o).size() == 2);
         check("空の取引表は空のまま",
                 VillagerTrades.filter(List.<VillagerTrades.Offer>of(), o -> o).isEmpty());
 
+        // 何度整えても増えない
+        check("代替は既にあると判定される",
+                VillagerTrades.provides(VillagerTrades.Offer.book("unbreaking", 1),
+                        VillagerTrades.substituteAt("armorer", 4).orElseThrow()));
+        check("別のエンチャントの本は代替とみなさない",
+                !VillagerTrades.provides(VillagerTrades.Offer.book("fortune", 1),
+                        VillagerTrades.substituteAt("armorer", 4).orElseThrow()));
+        check("効能付きの矢は品目だけで代替とみなす",
+                VillagerTrades.provides(VillagerTrades.Offer.plain("TIPPED_ARROW"),
+                        VillagerTrades.substituteAt("fletcher", 4).orElseThrow()));
+
+        // 値段（司書のバニラ式）
+        var fixed = new java.util.Random(12345);
+        boolean priceInRange = true;
+        for (int i = 0; i < 2000; i++) {
+            int price = VillagerTrades.bookPrice(1, false, fixed);
+            if (price < 5 || price > 19) {
+                priceInRange = false;
+            }
+        }
+        check("レベルIの本は5〜19エメラルド", priceInRange);
+        check("秘蔵のエンチャントは2倍",
+                VillagerTrades.bookPrice(1, true, new java.util.Random(1))
+                        == VillagerTrades.bookPrice(1, false, new java.util.Random(1)) * 2);
+        check("上限は64",
+                VillagerTrades.bookPrice(5, true, new java.util.Random(7)) <= 64);
+
+        check("経験値は村人レベルに応じる",
+                VillagerTrades.tradeExperience(3) == 20
+                        && VillagerTrades.tradeExperience(4) == 30);
+
+        boolean rejectsLevel = false;
+        try {
+            VillagerTrades.tradeExperience(6);
+        } catch (IllegalArgumentException expected) {
+            rejectsLevel = true;
+        }
+        check("村人レベル6は拒む", rejectsLevel);
+
         boolean rejectsBlank = false;
         try {
-            new VillagerTrades.Offer(" ", 0, 0);
+            VillagerTrades.Offer.plain(" ");
         } catch (IllegalArgumentException expected) {
             rejectsBlank = true;
         }
