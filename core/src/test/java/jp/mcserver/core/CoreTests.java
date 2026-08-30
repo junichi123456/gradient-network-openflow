@@ -1996,14 +1996,26 @@ public final class CoreTests {
                 rig.part("槍").appearance().tapered()
                         && rig.part("槍").appearance().taper() == KnightDefinition.SPEAR_TAPER
                         && rig.part("槍").appearance().slices() == Appearance.TAPER_SLICES);
-        check("輪切りは手元が最も太く、先端が最も細い",
-                sliceWidth(rig, "槍", 0) > sliceWidth(rig, "槍", 1)
-                        && sliceWidth(rig, "槍", 1) > sliceWidth(rig, "槍", 2)
-                        && sliceWidth(rig, "槍", 2) > sliceWidth(rig, "槍", 3));
+        check("手元は12ピクセル、先端は2ピクセルである",
+                Math.abs(sliceWidth(rig, "槍", 0) * 16 - 12.0) < 1e-9
+                        && Math.abs(sliceWidth(rig, "槍",
+                                Appearance.TAPER_SLICES - 1) * 16 - 2.0) < 1e-9);
+        check("断面は 12・10・8・6・4・2 と等間隔に刻まれる",
+                java.util.stream.IntStream.range(0, Appearance.TAPER_SLICES)
+                        .allMatch(i -> Math.abs(sliceWidth(rig, "槍", i) * 16
+                                - (12 - 2 * i)) < 1e-9));
+        check("断面は正方形である（幅と奥行きが等しい）",
+                java.util.stream.IntStream.range(0, Appearance.TAPER_SLICES)
+                        .allMatch(i -> rig.part("槍").appearance().slice(i).scale().x()
+                                == rig.part("槍").appearance().slice(i).scale().z()));
         check("輪切りは手元から先端まで隙間なく積まれる",
                 sliceTop(rig, "槍", 0) == 0.0
-                        && sliceBottom(rig, "槍", 0) == sliceTop(rig, "槍", 1)
-                        && sliceBottom(rig, "槍", 3) == -3.40);
+                        && noGaps(rig, "槍")
+                        && Math.abs(sliceBottom(rig, "槍",
+                                Appearance.TAPER_SLICES - 1) + 3.40) < 1e-9);
+        check("柄と角はフルキューブの素材である（隙間が拡大されない）",
+                rig.part("槍").appearance().material().equals("SMOOTH_QUARTZ")
+                        && rig.part("右角").appearance().material().equals("SMOOTH_QUARTZ"));
         check("分割は必要な部位だけに使う（判定は毎tick追従させるため増やしすぎない）",
                 rig.part("右腕").hitboxSegments() == 1 && rig.part("右足").hitboxSegments() == 1
                         && rig.part("頭").hitboxSegments() == 1);
@@ -2602,6 +2614,19 @@ public final class CoreTests {
     private static double sliceTop(Rig rig, String part, int index) {
         var slice = rig.part(part).appearance().slice(index);
         return slice.offset().y() + slice.scale().y();
+    }
+
+    /** 輪切りが隙間なく積まれているか。前の枚の下端が次の枚の上端に一致するか。 */
+    private static boolean noGaps(Rig rig, String part) {
+        var look = rig.part(part).appearance();
+        for (int i = 1; i < look.slices(); i++) {
+            double previousBottom = look.slice(i - 1).offset().y();
+            double top = look.slice(i).offset().y() + look.slice(i).scale().y();
+            if (Math.abs(previousBottom - top) > 1e-9) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** 輪切り1枚の先端側の端（部位の局所Y）。 */

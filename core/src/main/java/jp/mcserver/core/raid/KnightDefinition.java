@@ -28,8 +28,14 @@ public final class KnightDefinition {
     /** 槍の当たり判定の分割数。細長い部位を軸に沿った直方体の連なりで表す。 */
     public static final int SPEAR_SEGMENTS = 5;
 
-    /** 槍の先端の細さ。手元の断面に対する比率で、円錐状に絞る。 */
-    public static final double SPEAR_TAPER = 0.30;
+    /** 槍の手元の太さ（ブロック）。16分の1ブロック単位で 12 ピクセル。 */
+    public static final double SPEAR_GRIP = 12.0 / 16.0;
+
+    /** 槍の先端の太さ（ブロック）。16分の1ブロック単位で 2 ピクセル。 */
+    public static final double SPEAR_TIP = 2.0 / 16.0;
+
+    /** 槍の先端の細さ。手元の断面に対する比率。 */
+    public static final double SPEAR_TAPER = SPEAR_TIP / SPEAR_GRIP;
 
     /** 1回目のパリイに要する累積ダメージ。 */
     public static final double PARRY_BASE_DAMAGE = 10.0;
@@ -132,7 +138,13 @@ public final class KnightDefinition {
     private static final String PLATE = "QUARTZ_BLOCK";
     private static final String BONE = "BONE_BLOCK";
     private static final String JOINT = "POLISHED_ANDESITE";
-    private static final String SHAFT = "END_ROD";
+    /**
+     * 柄と角の素材。
+     *
+     * <p><b>フルキューブでなければならない。</b>エンドロッドのように 1×1×1 を埋めない
+     * ブロックを使うと、モデルの隙間がそのまま拡大され、飛び飛びの箱に見える。
+     */
+    private static final String SHAFT = "SMOOTH_QUARTZ";
     private static final String BLADE = "NETHERITE_SWORD";
     private static final String CREST = "NETHERITE_AXE";
 
@@ -172,11 +184,12 @@ public final class KnightDefinition {
         parts.add(part("左足", "胴", pos(0.26, -0.60, 0), 2011)
                 .looks(look(Appearance.limb(JOINT, 0.44, 1.20, 0.44))));
         parts.add(part("槍", "右腕", posRot(0, -1.00, 0, -90, 0, 0), 2012)
-                .looks(look(Appearance.limb(SHAFT, 0.26, 3.40, 0.26).taperedTo(SPEAR_TAPER)))
+                .looks(look(Appearance.limb(SHAFT, SPEAR_GRIP, 3.40, SPEAR_GRIP)
+                        .taperedTo(SPEAR_TAPER)))
                 .segments(SPEAR_SEGMENTS)
                 .immune());
         parts.add(part("穂先", "槍", posRot(0, -3.35, 0, 0, 0, 45), 2013)
-                .looks(look(Appearance.item(BLADE, 0.70).asDecoration())));
+                .looks(look(Appearance.item(BLADE, 0.35).asDecoration())));
         return new Rig(parts, 3.5, 1.6);
     }
 
@@ -210,11 +223,12 @@ public final class KnightDefinition {
         parts.add(part("左腕", "人胴", pos(0.66, 0.425, 0), 2109)
                 .looks(look(Appearance.limb(ARMOR, 0.42, 1.10, 0.42))));
         parts.add(part("槍", "右腕", posRot(0, -1.00, 0, -90, 0, 0), 2110)
-                .looks(look(Appearance.limb(SHAFT, 0.28, 3.80, 0.28).taperedTo(SPEAR_TAPER)))
+                .looks(look(Appearance.limb(SHAFT, SPEAR_GRIP, 3.80, SPEAR_GRIP)
+                        .taperedTo(SPEAR_TAPER)))
                 .segments(SPEAR_SEGMENTS)
                 .immune());
         parts.add(part("穂先", "槍", posRot(0, -3.75, 0, 0, 0, 45), 2111)
-                .looks(look(Appearance.item(BLADE, 0.75).asDecoration())));
+                .looks(look(Appearance.item(BLADE, 0.38).asDecoration())));
         parts.add(part("馬胴", "人胴", pos(0, -1.025, HORSE_BODY_Z), 2112)
                 .looks(look(Appearance.box(ARMOR, 1.15, 0.90, HORSE_DEPTH)))
                 .segments(2));

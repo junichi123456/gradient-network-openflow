@@ -28,8 +28,13 @@ public record Appearance(String material, boolean block, Vec3 scale, Vec3 offset
                          boolean decoration, double taper, boolean authored,
                          double modelScale) {
 
-    /** 円錐状に描くときの輪切りの数。増やすほど滑らかだが、そのぶん表示実体が増える。 */
-    public static final int TAPER_SLICES = 4;
+    /**
+     * 円錐状に描くときの輪切りの数。増やすほど滑らかだが、そのぶん表示実体が増える。
+     *
+     * <p>断面は<b>両端を含めて</b>等間隔に取る。6枚なら手元・先端を含む6段になり、
+     * 手元12ピクセル・先端2ピクセルなら 12・10・8・6・4・2 と刻まれる。
+     */
+    public static final int TAPER_SLICES = 6;
 
     public Appearance {
         if (modelScale <= 0) {
@@ -134,7 +139,8 @@ public record Appearance(String material, boolean block, Vec3 scale, Vec3 offset
             return this;
         }
         double length = scale.y() / count;
-        double ratio = 1 + (taper - 1) * ((index + 0.5) / count);
+        // 断面は両端を含めて取る。index=0 が手元、index=count-1 が先端の太さになる
+        double ratio = 1 + (taper - 1) * ((double) index / (count - 1));
         double width = scale.x() * ratio;
         double depth = scale.z() * ratio;
         // 付け根を y = offset.y + scale.y（＝部位の原点側）とし、そこから先端へ積む
