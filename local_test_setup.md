@@ -228,8 +228,10 @@ generate-structures=false
 ## 4. プラグインを入れる
 
 ```powershell
-copy E:\raid-dev\plugin\build\libs\raid-plugin.jar E:\raid-test\plugins\
+Copy-Item -Force E:\raid-dev\plugin\build\libs\raid-plugin.jar E:\raid-test\plugins\
 ```
+
+> PowerShell の `copy` は `Copy-Item` の別名であり、**コマンドプロンプトの `/Y` は受け付けない**（`位置指定パラメーターが見つかりません` になる）。上書きは `-Force` で指定する。
 
 `plugins` フォルダが無ければ作る。
 
