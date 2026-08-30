@@ -324,10 +324,10 @@ public final class KnightDefinition {
                         rot(duration, -8, 0, 0)),
                 "頭", List.of(rot(0, 0, 0, 0), rot(BACKSTEP_TICKS, 6, 0, 0, SET),
                         rot(end, -14, 0, 0)),
-                "右腕", List.of(pose(0, 0, 0), pose(BACKSTEP_TICKS, -0.45, -20, SET),
-                        pose(BACKSTEP_TICKS + 10, 0.30, -25, STRIKE),
-                        pose(end - 2, 0.40, -22, HOLD),
-                        pose(end, 0.20, -60, STRIKE), pose(duration, 0.10, -105, STRIKE)));
+                "右腕", List.of(pose(0, 0, 0), pose(BACKSTEP_TICKS, -0.45, 70, SET),
+                        pose(BACKSTEP_TICKS + 10, 0.30, 65, STRIKE),
+                        pose(end - 2, 0.40, 68, HOLD),
+                        pose(end, 0.20, 30, STRIKE), pose(duration, 0.10, -15, STRIKE)));
         return new MotionSpec("突進切り上げ", animation, MotionSpec.Idle.of(40),
                 Optional.of(new MotionSpec.Parry(run.runFromTick(), end,
                         PARRY_BASE_DAMAGE, PARRY_DAMAGE_INCREASE)),
@@ -366,11 +366,11 @@ public final class KnightDefinition {
         Animation animation = animation("3段突き", 70, false,
                 body, List.of(rot(0, 0, 0, 0), rot(20, 6, 0, 0, STRIKE), rot(40, 6, 0, 0, HOLD),
                         rot(55, 2, 0, 0, SET), rot(70, 12, 0, 0, STRIKE)),
-                "右腕", List.of(pose(0, 0, 0), pose(15, -0.35, -88, SET),
-                        pose(20, 1.15, -92, STRIKE), pose(25, -0.35, -88),
-                        pose(35, -0.35, -88, HOLD), pose(40, 1.15, -92, STRIKE),
-                        pose(45, -0.35, -88), pose(55, -0.55, -84, SET),
-                        pose(65, -0.55, -84, HOLD), pose(70, 1.35, -94, STRIKE)));
+                "右腕", List.of(pose(0, 0, 0), pose(15, -0.35, 2, SET),
+                        pose(20, 1.15, -2, STRIKE), pose(25, -0.35, 2),
+                        pose(35, -0.35, 2, HOLD), pose(40, 1.15, -2, STRIKE),
+                        pose(45, -0.35, 2), pose(55, -0.55, 6, SET),
+                        pose(65, -0.55, 6, HOLD), pose(70, 1.35, -4, STRIKE)));
         return new MotionSpec("3段突き", animation, MotionSpec.Idle.of(40), Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 15, 20, damage),
                         new MotionSpec.DamageWindow("槍", 35, 40, damage),
@@ -389,11 +389,11 @@ public final class KnightDefinition {
                 "頭", List.of(rot(0, 0, 0, 0), rot(35, 12, 0, 0), rot(65, 10, 0, 0)),
                 body, List.of(rot(0, 0, 0, 0), rot(20, 5, 0, 0, STRIKE), rot(45, -8, 0, 0, SET),
                         rot(65, 10, 0, 0, STRIKE)),
-                "右腕", List.of(pose(0, 0, 0), pose(15, -0.30, -85, SET),
-                        pose(20, 1.00, -90, STRIKE), pose(30, 0, -160, SET),
-                        pose(35, 0.30, -10, STRIKE), pose(45, 0, -185, SET),
-                        pose(50, 0.90, -95, STRIKE), pose(60, 0, -160, SET),
-                        pose(65, 0.30, -5, STRIKE)));
+                "右腕", List.of(pose(0, 0, 0), pose(15, -0.30, 5, SET),
+                        pose(20, 1.00, 0, STRIKE), pose(30, 0, -70, SET),
+                        pose(35, 0.30, 80, STRIKE), pose(45, 0, -95, SET),
+                        pose(50, 0.90, -5, STRIKE), pose(60, 0, -70, SET),
+                        pose(65, 0.30, 85, STRIKE)));
         return new MotionSpec("追従4連切り", animation, MotionSpec.Idle.of(40), Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 15, 20, MotionSpec.Damage.of(a)),
                         new MotionSpec.DamageWindow("槍", 30, 35, MotionSpec.Damage.of(b)),
@@ -414,8 +414,8 @@ public final class KnightDefinition {
         Animation animation = animation("回旋突進", 120, false,
                 "人胴", List.of(rot(0, 0, 0, 0), rot(20, 0, 0, 18, SET), rot(100, 0, 0, 18, HOLD),
                         rot(120, 16, 0, 0, STRIKE)),
-                "右腕", List.of(rot(0, 0, 0, 0), rot(20, -90, 0, 0, SET),
-                        rot(100, -90, 0, 0, HOLD), rot(120, -98, 0, 0, STRIKE)));
+                "右腕", List.of(rot(0, 0, 0, 0), rot(20, 0, 0, 0, SET),
+                        rot(100, 0, 0, 0, HOLD), rot(120, -8, 0, 0, STRIKE)));
         return new MotionSpec("回旋突進", animation, MotionSpec.Idle.of(40), Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 100, 120, MotionSpec.Damage.of(40))),
                 Optional.empty(),
@@ -448,10 +448,10 @@ public final class KnightDefinition {
                         rot(landing, 30, 0, 0, STRIKE), rot(duration, 0, 0, 0)),
                 "頭", List.of(rot(0, 0, 0, 0), rot(LEAP_START_TICK, 15, 0, 0, SET),
                         rot(landing, -10, 0, 0, STRIKE), rot(duration, 0, 0, 0)),
-                "右腕", List.of(pose(0, 0, 0), pose(LEAP_START_TICK, -0.30, 20, SET),
-                        pose(LEAP_START_TICK + 15, 0, -140, STRIKE),
-                        pose(landing - 15, 0, -150, HOLD),
-                        pose(landing, 0.20, 30, STRIKE), pose(duration, 0, 0)));
+                "右腕", List.of(pose(0, 0, 0), pose(LEAP_START_TICK, -0.30, 110, SET),
+                        pose(LEAP_START_TICK + 15, 0, -50, STRIKE),
+                        pose(landing - 15, 0, -60, HOLD),
+                        pose(landing, 0.20, 120, STRIKE), pose(duration, 0, 0)));
         return new MotionSpec("大ジャンプ衝撃波", animation,
                 MotionSpec.Idle.between(LEAP_IDLE_MIN, LEAP_IDLE_MAX), Optional.empty(),
                 List.of(), Optional.empty(), Optional.empty(), Optional.empty(),

@@ -17,6 +17,7 @@ import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.Appearance;
 import jp.mcserver.core.raid.RaidSpecies;
 import jp.mcserver.core.raid.Rig;
+import jp.mcserver.core.raid.Skeleton;
 import jp.mcserver.core.raid.Stage;
 import jp.mcserver.core.raid.Transform;
 import jp.mcserver.core.raid.Vec3;
@@ -58,6 +59,7 @@ public final class CoreTests {
         raidSpecies();
         knight();
         raidCombat();
+        spearGeometry();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -2825,6 +2827,105 @@ public final class CoreTests {
         }
         var look = rig.part(name).appearance();
         return y + look.offset().y() + look.scale().y();
+    }
+
+    // ---------------------------------------------------------------- §12.6 槍の到達
+
+    /**
+     * 槍が実際にプレイヤーへ届くかを、世界座標へ展開して確かめる。
+     *
+     * <p>骨格の数値だけを見ていると、<b>槍が上を向いていても気づけない</b>。
+     * 実際に一度そうなっていた（腕の回転と槍の基準回転が足されて真上を向き、
+     * 3段突きが当たらなかった）。
+     */
+    private static void spearGeometry() {
+        section("§12.6 槍の到達");
+
+        var boss = KnightDefinition.boss();
+        double reach = 1.8;   // KnightBoss.WEAPON_REACH と同じ
+
+        // 待機では槍が前を向き、地面に刺さらない
+        for (int i = 0; i < boss.phases().size(); i++) {
+            var phase = boss.phases().get(i);
+            var rig = phase.rig().orElseThrow();
+            var idle = phase.behavior().idleAnimation().orElseThrow();
+            var spear = Skeleton.hitPoints(rig, idle, 0).get("槍");
+            var tip = spear.get(0);
+            var grip = spear.get(spear.size() - 1);
+            check("第" + (i + 1) + "形態: 待機で槍が前を向く",
+                    tip.z() - grip.z() > Math.abs(tip.y() - grip.y()));
+            check("第" + (i + 1) + "形態: 待機で槍が地面に潜らない", tip.y() > 0);
+        }
+
+        // どの判定区間でも、足元から2ブロック離れて立つプレイヤーに届く
+        boolean allReach = true;
+        double worst = Double.MAX_VALUE;
+        String worstName = "";
+        for (var phase : boss.phases()) {
+            var rig = phase.rig().orElseThrow();
+            for (MotionSpec motion : phase.motions()) {
+                for (MotionSpec.DamageWindow window : motion.damageWindows()) {
+                    double best = 0;
+                    for (int t = window.fromTick(); t <= window.toTick(); t++) {
+                        best = Math.max(best, Skeleton.reach(
+                                Skeleton.hitPoints(rig, motion.animation(), t)
+                                        .getOrDefault(window.part(), List.of()), reach));
+                    }
+                    if (best < worst) {
+                        worst = best;
+                        worstName = motion.name() + " " + window.fromTick();
+                    }
+                    if (best < 2.0) {
+                        allReach = false;
+                    }
+                }
+            }
+        }
+        check("すべての判定区間が2.0ブロック以上届く（最短 " + worstName + " "
+                + String.format("%.2f", worst) + "）", allReach);
+
+        // 突きは前を向く。上や後ろを向いていたら当たらない
+        boolean thrustsForward = true;
+        boolean thrustsFar = true;
+        for (var phase : boss.phases()) {
+            var rig = phase.rig().orElseThrow();
+            MotionSpec thrust = phase.motions().stream()
+                    .filter(m -> m.name().equals("3段突き")).findFirst().orElseThrow();
+            for (MotionSpec.DamageWindow window : thrust.damageWindows()) {
+                var points = Skeleton.hitPoints(rig, thrust.animation(), window.toTick())
+                        .get("槍");
+                var tip = points.get(0);
+                var grip = points.get(points.size() - 1);
+                double forward = tip.z() - grip.z();
+                if (forward <= Math.abs(tip.y() - grip.y()) || forward <= 0) {
+                    thrustsForward = false;
+                }
+                if (Skeleton.reach(points, reach) < 4.5) {
+                    thrustsFar = false;
+                }
+            }
+        }
+        check("3段突きは突きの瞬間に槍が前を向く", thrustsForward);
+        check("3段突きは4.5ブロック以上届く", thrustsFar);
+
+        // 突進中は槍が前を向いていないと、走り抜けても当たらない
+        var centaur = boss.phases().get(1);
+        MotionSpec orbit = centaur.motions().stream()
+                .filter(m -> m.name().equals("回旋突進")).findFirst().orElseThrow();
+        var charging = Skeleton.hitPoints(centaur.rig().orElseThrow(), orbit.animation(), 110)
+                .get("槍");
+        check("回旋突進の突進中は槍が前を向く",
+                charging.get(0).z() - charging.get(charging.size() - 1).z()
+                        > Math.abs(charging.get(0).y()
+                                - charging.get(charging.size() - 1).y()));
+
+        // 合成の順序がプラグインと同じであることの確認
+        var rig = boss.phases().get(0).rig().orElseThrow();
+        var noMotion = Skeleton.hitPoints(rig, Map.<String, jp.mcserver.core.raid.Transform>of());
+        var head = noMotion.get("頭");
+        check("姿勢を与えなければ基準の位置に出る",
+                Math.abs(head.get(0).x()) < 0.01 && head.get(0).y() > 2.0);
+        check("右腕は正面から見て左（-X）にある", noMotion.get("右腕").get(0).x() < 0);
     }
 
     private static void section(String name) {
