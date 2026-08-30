@@ -2842,7 +2842,7 @@ public final class CoreTests {
         section("§12.6 槍の到達");
 
         var boss = KnightDefinition.boss();
-        double reach = 1.8;   // KnightBoss.WEAPON_REACH と同じ
+        double reach = KnightDefinition.WEAPON_REACH;
 
         // 待機では槍が前を向き、地面に刺さらない
         for (int i = 0; i < boss.phases().size(); i++) {
@@ -2883,6 +2883,43 @@ public final class CoreTests {
         }
         check("すべての判定区間が2.0ブロック以上届く（最短 " + worstName + " "
                 + String.format("%.2f", worst) + "）", allReach);
+
+        // 接近を止める距離に立つ相手へ届き、懐に入られても当たる
+        boolean coversStandoff = true;
+        boolean coversClose = true;
+        String tooShort = "";
+        String tooFar = "";
+        for (var phase : boss.phases()) {
+            var rig = phase.rig().orElseThrow();
+            for (MotionSpec motion : phase.motions()) {
+                for (MotionSpec.DamageWindow window : motion.damageWindows()) {
+                    if (!window.part().equals("槍")) {
+                        continue;   // 踏みつけは衝撃波が範囲を持つ
+                    }
+                    double far = 0;
+                    double near = Double.MAX_VALUE;
+                    for (int t = window.fromTick(); t <= window.toTick(); t++) {
+                        var points = Skeleton.hitPoints(rig, motion.animation(), t)
+                                .getOrDefault(window.part(), List.of());
+                        far = Math.max(far, Skeleton.reach(points, reach));
+                        near = Math.min(near, Skeleton.nearReach(points, reach));
+                    }
+                    if (far < KnightDefinition.STANDOFF_BLOCKS) {
+                        coversStandoff = false;
+                        tooShort = motion.name() + " " + window.fromTick();
+                    }
+                    if (near > 0.5) {
+                        coversClose = false;
+                        tooFar = motion.name() + " " + window.fromTick()
+                                + String.format(" %.2f", near);
+                    }
+                }
+            }
+        }
+        check("槍の技はすべて、接近を止める距離に立つ相手へ届く"
+                + (coversStandoff ? "" : "（届かない: " + tooShort + "）"), coversStandoff);
+        check("槍の技はすべて、懐に入られても当たる"
+                + (coversClose ? "" : "（当たらない: " + tooFar + "）"), coversClose);
 
         // 突きは前を向く。上や後ろを向いていたら当たらない
         boolean thrustsForward = true;

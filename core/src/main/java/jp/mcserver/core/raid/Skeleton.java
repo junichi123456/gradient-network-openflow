@@ -43,8 +43,10 @@ public final class Skeleton {
     /**
      * 立っているプレイヤーに届く最大の水平距離。
      *
-     * <p>プラグインの判定（武器の点から<b>足元と胸の2点</b>までの距離）と同じ規則で測る。
-     * 部位が高く上がって誰にも当たらない場合、その点は数えない。
+     * <p>プラグインの判定と同じ規則で測る。プレイヤーは足元から
+     * {@link KnightDefinition#PLAYER_HEIGHT} までの<b>縦の線分</b>であり、
+     * 武器の点からその線分までの距離が余裕以内なら当たる。
+     * 高すぎて誰にも当たらない点は数えない。
      *
      * @param points       武器の当たり判定の点
      * @param weaponReach  1点あたりの判定距離
@@ -52,16 +54,37 @@ public final class Skeleton {
     public static double reach(List<Vec3> points, double weaponReach) {
         double best = 0;
         for (Vec3 point : points) {
-            double square = weaponReach * weaponReach;
-            double toFeet = square - point.y() * point.y();
-            double toChest = square - (point.y() - 1.0) * (point.y() - 1.0);
-            double slack = Math.max(toFeet, toChest);
+            // 縦の線分に落とすと、余裕のうち水平に使える量が決まる
+            double vertical = Math.max(0,
+                    Math.max(-point.y(), point.y() - KnightDefinition.PLAYER_HEIGHT));
+            double slack = weaponReach * weaponReach - vertical * vertical;
             if (slack < 0) {
                 continue;
             }
             best = Math.max(best, Math.hypot(point.x(), point.z()) + Math.sqrt(slack));
         }
         return best;
+    }
+
+    /**
+     * 立っているプレイヤーに届く最も近い水平距離。
+     *
+     * <p>0 なら足元に密着していても当たる。突き技は槍の根元が前へ出るため、
+     * ここが大きいと<b>懐に入られたときに空を突く</b>。
+     */
+    public static double nearReach(List<Vec3> points, double weaponReach) {
+        double best = Double.MAX_VALUE;
+        for (Vec3 point : points) {
+            double vertical = Math.max(0,
+                    Math.max(-point.y(), point.y() - KnightDefinition.PLAYER_HEIGHT));
+            double slack = weaponReach * weaponReach - vertical * vertical;
+            if (slack < 0) {
+                continue;
+            }
+            best = Math.min(best,
+                    Math.max(0, Math.hypot(point.x(), point.z()) - Math.sqrt(slack)));
+        }
+        return best == Double.MAX_VALUE ? Double.MAX_VALUE : best;
     }
 
     private static void walk(Rig rig, String name, Mat4 parent, Map<String, Transform> sampled,

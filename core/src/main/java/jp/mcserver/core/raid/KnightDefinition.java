@@ -38,6 +38,29 @@ public final class KnightDefinition {
     public static final double SPEAR_TAPER = SPEAR_TIP / SPEAR_GRIP;
 
     /** 1回目のパリイに要する累積ダメージ。 */
+    /**
+     * 武器の周りに取る判定の余裕（ブロック）。
+     *
+     * <p>間合いは<b>足元からではなく武器そのものから</b>測る。プレイヤーは足元から
+     * {@link #PLAYER_HEIGHT} までの縦の線分として扱うため、槍が高い位置を薙いでも、
+     * 真下に立っていれば当たる。
+     */
+    public static final double WEAPON_REACH = 2.2;
+
+    /** プレイヤーの背丈（ブロック）。当たり判定を縦の線分として扱うための高さ。 */
+    public static final double PLAYER_HEIGHT = 1.8;
+
+    /**
+     * 接近を止める距離（ブロック）。
+     *
+     * <p><b>密着まで踏み込まない。</b>踏み込むと、槍がプレイヤーの頭上を越えて
+     * 空を突くうえ、向きの計算が不安定になって個体が震える。
+     */
+    public static final double STANDOFF_BLOCKS = 3.5;
+
+    /** 1回の姿勢更新で変えられる向きの上限（度）。密着時の振動を防ぐ。 */
+    public static final double MAX_TURN_DEGREES = 15.0;
+
     public static final double PARRY_BASE_DAMAGE = 10.0;
 
     /**

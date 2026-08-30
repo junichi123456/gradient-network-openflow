@@ -87,7 +87,9 @@ final class BossRig {
                             entity -> entity.setItemStack(item(part)));
                 }
                 display.setInterpolationDuration(UPDATE_INTERVAL);
-                display.setTeleportDuration(UPDATE_INTERVAL);
+                // 原点の移動は毎tickなので、補間も1tickに合わせる。
+                // ここを更新間隔に合わせると、毎tickの移動で補間がやり直され続けて震える
+                display.setTeleportDuration(1);
                 display.setPersistent(false);
                 display.setBrightness(new Display.Brightness(15, 15));
                 display.setViewRange(2.0f);

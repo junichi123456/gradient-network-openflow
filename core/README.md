@@ -6,7 +6,7 @@ Bukkit / Paper API への依存を一切持たない純粋な Java であり、`
 ## 実行
 
 ```sh
-./run-tests.sh                     # 検証（704件）
+./run-tests.sh                     # 検証（706件）
 ./simulate-knight.sh 20 8 80       # 騎士型の戦闘をオフラインで再現
 ```
 

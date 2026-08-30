@@ -48,13 +48,12 @@ import org.bukkit.util.Vector;
 final class KnightBoss {
 
     /**
-     * 武器の周りに取る判定の余裕（ブロック）。
+     * 武器の周りに取る判定の余裕（ブロック）。値は §12.6 の定義から引く。
      *
      * <p>間合いは<b>足元からではなく武器そのものから</b>測る。槍は3.4ブロックあり、
      * 足元からの距離で測ると間合いが武器の長さぶん短くなる。
-     * ここで足すのは、プレイヤーの体の太さと当たりやすさのぶんである。
      */
-    private static final double WEAPON_REACH = 1.8;
+    private static final double WEAPON_REACH = KnightDefinition.WEAPON_REACH;
 
     /** 接地を探す高さの範囲（ブロック）。段差と坂を登り、崖では落ちる。 */
     private static final int GROUND_UP = 3;
@@ -102,6 +101,9 @@ final class KnightBoss {
     private MotionSpec motion;
     /** 判定区間ごとに、すでに当てたプレイヤー。区間の中で二重に当てない */
     private final Map<Integer, Set<UUID>> struckByWindow = new HashMap<>();
+
+    /** 体の向き（度）。目標へ少しずつ寄せる。 */
+    private double bodyYaw;
     private boolean interrupted;
     private boolean landedThisMotion;
     private boolean wasExposed;
@@ -239,12 +241,15 @@ final class KnightBoss {
                 }
             }
             case APPROACH -> {
-                animateLoop(phase.behavior().walkAnimation().orElse(null));
-                approach();
-                if (stateTick % 8 == 0) {
+                boolean inRange = approach();
+                animateLoop(inRange
+                        ? phase.behavior().idleAnimation().orElse(null)
+                        : phase.behavior().walkAnimation().orElse(null));
+                if (!inRange && stateTick % 8 == 0) {
                     sound("entity.iron_golem.step", 0.7f, 0.8f);
                 }
-                if (stateTick >= phase.behavior().approachTicks()) {
+                // 間合いに入ったら歩き続けずに技へ移る。その場で足踏みしない
+                if (inRange || stateTick >= phase.behavior().approachTicks()) {
                     startMotion();
                 }
             }
@@ -287,22 +292,33 @@ final class KnightBoss {
     private void applyPose(Map<String, Transform> sampled) {
         Map<String, Transform> pose = transition.apply(sampled, BossRig.UPDATE_INTERVAL);
         lastPose = new HashMap<>(pose);
-        rig.applyMotion(pose, yawToTarget());
+        rig.applyMotion(pose, turnToward(yawToTarget()));
     }
 
-    private void approach() {
+    /**
+     * 相手へ歩み寄る。
+     *
+     * <p><b>密着までは踏み込まない。</b>踏み込むと槍がプレイヤーの頭上を越えて空を突き、
+     * さらに向きの計算が不安定になって個体が細かく震える。
+     * 間合い（{@link KnightDefinition#STANDOFF_BLOCKS}）で止まり、そこから技を出す。
+     */
+    private boolean approach() {
         Player target = nearest();
         if (target == null) {
-            return;
+            return false;
         }
         Location origin = rig.origin();
         Vector direction = target.getLocation().toVector().subtract(origin.toVector());
         direction.setY(0);
-        if (direction.lengthSquared() < 0.01) {
-            return;
+        double distance = direction.length();
+        if (distance <= KnightDefinition.STANDOFF_BLOCKS) {
+            return true;   // 間合いに入った。押し込まない（下がりもしない）
         }
-        direction.normalize().multiply(phase.behavior().blocksPerTick());
+        double step = Math.min(phase.behavior().blocksPerTick(),
+                distance - KnightDefinition.STANDOFF_BLOCKS);
+        direction.normalize().multiply(step);
         rig.moveTo(grounded(origin.add(direction)));
+        return false;
     }
 
     /**
@@ -578,13 +594,18 @@ final class KnightBoss {
     /**
      * 武器の並びのいずれかに届いているか。
      *
-     * <p>プレイヤーの足元だけでなく<b>胴の高さでも</b>測る。槍は胸の高さを薙ぐため、
-     * 足元との距離だけで測ると、頭上や足元をかすめた判定を取りこぼす。
+     * <p>プレイヤーを<b>足元から背丈までの縦の線分</b>として測る。点で測ると、
+     * 槍が頭上を薙いだときも足元をかすめたときも取りこぼす。
+     * 第二形態は騎乗しており槍の位置が高いため、これがないと真下に立つ相手に当たらない。
      */
     private boolean withinWeapon(List<Location> weapon, Location at) {
-        Location chest = at.clone().add(0, 1.0, 0);
         for (Location point : weapon) {
-            if (point.distance(at) <= WEAPON_REACH || point.distance(chest) <= WEAPON_REACH) {
+            double dx = point.getX() - at.getX();
+            double dz = point.getZ() - at.getZ();
+            // 縦は線分に落とし込む。線分の内側なら縦の差はゼロ
+            double dy = Math.max(0, Math.max(at.getY() - point.getY(),
+                    point.getY() - (at.getY() + KnightDefinition.PLAYER_HEIGHT)));
+            if (dx * dx + dy * dy + dz * dz <= WEAPON_REACH * WEAPON_REACH) {
                 return true;
             }
         }
@@ -933,12 +954,41 @@ final class KnightBoss {
         }
         Player target = nearest();
         if (target == null) {
-            return 0;
+            return bodyYaw;
         }
         Location origin = rig.origin();
         double dx = target.getLocation().getX() - origin.getX();
         double dz = target.getLocation().getZ() - origin.getZ();
+        if (dx * dx + dz * dz < 1.0) {
+            return bodyYaw;   // 真上に立たれると向きが定まらない。今の向きを保つ
+        }
         return Math.toDegrees(Math.atan2(-dx, dz));
+    }
+
+    /**
+     * 向きを少しずつ変える。
+     *
+     * <p>毎回そのまま向き直ると、相手が近いほど1回あたりの角度が大きくなり、
+     * 左右に揺さぶられただけで<b>個体が細かく震える</b>。回れる角度に上限を置く。
+     */
+    private double turnToward(double target) {
+        double delta = normalizeDegrees(target - bodyYaw);
+        double step = Math.max(-KnightDefinition.MAX_TURN_DEGREES,
+                Math.min(KnightDefinition.MAX_TURN_DEGREES, delta));
+        bodyYaw = normalizeDegrees(bodyYaw + step);
+        return bodyYaw;
+    }
+
+    /** -180〜180 度に畳む。 */
+    private static double normalizeDegrees(double degrees) {
+        double folded = degrees % 360;
+        if (folded > 180) {
+            folded -= 360;
+        }
+        if (folded < -180) {
+            folded += 360;
+        }
+        return folded;
     }
 
     private double roll(MotionSpec.Damage damage) {
