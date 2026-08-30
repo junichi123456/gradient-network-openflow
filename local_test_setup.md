@@ -223,6 +223,25 @@ generate-structures=false
 
 平地では確認できない項目が2つある。§6「移動と接地」の**坂と階段**は、ブロックを積んで段差を作ってから見る。
 
+#### スライムの自然湧きを止める
+
+**スーパーフラットではスライムが大量に湧く。** スライムはスライムチャンクの Y40 以下に、明るさに関係なく湧く。平地の地表は Y=-60 付近なので、条件を常に満たしてしまう。
+
+`E:\raid-test\config\paper-world-defaults.yml` の `entities > spawning > slime-spawn-height` を、ワールドの最低高度より下に潰す。
+
+```yaml
+    slime-spawn-height:
+      slime-chunk:
+        maximum: -100.0
+      surface-biome:
+        maximum: -100.0
+        minimum: -100.0
+```
+
+**サーバーを再起動すると効く。** 既に湧いている個体は `/kill @e[type=slime]` で消す。
+
+> 他のモブも要らないなら `/gamerule doMobSpawning false` のほうが早い。検証で出すモブはすべて `/summon` するため、これでも困らない。ただし**レイド個体の取り巻き**（§12、未実装）を試す段になったら戻すこと。
+
 ---
 
 ## 4. プラグインを入れる
