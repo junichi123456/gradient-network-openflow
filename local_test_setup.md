@@ -187,6 +187,42 @@ max-players=20
 
 > `online-mode=false` は**ローカル検証専用**である。公開するサーバーでは必ず `true` に戻す。
 
+### 3.5 ワールドを作り直す（スーパーフラット）
+
+検証はスーパーフラットで行う。地形に隠れず、距離が目で測れ、再現もしやすい。
+
+**必ずサーバーを停止してから**実行する。起動中に消すとファイルが掴まれたままになり、再生成に失敗する。
+
+```powershell
+Remove-Item -Recurse -Force E:\raid-test\world, E:\raid-test\world_nether, E:\raid-test\world_the_end -ErrorAction SilentlyContinue
+
+$p = "E:\raid-test\server.properties"
+$flat = '{"layers":[{"block":"minecraft:bedrock","height":1},{"block":"minecraft:dirt","height":2},{"block":"minecraft:grass_block","height":1}],"biome":"minecraft:plains"}'
+(Get-Content $p) `
+  -replace '^level-type=.*','level-type=minecraft:flat' `
+  -replace '^generator-settings=.*',("generator-settings=" + $flat) `
+  -replace '^generate-structures=.*','generate-structures=false' |
+  Set-Content $p
+```
+
+`start.bat` を実行すると、平らなワールドが新しく生成される。
+
+書き換わる設定は次の3つ。
+
+```
+level-type=minecraft:flat
+generator-settings={"layers":[...],"biome":"minecraft:plains"}
+generate-structures=false
+```
+
+- `generator-settings` は **1.16以降 JSON 形式**である。プリセット文字列（`3;minecraft:bedrock,2*minecraft:dirt,...`）は通らない
+- 層は下から**岩盤1・土2・草1**。ワールドの最低高度から積まれるため、地表は Y=-60 付近になる
+- `generate-structures=false` で村・要塞などが湧かなくなる。**村人の取引（§3.2）を試すときは `true` に戻す**か、`/summon villager` で個体を出す
+
+> **古いワールドを残したい場合**は、消さずに `level-name=flat` を足すだけでよい。別フォルダに新しいワールドが作られ、`level-name` を戻せば元のワールドに戻れる。
+
+平地では確認できない項目が2つある。§6「移動と接地」の**坂と階段**は、ブロックを積んで段差を作ってから見る。
+
 ---
 
 ## 4. プラグインを入れる
@@ -269,7 +305,7 @@ op <あなたのMinecraft名>
 
 - [ ] 移動中は足が交互に動く（**平行移動で滑っていない**）
 - [ ] 第二形態は**対角の足が同時に**出る
-- [ ] **地形の起伏に乗る。** 坂を登り、階段を降りる。空中を一定の高さで滑らない
+- [ ] **地形の起伏に乗る。** 坂を登り、階段を降りる。空中を一定の高さで滑らない（スーパーフラットでは §3.5 のとおりブロックを積んで段差を作る）
 - [ ] `/raid info` の `足元 Y` が地面の高さに追従している
 - [ ] 攻撃モーションのあいだ以外も動いている（呼吸・首振り）
 - [ ] 攻撃モーションが明けると姿勢が元に戻る（腕が上がったまま固まらない）
