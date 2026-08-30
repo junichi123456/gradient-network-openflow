@@ -417,8 +417,9 @@ public final class KnightDefinition {
      * <p>着地の衝撃波は即時ではなく<b>毎秒10ブロックで外へ広がる</b>。
      * 距離があれば見てから逃げられるが、近ければ間に合わない。
      *
-     * <p>着地点が戦場の中心であるため、この技は<b>位置を戻す手段を兼ねる</b>。
-     * 帰還の歩行が長引く場面で選ばれれば、歩いて戻る時間を跳んで詰められる。
+     * <p>着地点が戦場の中心であるため、この技は<b>位置を戻す手段そのものである</b>。
+     * したがって<b>戦場の外にいるときにしか選ばれない</b>。戻る必要がないときに
+     * 中心へ跳んでも、間合いが崩れるだけで意味がない。
      */
     static MotionSpec leapSlam(String body) {
         var leap = new MotionSpec.Leap(LEAP_START_TICK, LEAP_FLIGHT_TICKS, LEAP_APEX_BLOCKS);
@@ -441,7 +442,7 @@ public final class KnightDefinition {
                 MotionSpec.Idle.between(LEAP_IDLE_MIN, LEAP_IDLE_MAX), Optional.empty(),
                 List.of(), Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.of(wave), false,
-                MotionSpec.Usage.at(0, 40.0, 20, 400), Optional.of(leap));
+                MotionSpec.Usage.at(0, 120.0, 40, 200).outsideStage(), Optional.of(leap));
     }
 
     /** 踏みつけ。両前足を持ち上げて叩きつけ、半径10ブロックに衝撃波を出す。 */

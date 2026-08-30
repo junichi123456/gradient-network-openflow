@@ -19,13 +19,23 @@ import java.util.Random;
  */
 public final class MotionSelector {
 
-    /** 選択の状況。 */
-    public record Situation(double distance, int surrounding, boolean enraged) {
+    /**
+     * 選択の状況。
+     *
+     * @param outsideStage 個体が戦場の外にいるか（§12.6）
+     */
+    public record Situation(double distance, int surrounding, boolean enraged,
+                            boolean outsideStage) {
 
         public Situation {
             if (distance < 0 || surrounding < 0) {
                 throw new IllegalArgumentException("状況の指定が不正である");
             }
+        }
+
+        /** 戦場の内側にいる状況。 */
+        public Situation(double distance, int surrounding, boolean enraged) {
+            this(distance, surrounding, enraged, false);
         }
     }
 
@@ -84,12 +94,13 @@ public final class MotionSelector {
         List<MotionSpec> result = new ArrayList<>();
         for (MotionSpec motion : motions) {
             MotionSpec.Usage usage = motion.usage();
-            if (usage.enragedOnly() && !situation.enraged()) {
+            // 状態の条件は緩めない。距離帯だけが緩和の対象である
+            if (!usage.allowsState(situation.enraged(), situation.outsideStage())) {
                 continue;
             }
             if (!ignoreRange
                     && !usage.matches(situation.distance(), situation.surrounding(),
-                            situation.enraged())) {
+                            situation.enraged(), situation.outsideStage())) {
                 continue;
             }
             if (!ignoreCooldown && now < readyAt.getOrDefault(motion.name(), 0)) {

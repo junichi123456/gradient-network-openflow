@@ -33,15 +33,31 @@ public record MotionSpec(String name, Animation animation, Idle idleAfter,
      * @param cooldownTicks  一度使ったあと、この時間は選ばれない
      * @param maxConsecutive 同じモーションを連続で使える上限
      * @param enragedOnly    激昂中にだけ使うか
+     * @param outsideStageOnly 個体が<b>戦場の外にいるときだけ</b>使うか。
+     *                         位置を戻す技を、戻る必要があるときにだけ出すために用いる
      */
     public record Usage(double minRange, double maxRange, int minSurrounding, int weight,
-                        int cooldownTicks, int maxConsecutive, boolean enragedOnly) {
+                        int cooldownTicks, int maxConsecutive, boolean enragedOnly,
+                        boolean outsideStageOnly) {
 
         /** 「囲まれている」と判定する半径（ブロック）。 */
         public static final double CROWD_RADIUS = 6.0;
 
         /** 条件を持たないモーション。 */
-        public static final Usage ANY = new Usage(0, 64, 0, 10, 0, 2, false);
+        public static final Usage ANY = new Usage(0, 64, 0, 10, 0, 2, false, false);
+
+        /** 激昂・戦場の条件を持たない指定。 */
+        public Usage(double minRange, double maxRange, int minSurrounding, int weight,
+                     int cooldownTicks, int maxConsecutive, boolean enragedOnly) {
+            this(minRange, maxRange, minSurrounding, weight, cooldownTicks, maxConsecutive,
+                    enragedOnly, false);
+        }
+
+        /** 戦場の外にいるときだけ使う同じ条件。 */
+        public Usage outsideStage() {
+            return new Usage(minRange, maxRange, minSurrounding, weight, cooldownTicks,
+                    maxConsecutive, enragedOnly, true);
+        }
 
         public Usage {
             if (minRange < 0 || maxRange < minRange) {
@@ -64,10 +80,33 @@ public record MotionSpec(String name, Animation animation, Idle idleAfter,
 
         /** 距離と囲まれ具合の条件を満たすか。 */
         public boolean matches(double distance, int surrounding, boolean enraged) {
-            if (enragedOnly && !enraged) {
+            return matches(distance, surrounding, enraged, false);
+        }
+
+        /**
+         * 距離・囲まれ具合・状態の条件を満たすか。
+         *
+         * @param outsideStage 個体が戦場の外にいるか
+         */
+        public boolean matches(double distance, int surrounding, boolean enraged,
+                               boolean outsideStage) {
+            if (!allowsState(enraged, outsideStage)) {
                 return false;
             }
             return distance >= minRange && distance <= maxRange && surrounding >= minSurrounding;
+        }
+
+        /**
+         * 状態の条件（激昂・戦場の外）を満たすか。
+         *
+         * <p>距離帯と違い、この条件は<b>候補が尽きても緩めない</b>。
+         * 戻る必要がないときに位置を戻す技が出ては、条件の意味がなくなる。
+         */
+        public boolean allowsState(boolean enraged, boolean outsideStage) {
+            if (enragedOnly && !enraged) {
+                return false;
+            }
+            return !outsideStageOnly || outsideStage;
         }
     }
 

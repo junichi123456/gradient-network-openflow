@@ -2378,8 +2378,23 @@ public final class CoreTests {
 
         // ---------------- 選択
         var selector = new MotionSelector(20240828L);
-        check("至近距離では第一形態の5モーションがすべて出る",
-                new HashSet<>(repeatSelect(selector, first, 2.0, 1, 40)).size() == 5);
+        check("戦場の内側では大ジャンプ衝撃波が出ない（近距離）",
+                new HashSet<>(repeatSelect(selector, first, 2.0, 1, 40)).size() == 4
+                        && !repeatSelect(selector, first, 2.0, 1, 20)
+                                .contains("大ジャンプ衝撃波"));
+        check("戦場の外に出ると大ジャンプ衝撃波が候補に入る",
+                repeatSelectOutside(new MotionSelector(4L), first, 45.0, 0, 20)
+                        .contains("大ジャンプ衝撃波"));
+        check("大ジャンプ衝撃波は戦場の外だけの技である",
+                first.motion("大ジャンプ衝撃波").usage().outsideStageOnly()
+                        && !first.motion("突進切り上げ").usage().outsideStageOnly());
+        check("状態の条件は候補が尽きても緩まない",
+                !first.motion("大ジャンプ衝撃波").usage().allowsState(false, false)
+                        && first.motion("大ジャンプ衝撃波").usage().allowsState(false, true));
+        check("戦場の外でも、距離帯に入らない近接技は出ない",
+                repeatSelectOutside(new MotionSelector(6L), first, 45.0, 0, 30).stream()
+                        .noneMatch(name -> name.equals("3段突き")
+                                || name.equals("なぎ払い")));
 
         var farSelector = new MotionSelector(1L);
         check("弱点を開く手が第一形態に2つある（突進のパリイと3段突きの妨害）",
@@ -2388,10 +2403,9 @@ public final class CoreTests {
                                 .filter(m -> m.interrupt().isPresent()).count() == 1
                         && first.motion("3段突き").interrupt().orElseThrow().part().equals("槍")
                         && first.motion("3段突き").interrupt().orElseThrow().beforeTick() == 65);
-        check("遠距離では距離帯に入る2つ（突進切り上げ・大ジャンプ衝撃波）だけが出る",
+        check("戦場の内側の遠距離では突進切り上げしか候補がない",
                 repeatSelect(farSelector, first, 20.0, 1, 200).stream()
-                        .allMatch(name -> name.equals("突進切り上げ")
-                                || name.equals("大ジャンプ衝撃波")));
+                        .allMatch(name -> name.equals("突進切り上げ")));
         check("近接技は遠距離では出ない",
                 repeatSelect(new MotionSelector(2L), first, 20.0, 1, 60).stream()
                         .noneMatch(name -> name.equals("3段突き")
@@ -2419,8 +2433,7 @@ public final class CoreTests {
         check("候補が無いときは緩和されたことが分かる", choice.relaxed());
         check("候補が尽きても距離帯は守られる（近接技へ落ちない）",
                 repeatSelect(new MotionSelector(11L), first, 20.0, 1, 10).stream()
-                        .allMatch(name -> name.equals("突進切り上げ")
-                                || name.equals("大ジャンプ衝撃波")));
+                        .allMatch(name -> name.equals("突進切り上げ")));
 
         var reset = new MotionSelector(5L);
         reset.select(first, new MotionSelector.Situation(3.0, 1, false), 0);
@@ -2554,6 +2567,21 @@ public final class CoreTests {
             best = Math.max(best, run);
         }
         return best;
+    }
+
+    /** 戦場の外にいる状況で選択を繰り返す。 */
+    private static List<String> repeatSelectOutside(MotionSelector selector,
+                                                    RaidSpecies.Phase phase,
+                                                    double distance, int surrounding, int times) {
+        List<String> names = new java.util.ArrayList<>();
+        int now = 0;
+        for (int i = 0; i < times; i++) {
+            now += 200;
+            names.add(selector.select(phase,
+                    new MotionSelector.Situation(distance, surrounding, false, true), now)
+                    .motion().name());
+        }
+        return names;
     }
 
     private static boolean noRepeats(List<String> names) {

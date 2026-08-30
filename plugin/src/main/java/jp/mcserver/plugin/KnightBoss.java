@@ -339,8 +339,10 @@ final class KnightBoss {
 
     /** 状況に応じて次のモーションを選ぶ（§12.6）。 */
     private void startMotion() {
+        Location here = rig.origin();
         MotionSelector.Situation situation = new MotionSelector.Situation(
-                distanceToNearest(), surrounding(), rage.enraged());
+                distanceToNearest(), surrounding(), rage.enraged(),
+                !stage.contains(here.getX(), here.getZ()));
         motion = selector.select(phase, situation, totalTick).motion();
         firedWindows.clear();
         struck.clear();
