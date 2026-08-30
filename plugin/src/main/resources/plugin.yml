@@ -2,7 +2,7 @@ name: RaidPlugin
 version: 0.1.0
 main: jp.mcserver.plugin.RaidPlugin
 api-version: '1.21'
-description: レイド個体の検証用プラグイン（§12）
+description: レイド個体の検証（§12）と村人の取引テーブル（§3.2）
 commands:
   raid:
     description: レイド個体の召喚と除去

@@ -44,6 +44,8 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
+        // 村人の取引テーブル（§3.2）。レイドとは独立だが、常駐の購読はここへ集約する
+        getServer().getPluginManager().registerEvents(new VillagerTradeFilter(), this);
         getLogger().info("レイド検証プラグインを有効化しました");
     }
 

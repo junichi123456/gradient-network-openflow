@@ -35,6 +35,7 @@ public final class CoreTests {
     public static void main(String[] args) {
         formulas();
         activityWindow();
+        villagerTrades();
         contribution();
         newPlayerCoefficient();
         coordinateAnnouncement();
@@ -200,6 +201,66 @@ public final class CoreTests {
             total += w.advance(60, true); // 1分ごとに操作あり
         }
         check("1分刻みで進めれば3窓ぶん36分が計上される", total == 36);
+    }
+
+    // ---------------------------------------------------------------- §3.2
+
+    private static void villagerTrades() {
+        section("§3.2 村人の取引テーブル");
+
+        check("エンチャント本は渡さない",
+                VillagerTrades.blocked(VillagerTrades.Offer.book(1)));
+        check("中身のないエンチャント本も品目として弾く",
+                VillagerTrades.blocked(VillagerTrades.Offer.book(0)));
+        check("名前空間付きの表記でも弾く",
+                VillagerTrades.blocked(VillagerTrades.Offer.plain("minecraft:enchanted_book")));
+        check("エンチャント済みのダイヤの剣は渡さない",
+                VillagerTrades.blocked(VillagerTrades.Offer.enchanted("DIAMOND_SWORD", 1)));
+        check("複数付与でも同じ",
+                VillagerTrades.blocked(VillagerTrades.Offer.enchanted("DIAMOND_CHESTPLATE", 3)));
+        check("素のダイヤの剣そのものは禁止しない（村人が売るかは取引表の側の問題）",
+                !VillagerTrades.blocked(VillagerTrades.Offer.plain("DIAMOND_SWORD")));
+        check("エメラルドは通る", !VillagerTrades.blocked(VillagerTrades.Offer.plain("EMERALD")));
+        check("素の本は通る", !VillagerTrades.blocked(VillagerTrades.Offer.plain("BOOK")));
+        check("名札は通る", !VillagerTrades.blocked(VillagerTrades.Offer.plain("NAME_TAG")));
+
+        // 司書の見習い相当: 紙の買取・エンチャント本・本棚
+        List<VillagerTrades.Offer> librarian = List.of(
+                VillagerTrades.Offer.plain("EMERALD"),
+                VillagerTrades.Offer.book(1),
+                VillagerTrades.Offer.plain("BOOKSHELF"));
+        List<VillagerTrades.Offer> kept = VillagerTrades.filter(librarian, o -> o);
+        check("司書はエンチャント本の枠だけ落ちる", kept.size() == 2);
+        check("司書に取引が残る（職業として機能する）",
+                kept.contains(VillagerTrades.Offer.plain("EMERALD"))
+                        && kept.contains(VillagerTrades.Offer.plain("BOOKSHELF")));
+
+        // 武器鍛冶の熟練相当: 石炭の買取・エンチャント済みの剣
+        List<VillagerTrades.Offer> smith = List.of(
+                VillagerTrades.Offer.plain("EMERALD"),
+                VillagerTrades.Offer.enchanted("DIAMOND_SWORD", 2));
+        check("鍛冶の完成品は枠ごと消え、素の装備に置き換わらない",
+                VillagerTrades.filter(smith, o -> o)
+                        .equals(List.of(VillagerTrades.Offer.plain("EMERALD"))));
+
+        check("並びの順序を保つ",
+                VillagerTrades.filter(
+                        List.of(VillagerTrades.Offer.plain("A"), VillagerTrades.Offer.book(1),
+                                VillagerTrades.Offer.plain("B")), o -> o)
+                        .equals(List.of(VillagerTrades.Offer.plain("A"),
+                                VillagerTrades.Offer.plain("B"))));
+        check("禁止品がなければ全件残る",
+                VillagerTrades.filter(List.of(VillagerTrades.Offer.plain("A")), o -> o).size() == 1);
+        check("空の取引表は空のまま",
+                VillagerTrades.filter(List.<VillagerTrades.Offer>of(), o -> o).isEmpty());
+
+        boolean rejectsBlank = false;
+        try {
+            new VillagerTrades.Offer(" ", 0, 0);
+        } catch (IllegalArgumentException expected) {
+            rejectsBlank = true;
+        }
+        check("品目が空なら拒む", rejectsBlank);
     }
 
     // ---------------------------------------------------------------- §6.3
