@@ -614,21 +614,52 @@ final class KnightBoss {
 
     /** 1人に当てる。ダメージ・ノックバック・演出をまとめる。 */
     private void hit(Player target, MotionSpec.Damage damage) {
-        double amount = roll(damage) * rage.damageMultiplier();
-        target.damage(amount);
-        landedThisMotion = true;
-        rage.landedHit();
+        applyDamage(target, damage);
         sound("entity.iron_golem.attack", 1.2f, 0.9f);
         particles(Particle.CRIT, target.getLocation().add(0, 1, 0), 12, 0.3);
-        motion.knockback().ifPresent(knockback -> {
-            Vector push = target.getLocation().toVector()
-                    .subtract(rig.origin().toVector()).setY(0);
-            if (push.lengthSquared() > 0.01) {
-                push.normalize().multiply(knockback.backBlocks() / 5.0);
-            }
-            push.setY(knockback.upBlocks() / 5.0);
-            target.setVelocity(push);
-        });
+    }
+
+    /**
+     * ダメージと押し出しを与える。<b>どの当たり方でもここを通る</b>。
+     *
+     * <p>近接・衝撃波のどちらも同じ扱いにするため、演出だけを呼び出し側に残している。
+     */
+    private void applyDamage(Player target, MotionSpec.Damage damage) {
+        target.damage(roll(damage) * rage.damageMultiplier());
+        landedThisMotion = true;
+        rage.landedHit();
+        knockback(target);
+    }
+
+    /**
+     * 押し出す（§12.6）。
+     *
+     * <p><b>すべての攻撃に {@link KnightDefinition#BASE_KNOCKBACK} を乗せる。</b>
+     * 技ごとの押し出しを持つ技では、その上に足す。
+     * 横向きの成分は今の速度に足し、縦は技が指定したときだけ置き換える
+     * （落下中に当たっても、打ち上げの高さが変わらないようにするため）。
+     */
+    private void knockback(Player target) {
+        Vector away = target.getLocation().toVector().subtract(rig.origin().toVector());
+        away.setY(0);
+        if (away.lengthSquared() < 0.0001) {
+            // 真上に立たれている。向いている先へ逃がす
+            away = new Vector(0, 0, 1);
+        }
+        away.normalize();
+
+        double back = KnightDefinition.BASE_KNOCKBACK;
+        double up = 0;
+        if (motion != null && motion.knockback().isPresent()) {
+            MotionSpec.Knockback declared = motion.knockback().get();
+            back += declared.backBlocks() / 5.0;
+            up = declared.upBlocks() / 5.0;
+        }
+        Vector next = target.getVelocity().add(away.multiply(back));
+        if (up > 0) {
+            next.setY(up);
+        }
+        target.setVelocity(next);
     }
 
     private void shockwave(MotionSpec.AreaEffect area) {
@@ -643,9 +674,7 @@ final class KnightBoss {
         }
         for (Player player : center.getWorld().getPlayers()) {
             if (player.getLocation().distance(center) <= area.radiusBlocks()) {
-                player.damage(roll(area.damage()) * rage.damageMultiplier());
-                landedThisMotion = true;
-                rage.landedHit();
+                applyDamage(player, area.damage());
             }
         }
     }

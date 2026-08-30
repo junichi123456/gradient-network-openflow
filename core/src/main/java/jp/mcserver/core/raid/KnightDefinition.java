@@ -58,6 +58,15 @@ public final class KnightDefinition {
      */
     public static final double STANDOFF_BLOCKS = 3.5;
 
+    /**
+     * すべての攻撃に乗せる押し出し（1tickあたりのブロック数）。
+     *
+     * <p>技ごとの押し出し（{@link MotionSpec.Knockback}）とは別に、<b>当たったこと自体</b>に
+     * 付ける最小限の反動である。手応えを出しつつ、間合いを崩しきらない量に留める。
+     * 技ごとの押し出しがある場合はその上に足す。
+     */
+    public static final double BASE_KNOCKBACK = 0.1;
+
     /** 1回の姿勢更新で変えられる向きの上限（度）。密着時の振動を防ぐ。 */
     public static final double MAX_TURN_DEGREES = 15.0;
 
