@@ -123,6 +123,25 @@ final class BossRig {
         centers.clear();
     }
 
+    /**
+     * その部位が占めている点の並び（ワールド座標）。
+     *
+     * <p>当たり判定を並べたのと同じ位置である。<b>攻撃が当たるかの判定にも使う。</b>
+     * 槍のように長い部位では、足元からの距離ではなく<b>武器そのものからの距離</b>で
+     * 測らなければ、間合いが武器の長さぶん短くなる。
+     */
+    List<Location> hitPointsOf(String name) {
+        List<Vector3f> points = segmentCenters.get(name);
+        if (points == null || points.isEmpty()) {
+            return List.of(centerOf(name));
+        }
+        List<Location> located = new ArrayList<>(points.size());
+        for (Vector3f point : points) {
+            located.add(origin.clone().add(point.x(), point.y(), point.z()));
+        }
+        return located;
+    }
+
     /** 部位の中心のワールド座標。演出の発生点に使う。 */
     Location centerOf(String name) {
         Vector3f center = centers.get(name);

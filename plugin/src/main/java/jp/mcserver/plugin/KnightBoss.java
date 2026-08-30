@@ -2,6 +2,7 @@ package jp.mcserver.plugin;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -46,11 +47,14 @@ import org.bukkit.util.Vector;
  */
 final class KnightBoss {
 
-    /** 槍の判定が届く距離（ブロック）。実測で調整する。 */
-    private static final double REACH = 5.0;
-
-    /** 回旋突進の判定が届く距離（ブロック）。 */
-    private static final double LONG_REACH = 7.0;
+    /**
+     * 武器の周りに取る判定の余裕（ブロック）。
+     *
+     * <p>間合いは<b>足元からではなく武器そのものから</b>測る。槍は3.4ブロックあり、
+     * 足元からの距離で測ると間合いが武器の長さぶん短くなる。
+     * ここで足すのは、プレイヤーの体の太さと当たりやすさのぶんである。
+     */
+    private static final double WEAPON_REACH = 1.8;
 
     /** 接地を探す高さの範囲（ブロック）。段差と坂を登り、崖では落ちる。 */
     private static final int GROUND_UP = 3;
@@ -96,7 +100,8 @@ final class KnightBoss {
     private int totalTick;
     private int idleTarget;
     private MotionSpec motion;
-    private final Set<Integer> firedWindows = new HashSet<>();
+    /** 判定区間ごとに、すでに当てたプレイヤー。区間の中で二重に当てない */
+    private final Map<Integer, Set<UUID>> struckByWindow = new HashMap<>();
     private boolean interrupted;
     private boolean landedThisMotion;
     private boolean wasExposed;
@@ -344,7 +349,7 @@ final class KnightBoss {
                 distanceToNearest(), surrounding(), rage.enraged(),
                 !stage.contains(here.getX(), here.getZ()));
         motion = selector.select(phase, situation, totalTick).motion();
-        firedWindows.clear();
+        struckByWindow.clear();
         struck.clear();
         interrupted = false;
         landedThisMotion = false;
@@ -390,15 +395,13 @@ final class KnightBoss {
             }
         });
 
-        // ダメージ判定。突進中は走り抜けながら当てるため、区間のあいだ毎tick判定する
+        // ダメージ判定は区間のあいだ毎tick行う。
+        // 開始tickだけで判定すると、そこはまだ振りかぶりの位置であり、
+        // 実際に当たる瞬間（区間の終わり）を取りこぼす
         for (int i = 0; i < motion.damageWindows().size(); i++) {
             MotionSpec.DamageWindow window = motion.damageWindows().get(i);
-            if (motion.charge().isPresent()) {
-                if (tick >= window.fromTick() && tick <= window.toTick()) {
-                    sweepStrike(window);
-                }
-            } else if (tick == window.fromTick() && firedWindows.add(i)) {
-                strike(window);
+            if (tick >= window.fromTick() && tick <= window.toTick()) {
+                applyWindow(i, window);
             }
         }
         motion.area().ifPresent(area -> {
@@ -536,34 +539,56 @@ final class KnightBoss {
         }
     }
 
-    /** 走り抜けながら当てる。同じプレイヤーには1回の突進で1度しか当てない。 */
-    private void sweepStrike(MotionSpec.DamageWindow window) {
-        double reach = motion.orbit().isPresent() ? LONG_REACH : REACH;
-        Location origin = rig.origin();
-        for (Player player : origin.getWorld().getPlayers()) {
+    // ------------------------------------------------------------ 攻撃
+
+    /**
+     * 判定区間を1tickぶん適用する。
+     *
+     * <p>当たるかは<b>その区間が指定した部位からの距離</b>で測る。槍の攻撃なら
+     * 槍の全体が判定を持ち、穂先の側にいても当たる。
+     * 同じ区間の中では、同じプレイヤーに二度当てない。
+     */
+    private void applyWindow(int index, MotionSpec.DamageWindow window) {
+        List<Location> weapon = rig.hitPointsOf(window.part());
+        if (weapon.isEmpty()) {
+            return;
+        }
+        if (stateTick % 2 == 0) {
+            swingEffect(weapon);
+        }
+        Set<UUID> alreadyHit = struckByWindow.computeIfAbsent(index, key -> new HashSet<>());
+        for (Player player : rig.origin().getWorld().getPlayers()) {
             if (player.isDead() || player.getGameMode().name().equals("SPECTATOR")) {
                 continue;
             }
             Location at = player.getLocation();
-            if (!stage.contains(at.getX(), at.getZ()) || at.distance(origin) > reach) {
+            if (!stage.contains(at.getX(), at.getZ())) {
                 continue;
             }
-            if (!struck.add(player.getUniqueId())) {
+            if (!withinWeapon(weapon, at)) {
+                continue;
+            }
+            if (!alreadyHit.add(player.getUniqueId())) {
                 continue;
             }
             hit(player, window.damage());
         }
     }
 
-    // ------------------------------------------------------------ 攻撃
-
-    private void strike(MotionSpec.DamageWindow window) {
-        Player target = nearest();
-        swingEffect();
-        if (target == null || target.getLocation().distance(rig.origin()) > REACH) {
-            return;
+    /**
+     * 武器の並びのいずれかに届いているか。
+     *
+     * <p>プレイヤーの足元だけでなく<b>胴の高さでも</b>測る。槍は胸の高さを薙ぐため、
+     * 足元との距離だけで測ると、頭上や足元をかすめた判定を取りこぼす。
+     */
+    private boolean withinWeapon(List<Location> weapon, Location at) {
+        Location chest = at.clone().add(0, 1.0, 0);
+        for (Location point : weapon) {
+            if (point.distance(at) <= WEAPON_REACH || point.distance(chest) <= WEAPON_REACH) {
+                return true;
+            }
         }
-        hit(target, window.damage());
+        return false;
     }
 
     /** 1人に当てる。ダメージ・ノックバック・演出をまとめる。 */
@@ -946,11 +971,14 @@ final class KnightBoss {
         location.getWorld().spawnParticle(particle, location, count, spread, spread, spread, 0);
     }
 
-    /** 槍の軌跡。 */
-    private void swingEffect() {
-        Location tip = rig.centerOf("穂先");
-        particles(Particle.SWEEP_ATTACK, tip, 3, 0.3);
-        particles(Particle.END_ROD, tip, 6, 0.2);
+    /** 武器の軌跡。判定を持つ範囲をそのまま光らせるので、間合いが目で分かる。 */
+    private void swingEffect(List<Location> weapon) {
+        for (Location point : weapon) {
+            particles(Particle.END_ROD, point, 2, 0.15);
+        }
+        if (!weapon.isEmpty()) {
+            particles(Particle.SWEEP_ATTACK, weapon.get(weapon.size() - 1), 2, 0.2);
+        }
     }
 
     /** 突進・回旋の足跡。 */
