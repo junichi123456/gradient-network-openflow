@@ -2393,8 +2393,8 @@ public final class CoreTests {
         check("追尾は左右8度（合計16度）で、回旋突進だけが持つ",
                 orbitRun.homingDegrees() == 8.0 && orbitRun.homing()
                         && !second.motion("突進切り上げ").charge().orElseThrow().homing());
-        check("回旋突進は中心から10ブロック以内を通る",
-                orbitRun.centerCorridorBlocks() == 10.0 && orbitRun.throughCenter()
+        check("回旋突進は中心から20ブロック以内（直径40）を通る",
+                orbitRun.centerCorridorBlocks() == 20.0 && orbitRun.throughCenter()
                         && !second.motion("突進切り上げ").charge().orElseThrow().throughCenter());
 
         // 中心の回廊（Stage.corridorAngle）
@@ -2432,8 +2432,11 @@ public final class CoreTests {
             }
         }
         check("外周のどこから、どの向きを指定しても中心を通る", alwaysThroughCenter);
-        check("外周から中心を通っても反対側の外周へは届かない",
-                orbitRun.distanceBlocks() < edge + Math.sqrt(edge * edge - corridor * corridor));
+        // 外周から回廊をかすめる経路のうち、最も短い弦は回廊の縁を通るもの
+        double shortestChord = 2 * Math.sqrt(edge * edge - corridor * corridor);
+        check(String.format("突進は戦場の内側で終わる（最短の弦 %.1f > 走破 %.1f）",
+                        shortestChord, orbitRun.distanceBlocks()),
+                orbitRun.distanceBlocks() < shortestChord);
         check("回旋突進のダメージは40、ノックバック後7",
                 orbit.damageWindows().get(0).damage().min() == 40
                         && orbit.knockback().orElseThrow().backBlocks() == 7);

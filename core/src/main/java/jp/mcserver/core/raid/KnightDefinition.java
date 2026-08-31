@@ -94,13 +94,16 @@ public final class KnightDefinition {
     public static final double CHARGE_HOMING_DEGREES = 8.0;
 
     /**
-     * 回旋突進が必ず通る、中心からの距離（ブロック）。
+     * 回旋突進が必ず通る、中心からの距離（ブロック）。<b>直径 40 の回廊</b>である。
      *
      * <p>外周から走り出す技であるため、放っておくと戦場の端だけで完結してしまう。
      * <b>必ず中央を通らせる</b>ことで、散った集団を一度は横切る。
-     * 走破距離 41 ブロックは、外周から中心を通っても反対側の外周へ届かない長さである。
+     *
+     * <p>外周（半径 {@value Stage#DEFAULT_RADIUS}）から回廊を通る経路は、最も浅く
+     * かすめても弦の長さが 44.7 ブロックある。走破距離 41 ブロックはそれより短いため、
+     * <b>突進は必ず戦場の内側で終わる</b>。
      */
-    public static final double CHARGE_CENTER_CORRIDOR = 10.0;
+    public static final double CHARGE_CENTER_CORRIDOR = 20.0;
 
     /**
      * 攻撃を受け付ける距離（ブロック）。
