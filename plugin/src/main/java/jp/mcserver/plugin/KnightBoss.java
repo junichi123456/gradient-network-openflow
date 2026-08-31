@@ -486,6 +486,16 @@ final class KnightBoss {
             chargeDirection = forwardDirection();
             sound("entity.ravager.attack", 1.3f, 1.1f);
         }
+        // 進行方向の左右 8 度以内で最も手前の相手を毎tick追う（§12.6）。
+        // 横へ抜ければ追われない。避け方が「離れる」ではなく「ずれる」になる
+        Player homing = nearestInCone(chargeDirection, KnightDefinition.CHARGE_HOMING_DEGREES);
+        if (homing != null) {
+            Vector toward = homing.getLocation().toVector().subtract(rig.origin().toVector());
+            toward.setY(0);
+            if (toward.lengthSquared() > 0.0001) {
+                chargeDirection = toward.normalize();
+            }
+        }
         int since = tick - run.runFromTick();
         double step = Math.min(run.speedAt(since), run.distanceBlocks() - chargeTravelled);
         if (step <= 0) {
@@ -494,6 +504,35 @@ final class KnightBoss {
         step(chargeDirection, step);
         chargeTravelled += step;
         trail();
+    }
+
+    /**
+     * 進行方向から左右 {@code degrees} 度以内にいる、<b>最も手前</b>のプレイヤー。
+     *
+     * <p>突進の追尾に使う。円錐の外に出た相手は追わない。
+     */
+    private Player nearestInCone(Vector direction, double degrees) {
+        Location origin = rig.origin();
+        double limit = Math.cos(Math.toRadians(degrees));
+        Player best = null;
+        double bestDistance = Double.MAX_VALUE;
+        for (Player player : origin.getWorld().getPlayers()) {
+            if (player.isDead() || player.getGameMode().name().equals("SPECTATOR")) {
+                continue;
+            }
+            Vector toward = player.getLocation().toVector().subtract(origin.toVector());
+            toward.setY(0);
+            double distance = toward.length();
+            if (distance < 0.01 || distance >= bestDistance) {
+                continue;
+            }
+            if (toward.multiply(1 / distance).dot(direction) < limit) {
+                continue;   // 円錐の外
+            }
+            best = player;
+            bestDistance = distance;
+        }
+        return best;
     }
 
     /**
@@ -915,13 +954,13 @@ final class KnightBoss {
      */
     private void orbitStep(MotionSpec.Orbit orbit) {
         double radius = orbit.diameterBlocks() / 2;
-        double anglePerTick = 2 * Math.PI * orbit.laps() / orbit.ticks();
-        // 外へ開くのも回旋と同じ速さで。中心付近から始まっても跳ばない
+        // 回転角は走った距離から求める。加速が入るため tick に比例しない
+        double angle = orbitStartAngle + orbit.angleAfter(stateTick);
+        // 外へ開くのも回旋の初速で。中心付近から始まっても跳ばない
         double entryTicks = Math.max(1,
-                Math.abs(radius - orbitStartRadius) / orbit.blocksPerTick());
+                Math.abs(radius - orbitStartRadius) / orbit.speedAfter(0));
         double entry = Math.min(1.0, stateTick / entryTicks);
         double current = orbitStartRadius + (radius - orbitStartRadius) * entry;
-        double angle = orbitStartAngle + anglePerTick * stateTick;
         Location next = rig.origin().clone();
         next.setX(stage.centerX() + Math.cos(angle) * current);
         next.setZ(stage.centerZ() + Math.sin(angle) * current);

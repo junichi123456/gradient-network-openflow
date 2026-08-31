@@ -359,26 +359,33 @@ public record MotionSpec(String name, Animation animation, Idle idleAfter,
     }
 
     /** 円周上の移動。 */
-    public record Orbit(double diameterBlocks, double laps, int ticks) {
+    /**
+     * 円周を回る移動。
+     *
+     * <p>速さは<b>走った距離</b>で決まる。最初の {@code accelerationLaps} 周ぶんで
+     * 初速から最高速へ達し、以後は最高速を保つ。時間ではなく距離で加速させるのは、
+     * 「最初の半周で最高速」のように<b>見た目の位置で速さを指定できる</b>ためである。
+     *
+     * @param diameterBlocks        回る円の直径
+     * @param laps                  周回数
+     * @param startSpeedPer20Ticks  初速（毎秒のブロック数）
+     * @param topSpeedPer20Ticks    最高速（毎秒のブロック数）
+     * @param accelerationLaps      最高速に達するまでの周回数
+     */
+    public record Orbit(double diameterBlocks, double laps,
+                        double startSpeedPer20Ticks, double topSpeedPer20Ticks,
+                        double accelerationLaps) {
 
         public Orbit {
-            if (diameterBlocks <= 0 || laps <= 0 || ticks <= 0) {
+            if (diameterBlocks <= 0 || laps <= 0) {
                 throw new IllegalArgumentException("回旋の指定が不正である");
             }
-        }
-
-        /**
-         * 速さから所要tickを決める。
-         *
-         * @param blocksPerSecond 周回の速さ（毎秒のブロック数）
-         */
-        public static Orbit atSpeed(double diameterBlocks, double laps, double blocksPerSecond) {
-            if (blocksPerSecond <= 0) {
-                throw new IllegalArgumentException("回旋の速さが0以下である");
+            if (startSpeedPer20Ticks <= 0 || topSpeedPer20Ticks < startSpeedPer20Ticks) {
+                throw new IllegalArgumentException("回旋の速さの指定が不正である");
             }
-            double length = Math.PI * diameterBlocks * laps;
-            return new Orbit(diameterBlocks, laps,
-                    (int) Math.round(length / (blocksPerSecond / 20.0)));
+            if (accelerationLaps < 0 || accelerationLaps > laps) {
+                throw new IllegalArgumentException("加速の周回数が全体を超えている");
+            }
         }
 
         /** 移動距離（ブロック）。 */
@@ -386,12 +393,48 @@ public record MotionSpec(String name, Animation animation, Idle idleAfter,
             return Math.PI * diameterBlocks * laps;
         }
 
-        public double blocksPerTick() {
-            return pathLength() / ticks;
+        /** 最高速に達するまでの距離（ブロック）。 */
+        public double accelerationLength() {
+            return Math.PI * diameterBlocks * accelerationLaps;
         }
 
+        /** すでに distance ブロック走ったときの速さ（1tickあたりのブロック数）。 */
+        public double speedAfter(double distance) {
+            double ratio = accelerationLength() <= 0
+                    ? 1.0 : Math.min(1.0, distance / accelerationLength());
+            return (startSpeedPer20Ticks
+                    + (topSpeedPer20Ticks - startSpeedPer20Ticks) * ratio) / 20.0;
+        }
+
+        /** tick 目までに走った距離（ブロック）。走り切ったあとは全長で止まる。 */
+        public double distanceAfter(int tick) {
+            double distance = 0;
+            for (int t = 0; t < tick && distance < pathLength(); t++) {
+                distance = Math.min(pathLength(), distance + speedAfter(distance));
+            }
+            return distance;
+        }
+
+        /** 走り切るのに要するtick。 */
+        public int ticks() {
+            double distance = 0;
+            for (int t = 1; t <= 20000; t++) {
+                distance += speedAfter(distance);
+                if (distance >= pathLength()) {
+                    return t;
+                }
+            }
+            throw new IllegalStateException("回りきれない回旋である");
+        }
+
+        /** tick 目の回転角（ラジアン）。距離を半径で割る。 */
+        public double angleAfter(int tick) {
+            return distanceAfter(tick) / (diameterBlocks / 2);
+        }
+
+        /** 平均の速さ（毎秒のブロック数）。 */
         public double blocksPerSecond() {
-            return blocksPerTick() * 20;
+            return pathLength() / ticks() * 20;
         }
     }
 

@@ -2361,14 +2361,25 @@ public final class CoreTests {
         check("回旋は戦場の外周（直径60ブロック）を1.5周",
                 path.diameterBlocks() == Stage.DEFAULT_RADIUS * 2 && path.laps() == 1.5);
         check("移動距離は約282.7ブロック", Math.abs(path.pathLength() - 282.74) < 0.05);
-        check("回旋の速度は毎秒15ブロック",
-                Math.abs(path.blocksPerSecond() - KnightDefinition.ORBIT_SPEED) < 0.05);
-        check("回旋だけで19秒近い予告になる", path.ticks() > 360 && path.ticks() < 390);
+        check("回旋は毎秒15ブロックで走り出す",
+                Math.abs(path.speedAfter(0) * 20 - 15.0) < 1e-9);
+        check("最初の半周で毎秒20ブロックに達する",
+                Math.abs(path.speedAfter(path.accelerationLength()) * 20 - 20.0) < 1e-9
+                        && Math.abs(path.accelerationLength() - Math.PI * 30) < 0.01);
+        check("半周より手前では最高速に達していない",
+                path.speedAfter(path.accelerationLength() * 0.99) * 20 < 20.0);
+        check("半周を過ぎたら最高速のまま",
+                Math.abs(path.speedAfter(path.pathLength()) * 20 - 20.0) < 1e-9);
+        check("回旋だけで15秒近い予告になる", path.ticks() > 280 && path.ticks() < 320);
         var orbitRun = orbit.charge().orElseThrow();
-        check("回旋突進は毎秒15ブロックから始まり、20tickで毎秒20ブロックに達する",
-                orbitRun.startSpeedPer20Ticks() == 15.0 && orbitRun.topSpeedPer20Ticks() == 20.0
-                        && orbitRun.accelerationTicks() == 20
-                        && Math.abs(orbitRun.speedAt(20) * 20 - 20.0) < 1e-9);
+        check("突進は回旋の最高速を引き継いで毎秒20ブロックから始まる",
+                orbitRun.startSpeedPer20Ticks() == path.topSpeedPer20Ticks());
+        check("突進は20tickで毎秒24ブロックに達する",
+                orbitRun.topSpeedPer20Ticks() == 24.0 && orbitRun.accelerationTicks() == 20
+                        && Math.abs(orbitRun.speedAt(20) * 20 - 24.0) < 1e-9);
+        check("突進の走破距離は41ブロック", orbitRun.distanceBlocks() == 41.0);
+        check("突進は戦場の直径より短く、外周から中心を越えて反対側へ抜けない",
+                orbitRun.distanceBlocks() < Stage.DEFAULT_RADIUS * 2);
         check("回旋突進は後ずさりを持たず、回旋の終わりから走り出す",
                 orbitRun.backstepBlocks() == 0 && orbitRun.startTick() == path.ticks()
                         && orbitRun.runFromTick() == path.ticks());
@@ -2377,8 +2388,10 @@ public final class CoreTests {
         check("判定は突進のあいだだけ",
                 orbit.damageWindows().size() == 1
                         && orbit.damageWindows().get(0).fromTick() == orbitRun.runFromTick());
-        check("回旋突進は勢いを保ったまま始まる（走り出しの時点で毎秒15ブロック超）",
-                orbitRun.speedAt(1) * 20 > 15.0);
+        check("回旋突進は勢いを保ったまま始まる（走り出しの時点で毎秒20ブロック超）",
+                orbitRun.speedAt(1) * 20 > 20.0);
+        check("追尾は左右8度（合計16度）",
+                KnightDefinition.CHARGE_HOMING_DEGREES == 8.0);
         check("回旋突進のダメージは40、ノックバック後7",
                 orbit.damageWindows().get(0).damage().min() == 40
                         && orbit.knockback().orElseThrow().backBlocks() == 7);

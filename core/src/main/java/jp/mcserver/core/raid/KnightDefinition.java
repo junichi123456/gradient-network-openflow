@@ -70,8 +70,28 @@ public final class KnightDefinition {
     /** 回旋突進が回る周回数。 */
     public static final double ORBIT_LAPS = 1.5;
 
-    /** 回旋の速さ（毎秒のブロック数）。突進の初速もここから引き継ぐ。 */
-    public static final double ORBIT_SPEED = 15.0;
+    /** 回旋の初速（毎秒のブロック数）。 */
+    public static final double ORBIT_START_SPEED = 15.0;
+
+    /** 回旋の最高速（毎秒のブロック数）。突進の初速もここを引き継ぐ。 */
+    public static final double ORBIT_TOP_SPEED = 20.0;
+
+    /** 最高速に達するまでの周回数。最初の半周で乗せきる。 */
+    public static final double ORBIT_ACCELERATION_LAPS = 0.5;
+
+    /** 回旋突進の突進の最高速（毎秒のブロック数）。 */
+    public static final double ORBIT_CHARGE_TOP_SPEED = 24.0;
+
+    /** 回旋突進の走破距離（ブロック）。 */
+    public static final double ORBIT_CHARGE_DISTANCE = 41.0;
+
+    /**
+     * 突進が追尾する角度（片側の度数）。
+     *
+     * <p>進行方向から左右この角度以内にいるプレイヤーのうち<b>最も手前</b>を毎tick追う。
+     * 外へ出れば追われない。<b>横へ抜けることが回避になる</b>という形にするための幅である。
+     */
+    public static final double CHARGE_HOMING_DEGREES = 8.0;
 
     /**
      * 攻撃を受け付ける距離（ブロック）。
@@ -454,18 +474,21 @@ public final class KnightDefinition {
     /**
      * 回旋突進。<b>戦場の外周</b>を 1.5 周してから最短距離のプレイヤーへ突進する。
      *
-     * <p>回る円は戦場そのもの（中心から半径 {@value Stage#DEFAULT_RADIUS} ブロック）であり、
-     * 速さは 15 ブロック毎秒。1.5 周は約 283 ブロックあり、19 秒近くかかる。
+     * <p>回る円は戦場そのもの（中心から半径 {@value Stage#DEFAULT_RADIUS} ブロック）である。
+     * 毎秒 15 ブロックで走り出し、<b>最初の半周で</b>毎秒 20 ブロックに達する。
+     * 1.5 周は約 283 ブロックあり、15 秒近くかかる。
      * <b>長い予告そのものが技である。</b>そのあいだ個体は遠く、戦場の中央は空く。
      *
-     * <p>突進は<b>回旋の速さをそのまま引き継いで</b> 15 ブロック毎秒から始まり、
-     * 20 tick で 20 ブロック毎秒に達する。
+     * <p>突進は<b>回旋の速さをそのまま引き継いで</b>毎秒 20 ブロックから始まり、
+     * 20 tick で毎秒 24 ブロックに達し、41 ブロック走る。
+     * 走っているあいだは進行方向の左右 {@value #CHARGE_HOMING_DEGREES} 度以内にいる
+     * 最も手前のプレイヤーを毎tick追う。<b>横へ抜けることが回避になる。</b>
      */
     static MotionSpec orbitCharge() {
-        MotionSpec.Orbit orbit = MotionSpec.Orbit.atSpeed(
-                Stage.DEFAULT_RADIUS * 2, ORBIT_LAPS, ORBIT_SPEED);
+        MotionSpec.Orbit orbit = new MotionSpec.Orbit(Stage.DEFAULT_RADIUS * 2, ORBIT_LAPS,
+                ORBIT_START_SPEED, ORBIT_TOP_SPEED, ORBIT_ACCELERATION_LAPS);
         MotionSpec.Charge charge = new MotionSpec.Charge(orbit.ticks(), 0, 0,
-                ORBIT_SPEED, 20.0, 20, 17.6);
+                ORBIT_TOP_SPEED, ORBIT_CHARGE_TOP_SPEED, 20, ORBIT_CHARGE_DISTANCE);
         int duration = charge.endTick();
         Animation animation = animation("回旋突進", duration, false,
                 "人胴", List.of(rot(0, 0, 0, 0), rot(20, 0, 0, 18, SET),
