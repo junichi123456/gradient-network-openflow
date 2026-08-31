@@ -4,11 +4,11 @@ package jp.mcserver.core.raid;
  * レイドの戦場（§12.6）。
  *
  * <p>個体の召喚位置の x, z を中心とした<b>半径 30 ブロックの円筒</b>である。
- * 高さは問わない。足場を組んで上から撃つことを封じるためではなく、
- * <b>戦場の外から一方的に削ることを封じる</b>のが目的だからである。
+ * 高さは問わない。個体の行動範囲であり、回旋突進が走る円でもある。
  *
- * <p>外から放たれた攻撃を通さないことで、遠距離から安全に削る組み立てを成立させない。
- * 削るには戦場に入る必要があり、入れば個体の攻撃も届く。
+ * <p>戦場は<b>個体の行動範囲</b>を定める。外へ出たら中心を一度経由して戻る。
+ * 遠距離から一方的に削ることを封じるのは戦場ではなく、
+ * <b>個体からの距離</b>で見る（{@link KnightDefinition#ATTACK_RANGE_BLOCKS}）。
  */
 public final class Stage {
 
@@ -55,19 +55,14 @@ public final class Stage {
         return Math.sqrt(dx * dx + dz * dz);
     }
 
-    /** 戦場の内側か。境界上は内側とみなす。 */
-    public boolean contains(double x, double z) {
-        return distanceFromCenter(x, z) <= radius;
-    }
-
     /**
-     * その位置から放たれた攻撃を受け付けるか。
+     * 戦場の内側か。境界上は内側とみなす。
      *
-     * <p>判定するのは<b>攻撃が放たれた位置</b>である。矢であれば射手ではなく発射地点で見る。
-     * 外から撃って内側へ踏み込む、という抜け道を残さないためである。
+     * <p>個体は境界の円周そのものを走ることがある（回旋突進）。計算誤差で
+     * 外側と判定されないよう、わずかな余裕を持たせている。
      */
-    public boolean allowsAttackFrom(double x, double z) {
-        return contains(x, z);
+    public boolean contains(double x, double z) {
+        return distanceFromCenter(x, z) <= radius + 1e-6;
     }
 
     /** 中心に到達したとみなせるか。 */

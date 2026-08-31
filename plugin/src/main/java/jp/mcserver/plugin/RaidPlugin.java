@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -36,8 +38,8 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
     /**
      * 飛び道具の発射地点（§12.6）。
      *
-     * <p>戦場の外から放たれた攻撃を通さないため、<b>撃った位置</b>を覚えておく。
-     * 射手の現在位置で見ると、外から撃って踏み込むだけで通ってしまう。
+     * <p>遠くから放たれた攻撃を通さないため、<b>撃った位置</b>を覚えておく。
+     * 射手の現在位置で見ると、遠くから撃って踏み込むだけで通ってしまう。
      */
     private final Map<UUID, Location> launchPoints = new HashMap<>();
 
@@ -131,22 +133,28 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         Location origin;
         boolean ranged;
 
+        Material weapon;
+
         if (damager instanceof Player player) {
             attacker = player;
             origin = player.getLocation();
             ranged = false;
+            weapon = player.getInventory().getItemInMainHand().getType();
         } else if (damager instanceof Projectile projectile
                 && projectile.getShooter() instanceof Player shooter) {
             attacker = shooter;
             origin = launchPoints.getOrDefault(projectile.getUniqueId(),
                     projectile.getLocation());
             ranged = true;
+            // 投げたトライデントは手に残らない。飛んでいる本体で見る
+            weapon = damager instanceof Trident ? Material.TRIDENT : Material.AIR;
         } else {
             return;
         }
 
         for (KnightBoss boss : new ArrayList<>(active)) {
-            if (boss.handleHit(event.getEntity().getUniqueId(), attacker, origin, ranged)) {
+            if (boss.handleHit(event.getEntity().getUniqueId(), attacker, origin, ranged,
+                    weapon)) {
                 event.setCancelled(true); // ダメージは個体側で処理する
                 launchPoints.remove(damager.getUniqueId());
                 if (boss.isDead()) {

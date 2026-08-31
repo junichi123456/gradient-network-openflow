@@ -20,6 +20,7 @@ import jp.mcserver.core.raid.Transform;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -104,6 +105,10 @@ final class KnightBoss {
 
     /** 体の向き（度）。目標へ少しずつ寄せる。 */
     private double bodyYaw;
+
+    /** 回旋の始点。技に入った位置から円周へ寄せるために覚えておく。 */
+    private double orbitStartAngle;
+    private double orbitStartRadius;
     private boolean interrupted;
     private boolean landedThisMotion;
     private boolean wasExposed;
@@ -375,6 +380,13 @@ final class KnightBoss {
         leapFrom = null;
         leapTo = null;
         waveCenter = null;
+        motion.orbit().ifPresent(orbit -> {
+            Location here = rig.origin();
+            double dx = here.getX() - stage.centerX();
+            double dz = here.getZ() - stage.centerZ();
+            orbitStartAngle = Math.atan2(dz, dx);
+            orbitStartRadius = Math.hypot(dx, dz);
+        });
         motion.leap().ifPresent(leap -> {
             leapFrom = rig.origin();
             Location center = rig.origin();
@@ -685,18 +697,24 @@ final class KnightBoss {
      * <p>ダメージ量はイベントの値ではなく {@link WeaponDamage} で組み立てる。
      * 当たり判定に使う Interaction は生き物ではないため、イベントが運ぶ値は武器を反映しない。
      */
-    boolean handleHit(UUID hitEntity, Player attacker, Location origin, boolean ranged) {
+    boolean handleHit(UUID hitEntity, Player attacker, Location origin, boolean ranged,
+                      Material weapon) {
         String part = rig.partOfHitbox(hitEntity);
         if (part == null) {
             return false;
         }
-        // 戦場の外から放たれた攻撃は通さない（§12.6）
-        if (!stage.allowsAttackFrom(origin.getX(), origin.getZ())) {
-            attacker.sendMessage(ranged
-                    ? "§7戦場の外から放たれた攻撃は通らない（中心から半径 "
-                            + (int) stage.radius() + " ブロック以内から撃つこと）"
-                    : "§7戦場の外からの攻撃は通らない");
+        // 遠くから放たれた攻撃は通さない（§12.6）。矢は射手ではなく発射地点で見る
+        if (origin.getWorld() != rig.origin().getWorld()
+                || origin.distance(rig.origin()) > KnightDefinition.ATTACK_RANGE_BLOCKS) {
+            attacker.sendMessage("§7遠すぎる攻撃は通らない（"
+                    + (int) KnightDefinition.ATTACK_RANGE_BLOCKS + " ブロック以内から）");
             sound("entity.zombie.attack_iron_door", 0.6f, 1.9f);
+            return true;
+        }
+        // 受け付けない武器（§12.6）
+        if (WeaponDamage.rejected(weapon)) {
+            attacker.sendMessage("§7その武器は通らない");
+            sound("entity.zombie.attack_iron_door", 0.8f, 1.7f);
             return true;
         }
         if (state == State.MOTION && motion != null) {
@@ -886,17 +904,27 @@ final class KnightBoss {
         return forwardDirection().multiply(-1);
     }
 
+    /**
+     * 回旋の1tick（§12.6）。
+     *
+     * <p><b>回るのは戦場の外周</b>であり、プレイヤーの周りではない。中心は召喚位置に
+     * 固定されているため、逃げ回っても円が動かない。
+     *
+     * <p>始点は<b>技に入った時点の角度と距離</b>である。いきなり円周へ跳ばず、
+     * 回旋と同じ速さで外へ開きながら回り込む。
+     */
     private void orbitStep(MotionSpec.Orbit orbit) {
-        Player target = nearest();
-        if (target == null) {
-            return;
-        }
         double radius = orbit.diameterBlocks() / 2;
         double anglePerTick = 2 * Math.PI * orbit.laps() / orbit.ticks();
-        double angle = anglePerTick * stateTick;
-        Location center = target.getLocation();
-        Location next = center.clone().add(
-                Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
+        // 外へ開くのも回旋と同じ速さで。中心付近から始まっても跳ばない
+        double entryTicks = Math.max(1,
+                Math.abs(radius - orbitStartRadius) / orbit.blocksPerTick());
+        double entry = Math.min(1.0, stateTick / entryTicks);
+        double current = orbitStartRadius + (radius - orbitStartRadius) * entry;
+        double angle = orbitStartAngle + anglePerTick * stateTick;
+        Location next = rig.origin().clone();
+        next.setX(stage.centerX() + Math.cos(angle) * current);
+        next.setZ(stage.centerZ() + Math.sin(angle) * current);
         rig.moveTo(grounded(next));
     }
 

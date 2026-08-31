@@ -67,6 +67,21 @@ public final class KnightDefinition {
      */
     public static final double BASE_KNOCKBACK = 0.1;
 
+    /** 回旋突進が回る周回数。 */
+    public static final double ORBIT_LAPS = 1.5;
+
+    /** 回旋の速さ（毎秒のブロック数）。突進の初速もここから引き継ぐ。 */
+    public static final double ORBIT_SPEED = 15.0;
+
+    /**
+     * 攻撃を受け付ける距離（ブロック）。
+     *
+     * <p><b>個体からこの距離より遠くで放たれた攻撃は通らない。</b>矢であれば射手の
+     * 現在位置ではなく<b>発射地点</b>で見る。遠くから一方的に削る組み立てを成立させない
+     * ためであり、削るには近づく必要がある。近づけば個体の攻撃も届く。
+     */
+    public static final double ATTACK_RANGE_BLOCKS = 10.0;
+
     /** 1回の姿勢更新で変えられる向きの上限（度）。密着時の振動を防ぐ。 */
     public static final double MAX_TURN_DEGREES = 15.0;
 
@@ -437,24 +452,32 @@ public final class KnightDefinition {
     }
 
     /**
-     * 回旋突進。円周を 1.5 周してから最短距離のプレイヤーへ突進する。
+     * 回旋突進。<b>戦場の外周</b>を 1.5 周してから最短距離のプレイヤーへ突進する。
      *
-     * <p>突進は<b>すでに 15 ブロック毎秒で走っている状態から</b>始まり、
-     * 20 tick で 20 ブロック毎秒に達する。回旋の勢いをそのまま乗せる。
+     * <p>回る円は戦場そのもの（中心から半径 {@value Stage#DEFAULT_RADIUS} ブロック）であり、
+     * 速さは 15 ブロック毎秒。1.5 周は約 283 ブロックあり、19 秒近くかかる。
+     * <b>長い予告そのものが技である。</b>そのあいだ個体は遠く、戦場の中央は空く。
+     *
+     * <p>突進は<b>回旋の速さをそのまま引き継いで</b> 15 ブロック毎秒から始まり、
+     * 20 tick で 20 ブロック毎秒に達する。
      */
     static MotionSpec orbitCharge() {
-        Animation animation = animation("回旋突進", 120, false,
-                "人胴", List.of(rot(0, 0, 0, 0), rot(20, 0, 0, 18, SET), rot(100, 0, 0, 18, HOLD),
-                        rot(120, 16, 0, 0, STRIKE)),
+        MotionSpec.Orbit orbit = MotionSpec.Orbit.atSpeed(
+                Stage.DEFAULT_RADIUS * 2, ORBIT_LAPS, ORBIT_SPEED);
+        MotionSpec.Charge charge = new MotionSpec.Charge(orbit.ticks(), 0, 0,
+                ORBIT_SPEED, 20.0, 20, 17.6);
+        int duration = charge.endTick();
+        Animation animation = animation("回旋突進", duration, false,
+                "人胴", List.of(rot(0, 0, 0, 0), rot(20, 0, 0, 18, SET),
+                        rot(orbit.ticks(), 0, 0, 18, HOLD), rot(duration, 16, 0, 0, STRIKE)),
                 "右腕", List.of(rot(0, 0, 0, 0), rot(20, 0, 0, 0, SET),
-                        rot(100, 0, 0, 0, HOLD), rot(120, -8, 0, 0, STRIKE)));
+                        rot(orbit.ticks(), 0, 0, 0, HOLD), rot(duration, -8, 0, 0, STRIKE)));
         return new MotionSpec("回旋突進", animation, MotionSpec.Idle.of(40), Optional.empty(),
-                List.of(new MotionSpec.DamageWindow("槍", 100, 120, MotionSpec.Damage.of(40))),
-                Optional.empty(),
-                Optional.of(new MotionSpec.Charge(100, 0, 0, 15.0, 20.0, 20, 17.6)),
-                Optional.of(new MotionSpec.Orbit(30, 1.5, 100)),
+                List.of(new MotionSpec.DamageWindow("槍", charge.runFromTick(), duration,
+                        MotionSpec.Damage.of(40))),
+                Optional.empty(), Optional.of(charge), Optional.of(orbit),
                 Optional.of(new MotionSpec.Knockback(3, 7)), Optional.empty(), false,
-                MotionSpec.Usage.at(6.0, 40.0, 25, 320));
+                MotionSpec.Usage.at(6.0, 40.0, 25, duration + 200));
     }
 
     /**

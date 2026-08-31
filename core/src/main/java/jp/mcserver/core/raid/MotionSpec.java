@@ -367,6 +367,20 @@ public record MotionSpec(String name, Animation animation, Idle idleAfter,
             }
         }
 
+        /**
+         * 速さから所要tickを決める。
+         *
+         * @param blocksPerSecond 周回の速さ（毎秒のブロック数）
+         */
+        public static Orbit atSpeed(double diameterBlocks, double laps, double blocksPerSecond) {
+            if (blocksPerSecond <= 0) {
+                throw new IllegalArgumentException("回旋の速さが0以下である");
+            }
+            double length = Math.PI * diameterBlocks * laps;
+            return new Orbit(diameterBlocks, laps,
+                    (int) Math.round(length / (blocksPerSecond / 20.0)));
+        }
+
         /** 移動距離（ブロック）。 */
         public double pathLength() {
             return Math.PI * diameterBlocks * laps;

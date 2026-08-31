@@ -25,6 +25,21 @@ final class WeaponDamage {
     private static final double FIST = 1.0;
 
     /**
+     * 受け付けない武器（§12.6）。
+     *
+     * <p>トライデントは<b>投げて回収できる遠距離武器</b>であり、忠誠を付ければ
+     * 距離を取ったまま削り続けられる。メイスは落下の高さがそのまま威力になり、
+     * 足場を組むだけで設計した体力を無視できる。どちらも噛み合わないため通さない。
+     */
+    private static final java.util.Set<Material> REJECTED =
+            java.util.Set.of(Material.TRIDENT, Material.MACE);
+
+    /** その武器による攻撃を通さないか。 */
+    static boolean rejected(Material weapon) {
+        return weapon != null && REJECTED.contains(weapon);
+    }
+
+    /**
      * その攻撃で入るべきダメージ量。
      */
     static double of(Player attacker) {
