@@ -381,7 +381,6 @@ final class KnightBoss {
         leapTo = null;
         waveCenter = null;
         motion.orbit().ifPresent(orbit -> {
-            Location here = rig.origin();
             double dx = here.getX() - stage.centerX();
             double dz = here.getZ() - stage.centerZ();
             orbitStartAngle = Math.atan2(dz, dx);
