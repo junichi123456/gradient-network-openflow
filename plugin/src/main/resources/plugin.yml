@@ -5,8 +5,8 @@ api-version: '1.21'
 description: レイド個体の検証（§12）と村人の取引テーブル（§3.2）
 commands:
   raid:
-    description: レイド個体の召喚と除去
-    usage: /raid spawn | /raid despawn | /raid info
+    description: レイド個体の召喚・除去と検証用の切り替え
+    usage: /raid spawn | /raid despawn | /raid info | /raid god
     permission: raid.test
 permissions:
   raid.test:

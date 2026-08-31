@@ -2,8 +2,10 @@ package jp.mcserver.plugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,8 +16,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,6 +33,7 @@ import org.bukkit.projectiles.ProjectileSource;
  *   <li>{@code /raid spawn} — 足元に騎士型を召喚する</li>
  *   <li>{@code /raid despawn} — 召喚した個体をすべて除去する</li>
  *   <li>{@code /raid info} — 状態を表示する</li>
+ *   <li>{@code /raid god} — 自分の体力を減らさない（検証用の切り替え）</li>
  * </ul>
  */
 public final class RaidPlugin extends JavaPlugin implements Listener {
@@ -42,6 +47,15 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
      * 射手の現在位置で見ると、遠くから撃って踏み込むだけで通ってしまう。
      */
     private final Map<UUID, Location> launchPoints = new HashMap<>();
+
+    /**
+     * 体力を減らさないプレイヤー（検証用）。
+     *
+     * <p><b>ダメージそのものは通す。</b>減った体力を次tickで元へ戻す形にしているため、
+     * ハートが一度減って戻り、当たったことが目で分かる。死ぬ一撃だけは無効にする。
+     * 個体側の命中の記録（激昂の判定）もそのまま働く。
+     */
+    private final Set<UUID> unkillable = new HashSet<>();
 
     @Override
     public void onEnable() {
@@ -76,6 +90,14 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                 int count = despawnAll();
                 player.sendMessage(count + " 体を除去しました");
             }
+            case "god" -> {
+                if (unkillable.remove(player.getUniqueId())) {
+                    player.sendMessage("体力を通常に戻しました");
+                } else {
+                    unkillable.add(player.getUniqueId());
+                    player.sendMessage("体力を減らさないようにしました（当たった演出は残ります）");
+                }
+            }
             default -> {
                 if (active.isEmpty()) {
                     player.sendMessage("召喚中の個体はありません");
@@ -93,6 +115,30 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         active.clear();
         launchPoints.clear();
         return count;
+    }
+
+    /**
+     * 体力を元に戻す（検証用の {@code /raid god}）。
+     *
+     * <p>死ぬ一撃は威力を 0 にし、それ以外は通したうえで次tickに戻す。
+     * <b>減らないのは体力だけ</b>であり、ノックバックも演出も個体側の記録もそのまま通る。
+     */
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onPlayerDamage(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof Player player)
+                || !unkillable.contains(player.getUniqueId())) {
+            return;
+        }
+        double before = player.getHealth();
+        if (event.getFinalDamage() >= before) {
+            event.setDamage(0);   // この一撃では死なせない
+        }
+        // 体力の巻き戻しは次tick。この場で戻すとダメージの適用前になる
+        getServer().getScheduler().runTask(this, () -> {
+            if (player.isOnline() && !player.isDead() && player.getHealth() < before) {
+                player.setHealth(before);
+            }
+        });
     }
 
     /** プレイヤーが放った飛び道具の発射地点を覚える。 */
