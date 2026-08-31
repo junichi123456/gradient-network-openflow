@@ -94,6 +94,15 @@ public final class KnightDefinition {
     public static final double CHARGE_HOMING_DEGREES = 8.0;
 
     /**
+     * 回旋突進が必ず通る、中心からの距離（ブロック）。
+     *
+     * <p>外周から走り出す技であるため、放っておくと戦場の端だけで完結してしまう。
+     * <b>必ず中央を通らせる</b>ことで、散った集団を一度は横切る。
+     * 走破距離 41 ブロックは、外周から中心を通っても反対側の外周へ届かない長さである。
+     */
+    public static final double CHARGE_CENTER_CORRIDOR = 10.0;
+
+    /**
      * 攻撃を受け付ける距離（ブロック）。
      *
      * <p><b>個体からこの距離より遠くで放たれた攻撃は通らない。</b>矢であれば射手の
@@ -483,12 +492,17 @@ public final class KnightDefinition {
      * 20 tick で毎秒 24 ブロックに達し、41 ブロック走る。
      * 走っているあいだは進行方向の左右 {@value #CHARGE_HOMING_DEGREES} 度以内にいる
      * 最も手前のプレイヤーを毎tick追う。<b>横へ抜けることが回避になる。</b>
+     *
+     * <p>ただし<b>中心から {@value #CHARGE_CENTER_CORRIDOR} ブロック以内を必ず通る</b>。
+     * 追尾は回廊を外れない範囲でしか効かず、回廊に入ったあとは自由に追う。
+     * 外周だけで戦いが完結しないようにするための拘束である。
      */
     static MotionSpec orbitCharge() {
         MotionSpec.Orbit orbit = new MotionSpec.Orbit(Stage.DEFAULT_RADIUS * 2, ORBIT_LAPS,
                 ORBIT_START_SPEED, ORBIT_TOP_SPEED, ORBIT_ACCELERATION_LAPS);
         MotionSpec.Charge charge = new MotionSpec.Charge(orbit.ticks(), 0, 0,
-                ORBIT_TOP_SPEED, ORBIT_CHARGE_TOP_SPEED, 20, ORBIT_CHARGE_DISTANCE);
+                ORBIT_TOP_SPEED, ORBIT_CHARGE_TOP_SPEED, 20, ORBIT_CHARGE_DISTANCE,
+                CHARGE_HOMING_DEGREES, CHARGE_CENTER_CORRIDOR);
         int duration = charge.endTick();
         Animation animation = animation("回旋突進", duration, false,
                 "人胴", List.of(rot(0, 0, 0, 0), rot(20, 0, 0, 18, SET),

@@ -65,6 +65,60 @@ public final class Stage {
         return distanceFromCenter(x, z) <= radius + 1e-6;
     }
 
+    /**
+     * 中心の回廊を通る向きへ丸める（§12.6）。
+     *
+     * <p>ある地点から進む向きのうち、<b>中心から {@code corridor} ブロック以内を通る</b>ものへ
+     * 制限する。回廊を通る向きは「中心を向く向き」を軸とした半頂角
+     * {@code asin(corridor / 中心までの距離)} の扇形であり、そこからはみ出す指定は縁へ丸める。
+     *
+     * <p>すでに回廊の内側にいるなら丸めない。通る義務はもう果たしているためである。
+     *
+     * @param x            現在位置の x
+     * @param z            現在位置の z
+     * @param desiredAngle 進みたい向き（{@code atan2(dz, dx)} のラジアン）
+     * @param corridor     中心から何ブロック以内を通すか
+     * @return 丸めた向き（ラジアン）
+     */
+    public double corridorAngle(double x, double z, double desiredAngle, double corridor) {
+        if (corridor <= 0) {
+            throw new IllegalArgumentException("回廊の幅が0以下である: " + corridor);
+        }
+        double dx = centerX - x;
+        double dz = centerZ - z;
+        double distance = Math.hypot(dx, dz);
+        if (distance <= corridor) {
+            return desiredAngle;
+        }
+        double toCenter = Math.atan2(dz, dx);
+        double maxOffset = Math.asin(Math.min(1.0, corridor / distance));
+        double delta = foldAngle(desiredAngle - toCenter);
+        if (Math.abs(delta) <= maxOffset) {
+            return desiredAngle;
+        }
+        return foldAngle(toCenter + Math.copySign(maxOffset, delta));
+    }
+
+    /** -π〜π に畳む。 */
+    private static double foldAngle(double radians) {
+        double folded = radians % (2 * Math.PI);
+        if (folded > Math.PI) {
+            folded -= 2 * Math.PI;
+        }
+        if (folded < -Math.PI) {
+            folded += 2 * Math.PI;
+        }
+        return folded;
+    }
+
+    /** その向きへ進んだとき、中心に最も近づく距離。 */
+    public double closestApproach(double x, double z, double angle) {
+        double dx = centerX - x;
+        double dz = centerZ - z;
+        // 中心へのベクトルを進行方向に直交する成分へ落とす
+        return Math.abs(dx * Math.sin(angle) - dz * Math.cos(angle));
+    }
+
     /** 中心に到達したとみなせるか。 */
     public boolean atCenter(double x, double z) {
         return distanceFromCenter(x, z) <= CENTER_TOLERANCE;

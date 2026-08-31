@@ -488,13 +488,21 @@ final class KnightBoss {
         }
         // 進行方向の左右 8 度以内で最も手前の相手を毎tick追う（§12.6）。
         // 横へ抜ければ追われない。避け方が「離れる」ではなく「ずれる」になる
-        Player homing = nearestInCone(chargeDirection, KnightDefinition.CHARGE_HOMING_DEGREES);
-        if (homing != null) {
-            Vector toward = homing.getLocation().toVector().subtract(rig.origin().toVector());
-            toward.setY(0);
-            if (toward.lengthSquared() > 0.0001) {
-                chargeDirection = toward.normalize();
+        if (run.homing()) {
+            Player homing = nearestInCone(chargeDirection, run.homingDegrees());
+            if (homing != null) {
+                Vector toward = homing.getLocation().toVector()
+                        .subtract(rig.origin().toVector());
+                toward.setY(0);
+                if (toward.lengthSquared() > 0.0001) {
+                    chargeDirection = toward.normalize();
+                }
             }
+        }
+        // 中心の回廊を通る義務がある技は、追尾より回廊を優先する（§12.6）。
+        // 回廊へ入ってしまえば義務は果たしたので、そこからは自由に追う
+        if (run.throughCenter()) {
+            chargeDirection = throughCenter(chargeDirection, run.centerCorridorBlocks());
         }
         int since = tick - run.runFromTick();
         double step = Math.min(run.speedAt(since), run.distanceBlocks() - chargeTravelled);
@@ -504,6 +512,18 @@ final class KnightBoss {
         step(chargeDirection, step);
         chargeTravelled += step;
         trail();
+    }
+
+    /**
+     * 中心から {@code corridor} ブロック以内を通る向きへ丸める（§12.6）。
+     *
+     * <p>丸めの計算は {@link Stage#corridorAngle} が持つ。ここは向きベクトルとの往復だけを行う。
+     */
+    private Vector throughCenter(Vector direction, double corridor) {
+        Location here = rig.origin();
+        double desired = Math.atan2(direction.getZ(), direction.getX());
+        double angle = stage.corridorAngle(here.getX(), here.getZ(), desired, corridor);
+        return new Vector(Math.cos(angle), 0, Math.sin(angle));
     }
 
     /**

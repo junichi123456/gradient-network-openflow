@@ -270,13 +270,44 @@ public record MotionSpec(String name, Animation animation, Idle idleAfter,
      * @param accelerationTicks     走り出しから到達速度までの tick
      * @param distanceBlocks        開始位置から走る距離
      */
+    /**
+     * 突進。
+     *
+     * @param homingDegrees        走りながら追う角度（片側の度数）。0 なら向きを変えない
+     * @param centerCorridorBlocks 中心から何ブロック以内を通るか。0 なら拘束しない
+     */
     public record Charge(int startTick, double backstepBlocks, int backstepTicks,
                          double startSpeedPer20Ticks, double topSpeedPer20Ticks,
-                         int accelerationTicks, double distanceBlocks) {
+                         int accelerationTicks, double distanceBlocks,
+                         double homingDegrees, double centerCorridorBlocks) {
+
+        /** 追尾も中心の通過も持たない、まっすぐ走るだけの突進。 */
+        public Charge(int startTick, double backstepBlocks, int backstepTicks,
+                      double startSpeedPer20Ticks, double topSpeedPer20Ticks,
+                      int accelerationTicks, double distanceBlocks) {
+            this(startTick, backstepBlocks, backstepTicks, startSpeedPer20Ticks,
+                    topSpeedPer20Ticks, accelerationTicks, distanceBlocks, 0, 0);
+        }
+
+        /** 走りながら相手を追うか。 */
+        public boolean homing() {
+            return homingDegrees > 0;
+        }
+
+        /** 中心の回廊を通る義務があるか。 */
+        public boolean throughCenter() {
+            return centerCorridorBlocks > 0;
+        }
 
         public Charge {
             if (startTick < 0 || backstepBlocks < 0 || backstepTicks < 0) {
                 throw new IllegalArgumentException("突進の予備動作の指定が不正である");
+            }
+            if (homingDegrees < 0 || homingDegrees >= 90) {
+                throw new IllegalArgumentException("追尾の角度が不正である: " + homingDegrees);
+            }
+            if (centerCorridorBlocks < 0) {
+                throw new IllegalArgumentException("回廊の幅が負である");
             }
             if (startSpeedPer20Ticks < 0 || topSpeedPer20Ticks < startSpeedPer20Ticks) {
                 throw new IllegalArgumentException("突進の速度の指定が不正である");

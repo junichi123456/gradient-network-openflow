@@ -2390,8 +2390,50 @@ public final class CoreTests {
                         && orbit.damageWindows().get(0).fromTick() == orbitRun.runFromTick());
         check("回旋突進は勢いを保ったまま始まる（走り出しの時点で毎秒20ブロック超）",
                 orbitRun.speedAt(1) * 20 > 20.0);
-        check("追尾は左右8度（合計16度）",
-                KnightDefinition.CHARGE_HOMING_DEGREES == 8.0);
+        check("追尾は左右8度（合計16度）で、回旋突進だけが持つ",
+                orbitRun.homingDegrees() == 8.0 && orbitRun.homing()
+                        && !second.motion("突進切り上げ").charge().orElseThrow().homing());
+        check("回旋突進は中心から10ブロック以内を通る",
+                orbitRun.centerCorridorBlocks() == 10.0 && orbitRun.throughCenter()
+                        && !second.motion("突進切り上げ").charge().orElseThrow().throughCenter());
+
+        // 中心の回廊（Stage.corridorAngle）
+        Stage arena = new Stage(0, 0);
+        double edge = Stage.DEFAULT_RADIUS;
+        double corridor = KnightDefinition.CHARGE_CENTER_CORRIDOR;
+        // 外周の (30,0) から見て、中心は -X 方向（角度 π）
+        double straight = Math.PI;
+        check("中心へ真っ直ぐな向きは丸められない",
+                Math.abs(arena.corridorAngle(edge, 0, straight, corridor) - straight) < 1e-9);
+        check("回廊に入る向きはそのまま通る",
+                Math.abs(arena.corridorAngle(edge, 0, straight + 0.1, corridor)
+                        - (straight + 0.1)) < 1e-9);
+        double wide = arena.corridorAngle(edge, 0, straight + 1.0, corridor);
+        check("外れる向きは回廊の縁へ丸められる",
+                Math.abs(arena.closestApproach(edge, 0, wide) - corridor) < 1e-6);
+        double offset = signedOffset(wide, straight);
+        check("丸めても行きたかった側は保たれる",
+                offset > 0 && Math.abs(offset - Math.asin(corridor / edge)) < 1e-6);
+        check("反対側へ外れた向きは反対側の縁へ丸められる",
+                signedOffset(arena.corridorAngle(edge, 0, straight - 1.0, corridor), straight) < 0);
+        check("回廊の内側にいるなら丸めない",
+                Math.abs(arena.corridorAngle(3, 0, 0.5, corridor) - 0.5) < 1e-9);
+
+        boolean alwaysThroughCenter = true;
+        for (int degrees = 0; degrees < 360; degrees += 5) {
+            double at = Math.toRadians(degrees);
+            double x = Math.cos(at) * edge;
+            double z = Math.sin(at) * edge;
+            for (int want = 0; want < 360; want += 5) {
+                double angle = arena.corridorAngle(x, z, Math.toRadians(want), corridor);
+                if (arena.closestApproach(x, z, angle) > corridor + 1e-6) {
+                    alwaysThroughCenter = false;
+                }
+            }
+        }
+        check("外周のどこから、どの向きを指定しても中心を通る", alwaysThroughCenter);
+        check("外周から中心を通っても反対側の外周へは届かない",
+                orbitRun.distanceBlocks() < edge + Math.sqrt(edge * edge - corridor * corridor));
         check("回旋突進のダメージは40、ノックバック後7",
                 orbit.damageWindows().get(0).damage().min() == 40
                         && orbit.knockback().orElseThrow().backBlocks() == 7);
@@ -2984,6 +3026,11 @@ public final class CoreTests {
         check("姿勢を与えなければ基準の位置に出る",
                 Math.abs(head.get(0).x()) < 0.01 && head.get(0).y() > 2.0);
         check("右腕は正面から見て左（-X）にある", noMotion.get("右腕").get(0).x() < 0);
+    }
+
+    /** 2つの向きの差を -π〜π で返す。 */
+    private static double signedOffset(double angle, double from) {
+        return Math.atan2(Math.sin(angle - from), Math.cos(angle - from));
     }
 
     private static void section(String name) {
