@@ -36,6 +36,14 @@ powershell -ExecutionPolicy Bypass -File E:\raid-dev\resourcepack\sync-pack.ps1
 
 置き場所が違う環境では、スクリプト冒頭の `$packs` を書き換える。
 
+> **`.ps1` は BOM 付き UTF-8 で保存する。** BOM が無いと Windows PowerShell 5.1 が
+> ANSI（CP932）として読み、日本語のコメントが化けて**改行ごと飲み込まれ**、
+> 構文が壊れる。`.gitattributes` で `*.ps1` を変換対象外にしてある。
+
+> **リンクを消すときは `Remove-Item -Recurse` を使わない。** ディレクトリの
+> シンボリックリンクに対して**リンク先の中身まで消すことがある**。
+> スクリプトは `[System.IO.Directory]::Delete($path, $false)` でリンクだけを消している。
+
 ### 方法B: 手で置く
 
 シンボリックリンクを張ると `git pull` がそのまま反映されるが、上記の
