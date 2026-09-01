@@ -197,6 +197,20 @@ public final class KnightDefinition {
     /** 描いたモデルを載せるアイテム。 */
     public static final String MODEL_ITEM = "PAPER";
 
+    /**
+     * 槍の見た目（バニラ素材での宣言）。<b>方式の切り替えを通す前の形</b>である。
+     *
+     * <p>{@link #look} を通すと素材と絞りの情報が落ちるため、絞りの検証はここを見る。
+     */
+    public static Appearance spearLook(double length) {
+        return Appearance.limb(SHAFT, SPEAR_GRIP, length, SPEAR_GRIP).taperedTo(SPEAR_TAPER);
+    }
+
+    /** 角の見た目（バニラ素材での宣言）。 */
+    public static Appearance hornLook(double thickness, double length) {
+        return Appearance.limb(SHAFT, thickness, length, thickness).asDecoration();
+    }
+
     /** 見た目を、その時点の方式（バニラの素材 / 描いたモデル）に合わせる。 */
     private static Appearance look(Appearance vanilla) {
         if (!AUTHORED_MODELS) {
@@ -223,7 +237,7 @@ public final class KnightDefinition {
      * <p><b>フルキューブでなければならない。</b>エンドロッドのように 1×1×1 を埋めない
      * ブロックを使うと、モデルの隙間がそのまま拡大され、飛び飛びの箱に見える。
      */
-    private static final String SHAFT = "SMOOTH_QUARTZ";
+    public static final String SHAFT = "SMOOTH_QUARTZ";
     private static final String BLADE = "NETHERITE_SWORD";
     private static final String CREST = "NETHERITE_AXE";
 
@@ -245,9 +259,9 @@ public final class KnightDefinition {
                 .looks(look(Appearance.box(BONE, 0.68, 0.68, 0.68)))
                 .weakPoint(HEAD_VULNERABILITY, Rig.Gate.ON_EXPOSURE));
         parts.add(part("右角", "頭", posRot(-0.20, 0.20, 0.20, -130, 0, -14), 2003)
-                .looks(look(Appearance.limb(SHAFT, 0.11, 0.72, 0.11).asDecoration())));
+                .looks(look(hornLook(0.11, 0.72))));
         parts.add(part("左角", "頭", posRot(0.20, 0.20, 0.20, -130, 0, 14), 2004)
-                .looks(look(Appearance.limb(SHAFT, 0.11, 0.72, 0.11).asDecoration())));
+                .looks(look(hornLook(0.11, 0.72))));
         parts.add(part("頭飾り", "頭", posRot(0, 0.30, -0.34, 0, 0, 90), 2005)
                 .looks(look(Appearance.item(CREST, 0.60).asDecoration())));
         parts.add(part("右肩", "胴", pos(-0.52, 0.45, 0), 2006)
@@ -263,8 +277,7 @@ public final class KnightDefinition {
         parts.add(part("左足", "胴", pos(0.26, -0.60, 0), 2011)
                 .looks(look(Appearance.limb(JOINT, 0.44, 1.20, 0.44))));
         parts.add(part("槍", "右腕", posRot(0, -1.00, 0, -90, 0, 0), 2012)
-                .looks(look(Appearance.limb(SHAFT, SPEAR_GRIP, 3.40, SPEAR_GRIP)
-                        .taperedTo(SPEAR_TAPER)))
+                .looks(look(spearLook(3.40)))
                 .segments(SPEAR_SEGMENTS)
                 .immune());
         parts.add(part("穂先", "槍", posRot(0, -3.35, 0, 0, 0, 45), 2013)
@@ -288,9 +301,9 @@ public final class KnightDefinition {
                 .looks(look(Appearance.box(BONE, 0.68, 0.68, 0.68)))
                 .weakPoint(HEAD_VULNERABILITY, Rig.Gate.ON_EXPOSURE));
         parts.add(part("右角", "頭", posRot(-0.20, 0.20, 0.20, -130, 0, -14), 2103)
-                .looks(look(Appearance.limb(SHAFT, 0.12, 0.78, 0.12).asDecoration())));
+                .looks(look(hornLook(0.12, 0.78))));
         parts.add(part("左角", "頭", posRot(0.20, 0.20, 0.20, -130, 0, 14), 2104)
-                .looks(look(Appearance.limb(SHAFT, 0.12, 0.78, 0.12).asDecoration())));
+                .looks(look(hornLook(0.12, 0.78))));
         parts.add(part("頭飾り", "頭", posRot(0, 0.32, -0.36, 0, 0, 90), 2105)
                 .looks(look(Appearance.item(CREST, 0.68).asDecoration())));
         parts.add(part("右肩", "人胴", pos(-0.66, 0.425, 0), 2106)
@@ -302,8 +315,7 @@ public final class KnightDefinition {
         parts.add(part("左腕", "人胴", pos(0.66, 0.425, 0), 2109)
                 .looks(look(Appearance.limb(ARMOR, 0.42, 1.10, 0.42))));
         parts.add(part("槍", "右腕", posRot(0, -1.00, 0, -90, 0, 0), 2110)
-                .looks(look(Appearance.limb(SHAFT, SPEAR_GRIP, 3.80, SPEAR_GRIP)
-                        .taperedTo(SPEAR_TAPER)))
+                .looks(look(spearLook(3.80)))
                 .segments(SPEAR_SEGMENTS)
                 .immune());
         parts.add(part("穂先", "槍", posRot(0, -3.75, 0, 0, 0, 45), 2111)

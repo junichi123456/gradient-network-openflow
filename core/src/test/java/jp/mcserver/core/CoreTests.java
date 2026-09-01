@@ -2132,30 +2132,39 @@ public final class CoreTests {
         check("槍は当たり判定を長さ方向に5分割する",
                 rig.part("槍").hitboxSegments() == KnightDefinition.SPEAR_SEGMENTS
                         && rig.part("槍").appearance().scale().y() == 3.40);
+        // 絞りはバニラ素材での宣言を見る。描いたモデルに切り替えると素材と絞りの情報が
+        // 落ちるため、方式によらず同じものを検証できるようにしてある
+        var spear = KnightDefinition.spearLook(3.40);
         check("槍は手元から先端へ絞られる（円錐状に描く）",
-                rig.part("槍").appearance().tapered()
-                        && rig.part("槍").appearance().taper() == KnightDefinition.SPEAR_TAPER
-                        && rig.part("槍").appearance().slices() == Appearance.TAPER_SLICES);
+                spear.tapered() && spear.taper() == KnightDefinition.SPEAR_TAPER
+                        && rig.part("槍").appearance().scale().y() == spear.scale().y());
+        check("絞りの表し方は方式で変わる（バニラ素材は輪切り6枚、描いたモデルは1つ）",
+                spear.slices() == Appearance.TAPER_SLICES
+                        && spear.authoredAs("PAPER", 4.0).slices() == 1
+                        && rig.part("槍").appearance().slices()
+                                == (KnightDefinition.AUTHORED_MODELS
+                                        ? 1 : Appearance.TAPER_SLICES));
         check("手元は12ピクセル、先端は2ピクセルである",
-                Math.abs(sliceWidth(rig, "槍", 0) * 16 - 12.0) < 1e-9
-                        && Math.abs(sliceWidth(rig, "槍",
+                Math.abs(sliceWidth(spear, 0) * 16 - 12.0) < 1e-9
+                        && Math.abs(sliceWidth(spear,
                                 Appearance.TAPER_SLICES - 1) * 16 - 2.0) < 1e-9);
         check("断面は 12・10・8・6・4・2 と等間隔に刻まれる",
                 java.util.stream.IntStream.range(0, Appearance.TAPER_SLICES)
-                        .allMatch(i -> Math.abs(sliceWidth(rig, "槍", i) * 16
+                        .allMatch(i -> Math.abs(sliceWidth(spear, i) * 16
                                 - (12 - 2 * i)) < 1e-9));
         check("断面は正方形である（幅と奥行きが等しい）",
                 java.util.stream.IntStream.range(0, Appearance.TAPER_SLICES)
-                        .allMatch(i -> rig.part("槍").appearance().slice(i).scale().x()
-                                == rig.part("槍").appearance().slice(i).scale().z()));
+                        .allMatch(i -> spear.slice(i).scale().x()
+                                == spear.slice(i).scale().z()));
         check("輪切りは手元から先端まで隙間なく積まれる",
-                sliceTop(rig, "槍", 0) == 0.0
-                        && noGaps(rig, "槍")
-                        && Math.abs(sliceBottom(rig, "槍",
+                sliceTop(spear, 0) == 0.0 && noGaps(spear)
+                        && Math.abs(sliceBottom(spear,
                                 Appearance.TAPER_SLICES - 1) + 3.40) < 1e-9);
         check("柄と角はフルキューブの素材である（隙間が拡大されない）",
-                rig.part("槍").appearance().material().equals("SMOOTH_QUARTZ")
-                        && rig.part("右角").appearance().material().equals("SMOOTH_QUARTZ"));
+                KnightDefinition.SHAFT.equals("SMOOTH_QUARTZ")
+                        && spear.material().equals(KnightDefinition.SHAFT)
+                        && KnightDefinition.hornLook(0.11, 0.72).material()
+                                .equals(KnightDefinition.SHAFT));
         check("分割は必要な部位だけに使う（判定は毎tick追従させるため増やしすぎない）",
                 rig.part("右腕").hitboxSegments() == 1 && rig.part("右足").hitboxSegments() == 1
                         && rig.part("頭").hitboxSegments() == 1);
@@ -2810,19 +2819,18 @@ public final class CoreTests {
     }
 
     /** 輪切り1枚の断面。 */
-    private static double sliceWidth(Rig rig, String part, int index) {
-        return rig.part(part).appearance().slice(index).scale().x();
+    private static double sliceWidth(Appearance look, int index) {
+        return look.slice(index).scale().x();
     }
 
     /** 輪切り1枚の付け根側の端（部位の局所Y）。 */
-    private static double sliceTop(Rig rig, String part, int index) {
-        var slice = rig.part(part).appearance().slice(index);
+    private static double sliceTop(Appearance look, int index) {
+        var slice = look.slice(index);
         return slice.offset().y() + slice.scale().y();
     }
 
     /** 輪切りが隙間なく積まれているか。前の枚の下端が次の枚の上端に一致するか。 */
-    private static boolean noGaps(Rig rig, String part) {
-        var look = rig.part(part).appearance();
+    private static boolean noGaps(Appearance look) {
         for (int i = 1; i < look.slices(); i++) {
             double previousBottom = look.slice(i - 1).offset().y();
             double top = look.slice(i).offset().y() + look.slice(i).scale().y();
@@ -2834,8 +2842,8 @@ public final class CoreTests {
     }
 
     /** 輪切り1枚の先端側の端（部位の局所Y）。 */
-    private static double sliceBottom(Rig rig, String part, int index) {
-        return rig.part(part).appearance().slice(index).offset().y();
+    private static double sliceBottom(Appearance look, int index) {
+        return look.slice(index).offset().y();
     }
 
     /** 部位の正面（+Z 側の面）のワールドZ。 */
@@ -3021,6 +3029,51 @@ public final class CoreTests {
                 charging.get(0).z() - charging.get(charging.size() - 1).z()
                         > Math.abs(charging.get(0).y()
                                 - charging.get(charging.size() - 1).y()));
+
+        // 描いたモデルが座標の範囲に収まるか（raid_model_spec.md §3 / §7）
+        boolean fitsModelSpace = true;
+        String overflowing = "";
+        double tightest = 0;
+        String tightestPart = "";
+        for (int i = 0; i < boss.phases().size(); i++) {
+            var rig2 = boss.phases().get(i).rig().orElseThrow();
+            for (String name : rig2.partNames()) {
+                var look = rig2.part(name).appearance();
+                if (look == null) {
+                    continue;
+                }
+                double divisor = look.fitsModelSpace()
+                        ? 1.0 : KnightDefinition.LONG_PART_MODEL_SCALE;
+                double[] bounds = look.modelBounds(divisor);
+                for (double value : bounds) {
+                    if (value < -16 || value > 32) {
+                        fitsModelSpace = false;
+                        overflowing = "第" + (i + 1) + "形態 " + name + " " + value;
+                    }
+                    double margin = Math.min(value - (-16), 32 - value);
+                    if (margin < tightest || tightestPart.isEmpty()) {
+                        tightest = margin;
+                        tightestPart = "第" + (i + 1) + "形態 " + name;
+                    }
+                }
+            }
+        }
+        check("すべての部位がモデルの座標範囲（−16〜32）に収まる"
+                + (fitsModelSpace ? "（最も余裕がない: " + tightestPart + " "
+                        + String.format("%.1f", tightest) + "単位）"
+                        : "（はみ出し: " + overflowing + "）"), fitsModelSpace);
+
+        check("等倍で描けるかは長辺ではなく占有範囲で見る（付け根合わせは原点から下へ伸びる）",
+                Appearance.limb("A", 0.4, 1.5, 0.4).fitsModelSpace()
+                        && !Appearance.limb("A", 0.4, 1.6, 0.4).fitsModelSpace()
+                        && Appearance.box("A", 0.4, 2.9, 0.4).fitsModelSpace());
+        check("槍は等倍では描けない",
+                !boss.phases().get(0).rig().orElseThrow().part("槍").appearance()
+                        .fitsModelSpace());
+        check("縮めれば収まる",
+                boss.phases().get(0).rig().orElseThrow().part("槍").appearance()
+                        .modelBounds(KnightDefinition.LONG_PART_MODEL_SCALE)[1]
+                        >= Appearance.MODEL_MIN);
 
         // 合成の順序がプラグインと同じであることの確認
         var rig = boss.phases().get(0).rig().orElseThrow();

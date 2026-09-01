@@ -1,0 +1,113 @@
+{
+  "__comment": "槍 / ID 2012 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "minecraft:block/quartz_block_bottom",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "絞り 1/8",
+      "from": [6.5, 6.3, 6.5],
+      "to": [9.5, 8, 9.5],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    },
+    {
+      "name": "絞り 2/8",
+      "from": [6.679, 4.6, 6.679],
+      "to": [9.321, 6.3, 9.321],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    },
+    {
+      "name": "絞り 3/8",
+      "from": [6.857, 2.9, 6.857],
+      "to": [9.143, 4.6, 9.143],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    },
+    {
+      "name": "絞り 4/8",
+      "from": [7.036, 1.2, 7.036],
+      "to": [8.964, 2.9, 8.964],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    },
+    {
+      "name": "絞り 5/8",
+      "from": [7.214, -0.5, 7.214],
+      "to": [8.786, 1.2, 8.786],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    },
+    {
+      "name": "絞り 6/8",
+      "from": [7.393, -2.2, 7.393],
+      "to": [8.607, -0.5, 8.607],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    },
+    {
+      "name": "絞り 7/8",
+      "from": [7.571, -3.9, 7.571],
+      "to": [8.429, -2.2, 8.429],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    },
+    {
+      "name": "絞り 8/8",
+      "from": [7.75, -5.6, 7.75],
+      "to": [8.25, -3.9, 8.25],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    }
+  ]
+}

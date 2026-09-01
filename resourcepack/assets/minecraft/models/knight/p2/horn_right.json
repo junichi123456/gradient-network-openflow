@@ -1,0 +1,22 @@
+{
+  "__comment": "右角 / ID 2103 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "minecraft:block/quartz_block_bottom",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "右角",
+      "from": [7.04, -4.48, 7.04],
+      "to": [8.96, 8, 8.96],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    }
+  ]
+}

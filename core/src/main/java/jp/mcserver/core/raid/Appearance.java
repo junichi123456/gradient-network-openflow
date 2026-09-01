@@ -62,7 +62,8 @@ public record Appearance(String material, boolean block, Vec3 scale, Vec3 offset
 
     /** 描画に使う実体の数。 */
     public int slices() {
-        return tapered() ? TAPER_SLICES : 1;
+        // 描いたモデルは絞りをモデル側が持つ。表示実体は1つで済む
+        return tapered() && !authored ? TAPER_SLICES : 1;
     }
 
     /**
@@ -103,7 +104,8 @@ public record Appearance(String material, boolean block, Vec3 scale, Vec3 offset
      * @param baseItem モデルを載せるアイテム（例: {@code PAPER}）
      */
     public Appearance authoredAs(String baseItem, double scaleFactor) {
-        return new Appearance(baseItem, false, scale, Vec3.ZERO, decoration, 1.0, true,
+        // 原点合わせと絞りは残す。描画側は使わないが、モデルを生成する側が必要とする
+        return new Appearance(baseItem, false, scale, offset, decoration, taper, true,
                 scaleFactor);
     }
 
@@ -114,9 +116,62 @@ public record Appearance(String material, boolean block, Vec3 scale, Vec3 offset
      */
     public static final double MODEL_SPACE_BLOCKS = 3.0;
 
-    /** 等倍で描けるか。長辺がモデルの座標範囲に収まるか。 */
+    /**
+     * モデルを描くときの箱の最小角（部位の原点から見た相対、ブロック単位）。
+     *
+     * <p>ブロック表示の部位は宣言のずらしをそのまま使う。<b>アイテム表示の部位</b>は
+     * 描画側がモデルを中心に置くためずらしを持たないので、ここで中心に置き直す。
+     */
+    public Vec3 drawOffset() {
+        if (block) {
+            return offset;
+        }
+        return new Vec3(-scale.x() / 2, -scale.y() / 2, -scale.z() / 2);
+    }
+
+    /** 1ブロックあたりのモデルの単位数。 */
+    public static final double MODEL_UNITS_PER_BLOCK = 16;
+
+    /** モデル座標の下限・上限。 */
+    public static final double MODEL_MIN = -16;
+    public static final double MODEL_MAX = 32;
+
+    /**
+     * モデル座標での占有範囲（{@code minX, minY, minZ, maxX, maxY, maxZ}）。
+     *
+     * <p>原点はモデル座標 (8, 8, 8)（実機で較正済み。`raid_model_spec.md` §7）。
+     * <b>−16〜32 に収まらなければ描けない。</b>
+     *
+     * @param divisor 描く縮尺の分母。1 なら等倍
+     */
+    public double[] modelBounds(double divisor) {
+        if (divisor <= 0) {
+            throw new IllegalArgumentException("縮尺の分母が0以下である: " + divisor);
+        }
+        double unit = MODEL_UNITS_PER_BLOCK / divisor;
+        double half = MODEL_UNITS_PER_BLOCK / 2;
+        Vec3 corner = drawOffset();
+        return new double[] {
+                half + corner.x() * unit, half + corner.y() * unit, half + corner.z() * unit,
+                half + (corner.x() + scale.x()) * unit,
+                half + (corner.y() + scale.y()) * unit,
+                half + (corner.z() + scale.z()) * unit};
+    }
+
+    /**
+     * 等倍で描けるか。
+     *
+     * <p><b>長辺ではなく占有範囲で見る。</b>原点は (8,8,8) にあり、付け根合わせの部位は
+     * そこから下へ伸びるため、長さが 1.5 ブロックを超えると下限を割る。長辺だけで
+     * 見ていると「3ブロック以内だから等倍で描ける」と誤って答えてしまう。
+     */
     public boolean fitsModelSpace() {
-        return Math.max(scale.x(), Math.max(scale.y(), scale.z())) <= MODEL_SPACE_BLOCKS;
+        for (double value : modelBounds(1.0)) {
+            if (value < MODEL_MIN || value > MODEL_MAX) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** 当たり判定を持たない、見た目だけの部位にする。 */

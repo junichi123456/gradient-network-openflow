@@ -1,0 +1,22 @@
+{
+  "__comment": "右肩 / ID 2106 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "minecraft:block/quartz_block_side",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "右肩",
+      "from": [2.8, 4.16, 3.04],
+      "to": [13.2, 11.84, 12.96],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    }
+  ]
+}

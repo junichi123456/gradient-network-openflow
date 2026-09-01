@@ -1,0 +1,22 @@
+{
+  "__comment": "穂先 / ID 2013 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "minecraft:item/netherite_sword",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "穂先",
+      "from": [5.2, 5.2, 5.2],
+      "to": [10.8, 10.8, 10.8],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    }
+  ]
+}

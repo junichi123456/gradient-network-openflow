@@ -1,0 +1,22 @@
+{
+  "__comment": "左肩 / ID 2007 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "minecraft:block/quartz_block_side",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "左肩",
+      "from": [3.6, 4.64, 3.2],
+      "to": [12.4, 11.36, 12.8],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "__comment": "馬胴 / ID 2112 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "minecraft:block/white_concrete",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "馬胴",
+      "from": [-1.2, 0.8, -12.8],
+      "to": [17.2, 15.2, 28.8],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    }
+  ]
+}

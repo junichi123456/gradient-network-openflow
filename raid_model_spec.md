@@ -37,7 +37,11 @@
 
 **1ブロック = 16単位。** モデルの `elements` はこの単位で書く。
 
-**モデルの座標は −16〜32 の範囲しか取れない。** 48単位＝3ブロックである。これを超える部位は縮めて描き、プラグイン側で等倍に戻す。
+**モデルの座標は −16〜32 の範囲しか取れない。** これを超える部位は縮めて描き、プラグイン側で等倍に戻す。
+
+> **判定は長辺ではなく「占有範囲」で行う。** 原点は (8,8,8) にあるため、付け根合わせの部位は
+> そこから下へ伸びる。**長さが 1.5 ブロックを超えると下限（−16）を割る**。
+> 第二形態の前足がちょうど 1.50 で、余裕がない。伸ばすなら縮尺の分母を上げること。
 
 | 部位 | 描く縮尺 | 理由 |
 |---|---|---|
@@ -177,14 +181,23 @@
 
 ---
 
-## 8. 配置例
+## 8. 雛形の生成
 
-> **1.21.4 で書き方が変わった。** モデルファイルの `overrides` / `predicate` は
-> **1.21.4 で削除された**。代わりに `assets/minecraft/items/<アイテム>.json` の
-> **アイテム定義**で振り分ける。1.21.3 以前の資料はそのまま使えない。
+**モデルは手で書き起こさない。骨格データから生成する。** 寸法表を写し間違える余地をなくし、当たり判定と見た目の寸法が必ず一致するようにするためである。
 
-プラグインは紙に `custom_model_data` を載せて出す。振り分けは
-`assets/minecraft/items/paper.json` に書く。
+```sh
+./core/generate-pack.sh          # resourcepack/ に書き出す
+```
+
+生成されるもの:
+
+| 場所 | 内容 |
+|---|---|
+| `assets/minecraft/models/knight/p1/*.json` | 第一形態の部位（13件） |
+| `assets/minecraft/models/knight/p2/*.json` | 第二形態の部位（16件） |
+| `assets/minecraft/items/paper.json` | `custom_model_data` からの振り分け（**1.21.4 の書き方**） |
+
+振り分けの形は次のとおり。`overrides` / `predicate` は 1.21.4 で削除されている。
 
 ```json
 {
@@ -194,18 +207,29 @@
     "index": 0,
     "fallback": { "type": "minecraft:model", "model": "minecraft:item/paper" },
     "entries": [
-      { "threshold": 2001, "model": { "type": "minecraft:model", "model": "knight/torso" } },
-      { "threshold": 2002, "model": { "type": "minecraft:model", "model": "knight/head" } },
-      { "threshold": 2012, "model": { "type": "minecraft:model", "model": "knight/spear" } }
+      { "threshold": 2001, "model": { "type": "minecraft:model", "model": "knight/p1/torso" } }
     ]
   }
 }
 ```
 
-- `entries` は **threshold の昇順**に並べる。値以下で最大の threshold が選ばれる
-- `index: 0` は `custom_model_data` の**数値リストの何番目を見るか**である。プラグインは
-  従来の `setCustomModelData(int)` で書き込むため、0 番に入る
-- モデル本体は `assets/minecraft/models/knight/*.json` に置く（ここは変わっていない）
+- `entries` は **threshold の昇順**（生成側が並べる）
+- `index: 0` は `custom_model_data` の数値リストの何番目を見るか。プラグインは 0 番へ書き込む
+
+### 描き始める
+
+生成された JSON は **Blockbench でそのまま開ける**。形も UV もそこで直せる。
+
+テクスチャは最初バニラのブロックを指している。差し替えるときは、モデルの `"skin"` の1行を自分のテクスチャのパスへ変えるだけでよい。
+
+```json
+"textures": { "skin": "knight/torso", "particle": "#skin" }
+```
+
+`assets/minecraft/textures/knight/torso.png` を置けば効く。
+
+> **生成し直すと手で描いた形は失われる。** 骨格の寸法を変えたときだけ生成し直し、
+> 差分を見て必要な部位を描き直すこと。
 
 ---
 
@@ -227,6 +251,6 @@ public static final boolean AUTHORED_MODELS = true;
 
 | 項目 | 内容 |
 |---|---|
-| 槍の円錐 | バニラ素材のときは輪切り6枚で円錐を作っている。描いたモデルでは**モデル側に滑らかな四角錐を描く**（輪切りは使わない） |
+| 槍の円錐 | Minecraft のモデルは軸に沿った箱しか持てず、真の角錐は描けない。生成側は**8段の箱で近似**している。段を増やせば滑らかになる。**1つのモデルの中で完結する**ため、バニラ素材のときと違い表示実体は増えない（6→1に減る） |
 | テクスチャの解像度 | 1ブロック=16単位に対し、テクスチャの解像度は自由。16×16でも32×32でもよい |
 | 発光 | 弱点の露出はプラグイン側が発光色で示す。モデル側で光らせる必要はない |

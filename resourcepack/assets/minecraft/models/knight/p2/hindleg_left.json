@@ -1,0 +1,22 @@
+{
+  "__comment": "左後足 / ID 2116 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "minecraft:block/polished_andesite",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "左後足",
+      "from": [4.736, -16, 4.736],
+      "to": [11.264, 8, 11.264],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+      }
+    }
+  ]
+}
