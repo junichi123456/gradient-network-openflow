@@ -41,6 +41,18 @@ final class BossRig {
     /** 変換の更新間隔（tick）。補間時間と揃える（§12.6）。 */
     static final int UPDATE_INTERVAL = 2;
 
+    /**
+     * ItemDisplay の描画のずれを戻す回転（ラジアン）。
+     *
+     * <p><b>ItemDisplay はモデルを Y軸まわりに180度回して描く。</b>実機で較正して確かめた
+     * （`raid_model_spec.md` §7）。BlockDisplay にはこのずれが無いため、両者を混ぜて使うと
+     * 前後左右が食い違う。ここで戻しておけば、描く側は「+Z が正面」のまま描ける。
+     */
+    static final double ITEM_DISPLAY_YAW_DEGREES = 180.0;
+
+    private static final float ITEM_DISPLAY_YAW =
+            (float) Math.toRadians(ITEM_DISPLAY_YAW_DEGREES);
+
     /** 当たり判定の最小の辺（ブロック）。細すぎると狙って当てられない。 */
     private static final double MIN_HITBOX = 0.42;
 
@@ -239,8 +251,14 @@ final class BossRig {
                         : scale(piece);
                 Vector3f pieceOffset = authored ? new Vector3f(0, 0, 0) : offset(piece);
 
-                Matrix4f model = new Matrix4f(world).translate(pieceOffset).scale(pieceSize);
                 Display display = slices.get(i);
+                Matrix4f model = new Matrix4f(world).translate(pieceOffset);
+                if (display instanceof ItemDisplay) {
+                    // ItemDisplay はモデルを Y軸まわりに180度回して描く（実機で較正した。
+                    // raid_model_spec.md §7）。ここで戻すので、描く側は +Z を正面にできる
+                    model.rotateY(ITEM_DISPLAY_YAW);
+                }
+                model.scale(pieceSize);
                 display.setInterpolationDelay(0);
                 display.setTransformation(new Transformation(
                         model.getTranslation(new Vector3f()),
