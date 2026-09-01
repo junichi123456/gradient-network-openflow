@@ -477,13 +477,15 @@ op <あなたのMinecraft名>
    `%APPDATA%\.minecraft\resourcepacks` ではなく**インスタンス側**である。
 
    ```powershell
-   # 管理者権限の PowerShell
-   $packs = "C:\Users\junem\AppData\Roaming\.minecraft\mods\MultiMC\instances\1.21.4\.minecraft\resourcepacks"
-   New-Item -ItemType SymbolicLink -Path "$packs\raid-dev" -Target E:\raid-dev\resourcepack
-   Test-Path "$packs\raid-dev\pack.mcmeta"   # True になれば置けている
+   powershell -ExecutionPolicy Bypass -File E:\raid-dev\resourcepack\sync-pack.ps1
    ```
 
    置いたらゲーム内の設定で「使用可能」から「選択済み」へ移す。`F3 + T` で再読み込みできる。
+
+   > **シンボリックリンクは既定では使えない。** Minecraft は 1.20 以降、リンク先が
+   > 許可リストに無いパックを**一覧に出さない**（エラーも出ない）。リンクを使いたい場合は
+   > インスタンスの `.minecraft\allowed_symlinks.txt` に `[glob]E:/raid-dev/**` を足して
+   > ゲームを再起動する。上のスクリプトは実体をコピーするので、この設定は要らない。
 
 2. `/raid calibrate`
 

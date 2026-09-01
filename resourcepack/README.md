@@ -21,7 +21,25 @@ Copy-Item -Recurse -Force E:\raid-dev\resourcepack E:\raid-test-pack
 > このプロジェクトの検証環境は MultiMC であり、実際の場所は
 > `C:\Users\junem\AppData\Roaming\.minecraft\mods\MultiMC\instances\1.21.4\.minecraft\resourcepacks` である。
 
-開発中は**シンボリックリンク**を張ると、`git pull` がそのまま反映される。
+> **Minecraft はシンボリックリンクのパックを既定で拒否する。** 1.20 以降のセキュリティ機能で、
+> リンク先が許可リストに無いパックは**一覧に出ない**（エラーも出ない）。
+> リンクを使いたい場合は、インスタンスの `.minecraft` 直下の `allowed_symlinks.txt` に
+> `[glob]E:/raid-dev/**` を足して**ゲームを再起動**する。区切りは `/` である。
+
+### 方法A: 同期スクリプト（推奨）
+
+`git pull` のあとに実行すると、実体をコピーして最新にする。
+
+```powershell
+powershell -ExecutionPolicy Bypass -File E:\raid-dev\resourcepack\sync-pack.ps1
+```
+
+置き場所が違う環境では、スクリプト冒頭の `$packs` を書き換える。
+
+### 方法B: 手で置く
+
+シンボリックリンクを張ると `git pull` がそのまま反映されるが、上記の
+`allowed_symlinks.txt` の設定が必要である。
 
 ```powershell
 # 管理者権限の PowerShell
