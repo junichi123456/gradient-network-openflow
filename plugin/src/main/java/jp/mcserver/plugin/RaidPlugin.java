@@ -66,7 +66,8 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
         // 村人の取引テーブル（§3.2）。レイドとは独立だが、常駐の購読はここへ集約する
         getServer().getPluginManager().registerEvents(new VillagerTradeFilter(getLogger()), this);
-        getLogger().info("レイド検証プラグインを有効化しました");
+        // jar の日時を出す。差し替えたつもりで古い jar が動いている、という取り違えを防ぐ
+        getLogger().info("レイド検証プラグインを有効化しました（jar " + jarStamp() + "）");
     }
 
     @Override
@@ -123,6 +124,16 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
             }
         }
         return true;
+    }
+
+    /** 動いている jar の日時。実機の症状と手元の修正を突き合わせるために出す。 */
+    private String jarStamp() {
+        try {
+            return new java.text.SimpleDateFormat("MM/dd HH:mm:ss")
+                    .format(new java.util.Date(getFile().lastModified()));
+        } catch (RuntimeException failed) {
+            return "不明";
+        }
     }
 
     private int despawnAll() {
