@@ -255,7 +255,15 @@ final class BossRig {
                 Vector3f pieceOffset = authored ? new Vector3f(0, 0, 0) : offset(piece);
 
                 Display display = slices.get(i);
-                Matrix4f model = new Matrix4f(world).translate(pieceOffset);
+
+                // 拡大率を掛けない行列を作る。
+                //
+                // 回転を取り出す元の行列に拡大率を入れてはいけない。
+                // getNormalizedRotation は行列が正規直交であることを前提としており、
+                // 部位ごとに違う拡大率（腕なら 0.40 × 1.10 × 0.40）が入っていると
+                // まったく別の回転が返る。槍（基準回転 −90度）では +134度になっていた。
+                // 拡大率は Transformation の scale として別に渡せばよい。
+                Matrix4f placed = new Matrix4f(world).translate(pieceOffset);
                 if (authored && display instanceof ItemDisplay) {
                     // ItemDisplay はモデルを Y軸まわりに180度回して描く（実機で較正した。
                     // raid_model_spec.md §7）。ここで戻すので、描く側は +Z を正面にできる。
@@ -263,13 +271,12 @@ final class BossRig {
                     // 掛けるのは描いたモデルだけである。バニラのアイテムを見た目に使う部位
                     // （穂先・頭飾り）は平面のスプライトであり、基準回転を実機の見え方に
                     // 合わせて決めてある。補正を掛けると向きが逆になる
-                    model.rotateY(ITEM_DISPLAY_YAW);
+                    placed.rotateY(ITEM_DISPLAY_YAW);
                 }
-                model.scale(pieceSize);
                 display.setInterpolationDelay(0);
                 display.setTransformation(new Transformation(
-                        model.getTranslation(new Vector3f()),
-                        model.getNormalizedRotation(new Quaternionf()),
+                        placed.getTranslation(new Vector3f()),
+                        placed.getNormalizedRotation(new Quaternionf()),
                         pieceSize, new Quaternionf()));
             }
 
