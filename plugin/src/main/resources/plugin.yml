@@ -6,7 +6,7 @@ description: レイド個体の検証（§12）と村人の取引テーブル（
 commands:
   raid:
     description: レイド個体の召喚・除去と検証用の切り替え
-    usage: /raid spawn | /raid despawn | /raid info | /raid god
+    usage: /raid spawn | /raid despawn | /raid info | /raid god | /raid calibrate
     permission: raid.test
 permissions:
   raid.test:

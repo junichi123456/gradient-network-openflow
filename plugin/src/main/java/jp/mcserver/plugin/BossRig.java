@@ -83,8 +83,12 @@ final class BossRig {
                             entity -> entity.setBlock(
                                     material(look.material()).createBlockData()));
                 } else {
-                    display = world.spawn(origin, ItemDisplay.class,
-                            entity -> entity.setItemStack(item(part)));
+                    display = world.spawn(origin, ItemDisplay.class, entity -> {
+                        entity.setItemStack(item(part));
+                        // 較正（raid_model_spec.md §7）と同じ扱いにする。
+                        // ここが違うと較正の結果が本番のモデルへ移らない
+                        entity.setItemDisplayTransform(ItemDisplay.ItemDisplayTransform.NONE);
+                    });
                 }
                 display.setInterpolationDuration(UPDATE_INTERVAL);
                 // 原点の移動は毎tickなので、補間も1tickに合わせる。

@@ -34,6 +34,7 @@ import org.bukkit.projectiles.ProjectileSource;
  *   <li>{@code /raid despawn} — 召喚した個体をすべて除去する</li>
  *   <li>{@code /raid info} — 状態を表示する</li>
  *   <li>{@code /raid god} — 自分の体力を減らさない（検証用の切り替え）</li>
+ *   <li>{@code /raid calibrate} — モデルの原点を較正する立方体を出す（§7）</li>
  * </ul>
  */
 public final class RaidPlugin extends JavaPlugin implements Listener {
@@ -56,6 +57,9 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
      * 個体側の命中の記録（激昂の判定）もそのまま働く。
      */
     private final Set<UUID> unkillable = new HashSet<>();
+
+    /** 較正用に出した表示エンティティ（`raid_model_spec.md` §7）。 */
+    private final List<Entity> calibration = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -90,6 +94,18 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                 int count = despawnAll();
                 player.sendMessage(count + " 体を除去しました");
             }
+            case "calibrate" -> {
+                clearCalibration();
+                // ブロックの中心・地表に置く。座標が読みやすいほうがずれを測れる
+                Location at = player.getLocation().getBlock().getLocation().add(0.5, 0, 0.5);
+                calibration.addAll(Calibration.spawn(at));
+                player.sendMessage("較正用の立方体を " + format(at) + " に出しました");
+                player.sendMessage("§7赤い小さな印がエンティティの位置です。"
+                        + "色付きの立方体の§f中心§7に印があれば想定どおりです");
+                player.sendMessage("§7マゼンタの角がモデル座標 (0,0,0) です。"
+                        + "上=黄緑 下=赤 北=青 南=黄 西=白 東=黒");
+                player.sendMessage("§7消すときは /raid despawn");
+            }
             case "god" -> {
                 if (unkillable.remove(player.getUniqueId())) {
                     player.sendMessage("体力を通常に戻しました");
@@ -110,11 +126,21 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
     }
 
     private int despawnAll() {
-        int count = active.size();
+        int count = active.size() + (calibration.isEmpty() ? 0 : 1);
         active.forEach(KnightBoss::despawn);
         active.clear();
         launchPoints.clear();
+        clearCalibration();
         return count;
+    }
+
+    private void clearCalibration() {
+        calibration.forEach(Entity::remove);
+        calibration.clear();
+    }
+
+    private static String format(Location at) {
+        return String.format("%.1f, %.1f, %.1f", at.getX(), at.getY(), at.getZ());
     }
 
     /**
