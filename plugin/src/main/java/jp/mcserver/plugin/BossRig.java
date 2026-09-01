@@ -47,6 +47,9 @@ final class BossRig {
      * <p><b>ItemDisplay はモデルを Y軸まわりに180度回して描く。</b>実機で較正して確かめた
      * （`raid_model_spec.md` §7）。BlockDisplay にはこのずれが無いため、両者を混ぜて使うと
      * 前後左右が食い違う。ここで戻しておけば、描く側は「+Z が正面」のまま描ける。
+     *
+     * <p><b>掛けるのは描いたモデルだけ。</b>バニラのアイテムを見た目に使う部位は平面の
+     * スプライトであり、基準回転を実機の見え方に合わせて決めてある。そちらへ掛けると逆になる。
      */
     static final double ITEM_DISPLAY_YAW_DEGREES = 180.0;
 
@@ -253,9 +256,13 @@ final class BossRig {
 
                 Display display = slices.get(i);
                 Matrix4f model = new Matrix4f(world).translate(pieceOffset);
-                if (display instanceof ItemDisplay) {
+                if (authored && display instanceof ItemDisplay) {
                     // ItemDisplay はモデルを Y軸まわりに180度回して描く（実機で較正した。
-                    // raid_model_spec.md §7）。ここで戻すので、描く側は +Z を正面にできる
+                    // raid_model_spec.md §7）。ここで戻すので、描く側は +Z を正面にできる。
+                    //
+                    // 掛けるのは描いたモデルだけである。バニラのアイテムを見た目に使う部位
+                    // （穂先・頭飾り）は平面のスプライトであり、基準回転を実機の見え方に
+                    // 合わせて決めてある。補正を掛けると向きが逆になる
                     model.rotateY(ITEM_DISPLAY_YAW);
                 }
                 model.scale(pieceSize);
