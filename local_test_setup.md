@@ -471,10 +471,23 @@ op <あなたのMinecraft名>
 
 **自前のモデルを描き始める前に、1度だけやる。** ここがずれていると全部位まとめてずれる。
 
-1. `E:\raid-dev\resourcepack` をクライアントのリソースパックに入れて有効にする（`resourcepack/README.md`。シンボリックリンクを張ると `git pull` がそのまま反映される）
+1. `E:\raid-dev\resourcepack` をクライアントのリソースパックに入れて有効にする（`resourcepack/README.md`）
+
+   **置き場所はランチャーによって違う。** この環境は MultiMC なので、公式ランチャーの
+   `%APPDATA%\.minecraft\resourcepacks` ではなく**インスタンス側**である。
+
+   ```powershell
+   # 管理者権限の PowerShell
+   $packs = "C:\Users\junem\AppData\Roaming\.minecraft\mods\MultiMC\instances\1.21.4\.minecraft\resourcepacks"
+   New-Item -ItemType SymbolicLink -Path "$packs\raid-dev" -Target E:\raid-dev\resourcepack
+   Test-Path "$packs\raid-dev\pack.mcmeta"   # True になれば置けている
+   ```
+
+   置いたらゲーム内の設定で「使用可能」から「選択済み」へ移す。`F3 + T` で再読み込みできる。
+
 2. `/raid calibrate`
 
-- [ ] 色付きの立方体が出る（紙のまま出たらパックが効いていない）
+- [ ] 色付きの立方体が出る（紙のまま出たらパックが効いていない。切り分けは `/give @s minecraft:paper[minecraft:custom_model_data={floats:[9000]}] 1`）
 - [ ] **赤い小さな印が立方体の中心にある** → 想定どおり。何もしなくてよい
 - [ ] 赤い印が**マゼンタの角**にある → 原点は (0,0,0)。全モデルを +8 ずらすか描画側で補正する
 - [ ] 上=黄緑 / 下=赤 / 北=青 / 南=黄 / 西=白 / 東=黒 の向きが合っている（反転していない）

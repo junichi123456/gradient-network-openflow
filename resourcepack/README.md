@@ -9,17 +9,49 @@
 Copy-Item -Recurse -Force E:\raid-dev\resourcepack E:\raid-test-pack
 ```
 
-クライアント側は次のいずれか。
+> **置き場所はランチャーによって違う。** 公式ランチャーの既定は
+> `%APPDATA%\.minecraft\resourcepacks` だが、MultiMC / Prism などは
+> **インスタンスごと**にゲームディレクトリを持つ。
+>
+> | ランチャー | resourcepacks の場所 |
+> |---|---|
+> | 公式（既定） | `%APPDATA%\.minecraft\resourcepacks` |
+> | MultiMC / Prism | `<インスタンス>\.minecraft\resourcepacks` |
+>
+> このプロジェクトの検証環境は MultiMC であり、実際の場所は
+> `C:\Users\junem\AppData\Roaming\.minecraft\mods\MultiMC\instances\1.21.4\.minecraft\resourcepacks` である。
 
-- `%APPDATA%\.minecraft\resourcepacks\` に **フォルダごと**コピーし、ゲーム内の設定で有効にする
-- 開発中は**シンボリックリンク**を張ると、`git pull` がそのまま反映される
+開発中は**シンボリックリンク**を張ると、`git pull` がそのまま反映される。
 
 ```powershell
 # 管理者権限の PowerShell
-New-Item -ItemType SymbolicLink -Path "$env:APPDATA\.minecraft\resourcepacks\raid-dev" -Target E:\raid-dev\resourcepack
+$packs = "C:\Users\junem\AppData\Roaming\.minecraft\mods\MultiMC\instances\1.21.4\.minecraft\resourcepacks"
+New-Item -ItemType SymbolicLink -Path "$packs\raid-dev" -Target E:\raid-dev\resourcepack
+Test-Path "$packs\raid-dev\pack.mcmeta"   # True になれば置けている
 ```
 
-リンクを張った場合、`F3 + T` でパックを再読み込みできる（ゲームの再起動は不要）。
+リンクが作れない場合は実体をコピーする（`git pull` のたびにコピーし直す）。
+
+```powershell
+Copy-Item -Recurse -Force E:\raid-dev\resourcepack "$packs\raid-dev"
+```
+
+置いたあと、ゲーム内の**リソースパック画面で「使用可能」から「選択済み」へ移す**。
+リンクを張った場合は `F3 + T` で再読み込みできる（ゲームの再起動は不要）。
+
+## 効いていないときの切り分け
+
+```
+/give @s minecraft:paper[minecraft:custom_model_data={floats:[9000]}] 1
+```
+
+手に持った紙が色付きの立方体になるかで、どちら側の問題か分かる。
+
+| 結果 | 意味 |
+|---|---|
+| 立方体になる | パックは効いている。プラグインの `custom_model_data` の書き込み側の問題 |
+| 紙のまま | パックが読み込まれていない（置き場所・選択済みか・バージョン警告を確認） |
+| 紫と黒の欠損モデル | パックは効いているが**モデルの JSON が壊れている** |
 
 ## 中身
 
