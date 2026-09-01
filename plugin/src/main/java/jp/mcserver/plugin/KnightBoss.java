@@ -56,6 +56,15 @@ final class KnightBoss {
      */
     private static final double WEAPON_REACH = KnightDefinition.WEAPON_REACH;
 
+    /**
+     * 攻撃後に向き直るのを待つ上限（tick）と、向いたとみなす角度（度）。
+     *
+     * <p>技が明けた姿勢のまま待機へ入ると、突進で走り抜けた向きのまま固まって見える。
+     * <b>相手を向いてから待機を数えはじめる。</b>
+     */
+    private static final int TURN_MAX_TICKS = 40;
+    private static final double TURN_TOLERANCE_DEGREES = 12.0;
+
     /** 接地を探す高さの範囲（ブロック）。段差と坂を登り、崖では落ちる。 */
     private static final int GROUND_UP = 3;
     private static final int GROUND_DOWN = 8;
@@ -69,7 +78,7 @@ final class KnightBoss {
     private static final int RETURN_WALK_MIN_TICKS = 20;
     private static final int RETURN_WALK_MAX_TICKS = 40;
 
-    private enum State { IDLE, APPROACH, MOTION, RETURN }
+    private enum State { IDLE, APPROACH, MOTION, RETURN, TURN }
 
     private final RaidPlugin plugin;
     private final RaidSpecies species;
@@ -260,6 +269,13 @@ final class KnightBoss {
             }
             case RETURN -> returnToCenter();
             case MOTION -> runMotion();
+            case TURN -> {
+                // 相手を向いてから待機へ。ここでは待機の数えを進めない
+                animateLoop(phase.behavior().idleAnimation().orElse(null));
+                if (facingTarget() || stateTick >= TURN_MAX_TICKS) {
+                    enter(State.IDLE);
+                }
+            }
             default -> { }
         }
     }
@@ -464,8 +480,16 @@ final class KnightBoss {
                 idleTarget = motion.idleAfter().pick(random);
                 announce("§7着地の隙 — " + idleTarget + "tick");
             }
-            enter(State.IDLE);
+            // 突進の向きの固定を解く。解かないと走り抜けた向きのまま待機に入る
+            chargeDirection = null;
+            enter(State.TURN);
         }
+    }
+
+    /** 体の向きが相手のほうを向いているか。 */
+    private boolean facingTarget() {
+        double delta = normalizeDegrees(yawToTarget() - bodyYaw);
+        return Math.abs(delta) <= TURN_TOLERANCE_DEGREES;
     }
 
     /**

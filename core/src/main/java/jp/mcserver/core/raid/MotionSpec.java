@@ -190,7 +190,7 @@ public record MotionSpec(String name, Animation animation, Idle idleAfter,
     }
 
     /** 標準の待機モーションの長さ（tick）。すべての個体で共通（§12.6）。 */
-    public static final int DEFAULT_IDLE_TICKS = 40;
+    public static final int DEFAULT_IDLE_TICKS = 80;
 
     /**
      * ダメージ量。範囲で与えると、その範囲の一様乱数になる。

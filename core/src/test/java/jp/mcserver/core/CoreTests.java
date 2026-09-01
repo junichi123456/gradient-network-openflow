@@ -2096,9 +2096,9 @@ public final class CoreTests {
                                 new Animation("外れ", 10, false, Map.of("存在しない部位",
                                         List.of(new Animation.Keyframe(0, Transform.IDENTITY)))))),
                                 "g", null, 6.0)))));
-        check("待機モーションの既定は40tick",
-                MotionSpec.DEFAULT_IDLE_TICKS == 40
-                        && MotionSpec.simple(swing).totalTicks() == 60);
+        check("待機モーションの既定は80tick",
+                MotionSpec.DEFAULT_IDLE_TICKS == 80
+                        && MotionSpec.simple(swing).totalTicks() == 100);
     }
 
     private static void knight() {
@@ -2305,8 +2305,8 @@ public final class CoreTests {
         check("第一形態は5モーション、パリイ可能は突進切り上げのみ",
                 first.motionNames().size() == 5
                         && first.parryableMotions().equals(List.of("突進切り上げ")));
-        check("すべてのモーションに40tickの待機が続く",
-                first.motion("なぎ払い").idleAfter().minTicks() == 40
+        check("すべてのモーションに80tickの待機が続く",
+                first.motion("なぎ払い").idleAfter().minTicks() == 80
                         && first.motion("3段突き").idleAfter().fixed());
 
         section("§12.7 騎士型（第二形態・ケンタウロス）");
@@ -2454,9 +2454,9 @@ public final class CoreTests {
                         && stomp.area().orElseThrow().damage().min() == 28);
         check("踏みつけの最大ダメージは着地5×2＋衝撃波28＝38",
                 stomp.maxDamage() == 38.0);
-        check("頭への攻撃で中断し、待機40tickが入る",
+        check("頭への攻撃で中断し、待機80tickが入る",
                 stomp.interrupt().orElseThrow().part().equals("頭")
-                        && stomp.interrupt().orElseThrow().idleTicks() == 40);
+                        && stomp.interrupt().orElseThrow().idleTicks() == 80);
         // 大ジャンプ衝撃波（§12.7）
         var leapSlam = second.motion("大ジャンプ衝撃波");
         var arc = leapSlam.leap().orElseThrow();
@@ -2481,8 +2481,8 @@ public final class CoreTests {
         check("波は半径で頭打ちになる", slamWave.radiusAt(100) == 10.0);
         check("着地の衝撃波は35ダメージ",
                 slamWave.damage().min() == KnightDefinition.LEAP_WAVE_DAMAGE);
-        check("着地後は必ず20〜60tickの待機モーションが入る",
-                leapSlam.idleAfter().minTicks() == 20 && leapSlam.idleAfter().maxTicks() == 60
+        check("着地後は必ず60〜100tickの待機モーションが入る",
+                leapSlam.idleAfter().minTicks() == 60 && leapSlam.idleAfter().maxTicks() == 100
                         && !leapSlam.idleAfter().fixed());
         check("モーションは波が端まで届くまで続く",
                 leapSlam.animation().durationTicks()
@@ -2529,8 +2529,8 @@ public final class CoreTests {
                 first.behavior().approachTicks() == 20
                         && first.behavior().approachDistance() == 6.0
                         && second.behavior().approachDistance() == 7.0);
-        check("1サイクルは待機40＋移動20＋モーション長",
-                first.cycleTicks("3段突き") == 130 && second.cycleTicks("踏みつけ") == 80);
+        check("1サイクルは待機80＋移動20＋モーション長",
+                first.cycleTicks("3段突き") == 170 && second.cycleTicks("踏みつけ") == 120);
         check("その段階で使わないモーションは参照できない",
                 thrown(() -> first.motion("踏みつけ")));
 

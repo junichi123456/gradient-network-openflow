@@ -37,7 +37,6 @@ public final class KnightDefinition {
     /** 槍の先端の細さ。手元の断面に対する比率。 */
     public static final double SPEAR_TAPER = SPEAR_TIP / SPEAR_GRIP;
 
-    /** 1回目のパリイに要する累積ダメージ。 */
     /**
      * 武器の周りに取る判定の余裕（ブロック）。
      *
@@ -117,6 +116,7 @@ public final class KnightDefinition {
     /** 1回の姿勢更新で変えられる向きの上限（度）。密着時の振動を防ぐ。 */
     public static final double MAX_TURN_DEGREES = 15.0;
 
+    /** 1回目のパリイに要する累積ダメージ。 */
     public static final double PARRY_BASE_DAMAGE = 10.0;
 
     /**
@@ -154,8 +154,8 @@ public final class KnightDefinition {
     /** 着地の衝撃波のダメージ。 */
     public static final double LEAP_WAVE_DAMAGE = 35.0;
     /** 着地後の待機モーションの長さ（tick）。 */
-    public static final int LEAP_IDLE_MIN = 20;
-    public static final int LEAP_IDLE_MAX = 60;
+    public static final int LEAP_IDLE_MIN = 60;
+    public static final int LEAP_IDLE_MAX = 100;
 
     /** 前足の太さ。 */
     public static final double FORE_LEG = 0.34;
@@ -407,7 +407,7 @@ public final class KnightDefinition {
                         pose(BACKSTEP_TICKS + 10, 0.30, 65, STRIKE),
                         pose(end - 2, 0.40, 68, HOLD),
                         pose(end, 0.20, 30, STRIKE), pose(duration, 0.10, -15, STRIKE)));
-        return new MotionSpec("突進切り上げ", animation, MotionSpec.Idle.of(40),
+        return new MotionSpec("突進切り上げ", animation, MotionSpec.Idle.of(MotionSpec.DEFAULT_IDLE_TICKS),
                 Optional.of(new MotionSpec.Parry(run.runFromTick(), end,
                         PARRY_BASE_DAMAGE, PARRY_DAMAGE_INCREASE)),
                 List.of(new MotionSpec.DamageWindow("槍", run.runFromTick() + 2, end, damage)),
@@ -427,7 +427,7 @@ public final class KnightDefinition {
                 "右腕", List.of(rot(0, 0, 0, 0), rot(5, -18, 120, 0, SET),
                         rot(10, -18, 120, 0, HOLD),
                         rot(18, -12, -120, 0, STRIKE)));
-        return new MotionSpec("なぎ払い", animation, MotionSpec.Idle.of(40), Optional.empty(),
+        return new MotionSpec("なぎ払い", animation, MotionSpec.Idle.of(MotionSpec.DEFAULT_IDLE_TICKS), Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 10, 18, damage)),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), false,
@@ -450,11 +450,11 @@ public final class KnightDefinition {
                         pose(35, -0.35, 2, HOLD), pose(40, 1.15, -2, STRIKE),
                         pose(45, -0.35, 2), pose(55, -0.55, 6, SET),
                         pose(65, -0.55, 6, HOLD), pose(70, 1.35, -4, STRIKE)));
-        return new MotionSpec("3段突き", animation, MotionSpec.Idle.of(40), Optional.empty(),
+        return new MotionSpec("3段突き", animation, MotionSpec.Idle.of(MotionSpec.DEFAULT_IDLE_TICKS), Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 15, 20, damage),
                         new MotionSpec.DamageWindow("槍", 35, 40, damage),
                         new MotionSpec.DamageWindow("槍", 65, 70, damage)),
-                Optional.of(new MotionSpec.Interrupt("槍", 65, 60)),
+                Optional.of(new MotionSpec.Interrupt("槍", 65, 100)),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), true,
                 MotionSpec.Usage.at(0, 5.5, 20, 90));
@@ -473,7 +473,7 @@ public final class KnightDefinition {
                         pose(35, 0.30, 80, STRIKE), pose(45, 0, -95, SET),
                         pose(50, 0.90, -5, STRIKE), pose(60, 0, -70, SET),
                         pose(65, 0.30, 85, STRIKE)));
-        return new MotionSpec("追従4連切り", animation, MotionSpec.Idle.of(40), Optional.empty(),
+        return new MotionSpec("追従4連切り", animation, MotionSpec.Idle.of(MotionSpec.DEFAULT_IDLE_TICKS), Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", 15, 20, MotionSpec.Damage.of(a)),
                         new MotionSpec.DamageWindow("槍", 30, 35, MotionSpec.Damage.of(b)),
                         new MotionSpec.DamageWindow("槍", 45, 50, MotionSpec.Damage.of(c)),
@@ -512,7 +512,7 @@ public final class KnightDefinition {
                         rot(orbit.ticks(), 0, 0, 18, HOLD), rot(duration, 16, 0, 0, STRIKE)),
                 "右腕", List.of(rot(0, 0, 0, 0), rot(20, 0, 0, 0, SET),
                         rot(orbit.ticks(), 0, 0, 0, HOLD), rot(duration, -8, 0, 0, STRIKE)));
-        return new MotionSpec("回旋突進", animation, MotionSpec.Idle.of(40), Optional.empty(),
+        return new MotionSpec("回旋突進", animation, MotionSpec.Idle.of(MotionSpec.DEFAULT_IDLE_TICKS), Optional.empty(),
                 List.of(new MotionSpec.DamageWindow("槍", charge.runFromTick(), duration,
                         MotionSpec.Damage.of(40))),
                 Optional.empty(), Optional.of(charge), Optional.of(orbit),
@@ -569,12 +569,12 @@ public final class KnightDefinition {
                                 new Transform(new Vec3(0, 1.30, 0), new Vec3(-35, 0, 0), Vec3.ONE),
                                 SET),
                         move(20, 0, 0, 0).with(STRIKE)));
-        return new MotionSpec("踏みつけ", animation, MotionSpec.Idle.of(40),
+        return new MotionSpec("踏みつけ", animation, MotionSpec.Idle.of(MotionSpec.DEFAULT_IDLE_TICKS),
                 Optional.of(new MotionSpec.Parry(0, 20, PARRY_BASE_DAMAGE,
                         PARRY_DAMAGE_INCREASE)),
                 List.of(new MotionSpec.DamageWindow("右前足", 20, 20, MotionSpec.Damage.of(5)),
                         new MotionSpec.DamageWindow("左前足", 20, 20, MotionSpec.Damage.of(5))),
-                Optional.of(new MotionSpec.Interrupt("頭", 20, 40)),
+                Optional.of(new MotionSpec.Interrupt("頭", 20, 80)),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.of(new MotionSpec.AreaEffect(10, 0.3, MotionSpec.Damage.of(28))), false,
                 MotionSpec.Usage.crowd(9.0, 2, 30, 220));
