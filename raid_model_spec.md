@@ -148,21 +148,33 @@
 
 ## 8. 配置例
 
-`assets/minecraft/models/item/paper.json` に、部位ごとのモデルを紐づける。
+> **1.21.4 で書き方が変わった。** モデルファイルの `overrides` / `predicate` は
+> **1.21.4 で削除された**。代わりに `assets/minecraft/items/<アイテム>.json` の
+> **アイテム定義**で振り分ける。1.21.3 以前の資料はそのまま使えない。
+
+プラグインは紙に `custom_model_data` を載せて出す。振り分けは
+`assets/minecraft/items/paper.json` に書く。
 
 ```json
 {
-  "parent": "item/generated",
-  "textures": { "layer0": "item/paper" },
-  "overrides": [
-    { "predicate": { "custom_model_data": 2001 }, "model": "knight/torso" },
-    { "predicate": { "custom_model_data": 2002 }, "model": "knight/head" },
-    { "predicate": { "custom_model_data": 2012 }, "model": "knight/spear" }
-  ]
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:custom_model_data",
+    "index": 0,
+    "fallback": { "type": "minecraft:model", "model": "minecraft:item/paper" },
+    "entries": [
+      { "threshold": 2001, "model": { "type": "minecraft:model", "model": "knight/torso" } },
+      { "threshold": 2002, "model": { "type": "minecraft:model", "model": "knight/head" } },
+      { "threshold": 2012, "model": { "type": "minecraft:model", "model": "knight/spear" } }
+    ]
+  }
 }
 ```
 
-モデル本体は `assets/minecraft/models/knight/*.json` に置く。
+- `entries` は **threshold の昇順**に並べる。値以下で最大の threshold が選ばれる
+- `index: 0` は `custom_model_data` の**数値リストの何番目を見るか**である。プラグインは
+  従来の `setCustomModelData(int)` で書き込むため、0 番に入る
+- モデル本体は `assets/minecraft/models/knight/*.json` に置く（ここは変わっていない）
 
 ---
 
