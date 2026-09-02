@@ -9,6 +9,7 @@ Bukkit / Paper API への依存を一切持たない純粋な Java であり、`
 ./run-tests.sh                     # 検証（730件）
 ./simulate-knight.sh 20 8 80       # 騎士型の戦闘をオフラインで再現
 ./generate-pack.sh                 # リソースパックの雛形を骨格から生成
+./dump-rig.sh 1 0                  # 表示へ送るべき配置（実機の /raid dump と比べる）
 ```
 
 `simulate-knight.sh` の引数は「参加人数・1人あたりDPS・被ダメ軽減%」。Minecraft を起動せずに、
@@ -52,7 +53,7 @@ Bukkit / Paper API への依存を一切持たない純粋な Java であり、`
 | `Raid` | §12 | 隔週の開催日, 次元再生成との衝突検証, ローテーションと追加条件, 難易度, 報酬の等分 |
 | `raid.Rig` / `Transform` / `Vec3` | §12.6 | 部位のツリーと体型, 構造の検証, 変換の補間 |
 | `raid.Appearance` | §12.6 | 部位の見た目、絞りの輪切り、モデル座標の占有範囲 |
-| `raid.Skeleton` | §12.6 | 骨格の世界座標への展開、武器が立っているプレイヤーに届く距離 |
+| `raid.Skeleton` | §12.6 | 骨格の世界座標への展開、表示へ送る配置、武器が届く距離 |
 | `raid.Animation` | §12.6 | キーフレーム列, サンプリング, ループ, 骨格との整合検証 |
 | `raid.MotionBudget` | §12.6 | 通信量の見積りと必要な更新間隔の算出 |
 | `raid.RaidSpecies` | §12.6 | 個体定義（体型・モーション・段階）と読み込み時の検証 |

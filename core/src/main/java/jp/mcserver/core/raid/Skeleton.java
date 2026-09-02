@@ -87,6 +87,57 @@ public final class Skeleton {
         return best == Double.MAX_VALUE ? Double.MAX_VALUE : best;
     }
 
+    /**
+     * 表示エンティティへ送るべき配置（§12.6）。
+     *
+     * @param translation 表示の位置（個体の原点からの相対）。部位の原点に見た目のずらしを足した点
+     * @param rotationDeg 表示の回転（XYZ順のオイラー角、度）
+     * @param scale       表示の拡大率。ブロック表示では寸法と一致する
+     */
+    public record Placement(String part, Vec3 translation, Vec3 rotationDeg, Vec3 scale) {
+    }
+
+    /**
+     * 部位ごとの配置を求める。<b>プラグインが送っている値と1行ずつ突き合わせるための出力である。</b>
+     *
+     * <p>画面写真から角度を読み取るのは当てにならない。ここが実機と食い違っていれば、
+     * 食い違っている部位と量がそのまま分かる。
+     */
+    public static List<Placement> placements(Rig rig, Map<String, Transform> sampled) {
+        List<Placement> placements = new ArrayList<>();
+        collect(rig, rig.root().name(), new Mat4(), sampled, placements);
+        return placements;
+    }
+
+    /** モーションをある tick でサンプリングして配置を求める。 */
+    public static List<Placement> placements(Rig rig, Animation animation, int tick) {
+        Map<String, Transform> sampled = new LinkedHashMap<>();
+        for (String part : animation.animatedParts()) {
+            sampled.put(part, animation.sample(part, tick));
+        }
+        return placements(rig, sampled);
+    }
+
+    private static void collect(Rig rig, String name, Mat4 parent, Map<String, Transform> sampled,
+                                List<Placement> out) {
+        Rig.Part part = rig.part(name);
+        Transform local = sampled.getOrDefault(name, Transform.IDENTITY);
+        Mat4 world = new Mat4(parent).mul(local(part.base(), local));
+        Appearance look = part.appearance();
+        if (look != null) {
+            Vec3 offset = look.block() ? look.offset() : Vec3.ZERO;
+            out.add(new Placement(name,
+                    new Mat4(world).translate(offset.x(), offset.y(), offset.z()).position(),
+                    world.eulerXYZDegrees(), look.scale()));
+        }
+        for (String child : rig.partNames()) {
+            Rig.Part candidate = rig.part(child);
+            if (!candidate.isRoot() && candidate.parent().equals(name)) {
+                collect(rig, child, world, sampled, out);
+            }
+        }
+    }
+
     private static void walk(Rig rig, String name, Mat4 parent, Map<String, Transform> sampled,
                              Map<String, List<Vec3>> out) {
         Rig.Part part = rig.part(name);
@@ -208,6 +259,23 @@ public final class Skeleton {
 
         Vec3 position() {
             return new Vec3(m[12], m[13], m[14]);
+        }
+
+        /**
+         * 回転を XYZ順のオイラー角（度）で取り出す。
+         *
+         * <p>M = Rx·Ry·Rz を前提とする。JOML の {@code getEulerAnglesXYZ} と同じ規約である。
+         */
+        Vec3 eulerXYZDegrees() {
+            double m00 = m[0];
+            double m01 = m[4];
+            double m02 = m[8];
+            double m12 = m[9];
+            double m22 = m[10];
+            double y = Math.asin(Math.max(-1, Math.min(1, m02)));
+            double x = Math.atan2(-m12, m22);
+            double z = Math.atan2(-m01, m00);
+            return new Vec3(Math.toDegrees(x), Math.toDegrees(y), Math.toDegrees(z));
         }
     }
 }

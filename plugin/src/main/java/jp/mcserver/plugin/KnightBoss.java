@@ -1,5 +1,6 @@
 package jp.mcserver.plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -779,6 +780,16 @@ final class KnightBoss {
      * <p>ダメージ量はイベントの値ではなく {@link WeaponDamage} で組み立てる。
      * 当たり判定に使う Interaction は生き物ではないため、イベントが運ぶ値は武器を反映しない。
      */
+    /** 表示へ送っている変換と当たり判定の位置。数値で突き合わせるための出力。 */
+    List<String> describe() {
+        List<String> lines = new ArrayList<>();
+        lines.add("状態 " + state + " tick " + stateTick + " / モーション "
+                + (motion == null ? "なし" : motion.name()) + " / 体の向き "
+                + String.format("%.1f", bodyYaw) + "度");
+        lines.addAll(rig.describe());
+        return lines;
+    }
+
     boolean handleHit(UUID hitEntity, Player attacker, Location origin, boolean ranged,
                       Material weapon) {
         String part = rig.partOfHitbox(hitEntity);

@@ -35,6 +35,7 @@ import org.bukkit.projectiles.ProjectileSource;
  *   <li>{@code /raid info} — 状態を表示する</li>
  *   <li>{@code /raid god} — 自分の体力を減らさない（検証用の切り替え）</li>
  *   <li>{@code /raid calibrate} — モデルの原点を較正する立方体を出す（§7）</li>
+ *   <li>{@code /raid dump} — 表示へ送っている変換と当たり判定の位置を数値で出す</li>
  * </ul>
  */
 public final class RaidPlugin extends JavaPlugin implements Listener {
@@ -106,6 +107,17 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                 player.sendMessage("§7マゼンタの角がモデル座標 (0,0,0) です。"
                         + "上=黄緑 下=赤 北=青 南=黄 西=白 東=黒");
                 player.sendMessage("§7消すときは /raid despawn");
+            }
+            case "dump" -> {
+                if (active.isEmpty()) {
+                    player.sendMessage("召喚中の個体はありません");
+                } else {
+                    active.forEach(boss -> boss.describe().forEach(line -> {
+                        player.sendMessage(line);
+                        getLogger().info(line);
+                    }));
+                    player.sendMessage("§7同じ内容をサーバーのログにも出しました");
+                }
             }
             case "god" -> {
                 if (unkillable.remove(player.getUniqueId())) {

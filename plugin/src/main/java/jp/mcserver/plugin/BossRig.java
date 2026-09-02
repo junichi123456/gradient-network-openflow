@@ -66,6 +66,9 @@ final class BossRig {
     private final Map<String, List<Display>> displays = new LinkedHashMap<>();
     private final Map<String, List<Interaction>> hitboxes = new LinkedHashMap<>();
     private final Map<String, List<Vector3f>> segmentCenters = new LinkedHashMap<>();
+
+    /** 直近に表示へ送った変換。実機の見え方と手元の計算を突き合わせるために覚えておく。 */
+    private final Map<String, String> sent = new LinkedHashMap<>();
     private final Map<String, Vector3f> centers = new LinkedHashMap<>();
     private Location origin;
 
@@ -161,6 +164,30 @@ final class BossRig {
             located.add(origin.clone().add(point.x(), point.y(), point.z()));
         }
         return located;
+    }
+
+    /**
+     * 直近に表示へ送った変換と、当たり判定の位置を並べて返す。
+     *
+     * <p>画面写真から角度を読み取るのは当てにならない。<b>数値で突き合わせる</b>ための出力である。
+     * 位置は原点からの相対で出す。
+     */
+    List<String> describe() {
+        List<String> lines = new ArrayList<>();
+        lines.add(String.format("原点 (%.2f, %.2f, %.2f)", origin.getX(), origin.getY(),
+                origin.getZ()));
+        for (Map.Entry<String, String> entry : sent.entrySet()) {
+            StringBuilder line = new StringBuilder(entry.getValue());
+            List<Vector3f> points = segmentCenters.get(entry.getKey());
+            if (points != null && !points.isEmpty()) {
+                Vector3f first = points.get(0);
+                Vector3f last = points.get(points.size() - 1);
+                line.append(String.format(" 判定 先端(%6.2f,%6.2f,%6.2f) 付根(%6.2f,%6.2f,%6.2f)",
+                        first.x(), first.y(), first.z(), last.x(), last.y(), last.z()));
+            }
+            lines.add(line.toString());
+        }
+        return lines;
     }
 
     /** 部位の中心のワールド座標。演出の発生点に使う。 */
@@ -273,11 +300,22 @@ final class BossRig {
                     // 合わせて決めてある。補正を掛けると向きが逆になる
                     placed.rotateY(ITEM_DISPLAY_YAW);
                 }
+                Vector3f translation = placed.getTranslation(new Vector3f());
+                Quaternionf rotation = placed.getNormalizedRotation(new Quaternionf());
                 display.setInterpolationDelay(0);
-                display.setTransformation(new Transformation(
-                        placed.getTranslation(new Vector3f()),
-                        placed.getNormalizedRotation(new Quaternionf()),
-                        pieceSize, new Quaternionf()));
+                display.setTransformation(
+                        new Transformation(translation, rotation, pieceSize, new Quaternionf()));
+
+                if (i == 0) {
+                    Vector3f euler = rotation.getEulerAnglesXYZ(new Vector3f());
+                    sent.put(partName, String.format(
+                            "%-5s %s 位置(%6.2f,%6.2f,%6.2f) 回転(%7.1f,%7.1f,%7.1f) 寸法(%.2f,%.2f,%.2f)",
+                            partName, display instanceof ItemDisplay ? "アイテム" : "ブロック",
+                            translation.x(), translation.y(), translation.z(),
+                            Math.toDegrees(euler.x()), Math.toDegrees(euler.y()),
+                            Math.toDegrees(euler.z()),
+                            pieceSize.x(), pieceSize.y(), pieceSize.z()));
+                }
             }
 
             Vector3f size = scaleOf(part);
