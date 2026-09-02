@@ -56,6 +56,17 @@ final class BossRig {
     private static final float ITEM_DISPLAY_YAW =
             (float) Math.toRadians(ITEM_DISPLAY_YAW_DEGREES);
 
+    /**
+     * 描いたモデルに掛ける傾き（Z軸まわり、度）。
+     *
+     * <p>実機で見て決めた補正である。<b>これは対症の値であり、根本の原因は分かっていない。</b>
+     * 座標系の取り違えなら 90 や 180 になるはずで、45 という量はそれに当てはまらない。
+     * 原因が分かった時点でここは 0 に戻す。
+     */
+    static final double MODEL_TILT_DEGREES = -45.0;
+
+    private static final float MODEL_TILT = (float) Math.toRadians(MODEL_TILT_DEGREES);
+
     /** 当たり判定の最小の辺（ブロック）。細すぎると狙って当てられない。 */
     private static final double MIN_HITBOX = 0.42;
 
@@ -292,13 +303,17 @@ final class BossRig {
                 // 拡大率は Transformation の scale として別に渡せばよい。
                 Matrix4f placed = new Matrix4f(world).translate(pieceOffset);
                 if (authored && display instanceof ItemDisplay) {
-                    // ItemDisplay はモデルを Y軸まわりに180度回して描く（実機で較正した。
-                    // raid_model_spec.md §7）。ここで戻すので、描く側は +Z を正面にできる。
+                    // 順序が結果を変える。傾き → 180度 の順に掛ける。
+                    //
+                    // 描画側は最後にモデルを Y軸まわりに180度回す（実機で較正した。
+                    // raid_model_spec.md §7）。こちらの180度がそれを打ち消すため、
+                    // 傾きを先に掛けておけば、残るのは純粋な「局所Z軸まわりの傾き」になる。
+                    // 逆の順序にすると、打ち消しの過程で傾きの符号が反転する。
                     //
                     // 掛けるのは描いたモデルだけである。バニラのアイテムを見た目に使う部位
                     // （穂先・頭飾り）は平面のスプライトであり、基準回転を実機の見え方に
                     // 合わせて決めてある。補正を掛けると向きが逆になる
-                    placed.rotateY(ITEM_DISPLAY_YAW);
+                    placed.rotateZ(MODEL_TILT).rotateY(ITEM_DISPLAY_YAW);
                 }
                 Vector3f translation = placed.getTranslation(new Vector3f());
                 Quaternionf rotation = placed.getNormalizedRotation(new Quaternionf());
