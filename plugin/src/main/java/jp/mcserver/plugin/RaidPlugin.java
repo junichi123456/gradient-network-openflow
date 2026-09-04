@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import jp.mcserver.core.raid.KnightDefinition;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -119,6 +120,22 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                     player.sendMessage("§7同じ内容をサーバーのログにも出しました");
                 }
             }
+            case "model" -> {
+                String mode = args.length > 1 ? args[1] : "";
+                switch (mode) {
+                    case "authored" -> switchModels(player, true);
+                    case "vanilla" -> switchModels(player, false);
+                    default -> {
+                        player.sendMessage("いまの見た目: "
+                                + (KnightDefinition.authoredModels()
+                                        ? "描いたモデル" : "バニラの素材"));
+                        player.sendMessage("§7/raid model authored"
+                                + " … リソースパックで描いたモデルを使う");
+                        player.sendMessage("§7/raid model vanilla"
+                                + " … バニラの素材を寸法どおりに引き伸ばす");
+                    }
+                }
+            }
             case "god" -> {
                 if (unkillable.remove(player.getUniqueId())) {
                     player.sendMessage("体力を通常に戻しました");
@@ -136,6 +153,40 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
             }
         }
         return true;
+    }
+
+    /**
+     * 見た目の方式を切り替える。
+     *
+     * <p>骨格は個体を作るときに組むため、<b>出し直さないと反映されない</b>。
+     * 塗り直した絵を見るための道具なので、出ている個体はその場で作り直す。
+     */
+    private void switchModels(Player player, boolean authored) {
+        if (KnightDefinition.authoredModels() == authored) {
+            player.sendMessage("すでに"
+                    + (authored ? "描いたモデル" : "バニラの素材") + "です");
+            return;
+        }
+        KnightDefinition.useAuthoredModels(authored);
+        int reborn = 0;
+        List<Location> places = new ArrayList<>();
+        for (KnightBoss boss : active) {
+            places.add(boss.location());
+        }
+        despawnAll();
+        for (Location place : places) {
+            KnightBoss boss = new KnightBoss(this, place);
+            boss.spawn();
+            active.add(boss);
+            reborn++;
+        }
+        player.sendMessage("見た目を"
+                + (authored ? "描いたモデル" : "バニラの素材") + "に切り替えました"
+                + (reborn > 0 ? "（" + reborn + " 体を出し直しました）" : ""));
+        if (authored) {
+            player.sendMessage("§7絵を塗り直したら F3+T でリソースパックを読み直し、"
+                    + "このコマンドをもう一度実行すると反映されます");
+        }
     }
 
     /** 動いている jar の日時。実機の症状と手元の修正を突き合わせるために出す。 */

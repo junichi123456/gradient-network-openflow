@@ -18,6 +18,7 @@ import jp.mcserver.core.raid.Appearance;
 import jp.mcserver.core.raid.RaidSpecies;
 import jp.mcserver.core.raid.Rig;
 import jp.mcserver.core.raid.Skeleton;
+import jp.mcserver.core.raid.SkinNet;
 import jp.mcserver.core.raid.Stage;
 import jp.mcserver.core.raid.Transform;
 import jp.mcserver.core.raid.Vec3;
@@ -2142,7 +2143,7 @@ public final class CoreTests {
                 spear.slices() == Appearance.TAPER_SLICES
                         && spear.authoredAs("PAPER", 4.0).slices() == 1
                         && rig.part("槍").appearance().slices()
-                                == (KnightDefinition.AUTHORED_MODELS
+                                == (KnightDefinition.authoredModels()
                                         ? 1 : Appearance.TAPER_SLICES));
         check("手元は12ピクセル、先端は2ピクセルである",
                 Math.abs(sliceWidth(spear, 0) * 16 - 12.0) < 1e-9
@@ -3075,6 +3076,73 @@ public final class CoreTests {
                         .modelBounds(KnightDefinition.LONG_PART_MODEL_SCALE)[1]
                         >= Appearance.MODEL_MIN);
 
+        // 塗り絵の割り付け（ペイントで描けるようにするための展開図）
+        boolean netsFit = true;
+        boolean netsDisjoint = true;
+        boolean uvInRange = true;
+        String netProblem = "";
+        int smallestFace = Integer.MAX_VALUE;
+        String smallestPart = "";
+        for (int i = 0; i < boss.phases().size(); i++) {
+            var rig3 = boss.phases().get(i).rig().orElseThrow();
+            for (String name : rig3.partNames()) {
+                var look = rig3.part(name).appearance();
+                if (look == null) {
+                    continue;
+                }
+                var net = SkinNet.of(look.scale());
+                var rects = new java.util.ArrayList<>(net.regions().values());
+                if (net.regions().size() != 6) {
+                    netsDisjoint = false;
+                    netProblem = name + " の枠が6つでない";
+                }
+                for (var rect : rects) {
+                    if (rect.x() < 0 || rect.y() < 0
+                            || rect.x() + rect.width() > SkinNet.CANVAS
+                            || rect.y() + rect.height() > SkinNet.CANVAS) {
+                        netsFit = false;
+                        netProblem = name + " の枠が画布からはみ出す";
+                    }
+                    for (double value : rect.uv()) {
+                        if (value < 0 || value > 16) {
+                            uvInRange = false;
+                            netProblem = name + " の UV が 0〜16 の外にある";
+                        }
+                    }
+                    int area = Math.min(rect.width(), rect.height());
+                    if (area < smallestFace) {
+                        smallestFace = area;
+                        smallestPart = "第" + (i + 1) + "形態 " + name;
+                    }
+                }
+                for (int a = 0; a < rects.size(); a++) {
+                    for (int b = a + 1; b < rects.size(); b++) {
+                        if (overlaps(rects.get(a), rects.get(b))) {
+                            netsDisjoint = false;
+                            netProblem = name + " の枠が重なる";
+                        }
+                    }
+                }
+            }
+        }
+        check("塗り絵の枠が画布（128×128）に収まる"
+                + (netsFit ? "" : "（" + netProblem + "）"), netsFit);
+        check("塗り絵の枠どうしが重ならない"
+                + (netsDisjoint ? "" : "（" + netProblem + "）"), netsDisjoint);
+        check("塗り絵の UV が 0〜16 に収まる"
+                + (uvInRange ? "" : "（" + netProblem + "）"), uvInRange);
+        check("どの枠もバニラ（16画素）以上の細かさで塗れる（最も狭い: "
+                + smallestPart + " " + smallestFace + "画素）", smallestFace >= 16);
+        var band = SkinNet.of(new Vec3(0.75, 3.40, 0.75)).region(SkinNet.SOUTH);
+        check("絞りの段は枠を上から順に隙間なく分ける",
+                band.band(0, 8)[1] == band.uv()[1]
+                        && band.band(7, 8)[3] == band.uv()[3]
+                        && band.band(0, 8)[3] == band.band(1, 8)[1]);
+        check("奥行の深い部位は縦積み、細長い部位は横並びを選ぶ",
+                SkinNet.of(new Vec3(1.15, 0.90, 2.60)).arrangement().equals("縦積み")
+                        && SkinNet.of(new Vec3(0.40, 1.10, 0.40)).arrangement()
+                                .equals("横並び"));
+
         // 合成の順序がプラグインと同じであることの確認
         var rig = boss.phases().get(0).rig().orElseThrow();
         var noMotion = Skeleton.hitPoints(rig, Map.<String, jp.mcserver.core.raid.Transform>of());
@@ -3082,6 +3150,12 @@ public final class CoreTests {
         check("姿勢を与えなければ基準の位置に出る",
                 Math.abs(head.get(0).x()) < 0.01 && head.get(0).y() > 2.0);
         check("右腕は正面から見て左（-X）にある", noMotion.get("右腕").get(0).x() < 0);
+    }
+
+    /** 2つの枠が1画素でも重なるか。 */
+    private static boolean overlaps(SkinNet.Rect a, SkinNet.Rect b) {
+        return a.x() < b.x() + b.width() && b.x() < a.x() + a.width()
+                && a.y() < b.y() + b.height() && b.y() < a.y() + a.height();
     }
 
     /** 2つの向きの差を -π〜π で返す。 */

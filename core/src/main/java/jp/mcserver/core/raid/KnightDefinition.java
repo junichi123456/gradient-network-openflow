@@ -186,13 +186,32 @@ public final class KnightDefinition {
     // ------------------------------------------------------------ 骨格
 
     /**
-     * リソースパックで描いたモデルを使うか。
+     * リソースパックで描いたモデルを使うか（既定）。
      *
      * <p>false のあいだはバニラの素材を寸法どおりに引き伸ばして体型を示す。
-     * モデルが揃ったら true にする。描画側は拡大率1でモデルをそのまま出すようになり、
-     * 寸法の宣言は当たり判定にだけ使われる。<b>切り替えはこの1行で済む。</b>
+     * 描いたモデルを使うと、描画側は拡大率1でモデルをそのまま出すようになり、
+     * 寸法の宣言は当たり判定にだけ使われる。
      */
-    public static final boolean AUTHORED_MODELS = false;
+    public static final boolean AUTHORED_MODELS_DEFAULT = false;
+
+    /**
+     * いま描いたモデルを使うか。<b>実行中に切り替えられる。</b>
+     *
+     * <p>テクスチャを塗り直しながら見た目を確かめるのに、ビルドし直すのは重い。
+     * 検証用プラグインの {@code /raid model authored|vanilla} から切り替え、
+     * 出し直した個体に効かせる。すでに出ている個体は作り直すまで変わらない。
+     */
+    private static boolean authoredModels = AUTHORED_MODELS_DEFAULT;
+
+    /** 描いたモデルを使っているか。 */
+    public static boolean authoredModels() {
+        return authoredModels;
+    }
+
+    /** 描いたモデルを使うかを切り替える。次に組む骨格から効く。 */
+    public static void useAuthoredModels(boolean authored) {
+        authoredModels = authored;
+    }
 
     /** 描いたモデルを載せるアイテム。 */
     public static final String MODEL_ITEM = "PAPER";
@@ -213,7 +232,7 @@ public final class KnightDefinition {
 
     /** 見た目を、その時点の方式（バニラの素材 / 描いたモデル）に合わせる。 */
     private static Appearance look(Appearance vanilla) {
-        if (!AUTHORED_MODELS) {
+        if (!authoredModels) {
             return vanilla;
         }
         return vanilla.authoredAs(MODEL_ITEM,

@@ -175,6 +175,11 @@ final class KnightBoss {
         return health <= 0;
     }
 
+    /** いまの立ち位置。見た目の方式を切り替えて出し直すときに使う。 */
+    Location location() {
+        return rig.origin();
+    }
+
     String status() {
         StringBuilder text = new StringBuilder(String.format(
                 "%s / %s / 体力 %.0f / %d（%s %dtick）", species.displayName(), phase.name(),

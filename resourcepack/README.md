@@ -1,6 +1,9 @@
 # レイド個体のリソースパック
 
-`raid_model_spec.md` に沿ってモデルを置く場所である。**いまは較正用の立方体だけが入っている。**
+`raid_model_spec.md` に沿ってモデルを置く場所である。
+
+**見た目を作る作業は `PAINTING.md` を見ること。**箱の形・向き・UV は骨格データから生成してあるので、
+Windows のペイントで PNG を塗り替えれば見た目が変わる。
 
 ## 入れ方
 
@@ -84,12 +87,14 @@ Copy-Item -Recurse -Force E:\raid-dev\resourcepack "$packs\raid-dev"
 | ファイル | 役割 | 生成 |
 |---|---|---|
 | `pack.mcmeta` | パックの宣言。`pack_format 46` は 1.21.4 | 手書き |
-| `assets/minecraft/items/paper.json` | `custom_model_data` からモデルへの振り分け | **自動** |
-| `assets/minecraft/models/knight/p1/*.json` | 第一形態の部位（13件） | **自動** |
-| `assets/minecraft/models/knight/p2/*.json` | 第二形態の部位（16件） | **自動** |
+| `assets/minecraft/items/paper.json` | `custom_model_data` からモデルへの振り分け | **自動**（上書き） |
+| `assets/minecraft/models/knight/p1/*.json` | 第一形態の部位（13件） | **自動**（上書き） |
+| `assets/minecraft/models/knight/p2/*.json` | 第二形態の部位（16件） | **自動**（上書き） |
+| `assets/minecraft/textures/knight/*.png` | 塗り絵（11枚）。**ここを塗る** | 自動（無いときだけ置く） |
+| `templates/*.png` | 塗り絵の原本（11枚）。戻すとき写す | **自動**（上書き） |
 | `assets/minecraft/models/knight/calibration.json` | 較正用の 16 単位の立方体 | 手書き |
 
-**自動**の3つは骨格データから生成している。
+**自動**は骨格データから生成している。
 
 ```sh
 ./core/generate-pack.sh
@@ -100,24 +105,26 @@ Copy-Item -Recurse -Force E:\raid-dev\resourcepack "$packs\raid-dev"
 
 ## 描き始める
 
-生成された JSON は **Blockbench でそのまま開ける**。形も UV もそこで直せる。
+**塗る手順は `PAINTING.md` にある。**要点だけ:
 
-テクスチャは最初バニラのブロックを指している。差し替えるときはモデルの `"skin"` の1行を変える。
+- 塗るのは `assets/minecraft/textures/knight/*.png`（11枚・各 128×128）
+- 1枚に6つの枠があり、左上の文字が面を示す（`F` 前 / `B` 後 / `R` 右 / `L` 左 / `U` 上 / `D` 下）
+- 濃い灰色の余白はどの面にも貼られない
+- 画像の大きさとファイル名は変えない。透明は使わない
 
-```json
-"textures": { "skin": "knight/torso", "particle": "#skin" }
+生成された JSON は **Blockbench でそのまま開ける**。形も UV もそこで直せるが、
+**生成し直すと手で直した形は失われる**（塗った PNG は消えない）。
+
+描いたモデルを実際に使うには、ゲーム内で切り替える。**ビルドし直さなくてよい。**
+
+```
+F3 + T                  # リソースパックを読み直す
+/raid model authored    # 描いたモデルで出し直す
+/raid model vanilla     # バニラの素材と見比べる
 ```
 
-`assets/minecraft/textures/knight/torso.png` を置けば効く。
-
-**描いたモデルを実際に使うには、`KnightDefinition` の1行を変えてビルドし直す。**
-
-```java
-public static final boolean AUTHORED_MODELS = true;
-```
-
-`false` のあいだはバニラの素材を引き伸ばした見た目のままである。切り分けのため、
-1行戻すだけで比較できる状態を残してある。
+サーバーを起動し直すとバニラの素材に戻る（既定値）。切り分けのため、
+コマンド1つで比較できる状態を残してある。
 
 ## 較正用の立方体
 

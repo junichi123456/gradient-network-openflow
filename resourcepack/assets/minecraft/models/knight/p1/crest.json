@@ -1,7 +1,7 @@
 {
   "__comment": "頭飾り / ID 2005 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "minecraft:item/netherite_axe",
+    "skin": "knight/crest",
     "particle": "#skin"
   },
   "elements": [
@@ -10,12 +10,12 @@
       "from": [3.2, 3.2, 3.2],
       "to": [12.8, 12.8, 12.8],
       "faces": {
-        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+        "north": { "uv": [5.375, 10.625, 10.75, 15.875], "texture": "#skin" },
+        "east": { "uv": [0, 5.375, 5.375, 10.625], "texture": "#skin" },
+        "south": { "uv": [0, 10.625, 5.375, 15.875], "texture": "#skin" },
+        "west": { "uv": [5.375, 5.375, 10.75, 10.625], "texture": "#skin" },
+        "up": { "uv": [0, 0, 5.375, 5.375], "texture": "#skin" },
+        "down": { "uv": [5.375, 0, 10.75, 5.375], "texture": "#skin" }
       }
     }
   ]

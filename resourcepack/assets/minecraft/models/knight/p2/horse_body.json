@@ -1,7 +1,7 @@
 {
   "__comment": "馬胴 / ID 2112 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "minecraft:block/white_concrete",
+    "skin": "knight/horse_body",
     "particle": "#skin"
   },
   "elements": [
@@ -10,12 +10,12 @@
       "from": [-1.2, 0.8, -12.8],
       "to": [17.2, 15.2, 28.8],
       "faces": {
-        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+        "north": { "uv": [3.5, 10.75, 7, 13.5], "texture": "#skin" },
+        "east": { "uv": [0, 8, 8, 10.75], "texture": "#skin" },
+        "south": { "uv": [0, 10.75, 3.5, 13.5], "texture": "#skin" },
+        "west": { "uv": [8, 8, 16, 10.75], "texture": "#skin" },
+        "up": { "uv": [0, 0, 3.5, 8], "texture": "#skin" },
+        "down": { "uv": [3.5, 0, 7, 8], "texture": "#skin" }
       }
     }
   ]

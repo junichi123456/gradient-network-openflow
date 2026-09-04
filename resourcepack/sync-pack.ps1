@@ -29,7 +29,8 @@ if (Test-Path $dest) {
 }
 
 # /MIR で余分なファイルも消し、完全な写しにする
-robocopy $PSScriptRoot $dest /MIR /NFL /NDL /NJH /NJS /XF sync-pack.ps1 | Out-Null
+# templates は塗り絵の原本であり、パックの中身ではないため配らない
+robocopy $PSScriptRoot $dest /MIR /NFL /NDL /NJH /NJS /XF sync-pack.ps1 /XD templates | Out-Null
 
 if (Test-Path (Join-Path $dest "pack.mcmeta")) {
     Write-Host "同期しました: $dest"

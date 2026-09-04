@@ -1,7 +1,7 @@
 {
   "__comment": "頭 / ID 2102 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "minecraft:block/bone_block_side",
+    "skin": "knight/head",
     "particle": "#skin"
   },
   "elements": [
@@ -10,12 +10,12 @@
       "from": [2.56, 2.56, 2.56],
       "to": [13.44, 13.44, 13.44],
       "faces": {
-        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+        "north": { "uv": [5.375, 10.625, 10.75, 15.875], "texture": "#skin" },
+        "east": { "uv": [0, 5.375, 5.375, 10.625], "texture": "#skin" },
+        "south": { "uv": [0, 10.625, 5.375, 15.875], "texture": "#skin" },
+        "west": { "uv": [5.375, 5.375, 10.75, 10.625], "texture": "#skin" },
+        "up": { "uv": [0, 0, 5.375, 5.375], "texture": "#skin" },
+        "down": { "uv": [5.375, 0, 10.75, 5.375], "texture": "#skin" }
       }
     }
   ]

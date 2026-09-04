@@ -1,7 +1,7 @@
 {
   "__comment": "左前足 / ID 2114 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "minecraft:block/polished_andesite",
+    "skin": "knight/horse_leg",
     "particle": "#skin"
   },
   "elements": [
@@ -10,12 +10,12 @@
       "from": [5.28, -16, 5.28],
       "to": [10.72, 8, 10.72],
       "faces": {
-        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+        "north": { "uv": [10.125, 3.375, 13.5, 16], "texture": "#skin" },
+        "east": { "uv": [0, 3.375, 3.375, 16], "texture": "#skin" },
+        "south": { "uv": [3.375, 3.375, 6.75, 16], "texture": "#skin" },
+        "west": { "uv": [6.75, 3.375, 10.125, 16], "texture": "#skin" },
+        "up": { "uv": [3.375, 0, 6.75, 3.375], "texture": "#skin" },
+        "down": { "uv": [6.75, 0, 10.125, 3.375], "texture": "#skin" }
       }
     }
   ]

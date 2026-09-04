@@ -1,7 +1,7 @@
 {
   "__comment": "人胴 / ID 2101 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "minecraft:block/white_concrete",
+    "skin": "knight/torso",
     "particle": "#skin"
   },
   "elements": [
@@ -10,12 +10,12 @@
       "from": [0, -1.2, 3.04],
       "to": [16, 17.2, 12.96],
       "faces": {
-        "north": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "east": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "south": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "west": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "up": { "uv": [0, 0, 16, 16], "texture": "#skin" },
-        "down": { "uv": [0, 0, 16, 16], "texture": "#skin" }
+        "north": { "uv": [5.5, 9.625, 11, 15.875], "texture": "#skin" },
+        "east": { "uv": [0, 3.375, 3.375, 9.625], "texture": "#skin" },
+        "south": { "uv": [0, 9.625, 5.5, 15.875], "texture": "#skin" },
+        "west": { "uv": [3.375, 3.375, 6.75, 9.625], "texture": "#skin" },
+        "up": { "uv": [0, 0, 5.5, 3.375], "texture": "#skin" },
+        "down": { "uv": [5.5, 0, 11, 3.375], "texture": "#skin" }
       }
     }
   ]
