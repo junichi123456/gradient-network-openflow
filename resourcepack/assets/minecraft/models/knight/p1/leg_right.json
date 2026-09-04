@@ -1,0 +1,22 @@
+{
+  "__comment": "右足 / ID 2010 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "knight/leg",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "右足",
+      "from": [4.48, -11.2, 4.48],
+      "to": [11.52, 8, 11.52],
+      "faces": {
+        "north": { "uv": [12, 4, 16, 14.875], "texture": "#skin" },
+        "east": { "uv": [0, 4, 4, 14.875], "texture": "#skin" },
+        "south": { "uv": [4, 4, 8, 14.875], "texture": "#skin" },
+        "west": { "uv": [8, 4, 12, 14.875], "texture": "#skin" },
+        "up": { "uv": [4, 0, 8, 4], "texture": "#skin" },
+        "down": { "uv": [8, 0, 12, 4], "texture": "#skin" }
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "textures": {
+    "down": "minecraft:block/red_concrete",
+    "up": "minecraft:block/lime_concrete",
+    "north": "minecraft:block/blue_concrete",
+    "south": "minecraft:block/yellow_concrete",
+    "west": "minecraft:block/white_concrete",
+    "east": "minecraft:block/black_concrete",
+    "corner": "minecraft:block/magenta_concrete",
+    "particle": "minecraft:block/white_concrete"
+  },
+  "elements": [
+    {
+      "name": "16単位の立方体",
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "down":  { "uv": [0, 0, 16, 16], "texture": "#down" },
+        "up":    { "uv": [0, 0, 16, 16], "texture": "#up" },
+        "north": { "uv": [0, 0, 16, 16], "texture": "#north" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#south" },
+        "west":  { "uv": [0, 0, 16, 16], "texture": "#west" },
+        "east":  { "uv": [0, 0, 16, 16], "texture": "#east" }
+      }
+    },
+    {
+      "name": "モデル座標 (0,0,0) の目印",
+      "from": [-3, -3, -3],
+      "to": [0, 0, 0],
+      "faces": {
+        "down":  { "uv": [0, 0, 3, 3], "texture": "#corner" },
+        "up":    { "uv": [0, 0, 3, 3], "texture": "#corner" },
+        "north": { "uv": [0, 0, 3, 3], "texture": "#corner" },
+        "south": { "uv": [0, 0, 3, 3], "texture": "#corner" },
+        "west":  { "uv": [0, 0, 3, 3], "texture": "#corner" },
+        "east":  { "uv": [0, 0, 3, 3], "texture": "#corner" }
+      }
+    }
+  ]
+}

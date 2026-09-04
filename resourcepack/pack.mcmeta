@@ -1,0 +1,7 @@
+{
+  "pack": {
+    "pack_format": 46,
+    "supported_formats": { "min_inclusive": 42, "max_inclusive": 61 },
+    "description": "レイド個体のモデル（§12.6 / raid_model_spec.md）"
+  }
+}

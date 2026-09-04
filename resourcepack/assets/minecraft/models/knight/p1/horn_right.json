@@ -1,0 +1,22 @@
+{
+  "__comment": "右角 / ID 2003 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "knight/horn",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "右角",
+      "from": [7.12, -3.52, 7.12],
+      "to": [8.88, 8, 8.88],
+      "faces": {
+        "north": { "uv": [6.375, 2.125, 8.5, 16], "texture": "#skin" },
+        "east": { "uv": [0, 2.125, 2.125, 16], "texture": "#skin" },
+        "south": { "uv": [2.125, 2.125, 4.25, 16], "texture": "#skin" },
+        "west": { "uv": [4.25, 2.125, 6.375, 16], "texture": "#skin" },
+        "up": { "uv": [2.125, 0, 4.25, 2.125], "texture": "#skin" },
+        "down": { "uv": [4.25, 0, 6.375, 2.125], "texture": "#skin" }
+      }
+    }
+  ]
+}

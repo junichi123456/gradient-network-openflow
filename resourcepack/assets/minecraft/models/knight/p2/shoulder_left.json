@@ -1,0 +1,22 @@
+{
+  "__comment": "左肩 / ID 2107 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "knight/shoulder",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "左肩",
+      "from": [2.8, 4.16, 3.04],
+      "to": [13.2, 11.84, 12.96],
+      "faces": {
+        "north": { "uv": [6.625, 11.125, 13.25, 16], "texture": "#skin" },
+        "east": { "uv": [0, 6.25, 6.25, 11.125], "texture": "#skin" },
+        "south": { "uv": [0, 11.125, 6.625, 16], "texture": "#skin" },
+        "west": { "uv": [6.25, 6.25, 12.5, 11.125], "texture": "#skin" },
+        "up": { "uv": [0, 0, 6.625, 6.25], "texture": "#skin" },
+        "down": { "uv": [6.625, 0, 13.25, 6.25], "texture": "#skin" }
+      }
+    }
+  ]
+}
