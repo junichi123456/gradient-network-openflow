@@ -68,6 +68,71 @@ Copy-Item -Recurse -Force E:\raid-dev\resourcepack "$packs\raid-dev"
 置いたあと、ゲーム内の**リソースパック画面で「使用可能」から「選択済み」へ移す**。
 リンクを張った場合は `F3 + T` で再読み込みできる（ゲームの再起動は不要）。
 
+## 塗った絵を反映する
+
+塗るのは**リポジトリの中のファイル**である。ここを塗り替えてから同期する。
+
+```
+E:\raid-dev\resourcepack\assets\minecraft\textures\knight\*.png
+```
+
+```powershell
+# 1. 最新にする（生成物が更新されている場合がある）
+cd E:\raid-dev
+git pull
+
+# 2. ペイントで上のフォルダの PNG を塗る（32×32・名前と大きさは変えない）
+
+# 3. クライアントへ写す
+powershell -ExecutionPolicy Bypass -File E:\raid-dev\resourcepack\sync-pack.ps1
+```
+
+ゲーム内で:
+
+```
+F3 + T                  # リソースパックを読み直す
+/raid model authored    # 描いたモデルで出し直す
+```
+
+塗り直すたびに **3 → F3+T → /raid model authored** を繰り返せばよい。サーバーの再起動も
+プラグインのビルドも要らない。
+
+塗った絵は**リポジトリに入れて残す**。
+
+```powershell
+git add resourcepack/assets/minecraft/textures/knight
+git commit -m "騎士の塗り絵を描く"
+git push
+```
+
+> **`./core/generate-pack.sh` は塗った PNG を上書きしない。** モデルの JSON と
+> `templates/` の原本だけを書き直す。大きさが 32×32 と違う PNG があると警告を出す。
+
+## 本番で配る
+
+検証中は手で置いてよいが、参加者に配るときはサーバーから自動で渡す。パックを **zip** にして
+どこかに置き、`server.properties` に URL と sha1 を書く。
+
+```powershell
+# zip にする（pack.mcmeta が zip の直下に来るようにする）
+Compress-Archive -Path E:\raid-dev\resourcepack\* -DestinationPath E:\raid-pack.zip -Force
+# sha1 を取る
+(Get-FileHash E:\raid-pack.zip -Algorithm SHA1).Hash.ToLower()
+```
+
+```properties
+resource-pack=https://example.com/raid-pack.zip
+resource-pack-sha1=<上で出た値>
+require-resource-pack=true
+resource-pack-prompt=騎士型の見た目に必要です
+```
+
+> **zip の直下に `pack.mcmeta` が来ること。** フォルダを1段挟むと読み込まれない。
+> `templates/` は塗り絵の原本であってパックの中身ではないため、zip から外してよい。
+
+> **sha1 は zip を更新するたびに変わる。** 書き換えを忘れると、参加者側で古いパックが
+> 使われ続ける。
+
 ## 効いていないときの切り分け
 
 ```

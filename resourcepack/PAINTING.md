@@ -119,7 +119,12 @@ Copy-Item -Force E:\raid-dev\resourcepack\templates\torso.png `
 
 ## 4. 塗った絵を確かめる
 
+塗るのは**リポジトリの中のファイル**である。塗ってから同期する。
+
 ```powershell
+cd E:\raid-dev
+git pull                                      # 生成物が更新されている場合がある
+# ペイントで assets\minecraft\textures\knight\*.png を塗る
 powershell -ExecutionPolicy Bypass -File E:\raid-dev\resourcepack\sync-pack.ps1
 ```
 
@@ -132,12 +137,21 @@ F3 + T                  # リソースパックを読み直す
 /raid model             # いまどちらかを表示する
 ```
 
+塗り直すたびに **同期 → F3+T → /raid model authored** を繰り返せばよい。
+サーバーの再起動もプラグインのビルドも要らない。
+
 `/raid model authored` は**出ている個体をその場で作り直す**。骨格は個体を作るときに組むため、
-出し直さないと切り替えが効かない。
+出し直さないと切り替えが効かない。サーバーを起動し直すとバニラの素材に戻る（既定値）。
 
-サーバーを起動し直すとバニラの素材に戻る（既定値）。
+塗った絵は**リポジトリに入れて残す**。手元だけに置くと、生成し直したときや環境を移したときに失う。
 
----
+```powershell
+git add resourcepack/assets/minecraft/textures/knight
+git commit -m "騎士の塗り絵を描く"
+git push
+```
+
+参加者へ配る段（zip と `server.properties`）は `README.md` の「本番で配る」を見ること。
 
 ## 5. うまくいかないとき
 
