@@ -102,11 +102,18 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                 // ブロックの中心・地表に置く。座標が読みやすいほうがずれを測れる
                 Location at = player.getLocation().getBlock().getLocation().add(0.5, 0, 0.5);
                 calibration.addAll(Calibration.spawn(at));
-                player.sendMessage("較正用の立方体を " + format(at) + " に出しました");
+                player.sendMessage("較正用の立方体を " + format(at)
+                        + " から東へ4つ並べました");
+                for (int i = 0; i < Calibration.LABELS.size(); i++) {
+                    player.sendMessage("§7  " + (i + 1) + "つめ（西から）: §f"
+                            + Calibration.LABELS.get(i));
+                }
+                player.sendMessage("§7モデル本来の色: 上=黄緑 下=赤 北=青 南=黄 西=白 東=黒");
+                player.sendMessage("§7各立方体の§f天面の色§7と§f北面の色§7を読めば、"
+                        + "掛かっている回転が一意に決まります");
                 player.sendMessage("§7赤い小さな印がエンティティの位置です。"
-                        + "色付きの立方体の§f中心§7に印があれば想定どおりです");
-                player.sendMessage("§7マゼンタの角がモデル座標 (0,0,0) です。"
-                        + "上=黄緑 下=赤 北=青 南=黄 西=白 東=黒");
+                        + "立方体の§f中心§7に印があれば原点は想定どおりです");
+                player.sendMessage("§7マゼンタの角がモデル座標 (0,0,0) です");
                 player.sendMessage("§7消すときは /raid despawn");
             }
             case "dump" -> {

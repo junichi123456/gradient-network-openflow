@@ -2,6 +2,7 @@ package jp.mcserver.plugin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.UnaryOperator;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.BlockDisplay;
@@ -11,6 +12,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Transformation;
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -21,14 +23,25 @@ import org.joml.Vector3f;
  * 本書の想定は「モデル座標 (8, 8, 8) がエンティティの位置に来る」だが、これは検証していない。
  * ここがずれていると、描いたモデルが全部位まとめてずれる。
  *
- * <p>出すもの
- * <ul>
- *   <li><b>16単位の立方体（補正なし）</b>— 面ごとに色が違う。モデル座標 (0,0,0) の角に
- *       マゼンタの目印。<b>ItemDisplay の生の挙動</b>が見える</li>
- *   <li><b>16単位の立方体（補正あり）</b>— 2ブロック東（+X）。骨格の表示と同じ
- *       {@value BossRig#ITEM_DISPLAY_YAW_DEGREES} 度の補正を掛けたもの</li>
- *   <li><b>エンティティの位置を示す小さな赤い立方体</b>（一辺 0.1、中心が位置そのもの）</li>
- * </ul>
+ * <p><b>出すもの。</b>西から東へ2ブロックおきに4つ並べる。すべて ItemDisplay で、
+ * 本番の部位とまったく同じ扱い（{@code ItemDisplayTransform.NONE}）である。
+ *
+ * <table>
+ *   <tr><th>位置</th><th>掛けた回転</th><th>読み取れること</th></tr>
+ *   <tr><td>1つめ</td><td>無し</td>
+ *       <td>Minecraft が ItemDisplay のモデルを<b>もともとどう向けて描くか</b></td></tr>
+ *   <tr><td>2つめ</td><td>{@link BossRig#yawOnly}（Y軸180度）</td>
+ *       <td>180度の打ち消しだけで正しくなるか</td></tr>
+ *   <tr><td>3つめ</td><td>{@link BossRig#tiltOnly}（Z軸の傾き）</td>
+ *       <td>傾きが単独でどう効くか</td></tr>
+ *   <tr><td>4つめ</td><td>{@link BossRig#compensate}（本番と同じ）</td>
+ *       <td><b>描いたモデルが実際にどう向くか</b></td></tr>
+ * </table>
+ *
+ * <p>それぞれの位置に、エンティティの位置を示す小さな赤い立方体を置く。
+ *
+ * <p>立方体は面ごとに色が違い、モデル座標 (0,0,0) の角にマゼンタの目印がある。
+ * <b>天面の色と北面の色を読めば、掛かっている回転が一意に決まる。</b>
  *
  * <p>較正の結果（実機で確認済み）
  * <ul>
@@ -48,10 +61,17 @@ final class Calibration {
     /** 位置を示す印の一辺（ブロック）。 */
     private static final float MARKER = 0.1f;
 
+    /** 立方体を並べる間隔（ブロック）。 */
+    private static final int SPACING = 2;
+
+    /** 並べる順。読み取り表と揃える。 */
+    static final List<String> LABELS = List.of(
+            "補正なし", "180度だけ", "傾きだけ", "本番と同じ（180度+傾き）");
+
     /**
      * 較正用の表示を出す。
      *
-     * @param at 出す位置。ここが「エンティティの位置」になる
+     * @param at 出す位置。ここが1つめの「エンティティの位置」になる
      * @return 出したエンティティ。片付けに使う
      */
     static List<Entity> spawn(Location at) {
@@ -62,12 +82,25 @@ final class Calibration {
         meta.setCustomModelData(MODEL_ID);
         paper.setItemMeta(meta);
 
-        // 補正なし。ItemDisplay の生の挙動が見える
-        spawned.add(cube(at, paper, 0));
-        // 補正あり。骨格の表示と同じ回転を掛けた。2ブロック東（+X）へ並べる
-        spawned.add(cube(at.clone().add(2, 0, 0), paper, BossRig.ITEM_DISPLAY_YAW_DEGREES));
+        // 補正の式は BossRig から借りる。ここで書き直すと較正の結論が本番へ移らない
+        List<UnaryOperator<Matrix4f>> rotations = List.of(
+                matrix -> matrix,
+                BossRig::yawOnly,
+                BossRig::tiltOnly,
+                BossRig::compensate);
 
-        BlockDisplay marker = at.getWorld().spawn(at, BlockDisplay.class, entity -> {
+        for (int i = 0; i < rotations.size(); i++) {
+            Location place = at.clone().add((double) SPACING * i, 0, 0);
+            spawned.add(cube(place, paper, rotations.get(i)));
+            spawned.add(marker(place));
+        }
+
+        return spawned;
+    }
+
+    /** エンティティの位置そのものを示す小さな立方体。 */
+    private static BlockDisplay marker(Location at) {
+        return at.getWorld().spawn(at, BlockDisplay.class, entity -> {
             entity.setBlock(Material.REDSTONE_BLOCK.createBlockData());
             // 中心を位置そのものに合わせる
             entity.setTransformation(new Transformation(
@@ -76,18 +109,18 @@ final class Calibration {
             entity.setBrightness(new Display.Brightness(15, 15));
             entity.setPersistent(false);
         });
-        spawned.add(marker);
-
-        return spawned;
     }
 
-    private static ItemDisplay cube(Location at, ItemStack paper, double yawDegrees) {
+    private static ItemDisplay cube(Location at, ItemStack paper,
+            UnaryOperator<Matrix4f> rotation) {
+        // 本番と同じ手順で回転を取り出す。拡大率を掛けない行列から取る
+        Quaternionf turned = rotation.apply(new Matrix4f())
+                .getNormalizedRotation(new Quaternionf());
         return at.getWorld().spawn(at, ItemDisplay.class, entity -> {
             entity.setItemStack(paper);
             // 実際の骨格と同じ扱いにする。ここが違うと較正の結果が移らない
             entity.setItemDisplayTransform(ItemDisplay.ItemDisplayTransform.NONE);
-            entity.setTransformation(new Transformation(new Vector3f(),
-                    new Quaternionf().rotateY((float) Math.toRadians(yawDegrees)),
+            entity.setTransformation(new Transformation(new Vector3f(), turned,
                     new Vector3f(1, 1, 1), new Quaternionf()));
             entity.setBrightness(new Display.Brightness(15, 15));
             entity.setPersistent(false);

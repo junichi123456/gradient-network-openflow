@@ -96,6 +96,33 @@ final class BossRig {
         return origin.clone();
     }
 
+    /**
+     * 描いたモデルに掛ける補正。
+     *
+     * <p><b>較正（{@link Calibration}）と本番で同じ式を使う。</b>別々に書くと、
+     * 較正で読み取った結論が本番へ移らない。
+     *
+     * <p>順序が結果を変える。傾き → 180度 の順に掛ける。描画側は最後にモデルを
+     * Y軸まわりに180度回す（実機で較正した。{@code raid_model_spec.md} §7）。
+     * こちらの180度がそれを打ち消すため、傾きを先に掛けておけば、残るのは
+     * 純粋な「局所Z軸まわりの傾き」になる。逆の順序にすると符号が反転する。
+     *
+     * @param into 世界の回転を含む行列。ここへ掛ける
+     */
+    static Matrix4f compensate(Matrix4f into) {
+        return into.rotateZ(MODEL_TILT).rotateY(ITEM_DISPLAY_YAW);
+    }
+
+    /** 傾きだけ（180度の打ち消しを含まない）。較正で切り分けるために出す。 */
+    static Matrix4f tiltOnly(Matrix4f into) {
+        return into.rotateZ(MODEL_TILT);
+    }
+
+    /** 180度の打ち消しだけ（傾きを含まない）。較正で切り分けるために出す。 */
+    static Matrix4f yawOnly(Matrix4f into) {
+        return into.rotateY(ITEM_DISPLAY_YAW);
+    }
+
     /** 部位ぶんの表示エンティティと当たり判定を生成する。 */
     void spawn() {
         World world = origin.getWorld();
@@ -313,7 +340,7 @@ final class BossRig {
                     // 掛けるのは描いたモデルだけである。バニラのアイテムを見た目に使う部位
                     // （穂先・頭飾り）は平面のスプライトであり、基準回転を実機の見え方に
                     // 合わせて決めてある。補正を掛けると向きが逆になる
-                    placed.rotateZ(MODEL_TILT).rotateY(ITEM_DISPLAY_YAW);
+                    compensate(placed);
                 }
                 Vector3f translation = placed.getTranslation(new Vector3f());
                 Quaternionf rotation = placed.getNormalizedRotation(new Quaternionf());
