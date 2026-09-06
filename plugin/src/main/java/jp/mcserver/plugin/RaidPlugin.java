@@ -116,6 +116,19 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                 player.sendMessage("§7マゼンタの角がモデル座標 (0,0,0) です");
                 player.sendMessage("§7消すときは /raid despawn");
             }
+            case "axes" -> {
+                clearCalibration();
+                Location at = player.getLocation().getBlock().getLocation().add(0.5, 1, 0.5);
+                calibration.addAll(Axes.spawn(at));
+                player.sendMessage("基準の十字を " + format(at) + " から東へ2つ出しました");
+                for (int i = 0; i < Axes.LABELS.size(); i++) {
+                    player.sendMessage("§7  " + (i + 1) + "つめ（西から）: §f"
+                            + Axes.LABELS.get(i));
+                }
+                player.sendMessage("§7棒は部位とまったく同じ手順で出しています。"
+                        + "指す向きが上のとおりなら、描画へ渡す行列は正しいということです");
+                player.sendMessage("§7F3 で向きを確かめてください。消すときは /raid despawn");
+            }
             case "dump" -> {
                 if (active.isEmpty()) {
                     player.sendMessage("召喚中の個体はありません");
