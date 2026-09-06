@@ -66,7 +66,8 @@ final class Axes {
                 new Quaternionf().rotateX((float) Math.toRadians(SPEAR_PITCH_DEGREES)));
 
         for (int i = 0; i < rotations.size(); i++) {
-            Location place = at.clone().add((double) SPACING * i, 0, 0);
+            // 向きを落とす。位置に向きが残ると表示だけが余計に回る（BossRig.upright）
+            Location place = BossRig.upright(at.clone().add((double) SPACING * i, 0, 0));
             Quaternionf turn = rotations.get(i);
             spawned.add(bar(place, turn, Material.RED_CONCRETE,
                     new Vector3f(LENGTH, THICK, THICK),

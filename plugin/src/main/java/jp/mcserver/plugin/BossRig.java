@@ -59,11 +59,19 @@ final class BossRig {
     /**
      * 描いたモデルに掛ける傾き（Z軸まわり、度）。
      *
-     * <p>実機で見て決めた補正である。<b>これは対症の値であり、根本の原因は分かっていない。</b>
-     * 座標系の取り違えなら 90 や 180 になるはずで、45 という量はそれに当てはまらない。
-     * 原因が分かった時点でここは 0 に戻す。
+     * <p><b>0 である。</b>かつて −45 を入れていたが、あれは
+     * 「原点の位置に召喚時のプレイヤーの向きが残り、表示だけが余計に回っていた」
+     * ことへの対症であった（{@link #upright} を見ること）。原因を直したので不要になった。
+     *
+     * <p>合成の計算からも余分だと分かる。描画結果は
+     * {@code 左回転 · 拡大 · （Minecraft の固有の向き） · モデル頂点} の順に決まり、
+     * 固有の向きが Y軸180度なら {@code 左回転 = 世界回転 · Ry(180)} で打ち消せる。
+     * ここに傾きを足すと、打ち消しの外に残って部位ごとの局所Z軸を傾けるだけになる。
+     *
+     * <p>残してあるのは、別の系統のずれが出たときに切り分けるためである
+     * （{@code /raid calibrate} の3つめと4つめがこの値を使う）。
      */
-    static final double MODEL_TILT_DEGREES = -45.0;
+    static final double MODEL_TILT_DEGREES = 0.0;
 
     private static final float MODEL_TILT = (float) Math.toRadians(MODEL_TILT_DEGREES);
 
@@ -85,7 +93,30 @@ final class BossRig {
 
     BossRig(Rig rig, Location origin) {
         this.rig = rig;
-        this.origin = origin.clone();
+        this.origin = upright(origin);
+    }
+
+    /**
+     * 向きを落とした位置。
+     *
+     * <p><b>表示エンティティは自身のエンティティ向き（yaw / pitch）でも回転する。</b>
+     * {@code Location} は向きを持ち、{@code clone()} も {@code add()} もそれを保つため、
+     * 召喚時に渡された位置（プレイヤーの位置）の向きが原点に残り続ける。すると
+     * <b>表示だけが召喚時の向きぶん余計に回り、当たり判定はそのままになる</b>。
+     * 判定は軸に沿った箱で、向きの影響を受けないからである。
+     *
+     * <p>これが「描画が判定と 90 度／180 度ずれる」「下を向いている」の原因であった。
+     * ずれ量は召喚したときにプレイヤーが向いていた方角そのものなので、
+     * 向き0で召喚したときだけ一致し、再現しないことがあった。
+     *
+     * <p>向きはすべて {@link Transformation} の回転で表す。位置に持たせてはならない。
+     * 較正の道具（{@link Calibration} / {@link Axes}）も同じ罠を踏まないよう、これを通す。
+     */
+    static Location upright(Location at) {
+        Location placed = at.clone();
+        placed.setYaw(0);
+        placed.setPitch(0);
+        return placed;
     }
 
     Rig rig() {
@@ -212,8 +243,12 @@ final class BossRig {
      */
     List<String> describe() {
         List<String> lines = new ArrayList<>();
-        lines.add(String.format("原点 (%.2f, %.2f, %.2f)", origin.getX(), origin.getY(),
-                origin.getZ()));
+        lines.add(String.format("原点 (%.2f, %.2f, %.2f) 向き yaw %.1f / pitch %.1f",
+                origin.getX(), origin.getY(), origin.getZ(),
+                origin.getYaw(), origin.getPitch()));
+        // 表示エンティティ自身の向きも出す。ここが0以外だと、送った変換に加えて
+        // クライアント側で回され、判定とずれる（upright の説明）。0以外は異常である
+        lines.add(String.format("表示エンティティの向き %s（0以外なら異常）", displayRotations()));
         for (Map.Entry<String, String> entry : sent.entrySet()) {
             StringBuilder line = new StringBuilder(entry.getValue());
             List<Vector3f> points = segmentCenters.get(entry.getKey());
@@ -226,6 +261,24 @@ final class BossRig {
             lines.add(line.toString());
         }
         return lines;
+    }
+
+    /**
+     * 表示エンティティ自身の向きの範囲。
+     *
+     * <p>すべて0であるべきである。回転は {@link Transformation} だけで表し、
+     * エンティティの向きには持たせない（{@link #upright} の説明）。
+     */
+    private String displayRotations() {
+        float maxYaw = 0;
+        float maxPitch = 0;
+        for (List<Display> list : displays.values()) {
+            for (Display display : list) {
+                maxYaw = Math.max(maxYaw, Math.abs(display.getLocation().getYaw()));
+                maxPitch = Math.max(maxPitch, Math.abs(display.getLocation().getPitch()));
+            }
+        }
+        return String.format("yaw 最大 %.1f / pitch 最大 %.1f", maxYaw, maxPitch);
     }
 
     /** 部位の中心のワールド座標。演出の発生点に使う。 */
@@ -261,7 +314,8 @@ final class BossRig {
 
     /** 個体を移動させる。表示エンティティは補間で追従する。 */
     void moveTo(Location location) {
-        this.origin = location.clone();
+        // 向きを落とす。持たせると表示だけが余計に回る（upright の説明）
+        this.origin = upright(location);
         displays.values().forEach(list -> list.forEach(display -> display.teleport(origin)));
         // 姿勢の更新は更新間隔ごとだが、当たり判定は毎tick追従させる。
         // ここで一括して原点へ寄せてしまうと、更新の谷にあたるtickで全部位の判定が重なる

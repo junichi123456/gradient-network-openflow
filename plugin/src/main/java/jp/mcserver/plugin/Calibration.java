@@ -90,7 +90,8 @@ final class Calibration {
                 BossRig::compensate);
 
         for (int i = 0; i < rotations.size(); i++) {
-            Location place = at.clone().add((double) SPACING * i, 0, 0);
+            // 向きを落とす。位置に向きが残ると表示だけが余計に回る（BossRig.upright）
+            Location place = BossRig.upright(at.clone().add((double) SPACING * i, 0, 0));
             spawned.add(cube(place, paper, rotations.get(i)));
             spawned.add(marker(place));
         }
