@@ -2132,6 +2132,15 @@ public final class CoreTests {
                 rig.weakPoints().stream().map(Rig.Part::name).toList().equals(List.of("頭"))
                         && rig.part("頭").vulnerability() == KnightDefinition.HEAD_VULNERABILITY
                         && rig.part("頭").gate() == Rig.Gate.ON_EXPOSURE);
+        // 判定の太さは意図して通している（§12.6）。判定は分割後の長辺を一辺とする立方体で、
+        // 腕は 1.10 角になる。プレイヤーが殴る先が太くなるだけで、個体の攻撃が届く範囲には
+        // 効かない。直すには分割を増やすことになり、毎tickの追従が増える
+        check("腕は分割しない。判定は見た目より太くなるが直さない",
+                rig.part("右腕").hitboxSegments() == 1
+                        && rig.part("右腕").appearance().scale().x() == 0.40
+                        && rig.part("右腕").appearance().scale().y() == 1.10);
+        check("個体の攻撃が届く範囲は判定の太さとは別に持つ",
+                KnightDefinition.WEAPON_REACH == 2.2);
         check("槍は当たり判定を長さ方向に5分割する",
                 rig.part("槍").hitboxSegments() == KnightDefinition.SPEAR_SEGMENTS
                         && rig.part("槍").appearance().scale().y() == 3.40);
