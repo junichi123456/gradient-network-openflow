@@ -73,7 +73,7 @@ Copy-Item -Recurse -Force E:\raid-dev\resourcepack "$packs\raid-dev"
 塗るのは**リポジトリの中のファイル**である。ここを塗り替えてから同期する。
 
 ```
-E:\raid-dev\resourcepack\assets\minecraft\textures\knight\*.png
+E:\raid-dev\resourcepack\assets\minecraft\textures\item\knight\*.png
 ```
 
 ```powershell
@@ -100,7 +100,7 @@ F3 + T                  # リソースパックを読み直す
 塗った絵は**リポジトリに入れて残す**。
 
 ```powershell
-git add resourcepack/assets/minecraft/textures/knight
+git add resourcepack/assets/minecraft/textures/item/knight
 git commit -m "騎士の塗り絵を描く"
 git push
 ```
@@ -145,7 +145,7 @@ resource-pack-prompt=騎士型の見た目に必要です
 |---|---|
 | 立方体になる | パックは効いている。プラグインの `custom_model_data` の書き込み側の問題 |
 | 紙のまま | パックが読み込まれていない（置き場所・選択済みか・バージョン警告を確認） |
-| 紫と黒の欠損モデル | パックは効いているが**モデルの JSON が壊れている** |
+| 紫と黒の欠損モデル | パックは効いているが**テクスチャが見つからない**（`textures/item/` の外に置いた）か、**モデルの JSON が壊れている** |
 
 ## 中身
 
@@ -155,7 +155,7 @@ resource-pack-prompt=騎士型の見た目に必要です
 | `assets/minecraft/items/paper.json` | `custom_model_data` からモデルへの振り分け | **自動**（上書き） |
 | `assets/minecraft/models/knight/p1/*.json` | 第一形態の部位（13件） | **自動**（上書き） |
 | `assets/minecraft/models/knight/p2/*.json` | 第二形態の部位（16件） | **自動**（上書き） |
-| `assets/minecraft/textures/knight/*.png` | 塗り絵（11枚）。**ここを塗る** | 自動（無いときだけ置く） |
+| `assets/minecraft/textures/item/knight/*.png` | 塗り絵（11枚）。**ここを塗る** | 自動（無いときだけ置く） |
 | `templates/*.png` | 塗り絵の原本（11枚）。戻すとき写す | **自動**（上書き） |
 | `templates/guide/*.png` | 目印を大きく描いた4倍の拡大図。**読む用・塗らない** | **自動**（上書き） |
 | `assets/minecraft/models/knight/calibration.json` | 較正用の 16 単位の立方体 | 手書き |
@@ -173,7 +173,7 @@ resource-pack-prompt=騎士型の見た目に必要です
 
 **塗る手順は `PAINTING.md` にある。**要点だけ:
 
-- 塗るのは `assets/minecraft/textures/knight/*.png`（11枚・各 32×32）
+- 塗るのは `assets/minecraft/textures/item/knight/*.png`（11枚・各 32×32）
 - 1枚に6つの枠があり、左上の文字が面を示す（`F` 前 / `B` 後 / `R` 右 / `L` 左 / `U` 上 / `D` 下）
 - 狭くて文字が入らない枠は `templates/guide/` の4倍の拡大図で読む
 - 濃い灰色の余白はどの面にも貼られない

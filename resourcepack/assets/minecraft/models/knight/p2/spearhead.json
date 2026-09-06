@@ -1,7 +1,7 @@
 {
   "__comment": "穂先 / ID 2111 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "knight/spearhead",
+    "skin": "item/knight/spearhead",
     "particle": "#skin"
   },
   "elements": [

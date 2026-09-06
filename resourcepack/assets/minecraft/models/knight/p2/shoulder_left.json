@@ -1,7 +1,7 @@
 {
   "__comment": "左肩 / ID 2107 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "knight/shoulder",
+    "skin": "item/knight/shoulder",
     "particle": "#skin"
   },
   "elements": [

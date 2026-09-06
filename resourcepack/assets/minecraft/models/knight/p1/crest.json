@@ -1,7 +1,7 @@
 {
   "__comment": "頭飾り / ID 2005 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "knight/crest",
+    "skin": "item/knight/crest",
     "particle": "#skin"
   },
   "elements": [

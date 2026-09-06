@@ -1,7 +1,7 @@
 {
   "__comment": "頭 / ID 2002 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "knight/head",
+    "skin": "item/knight/head",
     "particle": "#skin"
   },
   "elements": [

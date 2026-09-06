@@ -1,7 +1,7 @@
 # 塗り絵の描き方（Windows のペイントだけで足りる）
 
 立体を扱う道具は要らない。**箱の形・向き・UV は骨格データから自動生成してある**ので、
-描く側の仕事は `assets/minecraft/textures/knight/*.png` を**塗り替えるだけ**である。
+描く側の仕事は `assets/minecraft/textures/item/knight/*.png` を**塗り替えるだけ**である。
 
 ---
 
@@ -81,14 +81,14 @@
 ```
 resourcepack/templates/guide/horn.png     ← 128×128・文字あり（読む用）
 resourcepack/templates/horn.png           ←  32×32・原本（戻す用）
-resourcepack/assets/minecraft/textures/knight/horn.png   ← 32×32（塗る用）
+resourcepack/assets/minecraft/textures/item/knight/horn.png   ← 32×32（塗る用）
 ```
 
-**拡大図を塗ってはいけない。** 貼られるのは `textures/knight/` の側だけである。
+**拡大図を塗ってはいけない。** 貼られるのは `textures/item/knight/` の側だけである。
 
 ## 3. ペイントでの手順
 
-1. `E:\raid-dev\resourcepack\assets\minecraft\textures\knight\torso.png` を**右クリック → プログラムから開く → ペイント**
+1. `E:\raid-dev\resourcepack\assets\minecraft\textures\item\knight\torso.png` を**右クリック → プログラムから開く → ペイント**
 2. **表示 → ズーム**を 1600% まで上げる（32×32 は小さい）。**表示 → グリッド線**を入れると1画素が見える
 3. 枠の中を塗る。下地は面ごとに明るさを変えてあるので、そのまま陰影として使ってよい
 4. 元の色を拾いたいときは**スポイト**（色の選択）を使う
@@ -102,6 +102,7 @@ resourcepack/assets/minecraft/textures/knight/horn.png   ← 32×32（塗る用�
 | **PNG 以外で保存しない** | JPEG は色がにじみ、BMP は Minecraft が読まない |
 | **透明を使わない** | 古いペイントは α を残せない。箱は不透明で描く |
 | **ファイル名を変えない** | モデルの `"skin"` がこの名前を指している |
+| **`textures/item/knight/` から動かさない** | `elements` を持つモデルのテクスチャは**ブロックアトラス**に縫い込まれる。既定の取り込み元は `textures/block/` と `textures/item/` だけで、その外に置くと**紫と黒の欠損**になる |
 
 > Windows 11 のペイント（レイヤー・透明あり）でも構わない。透明部分は黒くなるだけで壊れはしない。
 
@@ -112,7 +113,7 @@ resourcepack/assets/minecraft/textures/knight/horn.png   ← 32×32（塗る用�
 
 ```powershell
 Copy-Item -Force E:\raid-dev\resourcepack\templates\torso.png `
-                 E:\raid-dev\resourcepack\assets\minecraft\textures\knight\torso.png
+                 E:\raid-dev\resourcepack\assets\minecraft\textures\item\knight\torso.png
 ```
 
 ---
@@ -124,7 +125,7 @@ Copy-Item -Force E:\raid-dev\resourcepack\templates\torso.png `
 ```powershell
 cd E:\raid-dev
 git pull                                      # 生成物が更新されている場合がある
-# ペイントで assets\minecraft\textures\knight\*.png を塗る
+# ペイントで assets\minecraft\textures\item\knight\*.png を塗る
 powershell -ExecutionPolicy Bypass -File E:\raid-dev\resourcepack\sync-pack.ps1
 ```
 
@@ -146,7 +147,7 @@ F3 + T                  # リソースパックを読み直す
 塗った絵は**リポジトリに入れて残す**。手元だけに置くと、生成し直したときや環境を移したときに失う。
 
 ```powershell
-git add resourcepack/assets/minecraft/textures/knight
+git add resourcepack/assets/minecraft/textures/item/knight
 git commit -m "騎士の塗り絵を描く"
 git push
 ```
@@ -159,7 +160,7 @@ git push
 |---|---|
 | 生成時に「大きさが画布と違う」と出る | 画布の設定を変えた。その PNG を消して置き直す（塗り直しになる） |
 | 紙のまま出る | リソースパックが読み込まれていない。`README.md` の「効いていないときの切り分け」を見る |
-| 紫と黒の欠損 | モデルの JSON が壊れている。`./core/generate-pack.sh` で作り直す |
+| 紫と黒の欠損 | テクスチャが見つからない（`textures/item/knight/` の外に置いた・ファイル名が違う）か、モデルの JSON が壊れている。`./core/generate-pack.sh` で作り直す |
 | 白いままで絵が出ない | `/raid model authored` を実行していない（バニラの素材が出ている） |
 | 絵が伸びている | その部位は共有した1枚を使っている。寸法差を UV の伸びで吸収しているためで、異常ではない |
 | 絵が上下逆・左右逆 | 枠を取り違えている。目印の文字（F/B/R/L/U/D）で読み直す |
@@ -176,7 +177,7 @@ git push
 ```
 
 - モデルの JSON と振り分け、`templates/` の原本と拡大図は**上書きされる**
-- `assets/minecraft/textures/knight/*.png` は**触らない**（塗った絵を消さない）
+- `assets/minecraft/textures/item/knight/*.png` は**触らない**（塗った絵を消さない）
 - 塗った PNG の大きさが画布と違うときは警告を出す（貼る位置が黙ってずれるため）
 
 寸法を変えると枠の大きさも変わるため、絵は伸び縮みする。大きく変えたときは

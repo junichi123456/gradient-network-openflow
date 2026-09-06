@@ -1,7 +1,7 @@
 {
   "__comment": "右足 / ID 2010 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "knight/leg",
+    "skin": "item/knight/leg",
     "particle": "#skin"
   },
   "elements": [

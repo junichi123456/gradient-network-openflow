@@ -1,7 +1,7 @@
 {
   "__comment": "胴 / ID 2001 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "knight/torso",
+    "skin": "item/knight/torso",
     "particle": "#skin"
   },
   "elements": [

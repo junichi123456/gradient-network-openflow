@@ -1,7 +1,7 @@
 {
   "__comment": "槍 / ID 2110 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "knight/spear",
+    "skin": "item/knight/spear",
     "particle": "#skin"
   },
   "elements": [

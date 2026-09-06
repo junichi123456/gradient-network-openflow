@@ -239,7 +239,7 @@
 | `assets/minecraft/models/knight/p1/*.json` | 第一形態の部位（13件） | 上書きされる |
 | `assets/minecraft/models/knight/p2/*.json` | 第二形態の部位（16件） | 上書きされる |
 | `assets/minecraft/items/paper.json` | `custom_model_data` からの振り分け（**1.21.4 の書き方**） | 上書きされる |
-| `assets/minecraft/textures/knight/*.png` | 塗り絵（11枚） | **触らない**（描いた絵を消さない） |
+| `assets/minecraft/textures/item/knight/*.png` | 塗り絵（11枚） | **触らない**（描いた絵を消さない） |
 | `templates/*.png` | 塗り絵の原本（11枚） | 上書きされる |
 | `templates/guide/*.png` | 目印を大きく描いた4倍の拡大図（11枚）。**読む用** | 上書きされる |
 
@@ -275,6 +275,7 @@
 | 枠の目印 | `F` 前 / `B` 後 / `R` 右 / `L` 左 / `U` 上 / `D` 下 | 塗り替えれば消える。並びを覚えなくても読める。狭くて入らない枠は `templates/guide/` の4倍図で読む |
 | 画素の密度 | 面をまたいで同じ | 縦横比が歪まない。1ブロックあたり6〜39画素（バニラは16画素。胴・槍・馬胴は粗い） |
 | 透明度 | 使わない | 古いペイントは α を残せない |
+| 置き場所 | **`textures/item/` の下** | `elements` を持つモデルのテクスチャは**ブロックアトラス**に縫い込まれる。既定の取り込み元は `textures/block/` と `textures/item/` の2つだけで、その外に置くと**紫と黒の欠損**になる |
 
 枠の並べ方は2通りを試し、画素が大きく取れるほうを選ぶ。
 
@@ -315,7 +316,7 @@
 
 骨格は個体を作るときに組むため、切り替えは**出し直して初めて効く**。コマンドは出ている個体をその場で作り直す。塗り絵を直したときの一巡は次のとおり。
 
-1. ペイントで `assets/minecraft/textures/knight/*.png` を塗って保存する
+1. ペイントで `assets/minecraft/textures/item/knight/*.png` を塗って保存する
 2. `sync-pack.ps1` で置き場所へ写す（実体コピーの場合）
 3. ゲーム内で `F3 + T`（リソースパックの読み直し）
 4. `/raid model authored` を実行する（同じ方式のままなら `/raid despawn` → `/raid spawn`）

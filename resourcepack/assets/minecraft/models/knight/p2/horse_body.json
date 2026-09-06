@@ -1,7 +1,7 @@
 {
   "__comment": "馬胴 / ID 2112 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "knight/horse_body",
+    "skin": "item/knight/horse_body",
     "particle": "#skin"
   },
   "elements": [

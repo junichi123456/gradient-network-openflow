@@ -1,7 +1,7 @@
 {
   "__comment": "右後足 / ID 2115 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "knight/horse_leg",
+    "skin": "item/knight/horse_leg",
     "particle": "#skin"
   },
   "elements": [

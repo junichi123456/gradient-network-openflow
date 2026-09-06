@@ -50,6 +50,23 @@ public final class ModelPack {
      */
     private static final Map<String, String> SKINS = skins();
 
+    /**
+     * 塗り絵を置く場所。
+     *
+     * <p><b>{@code item/} の下でなければならない。</b>{@code elements} を持つモデルの
+     * テクスチャは<b>ブロックアトラス</b>に縫い込まれるが、既定のアトラスの取り込み元は
+     * {@code textures/block/} と {@code textures/item/} の2つだけである。
+     * その外に置くとテクスチャが見つからず、<b>紫と黒の欠損</b>になる。
+     * ディレクトリの取り込みは再帰するので、{@code item/} 配下なら確実に入る。
+     *
+     * <p>短い名前にしたくなるが、{@code textures/knight/} へ動かしてはいけない。
+     * 一度そうして欠損した。
+     */
+    private static final String TEXTURE_DIRECTORY = "assets/minecraft/textures/item/knight";
+
+    /** モデルから参照するときの前置き。{@link #TEXTURE_DIRECTORY} と対応させる。 */
+    private static final String TEXTURE_PREFIX = "item/knight/";
+
     /** 槍の絞りを何段の箱で近似するか。1つのモデルの中で完結するので表示実体は増えない。 */
     private static final int SPEAR_STEPS = 8;
 
@@ -61,7 +78,7 @@ public final class ModelPack {
     public static void main(String[] args) throws IOException {
         Path root = Path.of(args.length > 0 ? args[0] : "../resourcepack");
         Path models = root.resolve("assets/minecraft/models/knight");
-        Path textures = root.resolve("assets/minecraft/textures/knight");
+        Path textures = root.resolve(TEXTURE_DIRECTORY);
         Path templates = root.resolve("templates");
         Path items = root.resolve("assets/minecraft/items");
         Files.createDirectories(items);
@@ -356,7 +373,7 @@ public final class ModelPack {
     }
 
     private static String texture(Skin skin) {
-        return "knight/" + skin.name();
+        return TEXTURE_PREFIX + skin.name();
     }
 
     // ------------------------------------------------------------------ 振り分け

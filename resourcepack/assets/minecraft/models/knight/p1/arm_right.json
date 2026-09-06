@@ -1,7 +1,7 @@
 {
   "__comment": "右腕 / ID 2008 / 自動生成（core の ModelPack）",
   "textures": {
-    "skin": "knight/arm",
+    "skin": "item/knight/arm",
     "particle": "#skin"
   },
   "elements": [
