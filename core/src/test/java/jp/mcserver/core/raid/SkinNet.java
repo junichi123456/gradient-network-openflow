@@ -32,8 +32,13 @@ import java.util.Map;
  */
 public final class SkinNet {
 
-    /** 1枚の大きさ。2の冪でないと Minecraft がミップマップを作れない。 */
-    public static final int CANVAS = 128;
+    /**
+     * 1枚の大きさ。2の冪でないと Minecraft がミップマップを作れない。
+     *
+     * <p>UV は割合（0〜16）で書くため、<b>ここを変えればモデルの JSON はそのまま通る</b>。
+     * ただし<b>すでに塗った PNG は寸法が合わなくなる</b>ので、塗り直しになる。
+     */
+    public static final int CANVAS = 32;
 
     /** 面の名前。Minecraft のモデルが使う綴りに合わせる。 */
     public static final String NORTH = "north";

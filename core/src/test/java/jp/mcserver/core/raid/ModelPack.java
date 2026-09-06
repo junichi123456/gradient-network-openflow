@@ -99,7 +99,8 @@ public final class ModelPack {
 
         System.out.println("モデル " + written + " 件と振り分け " + dispatch.size()
                 + " 件を書き出した: " + root.toAbsolutePath().normalize());
-        System.out.println("塗り絵 " + skins.size() + " 枚（うち新しく置いたのは "
+        System.out.println("塗り絵 " + skins.size() + " 枚 "
+                + SkinNet.CANVAS + "×" + SkinNet.CANVAS + "（うち新しく置いたのは "
                 + drawn + " 枚。すでにある PNG は触っていない）");
         report(skins);
     }
@@ -170,6 +171,8 @@ public final class ModelPack {
      * <p>{@code templates/} は毎回書き直す原本で、{@code textures/} は描く場所である。
      * <b>描いた PNG を消さない</b>ため、textures 側は無いときだけ置く。
      *
+     * <p>枠が小さいと頭文字が入らないため、{@code templates/guide/} に拡大した案内図も置く。
+     *
      * @return 新しく置いた枚数
      */
     private static int writeSkins(Map<String, Skin> skins, Path textures, Path templates)
@@ -179,25 +182,54 @@ public final class ModelPack {
             Skin skin = entry.getValue();
             SkinTemplate.write(templates.resolve(entry.getKey() + ".png"),
                     skin.net(), skin.material());
+            SkinTemplate.writeGuide(templates.resolve("guide").resolve(entry.getKey() + ".png"),
+                    skin.net(), skin.material());
             Path texture = textures.resolve(entry.getKey() + ".png");
             if (!Files.exists(texture)) {
                 SkinTemplate.write(texture, skin.net(), skin.material());
                 drawn++;
+            } else {
+                warnIfResized(texture);
             }
         }
         return drawn;
     }
 
+    /**
+     * すでにある PNG の大きさが画布と違うときに知らせる。
+     *
+     * <p>UV は割合で書くため、大きさが違う絵を貼ると<b>黙って位置がずれる</b>。
+     * 塗った絵を勝手に捨てないので、消すかどうかは人が決める。
+     */
+    private static void warnIfResized(Path texture) throws IOException {
+        var image = javax.imageio.ImageIO.read(texture.toFile());
+        if (image == null) {
+            System.out.println("!! 読めない PNG がある: " + texture);
+            return;
+        }
+        if (image.getWidth() != SkinNet.CANVAS || image.getHeight() != SkinNet.CANVAS) {
+            System.out.println("!! 大きさが画布（" + SkinNet.CANVAS + "×" + SkinNet.CANVAS
+                    + "）と違う: " + texture.getFileName() + " は "
+                    + image.getWidth() + "×" + image.getHeight()
+                    + "。貼る位置がずれるので、消して置き直すこと");
+        }
+    }
+
     /** 塗る前に読む表。どの絵がどの部位に貼られ、どの枠がどれだけの大きさかを出す。 */
     private static void report(Map<String, Skin> skins) {
         System.out.println();
-        System.out.printf("%-14s %-6s %-8s %s%n", "塗り絵", "並び", "前面の枠", "貼られる部位");
+        System.out.printf("%-14s %-6s %-8s %-6s %s%n",
+                "塗り絵", "並び", "前面の枠", "頭文字", "貼られる部位");
         skins.forEach((name, skin) -> {
             SkinNet.Rect front = skin.net().region(SkinNet.SOUTH);
-            System.out.printf("%-14s %-6s %3d×%-4d %s%n", name + ".png",
+            System.out.printf("%-14s %-6s %3d×%-4d %d/6    %s%n", name + ".png",
                     skin.net().arrangement(), front.width(), front.height(),
+                    SkinTemplate.markedFaces(skin.net()),
                     String.join("・", skin.parts()));
         });
+        System.out.println();
+        System.out.println("頭文字が入らない枠は templates/guide/ の拡大図で読むこと"
+                + "（実寸の " + SkinTemplate.GUIDE_SCALE + " 倍）");
     }
 
     // ------------------------------------------------------------------ モデル

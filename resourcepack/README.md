@@ -92,6 +92,7 @@ Copy-Item -Recurse -Force E:\raid-dev\resourcepack "$packs\raid-dev"
 | `assets/minecraft/models/knight/p2/*.json` | 第二形態の部位（16件） | **自動**（上書き） |
 | `assets/minecraft/textures/knight/*.png` | 塗り絵（11枚）。**ここを塗る** | 自動（無いときだけ置く） |
 | `templates/*.png` | 塗り絵の原本（11枚）。戻すとき写す | **自動**（上書き） |
+| `templates/guide/*.png` | 目印を大きく描いた4倍の拡大図。**読む用・塗らない** | **自動**（上書き） |
 | `assets/minecraft/models/knight/calibration.json` | 較正用の 16 単位の立方体 | 手書き |
 
 **自動**は骨格データから生成している。
@@ -107,8 +108,9 @@ Copy-Item -Recurse -Force E:\raid-dev\resourcepack "$packs\raid-dev"
 
 **塗る手順は `PAINTING.md` にある。**要点だけ:
 
-- 塗るのは `assets/minecraft/textures/knight/*.png`（11枚・各 128×128）
+- 塗るのは `assets/minecraft/textures/knight/*.png`（11枚・各 32×32）
 - 1枚に6つの枠があり、左上の文字が面を示す（`F` 前 / `B` 後 / `R` 右 / `L` 左 / `U` 上 / `D` 下）
+- 狭くて文字が入らない枠は `templates/guide/` の4倍の拡大図で読む
 - 濃い灰色の余白はどの面にも貼られない
 - 画像の大きさとファイル名は変えない。透明は使わない
 

@@ -3083,6 +3083,8 @@ public final class CoreTests {
         String netProblem = "";
         int smallestFace = Integer.MAX_VALUE;
         String smallestPart = "";
+        double coarsest = Double.MAX_VALUE;
+        String coarsestPart = "";
         for (int i = 0; i < boss.phases().size(); i++) {
             var rig3 = boss.phases().get(i).rig().orElseThrow();
             for (String name : rig3.partNames()) {
@@ -3109,11 +3111,19 @@ public final class CoreTests {
                             netProblem = name + " の UV が 0〜16 の外にある";
                         }
                     }
-                    int area = Math.min(rect.width(), rect.height());
-                    if (area < smallestFace) {
-                        smallestFace = area;
+                    int side = Math.min(rect.width(), rect.height());
+                    if (side < smallestFace) {
+                        smallestFace = side;
                         smallestPart = "第" + (i + 1) + "形態 " + name;
                     }
+                }
+                // 塗る細かさは画素数ではなく1ブロックあたりの画素で見る
+                var front = net.region(SkinNet.SOUTH);
+                double density = Math.min(front.width() / look.scale().x(),
+                        front.height() / look.scale().y());
+                if (density < coarsest) {
+                    coarsest = density;
+                    coarsestPart = "第" + (i + 1) + "形態 " + name;
                 }
                 for (int a = 0; a < rects.size(); a++) {
                     for (int b = a + 1; b < rects.size(); b++) {
@@ -3125,14 +3135,17 @@ public final class CoreTests {
                 }
             }
         }
-        check("塗り絵の枠が画布（128×128）に収まる"
+        check("塗り絵の枠が画布（" + SkinNet.CANVAS + "×" + SkinNet.CANVAS + "）に収まる"
                 + (netsFit ? "" : "（" + netProblem + "）"), netsFit);
         check("塗り絵の枠どうしが重ならない"
                 + (netsDisjoint ? "" : "（" + netProblem + "）"), netsDisjoint);
         check("塗り絵の UV が 0〜16 に収まる"
                 + (uvInRange ? "" : "（" + netProblem + "）"), uvInRange);
-        check("どの枠もバニラ（16画素）以上の細かさで塗れる（最も狭い: "
-                + smallestPart + " " + smallestFace + "画素）", smallestFace >= 16);
+        // 枠線を1画素引くため、中を塗れる枠は3画素からになる
+        check("どの枠にも塗れる中身が残る（最も狭い: "
+                + smallestPart + " " + smallestFace + "画素）", smallestFace >= 3);
+        check(String.format("塗る細かさを控えておく（最も粗い: %s %.0f画素/ブロック"
+                + " ／ バニラのブロックは16）", coarsestPart, coarsest), coarsest > 0);
         var band = SkinNet.of(new Vec3(0.75, 3.40, 0.75)).region(SkinNet.SOUTH);
         check("絞りの段は枠を上から順に隙間なく分ける",
                 band.band(0, 8)[1] == band.uv()[1]

@@ -32,29 +32,68 @@ public final class SkinTemplate {
     /** 素材名 → 下地色。バニラの素材の色みに寄せてある。 */
     private static final Map<String, Integer> BASE = base();
 
+    /** 案内図の拡大率。枠が小さいと頭文字が入らないため、拡大した版を別に置く。 */
+    public static final int GUIDE_SCALE = 4;
+
     /**
-     * 下地を1枚書き出す。
+     * 下地を1枚書き出す。<b>これが塗る対象である。</b>
      *
      * @param file     書き出し先
      * @param net      面の割り付け
      * @param material 素材名（下地色を引く鍵）
      */
     public static void write(Path file, SkinNet net, String material) throws IOException {
-        BufferedImage image = new BufferedImage(
-                SkinNet.CANVAS, SkinNet.CANVAS, BufferedImage.TYPE_INT_RGB);
-        for (int y = 0; y < SkinNet.CANVAS; y++) {
-            for (int x = 0; x < SkinNet.CANVAS; x++) {
+        save(render(net, material, 1), file);
+    }
+
+    /**
+     * 案内図を書き出す。<b>塗る対象ではない。</b>
+     *
+     * <p>画布が小さいと枠に頭文字が入らない。並びを読めなくなるのを避けるため、
+     * 拡大して文字を大きく描いた版を置く。塗るときはこちらを別の窓で開いておく。
+     */
+    public static void writeGuide(Path file, SkinNet net, String material) throws IOException {
+        save(render(net, material, GUIDE_SCALE), file);
+    }
+
+    /** 頭文字が入った枠の数。案内に出す。 */
+    public static int markedFaces(SkinNet net) {
+        int marked = 0;
+        for (SkinNet.Rect rect : net.regions().values()) {
+            if (letterScale(rect) > 0) {
+                marked++;
+            }
+        }
+        return marked;
+    }
+
+    /**
+     * 下地を描く。
+     *
+     * @param scale 1 なら実寸。2以上なら画素をそのまま引き伸ばした案内図
+     */
+    private static BufferedImage render(SkinNet net, String material, int scale) {
+        int side = SkinNet.CANVAS * scale;
+        BufferedImage image = new BufferedImage(side, side, BufferedImage.TYPE_INT_RGB);
+        for (int y = 0; y < side; y++) {
+            for (int x = 0; x < side; x++) {
                 image.setRGB(x, y, MARGIN);
             }
         }
         int baseColor = BASE.getOrDefault(material, 0xE4E7E7);
         net.regions().forEach((face, rect) -> {
+            SkinNet.Rect scaled = new SkinNet.Rect(rect.x() * scale, rect.y() * scale,
+                    rect.width() * scale, rect.height() * scale);
             int fill = mix(baseColor, SHADE.getOrDefault(face, 1.0));
             int edge = mix(fill, 0.62);
-            fill(image, rect, fill);
-            outline(image, rect, edge);
-            mark(image, rect, face, mix(fill, 0.80));
+            fill(image, scaled, fill);
+            outline(image, scaled, edge);
+            mark(image, scaled, face, mix(fill, 0.70));
         });
+        return image;
+    }
+
+    private static void save(BufferedImage image, Path file) throws IOException {
         Files.createDirectories(file.getParent());
         if (!ImageIO.write(image, "png", file.toFile())) {
             throw new IOException("PNG を書き出せなかった: " + file);
@@ -93,17 +132,12 @@ public final class SkinTemplate {
      */
     private static void mark(BufferedImage image, SkinNet.Rect rect, String face, int color) {
         int[] glyph = GLYPHS.get(LETTERS.get(face));
-        if (glyph == null) {
+        int pixel = letterScale(rect);
+        if (glyph == null || pixel == 0) {
             return;
         }
-        int pixel = 2;
-        int needWidth = 3 * pixel + 4;
-        int needHeight = 5 * pixel + 4;
-        if (rect.width() < needWidth || rect.height() < needHeight) {
-            return;
-        }
-        int left = rect.x() + 2;
-        int top = rect.y() + 2;
+        int left = rect.x() + 1;
+        int top = rect.y() + 1;
         for (int row = 0; row < 5; row++) {
             for (int column = 0; column < 3; column++) {
                 if ((glyph[row] & (1 << (2 - column))) == 0) {
@@ -116,6 +150,20 @@ public final class SkinTemplate {
                 }
             }
         }
+    }
+
+    /**
+     * その枠に入る文字の大きさ。0 なら入らない。
+     *
+     * <p>枠線を潰さないよう、上下左右に1画素の余白を残せる大きさまでしか使わない。
+     */
+    private static int letterScale(SkinNet.Rect rect) {
+        for (int pixel = 3; pixel >= 1; pixel--) {
+            if (rect.width() >= 3 * pixel + 2 && rect.height() >= 5 * pixel + 2) {
+                return pixel;
+            }
+        }
+        return 0;
     }
 
     private static int mix(int color, double factor) {
