@@ -16,6 +16,7 @@ import jp.mcserver.core.raid.PartTracker;
 import jp.mcserver.core.raid.PoseTransition;
 import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.RaidSpecies;
+import jp.mcserver.core.raid.ShieldGuard;
 import jp.mcserver.core.raid.Stage;
 import jp.mcserver.core.raid.Transform;
 import net.kyori.adventure.text.Component;
@@ -28,7 +29,10 @@ import org.bukkit.block.Block;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
@@ -651,7 +655,7 @@ final class KnightBoss {
             if (!struck.add(player.getUniqueId())) {
                 continue;
             }
-            hit(player, area.damage());
+            hit(player, area.damage(), ShieldGuard.GUARDS_AREA_EFFECTS);
         }
     }
 
@@ -687,7 +691,7 @@ final class KnightBoss {
             if (!alreadyHit.add(player.getUniqueId())) {
                 continue;
             }
-            hit(player, window.damage());
+            hit(player, window.damage(), true);
         }
     }
 
@@ -712,9 +716,13 @@ final class KnightBoss {
         return false;
     }
 
-    /** 1人に当てる。ダメージ・ノックバック・演出をまとめる。 */
-    private void hit(Player target, MotionSpec.Damage damage) {
-        applyDamage(target, damage);
+    /**
+     * 1人に当てる。ダメージ・ノックバック・演出をまとめる。
+     *
+     * @param guardable 盾で止められるか。武器の判定区間は true、衝撃波は false
+     */
+    private void hit(Player target, MotionSpec.Damage damage, boolean guardable) {
+        applyDamage(target, damage, guardable);
         sound("entity.iron_golem.attack", 1.2f, 0.9f);
         particles(Particle.CRIT, target.getLocation().add(0, 1, 0), 12, 0.3);
     }
@@ -723,12 +731,96 @@ final class KnightBoss {
      * ダメージと押し出しを与える。<b>どの当たり方でもここを通る</b>。
      *
      * <p>近接・衝撃波のどちらも同じ扱いにするため、演出だけを呼び出し側に残している。
+     *
+     * <p><b>ガードが成立してもノックバックは残す。</b>差し込みの重量感を消さないためであり、
+     * 踏みとどまって待つ構えを取らせないためでもある（§12.6 のパリイの節の設計）。
+     * また、ガードは<b>当てたことに数える</b>。空振り扱いにすると、盾を構えるだけで
+     * 弱点が開いてしまう。
      */
-    private void applyDamage(Player target, MotionSpec.Damage damage) {
-        target.damage(roll(damage) * rage.damageMultiplier());
+    private void applyDamage(Player target, MotionSpec.Damage damage, boolean guardable) {
+        double amount = roll(damage) * rage.damageMultiplier();
+        if (guardable && guarding(target)) {
+            wearShield(target, amount);
+            playAt(target.getLocation(), "item.shield.block", 1.0f, 0.9f);
+            amount = ShieldGuard.damageThrough(amount);
+        }
+        if (amount > 0) {
+            target.damage(amount);
+        }
         landedThisMotion = true;
         rage.landedHit();
         knockback(target);
+    }
+
+    /**
+     * 盾で受けているか。
+     *
+     * <p>向きの判定には<b>個体の位置</b>を使う。槍の穂先ではなく体を基準にするのは、
+     * 「個体に正面を向けていれば守れる」という読みやすい規則にするためである。
+     */
+    private boolean guarding(Player target) {
+        if (!target.isBlocking()) {
+            return false;
+        }
+        Location at = target.getLocation();
+        Location source = rig.origin();
+        Vector view = at.getDirection();
+        return ShieldGuard.facing(view.getX(), view.getZ(),
+                source.getX() - at.getX(), source.getZ() - at.getZ());
+    }
+
+    /**
+     * 盾の耐久を減らす。壊れたら手から消す。
+     *
+     * <p>強度（Unbreaking）の水準は<b>付与の名前で引く</b>。定数の名前は版のあいだで
+     * 変わっているため（{@code DURABILITY} → {@code UNBREAKING}）、名前で引くほうが移植に強い。
+     */
+    private void wearShield(Player target, double amount) {
+        ItemStack shield = shieldInHand(target);
+        if (shield == null) {
+            return;
+        }
+        int cost = ShieldGuard.afterUnbreaking(ShieldGuard.durabilityCost(amount),
+                unbreakingLevel(shield), random);
+        if (cost <= 0) {
+            return;
+        }
+        if (!(shield.getItemMeta() instanceof Damageable meta)) {
+            return;
+        }
+        int worn = meta.getDamage() + cost;
+        if (worn >= shield.getType().getMaxDurability()) {
+            shield.setAmount(0);
+            playAt(target.getLocation(), "item.shield.break", 1.0f, 1.0f);
+            return;
+        }
+        meta.setDamage(worn);
+        shield.setItemMeta(meta);
+    }
+
+    private ItemStack shieldInHand(Player target) {
+        ItemStack offHand = target.getInventory().getItemInOffHand();
+        if (offHand != null && offHand.getType() == Material.SHIELD) {
+            return offHand;
+        }
+        ItemStack mainHand = target.getInventory().getItemInMainHand();
+        if (mainHand != null && mainHand.getType() == Material.SHIELD) {
+            return mainHand;
+        }
+        return null;
+    }
+
+    private static int unbreakingLevel(ItemStack shield) {
+        for (Map.Entry<Enchantment, Integer> entry : shield.getEnchantments().entrySet()) {
+            if (entry.getKey().getKey().getKey().equals("unbreaking")) {
+                return entry.getValue();
+            }
+        }
+        return 0;
+    }
+
+    private static void playAt(Location at, String key, float volume, float pitch) {
+        at.getWorld().playSound(at, "minecraft:" + key, volume, pitch);
     }
 
     /**
@@ -774,7 +866,7 @@ final class KnightBoss {
         }
         for (Player player : center.getWorld().getPlayers()) {
             if (player.getLocation().distance(center) <= area.radiusBlocks()) {
-                applyDamage(player, area.damage());
+                applyDamage(player, area.damage(), ShieldGuard.GUARDS_AREA_EFFECTS);
             }
         }
     }

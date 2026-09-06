@@ -17,6 +17,7 @@ import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.Appearance;
 import jp.mcserver.core.raid.RaidSpecies;
 import jp.mcserver.core.raid.Rig;
+import jp.mcserver.core.raid.ShieldGuard;
 import jp.mcserver.core.raid.Skeleton;
 import jp.mcserver.core.raid.SkinNet;
 import jp.mcserver.core.raid.Stage;
@@ -3146,6 +3147,57 @@ public final class CoreTests {
                 + smallestPart + " " + smallestFace + "画素）", smallestFace >= 3);
         check(String.format("塗る細かさを控えておく（最も粗い: %s %.0f画素/ブロック"
                 + " ／ バニラのブロックは16）", coarsestPart, coarsest), coarsest > 0);
+        // 盾のガード（§12.6）
+        check("正面の相手はガードできる",
+                ShieldGuard.facing(0, 1, 0, 5)
+                        && ShieldGuard.facing(1, 0, 3, 0.5));
+        check("真横より後ろから来た攻撃はガードできない",
+                !ShieldGuard.facing(0, 1, 5, 0)
+                        && !ShieldGuard.facing(0, 1, 0, -5)
+                        && !ShieldGuard.facing(0, 1, -1, -0.01));
+        check("真上を向いている、または同じ位置に重なっているときは成立しない",
+                !ShieldGuard.facing(0, 0, 0, 5) && !ShieldGuard.facing(0, 1, 0, 0));
+        check("ガードは全ブロックである（バニラ準拠）",
+                ShieldGuard.damageThrough(30) == 0.0
+                        && ShieldGuard.DAMAGE_MULTIPLIER == 0.0);
+        check("範囲攻撃（衝撃波）はガードを貫通する", !ShieldGuard.GUARDS_AREA_EFFECTS);
+        check("盾の耐久は3未満のダメージでは減らない",
+                ShieldGuard.durabilityCost(2.9) == 0 && ShieldGuard.durabilityCost(0) == 0);
+        check("盾の耐久は 1+ダメージの整数部 ぶん減る（バニラ準拠）",
+                ShieldGuard.durabilityCost(3) == 4 && ShieldGuard.durabilityCost(28) == 29
+                        && ShieldGuard.durabilityCost(28.9) == 29);
+        check("強度が無ければ減り量は変わらない",
+                ShieldGuard.afterUnbreaking(29, 0, new java.util.Random(1)) == 29);
+        boolean unbreakingHelps = true;
+        for (int seed = 0; seed < 20; seed++) {
+            int worn = ShieldGuard.afterUnbreaking(29, 3, new java.util.Random(seed));
+            if (worn > 29 || worn < 0) {
+                unbreakingHelps = false;
+            }
+        }
+        check("強度は減り量を1点ずつ間引く（範囲を超えない）", unbreakingHelps);
+        double wornAverage = 0;
+        for (int seed = 0; seed < 500; seed++) {
+            wornAverage += ShieldGuard.afterUnbreaking(29, 3, new java.util.Random(seed));
+        }
+        wornAverage /= 500;
+        check(String.format("強度IIIの盾は素の盾の約1/4しか減らない（実測 %.1f / 29）",
+                wornAverage), Math.abs(wornAverage - 29.0 / 4) < 1.5);
+
+        // ガードを貫通するのは衝撃波だけである、という規則をデータに固定する。
+        // 範囲攻撃を持つ技を増やすときは、貫通させてよいか §12.6 を見直すこと
+        var piercing = new java.util.TreeSet<String>();
+        for (var phase : boss.phases()) {
+            for (MotionSpec motion : phase.motions()) {
+                if (motion.area().isPresent()) {
+                    piercing.add(motion.name());
+                }
+            }
+        }
+        check("ガードを貫通する技は衝撃波だけである（" + String.join("・", piercing) + "）",
+                piercing.equals(new java.util.TreeSet<>(
+                        List.of("踏みつけ", "大ジャンプ衝撃波"))));
+
         var band = SkinNet.of(new Vec3(0.75, 3.40, 0.75)).region(SkinNet.SOUTH);
         check("絞りの段は枠を上から順に隙間なく分ける",
                 band.band(0, 8)[1] == band.uv()[1]

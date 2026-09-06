@@ -212,7 +212,7 @@
 
 | 手段 | 状態 |
 |---|---|
-| `./core/run-tests.sh` | **737 件成功**。Bukkit に依存しないロジックを網羅 |
+| `./core/run-tests.sh` | **748 件成功**。Bukkit に依存しないロジックを網羅 |
 | `./core/simulate-knight.sh` | 戦闘をオフラインで再現。12名・8DPS で討伐 約1分 |
 | `./core/dump-rig.sh` | 表示へ送るべき配置を数値で出す |
 | `./core/sketch-knight.sh` | 骨格の略図（SVG） |
