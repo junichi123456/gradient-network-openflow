@@ -116,6 +116,16 @@ public final class KnightDefinition {
     /** 1回の姿勢更新で変えられる向きの上限（度）。密着時の振動を防ぐ。 */
     public static final double MAX_TURN_DEGREES = 15.0;
 
+    /**
+     * 待機中に相手を追う向きの遅れ（tick）。
+     *
+     * <p>待機中の個体は<b>相手のこのtick数ぶん前の位置</b>を向く。張り付くように
+     * 向き直られると重さが無く、横へ回り込む動きにも意味が出ない。
+     *
+     * <p>攻撃中・接近中は遅らせない。技の狙いが鈍ると当たらなくなる。
+     */
+    public static final int IDLE_TRACKING_DELAY_TICKS = 10;
+
     /** 1回目のパリイに要する累積ダメージ。 */
     public static final double PARRY_BASE_DAMAGE = 10.0;
 

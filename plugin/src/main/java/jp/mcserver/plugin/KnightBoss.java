@@ -18,6 +18,7 @@ import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.RaidSpecies;
 import jp.mcserver.core.raid.ShieldGuard;
 import jp.mcserver.core.raid.Stage;
+import jp.mcserver.core.raid.TrackingDelay;
 import jp.mcserver.core.raid.Transform;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -138,6 +139,17 @@ final class KnightBoss {
     private final Set<UUID> struck = new HashSet<>();
     /** 待機の長さや帰還の歩行時間を選ぶ乱数 */
     private final java.util.Random random = new java.util.Random();
+
+    /**
+     * 待機中に向きを合わせる先の遅れ（§12.6）。
+     *
+     * <p>毎tick相手の位置を押し込み、待機中は指定tick前の値を狙う。
+     */
+    /** いま位置を溜めている相手。変わったら履歴を捨てる */
+    private UUID trackedTarget;
+
+    private final TrackingDelay tracking =
+            new TrackingDelay(KnightDefinition.IDLE_TRACKING_DELAY_TICKS);
     /** 今回の帰還で歩き続ける tick。これを超えたら攻撃モーションを挟む */
     private int returnWalkTarget;
     /** 跳躍の始点と着地点 */
@@ -255,6 +267,7 @@ final class KnightBoss {
         if (totalTick % 20 == 0) {
             drawBoundary();
         }
+        trackTarget();
 
         switch (state) {
             case IDLE -> {
@@ -1194,6 +1207,10 @@ final class KnightBoss {
     /**
      * 体の向き（度）。突進中は<b>走っている方向</b>を向く。
      * 追尾させると、走りながら向きだけ変わって不自然になる。
+     *
+     * <p><b>待機中だけ、狙う位置を {@link KnightDefinition#IDLE_TRACKING_DELAY_TICKS}
+     * tick 遅らせる</b>（{@link TrackingDelay}）。接近中と技の最中は遅らせない。
+     * 技の狙いが鈍ると当たらなくなる。
      */
     private double yawToTarget() {
         if (chargeDirection != null) {
@@ -1204,12 +1221,35 @@ final class KnightBoss {
             return bodyYaw;
         }
         Location origin = rig.origin();
-        double dx = target.getLocation().getX() - origin.getX();
-        double dz = target.getLocation().getZ() - origin.getZ();
+        // 待機中は相手の少し前の位置を狙う。技の最中に遅らせると当たらなくなる
+        boolean delayed = state == State.IDLE && tracking.has();
+        double dx = (delayed ? tracking.x() : target.getLocation().getX()) - origin.getX();
+        double dz = (delayed ? tracking.z() : target.getLocation().getZ()) - origin.getZ();
         if (dx * dx + dz * dz < 1.0) {
             return bodyYaw;   // 真上に立たれると向きが定まらない。今の向きを保つ
         }
         return Math.toDegrees(Math.atan2(-dx, dz));
+    }
+
+    /**
+     * 相手の位置を1tickぶん溜める。
+     *
+     * <p>狙う相手が変わったら履歴を捨てる。別人の古い位置を向くと、
+     * 誰も居ない方へ向き直ることになる。
+     */
+    private void trackTarget() {
+        Player target = nearest();
+        if (target == null) {
+            trackedTarget = null;
+            tracking.reset();
+            return;
+        }
+        if (!target.getUniqueId().equals(trackedTarget)) {
+            trackedTarget = target.getUniqueId();
+            tracking.reset();
+        }
+        Location at = target.getLocation();
+        tracking.push(at.getX(), at.getZ());
     }
 
     /**

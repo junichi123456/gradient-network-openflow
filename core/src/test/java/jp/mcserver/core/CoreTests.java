@@ -21,6 +21,7 @@ import jp.mcserver.core.raid.ShieldGuard;
 import jp.mcserver.core.raid.Skeleton;
 import jp.mcserver.core.raid.SkinNet;
 import jp.mcserver.core.raid.Stage;
+import jp.mcserver.core.raid.TrackingDelay;
 import jp.mcserver.core.raid.Transform;
 import jp.mcserver.core.raid.Vec3;
 import java.util.Set;
@@ -3147,6 +3148,43 @@ public final class CoreTests {
                 + smallestPart + " " + smallestFace + "画素）", smallestFace >= 3);
         check(String.format("塗る細かさを控えておく（最も粗い: %s %.0f画素/ブロック"
                 + " ／ バニラのブロックは16）", coarsestPart, coarsest), coarsest > 0);
+        // 待機中の追従の遅れ（§12.6）
+        check("遅れは10tickである", KnightDefinition.IDLE_TRACKING_DELAY_TICKS == 10);
+        var noDelay = new TrackingDelay(0);
+        noDelay.push(1, 2);
+        noDelay.push(3, 4);
+        check("遅れ0なら最新の位置を返す", noDelay.x() == 3 && noDelay.z() == 4);
+        var delay = new TrackingDelay(KnightDefinition.IDLE_TRACKING_DELAY_TICKS);
+        check("押し込む前は読み出せない", !delay.has());
+        delay.push(100, 200);
+        check("溜まりきる前は最も古い位置を返す",
+                delay.has() && delay.x() == 100 && delay.z() == 200);
+        for (int tick = 1; tick <= 5; tick++) {
+            delay.push(100 + tick, 200 + tick);
+        }
+        check("6tick目でもまだ最初の位置を向いている（遅れ10tick）",
+                delay.x() == 100 && delay.z() == 200);
+        for (int tick = 6; tick <= 30; tick++) {
+            delay.push(100 + tick, 200 + tick);
+        }
+        check("溜まりきったあとは、ちょうど10tick前の位置を返す",
+                delay.x() == 100 + 30 - KnightDefinition.IDLE_TRACKING_DELAY_TICKS
+                        && delay.z() == 200 + 30 - KnightDefinition.IDLE_TRACKING_DELAY_TICKS);
+        delay.reset();
+        check("履歴を捨てると読み出せなくなる（狙う相手が変わったとき）", !delay.has());
+        boolean rejectsNegativeDelay = false;
+        try {
+            new TrackingDelay(-1);
+        } catch (IllegalArgumentException expected) {
+            rejectsNegativeDelay = true;
+        }
+        check("遅れが負の値は受け付けない", rejectsNegativeDelay);
+        // 遅れと回れる角度は別物である。混ぜると、どちらを触るか分からなくなる
+        check("遅れは狙う位置にだけ効く。回れる角度の上限は別に持つ",
+                KnightDefinition.MAX_TURN_DEGREES == 15.0
+                        && new TrackingDelay(KnightDefinition.IDLE_TRACKING_DELAY_TICKS)
+                                .delayTicks() == 10);
+
         // 盾のガード（§12.6）
         check("正面の相手はガードできる",
                 ShieldGuard.facing(0, 1, 0, 5)
