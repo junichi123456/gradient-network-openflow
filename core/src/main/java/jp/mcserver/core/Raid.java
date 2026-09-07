@@ -45,6 +45,72 @@ public final class Raid {
     /** 制限時間（分）。 */
     public static final int TIME_LIMIT_MINUTES = 40;
 
+    /** 制限時間（ミリ秒）。 */
+    public static long timeLimitMillis() {
+        return TIME_LIMIT_MINUTES * 60L * 1000L;
+    }
+
+    /**
+     * 告知の時点（§12.1）。開始までの残り分で表す。
+     *
+     * <p>3日前・1時間前・10分前の3回である。10分前は<b>登録の締切と同時</b>で、
+     * 「まだ入れる」最後の合図になる。
+     */
+    public enum Notice {
+        /** 3日前。装備を整え始める合図である（『消滅の呪い』により毎回作り直す） */
+        THREE_DAYS(3 * 24 * 60, "3日前"),
+        /** 1時間前 */
+        ONE_HOUR(60, "1時間前"),
+        /** 10分前。登録の締切と同時である */
+        TEN_MINUTES(REGISTRATION_CLOSES_MINUTES, "10分前");
+
+        private final int minutesBefore;
+        private final String label;
+
+        Notice(int minutesBefore, String label) {
+            this.minutesBefore = minutesBefore;
+            this.label = label;
+        }
+
+        public int minutesBefore() {
+            return minutesBefore;
+        }
+
+        public String label() {
+            return label;
+        }
+    }
+
+    /**
+     * その時点で出すべき告知。
+     *
+     * <p>残り分がその告知の時点以下になっていれば「出すべき」とする。
+     * <b>出したかどうかは呼ぶ側が覚える。</b>そうしないと、確認の間隔を変えるたびに
+     * 告知が飛んだり重なったりする。
+     *
+     * @param minutesUntilStart 開始までの残り（分）
+     */
+    public static List<Notice> dueNotices(long minutesUntilStart) {
+        List<Notice> due = new ArrayList<>();
+        for (Notice notice : Notice.values()) {
+            if (minutesUntilStart <= notice.minutesBefore()) {
+                due.add(notice);
+            }
+        }
+        return due;
+    }
+
+    /**
+     * まだ登録できるか（§12.1）。
+     *
+     * <p>枠ごとに<b>開始10分前に締切</b>である。
+     *
+     * @param minutesUntilStart 開始までの残り（分）
+     */
+    public static boolean registrationOpen(long minutesUntilStart) {
+        return minutesUntilStart > REGISTRATION_CLOSES_MINUTES;
+    }
+
     /** 種を追加するために必要な周回数（§12.2）。 */
     public static final int CYCLES_BEFORE_ADDITION = 2;
 

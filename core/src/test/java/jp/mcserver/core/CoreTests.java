@@ -3159,6 +3159,38 @@ public final class CoreTests {
                 + smallestPart + " " + smallestFace + "画素）", smallestFace >= 3);
         check(String.format("塗る細かさを控えておく（最も粗い: %s %.0f画素/ブロック"
                 + " ／ バニラのブロックは16）", coarsestPart, coarsest), coarsest > 0);
+        // 開催の進行（§12.1）
+        check("制限時間は40分", Raid.timeLimitMillis() == 40L * 60 * 1000);
+        check("告知は3回（3日前・1時間前・10分前）", Raid.Notice.values().length == 3);
+        check("10分前の告知は登録の締切と同時",
+                Raid.Notice.TEN_MINUTES.minutesBefore() == Raid.REGISTRATION_CLOSES_MINUTES);
+        check("3日前は4320分前", Raid.Notice.THREE_DAYS.minutesBefore() == 3 * 24 * 60);
+        check("4日前には告知しない", Raid.dueNotices(4 * 24 * 60).isEmpty());
+        check("3日前に入ると1回目が出る",
+                Raid.dueNotices(3 * 24 * 60).equals(List.of(Raid.Notice.THREE_DAYS)));
+        check("1時間前では2回目までが出ている（出したかは呼ぶ側が覚える）",
+                Raid.dueNotices(60).equals(
+                        List.of(Raid.Notice.THREE_DAYS, Raid.Notice.ONE_HOUR)));
+        check("10分前では3回すべてが出ている", Raid.dueNotices(10).size() == 3);
+        check("開始後も3回すべてを出したことになっている（取りこぼさない）",
+                Raid.dueNotices(0).size() == 3 && Raid.dueNotices(-5).size() == 3);
+        check("登録は開始10分前で締切",
+                Raid.registrationOpen(11) && !Raid.registrationOpen(10)
+                        && !Raid.registrationOpen(0));
+
+        var entries = new Raid.DailyEntry();
+        int day = 100;
+        check("登録できる", entries.register(day, 1, "a").accepted());
+        check("同じ開催日に2枠目は入れない（§12.1）",
+                entries.register(day, 2, "a") == Raid.Entry.ALREADY_TODAY);
+        check("開始前なら辞退できる", entries.cancel(day, "a"));
+        check("辞退したら別の枠に入り直せる", entries.register(day, 2, "a").accepted());
+        entries.start(day, 2);
+        check("開始した枠からは抜けられない（成否を問わず使い切る）",
+                !entries.cancel(day, "a"));
+        check("開始後は別の枠にも入れない",
+                entries.register(day, 3, "a") == Raid.Entry.ALREADY_TODAY);
+
         // 『消滅の呪い』の全面付与（§3.1）
         check("エンチャントが付いた品には呪いが必要",
                 VanishingCurse.needs("DIAMOND_SWORD", Map.of("SHARPNESS", 5)));

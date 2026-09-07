@@ -5,8 +5,8 @@ api-version: '1.21'
 description: レイド個体の検証（§12）と村人の取引テーブル（§3.2）
 commands:
   raid:
-    description: レイド個体の召喚・除去と検証用の切り替え
-    usage: /raid spawn | /raid despawn | /raid info | /raid god | /raid calibrate | /raid dump | /raid model authored|vanilla | /raid axes
+    description: レイドの開催（登録・開始）と個体の検証
+    usage: /raid slots|join|leave|solo | /raid spawn|despawn|info|god|calibrate|dump|axes | /raid model authored|vanilla | /raid arena|begin
     permission: raid.test
 permissions:
   raid.test:

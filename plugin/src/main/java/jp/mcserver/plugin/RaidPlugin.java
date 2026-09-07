@@ -63,6 +63,9 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
      */
     private final Set<UUID> unkillable = new HashSet<>();
 
+    /** 開催の進行（§12.1）。 */
+    private final RaidHost host = new RaidHost(this);
+
     /** ドロップの抽選に使う乱数。 */
     private final java.util.Random random = new java.util.Random();
 
@@ -77,12 +80,17 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         // 『消滅の呪い』の全面付与（§3.1）。1経路でも漏れると蓄積の抜け道になる
         getServer().getPluginManager()
                 .registerEvents(new VanishingCurseEnforcer(getLogger()), this);
+        // 開催の進行（§12.1）。登録・告知・開始・制限時間を回す
+        getServer().getPluginManager().registerEvents(host, this);
+        host.start();
         // jar の日時を出す。差し替えたつもりで古い jar が動いている、という取り違えを防ぐ
         getLogger().info("レイド検証プラグインを有効化しました（jar " + jarStamp() + "）");
     }
 
     @Override
     public void onDisable() {
+        // 開催中なら畳む。報酬は配らない（§12.5）
+        host.stop();
         // 表示エンティティを残さない（§12.6 の死活管理）
         despawnAll();
     }
@@ -94,6 +102,10 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
             return true;
         }
         String action = args.length > 0 ? args[0] : "info";
+        // 開催の指示（登録・告知・開始）は RaidHost が受け持つ
+        if (host.handle(player, args)) {
+            return true;
+        }
         switch (action) {
             case "spawn" -> {
                 KnightBoss boss = new KnightBoss(this, player.getLocation());
@@ -267,6 +279,22 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                 return;
             }
         }
+    }
+
+    /**
+     * 出した個体を預かる。開催の進行（{@link RaidHost}）から呼ぶ。
+     *
+     * <p>被弾の処理と片付けは {@code active} を見て回すため、どこで出した個体も
+     * ここへ入れる必要がある。
+     */
+    void adopt(KnightBoss boss) {
+        active.add(boss);
+    }
+
+    /** 個体を片付ける。討伐以外の終わり方（時間切れ・全滅）で使う。 */
+    void retire(KnightBoss boss) {
+        boss.despawn();
+        active.remove(boss);
     }
 
     /** 動いている jar の日時。実機の症状と手元の修正を突き合わせるために出す。 */
