@@ -82,6 +82,8 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                 .registerEvents(new VanishingCurseEnforcer(getLogger()), this);
         // 開催の進行（§12.1）。登録・告知・開始・制限時間を回す
         getServer().getPluginManager().registerEvents(host, this);
+        // レイド専用次元の保護（設置・破壊・PvP の禁止）
+        getServer().getPluginManager().registerEvents(RaidArena.guard(), this);
         host.start();
         // jar の日時を出す。差し替えたつもりで古い jar が動いている、という取り違えを防ぐ
         getLogger().info("レイド検証プラグインを有効化しました（jar " + jarStamp() + "）");

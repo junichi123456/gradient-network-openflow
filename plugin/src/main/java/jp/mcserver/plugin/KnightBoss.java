@@ -74,6 +74,12 @@ final class KnightBoss {
     private static final double TURN_TOLERANCE_DEGREES = 12.0;
 
     /** 接地を探す高さの範囲（ブロック）。段差と坂を登り、崖では落ちる。 */
+    /** 落下の加速（ブロック/tick²）。バニラの落下に寄せた値である */
+    private static final double FALL_GRAVITY = 0.08;
+
+    /** 落下の上限速度（ブロック/tick）。3ブロックの落下では届かないが、念のため置く */
+    private static final double FALL_MAX = 1.5;
+
     private static final int GROUND_UP = 3;
     private static final int GROUND_DOWN = 8;
 
@@ -86,7 +92,11 @@ final class KnightBoss {
     private static final int RETURN_WALK_MIN_TICKS = 20;
     private static final int RETURN_WALK_MAX_TICKS = 40;
 
-    private enum State { IDLE, APPROACH, MOTION, RETURN, TURN }
+    private enum State {
+        /** 落下中。地表面に着くまで技を出さない（レイド次元の登場） */
+        ENTER,
+        IDLE, APPROACH, MOTION, RETURN, TURN
+    }
 
     private final RaidPlugin plugin;
     private final RaidSpecies species;
@@ -161,6 +171,9 @@ final class KnightBoss {
 
     private final TrackingDelay tracking =
             new TrackingDelay(KnightDefinition.IDLE_TRACKING_DELAY_TICKS);
+    /** 落下の速さ（ブロック/tick）。登場のときだけ使う */
+    private double fallSpeed;
+
     /** 今回の帰還で歩き続ける tick。これを超えたら攻撃モーションを挟む */
     private int returnWalkTarget;
     /** 跳躍の始点と着地点 */
@@ -170,9 +183,21 @@ final class KnightBoss {
     private Location waveCenter;
 
     KnightBoss(RaidPlugin plugin, Location origin) {
+        this(plugin, origin, 0, false);
+    }
+
+    /**
+     * 向きと登場の仕方を指定して出す。
+     *
+     * @param facingYaw 体の向き（度）。0 が南、180 が北
+     * @param dropIn    true なら渡された高さから<b>自由落下して地表面に到達する</b>。
+     *                  false なら最初から接地させる
+     */
+    KnightBoss(RaidPlugin plugin, Location origin, double facingYaw, boolean dropIn) {
         this.plugin = plugin;
         this.species = KnightDefinition.boss();
-        Location spawn = grounded(origin);
+        // 落下して登場するときは接地させない。地面に吸わせると落ちる余地が無くなる
+        Location spawn = dropIn ? origin.clone() : grounded(origin);
         this.stage = new Stage(spawn.getX(), spawn.getZ());
         this.stageCenter = spawn.clone();
         // 参加人数は戦場の内側にいる者で数える。外の見物人で体力が増えては困る
@@ -185,6 +210,8 @@ final class KnightBoss {
         this.phase = species.phaseAt(100);
         this.rig = new BossRig(species.rigFor(phase), spawn);
         this.parts = new PartTracker(species.rigFor(phase));
+        this.bodyYaw = normalizeDegrees(facingYaw);
+        this.state = dropIn ? State.ENTER : State.IDLE;
         this.idleTarget = phase.behavior().idleTicks();
         this.bar = Bukkit.createBossBar(species.displayName(), BarColor.WHITE,
                 BarStyle.SEGMENTED_10);
@@ -305,6 +332,7 @@ final class KnightBoss {
         trackTarget();
 
         switch (state) {
+            case ENTER -> descend();
             case IDLE -> {
                 animateLoop(phase.behavior().idleAnimation().orElse(null));
                 if (stateTick >= idleTarget) {
@@ -542,6 +570,35 @@ final class KnightBoss {
             chargeDirection = null;
             enter(State.TURN);
         }
+    }
+
+    /**
+     * 登場の落下（レイド次元の会場に落ちてくる）。
+     *
+     * <p>着くまで技を出さない。落下は演出であり、そのあいだに殴られるのは構わないが、
+     * <b>宙で技を振らせない</b>ためである。
+     */
+    private void descend() {
+        animateLoop(phase.behavior().idleAnimation().orElse(null));
+        Location here = rig.origin();
+        double groundY = grounded(here).getY();
+        if (here.getY() - groundY <= 1e-3) {
+            land();
+            enter(State.IDLE);
+            return;
+        }
+        fallSpeed = Math.min(FALL_MAX, fallSpeed + FALL_GRAVITY);
+        Location next = here.clone();
+        next.setY(Math.max(groundY, here.getY() - fallSpeed));
+        rig.moveTo(next);
+    }
+
+    /** 着地の演出。 */
+    private void land() {
+        fallSpeed = 0;
+        sound("entity.iron_golem.damage", 1.6f, 0.6f);
+        particles(Particle.EXPLOSION, rig.origin(), 6, 1.0);
+        particles(Particle.LARGE_SMOKE, rig.origin(), 30, 1.6);
     }
 
     /** 体の向きが相手のほうを向いているか。 */

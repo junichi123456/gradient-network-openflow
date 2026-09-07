@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 import jp.mcserver.core.Raid;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,9 +23,9 @@ import org.bukkit.scheduler.BukkitTask;
  * <p><b>登録 → 告知 → 締切 → 開始 → 制限時間 → 終了</b>の一巡を回す。枠の割り当てと
  * 「同日1枠」の規則は {@link Raid.DailyEntry} が持ち、ここは時刻とプレイヤーを繋ぐ。
  *
- * <p><b>会場はいまのワールドである。</b>レイド専用次元（枠ごとにロードし終了後に再生成）は
- * 別途の作業であり、ここでは {@code /raid arena} で置いた位置を会場として使う。
- * 次元を用意したときに差し替わるのは会場の決め方だけで、一巡の流れは変わらない。
+ * <p><b>会場はレイド専用次元である</b>（{@link RaidArena}）。枠が始まると参加者を
+ * 中心から半径13以内へ強制的に送り、<b>20秒後に個体が高さ3から落ちてくる</b>。
+ * 個体は常に北向きで出る。終了時は落下物を片付け、参加者を元の位置へ戻す。
  *
  * <p><b>単身討伐許可証</b>は開催枠の外側の経路である（§12.4）。開催日でなくても挑めるが
  * ソロ限定であり、同日1枠の消費もしない。枠の規則は「枠を並べて参加者を増やす」ための
@@ -50,9 +51,11 @@ final class RaidHost implements Listener {
     /** 告知を数えている枠。枠が変わったら数え直す */
     private String announcedFor = "";
 
-    private Location arena;
     private RaidSession session;
     private BukkitTask watcher;
+    /** 個体を出すまでの残り（tick）。0 未満なら出す予定は無い */
+    private int spawnCountdown = -1;
+    private final java.util.Random random = new java.util.Random();
 
     RaidHost(RaidPlugin plugin) {
         this.plugin = plugin;
@@ -79,6 +82,16 @@ final class RaidHost implements Listener {
     /** 1秒ごとの確認。開催中なら進み具合を、そうでなければ次の枠の告知と開始を見る。 */
     private void watch() {
         if (session != null) {
+            if (spawnCountdown >= 0) {
+                spawnCountdown -= WATCH_INTERVAL;
+                if (spawnCountdown <= 0) {
+                    spawnCountdown = -1;
+                    spawnBoss();
+                } else if (spawnCountdown % (5 * 20) == 0) {
+                    title(spawnCountdown / 20);
+                }
+                return;
+            }
             if (session.advance(System.currentTimeMillis()) != RaidSession.Outcome.RUNNING) {
                 finish();
             }
@@ -131,32 +144,55 @@ final class RaidHost implements Listener {
             }
             return;
         }
-        if (arena == null) {
-            plugin.getServer().broadcastMessage(
-                    "§c[レイド] 会場が未設定です。/raid arena で置いてください");
+        World world = RaidArena.world(plugin);
+        if (world == null) {
+            plugin.getServer().broadcastMessage("§c[レイド] 会場（ワールド "
+                    + RaidArena.WORLD + "）が読み込めません");
             return;
         }
         entry.start(day, slot);
-        session = new RaidSession(day, slot, arena, System.currentTimeMillis());
+        session = new RaidSession(day, slot, RaidArena.center(world),
+                System.currentTimeMillis());
         for (String name : names) {
             Player player = plugin.getServer().getPlayer(UUID.fromString(name));
             if (player != null) {
-                session.admit(player);
+                // 降ろす点は1人ずつ引く。1点に重ねると押し出しで弾かれる
+                session.admit(player, RaidArena.entryPoint(world, random));
             }
         }
-        spawnBoss();
+        // 個体は20秒後に落ちてくる。降りてから身構える間を置く
+        spawnCountdown = RaidArena.SPAWN_DELAY_TICKS;
         plugin.getServer().broadcastMessage("§6[レイド] §f第" + slot + "枠を開始しました — "
                 + session.participantCount() + " 名 / 制限時間 "
                 + Raid.TIME_LIMIT_MINUTES + " 分"
                 + (forced ? "§7（手動開始）" : ""));
+        title(RaidArena.SPAWN_DELAY_TICKS / 20);
     }
 
-    /** 個体を出す。参加人数は戦場の内側にいる者で数えるため、迎え入れたあとに出す。 */
+    /**
+     * 個体を出す。
+     *
+     * <p><b>高さ3から自由落下して地表面に到達し、常に北向きで出る</b>（会場の取り決め）。
+     * 参加人数は戦場の内側にいる者で数えるため、迎え入れたあとに出す。
+     */
     private void spawnBoss() {
-        KnightBoss boss = new KnightBoss(plugin, session.arena());
+        World world = session.arena().getWorld();
+        KnightBoss boss = new KnightBoss(plugin, RaidArena.bossDrop(world),
+                RaidArena.FACING_NORTH, true);
         boss.spawn();
         plugin.adopt(boss);
         session.boss(boss);
+        plugin.getServer().broadcastMessage("§6[レイド] §f騎士型が降りてきた");
+    }
+
+    /** 出現までの数え。参加者にだけ出す。 */
+    private void title(int seconds) {
+        for (UUID id : session.everyone()) {
+            Player player = plugin.getServer().getPlayer(id);
+            if (player != null) {
+                player.sendTitle("§6構えよ", "§7" + seconds + " 秒後に降りてくる", 5, 40, 10);
+            }
+        }
     }
 
     /** 終わりの片付け。討伐以外では報酬を配らない（§12.5）。 */
@@ -176,8 +212,17 @@ final class RaidHost implements Listener {
                     "§c[レイド] §f第" + ended.slot() + "枠 — 全滅。報酬はありません");
             default -> { }
         }
+        spawnCountdown = -1;
         if (boss != null && !boss.isDead()) {
             plugin.retire(boss);
+        }
+        // 地形は変わらないので、片付けるのは落下物だけで足りる（RaidArena.sweep）
+        World world = ended.arena().getWorld();
+        if (world != null) {
+            int swept = RaidArena.sweep(world);
+            if (swept > 0) {
+                plugin.getLogger().info("会場の落下物を " + swept + " 件片付けました");
+            }
         }
         for (UUID id : ended.everyone()) {
             Player player = plugin.getServer().getPlayer(id);
@@ -211,7 +256,8 @@ final class RaidHost implements Listener {
             case "join" -> join(player, args);
             case "leave" -> leave(player);
             case "solo" -> solo(player);
-            case "arena" -> setArena(player);
+            case "arena" -> showArena(player);
+            case "warp" -> warp(player);
             case "begin" -> {
                 begin(args.length > 1 ? parseSlot(args[1]) : 1, true);
             }
@@ -292,13 +338,19 @@ final class RaidHost implements Listener {
             player.sendMessage("§c単身討伐許可証がありません（討伐のドロップ品です）");
             return;
         }
+        World world = RaidArena.world(plugin);
+        if (world == null) {
+            player.sendMessage("§c会場（ワールド " + RaidArena.WORLD + "）が読み込めません");
+            return;
+        }
         permit.setAmount(permit.getAmount() - 1);
-        session = new RaidSession(today(), 0, player.getLocation(),
+        session = new RaidSession(today(), 0, RaidArena.center(world),
                 System.currentTimeMillis());
-        session.admit(player);
-        spawnBoss();
+        session.admit(player, RaidArena.entryPoint(world, random));
+        spawnCountdown = RaidArena.SPAWN_DELAY_TICKS;
         player.sendMessage("§6単身討伐 §f— 許可証を1枚使いました / 制限時間 "
                 + Raid.TIME_LIMIT_MINUTES + " 分");
+        title(RaidArena.SPAWN_DELAY_TICKS / 20);
     }
 
     private ItemStack findPermit(Player player) {
@@ -310,11 +362,38 @@ final class RaidHost implements Listener {
         return null;
     }
 
-    private void setArena(Player player) {
-        arena = player.getLocation().clone();
-        player.sendMessage("§a会場を置きました — " + arena.getBlockX() + ", "
-                + arena.getBlockY() + ", " + arena.getBlockZ());
-        player.sendMessage("§7レイド専用次元を用意したら、ここは次元側の座標に置き換わります");
+    /** 会場の様子を示す。位置を置く指示ではなくなった（会場はレイド専用次元である）。 */
+    private void showArena(Player player) {
+        World world = RaidArena.world(plugin);
+        if (world == null) {
+            player.sendMessage("§c会場（ワールド " + RaidArena.WORLD + "）が読み込めません");
+            player.sendMessage("§7サーバーの直下に " + RaidArena.WORLD
+                    + " フォルダを置いて再起動してください");
+            return;
+        }
+        player.sendMessage("§6会場 §f" + world.getName() + "（難易度 "
+                + world.getDifficulty() + "）");
+        player.sendMessage("§7  立つ高さ y=" + RaidArena.FLOOR_Y
+                + " / 安全域 半径 " + (int) RaidArena.SAFE_RADIUS
+                + " / 炎上 半径 " + (int) RaidArena.FIRE_RADIUS + " 以遠");
+        player.sendMessage("§7  壁 半径 " + (int) RaidArena.WALL_RADIUS
+                + " / 天井 y=" + RaidArena.CEILING_Y
+                + "（頭上 " + (RaidArena.CEILING_Y - RaidArena.FLOOR_Y) + " ブロック）");
+        player.sendMessage("§7  参加者は中心から半径 " + (int) RaidArena.ENTRY_RADIUS
+                + " 以内へ、個体は高さ " + (int) RaidArena.DROP_HEIGHT
+                + " から落下・北向き、開始から " + RaidArena.SPAWN_DELAY_TICKS / 20 + " 秒後");
+        player.sendMessage("§7  移動するには /raid warp");
+    }
+
+    /** 会場へ移る（検証用）。 */
+    private void warp(Player player) {
+        World world = RaidArena.world(plugin);
+        if (world == null) {
+            player.sendMessage("§c会場が読み込めません");
+            return;
+        }
+        player.teleport(RaidArena.entryPoint(world, random));
+        player.sendMessage("§7会場へ移りました。戻るには自分で移動してください");
     }
 
     // ------------------------------------------------------------ 時刻

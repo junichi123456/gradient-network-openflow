@@ -83,11 +83,15 @@ final class RaidSession {
         this.boss = spawned;
     }
 
-    /** 参加者を迎え入れる。立っていた場所を覚えておく。 */
-    void admit(Player player) {
+    /**
+     * 参加者を迎え入れる。立っていた場所を覚えておく。
+     *
+     * @param entry 降ろす点。1人ずつ引く（1点に重ねると押し出しで弾かれる）
+     */
+    void admit(Player player, Location entry) {
         came.put(player.getUniqueId(), player.getLocation().clone());
         alive.add(player.getUniqueId());
-        player.teleport(arena);
+        player.teleport(entry);
     }
 
     /** 参加者（生死を問わない）。報酬の配布は生死を問わない（§12.5）。 */
