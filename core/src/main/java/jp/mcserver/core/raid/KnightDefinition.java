@@ -153,8 +153,15 @@ public final class KnightDefinition {
     public static final int LEAP_START_TICK = 15;
     /** 滞空時間（tick）。 */
     public static final int LEAP_FLIGHT_TICKS = 60;
-    /** 弧の頂点の高さ（ブロック）。 */
-    public static final double LEAP_APEX_BLOCKS = 20.0;
+    /**
+     * 弧の頂点の高さ（ブロック）。
+     *
+     * <p><b>会場の頭上に収める。</b>レイド専用次元は床 y=1・天井 y=19 で頭上18ブロック
+     * しかないため、20 では天井を抜けてしまう。余裕を3ブロック残して 15 とした。
+     * バリアは透明で表示エンティティは当たり判定を持たないため動作は破綻しないが、
+     * 封鎖された会場という設計から外れる。
+     */
+    public static final double LEAP_APEX_BLOCKS = 15.0;
     /** 着地の衝撃波の半径（ブロック）。 */
     public static final double LEAP_WAVE_RADIUS = 10.0;
     /** 着地の衝撃波の高さ（ブロック）。 */

@@ -2483,13 +2483,14 @@ public final class CoreTests {
         // 大ジャンプ衝撃波（§12.7）
         var leapSlam = second.motion("大ジャンプ衝撃波");
         var arc = leapSlam.leap().orElseThrow();
-        check("その場から20ブロック跳び上がる",
-                arc.apexBlocks() == 20.0 && arc.startTick() == 15
+        double apex = KnightDefinition.LEAP_APEX_BLOCKS;
+        check("その場から" + (int) apex + "ブロック跳び上がる（会場の頭上18に収めた値）",
+                arc.apexBlocks() == apex && arc.startTick() == 15
                         && arc.flightTicks() == 60 && arc.landingTick() == 75);
         check("経路は弧を描く（頂点で最も高く、両端で0）",
                 arc.archHeight(0) == 0 && arc.archHeight(60) == 0
-                        && arc.archHeight(30) == 20.0
-                        && arc.archHeight(15) > 0 && arc.archHeight(15) < 20.0);
+                        && arc.archHeight(30) == apex
+                        && arc.archHeight(15) > 0 && arc.archHeight(15) < apex);
         check("弧は上りと下りが対称である",
                 Math.abs(arc.archHeight(10) - arc.archHeight(50)) < 1e-9);
         var slamWave = leapSlam.area().orElseThrow();
@@ -3159,6 +3160,19 @@ public final class CoreTests {
                 + smallestPart + " " + smallestFace + "画素）", smallestFace >= 3);
         check(String.format("塗る細かさを控えておく（最も粗い: %s %.0f画素/ブロック"
                 + " ／ バニラのブロックは16）", coarsestPart, coarsest), coarsest > 0);
+        // 会場の寸法との噛み合わせ（§12.1 のレイド専用次元）
+        // 床 y=1・天井 y=19 で頭上18ブロック。跳躍が抜けると封鎖の設計から外れる
+        check(String.format("跳躍の頂点は会場の頭上（18）に収まる（%.0f）",
+                KnightDefinition.LEAP_APEX_BLOCKS),
+                KnightDefinition.LEAP_APEX_BLOCKS <= 18);
+        check("頂点には余裕がある（天井にかすらない）",
+                KnightDefinition.LEAP_APEX_BLOCKS <= 16);
+        // 火は半径35以遠にある。戦場（半径30）と回旋の円周がその内側に収まること
+        check("戦場は安全域（半径34）の内側に収まる",
+                Stage.DEFAULT_RADIUS <= 34);
+        check("回旋突進の円周も火に触れない",
+                Stage.DEFAULT_RADIUS * 2 / 2 <= 34);
+
         // 開催の進行（§12.1）
         check("制限時間は40分", Raid.timeLimitMillis() == 40L * 60 * 1000);
         check("告知は3回（3日前・1時間前・10分前）", Raid.Notice.values().length == 3);
