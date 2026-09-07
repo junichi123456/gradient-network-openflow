@@ -427,8 +427,13 @@ public final class Raid {
      * <p>体力倍率は <b>1 + 0.9 × (参加人数 − 1)</b>。2人で1.9倍、3人で2.8倍、12人で10.9倍。
      * 百分率の整数で保持するのは、浮動小数だと設定値どうしの比較や保存の往復で
      * 誤差が出るためである。
+     *
+     * <p><b>スケールするのは体力だけである。</b>取り巻きは全種で不採用と決めた（§12.3）。
+     * かつては人数帯で取り巻きを増やし、1人あたりの負担が下がるぶんを手数で埋める
+     * 設計だったが、その釣り合いは無くなった。人数が増えるほど楽になる一方であり、
+     * 体力倍率は §22 の実測調整でこの点を見直す対象になる。
      */
-    public record Difficulty(int healthPercent, int minions) {
+    public record Difficulty(int healthPercent) {
 
         public double healthMultiplier() {
             return healthPercent / 100.0;
@@ -439,10 +444,8 @@ public final class Raid {
         if (participants < 1 || participants > MAX_PARTICIPANTS) {
             throw new IllegalArgumentException("参加人数が範囲外である: " + participants);
         }
-        int tier = (participants - 1) / 5; // 取り巻きは人数帯で増える
         return new Difficulty(
-                100 + HEALTH_PERCENT_PER_EXTRA_PARTICIPANT * (participants - 1),
-                2 + 2 * tier);
+                100 + HEALTH_PERCENT_PER_EXTRA_PARTICIPANT * (participants - 1));
     }
 
     // ------------------------------------------------------------ 報酬

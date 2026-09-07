@@ -1826,8 +1826,9 @@ public final class CoreTests {
         check("倍率は誤差なく百分率から導かれる",
                 Raid.difficulty(3).healthMultiplier() == 2.8
                         && Raid.difficulty(2).healthMultiplier() == 1.9);
-        check("取り巻きも人数帯で増える",
-                Raid.difficulty(10).minions() == 4 && Raid.difficulty(12).minions() == 6);
+        check("スケールするのは体力だけである（取り巻きは全種で不採用・§12.3）",
+                Raid.difficulty(1).healthPercent() == 100
+                        && Raid.difficulty(12).healthPercent() == 1090);
         check("上限を超える人数は受け付けない",
                 thrown(() -> Raid.difficulty(13)));
 
