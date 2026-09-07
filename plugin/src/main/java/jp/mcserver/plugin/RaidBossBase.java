@@ -285,6 +285,7 @@ abstract class RaidBossBase implements RaidBoss {
             drawBoundary();
         }
         trackTarget();
+        tickSpecial();
 
         switch (state) {
             case ENTER -> descend();
@@ -796,6 +797,127 @@ abstract class RaidBossBase implements RaidBoss {
         target.setVelocity(next);
     }
 
+    // ------------------------------------------------------------ 特殊系統（浮遊武器）の下請け
+    //
+    // 「降り注ぐ刃」「空間斬撃」「串刺し」「全域大旋回」（`raid_species.md` §2）は、
+    // BossRig の部位ツリーに属さない独立した実体（FloatingBlade 群）として動く。
+    // ここから下は、その独立した攻撃源のために MotionSpec に依らない経路を提供する。
+    // 個体側（HollowGuardBoss）は tickSpecial() をオーバーライドして駆動する。
+
+    /** 特殊系統を駆動する余地があるか（種によって使わない）。既定では何もしない。 */
+    protected void tickSpecial() {
+    }
+
+    /** いまの段階。特殊系統の解禁判定（第二形態から）などに使う。 */
+    RaidSpecies.Phase currentPhase() {
+        return phase;
+    }
+
+    /** 戦場。旋回の軸（戦場の中心）などに使う。 */
+    Stage stage() {
+        return stage;
+    }
+
+    /** 指定位置の地表面のY座標。 */
+    double groundY(Location at) {
+        return grounded(at).getY();
+    }
+
+    /** 戦場の内側にいる、有効なプレイヤーの一覧。特殊系統の狙う相手選びに使う。 */
+    List<Player> playersInStage() {
+        List<Player> found = new ArrayList<>();
+        for (Player player : rig.origin().getWorld().getPlayers()) {
+            if (player.isDead() || player.getGameMode().name().equals("SPECTATOR")) {
+                continue;
+            }
+            Location at = player.getLocation();
+            if (stage.contains(at.getX(), at.getZ())) {
+                found.add(player);
+            }
+        }
+        return found;
+    }
+
+    /** 特殊モーションが来ることを告げる（実体の {@code playMotionStartEffect} に相当）。 */
+    void announceMotion(String motionName) {
+        announce("§e特殊 " + motionName + " が来る");
+    }
+
+    /** 戦場の内側にいる、指定位置から半径以内のプレイヤー。 */
+    List<Player> playersInRange(Location center, double radius) {
+        List<Player> found = new ArrayList<>();
+        for (Player player : center.getWorld().getPlayers()) {
+            if (player.isDead() || player.getGameMode().name().equals("SPECTATOR")) {
+                continue;
+            }
+            Location at = player.getLocation();
+            if (!stage.contains(at.getX(), at.getZ())) {
+                continue;
+            }
+            double dy = Math.max(0, Math.max(at.getY() - center.getY(),
+                    center.getY() - (at.getY() + tuning.playerHeight())));
+            double dx = at.getX() - center.getX();
+            double dz = at.getZ() - center.getZ();
+            if (dx * dx + dy * dy + dz * dz <= radius * radius) {
+                found.add(player);
+            }
+        }
+        return found;
+    }
+
+    /**
+     * 個体の技（{@link MotionSpec}）に依らない一撃。浮遊武器のように、個体の姿勢と
+     * 無関係に動く攻撃源から当てるときに使う。押し出す向きは {@code source} から見た向き。
+     */
+    void independentHit(Player target, Location source, double damage, double backBlocks,
+                        double upBlocks, boolean guardable) {
+        double amount = damage * rage.damageMultiplier();
+        if (guardable && guarding(target)) {
+            wearShield(target, amount);
+            playAt(target.getLocation(), "item.shield.block", 1.0f, 0.9f);
+            amount = ShieldGuard.damageThrough(amount);
+        }
+        if (amount > 0) {
+            target.damage(amount);
+        }
+        rage.landedHit();
+        knockbackFrom(target, source, backBlocks, upBlocks);
+        playHitEffect(target.getLocation());
+        particles(Particle.CRIT, target.getLocation().add(0, 1, 0), 12, 0.3);
+    }
+
+    private void knockbackFrom(Player target, Location source, double declaredBack,
+                               double declaredUp) {
+        Vector away = target.getLocation().toVector().subtract(source.toVector());
+        away.setY(0);
+        if (away.lengthSquared() < 0.0001) {
+            away = new Vector(0, 0, 1);
+        }
+        away.normalize();
+        double back = tuning.baseKnockback() + declaredBack / 5.0;
+        double up = declaredUp / 5.0;
+        Vector next = target.getVelocity().add(away.multiply(back));
+        if (up > 0) {
+            next.setY(up);
+        }
+        target.setVelocity(next);
+    }
+
+    /** 円形の衝撃波。個体の技とは独立した攻撃源から起こす（浮遊剣の着地など）。 */
+    void shockwaveAt(Location center, double radius, double height, double damage) {
+        sound("block.anvil_land", 1.4f, 0.7f);
+        particles(Particle.EXPLOSION, center, 6, 1.0);
+        for (double angle = 0; angle < 360; angle += 8) {
+            double radians = Math.toRadians(angle);
+            Location edge = center.clone().add(Math.cos(radians) * radius, height,
+                    Math.sin(radians) * radius);
+            center.getWorld().spawnParticle(trailParticle(), edge, 1, 0, 0, 0, 0);
+        }
+        for (Player player : playersInRange(center, radius)) {
+            independentHit(player, center, damage, 0, 0.2, ShieldGuard.GUARDS_AREA_EFFECTS);
+        }
+    }
+
     private void shockwave(MotionSpec.AreaEffect area) {
         Location center = rig.origin();
         sound("block.anvil_land", 1.6f, 0.6f);
@@ -978,6 +1100,7 @@ abstract class RaidBossBase implements RaidBoss {
         if (current == phase) {
             return;
         }
+        RaidSpecies.Phase previous = phase;
         phase = current;
         idleTarget = phase.behavior().idleTicks();
         selector.reset();
@@ -996,6 +1119,16 @@ abstract class RaidBossBase implements RaidBoss {
         sound("entity.ender_dragon.growl", 1.6f, 0.8f);
         particles(Particle.EXPLOSION_EMITTER, origin.clone().add(0, 1.5, 0), 4, 1.0);
         particles(Particle.SOUL_FIRE_FLAME, origin.clone().add(0, 1.5, 0), 60, 1.5);
+        onPhaseTransition(previous, phase);
+    }
+
+    /**
+     * 段階が移行した直後に呼ばれる。既定では何もしない。
+     *
+     * <p>虚刃の衛士はこれをオーバーライドし、移行のたびに全域大旋回を1回発動する
+     * （`raid_species.md` §2「移行トリガー」）。
+     */
+    protected void onPhaseTransition(RaidSpecies.Phase from, RaidSpecies.Phase to) {
     }
 
     // ------------------------------------------------------------ 補助

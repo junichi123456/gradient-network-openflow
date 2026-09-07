@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import jp.mcserver.core.raid.Angles;
+import jp.mcserver.core.raid.ArcSweep;
+import jp.mcserver.core.raid.GrandWhirl;
+import jp.mcserver.core.raid.GroundSpike;
+import jp.mcserver.core.raid.SpatialSlash;
+import jp.mcserver.core.raid.SwordRain;
 import jp.mcserver.core.raid.KnightDefinition;
 import jp.mcserver.core.raid.Animation;
 import jp.mcserver.core.raid.MotionSpec;
@@ -66,6 +71,7 @@ public final class CoreTests {
         raidCombat();
         spearGeometry();
         hollowGuard();
+        hollowGuardSpecial();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -3422,9 +3428,12 @@ public final class CoreTests {
 
         var boss = jp.mcserver.core.raid.HollowGuardDefinition.boss();
         check("表示名は虚刃の衛士", boss.displayName().equals("虚刃の衛士"));
-        check("段階は第一形態のみ（特殊が未実装のため）", boss.phases().size() == 1);
+        check("段階は第一形態・第二形態の2つ（第三形態は未設計のため暫定で2つ）",
+                boss.phases().size() == 2);
         check("第一形態は体力100%から始まる",
                 boss.phases().get(0).healthThreshold() == 100);
+        check("第二形態は体力66%から（3分の2を切った瞬間、§2「移行トリガー」）",
+                boss.phases().get(1).healthThreshold() == 66);
 
         var rig = boss.phases().get(0).rig().orElseThrow();
         check("部位は7つ（胴・頭・右腕・左腕・右足・左足・剣）",
@@ -3490,6 +3499,122 @@ public final class CoreTests {
 
         check("武器のリーチは騎士型（2.2）より長い（武器が3倍サイズのため）",
                 jp.mcserver.core.raid.HollowGuardDefinition.WEAPON_REACH > 2.2);
+    }
+
+    private static void hollowGuardSpecial() {
+        section("§2 虚刃の衛士（特殊4種・第二形態から）");
+
+        // 降り注ぐ刃
+        check("降り注ぐ刃の本数は 参加人数*3+2",
+                SwordRain.totalCount(1) == 5 && SwordRain.totalCount(15) == 47);
+        check("15人で約80tickで47本（5tickごとに3本 × 16波 = 80tick）",
+                (SwordRain.totalCount(15) + SwordRain.WAVE_SIZE - 1) / SwordRain.WAVE_SIZE
+                        * SwordRain.WAVE_INTERVAL_TICKS == 80);
+        {
+            double speed = 0;
+            double distance = 0;
+            for (int tick = 0; tick < 40; tick++) {
+                speed = SwordRain.nextFallSpeed(speed);
+                distance += speed;
+            }
+            check("自由落下は最高速度で頭打ちになる（加速し続けない）",
+                    Math.abs(speed - SwordRain.GRAVITY_MAX) < 1e-9);
+            check("40tick後には十分な距離を落下している（Y=15から地表面まで届く）",
+                    distance > 15.0);
+        }
+        {
+            var random = new java.util.Random(42);
+            var players = List.of(new double[] {0, 0}, new double[] {20, 20});
+            var points = SwordRain.spawnPositions(players, 47, random);
+            check("要求した本数ぶんの出現位置を返す", points.size() == 47);
+            boolean allWithinRadius = points.stream().allMatch(point -> {
+                double best = Double.MAX_VALUE;
+                for (double[] center : players) {
+                    double dx = point[0] - center[0];
+                    double dz = point[1] - center[1];
+                    best = Math.min(best, Math.hypot(dx, dz));
+                }
+                return best <= SwordRain.SPAWN_RADIUS + 1e-9;
+            });
+            check("出現位置はどれかのプレイヤーから半径3ブロック以内", allWithinRadius);
+            int tooClose = 0;
+            for (int i = 0; i < points.size(); i++) {
+                for (int j = i + 1; j < points.size(); j++) {
+                    double dx = points.get(i)[0] - points.get(j)[0];
+                    double dz = points.get(i)[1] - points.get(j)[1];
+                    if (Math.hypot(dx, dz) < SwordRain.MIN_SEPARATION - 1e-6) {
+                        tooClose++;
+                    }
+                }
+            }
+            check("出現位置はほぼ重ならない（最小距離未満はごく僅かに留まる）",
+                    tooClose <= points.size() / 10);
+        }
+
+        // 空間斬撃
+        check("空間斬撃の本数は 参加人数*2+3",
+                SpatialSlash.totalCount(1) == 5 && SpatialSlash.totalCount(15) == 33);
+        check("空間斬撃の移動距離は35±1ブロック", SpatialSlash.distanceFor(-1) == 34.0
+                && SpatialSlash.distanceFor(0) == 35.0 && SpatialSlash.distanceFor(1) == 36.0);
+        check("速度25m/sで35ブロックなら28tick（待機5tickは含まない）",
+                SpatialSlash.durationTicks(35.0) == 28);
+        check("空間斬撃はY=6から始まりY=-1へ向かう",
+                SpatialSlash.SPAWN_Y == 6.0 && SpatialSlash.END_Y == -1.0);
+
+        // 弧の幾何（ArcSweep、空間斬撃の値で検証）
+        {
+            int duration = SpatialSlash.durationTicks(35.0);
+            double sweep = SpatialSlash.sweepRadians(SpatialSlash.ARC_RADIUS, 35.0);
+            double[] start = ArcSweep.horizontalAt(0, 0, 0, SpatialSlash.ARC_RADIUS, 1, sweep,
+                    duration, 0);
+            double[] end = ArcSweep.horizontalAt(0, 0, 0, SpatialSlash.ARC_RADIUS, 1, sweep,
+                    duration, duration);
+            check("弧の始点は中心から半径ぶん離れた位置",
+                    Math.abs(Math.hypot(start[0], start[1]) - SpatialSlash.ARC_RADIUS) < 1e-6);
+            check("旋回のあいだ中心からの距離は変わらない（半径一定の円弧）",
+                    Math.abs(Math.hypot(end[0], end[1]) - SpatialSlash.ARC_RADIUS) < 1e-6);
+            check("弧に沿って進んだ距離はおよそ指定した水平距離に一致する",
+                    Math.abs(Math.hypot(end[0] - start[0], end[1] - start[1])) <= 35.0 + 1e-6);
+            check("Y座標は開始高度から終了高度まで直線的に下がる",
+                    ArcSweep.yAt(SpatialSlash.SPAWN_Y, SpatialSlash.END_Y, duration, 0)
+                            == SpatialSlash.SPAWN_Y
+                            && ArcSweep.yAt(SpatialSlash.SPAWN_Y, SpatialSlash.END_Y, duration,
+                                    duration) == SpatialSlash.END_Y);
+        }
+
+        // 串刺し
+        check("串刺しの本数は 参加人数*2-2（1人なら0本）",
+                GroundSpike.totalCount(1) == 0 && GroundSpike.totalCount(15) == 28);
+        check("発光中（20tickまで）は刃が見えていない", GroundSpike.risenHeight(20) == 0);
+        check("発光明けから3tickで全長（4ブロック）まで生え切る",
+                GroundSpike.risenHeight(23) == GroundSpike.SWORD_LENGTH
+                        && GroundSpike.fullyRisen(23) && !GroundSpike.fullyRisen(22));
+        check("生えている途中は全長より低い",
+                GroundSpike.risenHeight(22) > 0 && GroundSpike.risenHeight(22) < GroundSpike.SWORD_LENGTH);
+
+        // 全域大旋回
+        check("全域大旋回は 参加人数*4 を一斉に生成する",
+                GrandWhirl.totalCount(1) == 4 && GrandWhirl.totalCount(15) == 60);
+        check("全域大旋回は55ブロックを25m/sで44tick",
+                GrandWhirl.durationTicks() == 44);
+        check("待機は10tick（空間斬撃の5tickより長い）",
+                GrandWhirl.START_DELAY_TICKS == 10 && GrandWhirl.START_DELAY_TICKS
+                        > SpatialSlash.START_DELAY_TICKS);
+        check("素材とダメージは金14・銅15・鉄16・ダイヤモンド17・ネザライト18の順で繰り返す",
+                GrandWhirl.bladeAt(0) == GrandWhirl.Blade.GOLD
+                        && GrandWhirl.bladeAt(0).damage() == 14.0
+                        && GrandWhirl.bladeAt(1) == GrandWhirl.Blade.COPPER
+                        && GrandWhirl.bladeAt(1).damage() == 15.0
+                        && GrandWhirl.bladeAt(2).damage() == 16.0
+                        && GrandWhirl.bladeAt(3).damage() == 17.0
+                        && GrandWhirl.bladeAt(4).damage() == 18.0
+                        && GrandWhirl.bladeAt(5) == GrandWhirl.Blade.GOLD);
+
+        // 系統としての整合
+        check("特殊4種のダメージは実体3種と近い水準にある（10〜32の範囲に収まる）",
+                List.of(SwordRain.BLADE_DAMAGE, SwordRain.SHOCKWAVE_DAMAGE, SpatialSlash.DAMAGE,
+                        GroundSpike.DAMAGE, 14.0, 15.0, 16.0, 17.0, 18.0)
+                        .stream().allMatch(damage -> damage >= 10 && damage <= 32));
     }
 
     /** 2つの枠が1画素でも重なるか。 */

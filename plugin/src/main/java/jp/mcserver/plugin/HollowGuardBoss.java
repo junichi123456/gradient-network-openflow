@@ -1,17 +1,19 @@
 package jp.mcserver.plugin;
 
 import jp.mcserver.core.raid.HollowGuardDefinition;
+import jp.mcserver.core.raid.RaidSpecies;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 
 /**
  * 虚刃の衛士の効果音・パーティクルと初期化（`raid_species.md` §2）。
- * 挙動そのものは {@link RaidBossBase} が持つ。
+ * 実体（近接攻撃）の挙動は {@link RaidBossBase} が持つ。
  *
- * <p><b>実体（本体の近接攻撃）だけを持つ一次実装。</b>特殊系統（浮遊する剣・斧）は独立した
- * 並行系統として別途実装する（§2「実装の状態」）。段階も第一形態のみで、
- * {@link HollowGuardDefinition} が第二・第三形態を持つようになれば、基底クラスの
- * 段階移行（{@code checkPhase()}）がそのまま働く。
+ * <p><b>特殊系統（浮遊する剣）はこのクラスが {@link SpecialTrack} を通じて持つ。</b>
+ * 実体系統とは独立して並行に進む「2系統並行の状態機械」であり、{@link RaidBossBase} の
+ * 単一の状態機械（ENTER/IDLE/APPROACH/MOTION/RETURN/TURN）とは別に、
+ * {@link #tickSpecial()}（毎tick呼ばれる）で {@code SpecialTrack} を回す。
+ * 第二形態に入った瞬間（{@link #onPhaseTransition}）に解禁し、全域大旋回を1回発動する。
  */
 final class HollowGuardBoss extends RaidBossBase {
 
@@ -24,6 +26,8 @@ final class HollowGuardBoss extends RaidBossBase {
             HollowGuardDefinition.BASE_KNOCKBACK,
             HollowGuardDefinition.IDLE_TRACKING_DELAY_TICKS,
             "虚刃");
+
+    private final SpecialTrack special = new SpecialTrack(this);
 
     HollowGuardBoss(RaidPlugin plugin, Location origin) {
         this(plugin, origin, 0, false);
@@ -96,5 +100,24 @@ final class HollowGuardBoss extends RaidBossBase {
             case "シールドマッシュ" -> "entity.ravager.attack";
             default -> "entity.wither_skeleton.attack";
         };
+    }
+
+    @Override
+    protected void tickSpecial() {
+        special.tick();
+    }
+
+    @Override
+    protected void onPhaseTransition(RaidSpecies.Phase from, RaidSpecies.Phase to) {
+        if ("第二形態".equals(to.name())) {
+            special.setEnabled(true);
+            special.triggerGrandWhirl();
+        }
+    }
+
+    @Override
+    public void despawn() {
+        special.clear();
+        super.despawn();
     }
 }

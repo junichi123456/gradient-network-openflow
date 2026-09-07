@@ -8,13 +8,14 @@ import java.util.Optional;
 /**
  * 虚刃の衛士（`raid_species.md` §2）。レイド個体の2種目。
  *
- * <p><b>このクラスは「実体（本体の近接攻撃）」だけを持つ。</b>特殊（浮遊する剣・斧）は
- * 独立した系統として並行に進む設計であり、現行の単一状態機械（{@code KnightBoss} と
- * 同型の待機→接近→技→帰還）では表せない。実体を先に実装し、特殊は骨組みが決まってから
- * 足す（§2「実装上の注意」）。
+ * <p><b>実体（本体の近接攻撃）は {@link MotionSpec} でこのクラスが持つ。</b>特殊
+ * （浮遊する剣、第二形態から）は独立した系統として並行に進む設計であり、単一の
+ * {@code MotionSpec} では表せない——浮遊剣の軌道・生成間隔・当たり判定は
+ * {@link SwordRain}・{@link SpatialSlash}・{@link GroundSpike}・{@link GrandWhirl} の
+ * 4クラスが持ち、駆動は plugin 側（{@code HollowGuardBoss} の {@code tickSpecial()}）が行う。
  *
- * <p>したがって、いまは<b>段階も1つしか持たない</b>。第二・第三形態（浮遊武器の追加）は
- * 特殊の実装と同時に足す。
+ * <p>いまは<b>第一形態・第二形態の2つ</b>を持つ。第二形態は実体3種に加えて特殊系統が
+ * 解禁される。第三形態（斧が混ざる）は未設計のため、暫定で第二形態が体力0%まで続く。
  */
 public final class HollowGuardDefinition {
 
@@ -68,6 +69,12 @@ public final class HollowGuardDefinition {
      */
     public static final int IDLE_TRACKING_DELAY_TICKS = 10;
 
+    /**
+     * 特殊系統の待機（tick）。**約6秒（仮の値）。** 実体系統（{@link #PHYSICAL_IDLE_TICKS}）とは
+     * 別に、独立して並行に進む（§2「待ち時間」）。
+     */
+    public static final int SPECIAL_IDLE_TICKS = 120;
+
     // ------------------------------------------------------------ 素材
 
     private static final String BODY = "GRAY_CONCRETE";
@@ -107,19 +114,34 @@ public final class HollowGuardDefinition {
 
     public static RaidSpecies boss() {
         return new RaidSpecies("hollow_guard", "虚刃の衛士", BASE_HEALTH, rig(),
-                List.of(phaseOne()));
+                List.of(phaseOne(), phaseTwo()));
     }
 
-    /**
-     * 第一形態（体力100〜67%）。**実体の大剣のみ**を使う。特殊が実装されるまでは
-     * 唯一の段階である。
-     */
+    /** 第一形態（体力100〜67%）。**実体の大剣のみ**を使う。特殊系統はまだ解禁されない。 */
     public static RaidSpecies.Phase phaseOne() {
         var behavior = new RaidSpecies.Behavior(PHYSICAL_IDLE_TICKS, 20, MOVE_SPEED,
                 idle(), walk());
         return new RaidSpecies.Phase("第一形態", 100,
                 List.of(throwSweep(), upper(), shieldMash()),
-                "実体の大剣のみ。特殊モーション（浮遊する剣・斧）は未実装",
+                "実体の大剣のみ。特殊系統（浮遊する剣）は未解禁",
+                null, behavior, rig());
+    }
+
+    /**
+     * 第二形態（体力66%以下）。実体3種はそのまま、**特殊系統（浮遊する剣）が解禁される**
+     * （§2「段階構成」）。特殊系統のモーションそのものは {@code MotionSpec} を使わず、
+     * plugin 側の並行した状態機械（{@code tickSpecial()}）が駆動する——ここでの違いは
+     * 段階の閾値だけであり、実体3種の内容は第一形態と同じである。
+     *
+     * <p>第三形態（斧が混ざる、体力33%以下）は未設計のため、暫定でこの段階が
+     * 体力0%まで続く。
+     */
+    public static RaidSpecies.Phase phaseTwo() {
+        var behavior = new RaidSpecies.Behavior(PHYSICAL_IDLE_TICKS, 20, MOVE_SPEED,
+                idle(), walk());
+        return new RaidSpecies.Phase("第二形態", 66,
+                List.of(throwSweep(), upper(), shieldMash()),
+                "実体の大剣 + 浮遊する剣。特殊系統（弾幕）が解禁",
                 null, behavior, rig());
     }
 
