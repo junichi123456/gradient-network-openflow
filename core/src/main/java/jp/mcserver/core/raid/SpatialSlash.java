@@ -3,19 +3,29 @@ package jp.mcserver.core.raid;
 /**
  * 特殊「空間斬撃」（`raid_species.md` §2、第二形態から）。
  *
- * <p>Y=6 から浮遊剣（銅の剣）が現れ、5tick待機したあと、戦場の中心を軸とした
- * 弧を描きながら Y=-1 へ向けて旋回する。軌道の幾何は {@link ArcSweep} を使う。
+ * <p>個体の召喚位置の足元Yを基準に、そこから5ブロック上（足元Y=1の会場ではY=6に相当）で
+ * 浮遊剣（銅の剣）が現れ、5tick待機したあと、戦場の中心を軸とした弧を描きながら
+ * 足元Yの2ブロック下（同Y=-1に相当）へ向けて旋回する。軌道の幾何は {@link ArcSweep} を使う。
  */
 public final class SpatialSlash {
 
     private SpatialSlash() {
     }
 
-    /** 出現高度（Y）。 */
-    public static final double SPAWN_Y = 6.0;
+    /**
+     * 出現高度。個体の召喚位置の足元Yからの相対値（ブロック）。
+     *
+     * <p><b>絶対座標のYではなく、召喚位置基準。</b>足元Y=1の会場を基準に決めた値（Y=6）を
+     * オフセットへ直した（6−1=5）。実際の高度は {@code 召喚位置の足元Y + この値}。
+     */
+    public static final double SPAWN_Y_OFFSET = 5.0;
 
-    /** 到達する高度（Y）。 */
-    public static final double END_Y = -1.0;
+    /**
+     * 到達する高度。同じく召喚位置の足元Yからの相対値。
+     *
+     * <p>足元Y=1の会場を基準に決めた値（Y=-1）をオフセットへ直した（-1-1=-2）。
+     */
+    public static final double END_Y_OFFSET = -2.0;
 
     /** 剣の長さ（ブロック）。 */
     public static final double SWORD_LENGTH = 3.0;

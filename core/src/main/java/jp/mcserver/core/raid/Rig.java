@@ -37,7 +37,7 @@ public final class Rig {
      * @param modelId        リソースパック側のモデル識別子
      * @param damageable     この部位への攻撃が個体にダメージを与えるか。
      *                       騎士型の槍のように、当てても通らない部位がある
-     * @param vulnerability  被弾倍率。1.0 より大きい部位が弱点である
+     * @param vulnerability  被弾倍率。1.0 より大きい部位が弱点、1.0 未満の部位は常時軽減（{@link #reducedDamage}）
      * @param gate           弱点倍率が有効になる条件
      * @param hitboxSegments 当たり判定をいくつに分けるか。
      *                       当たり判定は軸に沿った直方体しか取れないため、
@@ -100,6 +100,24 @@ public final class Rig {
         /** ダメージが通らない同じ部位。 */
         public Part immune() {
             return new Part(name, parent, base, modelId, false, 1.0, Gate.ALWAYS,
+                    hitboxSegments, appearance);
+        }
+
+        /**
+         * 常時ダメージを軽減する同じ部位（免疫ではない）。
+         *
+         * <p>当たり判定が大きく、攻撃のほとんどがこの部位に吸われてしまう武器部位のために
+         * 用いる。{@link #immune()}（0%）とは違い、軽減した分は個体へ通る。
+         * 露出などの条件は付かず、つねにこの倍率で通る。
+         *
+         * @param multiplier 通す割合（0 より大きく1未満）。0.8 なら20%軽減
+         */
+        public Part reducedDamage(double multiplier) {
+            if (multiplier <= 0 || multiplier >= 1.0) {
+                throw new IllegalArgumentException(
+                        "軽減後の倍率は0より大きく1未満である必要がある: " + name);
+            }
+            return new Part(name, parent, base, modelId, true, multiplier, Gate.ALWAYS,
                     hitboxSegments, appearance);
         }
 

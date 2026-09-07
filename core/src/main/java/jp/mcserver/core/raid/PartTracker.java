@@ -83,6 +83,10 @@ public final class PartTracker {
         if (!target.damageable()) {
             return 0;
         }
+        if (target.vulnerability() < 1.0) {
+            // 常時軽減（Rig.Part#reducedDamage）。露出などの条件は付かない
+            return target.vulnerability();
+        }
         if (!target.isWeakPoint() || enraged) {
             return 1.0;
         }

@@ -80,15 +80,23 @@ public final class HollowGuardDefinition {
     private static final String BODY = "GRAY_CONCRETE";
     private static final String SWORD = "IRON_BLOCK";
 
+    /**
+     * 剣に攻撃を当てたときに通す割合。**実機で確認して決定**——剣の当たり判定が体に比べて
+     * 大きく、ほとんどの攻撃が剣へ吸われてしまうため、免疫（0%）ではなく20%軽減とした
+     * （§2「実装上の注意」）。
+     */
+    public static final double SWORD_DAMAGE_MULTIPLIER = 0.8;
+
     // ------------------------------------------------------------ 骨格
 
     /**
      * 骨格。積み上げは足元を 0 として、足 0〜1.0・胴 1.0〜1.9（中心1.45）・頭 1.9〜2.4（中心2.15）。
      * 剣は右腕の子で、騎士型の槍と同じ「腕が下がった姿勢で正面へ水平に構える」基準回転を持つ。
      *
-     * <p><b>剣は当たり判定を持つがダメージを受けない</b>（{@link Rig.Part#immune()}）。
-     * 騎士型の槍と同じ扱いであり、妨害の的として機能する。武器そのものが攻撃の判定源であることは
-     * これと矛盾しない——immune は「この部位を殴っても個体にダメージが通らない」ことだけを表す。
+     * <p><b>剣に攻撃を当てると、通常の{@link #SWORD_DAMAGE_MULTIPLIER}（80%）だけ個体へ通る</b>
+     * （{@link Rig.Part#reducedDamage}）。騎士型の槍は免疫（{@link Rig.Part#immune()}）だが、
+     * 虚刃の衛士の剣は当たり判定が大きく、免疫のままだとほとんどの攻撃が素通りしてしまうため、
+     * 完全な免疫ではなく軽減にしてある。
      */
     public static Rig rig() {
         List<Rig.Part> parts = List.of(
@@ -106,7 +114,7 @@ public final class HollowGuardDefinition {
                         .looks(Appearance.limb(BODY, 0.40, 1.00, 0.40)),
                 part("剣", "右腕", posRot(0, -1.00, 0, -90, 0, 0), 3007)
                         .looks(Appearance.limb(SWORD, 0.30, SWORD_LENGTH, 0.30))
-                        .immune());
+                        .reducedDamage(SWORD_DAMAGE_MULTIPLIER));
         return new Rig(parts, HEIGHT, WIDTH);
     }
 

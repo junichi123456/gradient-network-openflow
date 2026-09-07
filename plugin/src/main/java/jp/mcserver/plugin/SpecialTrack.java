@@ -147,11 +147,13 @@ final class SpecialTrack {
             }
             case SLASH -> {
                 double jitter = random.nextDouble() * 2 - 1;
-                active.add(new ArcBlade(boss, target.getLocation(), target, SpatialSlash.SPAWN_Y,
-                        SpatialSlash.END_Y, SpatialSlash.distanceFor(jitter),
-                        SpatialSlash.SPEED_BLOCKS_PER_SECOND, SpatialSlash.START_DELAY_TICKS,
-                        SpatialSlash.DAMAGE, SpatialSlash.KNOCKBACK_BLOCKS, Material.COPPER_BLOCK,
-                        0.3, SpatialSlash.SWORD_LENGTH, random));
+                double originY = boss.origin().getY();
+                active.add(new ArcBlade(boss, target.getLocation(), target,
+                        originY + SpatialSlash.SPAWN_Y_OFFSET, originY + SpatialSlash.END_Y_OFFSET,
+                        SpatialSlash.distanceFor(jitter), SpatialSlash.SPEED_BLOCKS_PER_SECOND,
+                        SpatialSlash.START_DELAY_TICKS, SpatialSlash.DAMAGE,
+                        SpatialSlash.KNOCKBACK_BLOCKS, Material.COPPER_BLOCK, 0.3,
+                        SpatialSlash.SWORD_LENGTH, random));
             }
             case SPIKE -> active.add(new SpikeBlade(boss, target.getLocation()));
         }
@@ -165,10 +167,11 @@ final class SpecialTrack {
             return;
         }
         boss.announceMotion("全域大旋回");
+        double originY = boss.origin().getY();
         for (int i = 0; i < count; i++) {
             Player target = players.get(i % players.size());
-            double spawnY = GrandWhirl.SPAWN_Y_MIN
-                    + random.nextDouble() * (GrandWhirl.SPAWN_Y_MAX - GrandWhirl.SPAWN_Y_MIN);
+            double spawnY = originY + GrandWhirl.SPAWN_Y_MIN_OFFSET + random.nextDouble()
+                    * (GrandWhirl.SPAWN_Y_MAX_OFFSET - GrandWhirl.SPAWN_Y_MIN_OFFSET);
             GrandWhirl.Blade blade = GrandWhirl.bladeAt(i);
             Material material = switch (blade) {
                 case GOLD -> Material.GOLD_BLOCK;
@@ -177,10 +180,11 @@ final class SpecialTrack {
                 case DIAMOND -> Material.DIAMOND_BLOCK;
                 case NETHERITE -> Material.NETHERITE_BLOCK;
             };
-            active.add(new ArcBlade(boss, target.getLocation(), target, spawnY, GrandWhirl.END_Y,
-                    GrandWhirl.DISTANCE_BLOCKS, GrandWhirl.SPEED_BLOCKS_PER_SECOND,
-                    GrandWhirl.START_DELAY_TICKS, blade.damage(), GrandWhirl.KNOCKBACK_BLOCKS,
-                    material, 0.3, GrandWhirl.SWORD_LENGTH, random));
+            active.add(new ArcBlade(boss, target.getLocation(), target, spawnY,
+                    originY + GrandWhirl.END_Y_OFFSET, GrandWhirl.DISTANCE_BLOCKS,
+                    GrandWhirl.SPEED_BLOCKS_PER_SECOND, GrandWhirl.START_DELAY_TICKS,
+                    blade.damage(), GrandWhirl.KNOCKBACK_BLOCKS, material, 0.3,
+                    GrandWhirl.SWORD_LENGTH, random));
         }
     }
 

@@ -14,12 +14,20 @@ public final class GrandWhirl {
     private GrandWhirl() {
     }
 
-    /** 出現高度（Y）の範囲。この範囲から個体ごとにばらけて出現する。 */
-    public static final double SPAWN_Y_MIN = 10.0;
+    /**
+     * 出現高度の範囲。個体の召喚位置の足元Yからの相対値（ブロック）。この範囲から
+     * 個体ごとにばらけて出現する。
+     *
+     * <p><b>絶対座標のYではなく、召喚位置基準。</b>足元Y=1の会場を基準に決めた値
+     * （Y=10〜15、空間斬撃と同じ考え方）をオフセットへ直した（10−1=9、15−1=14）。
+     * 実際の高度は {@code 召喚位置の足元Y + この値}。
+     */
+    public static final double SPAWN_Y_MIN_OFFSET = 9.0;
 
-    public static final double SPAWN_Y_MAX = 15.0;
+    public static final double SPAWN_Y_MAX_OFFSET = 14.0;
 
-    public static final double END_Y = -1.0;
+    /** 到達する高度。同じく召喚位置の足元Yからの相対値（-1-1=-2）。 */
+    public static final double END_Y_OFFSET = -2.0;
 
     public static final double SWORD_LENGTH = 3.0;
 

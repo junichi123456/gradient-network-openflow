@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import org.joml.Vector3f;
 
 /**
- * 「降り注ぐ刃」の1本（`raid_species.md` §2）。Y=15から自由落下し、地面に刺さると
- * 0.5ブロック埋まって衝撃波を残す。落下しているあいだ、剣本体に触れたプレイヤーへも
- * 一度だけ当たる。
+ * 「降り注ぐ刃」の1本（`raid_species.md` §2）。個体の召喚位置の足元Yから
+ * {@link SwordRain#SPAWN_Y_OFFSET} だけ上から自由落下し、地面に刺さると0.5ブロック
+ * 埋まって衝撃波を残す。落下しているあいだ、剣本体に触れたプレイヤーへも一度だけ当たる。
  */
 final class RainBlade implements FloatingBlade {
 
@@ -35,7 +35,7 @@ final class RainBlade implements FloatingBlade {
     RainBlade(RaidBossBase boss, Location spawnXZ) {
         this.boss = boss;
         this.position = spawnXZ.clone();
-        this.position.setY(SwordRain.SPAWN_Y);
+        this.position.setY(boss.origin().getY() + SwordRain.SPAWN_Y_OFFSET);
         this.display = new BladeDisplay(position, Material.IRON_BLOCK, 0.3, SwordRain.SWORD_LENGTH);
         display.place(position, DOWN);
     }

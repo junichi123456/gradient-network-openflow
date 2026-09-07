@@ -3439,8 +3439,13 @@ public final class CoreTests {
         check("部位は7つ（胴・頭・右腕・左腕・右足・左足・剣）",
                 rig.partNames().size() == 7);
         check("剣は右腕の子である", rig.part("剣").parent().equals("右腕"));
-        check("剣は当たり判定を持つがダメージが通らない（騎士型の槍と同じ扱い）",
-                !rig.part("剣").damageable());
+        check("剣はダメージが通る（免疫ではない）が、20%軽減される",
+                rig.part("剣").damageable()
+                        && rig.part("剣").vulnerability()
+                                == jp.mcserver.core.raid.HollowGuardDefinition.SWORD_DAMAGE_MULTIPLIER);
+        var hollowParts = new jp.mcserver.core.raid.PartTracker(rig);
+        check("剣に20ダメージ当てると16（80%）が個体へ通る",
+                Math.abs(hollowParts.hit("剣", 20, false).dealt() - 16.0) < 1e-9);
         check("胴・頭・両腕・両足はダメージが通る",
                 java.util.List.of("胴", "頭", "右腕", "左腕", "右足", "左足").stream()
                         .allMatch(name -> rig.part(name).damageable()));
@@ -3558,8 +3563,8 @@ public final class CoreTests {
                 && SpatialSlash.distanceFor(0) == 35.0 && SpatialSlash.distanceFor(1) == 36.0);
         check("速度25m/sで35ブロックなら28tick（待機5tickは含まない）",
                 SpatialSlash.durationTicks(35.0) == 28);
-        check("空間斬撃はY=6から始まりY=-1へ向かう",
-                SpatialSlash.SPAWN_Y == 6.0 && SpatialSlash.END_Y == -1.0);
+        check("空間斬撃は召喚位置基準で+5から始まり-2へ向かう（足元Y=1の会場ではY=6→Y=-1）",
+                SpatialSlash.SPAWN_Y_OFFSET == 5.0 && SpatialSlash.END_Y_OFFSET == -2.0);
 
         // 弧の幾何（ArcSweep、空間斬撃の値で検証）
         {
@@ -3575,11 +3580,11 @@ public final class CoreTests {
                     Math.abs(Math.hypot(end[0], end[1]) - SpatialSlash.ARC_RADIUS) < 1e-6);
             check("弧に沿って進んだ距離はおよそ指定した水平距離に一致する",
                     Math.abs(Math.hypot(end[0] - start[0], end[1] - start[1])) <= 35.0 + 1e-6);
-            check("Y座標は開始高度から終了高度まで直線的に下がる",
-                    ArcSweep.yAt(SpatialSlash.SPAWN_Y, SpatialSlash.END_Y, duration, 0)
-                            == SpatialSlash.SPAWN_Y
-                            && ArcSweep.yAt(SpatialSlash.SPAWN_Y, SpatialSlash.END_Y, duration,
-                                    duration) == SpatialSlash.END_Y);
+            check("Y座標（召喚位置基準）は開始高度から終了高度まで直線的に下がる",
+                    ArcSweep.yAt(SpatialSlash.SPAWN_Y_OFFSET, SpatialSlash.END_Y_OFFSET, duration, 0)
+                            == SpatialSlash.SPAWN_Y_OFFSET
+                            && ArcSweep.yAt(SpatialSlash.SPAWN_Y_OFFSET, SpatialSlash.END_Y_OFFSET,
+                                    duration, duration) == SpatialSlash.END_Y_OFFSET);
         }
 
         // 串刺し
