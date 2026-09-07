@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import jp.mcserver.core.raid.Angles;
-import jp.mcserver.core.raid.ArcSweep;
 import jp.mcserver.core.raid.GrandWhirl;
+import jp.mcserver.core.raid.HomingDart;
 import jp.mcserver.core.raid.GroundSpike;
 import jp.mcserver.core.raid.SpatialSlash;
 import jp.mcserver.core.raid.SwordRain;
@@ -3562,35 +3562,32 @@ public final class CoreTests {
                     tooClose <= points.size() / 10);
         }
 
-        // 空間斬撃
-        check("空間斬撃の本数は 参加人数*2+3",
-                SpatialSlash.totalCount(1) == 5 && SpatialSlash.totalCount(15) == 33);
-        check("空間斬撃の移動距離は35±1ブロック", SpatialSlash.distanceFor(-1) == 34.0
-                && SpatialSlash.distanceFor(0) == 35.0 && SpatialSlash.distanceFor(1) == 36.0);
-        check("速度25m/sで35ブロックなら28tick（待機5tickは含まない）",
-                SpatialSlash.durationTicks(35.0) == 28);
-        check("空間斬撃は召喚位置基準で+5から始まり-2へ向かう（足元Y=1の会場ではY=6→Y=-1）",
-                SpatialSlash.SPAWN_Y_OFFSET == 5.0 && SpatialSlash.END_Y_OFFSET == -2.0);
+        // 空間斬撃（実機で確認して、円弧から追尾直進へ軌道を修正した）
+        check("空間斬撃の本数は 参加人数*3（実機で確認して 参加人数*2+3 から修正）",
+                SpatialSlash.totalCount(1) == 3 && SpatialSlash.totalCount(15) == 45);
+        check("1回の発生で5本（実機で確認して3本から修正）", SpatialSlash.WAVE_SIZE == 5);
+        check("移動速度は30m/s（実機で確認して25m/sから修正）",
+                SpatialSlash.SPEED_BLOCKS_PER_SECOND == 30.0);
+        check("総移動距離は100ブロック以内", SpatialSlash.MAX_DISTANCE_BLOCKS == 100.0);
+        check("移動開始から80tickのあいだ追従し、10tickごとに狙いを更新し直す",
+                SpatialSlash.TRACKING_DURATION_TICKS == 80
+                        && SpatialSlash.RETARGET_INTERVAL_TICKS == 10);
+        check("空間斬撃は召喚位置基準で+5から始まる（足元Y=1の会場ではY=6相当）",
+                SpatialSlash.SPAWN_Y_OFFSET == 5.0);
 
-        // 弧の幾何（ArcSweep、空間斬撃の値で検証）
+        // 追尾しながら直進する軌道の幾何（HomingDart）
         {
-            int duration = SpatialSlash.durationTicks(35.0);
-            double sweep = SpatialSlash.sweepRadians(SpatialSlash.ARC_RADIUS, 35.0);
-            double[] start = ArcSweep.horizontalAt(0, 0, 0, SpatialSlash.ARC_RADIUS, 1, sweep,
-                    duration, 0);
-            double[] end = ArcSweep.horizontalAt(0, 0, 0, SpatialSlash.ARC_RADIUS, 1, sweep,
-                    duration, duration);
-            check("弧の始点は中心から半径ぶん離れた位置",
-                    Math.abs(Math.hypot(start[0], start[1]) - SpatialSlash.ARC_RADIUS) < 1e-6);
-            check("旋回のあいだ中心からの距離は変わらない（半径一定の円弧）",
-                    Math.abs(Math.hypot(end[0], end[1]) - SpatialSlash.ARC_RADIUS) < 1e-6);
-            check("弧に沿って進んだ距離はおよそ指定した水平距離に一致する",
-                    Math.abs(Math.hypot(end[0] - start[0], end[1] - start[1])) <= 35.0 + 1e-6);
-            check("Y座標（召喚位置基準）は開始高度から終了高度まで直線的に下がる",
-                    ArcSweep.yAt(SpatialSlash.SPAWN_Y_OFFSET, SpatialSlash.END_Y_OFFSET, duration, 0)
-                            == SpatialSlash.SPAWN_Y_OFFSET
-                            && ArcSweep.yAt(SpatialSlash.SPAWN_Y_OFFSET, SpatialSlash.END_Y_OFFSET,
-                                    duration, duration) == SpatialSlash.END_Y_OFFSET);
+            double blocksPerTick = SpatialSlash.blocksPerTick();
+            check("30m/sは1tickあたり1.5ブロック", Math.abs(blocksPerTick - 1.5) < 1e-9);
+            double[] step = HomingDart.stepToward(0, 0, 0, 10, 0, 0, blocksPerTick);
+            check("1tickで狙いへ向けてちょうど歩幅ぶん近づく",
+                    Math.abs(step[0] - blocksPerTick) < 1e-9 && step[1] == 0 && step[2] == 0);
+            double[] overshoot = HomingDart.stepToward(0, 0, 0, 1, 0, 0, blocksPerTick);
+            check("狙いまでの距離が歩幅未満なら、狙いを追い越さずぴったり止まる",
+                    overshoot[0] == 1.0);
+            double[] diagonal = HomingDart.stepToward(0, 0, 0, 3, 4, 0, 5.0);
+            check("斜めの狙いへも、3Dの直線距離で1歩ぶん進む（3-4-5の直角三角形）",
+                    Math.abs(diagonal[0] - 3.0) < 1e-9 && Math.abs(diagonal[1] - 4.0) < 1e-9);
         }
 
         // 串刺し
@@ -3603,11 +3600,16 @@ public final class CoreTests {
         check("生えている途中は全長より低い",
                 GroundSpike.risenHeight(22) > 0 && GroundSpike.risenHeight(22) < GroundSpike.SWORD_LENGTH);
 
-        // 全域大旋回
-        check("全域大旋回は 参加人数*4 を一斉に生成する",
-                GrandWhirl.totalCount(1) == 4 && GrandWhirl.totalCount(15) == 60);
-        check("全域大旋回は55ブロックを25m/sで44tick",
-                GrandWhirl.durationTicks() == 44);
+        // 全域大旋回（空間斬撃と同じ追尾直進の軌道に揃えた）
+        check("全域大旋回は 参加人数*3（実機で確認して 参加人数*4 から修正、空間斬撃と同じ式）",
+                GrandWhirl.totalCount(1) == 3 && GrandWhirl.totalCount(15) == 45);
+        check("波の出し方も空間斬撃と同じ（5tickごとに5本。一斉出しからの修正）",
+                GrandWhirl.WAVE_SIZE == 5 && GrandWhirl.WAVE_INTERVAL_TICKS == 5);
+        check("移動速度・総移動距離・追従の尺は空間斬撃と揃えてある",
+                GrandWhirl.SPEED_BLOCKS_PER_SECOND == SpatialSlash.SPEED_BLOCKS_PER_SECOND
+                        && GrandWhirl.MAX_DISTANCE_BLOCKS == SpatialSlash.MAX_DISTANCE_BLOCKS
+                        && GrandWhirl.TRACKING_DURATION_TICKS == SpatialSlash.TRACKING_DURATION_TICKS
+                        && GrandWhirl.RETARGET_INTERVAL_TICKS == SpatialSlash.RETARGET_INTERVAL_TICKS);
         check("待機は10tick（空間斬撃の5tickより長い）",
                 GrandWhirl.START_DELAY_TICKS == 10 && GrandWhirl.START_DELAY_TICKS
                         > SpatialSlash.START_DELAY_TICKS);

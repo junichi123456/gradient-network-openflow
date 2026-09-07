@@ -53,10 +53,10 @@ final class SpikeBlade implements FloatingBlade {
             return false;
         }
         if (display == null) {
-            display = new BladeDisplay(base, Material.DIAMOND_BLOCK, 0.35, GroundSpike.SWORD_LENGTH);
+            display = new BladeDisplay(base, Material.DIAMOND_SWORD, GroundSpike.SWORD_LENGTH * 0.9);
             boss.sound("item.trident.hit_ground", 1.3f, 0.9f);
         }
-        display.placeRising(base, height);
+        display.placeRising(base, height, GroundSpike.SWORD_LENGTH);
         if (GroundSpike.fullyRisen(tick)) {
             strikeNearby();
             ticksAfterFullyRisen++;

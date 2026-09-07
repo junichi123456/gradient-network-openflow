@@ -808,16 +808,6 @@ abstract class RaidBossBase implements RaidBoss {
     protected void tickSpecial() {
     }
 
-    /** いまの段階。特殊系統の解禁判定（第二形態から）などに使う。 */
-    RaidSpecies.Phase currentPhase() {
-        return phase;
-    }
-
-    /** 戦場。旋回の軸（戦場の中心）などに使う。 */
-    Stage stage() {
-        return stage;
-    }
-
     /** 指定位置の地表面のY座標。 */
     double groundY(Location at) {
         return grounded(at).getY();

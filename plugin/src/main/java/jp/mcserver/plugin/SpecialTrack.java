@@ -25,17 +25,17 @@ import org.bukkit.entity.Player;
  *
  * <p>3種（降り注ぐ刃・空間斬撃・串刺し）は固定の順で巡回する（**選び方は仮**。
  * 実体系統の {@code MotionSelector} のような状況判断は、いまのところ特殊には設けていない）。
- * 全域大旋回だけは段階移行時に1回ずつ発動する専用の技であり、この巡回には含めない
- * （{@link #triggerGrandWhirl()}）。
+ * 全域大旋回だけは段階移行時に1回発動する専用の技で、この巡回には含めない
+ * （{@link #triggerGrandWhirl()}）——発動した瞬間、巡回中の波を打ち切って割り込む。
  */
 final class SpecialTrack {
 
-    /** 巡回する3種（全域大旋回を除く）。 */
     private enum Kind {
-        RAIN, SLASH, SPIKE
+        RAIN, SLASH, SPIKE, WHIRL
     }
 
-    private static final Kind[] ROTATION = Kind.values();
+    /** 巡回する3種（全域大旋回は段階移行でだけ発動するため含めない）。 */
+    private static final Kind[] ROTATION = {Kind.RAIN, Kind.SLASH, Kind.SPIKE};
 
     private final RaidBossBase boss;
     private final Random random = new Random();
@@ -48,6 +48,7 @@ final class SpecialTrack {
     private Kind spawning;
     private int remaining;
     private int cadenceCounter;
+    private int whirlSpawnIndex;
 
     SpecialTrack(RaidBossBase boss) {
         this.boss = boss;
@@ -86,20 +87,30 @@ final class SpecialTrack {
         }
         Kind kind = ROTATION[rotationIndex % ROTATION.length];
         rotationIndex++;
-        int participants = boss.participants();
-        int count = switch (kind) {
-            case RAIN -> SwordRain.totalCount(participants);
-            case SLASH -> SpatialSlash.totalCount(participants);
-            case SPIKE -> GroundSpike.totalCount(participants);
-        };
+        int count = countFor(kind);
         if (count <= 0) {
             idleTicks = HollowGuardDefinition.SPECIAL_IDLE_TICKS;
             return;
         }
+        beginWave(kind, count);
+    }
+
+    private void beginWave(Kind kind, int count) {
         spawning = kind;
         cadenceCounter = 0;
         remaining = count;
+        whirlSpawnIndex = 0;
         boss.announceMotion(displayName(kind));
+    }
+
+    private int countFor(Kind kind) {
+        int participants = boss.participants();
+        return switch (kind) {
+            case RAIN -> SwordRain.totalCount(participants);
+            case SLASH -> SpatialSlash.totalCount(participants);
+            case SPIKE -> GroundSpike.totalCount(participants);
+            case WHIRL -> GrandWhirl.totalCount(participants);
+        };
     }
 
     private void continueWave() {
@@ -112,6 +123,7 @@ final class SpecialTrack {
             case RAIN -> SwordRain.WAVE_INTERVAL_TICKS;
             case SLASH -> SpatialSlash.WAVE_INTERVAL_TICKS;
             case SPIKE -> GroundSpike.WAVE_INTERVAL_TICKS;
+            case WHIRL -> GrandWhirl.WAVE_INTERVAL_TICKS;
         };
         if (cadenceCounter % interval != 0) {
             cadenceCounter++;
@@ -122,6 +134,7 @@ final class SpecialTrack {
             case RAIN -> SwordRain.WAVE_SIZE;
             case SLASH -> SpatialSlash.WAVE_SIZE;
             case SPIKE -> GroundSpike.WAVE_SIZE;
+            case WHIRL -> GrandWhirl.WAVE_SIZE;
         };
         for (int i = 0; i < size && remaining > 0; i++) {
             spawnOne(spawning);
@@ -135,6 +148,7 @@ final class SpecialTrack {
             return;
         }
         Player target = players.get(random.nextInt(players.size()));
+        double originY = boss.origin().getY();
         switch (kind) {
             case RAIN -> {
                 Location at = target.getLocation();
@@ -143,49 +157,48 @@ final class SpecialTrack {
                 Location spawn = boss.origin().clone();
                 spawn.setX(xz[0]);
                 spawn.setZ(xz[1]);
-                active.add(new RainBlade(boss, spawn));
+                active.add(new RainBlade(boss, spawn, target));
             }
-            case SLASH -> {
-                double jitter = random.nextDouble() * 2 - 1;
-                double originY = boss.origin().getY();
-                active.add(new ArcBlade(boss, target.getLocation(), target,
-                        originY + SpatialSlash.SPAWN_Y_OFFSET, originY + SpatialSlash.END_Y_OFFSET,
-                        SpatialSlash.distanceFor(jitter), SpatialSlash.SPEED_BLOCKS_PER_SECOND,
-                        SpatialSlash.START_DELAY_TICKS, SpatialSlash.DAMAGE,
-                        SpatialSlash.KNOCKBACK_BLOCKS, Material.COPPER_BLOCK, 0.3,
-                        SpatialSlash.SWORD_LENGTH, random));
-            }
+            case SLASH -> active.add(new HomingBlade(boss, target.getLocation(), target,
+                    originY + SpatialSlash.SPAWN_Y_OFFSET, SpatialSlash.blocksPerTick(),
+                    SpatialSlash.MAX_DISTANCE_BLOCKS, SpatialSlash.START_DELAY_TICKS,
+                    SpatialSlash.TRACKING_DURATION_TICKS, SpatialSlash.RETARGET_INTERVAL_TICKS,
+                    SpatialSlash.DAMAGE, SpatialSlash.KNOCKBACK_BLOCKS, Material.WOODEN_SWORD,
+                    SpatialSlash.SWORD_LENGTH * 0.9));
             case SPIKE -> active.add(new SpikeBlade(boss, target.getLocation()));
+            case WHIRL -> {
+                double spawnY = originY + GrandWhirl.SPAWN_Y_MIN_OFFSET + random.nextDouble()
+                        * (GrandWhirl.SPAWN_Y_MAX_OFFSET - GrandWhirl.SPAWN_Y_MIN_OFFSET);
+                GrandWhirl.Blade blade = GrandWhirl.bladeAt(whirlSpawnIndex);
+                whirlSpawnIndex++;
+                Material material = switch (blade) {
+                    case GOLD -> Material.GOLDEN_SWORD;
+                    case COPPER -> Material.WOODEN_SWORD;
+                    case IRON -> Material.IRON_SWORD;
+                    case DIAMOND -> Material.DIAMOND_SWORD;
+                    case NETHERITE -> Material.NETHERITE_SWORD;
+                };
+                active.add(new HomingBlade(boss, target.getLocation(), target, spawnY,
+                        GrandWhirl.blocksPerTick(), GrandWhirl.MAX_DISTANCE_BLOCKS,
+                        GrandWhirl.START_DELAY_TICKS, GrandWhirl.TRACKING_DURATION_TICKS,
+                        GrandWhirl.RETARGET_INTERVAL_TICKS, blade.damage(),
+                        GrandWhirl.KNOCKBACK_BLOCKS, material, GrandWhirl.SWORD_LENGTH * 0.9));
+            }
         }
     }
 
-    /** 全域大旋回。段階移行時に1回だけ呼ぶ（{@code RaidBossBase#onPhaseTransition}）。 */
+    /**
+     * 全域大旋回。段階移行時に1回だけ呼ぶ（{@code RaidBossBase#onPhaseTransition}）。
+     * いま巡回中の波があれば打ち切って割り込む——移行そのものが1つの技として機能する
+     * という設計（§2「段階構成」）を優先する。
+     */
     void triggerGrandWhirl() {
-        List<Player> players = boss.playersInStage();
         int count = GrandWhirl.totalCount(boss.participants());
-        if (players.isEmpty() || count <= 0) {
+        if (boss.playersInStage().isEmpty() || count <= 0) {
             return;
         }
-        boss.announceMotion("全域大旋回");
-        double originY = boss.origin().getY();
-        for (int i = 0; i < count; i++) {
-            Player target = players.get(i % players.size());
-            double spawnY = originY + GrandWhirl.SPAWN_Y_MIN_OFFSET + random.nextDouble()
-                    * (GrandWhirl.SPAWN_Y_MAX_OFFSET - GrandWhirl.SPAWN_Y_MIN_OFFSET);
-            GrandWhirl.Blade blade = GrandWhirl.bladeAt(i);
-            Material material = switch (blade) {
-                case GOLD -> Material.GOLD_BLOCK;
-                case COPPER -> Material.COPPER_BLOCK;
-                case IRON -> Material.IRON_BLOCK;
-                case DIAMOND -> Material.DIAMOND_BLOCK;
-                case NETHERITE -> Material.NETHERITE_BLOCK;
-            };
-            active.add(new ArcBlade(boss, target.getLocation(), target, spawnY,
-                    originY + GrandWhirl.END_Y_OFFSET, GrandWhirl.DISTANCE_BLOCKS,
-                    GrandWhirl.SPEED_BLOCKS_PER_SECOND, GrandWhirl.START_DELAY_TICKS,
-                    blade.damage(), GrandWhirl.KNOCKBACK_BLOCKS, material, 0.3,
-                    GrandWhirl.SWORD_LENGTH, random));
-        }
+        beginWave(Kind.WHIRL, count);
+        idleTicks = 0;
     }
 
     private static String displayName(Kind kind) {
@@ -193,6 +206,7 @@ final class SpecialTrack {
             case RAIN -> "降り注ぐ刃";
             case SLASH -> "空間斬撃";
             case SPIKE -> "串刺し";
+            case WHIRL -> "全域大旋回";
         };
     }
 
