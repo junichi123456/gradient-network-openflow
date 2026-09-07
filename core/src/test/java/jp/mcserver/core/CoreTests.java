@@ -3449,10 +3449,16 @@ public final class CoreTests {
         check("胴・頭・両腕・両足はダメージが通る",
                 java.util.List.of("胴", "頭", "右腕", "左腕", "右足", "左足").stream()
                         .allMatch(name -> rig.part(name).damageable()));
-        check("全長はネザースケルトン相当（2.4）",
+        check("全長はネザースケルトン相当（2.4）。太くしても身長は変わらない",
                 Math.abs(jp.mcserver.core.raid.HollowGuardDefinition.HEIGHT - 2.4) < 1e-9);
         check("剣の長さは3.0ブロック（通常の武器のおよそ3倍）",
                 Math.abs(jp.mcserver.core.raid.HollowGuardDefinition.SWORD_LENGTH - 3.0) < 1e-9);
+        check("体の太さは実機調整で2倍にした（幅の宣言も1.0→2.0）",
+                Math.abs(jp.mcserver.core.raid.HollowGuardDefinition.WIDTH - 2.0) < 1e-9
+                        && rig.part("胴").appearance().scale().x() == 1.40
+                        && rig.part("頭").appearance().scale().x() == 0.90
+                        && rig.part("右腕").appearance().scale().x() == 0.70
+                        && rig.part("右足").appearance().scale().x() == 0.80);
 
         var noMotion = Skeleton.hitPoints(rig, Map.<String, jp.mcserver.core.raid.Transform>of());
         check("姿勢を与えなければ剣の判定は正面（+Z）に出る",

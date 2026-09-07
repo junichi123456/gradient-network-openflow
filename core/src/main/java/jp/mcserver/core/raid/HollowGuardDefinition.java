@@ -45,8 +45,8 @@ public final class HollowGuardDefinition {
     /** 全長（ブロック）。ネザースケルトン相当（プレイヤーよりやや高い程度）。 */
     public static final double HEIGHT = 2.4;
 
-    /** 幅（ブロック）。 */
-    public static final double WIDTH = 1.0;
+    /** 幅（ブロック）。太さを倍にした実機調整を反映（§2「体型」）。 */
+    public static final double WIDTH = 2.0;
 
     /** 剣の長さ（ブロック）。通常のプレイヤー用武器のおよそ3倍。 */
     public static final double SWORD_LENGTH = 3.0;
@@ -93,6 +93,12 @@ public final class HollowGuardDefinition {
      * 骨格。積み上げは足元を 0 として、足 0〜1.0・胴 1.0〜1.9（中心1.45）・頭 1.9〜2.4（中心2.15）。
      * 剣は右腕の子で、騎士型の槍と同じ「腕が下がった姿勢で正面へ水平に構える」基準回転を持つ。
      *
+     * <p><b>体（胴・頭・両腕・両足）の太さは2倍にしてある</b>（実機で確認して調整）。
+     * 縦（Y、身長・手足の長さ）はそのままで、横（X・Z、太さ）だけを倍にした——
+     * 「太くする」であって「大きくする／高くする」ではないため、全長（{@link #HEIGHT}）は
+     * 変わらない。腕・足の付け根の横方向のずらしも、胴が太くなった分だけ倍にして、
+     * 胴に埋もれないようにしてある。剣（武器）は体ではないため対象外。
+     *
      * <p><b>剣に攻撃を当てると、通常の{@link #SWORD_DAMAGE_MULTIPLIER}（80%）だけ個体へ通る</b>
      * （{@link Rig.Part#reducedDamage}）。騎士型の槍は免疫（{@link Rig.Part#immune()}）だが、
      * 虚刃の衛士の剣は当たり判定が大きく、免疫のままだとほとんどの攻撃が素通りしてしまうため、
@@ -101,17 +107,17 @@ public final class HollowGuardDefinition {
     public static Rig rig() {
         List<Rig.Part> parts = List.of(
                 part("胴", null, pos(0, 1.45, 0), 3001)
-                        .looks(Appearance.box(BODY, 0.70, 0.90, 0.45)),
+                        .looks(Appearance.box(BODY, 1.40, 0.90, 0.90)),
                 part("頭", "胴", pos(0, 0.70, 0), 3002)
-                        .looks(Appearance.box(BODY, 0.45, 0.45, 0.45)),
-                part("右腕", "胴", pos(-0.45, 0.35, 0), 3003)
-                        .looks(Appearance.limb(BODY, 0.35, 1.00, 0.35)),
-                part("左腕", "胴", pos(0.45, 0.35, 0), 3004)
-                        .looks(Appearance.limb(BODY, 0.35, 1.00, 0.35)),
-                part("右足", "胴", pos(-0.20, -0.45, 0), 3005)
-                        .looks(Appearance.limb(BODY, 0.40, 1.00, 0.40)),
-                part("左足", "胴", pos(0.20, -0.45, 0), 3006)
-                        .looks(Appearance.limb(BODY, 0.40, 1.00, 0.40)),
+                        .looks(Appearance.box(BODY, 0.90, 0.45, 0.90)),
+                part("右腕", "胴", pos(-0.90, 0.35, 0), 3003)
+                        .looks(Appearance.limb(BODY, 0.70, 1.00, 0.70)),
+                part("左腕", "胴", pos(0.90, 0.35, 0), 3004)
+                        .looks(Appearance.limb(BODY, 0.70, 1.00, 0.70)),
+                part("右足", "胴", pos(-0.40, -0.45, 0), 3005)
+                        .looks(Appearance.limb(BODY, 0.80, 1.00, 0.80)),
+                part("左足", "胴", pos(0.40, -0.45, 0), 3006)
+                        .looks(Appearance.limb(BODY, 0.80, 1.00, 0.80)),
                 part("剣", "右腕", posRot(0, -1.00, 0, -90, 0, 0), 3007)
                         .looks(Appearance.limb(SWORD, 0.30, SWORD_LENGTH, 0.30))
                         .reducedDamage(SWORD_DAMAGE_MULTIPLIER));
