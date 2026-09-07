@@ -62,6 +62,12 @@ public final class HollowGuardDefinition {
     /** どの攻撃にも乗る最小の押し出し（ブロック）。 */
     public static final double BASE_KNOCKBACK = 0.1;
 
+    /**
+     * 待機中に相手を追う向きの遅れ（tick）。騎士型と同じ10tickを暫定で置く
+     * （§12.6の共通の規約。個体ごとに変える理由が無ければ揃える）。
+     */
+    public static final int IDLE_TRACKING_DELAY_TICKS = 10;
+
     // ------------------------------------------------------------ 素材
 
     private static final String BODY = "GRAY_CONCRETE";
