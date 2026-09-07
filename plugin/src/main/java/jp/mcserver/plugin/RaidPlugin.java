@@ -116,7 +116,7 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                         HollowGuardBoss boss = new HollowGuardBoss(this, player.getLocation());
                         boss.spawn();
                         active.add(boss);
-                        player.sendMessage("虚刃の衛士を召喚しました（実体のみ・特殊は未実装）");
+                        player.sendMessage("虚刃の衛士を召喚しました（体力66%から特殊系統が解禁されます）");
                     }
                     default -> {
                         KnightBoss boss = new KnightBoss(this, player.getLocation());
