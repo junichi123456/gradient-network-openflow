@@ -3,6 +3,7 @@ package jp.mcserver.plugin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +16,7 @@ import jp.mcserver.core.raid.MotionSpec;
 import jp.mcserver.core.raid.PartTracker;
 import jp.mcserver.core.raid.PoseTransition;
 import jp.mcserver.core.raid.RageMeter;
+import jp.mcserver.core.raid.RaidDrop;
 import jp.mcserver.core.raid.RaidSpecies;
 import jp.mcserver.core.raid.ShieldGuard;
 import jp.mcserver.core.raid.Stage;
@@ -145,6 +147,15 @@ final class KnightBoss {
      *
      * <p>毎tick相手の位置を押し込み、待機中は指定tick前の値を狙う。
      */
+    /**
+     * 誰がどれだけ削ったか（§12.4）。
+     *
+     * <p>ドロップの配布は<b>与えたダメージ</b>で決まる。最後の一撃でも、
+     * 居合わせただけでもない。<b>個体へ通ったぶんだけ</b>を数える（無敵の部位への
+     * 攻撃や、遠すぎて弾かれた攻撃は数えない）。
+     */
+    private final Map<UUID, Double> contribution = new LinkedHashMap<>();
+
     /** いま位置を溜めている相手。変わったら履歴を捨てる */
     private UUID trackedTarget;
 
@@ -189,6 +200,30 @@ final class KnightBoss {
 
     boolean isDead() {
         return health <= 0;
+    }
+
+    /**
+     * ドロップを受け取る資格のある者（§12.4）。
+     *
+     * <p>体力の {@code 1/(参加人数×1.5)} 以上を削った者に確定で配る。
+     * <b>生死は問わない</b>（§12.5）。順は削った量の多い順で、案内に出すためである。
+     */
+    List<UUID> rewarded() {
+        return contribution.entrySet().stream()
+                .filter(entry -> RaidDrop.qualifies(entry.getValue(), maxHealth, participants))
+                .sorted(Map.Entry.<UUID, Double>comparingByValue().reversed())
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    /** その者が削った量。案内に出す。 */
+    double dealtBy(UUID player) {
+        return contribution.getOrDefault(player, 0.0);
+    }
+
+    /** ドロップの配布に必要な量。 */
+    double rewardThreshold() {
+        return RaidDrop.requiredDamage(maxHealth, participants);
     }
 
     /** いまの立ち位置。見た目の方式を切り替えて出し直すときに使う。 */
@@ -939,6 +974,7 @@ final class KnightBoss {
             return true;
         }
         health -= result.dealt();
+        contribution.merge(attacker.getUniqueId(), result.dealt(), Double::sum);
         accumulateParry(result.dealt(), attacker);
 
         if (result.critical()) {

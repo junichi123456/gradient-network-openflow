@@ -15,6 +15,7 @@ import jp.mcserver.core.raid.PartTracker;
 import jp.mcserver.core.raid.PoseTransition;
 import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.Appearance;
+import jp.mcserver.core.raid.RaidDrop;
 import jp.mcserver.core.raid.RaidSpecies;
 import jp.mcserver.core.raid.Rig;
 import jp.mcserver.core.raid.ShieldGuard;
@@ -3157,6 +3158,74 @@ public final class CoreTests {
                 + smallestPart + " " + smallestFace + "画素）", smallestFace >= 3);
         check(String.format("塗る細かさを控えておく（最も粗い: %s %.0f画素/ブロック"
                 + " ／ バニラのブロックは16）", coarsestPart, coarsest), coarsest > 0);
+        // 討伐のドロップ品（§12.4）
+        check("必要量は体力を 参加人数×1.5 で割った量",
+                RaidDrop.requiredDamage(600, 1) == 400
+                        && Math.abs(RaidDrop.requiredDamage(600, 12) - 600 / 18.0) < 1e-9);
+        check("均等割りより3分の1だけ軽い",
+                Math.abs(RaidDrop.requiredDamage(600, 12) - 600 / 12.0 / 1.5) < 1e-9
+                        && RaidDrop.CONTRIBUTION_DIVISOR == 1.5);
+        check("必要量に届いていれば配る。ちょうどでも配る",
+                RaidDrop.qualifies(400, 600, 1)
+                        && !RaidDrop.qualifies(399.9, 600, 1)
+                        && RaidDrop.qualifies(33.34, 600, 12));
+        boolean rejectsEmptyRaid = false;
+        try {
+            RaidDrop.requiredDamage(600, 0);
+        } catch (IllegalArgumentException expected) {
+            rejectsEmptyRaid = true;
+        }
+        check("参加人数0は拒む", rejectsEmptyRaid);
+        // 12名の上限で挑んだときの実際の必要量。体感の確認に出す
+        long fullHealth = KnightDefinition.BASE_HEALTH
+                * jp.mcserver.core.Raid.difficulty(12).healthPercent() / 100;
+        check(String.format("12名なら一人あたり %.0f ダメージで受け取れる（体力 %d）",
+                RaidDrop.requiredDamage(fullHealth, 12), fullHealth),
+                RaidDrop.requiredDamage(fullHealth, 12) < fullHealth / 12.0);
+
+        var rolled = RaidDrop.roll(new java.util.Random(7));
+        check("1人ぶんは4種である（確定3種 + 抽選1種）", rolled.size() == 4);
+        check("確定枠は旗模様・鍛治型・許可証である",
+                rolled.get(0).id().equals("banner_pattern")
+                        && rolled.get(1).id().equals("smithing_template")
+                        && rolled.get(2).id().equals("solo_permit"));
+        check("抽選枠は馬鎧か頭のどちらかが必ず出る",
+                rolled.get(3).id().equals("horse_armor")
+                        || rolled.get(3).id().equals("trophy_head"));
+        boolean bannerRange = true;
+        boolean singles = true;
+        for (int seed = 0; seed < 200; seed++) {
+            var grants = RaidDrop.roll(new java.util.Random(seed));
+            if (grants.get(0).amount() < 1 || grants.get(0).amount() > 2) {
+                bannerRange = false;
+            }
+            for (int i = 1; i < grants.size(); i++) {
+                if (grants.get(i).amount() != 1) {
+                    singles = false;
+                }
+            }
+        }
+        check("旗模様は1〜2個である", bannerRange);
+        check("ほかの品は1個である", singles);
+        check("鍛治型は複製できない。ほかは複製できる",
+                !RaidDrop.copyable("smithing_template")
+                        && RaidDrop.copyable("banner_pattern")
+                        && RaidDrop.copyable("horse_armor"));
+        check("抽選の重みの合計は100である", RaidDrop.CHOICE_WEIGHT == 100);
+        int heads = 0;
+        for (int seed = 0; seed < 4000; seed++) {
+            if (RaidDrop.pick(new java.util.Random(seed)).id().equals("trophy_head")) {
+                heads++;
+            }
+        }
+        check(String.format("頭は約20%%で出る（実測 %.1f%%）", heads * 100.0 / 4000),
+                Math.abs(heads / 4000.0 - 0.20) < 0.03);
+        check("識別子は重複しない",
+                RaidDrop.all().stream().map(RaidDrop.Item::id).distinct().count()
+                        == RaidDrop.all().size());
+        check("性能を持つ品は無い（馬鎧は通常と同等、ほかは装飾）",
+                RaidDrop.all().size() == 5);
+
         // 待機中の追従の遅れ（§12.6）
         check("遅れは10tickである", KnightDefinition.IDLE_TRACKING_DELAY_TICKS == 10);
         var noDelay = new TrackingDelay(0);

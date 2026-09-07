@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import jp.mcserver.core.raid.KnightDefinition;
+import jp.mcserver.core.raid.RaidDrop;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -23,6 +24,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.projectiles.ProjectileSource;
 
@@ -59,6 +62,9 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
      * 個体側の命中の記録（激昂の判定）もそのまま働く。
      */
     private final Set<UUID> unkillable = new HashSet<>();
+
+    /** ドロップの抽選に使う乱数。 */
+    private final java.util.Random random = new java.util.Random();
 
     /** 較正用に出した表示エンティティ（`raid_model_spec.md` §7）。 */
     private final List<Entity> calibration = new ArrayList<>();
@@ -209,6 +215,57 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         }
     }
 
+    /**
+     * ドロップを配る（§12.4）。
+     *
+     * <p><b>確定贈与である。</b>資格のある者には必ず全種が渡る。持ち物が満杯なら足元へ落とす。
+     * 資格は「体力の 1/(参加人数×1.5) 以上を削ったか」で、生死は問わない（§12.5）。
+     */
+    private void grantDrops(KnightBoss boss) {
+        List<java.util.UUID> rewarded = boss.rewarded();
+        if (rewarded.isEmpty()) {
+            getServer().broadcastMessage("§7ドロップの条件（"
+                    + String.format("%.0f", boss.rewardThreshold())
+                    + " ダメージ）を満たした者がいませんでした");
+            return;
+        }
+        for (java.util.UUID id : rewarded) {
+            Player player = getServer().getPlayer(id);
+            if (player == null) {
+                // 離脱した者へは渡せない。取り置きは永続化の話になるため、いまは記録だけ
+                getLogger().info("ドロップの受け取り手が不在: " + id);
+                continue;
+            }
+            List<String> got = new ArrayList<>();
+            for (var grant : RaidDrop.roll(random)) {
+                RaidLoot.give(player, RaidLoot.build(grant, this));
+                got.add(grant.displayName()
+                        + (grant.amount() > 1 ? " ×" + grant.amount() : ""));
+            }
+            player.sendMessage("§6討伐報酬 §7— " + String.join("§7 / §6", got));
+            player.sendMessage(String.format("§7与えたダメージ %.0f（条件 %.0f）",
+                    boss.dealtBy(id), boss.rewardThreshold()));
+        }
+        getServer().broadcastMessage("§7ドロップを " + rewarded.size() + " 名へ配りました");
+    }
+
+    /**
+     * 複製できない品を守る（§12.4）。
+     *
+     * <p>鍛治型は<b>複製できないことがドロップの価値の根拠</b>である。バニラの鍛治型は
+     * 作業台で複製できるため、付け札の付いた品が材料に入っている作業を成立させない。
+     */
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPrepareCraft(PrepareItemCraftEvent event) {
+        for (ItemStack item : event.getInventory().getMatrix()) {
+            String id = RaidLoot.idOf(item, this);
+            if (id != null && !RaidDrop.copyable(id)) {
+                event.getInventory().setResult(null);
+                return;
+            }
+        }
+    }
+
     /** 動いている jar の日時。実機の症状と手元の修正を突き合わせるために出す。 */
     private String jarStamp() {
         try {
@@ -325,6 +382,7 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                 launchPoints.remove(damager.getUniqueId());
                 if (boss.isDead()) {
                     boss.playDefeat();
+                    grantDrops(boss);
                     boss.despawn();
                     active.remove(boss);
                     getServer().broadcastMessage("騎士型を討伐しました");
