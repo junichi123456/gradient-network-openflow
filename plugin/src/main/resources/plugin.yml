@@ -6,7 +6,7 @@ description: レイド個体の検証（§12）と村人の取引テーブル（
 commands:
   raid:
     description: レイドの開催（登録・開始）と個体の検証
-    usage: /raid slots|join|leave|solo | /raid spawn|despawn|info|god|calibrate|dump|axes | /raid model authored|vanilla | /raid arena|warp|begin
+    usage: /raid slots|join|leave|solo | /raid spawn [knight|hollow]|despawn|info|god|calibrate|dump|axes | /raid model authored|vanilla | /raid arena|warp|begin
     permission: raid.test
 permissions:
   raid.test:

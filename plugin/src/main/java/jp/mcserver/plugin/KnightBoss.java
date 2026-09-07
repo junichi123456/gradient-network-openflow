@@ -54,7 +54,7 @@ import org.bukkit.util.Vector;
  * <p>パリイは盾では成立しない。<b>その区間に個体へ与えた累積ダメージ</b>で判定する（§12.6）。
  * 突進は走り出したらパリイされない限り止まらず、決めた距離を走り切る。
  */
-final class KnightBoss {
+final class KnightBoss implements RaidBoss {
 
     /**
      * 武器の周りに取る判定の余裕（ブロック）。値は §12.6 の定義から引く。
@@ -225,7 +225,8 @@ final class KnightBoss {
         return maxHealth;
     }
 
-    boolean isDead() {
+    @Override
+    public boolean isDead() {
         return health <= 0;
     }
 
@@ -235,7 +236,8 @@ final class KnightBoss {
      * <p>体力の {@code 1/(参加人数×1.5)} 以上を削った者に確定で配る。
      * <b>生死は問わない</b>（§12.5）。順は削った量の多い順で、案内に出すためである。
      */
-    List<UUID> rewarded() {
+    @Override
+    public List<UUID> rewarded() {
         return contribution.entrySet().stream()
                 .filter(entry -> RaidDrop.qualifies(entry.getValue(), maxHealth, participants))
                 .sorted(Map.Entry.<UUID, Double>comparingByValue().reversed())
@@ -244,12 +246,14 @@ final class KnightBoss {
     }
 
     /** その者が削った量。案内に出す。 */
-    double dealtBy(UUID player) {
+    @Override
+    public double dealtBy(UUID player) {
         return contribution.getOrDefault(player, 0.0);
     }
 
     /** ドロップの配布に必要な量。 */
-    double rewardThreshold() {
+    @Override
+    public double rewardThreshold() {
         return RaidDrop.requiredDamage(maxHealth, participants);
     }
 
@@ -258,7 +262,8 @@ final class KnightBoss {
         return rig.origin();
     }
 
-    String status() {
+    @Override
+    public String status() {
         StringBuilder text = new StringBuilder(String.format(
                 "%s / %s / 体力 %.0f / %d（%s %dtick）", species.displayName(), phase.name(),
                 health, maxHealth, state, stateTick));
@@ -294,7 +299,8 @@ final class KnightBoss {
         task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::tick, 1L, 1L);
     }
 
-    void despawn() {
+    @Override
+    public void despawn() {
         if (task != null) {
             task.cancel();
         }
@@ -983,7 +989,8 @@ final class KnightBoss {
      * 当たり判定に使う Interaction は生き物ではないため、イベントが運ぶ値は武器を反映しない。
      */
     /** 表示へ送っている変換と当たり判定の位置。数値で突き合わせるための出力。 */
-    List<String> describe() {
+    @Override
+    public List<String> describe() {
         List<String> lines = new ArrayList<>();
         lines.add("状態 " + state + " tick " + stateTick + " / モーション "
                 + (motion == null ? "なし" : motion.name()) + " / 体の向き "
@@ -992,7 +999,8 @@ final class KnightBoss {
         return lines;
     }
 
-    boolean handleHit(UUID hitEntity, Player attacker, Location origin, boolean ranged,
+    @Override
+    public boolean handleHit(UUID hitEntity, Player attacker, Location origin, boolean ranged,
                       Material weapon) {
         String part = rig.partOfHitbox(hitEntity);
         if (part == null) {
@@ -1418,7 +1426,8 @@ final class KnightBoss {
     }
 
     /** 討伐の演出。 */
-    void playDefeat() {
+    @Override
+    public void playDefeat() {
         Location origin = rig.origin();
         sound("entity.ender_dragon.death", 1.6f, 1.2f);
         particles(Particle.EXPLOSION_EMITTER, origin.clone().add(0, 1.5, 0), 6, 1.2);

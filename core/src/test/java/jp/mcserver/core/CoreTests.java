@@ -65,6 +65,7 @@ public final class CoreTests {
         knight();
         raidCombat();
         spearGeometry();
+        hollowGuard();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -3410,6 +3411,85 @@ public final class CoreTests {
         check("姿勢を与えなければ基準の位置に出る",
                 Math.abs(head.get(0).x()) < 0.01 && head.get(0).y() > 2.0);
         check("右腕は正面から見て左（-X）にある", noMotion.get("右腕").get(0).x() < 0);
+    }
+
+    /**
+     * 虚刃の衛士（`raid_species.md` §2）。実体（本体の近接攻撃）だけを持つ一次実装。
+     * 特殊（浮遊する剣・斧）は未実装であり、段階も第一形態しか無い。
+     */
+    private static void hollowGuard() {
+        section("§2 虚刃の衛士（実体のみ）");
+
+        var boss = jp.mcserver.core.raid.HollowGuardDefinition.boss();
+        check("表示名は虚刃の衛士", boss.displayName().equals("虚刃の衛士"));
+        check("段階は第一形態のみ（特殊が未実装のため）", boss.phases().size() == 1);
+        check("第一形態は体力100%から始まる",
+                boss.phases().get(0).healthThreshold() == 100);
+
+        var rig = boss.phases().get(0).rig().orElseThrow();
+        check("部位は7つ（胴・頭・右腕・左腕・右足・左足・剣）",
+                rig.partNames().size() == 7);
+        check("剣は右腕の子である", rig.part("剣").parent().equals("右腕"));
+        check("剣は当たり判定を持つがダメージが通らない（騎士型の槍と同じ扱い）",
+                !rig.part("剣").damageable());
+        check("胴・頭・両腕・両足はダメージが通る",
+                java.util.List.of("胴", "頭", "右腕", "左腕", "右足", "左足").stream()
+                        .allMatch(name -> rig.part(name).damageable()));
+        check("全長はネザースケルトン相当（2.4）",
+                Math.abs(jp.mcserver.core.raid.HollowGuardDefinition.HEIGHT - 2.4) < 1e-9);
+        check("剣の長さは3.0ブロック（通常の武器のおよそ3倍）",
+                Math.abs(jp.mcserver.core.raid.HollowGuardDefinition.SWORD_LENGTH - 3.0) < 1e-9);
+
+        var noMotion = Skeleton.hitPoints(rig, Map.<String, jp.mcserver.core.raid.Transform>of());
+        check("姿勢を与えなければ剣の判定は正面（+Z）に出る",
+                noMotion.get("剣").get(0).z() > 0);
+        check("右腕は正面から見て左（-X）にある", noMotion.get("右腕").get(0).x() < 0);
+
+        var phase = boss.phases().get(0);
+        var sweep = phase.motion("投げ払い");
+        var upper = phase.motion("アッパー");
+        var mash = phase.motion("シールドマッシュ");
+
+        check("投げ払いはY回転を-150度から+150度へ動かす（正面0度を経由する300度の弧）",
+                sweep.animation().sample("右腕", 10).rotationDeg().y() == -150
+                        && sweep.animation().sample("右腕", 28).rotationDeg().y() == 150);
+        check("投げ払いの判定区間は振りの区間（10〜28tick）と一致する",
+                sweep.damageWindows().get(0).fromTick() == 10
+                        && sweep.damageWindows().get(0).toTick() == 28);
+        check("投げ払いには前進が無い（その場で薙ぎ払うだけ）", sweep.charge().isEmpty());
+
+        check("アッパーは2ブロック前進する", upper.charge().orElseThrow().distanceBlocks() == 2.0);
+        check("アッパーの前進は判定区間（8〜16tick）でちょうど終わる",
+                upper.charge().orElseThrow().endTick()
+                        == upper.damageWindows().get(0).toTick());
+        check("アッパーは強いノックバックを持つ（上2.5・後方4.0）",
+                upper.knockback().orElseThrow().upBlocks() == 2.5
+                        && upper.knockback().orElseThrow().backBlocks() == 4.0);
+
+        check("シールドマッシュは5ブロック体当たりする",
+                mash.charge().orElseThrow().distanceBlocks() == 5.0);
+        check("シールドマッシュの判定区間は突進の終わり（21tick）でちょうど終わる",
+                mash.charge().orElseThrow().endTick() == mash.damageWindows().get(0).toTick());
+        check("シールドマッシュのダメージは軽い（投げ払い・アッパーより低い）",
+                mash.damageWindows().get(0).damage().max()
+                        < sweep.damageWindows().get(0).damage().max()
+                        && mash.damageWindows().get(0).damage().max()
+                        < upper.damageWindows().get(0).damage().max());
+        check("シールドマッシュは主にノックバックで押しのける（後方6.0・上0.5）",
+                mash.knockback().orElseThrow().backBlocks() == 6.0
+                        && mash.knockback().orElseThrow().upBlocks() == 0.5);
+
+        check("実体系統の待機は10秒（200tick）。特殊系統（未実装・6秒予定）とは別の値",
+                jp.mcserver.core.raid.HollowGuardDefinition.PHYSICAL_IDLE_TICKS == 200
+                        && sweep.idleAfter().minTicks() == 200
+                        && upper.idleAfter().minTicks() == 200
+                        && mash.idleAfter().minTicks() == 200);
+
+        check("待機・歩行モーションはループする",
+                phase.behavior().idle().loop() && phase.behavior().walk().loop());
+
+        check("武器のリーチは騎士型（2.2）より長い（武器が3倍サイズのため）",
+                jp.mcserver.core.raid.HollowGuardDefinition.WEAPON_REACH > 2.2);
     }
 
     /** 2つの枠が1画素でも重なるか。 */

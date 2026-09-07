@@ -44,7 +44,7 @@ import org.bukkit.projectiles.ProjectileSource;
  */
 public final class RaidPlugin extends JavaPlugin implements Listener {
 
-    private final List<KnightBoss> active = new ArrayList<>();
+    private final List<RaidBoss> active = new ArrayList<>();
 
     /**
      * 飛び道具の発射地点（§12.6）。
@@ -110,11 +110,22 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         }
         switch (action) {
             case "spawn" -> {
-                KnightBoss boss = new KnightBoss(this, player.getLocation());
-                boss.spawn();
-                active.add(boss);
-                player.sendMessage("騎士型を召喚しました（参加人数 "
-                        + boss.participants() + " / 体力 " + boss.maxHealth() + "）");
+                String species = args.length > 1 ? args[1] : "knight";
+                switch (species) {
+                    case "hollow" -> {
+                        HollowGuardBoss boss = new HollowGuardBoss(this, player.getLocation());
+                        boss.spawn();
+                        active.add(boss);
+                        player.sendMessage("虚刃の衛士を召喚しました（実体のみ・特殊は未実装）");
+                    }
+                    default -> {
+                        KnightBoss boss = new KnightBoss(this, player.getLocation());
+                        boss.spawn();
+                        active.add(boss);
+                        player.sendMessage("騎士型を召喚しました（参加人数 "
+                                + boss.participants() + " / 体力 " + boss.maxHealth() + "）");
+                    }
+                }
             }
             case "despawn" -> {
                 int count = despawnAll();
@@ -213,10 +224,19 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         KnightDefinition.useAuthoredModels(authored);
         int reborn = 0;
         List<Location> places = new ArrayList<>();
-        for (KnightBoss boss : active) {
-            places.add(boss.location());
+        for (RaidBoss boss : active) {
+            if (boss instanceof KnightBoss knight) {
+                places.add(knight.location());
+            }
         }
-        despawnAll();
+        // 描いたモデルの方式は騎士型だけが持つ。虚刃の衛士はそのまま残す
+        active.removeIf(boss -> {
+            if (boss instanceof KnightBoss) {
+                boss.despawn();
+                return true;
+            }
+            return false;
+        });
         for (Location place : places) {
             KnightBoss boss = new KnightBoss(this, place);
             boss.spawn();
@@ -238,7 +258,7 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
      * <p><b>確定贈与である。</b>資格のある者には必ず全種が渡る。持ち物が満杯なら足元へ落とす。
      * 資格は「体力の 1/(参加人数×1.5) 以上を削ったか」で、生死は問わない（§12.5）。
      */
-    private void grantDrops(KnightBoss boss) {
+    private void grantDrops(RaidBoss boss) {
         List<java.util.UUID> rewarded = boss.rewarded();
         if (rewarded.isEmpty()) {
             getServer().broadcastMessage("§7ドロップの条件（"
@@ -289,12 +309,12 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
      * <p>被弾の処理と片付けは {@code active} を見て回すため、どこで出した個体も
      * ここへ入れる必要がある。
      */
-    void adopt(KnightBoss boss) {
+    void adopt(RaidBoss boss) {
         active.add(boss);
     }
 
     /** 個体を片付ける。討伐以外の終わり方（時間切れ・全滅）で使う。 */
-    void retire(KnightBoss boss) {
+    void retire(RaidBoss boss) {
         boss.despawn();
         active.remove(boss);
     }
@@ -311,7 +331,7 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
 
     private int despawnAll() {
         int count = active.size() + (calibration.isEmpty() ? 0 : 1);
-        active.forEach(KnightBoss::despawn);
+        active.forEach(RaidBoss::despawn);
         active.clear();
         launchPoints.clear();
         clearCalibration();
@@ -408,7 +428,7 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
             return;
         }
 
-        for (KnightBoss boss : new ArrayList<>(active)) {
+        for (RaidBoss boss : new ArrayList<>(active)) {
             if (boss.handleHit(event.getEntity().getUniqueId(), attacker, origin, ranged,
                     weapon)) {
                 event.setCancelled(true); // ダメージは個体側で処理する
@@ -418,7 +438,7 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                     grantDrops(boss);
                     boss.despawn();
                     active.remove(boss);
-                    getServer().broadcastMessage("騎士型を討伐しました");
+                    getServer().broadcastMessage("個体を討伐しました");
                 }
                 return;
             }
