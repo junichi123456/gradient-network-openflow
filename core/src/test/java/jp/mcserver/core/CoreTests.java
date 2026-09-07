@@ -15,6 +15,7 @@ import jp.mcserver.core.raid.PartTracker;
 import jp.mcserver.core.raid.PoseTransition;
 import jp.mcserver.core.raid.RageMeter;
 import jp.mcserver.core.raid.Appearance;
+import jp.mcserver.core.VanishingCurse;
 import jp.mcserver.core.raid.RaidDrop;
 import jp.mcserver.core.raid.RaidSpecies;
 import jp.mcserver.core.raid.Rig;
@@ -3158,6 +3159,37 @@ public final class CoreTests {
                 + smallestPart + " " + smallestFace + "画素）", smallestFace >= 3);
         check(String.format("塗る細かさを控えておく（最も粗い: %s %.0f画素/ブロック"
                 + " ／ バニラのブロックは16）", coarsestPart, coarsest), coarsest > 0);
+        // 『消滅の呪い』の全面付与（§3.1）
+        check("エンチャントが付いた品には呪いが必要",
+                VanishingCurse.needs("DIAMOND_SWORD", Map.of("SHARPNESS", 5)));
+        check("素の品には要らない",
+                !VanishingCurse.needs("DIAMOND_SWORD", Map.of()));
+        check("すでに呪いが付いていれば要らない（二重に付けない）",
+                !VanishingCurse.needs("DIAMOND_SWORD",
+                        Map.of("SHARPNESS", 5, "VANISHING_CURSE", 1)));
+        check("エンチャント本には付けない。道具へ移した時点で金床が捕まえる",
+                !VanishingCurse.needs("ENCHANTED_BOOK", Map.of("SHARPNESS", 5)));
+        check("金床: 新しいエンチャントが付いたら対象",
+                VanishingCurse.gained(Map.of(), Map.of("SHARPNESS", 1))
+                        && VanishingCurse.gained(Map.of("SHARPNESS", 1),
+                                Map.of("SHARPNESS", 1, "UNBREAKING", 1)));
+        check("金床: 同じ種類の水準が上がっても対象",
+                VanishingCurse.gained(Map.of("SHARPNESS", 3), Map.of("SHARPNESS", 4)));
+        check("金床: 修理・命名は対象外（エンチャントが増えていない）",
+                !VanishingCurse.gained(Map.of("SHARPNESS", 3), Map.of("SHARPNESS", 3))
+                        && !VanishingCurse.gained(Map.of(), Map.of()));
+        check("金床: 水準が下がる作業も対象外",
+                !VanishingCurse.gained(Map.of("SHARPNESS", 5), Map.of("SHARPNESS", 3)));
+        check("金床: 呪いが付いたこと自体は「増えた」に数えない（付与が付与を招かない）",
+                !VanishingCurse.gained(Map.of("SHARPNESS", 3),
+                        Map.of("SHARPNESS", 3, "VANISHING_CURSE", 1)));
+        // 捕捉点の一覧を固定する。経路を増やしたらここが落ちて、実装の追加を促す
+        check("捕捉する経路は6つ（テーブル・金床・チェスト・モブ・釣り・拾得）",
+                VanishingCurse.Route.values().length == 6);
+        check("経路には名前が付いている",
+                java.util.Arrays.stream(VanishingCurse.Route.values())
+                        .allMatch(route -> !route.label().isBlank()));
+
         // 討伐のドロップ品（§12.4）
         check("必要量は体力を 参加人数×1.5 で割った量",
                 RaidDrop.requiredDamage(600, 1) == 400

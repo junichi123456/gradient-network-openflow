@@ -74,6 +74,9 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
         // 村人の取引テーブル（§3.2）。レイドとは独立だが、常駐の購読はここへ集約する
         getServer().getPluginManager().registerEvents(new VillagerTradeFilter(getLogger()), this);
+        // 『消滅の呪い』の全面付与（§3.1）。1経路でも漏れると蓄積の抜け道になる
+        getServer().getPluginManager()
+                .registerEvents(new VanishingCurseEnforcer(getLogger()), this);
         // jar の日時を出す。差し替えたつもりで古い jar が動いている、という取り違えを防ぐ
         getLogger().info("レイド検証プラグインを有効化しました（jar " + jarStamp() + "）");
     }
