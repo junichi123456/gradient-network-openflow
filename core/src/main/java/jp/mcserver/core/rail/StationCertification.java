@@ -12,12 +12,13 @@ import java.util.Map;
  * 種類ごとの総数・最寄りの既存駅舎までの距離）を受け取って判定するだけの、純粋な幾何・
  * 集計ロジックである。
  *
- * <p><b>対象ブロック（bricks系フルブロック、17種）のうち「硫黄レンガ」「辰砂レンガ」は
- * バニラの Minecraft に存在しない。</b>どの Mod が供給するブロックかは要件定義書だけでは
- * 分からず、`mod_rulings.md` にも記載が無い——プラグイン側で実際の {@code Material}
- * （または Mod のブロックID）へ対応付ける前に確認が要る（`rail_infra_spec.md` §6）。
- * この理由により、対象ブロックの一覧は Bukkit の {@code Material} ではなく、
- * 要件定義書にある名前をそのまま {@link #BLOCK_TYPE_LABELS} として残すに留めている。
+ * <p>対象ブロック（bricks系フルブロック、17種）のうち「硫黄レンガ」「辰砂レンガ」は
+ * <b>Minecraft 1.26.2 で実装されたバニラのブロック</b>である（ユーザーへ確認して判明。
+ * Mod 供給ではない）。ただし、この2つに対応する Bukkit の {@code Material} 定数名は
+ * まだ確認していない——`plugin` のビルドに使う Paper API が 1.26.2 系の定数を持つように
+ * なってから確定する（`rail_infra_spec.md` §6）。この理由により、対象ブロックの一覧は
+ * Bukkit の {@code Material} ではなく、要件定義書にある名前をそのまま
+ * {@link #BLOCK_TYPE_LABELS} として残すに留めている。
  */
 public final class StationCertification {
 
@@ -56,9 +57,36 @@ public final class StationCertification {
     }
 
     /**
+     * 面の面積。最小バウンディングボックス（直方体）を前提に、6面それぞれを<b>1枚の
+     * 平らな長方形</b>として扱う——外寸が最小値（22×12×42）より大きくても、それぞれの
+     * 面はその大きさなりの正しい面積になる。天井・床は幅×奥行、南北の壁は幅×高さ、
+     * 東西の壁は奥行×高さを持つ（3辺のうち向かい合う2面は同じ面積になる）。
+     *
+     * <p>例: 外寸 幅30×高さ20×奥行45 なら、天井・床はそれぞれ 30×45=1,350、
+     * 南北の壁はそれぞれ 30×20=600、東西の壁はそれぞれ 45×20=900 になる——6面とも
+     * 同じ面積になるわけではない。
+     *
+     * <p><b>これは「直方体1つが駅舎の全体である」という前提のもとでの面積である。</b>
+     * 実際に建てた構造物が本当に単純な直方体1つか（L字型でない、床や壁に穴が無い、
+     * 離れた場所に別の部屋が無い、など）を確かめるのは、ワールドを実際に走査する
+     * プラグイン側の仕事であり、ここでは検証しない。
+     */
+    public static int faceArea(Face face, int outerWidth, int outerHeight, int outerDepth) {
+        if (outerWidth <= 0 || outerHeight <= 0 || outerDepth <= 0) {
+            throw new IllegalArgumentException(
+                    "外寸が0以下である: " + outerWidth + "×" + outerHeight + "×" + outerDepth);
+        }
+        return switch (face) {
+            case CEILING, FLOOR -> outerWidth * outerDepth;
+            case NORTH, SOUTH -> outerWidth * outerHeight;
+            case EAST, WEST -> outerDepth * outerHeight;
+        };
+    }
+
+    /**
      * 1面ぶんの判定。
      *
-     * @param faceArea       その面を構成する全ブロック数（面積）
+     * @param faceArea       その面を構成する全ブロック数（面積）。{@link #faceArea} で求める
      * @param qualifyingCount そのうち対象ブロックである数
      */
     public static FaceResult checkFace(Face face, int qualifyingCount, int faceArea) {
@@ -172,6 +200,27 @@ public final class StationCertification {
         boolean distanceOk = distanceAllowed(nearestStationDistance);
         boolean certified = spaceOk && facesOk && blocks.passed() && distanceOk;
         return new Certification(spaceOk, facesOk, blocks, distanceOk, certified);
+    }
+
+    /**
+     * 総合判定の便利版。外寸から {@link #faceArea} で6面それぞれの面積を求めるところまで
+     * 面倒を見る——呼ぶ側は「面ごとに対象ブロックが何個あったか」だけを渡せばよい。
+     * 外寸が最小値より大きい駅舎でも、面ごとに正しい面積（天井・床／南北の壁／東西の壁で
+     * それぞれ異なる）で判定する。
+     *
+     * @param qualifyingCountsByFace 面ごとの対象ブロック数。キーが無い面は0として扱う
+     */
+    public static Certification certifyBox(int outerWidth, int outerHeight, int outerDepth,
+            Map<Face, Integer> qualifyingCountsByFace, Map<String, Integer> blockCounts,
+            double nearestStationDistance) {
+        Map<Face, FaceResult> faceResults = new java.util.EnumMap<>(Face.class);
+        for (Face face : Face.values()) {
+            int qualifying = qualifyingCountsByFace.getOrDefault(face, 0);
+            int area = faceArea(face, outerWidth, outerHeight, outerDepth);
+            faceResults.put(face, checkFace(face, qualifying, area));
+        }
+        return certify(outerWidth, outerHeight, outerDepth, faceResults, blockCounts,
+                nearestStationDistance);
     }
 
     // ------------------------------------------------------------ 対象ブロック一覧（参考）

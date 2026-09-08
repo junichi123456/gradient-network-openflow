@@ -3871,6 +3871,45 @@ public final class CoreTests {
                 StationCertification.checkFace(StationCertification.Face.CEILING, 100, 1000));
         check("1面でも40%未満なら全体は不合格", !StationCertification.allFacesPass(allSixOk));
 
+        // F-04: 面積は「向かい合う2面ごとに違う値」になる（最小サイズより大きい駅舎の例）
+        // 幅30×高さ20×奥行45（内寸ではなく外寸。最小の22×12×42より大きい）
+        check("天井・床は幅×奥行（30×45=1,350）",
+                StationCertification.faceArea(StationCertification.Face.CEILING, 30, 20, 45) == 1350
+                        && StationCertification.faceArea(StationCertification.Face.FLOOR, 30, 20, 45)
+                                == 1350);
+        check("南北の壁は幅×高さ（30×20=600）",
+                StationCertification.faceArea(StationCertification.Face.NORTH, 30, 20, 45) == 600
+                        && StationCertification.faceArea(StationCertification.Face.SOUTH, 30, 20, 45)
+                                == 600);
+        check("東西の壁は奥行×高さ（45×20=900）——6面が同じ面積にはならない",
+                StationCertification.faceArea(StationCertification.Face.EAST, 30, 20, 45) == 900
+                        && StationCertification.faceArea(StationCertification.Face.WEST, 30, 20, 45)
+                                == 900);
+
+        // F-04: certifyBox（外寸から6面の面積を自動で求める便利版）で、
+        // 30×20×45の駅舎でも面ごとに正しい閾値（面積の40%）で判定できるかを確かめる
+        var boxFullPass = StationCertification.certifyBox(30, 20, 45, Map.of(
+                        StationCertification.Face.CEILING, 540,   // 1350の40%ちょうど
+                        StationCertification.Face.FLOOR, 540,
+                        StationCertification.Face.NORTH, 240,     // 600の40%ちょうど
+                        StationCertification.Face.SOUTH, 240,
+                        StationCertification.Face.EAST, 360,      // 900の40%ちょうど
+                        StationCertification.Face.WEST, 360),
+                Map.of("石レンガ", 1120, "レンガ", 480), 200);
+        check("30×20×45でも、面ごとに正しい面積（1350/600/900）の40%を閾値に判定し認定される",
+                boxFullPass.certified() && boxFullPass.spaceOk() && boxFullPass.facesOk());
+        var boxOneFaceShort = StationCertification.certifyBox(30, 20, 45, Map.of(
+                        StationCertification.Face.CEILING, 540,
+                        StationCertification.Face.FLOOR, 540,
+                        StationCertification.Face.NORTH, 240,
+                        StationCertification.Face.SOUTH, 240,
+                        StationCertification.Face.EAST, 359,      // 360に1本足りない
+                        StationCertification.Face.WEST, 360),
+                Map.of("石レンガ", 1120, "レンガ", 480), 200);
+        check("東西の壁（900の40%=360）だけが1本足りなければ、その面だけを理由に不合格になる"
+                        + "（他の5面は600・1350の40%を満たしていても認定されない）",
+                !boxOneFaceShort.certified() && !boxOneFaceShort.facesOk());
+
         // F-04: 種類の上限2種・主ブロック比率70%・総数1,600個
         var twoTypesPass = StationCertification.judgeBlocks(
                 Map.of("石レンガ", 1120, "レンガ", 480));
@@ -3912,8 +3951,8 @@ public final class CoreTests {
         check("いずれか1条件でも欠ければ認定されない（空間要件で不合格の例）",
                 !failOnSpace.certified() && !failOnSpace.spaceOk());
 
-        check("対象ブロックは17種（うち硫黄レンガ・辰砂レンガはバニラに無く、"
-                        + "対応するMod未確認——実装着手前に要確認）",
+        check("対象ブロックは17種（うち硫黄レンガ・辰砂レンガは1.26.2で追加されたバニラの"
+                        + "ブロック——ユーザーへ確認して判明。Bukkit Material定数名は未確認）",
                 StationCertification.BLOCK_TYPE_LABELS.size() == 17);
 
         // F-05: 乗り物速度制御
