@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 import jp.mcserver.core.Raid;
 import jp.mcserver.core.raid.Animation;
+import jp.mcserver.core.raid.GoldenAxe;
 import jp.mcserver.core.raid.MotionSelector;
 import jp.mcserver.core.raid.MotionSpec;
 import jp.mcserver.core.raid.PartTracker;
@@ -813,6 +814,18 @@ abstract class RaidBossBase implements RaidBoss {
         return grounded(at).getY();
     }
 
+    /**
+     * 指定位置がブロックの中（＝地面や壁に接触した状態）か。
+     *
+     * <p>{@link #groundY(Location)} は「見つからなければ渡した位置をそのまま返す」ため、
+     * 遠く離れた地表面しか無い場所（例えば上空高くを飛ぶ浮遊剣）では常に
+     * 「もう地面に着いている」と誤判定してしまう。地形との接触判定にはこちらを使うこと。
+     */
+    boolean solidAt(Location at) {
+        return at.getWorld().getBlockAt(at.getBlockX(), at.getBlockY(), at.getBlockZ())
+                .getType().isSolid();
+    }
+
     /** 戦場の内側にいる、有効なプレイヤーの一覧。特殊系統の狙う相手選びに使う。 */
     List<Player> playersInStage() {
         List<Player> found = new ArrayList<>();
@@ -858,14 +871,30 @@ abstract class RaidBossBase implements RaidBoss {
     /**
      * 個体の技（{@link MotionSpec}）に依らない一撃。浮遊武器のように、個体の姿勢と
      * 無関係に動く攻撃源から当てるときに使う。押し出す向きは {@code source} から見た向き。
+     *
+     * @return 盾で防がれたか。浮遊武器側は、防がれたらその場で消える（§2「実装上の注意」）
      */
-    void independentHit(Player target, Location source, double damage, double backBlocks,
-                        double upBlocks, boolean guardable) {
+    boolean independentHit(Player target, Location source, double damage, double backBlocks,
+                           double upBlocks, boolean guardable) {
+        return independentHit(target, source, damage, backBlocks, upBlocks, guardable, false);
+    }
+
+    /**
+     * {@link #independentHit(Player, Location, double, double, double, boolean)} に加えて、
+     * 防がれたときに<b>通常のオノと同じように相手の盾を一時的に使えなくする</b>
+     * （金のオノ、{@link GoldenAxe}）。
+     */
+    boolean independentHit(Player target, Location source, double damage, double backBlocks,
+                           double upBlocks, boolean guardable, boolean disablesShieldOnGuard) {
         double amount = damage * rage.damageMultiplier();
-        if (guardable && guarding(target)) {
+        boolean blocked = guardable && guarding(target);
+        if (blocked) {
             wearShield(target, amount);
             playAt(target.getLocation(), "item.shield.block", 1.0f, 0.9f);
             amount = ShieldGuard.damageThrough(amount);
+            if (disablesShieldOnGuard) {
+                target.setCooldown(Material.SHIELD, GoldenAxe.SHIELD_DISABLE_TICKS);
+            }
         }
         if (amount > 0) {
             target.damage(amount);
@@ -874,6 +903,7 @@ abstract class RaidBossBase implements RaidBoss {
         knockbackFrom(target, source, backBlocks, upBlocks);
         playHitEffect(target.getLocation());
         particles(Particle.CRIT, target.getLocation().add(0, 1, 0), 12, 0.3);
+        return blocked;
     }
 
     private void knockbackFrom(Player target, Location source, double declaredBack,

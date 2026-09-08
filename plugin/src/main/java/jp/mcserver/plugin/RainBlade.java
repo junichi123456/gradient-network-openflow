@@ -16,6 +16,10 @@ import org.bukkit.entity.Player;
  * <p><b>実機で確認したところ、狙った相手が落下中に動いてしまい、まったく当たらなかった。</b>
  * そこで、落下しているあいだも水平位置を狙った相手の現在位置へ寄せ続けるよう直した
  * （空間斬撃・全域大旋回の追従修正と同じ考え方——{@code HomingBlade}）。
+ *
+ * <p><b>盾で防がれると、その場で消える</b>（実機で確認して追加。§2「軌道の修正」）。
+ * 第三形態の金のオノ（{@link jp.mcserver.core.raid.GoldenAxe}）もこのクラスで表す
+ * ——動き方は同じで、素材・ダメージ・「盾を一時的に使えなくするか」だけが違う。
  */
 final class RainBlade implements FloatingBlade {
 
@@ -32,17 +36,30 @@ final class RainBlade implements FloatingBlade {
     private final Player tracked;
     private final BladeDisplay display;
     private final Location position;
+    private final double damage;
+    private final double knockbackBlocks;
+    private final boolean disablesShieldOnGuard;
     private double fallSpeed;
     private boolean landed;
     private int ticksSinceLand;
     private final Set<UUID> struck = new HashSet<>();
 
     RainBlade(RaidBossBase boss, Location spawnXZ, Player tracked) {
+        this(boss, spawnXZ, tracked, Material.IRON_SWORD, SwordRain.SWORD_LENGTH,
+                SwordRain.BLADE_DAMAGE, SwordRain.KNOCKBACK_BLOCKS, false);
+    }
+
+    /** 第三形態の金のオノなど、素材・ダメージ・盾無効化の有無だけが違う同じ動き方の1本。 */
+    RainBlade(RaidBossBase boss, Location spawnXZ, Player tracked, Material material, double length,
+              double damage, double knockbackBlocks, boolean disablesShieldOnGuard) {
         this.boss = boss;
         this.tracked = tracked;
+        this.damage = damage;
+        this.knockbackBlocks = knockbackBlocks;
+        this.disablesShieldOnGuard = disablesShieldOnGuard;
         this.position = spawnXZ.clone();
         this.position.setY(boss.origin().getY() + SwordRain.SPAWN_Y_OFFSET);
-        this.display = new BladeDisplay(position, Material.IRON_SWORD, SwordRain.SWORD_LENGTH * 0.9);
+        this.display = new BladeDisplay(position, material, length * 0.9);
         display.placeFlying(position);
     }
 
@@ -63,8 +80,7 @@ final class RainBlade implements FloatingBlade {
         }
         position.setY(nextY);
         display.placeFlying(position);
-        strikeNearby();
-        return false;
+        return strikeNearby();
     }
 
     /** 落下中、水平位置を狙った相手の現在位置へ少しずつ寄せる。 */
@@ -84,14 +100,18 @@ final class RainBlade implements FloatingBlade {
                 SwordRain.SHOCKWAVE_RADIUS, SwordRain.SHOCKWAVE_HEIGHT, SwordRain.SHOCKWAVE_DAMAGE);
     }
 
-    private void strikeNearby() {
+    /** @return 盾に防がれたか。防がれたら、この後 {@link #tick()} は true を返して消える */
+    private boolean strikeNearby() {
         for (Player player : boss.playersInRange(position, HIT_RADIUS)) {
             if (!struck.add(player.getUniqueId())) {
                 continue;
             }
-            boss.independentHit(player, position, SwordRain.BLADE_DAMAGE,
-                    SwordRain.KNOCKBACK_BLOCKS, 0.2, true);
+            if (boss.independentHit(player, position, damage, knockbackBlocks, 0.2, true,
+                    disablesShieldOnGuard)) {
+                return true;
+            }
         }
+        return false;
     }
 
     @Override

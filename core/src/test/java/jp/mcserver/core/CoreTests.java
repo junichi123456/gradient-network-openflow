@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import jp.mcserver.core.raid.Angles;
+import jp.mcserver.core.raid.GoldenAxe;
 import jp.mcserver.core.raid.GrandWhirl;
 import jp.mcserver.core.raid.HomingDart;
 import jp.mcserver.core.raid.GroundSpike;
@@ -3428,12 +3429,13 @@ public final class CoreTests {
 
         var boss = jp.mcserver.core.raid.HollowGuardDefinition.boss();
         check("表示名は虚刃の衛士", boss.displayName().equals("虚刃の衛士"));
-        check("段階は第一形態・第二形態の2つ（第三形態は未設計のため暫定で2つ）",
-                boss.phases().size() == 2);
+        check("段階は第一・第二・第三形態の3つ", boss.phases().size() == 3);
         check("第一形態は体力100%から始まる",
                 boss.phases().get(0).healthThreshold() == 100);
         check("第二形態は体力66%から（3分の2を切った瞬間、§2「移行トリガー」）",
                 boss.phases().get(1).healthThreshold() == 66);
+        check("第三形態は体力33%から（3分の1を切った瞬間、§2「移行トリガー」）",
+                boss.phases().get(2).healthThreshold() == 33);
 
         var rig = boss.phases().get(0).rig().orElseThrow();
         check("部位は7つ（胴・頭・右腕・左腕・右足・左足・剣）",
@@ -3600,33 +3602,46 @@ public final class CoreTests {
         check("生えている途中は全長より低い",
                 GroundSpike.risenHeight(22) > 0 && GroundSpike.risenHeight(22) < GroundSpike.SWORD_LENGTH);
 
-        // 全域大旋回（空間斬撃と同じ追尾直進の軌道に揃えた）
-        check("全域大旋回は 参加人数*3（実機で確認して 参加人数*4 から修正、空間斬撃と同じ式）",
-                GrandWhirl.totalCount(1) == 3 && GrandWhirl.totalCount(15) == 45);
-        check("波の出し方も空間斬撃と同じ（5tickごとに5本。一斉出しからの修正）",
-                GrandWhirl.WAVE_SIZE == 5 && GrandWhirl.WAVE_INTERVAL_TICKS == 5);
-        check("移動速度・総移動距離・追従の尺は空間斬撃と揃えてある",
+        // 全域大旋回（実機で確認して空間斬撃から分離した値を持つ）
+        check("全域大旋回は 参加人数*5（実機で確認して 参加人数*3 から再修正）",
+                GrandWhirl.totalCount(1, false) == 5 && GrandWhirl.totalCount(15, false) == 75);
+        check("1回の発生で10本（実機で確認して5本から再修正）", GrandWhirl.WAVE_SIZE == 10);
+        check("総移動距離は130ブロック（実機で確認して空間斬撃の100ブロックとは別の値にした）",
+                GrandWhirl.MAX_DISTANCE_BLOCKS == 130.0
+                        && GrandWhirl.MAX_DISTANCE_BLOCKS != SpatialSlash.MAX_DISTANCE_BLOCKS);
+        check("移動速度・追従の尺は空間斬撃と揃えてある",
                 GrandWhirl.SPEED_BLOCKS_PER_SECOND == SpatialSlash.SPEED_BLOCKS_PER_SECOND
-                        && GrandWhirl.MAX_DISTANCE_BLOCKS == SpatialSlash.MAX_DISTANCE_BLOCKS
                         && GrandWhirl.TRACKING_DURATION_TICKS == SpatialSlash.TRACKING_DURATION_TICKS
                         && GrandWhirl.RETARGET_INTERVAL_TICKS == SpatialSlash.RETARGET_INTERVAL_TICKS);
         check("待機は10tick（空間斬撃の5tickより長い）",
                 GrandWhirl.START_DELAY_TICKS == 10 && GrandWhirl.START_DELAY_TICKS
                         > SpatialSlash.START_DELAY_TICKS);
-        check("素材とダメージは金14・銅15・鉄16・ダイヤモンド17・ネザライト18の順で繰り返す",
-                GrandWhirl.bladeAt(0) == GrandWhirl.Blade.GOLD
-                        && GrandWhirl.bladeAt(0).damage() == 14.0
-                        && GrandWhirl.bladeAt(1) == GrandWhirl.Blade.COPPER
-                        && GrandWhirl.bladeAt(1).damage() == 15.0
-                        && GrandWhirl.bladeAt(2).damage() == 16.0
-                        && GrandWhirl.bladeAt(3).damage() == 17.0
-                        && GrandWhirl.bladeAt(4).damage() == 18.0
-                        && GrandWhirl.bladeAt(5) == GrandWhirl.Blade.GOLD);
+        check("第二形態の並びは金14・銅15・鉄16・ダイヤモンド17・ネザライト18の5つを繰り返す",
+                GrandWhirl.bladeAt(0, false) == GrandWhirl.Blade.GOLD
+                        && GrandWhirl.bladeAt(0, false).damage() == 14.0
+                        && GrandWhirl.bladeAt(4, false).damage() == 18.0
+                        && GrandWhirl.bladeAt(5, false) == GrandWhirl.Blade.GOLD
+                        && !GrandWhirl.bladeAt(4, false).isAxe());
+
+        // 第三形態（金のオノが加わる）
+        check("第三形態は本数の式が 参加人数*6 に増える（5種の並びにオノが1つ加わるぶん）",
+                GrandWhirl.totalCount(1, true) == 6 && GrandWhirl.totalCount(15, true) == 90);
+        check("第三形態の並びは6つ目にオノが入り、ダメージは共通のGoldenAxe.DAMAGE",
+                GrandWhirl.bladeAt(5, true) == GrandWhirl.Blade.AXE
+                        && GrandWhirl.bladeAt(5, true).isAxe()
+                        && GrandWhirl.bladeAt(5, true).damage() == GoldenAxe.DAMAGE
+                        && GrandWhirl.bladeAt(6, true) == GrandWhirl.Blade.GOLD);
+        check("オノのダメージは10、長さ3ブロック、移動速度25m/s（剣の30m/sより遅い）",
+                GoldenAxe.DAMAGE == 10.0 && GoldenAxe.LENGTH == 3.0
+                        && GoldenAxe.HOMING_SPEED_BLOCKS_PER_SECOND == 25.0
+                        && GoldenAxe.HOMING_SPEED_BLOCKS_PER_SECOND < SpatialSlash.SPEED_BLOCKS_PER_SECOND);
+        check("降り注ぐ刃・空間斬撃・串刺しは、第三形態で発動ごとに1本ずつオノが増える",
+                GoldenAxe.COUNT_PER_BURST == 1);
 
         // 系統としての整合
         check("特殊4種のダメージは実体3種と近い水準にある（10〜32の範囲に収まる）",
                 List.of(SwordRain.BLADE_DAMAGE, SwordRain.SHOCKWAVE_DAMAGE, SpatialSlash.DAMAGE,
-                        GroundSpike.DAMAGE, 14.0, 15.0, 16.0, 17.0, 18.0)
+                        GroundSpike.DAMAGE, GoldenAxe.DAMAGE, 14.0, 15.0, 16.0, 17.0, 18.0)
                         .stream().allMatch(damage -> damage >= 10 && damage <= 32));
     }
 

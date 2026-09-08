@@ -14,6 +14,7 @@ import org.bukkit.Particle;
  * 単一の状態機械（ENTER/IDLE/APPROACH/MOTION/RETURN/TURN）とは別に、
  * {@link #tickSpecial()}（毎tick呼ばれる）で {@code SpecialTrack} を回す。
  * 第二形態に入った瞬間（{@link #onPhaseTransition}）に解禁し、全域大旋回を1回発動する。
+ * 第三形態に入った瞬間にも同様にもう1回発動し、金のオノ（{@code GoldenAxe}）が加わる。
  */
 final class HollowGuardBoss extends RaidBossBase {
 
@@ -111,6 +112,9 @@ final class HollowGuardBoss extends RaidBossBase {
     protected void onPhaseTransition(RaidSpecies.Phase from, RaidSpecies.Phase to) {
         if ("第二形態".equals(to.name())) {
             special.setEnabled(true);
+            special.triggerGrandWhirl();
+        } else if ("第三形態".equals(to.name())) {
+            special.setAxePhase(true);
             special.triggerGrandWhirl();
         }
     }

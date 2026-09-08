@@ -14,8 +14,9 @@ import java.util.Optional;
  * {@link SwordRain}・{@link SpatialSlash}・{@link GroundSpike}・{@link GrandWhirl} の
  * 4クラスが持ち、駆動は plugin 側（{@code HollowGuardBoss} の {@code tickSpecial()}）が行う。
  *
- * <p>いまは<b>第一形態・第二形態の2つ</b>を持つ。第二形態は実体3種に加えて特殊系統が
- * 解禁される。第三形態（斧が混ざる）は未設計のため、暫定で第二形態が体力0%まで続く。
+ * <p><b>第一・第二・第三の3形態</b>を持つ。第二形態は実体3種に加えて特殊系統が解禁され、
+ * 第三形態では特殊4種それぞれに金のオノが1本ずつ（全域大旋回だけは別の式で）加わる
+ * （{@link GoldenAxe}）。
  */
 public final class HollowGuardDefinition {
 
@@ -128,7 +129,7 @@ public final class HollowGuardDefinition {
 
     public static RaidSpecies boss() {
         return new RaidSpecies("hollow_guard", "虚刃の衛士", BASE_HEALTH, rig(),
-                List.of(phaseOne(), phaseTwo()));
+                List.of(phaseOne(), phaseTwo(), phaseThree()));
     }
 
     /** 第一形態（体力100〜67%）。**実体の大剣のみ**を使う。特殊系統はまだ解禁されない。 */
@@ -146,9 +147,6 @@ public final class HollowGuardDefinition {
      * （§2「段階構成」）。特殊系統のモーションそのものは {@code MotionSpec} を使わず、
      * plugin 側の並行した状態機械（{@code tickSpecial()}）が駆動する——ここでの違いは
      * 段階の閾値だけであり、実体3種の内容は第一形態と同じである。
-     *
-     * <p>第三形態（斧が混ざる、体力33%以下）は未設計のため、暫定でこの段階が
-     * 体力0%まで続く。
      */
     public static RaidSpecies.Phase phaseTwo() {
         var behavior = new RaidSpecies.Behavior(PHYSICAL_IDLE_TICKS, 20, MOVE_SPEED,
@@ -156,6 +154,22 @@ public final class HollowGuardDefinition {
         return new RaidSpecies.Phase("第二形態", 66,
                 List.of(throwSweep(), upper(), shieldMash()),
                 "実体の大剣 + 浮遊する剣。特殊系統（弾幕）が解禁",
+                null, behavior, rig());
+    }
+
+    /**
+     * 第三形態（体力33%以下）。実体3種・特殊系統は第二形態のまま、**特殊4種それぞれに
+     * 金のオノが加わる**（{@link GoldenAxe}）。降り注ぐ刃・空間斬撃・串刺しはそれぞれの技の
+     * 発動ごとに1本、全域大旋回だけは並び（金・銅・鉄・ダイヤモンド・ネザライト）に
+     * オノが加わって周期が5→6になるぶん本数も増える（{@link GrandWhirl#totalCount}）。
+     * オノは通常のオノと同じく、命中すると相手の盾を一時的に使えなくする。
+     */
+    public static RaidSpecies.Phase phaseThree() {
+        var behavior = new RaidSpecies.Behavior(PHYSICAL_IDLE_TICKS, 20, MOVE_SPEED,
+                idle(), walk());
+        return new RaidSpecies.Phase("第三形態", 33,
+                List.of(throwSweep(), upper(), shieldMash()),
+                "実体の大剣 + 浮遊する剣・斧。特殊4種すべてに金のオノが加わる",
                 null, behavior, rig());
     }
 
