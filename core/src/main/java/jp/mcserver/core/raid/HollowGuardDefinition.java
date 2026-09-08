@@ -35,7 +35,7 @@ public final class HollowGuardDefinition {
     public static final double STANDOFF_BLOCKS = 4.0;
 
     /**
-     * 実体系統の待機（tick）。**約10秒。** 特殊系統（未実装、約6秒を予定）とは別の値を持つ。
+     * 実体系統の待機（tick）。**約10秒。** 特殊系統（{@link #SPECIAL_IDLE_TICKS}、約6秒）とは別の値を持つ。
      * 2系統が独立して並行に進むため、体感の手数は待ち時間の長さだけでは決まらない。
      */
     public static final int PHYSICAL_IDLE_TICKS = 200;

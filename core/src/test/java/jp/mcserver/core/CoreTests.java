@@ -3429,8 +3429,8 @@ public final class CoreTests {
     }
 
     /**
-     * 虚刃の衛士（`raid_species.md` §2）。実体（本体の近接攻撃）だけを持つ一次実装。
-     * 特殊（浮遊する剣・斧）は未実装であり、段階も第一形態しか無い。
+     * 虚刃の衛士（`raid_species.md` §2）の実体（本体の近接攻撃）・骨格・見た目の方式。
+     * 特殊（浮遊する剣・斧）と段階移行の検証は {@link #hollowGuardSpecial()} にある。
      */
     private static void hollowGuard() {
         section("§2 虚刃の衛士（実体のみ）");
@@ -3509,7 +3509,7 @@ public final class CoreTests {
                 mash.knockback().orElseThrow().backBlocks() == 6.0
                         && mash.knockback().orElseThrow().upBlocks() == 0.5);
 
-        check("実体系統の待機は10秒（200tick）。特殊系統（未実装・6秒予定）とは別の値",
+        check("実体系統の待機は10秒（200tick）。特殊系統（SPECIAL_IDLE_TICKS・6秒）とは別の値",
                 jp.mcserver.core.raid.HollowGuardDefinition.PHYSICAL_IDLE_TICKS == 200
                         && sweep.idleAfter().minTicks() == 200
                         && upper.idleAfter().minTicks() == 200
