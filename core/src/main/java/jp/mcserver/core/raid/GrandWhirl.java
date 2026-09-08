@@ -7,7 +7,8 @@ import java.util.List;
  *
  * <p>段階移行（体力3分の2・3分の1を切った瞬間）に1回ずつ、計2回だけ発動する
  * 移行専用のモーション。効果音のあと、空間斬撃と同じく<b>虚刃の衛士自身の頭上</b>に
- * まとめて出現し、空間斬撃と同じ追尾方式（{@link HomingDart}）で移動する。
+ * まとめて出現し、生成ごとにランダムな待機（{@link SpecialWaveTiming}）を挟んで、
+ * 空間斬撃と同じ追尾方式（{@link HomingDart}）で移動する。
  * 素材・本数・総移動距離は空間斬撃と別の値を持つ（実機で確認して分離した）。
  * <b>命中した瞬間（防がれたかに関わらず）その場で消える。</b>
  */
@@ -30,12 +31,6 @@ public final class GrandWhirl {
 
     /** 総移動距離の上限（ブロック）。実機で確認して100→130へ、空間斬撃とは別の値にした。 */
     public static final double MAX_DISTANCE_BLOCKS = 130.0;
-
-    /**
-     * 召喚してから移動を始めるまでの待機（tick）。空間斬撃（30tick）より長い。
-     * 実機で確認して10→40へ修正。
-     */
-    public static final int START_DELAY_TICKS = 40;
 
     /** 移動を始めてから、相手を追尾し続ける時間（tick）。空間斬撃と同じ値に揃えた。 */
     public static final int TRACKING_DURATION_TICKS = SpatialSlash.TRACKING_DURATION_TICKS;

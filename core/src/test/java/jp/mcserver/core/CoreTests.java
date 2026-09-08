@@ -11,6 +11,7 @@ import jp.mcserver.core.raid.GrandWhirl;
 import jp.mcserver.core.raid.HomingDart;
 import jp.mcserver.core.raid.GroundSpike;
 import jp.mcserver.core.raid.SpatialSlash;
+import jp.mcserver.core.raid.SpecialWaveTiming;
 import jp.mcserver.core.raid.SwordRain;
 import jp.mcserver.core.raid.KnightDefinition;
 import jp.mcserver.core.raid.Animation;
@@ -3576,8 +3577,6 @@ public final class CoreTests {
                         && SpatialSlash.RETARGET_INTERVAL_TICKS == 10);
         check("空間斬撃は虚刃の衛士自身の頭上（地表面+4）に出現する（実機で確認して、狙った"
                 + "相手の位置・+5から修正）", SpatialSlash.SPAWN_Y_OFFSET == 4.0);
-        check("召喚してから移動を始めるまでの待機は30tick（実機で確認して5tickから修正）",
-                SpatialSlash.START_DELAY_TICKS == 30);
 
         // 追尾しながら直進する軌道の幾何（HomingDart）
         {
@@ -3594,15 +3593,35 @@ public final class CoreTests {
                     Math.abs(diagonal[0] - 3.0) < 1e-9 && Math.abs(diagonal[1] - 4.0) < 1e-9);
         }
 
-        // 串刺し
+        // 特殊系統の待機（実機で確認して、技ごとの固定値からランダムへ直した）
+        {
+            var random = new java.util.Random(7);
+            java.util.Set<Integer> seen = new java.util.HashSet<>();
+            boolean allInRange = true;
+            for (int i = 0; i < 200; i++) {
+                int wait = SpecialWaveTiming.randomWaitTicks(random);
+                seen.add(wait);
+                if (wait < SpecialWaveTiming.MIN_WAIT_TICKS || wait > SpecialWaveTiming.MAX_WAIT_TICKS) {
+                    allInRange = false;
+                }
+            }
+            check("待機は30〜80tickの範囲に収まる", allInRange
+                    && SpecialWaveTiming.MIN_WAIT_TICKS == 30 && SpecialWaveTiming.MAX_WAIT_TICKS == 80);
+            check("生成のたびに違う値になりうる（200回で複数の値が出る）", seen.size() > 1);
+        }
+        check("金のオノの待機は90tickで固定（ランダムにしない）",
+                SpecialWaveTiming.AXE_WAIT_TICKS == 90);
+
+        // 串刺し（発光時間は SpecialWaveTiming によりランダム。ここでは仮に30tickで検証）
         check("串刺しの本数は 参加人数*2-2（1人なら0本）",
                 GroundSpike.totalCount(1) == 0 && GroundSpike.totalCount(15) == 28);
-        check("発光中（20tickまで）は刃が見えていない", GroundSpike.risenHeight(20) == 0);
+        check("発光中（30tickまで）は刃が見えていない", GroundSpike.risenHeight(30, 30) == 0);
         check("発光明けから3tickで全長（4ブロック）まで生え切る",
-                GroundSpike.risenHeight(23) == GroundSpike.SWORD_LENGTH
-                        && GroundSpike.fullyRisen(23) && !GroundSpike.fullyRisen(22));
+                GroundSpike.risenHeight(33, 30) == GroundSpike.SWORD_LENGTH
+                        && GroundSpike.fullyRisen(33, 30) && !GroundSpike.fullyRisen(32, 30));
         check("生えている途中は全長より低い",
-                GroundSpike.risenHeight(22) > 0 && GroundSpike.risenHeight(22) < GroundSpike.SWORD_LENGTH);
+                GroundSpike.risenHeight(32, 30) > 0
+                        && GroundSpike.risenHeight(32, 30) < GroundSpike.SWORD_LENGTH);
 
         // 全域大旋回（実機で確認して空間斬撃から分離した値を持つ）
         check("全域大旋回は 参加人数*5（実機で確認して 参加人数*3 から再修正）",
@@ -3615,9 +3634,6 @@ public final class CoreTests {
                 GrandWhirl.SPEED_BLOCKS_PER_SECOND == SpatialSlash.SPEED_BLOCKS_PER_SECOND
                         && GrandWhirl.TRACKING_DURATION_TICKS == SpatialSlash.TRACKING_DURATION_TICKS
                         && GrandWhirl.RETARGET_INTERVAL_TICKS == SpatialSlash.RETARGET_INTERVAL_TICKS);
-        check("待機は40tick（空間斬撃の30tickより長い。実機で確認して10tickから修正）",
-                GrandWhirl.START_DELAY_TICKS == 40 && GrandWhirl.START_DELAY_TICKS
-                        > SpatialSlash.START_DELAY_TICKS);
         check("全域大旋回も空間斬撃と同じく、虚刃の衛士自身の頭上に出現する",
                 GrandWhirl.SPAWN_Y_OFFSET == SpatialSlash.SPAWN_Y_OFFSET);
         check("第二形態の並びは金14・銅15・鉄16・ダイヤモンド17・ネザライト18の5つを繰り返す",

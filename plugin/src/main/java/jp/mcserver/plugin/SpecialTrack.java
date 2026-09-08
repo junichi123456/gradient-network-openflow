@@ -8,6 +8,7 @@ import jp.mcserver.core.raid.GrandWhirl;
 import jp.mcserver.core.raid.GroundSpike;
 import jp.mcserver.core.raid.HollowGuardDefinition;
 import jp.mcserver.core.raid.SpatialSlash;
+import jp.mcserver.core.raid.SpecialWaveTiming;
 import jp.mcserver.core.raid.SwordRain;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,6 +29,11 @@ import org.bukkit.entity.Player;
  * 実体系統の {@code MotionSelector} のような状況判断は、いまのところ特殊には設けていない）。
  * 全域大旋回だけは段階移行時に1回発動する専用の技で、この巡回には含めない
  * （{@link #triggerGrandWhirl()}）——発動した瞬間、巡回中の波を打ち切って割り込む。
+ *
+ * <p>生成してから行動を始めるまでの待機は、4種すべて {@link SpecialWaveTiming} に従い
+ * 生成のたびにランダム（金のオノだけ固定値）——実機の指摘で、毎回同じ拍子にならないよう
+ * 直した。狙う相手も、生成のたびにランダムに選ぶのではなく、戦場にいる全員へ順番に
+ * 割り振る（{@link #nextTarget}）——実機の指摘で、特定の1人に集中しないよう直した。
  *
  * <p><b>第三形態からは、金のオノ（{@link GoldenAxe}）が加わる</b>（{@link #setAxePhase}）。
  * 降り注ぐ刃・空間斬撃・串刺しはそれぞれ発動ごとに1本、全域大旋回だけは並びにオノを
@@ -56,6 +62,7 @@ final class SpecialTrack {
     private int cadenceCounter;
     private int whirlSpawnIndex;
     private int bonusAxeRemaining;
+    private int targetCursor;
 
     SpecialTrack(RaidBossBase boss) {
         this.boss = boss;
@@ -112,6 +119,7 @@ final class SpecialTrack {
         cadenceCounter = 0;
         remaining = count;
         whirlSpawnIndex = 0;
+        targetCursor = 0;
         bonusAxeRemaining = (axePhase && kind != Kind.WHIRL) ? GoldenAxe.COUNT_PER_BURST : 0;
         boss.announceMotion(displayName(kind));
         if (kind == Kind.SLASH || kind == Kind.WHIRL) {
@@ -160,17 +168,29 @@ final class SpecialTrack {
         }
     }
 
+    /**
+     * 狙う相手を順番に割り振る。生成のたびに乱数で選ぶと、運が悪ければ同じ相手に
+     * 集中しうる——戦場にいる全員へ均等に割り振るため、巡回する（実機の指摘で追加）。
+     * 波（バースト）ごとに {@link #beginWave} で0から数え直す。
+     */
+    private Player nextTarget(List<Player> players) {
+        Player target = players.get(targetCursor % players.size());
+        targetCursor++;
+        return target;
+    }
+
     private void spawnOne(Kind kind) {
         List<Player> players = boss.playersInStage();
         if (players.isEmpty()) {
             return;
         }
-        Player target = players.get(random.nextInt(players.size()));
+        Player target = nextTarget(players);
         if (kind != Kind.WHIRL && bonusAxeRemaining > 0) {
             bonusAxeRemaining--;
             spawnAxe(kind, target);
             return;
         }
+        int waitTicks = SpecialWaveTiming.randomWaitTicks(random);
         switch (kind) {
             case RAIN -> {
                 Location at = target.getLocation();
@@ -179,22 +199,21 @@ final class SpecialTrack {
                 Location spawn = boss.origin().clone();
                 spawn.setX(xz[0]);
                 spawn.setZ(xz[1]);
-                active.add(new RainBlade(boss, spawn, target));
+                active.add(new RainBlade(boss, spawn, target, waitTicks));
             }
             case SLASH -> active.add(new HomingBlade(boss, target, SpatialSlash.SPAWN_Y_OFFSET,
-                    SpatialSlash.blocksPerTick(), SpatialSlash.MAX_DISTANCE_BLOCKS,
-                    SpatialSlash.START_DELAY_TICKS, SpatialSlash.TRACKING_DURATION_TICKS,
-                    SpatialSlash.RETARGET_INTERVAL_TICKS, SpatialSlash.DAMAGE,
-                    SpatialSlash.KNOCKBACK_BLOCKS, Material.WOODEN_SWORD,
+                    SpatialSlash.blocksPerTick(), SpatialSlash.MAX_DISTANCE_BLOCKS, waitTicks,
+                    SpatialSlash.TRACKING_DURATION_TICKS, SpatialSlash.RETARGET_INTERVAL_TICKS,
+                    SpatialSlash.DAMAGE, SpatialSlash.KNOCKBACK_BLOCKS, Material.WOODEN_SWORD,
                     SpatialSlash.SWORD_LENGTH * 0.9));
-            case SPIKE -> active.add(new SpikeBlade(boss, target.getLocation()));
+            case SPIKE -> active.add(new SpikeBlade(boss, target.getLocation(), waitTicks));
             case WHIRL -> {
                 GrandWhirl.Blade blade = GrandWhirl.bladeAt(whirlSpawnIndex, axePhase);
                 whirlSpawnIndex++;
                 if (blade.isAxe()) {
                     active.add(new HomingBlade(boss, target, GrandWhirl.SPAWN_Y_OFFSET,
                             GoldenAxe.homingBlocksPerTick(), GrandWhirl.MAX_DISTANCE_BLOCKS,
-                            GrandWhirl.START_DELAY_TICKS, GrandWhirl.TRACKING_DURATION_TICKS,
+                            SpecialWaveTiming.AXE_WAIT_TICKS, GrandWhirl.TRACKING_DURATION_TICKS,
                             GrandWhirl.RETARGET_INTERVAL_TICKS, blade.damage(),
                             GrandWhirl.KNOCKBACK_BLOCKS, Material.GOLDEN_AXE,
                             GoldenAxe.LENGTH * 0.9, true));
@@ -210,16 +229,17 @@ final class SpecialTrack {
                     case AXE -> Material.NETHERITE_SWORD;
                 };
                 active.add(new HomingBlade(boss, target, GrandWhirl.SPAWN_Y_OFFSET,
-                        GrandWhirl.blocksPerTick(), GrandWhirl.MAX_DISTANCE_BLOCKS,
-                        GrandWhirl.START_DELAY_TICKS, GrandWhirl.TRACKING_DURATION_TICKS,
-                        GrandWhirl.RETARGET_INTERVAL_TICKS, blade.damage(),
-                        GrandWhirl.KNOCKBACK_BLOCKS, material, GrandWhirl.SWORD_LENGTH * 0.9));
+                        GrandWhirl.blocksPerTick(), GrandWhirl.MAX_DISTANCE_BLOCKS, waitTicks,
+                        GrandWhirl.TRACKING_DURATION_TICKS, GrandWhirl.RETARGET_INTERVAL_TICKS,
+                        blade.damage(), GrandWhirl.KNOCKBACK_BLOCKS, material,
+                        GrandWhirl.SWORD_LENGTH * 0.9));
             }
         }
     }
 
     /** 第三形態のボーナスの金のオノ1本。動き方はその技の通常の武器と同じにする。 */
     private void spawnAxe(Kind kind, Player target) {
+        int waitTicks = SpecialWaveTiming.AXE_WAIT_TICKS;
         switch (kind) {
             case RAIN -> {
                 Location at = target.getLocation();
@@ -229,15 +249,16 @@ final class SpecialTrack {
                 spawn.setX(xz[0]);
                 spawn.setZ(xz[1]);
                 active.add(new RainBlade(boss, spawn, target, Material.GOLDEN_AXE, GoldenAxe.LENGTH,
-                        GoldenAxe.DAMAGE, SwordRain.KNOCKBACK_BLOCKS, true));
+                        GoldenAxe.DAMAGE, SwordRain.KNOCKBACK_BLOCKS, true, waitTicks));
             }
             case SLASH -> active.add(new HomingBlade(boss, target, SpatialSlash.SPAWN_Y_OFFSET,
-                    GoldenAxe.homingBlocksPerTick(), SpatialSlash.MAX_DISTANCE_BLOCKS,
-                    SpatialSlash.START_DELAY_TICKS, SpatialSlash.TRACKING_DURATION_TICKS,
-                    SpatialSlash.RETARGET_INTERVAL_TICKS, GoldenAxe.DAMAGE,
-                    SpatialSlash.KNOCKBACK_BLOCKS, Material.GOLDEN_AXE, GoldenAxe.LENGTH * 0.9, true));
+                    GoldenAxe.homingBlocksPerTick(), SpatialSlash.MAX_DISTANCE_BLOCKS, waitTicks,
+                    SpatialSlash.TRACKING_DURATION_TICKS, SpatialSlash.RETARGET_INTERVAL_TICKS,
+                    GoldenAxe.DAMAGE, SpatialSlash.KNOCKBACK_BLOCKS, Material.GOLDEN_AXE,
+                    GoldenAxe.LENGTH * 0.9, true));
             case SPIKE -> active.add(new SpikeBlade(boss, target.getLocation(), Material.GOLDEN_AXE,
-                    GoldenAxe.LENGTH, GoldenAxe.DAMAGE, GroundSpike.KNOCKBACK_BLOCKS, true));
+                    GoldenAxe.LENGTH, GoldenAxe.DAMAGE, GroundSpike.KNOCKBACK_BLOCKS, true,
+                    waitTicks));
             default -> { }
         }
     }
