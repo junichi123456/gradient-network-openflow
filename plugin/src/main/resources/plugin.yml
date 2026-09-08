@@ -1,14 +1,24 @@
 name: RaidPlugin
 version: 0.1.0
 main: jp.mcserver.plugin.RaidPlugin
-api-version: '1.21'
-description: レイド個体の検証（§12）と村人の取引テーブル（§3.2）
+api-version: '1.26'
+description: レイド個体の検証（§12）と村人の取引テーブル（§3.2）、地下鉄インフラ（rail_infra_spec.md）
 commands:
   raid:
     description: レイドの開催（登録・開始）と個体の検証
     usage: /raid slots|join|leave|solo | /raid spawn [knight|hollow]|despawn|info|god|calibrate|dump|axes | /raid model authored|vanilla | /raid arena|warp|begin
     permission: raid.test
+  rail:
+    description: 地下鉄インフラの確認・駅舎認定・運営操作
+    usage: /rail check | /rail station create | /rail admin reset <nation>|reload|claim|unclaim|setnation <player> <nation>|deposit <nation> <amount>|ally <nation> <nation>|vassal <suzerain> <vassal>
+    permission: rail.use
 permissions:
   raid.test:
     description: レイド個体の検証コマンド
+    default: op
+  rail.use:
+    description: 地下鉄インフラの一般コマンド（/rail check・/rail station create）
+    default: true
+  rail.admin:
+    description: 地下鉄インフラの運営コマンド（/rail admin 以下すべて）
     default: op

@@ -73,6 +73,10 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
     /** 較正用に出した表示エンティティ（`raid_model_spec.md` §7）。 */
     private final List<Entity> calibration = new ArrayList<>();
 
+    /** 地下鉄インフラ（`rail_infra_spec.md`）。 */
+    private final jp.mcserver.plugin.rail.RailModule rail =
+            new jp.mcserver.plugin.rail.RailModule(this);
+
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
@@ -86,6 +90,8 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         // レイド専用次元の保護（設置・破壊・PvP の禁止）
         getServer().getPluginManager().registerEvents(RaidArena.guard(), this);
         host.start();
+        // 地下鉄インフラ（rail_infra_spec.md）。レイドとは独立な別系統
+        rail.enable();
         // jar の日時を出す。差し替えたつもりで古い jar が動いている、という取り違えを防ぐ
         getLogger().info("レイド検証プラグインを有効化しました（jar " + jarStamp() + "）");
     }
@@ -96,6 +102,7 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         host.stop();
         // 表示エンティティを残さない（§12.6 の死活管理）
         despawnAll();
+        rail.disable();
     }
 
     @Override

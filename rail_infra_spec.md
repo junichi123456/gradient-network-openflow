@@ -1,8 +1,8 @@
 # 地下鉄インフラ管理・経済連携プラグイン 要件定義書
 
 `minecraft_server_spec.md` §23「未着手の領域」から参照される、新設のシステムの要件定義書。
-`raid_species.md` と同じ位置づけ（マスター仕様書から参照される個別ドキュメント）だが、
-**本書はまだ実装に着手していない**（要件定義のみ）。
+`raid_species.md` と同じ位置づけ（マスター仕様書から参照される個別ドキュメント）。
+`core`・`plugin` とも実装済み（§6）。
 
 ---
 
@@ -14,10 +14,14 @@
 
 ## 2. 前提依存関係
 
-前提プラグイン:
-
-- **経済プラグイン**（Vault API 連携）
-- **領土/国家プラグイン**（Towny / Lands 等の API 連携）
+初版では前提プラグインとして経済プラグイン（Vault API 連携）・領土/国家プラグイン
+（Towny / Lands 等の API 連携）を挙げていたが、**ユーザーへ確認して、どちらも使わない
+方針に変更した**（§6）。このリポジトリには `core` に自作の経済・領土システム
+（`NationalAccounts`・`ClaimService` 等、`minecraft_server_spec.md` §4〜§9）がすでにあるが、
+それを Bukkit 側で動かす実装（プレイヤーの所属国家やチャンクの帰属を実際に持つプラグイン）
+はまだ無いため、**鉄道専用の最小限の代用データ**（プレイヤー→国家・国家→国庫残高・
+チャンク→帰属国、`RailDatabase` の代用テーブル）を作って済ませている。本物の国家プラグインが
+できたら、この代用データだけを差し替える想定である。前提プラグインは<b>無し</b>。
 
 ---
 
@@ -221,27 +225,48 @@ L_max = L_base + 同盟補正 + 属国補正
 | `bounding_box_min` / `bounding_box_max` | 空間座標範囲 |
 | `is_active` | 有効フラグ |
 
+### ④〜⑦ 鉄道専用の国家代用（要件定義書には無い、実装のみのテーブル）
+
+本物の国家プラグインができるまでの間に合わせ（§6）。`RailDatabase` にだけ存在する。
+
+| テーブル | 内容 |
+|---|---|
+| `rail_nations` | `nation_id` (PK)・`treasury`・`reserve`・`suzerain_nation_id` |
+| `rail_nation_players` | `player_uuid` (PK) → `nation_id` |
+| `rail_alliances` | `nation_a`・`nation_b` の組（同盟） |
+| `rail_claims` | `world`・`chunk_x`・`chunk_z` (PK) → `nation_id`（未登録＝領土外） |
+
 ---
 
-## 5. 管理コマンド仕様（予定）
+## 5. 管理コマンド仕様
+
+要件定義書が定めた4個（実装は §6）に加え、鉄道専用の国家代用（§6）を運営が手で埋めるための
+コマンドを追加してある。
 
 | コマンド | 内容 |
 |---|---|
-| `/rail check` | 自国の当月設置数・上限枠・月額推定維持費を表示 |
-| `/rail station create` | プレイヤーが立っている空間を「駅舎」として認定申請・チェック実行 |
+| `/rail check` | 自国の当月設置数・上限枠・月額推定維持費・国庫残高を表示 |
+| `/rail station pos1` / `pos2` | 駅舎として判定する対角の2点を指定する（**追加**。§6「手順が増えている」） |
+| `/rail station create` | 指定した2点の空間を「駅舎」として認定申請・チェック実行 |
 | `/rail admin reset <nation>` | 運営用: 指定国家の月間カウントリセット |
-| `/rail admin reload` | 運営用: 設定ファイルの再読み込み |
+| `/rail admin reload` | 運営用: 設定ファイル（`config.yml`）の再読み込み |
+| `/rail admin bill-now` | 運営用（**追加**）: 月末維持費請求を即時に手動実行する（検証用） |
+| `/rail admin setnation <player> <nation>` | 運営用（**追加**）: プレイヤーの所属国家を代用データへ登録する |
+| `/rail admin deposit <nation> <amount>` | 運営用（**追加**）: 国家の代用国庫へ納入する |
+| `/rail admin ally <nation> <nation>` | 運営用（**追加**）: 2国を同盟として代用データへ登録する |
+| `/rail admin vassal <suzerain> <vassal>` | 運営用（**追加**）: 従属関係を代用データへ登録する |
+| `/rail admin claim <nation>` / `unclaim` | 運営用（**追加**）: 立っているチャンクを国家の領土として代用登録／解除する |
 
 ---
 
 ## 6. 実装の状態
 
-**`core`（Bukkit・Vault・Towny/Lands に依存しない純粋なロジック）は実装済み。`plugin`
-（実際の Bukkit イベント購読・外部プラグイン連携）は未着手。** `raid_species.md` /
-`raid_model_spec.md` と同じ手順（`core` に純粋なロジックを実装 → `core/run-tests.sh` で検証
-→ `plugin` で Bukkit/Vault/Towny 連携）のうち、前半だけを終えた段階である。
+**`core`・`plugin` とも実装した。実機での検証（ビルド・起動・実際のコマンド操作）はまだ
+していない。** `raid_species.md` と同じく、`core` は `core/run-tests.sh` で検証済みだが、
+`plugin` 側は Bukkit の実 API に到達できない環境で書いたため、手元では**手書きの Bukkit
+スタブに対するコンパイル確認**までしかできていない（`local_test_setup.md` と同じ事情）。
 
-`core/src/main/java/jp/mcserver/core/rail/` に置いた。
+### `core`（`core/src/main/java/jp/mcserver/core/rail/`）
 
 | クラス | 対応する機能 | 内容 |
 |---|---|---|
@@ -257,23 +282,60 @@ L_max = L_base + 同盟補正 + 属国補正
 **F-01 の設置手数料（「設置総数10個ごとに+10」）は、国家全体の累計（レール種別を問わず
 合算）と解釈して実装した——ユーザーへ確認して決定した。** また、要件定義書のデータベース
 設計（§4 `nation_monthly_data`）が当月ぶんのカウンタしか持たないことから、この「設置総数」
-は<b>当月の累計</b>と読んでいる（全期間の累計ではない）。これは実装上の判断であり、
-ユーザーへ個別に確認していない——違えば `RailCost.fee` の引数の意味を直すだけで済む。
+は<b>当月の累計</b>と読んでいる（全期間の累計ではない）——実装上の判断であり、違えば
+`RailCost.fee` の引数の意味を直すだけで済む。
 
-**未確定の点**（`plugin` 実装に着手する前に詰める必要がある。`core` の実装には影響しない）:
+### `plugin`（`plugin/src/main/java/jp/mcserver/plugin/rail/`）
 
-- Vault API・Towny / Lands API のうち、実際にどちらの領土プラグインと連携するか
-  （両対応か、どちらか一方か）
-- F-03 のバッチ処理の実行時刻・実行方式（サーバー内蔵のスケジューラか、外部 cron か）
-- F-04 の認定可能ブロック17種のうち「硫黄レンガ」「辰砂レンガ」（1.26.2で追加されたバニラの
-  ブロックと判明——上記の囲みを参照）に対応する Bukkit の `Material` 定数名の確認。
-  1.26.2 系の定数を持つ Paper API でビルドするようになってから確定する
-- F-04 の「各面の面積」「対象ブロック数」を実際にワールドから数える処理（`plugin` 側、
-  Bukkit の `Block` API を舐める想定）。「実際に建てた構造物が単純な直方体1つであるか」
-  （L字型でない・穴が無い、など）は検証しないとユーザーが決定済みなので、単純に
-  バウンディングボックスの6面・内部を舐めて数えるだけでよい
-- F-01/F-04 の「自国領土外」判定を、実際に `Territory` / `ChunkOwner`（既存の領土システム）
-  とどう繋ぐか。`core` 側は `boolean outsideOwnTerritory` を受け取るだけにしてあるので、
-  `plugin` 側でチャンクの帰属を引いて渡す形になる想定
-- `/rail check` 等の管理コマンド（§5）、`rail_data` / `nation_monthly_data` / `station_data`
-  （§4）の永続化（DB もしくはファイル）
+ユーザーへ確認して決定した4点をもとに実装した。
+
+| 決定事項 | 選んだ方式 |
+|---|---|
+| 対象バージョン | **1.26.2 へ移行予定**。`plugin/build.gradle` の paper-api を差し替えた（実機ビルドは未確認） |
+| 領土/国家プラグイン | **Towny・Lands のどちらも使わず、鉄道専用の最小限の代用品を作る**（下記） |
+| F-03 の実行方式 | **Bukkit のスケジューラー**（`MonthlyBillingTask`、毎日チェックし月末なら実行） |
+| 永続化 | **SQLite ファイル**（`plugins/RaidPlugin/rail.db`、`RailDatabase`） |
+
+| クラス | 内容 |
+|---|---|
+| `RailDatabase` | SQLite の接続とスキーマ（`rail_data`・`nation_monthly_data`・`station_data`、要件定義書§4のまま）。加えて、本物の国家プラグインが無いあいだの代用テーブル（`rail_nations`・`rail_nation_players`・`rail_alliances`・`rail_claims`）を持つ |
+| `RailConfig` | `config.yml` の `station.qualifying-blocks`（対象17種の `Material` 名リスト）を読む。解決できない名前は起動時に警告して除外する（下記） |
+| `StationScanner` | F-04 の実際のワールド走査。指定した2点のバウンディングボックスを舐めて、面ごとの対象ブロック数・種類ごとの総数を数え、`StationCertification.certifyBox` へ渡す |
+| `RailListener` | `BlockPlaceEvent`（F-01 の設置判定・課金・記録）、`BlockBreakEvent`（記録の削除、**返金はしない**）、`EntitySpawnEvent`（認定駅舎内の Mob スポーンを全面キャンセル） |
+| `VehicleSpeedListener` | `VehicleCreateEvent`（トロッコに `Minecart#setMaxSpeed` で13block/sを適用）、`VehicleMoveEvent`（氷上のボートの速度を8block/sへ減速） |
+| `MonthlyBillingTask` | `BukkitRunnable`。毎日チェックし、その日が月末なら1回だけ請求を実行、当月設置カウントを全国家ぶんリセットする |
+| `RailCommand` | `/rail check`・`/rail station pos1|pos2|create`・`/rail admin ...`（下記） |
+| `RailModule` | 上記の配線。`RaidPlugin#onEnable`/`onDisable` から `enable()`/`disable()` を呼ぶだけで済む |
+
+**鉄道専用の国家代用（ユーザーへ確認して決定）。** F-01〜F-03 は「どのプレイヤーがどの国家に
+所属し、その国庫残高・同盟数・属国関係はどうか」というデータを要求するが、それを持つ実際の
+国家プラグイン（`minecraft_server_spec.md` §4〜§9 の実装）はまだ Bukkit 側に無い
+（`project_status.md` のとおり、`core` にロジックはあるが `plugin` へは未接続）。そこで
+`rail_nations`・`rail_nation_players`・`rail_alliances`・`rail_claims` という、鉄道機能だけが
+使う代用テーブルを SQLite に作り、`/rail admin setnation|deposit|ally|vassal|claim|unclaim`
+で運営が手動で埋める形にした。**本物の国家プラグインができたら、この4テーブルと
+`RailDatabase` の該当メソッドだけを差し替えれば、`RailListener`/`RailCommand` 側は
+変更不要**なように、境界をここに置いてある。
+
+**`/rail station create` は要件定義書の1コマンドの想定より手順が増えている。** 「プレイヤーが
+立っている空間」を自動で検出する（壁をたどって部屋の形を見つける）処理は要件定義書に
+アルゴリズムが無く、今回は見送った。代わりに `/rail station pos1`/`pos2` で対角の2点を
+指定してから `create` を打つ、`WorldEdit` に近い手順にしてある——自動検出は今後の課題。
+
+**F-05 のボート減速対象「薄氷」は解釈である。** 氷・氷塊・青氷はバニラの `ICE`/`PACKED_ICE`/
+`BLUE_ICE` で確実だが、残るバニラの氷系ブロックは `FROSTED_ICE`（フロストウォーカーで張る、
+時間で溶ける氷。正式な和名は「霜氷」）しか無く、これを「薄氷」と読んだ——`VehicleSpeedListener`
+の javadoc に同じ注記がある。
+
+**未確認・未実装のまま残っている点**:
+
+- **実機でのビルド・起動そのものが未確認。** paper-api 1.26.2・sqlite-jdbc 3.46.1.3 の
+  バージョン文字列は私の環境からは検証できない（`repo.papermc.io`・Maven Central に
+  到達できない）。ビルドが通らなければ、まずこの2つのバージョンを疑うこと
+- 「硫黄レンガ」「辰砂レンガ」に対応する `Material` 定数名（`config.yml` の
+  `SULFUR_BRICKS`/`CINNABAR_BRICKS` は仮の名前。実際の名前が分かれば `config.yml` を
+  直すだけでよい——`RailConfig` が名前ベースで解決するため、コード変更は不要）
+- `/rail station create` の自動検出（上記）
+- 大量のレール設置が発生したときの SQLite への同期書き込みの負荷（今回は着手しない、
+  実機の負荷を見てから判断する）
+- `/rail check` 以外の、一般プレイヤー向けの案内・GUI（要件定義書は管理コマンドのみ規定）

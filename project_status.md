@@ -16,9 +16,9 @@
 | `implementation_feasibility.md` | 仕様のうち実装で詰まる箇所の切り分け | 主要な論点は整理済み |
 | `local_test_setup.md` | Windows での検証環境の作り方と確認項目 | 手順は通っている |
 | `capacity_plan.md` / `mod_rulings.md` | 収容計画 / Mod の判例集 | 初版のまま |
-| `rail_infra_spec.md` | 地下鉄インフラ管理・経済連携プラグインの要件定義（Vault・Towny/Lands 連携） | **`core` のロジック（F-01〜F-05）は実装済み**（`jp.mcserver.core.rail`、検証41件）。`plugin`（Bukkit・Vault・Towny/Lands 連携、DB永続化、管理コマンド）は未着手 |
+| `rail_infra_spec.md` | 地下鉄インフラ管理プラグインの要件定義。Vault・Towny/Lands は使わず、自作の代用データで済ませる方針に変更 | **`core`（`jp.mcserver.core.rail`、検証48件）・`plugin`（`jp.mcserver.plugin.rail`、SQLite永続化・`/rail`コマンド）とも実装済み。実機でのビルド・起動は未確認**（paper-api 1.26.2・sqlite-jdbc へのバージョン変更を含む） |
 | `core/` | サーバー非依存のロジック（Java、外部依存なし） | 検証 **923 件** 成功 |
-| `plugin/` | Paper 1.21.4 の検証用プラグイン | ビルド・読み込みは通る。騎士型・虚刃の衛士・村人の取引・『消滅の呪い』・開催の一巡・レイド専用次元まで実装済み。地下鉄インフラ（`rail_infra_spec.md`）の plugin 側は未着手 |
+| `plugin/` | Paper 1.26.2（移行予定）の検証用プラグイン | 騎士型・虚刃の衛士・村人の取引・『消滅の呪い』・開催の一巡・レイド専用次元・**地下鉄インフラ（rail_infra_spec.md）**まで実装済み。**paper-api を1.21.4→1.26.2へ変更したため、実機ビルドはまだ誰も試していない** |
 | `resourcepack/` | リソースパック。較正用の立方体、生成した雛形、塗り絵 | 雛形 **騎士型29件 + 虚刃の衛士7件**。**塗り絵は騎士型11枚が描き込み済み、虚刃の衛士5枚は下地のみ**（手順は `PAINTING.md`） |
 
 ---

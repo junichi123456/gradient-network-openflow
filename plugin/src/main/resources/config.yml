@@ -1,0 +1,29 @@
+# 地下鉄インフラ（rail_infra_spec.md）の設定。/rail admin reload で読み直す。
+
+station:
+  # 駅舎の認定に数える bricks系フルブロック（F-04、全17種）。
+  # 名前は Bukkit の Material 定数名（英語表記）。このサーバーの Paper が知らない
+  # 名前は起動時に警告して除外する——駅舎はその分だけ認定されにくくなる。
+  #
+  # 「硫黄レンガ」「辰砂レンガ」は Minecraft 1.26.2 で追加されたブロックで、
+  # 対応する Material 定数名をまだ確認していない（rail_infra_spec.md §6）。
+  # SULFUR_BRICKS / CINNABAR_BRICKS は仮の名前である。実際の名前が分かったら
+  # ここを書き換えること。
+  qualifying-blocks:
+    - BRICKS
+    - STONE_BRICKS
+    - CHISELED_STONE_BRICKS
+    - MOSSY_STONE_BRICKS
+    - END_STONE_BRICKS
+    - QUARTZ_BRICKS
+    - NETHER_BRICKS
+    - CHISELED_NETHER_BRICKS
+    - RED_NETHER_BRICKS
+    - PRISMARINE_BRICKS
+    - POLISHED_BLACKSTONE_BRICKS
+    - DEEPSLATE_BRICKS
+    - MUD_BRICKS
+    - TUFF_BRICKS
+    - RESIN_BRICKS
+    - SULFUR_BRICKS
+    - CINNABAR_BRICKS
