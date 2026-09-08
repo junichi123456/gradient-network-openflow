@@ -5,9 +5,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -21,11 +23,16 @@ import java.util.TreeMap;
  * モデルへ書き込む。あわせて面ごとに塗り分けた下地（{@link SkinTemplate}）を置くので、
  * Windows のペイントで枠の中を塗り替えれば見た目が変わる。
  *
- * <p>生成するもの
+ * <p><b>種目ごとに骨格・部位名・寸法が違うため、種目1つぶんの設定を {@link Species} に
+ * まとめ、種目を増やすたびにこの1レコードを足すだけで済む形にしてある。</b>
+ * 騎士型（{@code knight}）・虚刃の衛士（{@code hollow_guard}）の2種目を生成する。
+ *
+ * <p>生成するもの（種目ごと）
  * <ul>
- *   <li>部位ごとの箱モデル（{@code assets/minecraft/models/knight/p1|p2/*.json}）</li>
- *   <li>{@code custom_model_data} からの振り分け（{@code assets/minecraft/items/paper.json}）</li>
- *   <li>塗り絵（{@code assets/minecraft/textures/knight/*.png}）。
+ *   <li>部位ごとの箱モデル（{@code assets/minecraft/models/<種目>/...}）</li>
+ *   <li>{@code custom_model_data} からの振り分け（{@code assets/minecraft/items/paper.json}、
+ *       全種目まとめて1つ）</li>
+ *   <li>塗り絵（{@code assets/minecraft/textures/item/<種目>/*.png}）。
  *       <b>すでにある PNG は上書きしない</b></li>
  *   <li>塗り絵の原本（{@code templates/*.png}）。こちらは毎回書き直す</li>
  * </ul>
@@ -37,35 +44,8 @@ public final class ModelPack {
     private ModelPack() {
     }
 
-    /** 部位名 → モデルのファイル名。日本語をパスに出さない。 */
-    private static final Map<String, String> NAMES = names();
-
-    /**
-     * 部位名 → 塗り絵の名前。
-     *
-     * <p><b>左右と形態で1枚を共有する。</b>左右の腕・角・肩は同じ絵で足り、
-     * 形態のあいだの寸法差（腕の 0.40 と 0.42 など）は UV の伸びに吸収させる。
-     * 塗る枚数を 29 から 11 まで落とすためで、描き分けたくなった部位だけ
-     * ここを分ければよい。
-     */
-    private static final Map<String, String> SKINS = skins();
-
-    /**
-     * 塗り絵を置く場所。
-     *
-     * <p><b>{@code item/} の下でなければならない。</b>{@code elements} を持つモデルの
-     * テクスチャは<b>ブロックアトラス</b>に縫い込まれるが、既定のアトラスの取り込み元は
-     * {@code textures/block/} と {@code textures/item/} の2つだけである。
-     * その外に置くとテクスチャが見つからず、<b>紫と黒の欠損</b>になる。
-     * ディレクトリの取り込みは再帰するので、{@code item/} 配下なら確実に入る。
-     *
-     * <p>短い名前にしたくなるが、{@code textures/knight/} へ動かしてはいけない。
-     * 一度そうして欠損した。
-     */
-    private static final String TEXTURE_DIRECTORY = "assets/minecraft/textures/item/knight";
-
-    /** モデルから参照するときの前置き。{@link #TEXTURE_DIRECTORY} と対応させる。 */
-    private static final String TEXTURE_PREFIX = "item/knight/";
+    /** 較正用の立方体（`raid_model_spec.md` §7）。種目を問わず共通の1個で足りる。 */
+    private static final int CALIBRATION_MODEL_ID = 9000;
 
     /** 槍の絞りを何段の箱で近似するか。1つのモデルの中で完結するので表示実体は増えない。 */
     private static final int SPEAR_STEPS = 8;
@@ -75,51 +55,121 @@ public final class ModelPack {
             SkinNet.NORTH, SkinNet.EAST, SkinNet.SOUTH,
             SkinNet.WEST, SkinNet.UP, SkinNet.DOWN};
 
+    /**
+     * 種目1つぶんの設定。
+     *
+     * @param id                モデル・テクスチャの置き場所に使う名前（英数字、日本語をパスに出さない）
+     * @param boss              骨格・段階の定義
+     * @param names             部位名（日本語） → モデルのファイル名
+     * @param skins             部位名（日本語） → 塗り絵の名前（左右・段階で1枚を共有する部位はここで束ねる）
+     * @param longPartModelScale モデル座標に収まらない部位を縮める倍率（{@code raid_model_spec.md} §3）
+     */
+    private record Species(String id, RaidSpecies boss, Map<String, String> names,
+                           Map<String, String> skins, double longPartModelScale) {
+    }
+
     public static void main(String[] args) throws IOException {
         Path root = Path.of(args.length > 0 ? args[0] : "../resourcepack");
-        Path models = root.resolve("assets/minecraft/models/knight");
-        Path textures = root.resolve(TEXTURE_DIRECTORY);
-        Path templates = root.resolve("templates");
         Path items = root.resolve("assets/minecraft/items");
         Files.createDirectories(items);
 
-        RaidSpecies boss = KnightDefinition.boss();
-        Map<String, Skin> skins = collectSkins(boss);
+        List<Species> roster = List.of(
+                new Species("knight", KnightDefinition.boss(), knightNames(), knightSkins(),
+                        KnightDefinition.LONG_PART_MODEL_SCALE),
+                new Species("hollow_guard", HollowGuardDefinition.boss(), hollowGuardNames(),
+                        hollowGuardSkins(), HollowGuardDefinition.LONG_PART_MODEL_SCALE));
 
-        // threshold の昇順に並べる必要があるため、ID を鍵にした木で集める
+        // threshold の昇順に並べる必要があるため、ID を鍵にした木で全種目ぶん集める
         Map<Integer, String> dispatch = new TreeMap<>();
-        dispatch.put(9000, "knight/calibration");
+        dispatch.put(CALIBRATION_MODEL_ID, "knight/calibration");
 
-        int written = 0;
-        for (int index = 0; index < boss.phases().size(); index++) {
-            String phase = "p" + (index + 1);
-            Path directory = models.resolve(phase);
-            Files.createDirectories(directory);
-            Rig rig = boss.phases().get(index).rig().orElseThrow();
-            for (String partName : rig.partNames()) {
-                Rig.Part part = rig.part(partName);
-                if (part.appearance() == null) {
-                    continue;
-                }
-                String file = NAMES.getOrDefault(partName, "part_" + part.modelId());
-                String skin = skinName(partName, file);
-                Files.writeString(directory.resolve(file + ".json"),
-                        model(partName, part, skins.get(skin)), StandardCharsets.UTF_8);
-                dispatch.put(part.modelId(), "knight/" + phase + "/" + file);
-                written++;
-            }
+        for (Species species : roster) {
+            generate(root, species, dispatch);
         }
 
         Files.writeString(items.resolve("paper.json"), dispatch(dispatch),
                 StandardCharsets.UTF_8);
+        System.out.println();
+        System.out.println("振り分け合計 " + dispatch.size() + " 件（"
+                + roster.size() + " 種目 + 較正用1件）を書き出した: "
+                + items.resolve("paper.json").toAbsolutePath().normalize());
+    }
+
+    /** 種目1つぶんを生成する。 */
+    private static void generate(Path root, Species species, Map<Integer, String> dispatch)
+            throws IOException {
+        Path models = root.resolve("assets/minecraft/models/" + species.id());
+        Path textures = root.resolve("assets/minecraft/textures/item/" + species.id());
+        Path templates = root.resolve("templates");
+        String texturePrefix = "item/" + species.id() + "/";
+
+        Map<String, Skin> skins = collectSkins(species);
+
+        // 段階をまたいで骨格が変わらない種目（虚刃の衛士）は、同じ部位IDが全段階に出てくる。
+        // そのときは段階ごとのフォルダに分けず、種目直下へまとめて書く（見た目が1つしか無いため）
+        boolean multiForm = hasFormChange(species.boss());
+
+        Set<Integer> written = new HashSet<>();
+        int writtenCount = 0;
+        for (int index = 0; index < species.boss().phases().size(); index++) {
+            Rig rig = species.boss().phases().get(index).rig().orElseThrow();
+            for (String partName : rig.partNames()) {
+                Rig.Part part = rig.part(partName);
+                if (part.appearance() == null || !written.add(part.modelId())) {
+                    continue;
+                }
+                Path directory = multiForm ? models.resolve("p" + (index + 1)) : models;
+                Files.createDirectories(directory);
+                String file = species.names().getOrDefault(partName, "part_" + part.modelId());
+                String skinName = skinName(partName, file, species.skins());
+                Files.writeString(directory.resolve(file + ".json"),
+                        model(partName, part, skins.get(skinName), texturePrefix,
+                                species.longPartModelScale()),
+                        StandardCharsets.UTF_8);
+                String dispatchPath = multiForm
+                        ? species.id() + "/p" + (index + 1) + "/" + file
+                        : species.id() + "/" + file;
+                dispatch.put(part.modelId(), dispatchPath);
+                writtenCount++;
+            }
+        }
+
         int drawn = writeSkins(skins, textures, templates);
 
-        System.out.println("モデル " + written + " 件と振り分け " + dispatch.size()
-                + " 件を書き出した: " + root.toAbsolutePath().normalize());
-        System.out.println("塗り絵 " + skins.size() + " 枚 "
+        System.out.println();
+        System.out.println("[" + species.id() + "] モデル " + writtenCount + " 件を書き出した: "
+                + models.toAbsolutePath().normalize());
+        System.out.println("[" + species.id() + "] 塗り絵 " + skins.size() + " 枚 "
                 + SkinNet.CANVAS + "×" + SkinNet.CANVAS + "（うち新しく置いたのは "
                 + drawn + " 枚。すでにある PNG は触っていない）");
         report(skins);
+    }
+
+    /**
+     * 段階をまたいで骨格（部位IDの集合）が変わるか。
+     *
+     * <p>変わらない種目（第一形態の部位IDが後の段階にもそのまま出てくる）は、見た目が
+     * 1つしか無いということなので、段階ごとのフォルダ分けをしない。
+     */
+    private static boolean hasFormChange(RaidSpecies boss) {
+        Set<Integer> firstForm = idsOf(boss.phases().get(0).rig().orElseThrow());
+        for (int i = 1; i < boss.phases().size(); i++) {
+            if (!firstForm.containsAll(idsOf(boss.phases().get(i).rig().orElseThrow()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static Set<Integer> idsOf(Rig rig) {
+        Set<Integer> ids = new HashSet<>();
+        for (String partName : rig.partNames()) {
+            Rig.Part part = rig.part(partName);
+            if (part.appearance() != null) {
+                ids.add(part.modelId());
+            }
+        }
+        return ids;
     }
 
     // ------------------------------------------------------------------ 塗り絵
@@ -143,8 +193,9 @@ public final class ModelPack {
      * <p>割り付けは<b>その名前を使う部位のうち最も大きいもの</b>から作る。
      * 大きい部位ほど画面で目につくため、そちらの縦横比に合わせるのが得である。
      */
-    private static Map<String, Skin> collectSkins(RaidSpecies boss) {
+    private static Map<String, Skin> collectSkins(Species species) {
         Map<String, Skin> skins = new LinkedHashMap<>();
+        RaidSpecies boss = species.boss();
         for (int index = 0; index < boss.phases().size(); index++) {
             String phase = "p" + (index + 1);
             Rig rig = boss.phases().get(index).rig().orElseThrow();
@@ -154,8 +205,8 @@ public final class ModelPack {
                 if (look == null) {
                     continue;
                 }
-                String file = NAMES.getOrDefault(partName, "part_" + part.modelId());
-                String name = skinName(partName, file);
+                String file = species.names().getOrDefault(partName, "part_" + part.modelId());
+                String name = skinName(partName, file, species.skins());
                 Skin existing = skins.get(name);
                 if (existing == null) {
                     List<String> parts = new ArrayList<>();
@@ -178,8 +229,8 @@ public final class ModelPack {
         return size.x() * size.y() * size.z();
     }
 
-    private static String skinName(String partName, String fallback) {
-        return SKINS.getOrDefault(partName, fallback);
+    private static String skinName(String partName, String fallback, Map<String, String> skins) {
+        return skins.getOrDefault(partName, fallback);
     }
 
     /**
@@ -189,6 +240,10 @@ public final class ModelPack {
      * <b>描いた PNG を消さない</b>ため、textures 側は無いときだけ置く。
      *
      * <p>枠が小さいと頭文字が入らないため、{@code templates/guide/} に拡大した案内図も置く。
+     *
+     * <p><b>{@code templates/} は種目をまたいで1つのフォルダを共有する（flat）。</b>
+     * 塗り絵の名前が種目間で衝突しないよう、種目ごとの {@code SKINS} で名前を分けてある
+     * （例: 虚刃の衛士は {@code guard_} を前置き）。
      *
      * @return 新しく置いた枚数
      */
@@ -258,15 +313,16 @@ public final class ModelPack {
      * ずらしをそのまま単位へ写すので、中心合わせの部位は中心に、
      * 付け根合わせの部位は原点から下へ伸びる形になる。
      */
-    private static String model(String partName, Rig.Part part, Skin skin) {
+    private static String model(String partName, Rig.Part part, Skin skin, String texturePrefix,
+            double longPartModelScale) {
         Appearance look = part.appearance();
-        double unit = 16 / modelDivisor(look);
+        double unit = 16 / modelDivisor(look, longPartModelScale);
         StringBuilder json = new StringBuilder();
         json.append("{\n");
         json.append("  \"__comment\": \"").append(partName).append(" / ID ")
                 .append(part.modelId()).append(" / 自動生成（core の ModelPack）\",\n");
         json.append("  \"textures\": {\n");
-        json.append("    \"skin\": \"").append(texture(skin)).append("\",\n");
+        json.append("    \"skin\": \"").append(texture(skin, texturePrefix)).append("\",\n");
         json.append("    \"particle\": \"#skin\"\n");
         json.append("  },\n");
         json.append("  \"elements\": [\n");
@@ -366,14 +422,14 @@ public final class ModelPack {
      * 描く縮尺の分母。
      *
      * <p>モデルの座標は −16〜32（3ブロック）しか取れない。超える部位は縮めて描き、
-     * 描画側が {@link KnightDefinition#LONG_PART_MODEL_SCALE} 倍に戻す。
+     * 描画側が {@code longPartModelScale} 倍に戻す。
      */
-    private static double modelDivisor(Appearance look) {
-        return look.fitsModelSpace() ? 1.0 : KnightDefinition.LONG_PART_MODEL_SCALE;
+    private static double modelDivisor(Appearance look, double longPartModelScale) {
+        return look.fitsModelSpace() ? 1.0 : longPartModelScale;
     }
 
-    private static String texture(Skin skin) {
-        return TEXTURE_PREFIX + skin.name();
+    private static String texture(Skin skin, String texturePrefix) {
+        return texturePrefix + skin.name();
     }
 
     // ------------------------------------------------------------------ 振り分け
@@ -403,9 +459,9 @@ public final class ModelPack {
         return json.toString();
     }
 
-    // ------------------------------------------------------------------ 対応表
+    // ------------------------------------------------------------------ 対応表（騎士型）
 
-    private static Map<String, String> names() {
+    private static Map<String, String> knightNames() {
         Map<String, String> names = new LinkedHashMap<>();
         names.put("胴", "torso");
         names.put("人胴", "torso");
@@ -429,7 +485,7 @@ public final class ModelPack {
         return names;
     }
 
-    private static Map<String, String> skins() {
+    private static Map<String, String> knightSkins() {
         Map<String, String> skins = new LinkedHashMap<>();
         skins.put("胴", "torso");
         skins.put("人胴", "torso");
@@ -451,6 +507,38 @@ public final class ModelPack {
         skins.put("左前足", "horse_leg");
         skins.put("右後足", "horse_leg");
         skins.put("左後足", "horse_leg");
+        return skins;
+    }
+
+    // ------------------------------------------------------------------ 対応表（虚刃の衛士）
+
+    private static Map<String, String> hollowGuardNames() {
+        Map<String, String> names = new LinkedHashMap<>();
+        names.put("胴", "torso");
+        names.put("頭", "head");
+        names.put("右腕", "arm_right");
+        names.put("左腕", "arm_left");
+        names.put("右足", "leg_right");
+        names.put("左足", "leg_left");
+        names.put("剣", "sword");
+        return names;
+    }
+
+    /**
+     * 塗り絵の名前。<b>{@code guard_} を前置きする</b>——{@code templates/} は種目をまたいで
+     * 1つのフォルダを共有する flat 構造であり、騎士型がすでに {@code torso}・{@code head}・
+     * {@code arm}・{@code leg} を使っているため、そのままでは衝突する。
+     */
+    private static Map<String, String> hollowGuardSkins() {
+        Map<String, String> skins = new LinkedHashMap<>();
+        skins.put("胴", "guard_torso");
+        skins.put("頭", "guard_head");
+        // 左右の腕・足は1枚を共有する（騎士型と同じ考え方）
+        skins.put("右腕", "guard_arm");
+        skins.put("左腕", "guard_arm");
+        skins.put("右足", "guard_leg");
+        skins.put("左足", "guard_leg");
+        skins.put("剣", "guard_sword");
         return skins;
     }
 }

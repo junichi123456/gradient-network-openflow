@@ -1,6 +1,8 @@
 # レイド個体のリソースパック
 
-`raid_model_spec.md` に沿ってモデルを置く場所である。
+`raid_model_spec.md` に沿ってモデルを置く場所である。**騎士型（`knight`）・虚刃の衛士
+（`hollow_guard`）の2種目を1つのパックに入れている。** どちらも `custom_model_data` で
+振り分ける仕組みは共通で、`assets/minecraft/items/paper.json` に両種目ぶんがまとまっている。
 
 **見た目を作る作業は `PAINTING.md` を見ること。**箱の形・向き・UV は骨格データから生成してあるので、
 Windows のペイントで PNG を塗り替えれば見た目が変わる。
@@ -73,7 +75,8 @@ Copy-Item -Recurse -Force E:\raid-dev\resourcepack "$packs\raid-dev"
 塗るのは**リポジトリの中のファイル**である。ここを塗り替えてから同期する。
 
 ```
-E:\raid-dev\resourcepack\assets\minecraft\textures\item\knight\*.png
+E:\raid-dev\resourcepack\assets\minecraft\textures\item\knight\*.png         # 騎士型（11枚）
+E:\raid-dev\resourcepack\assets\minecraft\textures\item\hollow_guard\*.png   # 虚刃の衛士（5枚）
 ```
 
 ```powershell
@@ -91,7 +94,7 @@ powershell -ExecutionPolicy Bypass -File E:\raid-dev\resourcepack\sync-pack.ps1
 
 ```
 F3 + T                  # リソースパックを読み直す
-/raid model authored    # 描いたモデルで出し直す
+/raid model authored    # 描いたモデルで出し直す（騎士型・虚刃の衛士とも1つのスイッチで切り替わる）
 ```
 
 **絵を直しただけなら `F3 + T` で足りる。** 表示エンティティはクライアント側で描き直されるので、
@@ -105,6 +108,8 @@ git add resourcepack/assets/minecraft/textures/item/knight
 git commit -m "騎士の塗り絵を描く"
 git push
 ```
+
+虚刃の衛士も同じ手順で、フォルダだけ `hollow_guard` に置き換える。
 
 > **`./core/generate-pack.sh` は塗った PNG を上書きしない。** モデルの JSON と
 > `templates/` の原本だけを書き直す。大きさが 32×32 と違う PNG があると警告を出す。
@@ -153,13 +158,15 @@ resource-pack-prompt=騎士型の見た目に必要です
 | ファイル | 役割 | 生成 |
 |---|---|---|
 | `pack.mcmeta` | パックの宣言。`pack_format 46` は 1.21.4 | 手書き |
-| `assets/minecraft/items/paper.json` | `custom_model_data` からモデルへの振り分け | **自動**（上書き） |
-| `assets/minecraft/models/knight/p1/*.json` | 第一形態の部位（13件） | **自動**（上書き） |
-| `assets/minecraft/models/knight/p2/*.json` | 第二形態の部位（16件） | **自動**（上書き） |
-| `assets/minecraft/textures/item/knight/*.png` | 塗り絵（11枚）。**ここを塗る** | 自動（無いときだけ置く） |
-| `templates/*.png` | 塗り絵の原本（11枚）。戻すとき写す | **自動**（上書き） |
+| `assets/minecraft/items/paper.json` | `custom_model_data` からモデルへの振り分け（**騎士型・虚刃の衛士の両種目ぶんをまとめる**） | **自動**（上書き） |
+| `assets/minecraft/models/knight/p1/*.json` | 騎士型・第一形態の部位（13件） | **自動**（上書き） |
+| `assets/minecraft/models/knight/p2/*.json` | 騎士型・第二形態の部位（16件） | **自動**（上書き） |
+| `assets/minecraft/models/hollow_guard/*.json` | 虚刃の衛士の部位（7件）。段階で骨格が変わらないため `p1`/`p2` の作り分けは無い | **自動**（上書き） |
+| `assets/minecraft/textures/item/knight/*.png` | 騎士型の塗り絵（11枚）。**ここを塗る** | 自動（無いときだけ置く） |
+| `assets/minecraft/textures/item/hollow_guard/*.png` | 虚刃の衛士の塗り絵（5枚、`guard_` 始まり）。**ここを塗る** | 自動（無いときだけ置く） |
+| `templates/*.png` | 塗り絵の原本（騎士型11枚 + 虚刃の衛士5枚）。戻すとき写す。**種目をまたいで1つのフォルダを共有する** | **自動**（上書き） |
 | `templates/guide/*.png` | 目印を大きく描いた4倍の拡大図。**読む用・塗らない** | **自動**（上書き） |
-| `assets/minecraft/models/knight/calibration.json` | 較正用の 16 単位の立方体 | 手書き |
+| `assets/minecraft/models/knight/calibration.json` | 較正用の 16 単位の立方体。**種目を問わず共通の1個** | 手書き |
 
 **自動**は骨格データから生成している。
 

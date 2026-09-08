@@ -88,6 +88,51 @@ public final class HollowGuardDefinition {
      */
     public static final double SWORD_DAMAGE_MULTIPLIER = 0.8;
 
+    // ------------------------------------------------------------ 見た目の方式（騎士型と同じ仕組み）
+
+    /**
+     * リソースパックで描いたモデルを使うか（既定）。{@link KnightDefinition} と同じ仕組み。
+     *
+     * <p>false のあいだはバニラの素材を寸法どおりに引き伸ばして体型を示す。
+     */
+    public static final boolean AUTHORED_MODELS_DEFAULT = false;
+
+    /**
+     * いま描いたモデルを使うか。<b>実行中に切り替えられる。</b>
+     * 検証用プラグインの {@code /raid model authored|vanilla} から切り替える
+     * （騎士型と共通の1つのスイッチ。§2 参照）。
+     */
+    private static boolean authoredModels = AUTHORED_MODELS_DEFAULT;
+
+    /** 描いたモデルを使っているか。 */
+    public static boolean authoredModels() {
+        return authoredModels;
+    }
+
+    /** 描いたモデルを使うかを切り替える。次に組む骨格から効く。 */
+    public static void useAuthoredModels(boolean authored) {
+        authoredModels = authored;
+    }
+
+    /** 描いたモデルを載せるアイテム。 */
+    public static final String MODEL_ITEM = "PAPER";
+
+    /**
+     * 描いたモデルの縮小率。モデルの座標が −16〜32（3ブロック）に収まらない部位は、
+     * この率で縮めて描き、描画側で戻す。剣（長さ3.0）だけが該当する
+     * （{@link KnightDefinition#LONG_PART_MODEL_SCALE} と同じ考え方・同じ値）。
+     */
+    public static final double LONG_PART_MODEL_SCALE = 4.0;
+
+    /** 見た目を、その時点の方式（バニラの素材 / 描いたモデル）に合わせる。 */
+    private static Appearance look(Appearance vanilla) {
+        if (!authoredModels) {
+            return vanilla;
+        }
+        return vanilla.authoredAs(MODEL_ITEM,
+                vanilla.fitsModelSpace() ? 1.0 : LONG_PART_MODEL_SCALE);
+    }
+
     // ------------------------------------------------------------ 骨格
 
     /**
@@ -108,19 +153,19 @@ public final class HollowGuardDefinition {
     public static Rig rig() {
         List<Rig.Part> parts = List.of(
                 part("胴", null, pos(0, 1.45, 0), 3001)
-                        .looks(Appearance.box(BODY, 1.40, 0.90, 0.90)),
+                        .looks(look(Appearance.box(BODY, 1.40, 0.90, 0.90))),
                 part("頭", "胴", pos(0, 0.70, 0), 3002)
-                        .looks(Appearance.box(BODY, 0.90, 0.45, 0.90)),
+                        .looks(look(Appearance.box(BODY, 0.90, 0.45, 0.90))),
                 part("右腕", "胴", pos(-0.90, 0.35, 0), 3003)
-                        .looks(Appearance.limb(BODY, 0.70, 1.00, 0.70)),
+                        .looks(look(Appearance.limb(BODY, 0.70, 1.00, 0.70))),
                 part("左腕", "胴", pos(0.90, 0.35, 0), 3004)
-                        .looks(Appearance.limb(BODY, 0.70, 1.00, 0.70)),
+                        .looks(look(Appearance.limb(BODY, 0.70, 1.00, 0.70))),
                 part("右足", "胴", pos(-0.40, -0.45, 0), 3005)
-                        .looks(Appearance.limb(BODY, 0.80, 1.00, 0.80)),
+                        .looks(look(Appearance.limb(BODY, 0.80, 1.00, 0.80))),
                 part("左足", "胴", pos(0.40, -0.45, 0), 3006)
-                        .looks(Appearance.limb(BODY, 0.80, 1.00, 0.80)),
+                        .looks(look(Appearance.limb(BODY, 0.80, 1.00, 0.80))),
                 part("剣", "右腕", posRot(0, -1.00, 0, -90, 0, 0), 3007)
-                        .looks(Appearance.limb(SWORD, 0.30, SWORD_LENGTH, 0.30))
+                        .looks(look(Appearance.limb(SWORD, 0.30, SWORD_LENGTH, 0.30)))
                         .reducedDamage(SWORD_DAMAGE_MULTIPLIER));
         return new Rig(parts, HEIGHT, WIDTH);
     }

@@ -35,6 +35,13 @@
       { "threshold": 2114, "model": { "type": "minecraft:model", "model": "knight/p2/foreleg_left" } },
       { "threshold": 2115, "model": { "type": "minecraft:model", "model": "knight/p2/hindleg_right" } },
       { "threshold": 2116, "model": { "type": "minecraft:model", "model": "knight/p2/hindleg_left" } },
+      { "threshold": 3001, "model": { "type": "minecraft:model", "model": "hollow_guard/torso" } },
+      { "threshold": 3002, "model": { "type": "minecraft:model", "model": "hollow_guard/head" } },
+      { "threshold": 3003, "model": { "type": "minecraft:model", "model": "hollow_guard/arm_right" } },
+      { "threshold": 3004, "model": { "type": "minecraft:model", "model": "hollow_guard/arm_left" } },
+      { "threshold": 3005, "model": { "type": "minecraft:model", "model": "hollow_guard/leg_right" } },
+      { "threshold": 3006, "model": { "type": "minecraft:model", "model": "hollow_guard/leg_left" } },
+      { "threshold": 3007, "model": { "type": "minecraft:model", "model": "hollow_guard/sword" } },
       { "threshold": 9000, "model": { "type": "minecraft:model", "model": "knight/calibration" } }
     ]
   }

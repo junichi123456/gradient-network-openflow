@@ -3513,6 +3513,95 @@ public final class CoreTests {
 
         check("武器のリーチは騎士型（2.2）より長い（武器が3倍サイズのため）",
                 jp.mcserver.core.raid.HollowGuardDefinition.WEAPON_REACH > 2.2);
+
+        // 見た目の方式（リソースパックで描いたモデル / バニラの素材）。騎士型と同じ仕組み
+        // （`ModelPack`・`raid_model_spec.md` §2「虚刃の衛士」）
+        check("既定はバニラの素材（描いたモデルではない）",
+                !jp.mcserver.core.raid.HollowGuardDefinition.AUTHORED_MODELS_DEFAULT
+                        && jp.mcserver.core.raid.HollowGuardDefinition.authoredModels()
+                                == jp.mcserver.core.raid.HollowGuardDefinition
+                                        .AUTHORED_MODELS_DEFAULT);
+        check("剣（長さ3.0）は等倍では描けない。縮小率をかければ収まる",
+                !rig.part("剣").appearance().fitsModelSpace()
+                        && rig.part("剣").appearance().modelBounds(
+                                jp.mcserver.core.raid.HollowGuardDefinition
+                                        .LONG_PART_MODEL_SCALE)[1] >= Appearance.MODEL_MIN);
+        check("剣以外の6部位は等倍のまま描ける",
+                java.util.List.of("胴", "頭", "右腕", "左腕", "右足", "左足").stream()
+                        .allMatch(name -> rig.part(name).appearance().fitsModelSpace()));
+
+        // 描いたモデルが座標の範囲に収まるか（raid_model_spec.md §3 / §7）。
+        // 3形態とも同じ骨格なので、どの段階で見ても結果は同じはず
+        boolean fitsModelSpace = true;
+        String overflowing = "";
+        for (int i = 0; i < boss.phases().size(); i++) {
+            var formRig = boss.phases().get(i).rig().orElseThrow();
+            for (String name : formRig.partNames()) {
+                var look = formRig.part(name).appearance();
+                if (look == null) {
+                    continue;
+                }
+                double divisor = look.fitsModelSpace()
+                        ? 1.0 : jp.mcserver.core.raid.HollowGuardDefinition.LONG_PART_MODEL_SCALE;
+                for (double value : look.modelBounds(divisor)) {
+                    if (value < -16 || value > 32) {
+                        fitsModelSpace = false;
+                        overflowing = "第" + (i + 1) + "形態 " + name + " " + value;
+                    }
+                }
+            }
+        }
+        check("すべての部位がモデルの座標範囲（−16〜32）に収まる"
+                + (fitsModelSpace ? "" : "（はみ出し: " + overflowing + "）"), fitsModelSpace);
+
+        // 塗り絵の割り付け（`SkinNet`。ModelPack が生成する展開図と同じ計算）
+        boolean netsFit = true;
+        boolean netsDisjoint = true;
+        boolean uvInRange = true;
+        String netProblem = "";
+        for (int i = 0; i < boss.phases().size(); i++) {
+            var formRig = boss.phases().get(i).rig().orElseThrow();
+            for (String name : formRig.partNames()) {
+                var look = formRig.part(name).appearance();
+                if (look == null) {
+                    continue;
+                }
+                var net = SkinNet.of(look.scale());
+                var rects = new java.util.ArrayList<>(net.regions().values());
+                if (net.regions().size() != 6) {
+                    netsDisjoint = false;
+                    netProblem = name + " の枠が6つでない";
+                }
+                for (var rect : rects) {
+                    if (rect.x() < 0 || rect.y() < 0
+                            || rect.x() + rect.width() > SkinNet.CANVAS
+                            || rect.y() + rect.height() > SkinNet.CANVAS) {
+                        netsFit = false;
+                        netProblem = name + " の枠が画布からはみ出す";
+                    }
+                    for (double value : rect.uv()) {
+                        if (value < 0 || value > 16) {
+                            uvInRange = false;
+                            netProblem = name + " の UV が 0〜16 の外にある";
+                        }
+                    }
+                }
+                for (int a = 0; a < rects.size(); a++) {
+                    for (int b = a + 1; b < rects.size(); b++) {
+                        if (overlaps(rects.get(a), rects.get(b))) {
+                            netsDisjoint = false;
+                            netProblem = name + " の枠が重なる";
+                        }
+                    }
+                }
+            }
+        }
+        check("塗り絵の枠が画布（" + SkinNet.CANVAS + "×" + SkinNet.CANVAS + "）に収まる"
+                + (netsFit ? "" : "（" + netProblem + "）"), netsFit);
+        check("塗り絵の枠どうしが重ならない"
+                + (netsDisjoint ? "" : "（" + netProblem + "）"), netsDisjoint);
+        check("塗り絵の UV が 0〜16 に収まる"
+                + (uvInRange ? "" : "（" + netProblem + "）"), uvInRange);
     }
 
     private static void hollowGuardSpecial() {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import jp.mcserver.core.raid.HollowGuardDefinition;
 import jp.mcserver.core.raid.KnightDefinition;
 import jp.mcserver.core.raid.RaidDrop;
 import org.bukkit.Location;
@@ -182,7 +183,8 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
                     default -> {
                         player.sendMessage("いまの見た目: "
                                 + (KnightDefinition.authoredModels()
-                                        ? "描いたモデル" : "バニラの素材"));
+                                        ? "描いたモデル" : "バニラの素材")
+                                + "（騎士型・虚刃の衛士とも共通）");
                         player.sendMessage("§7/raid model authored"
                                 + " … リソースパックで描いたモデルを使う");
                         player.sendMessage("§7/raid model vanilla"
@@ -210,7 +212,7 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
     }
 
     /**
-     * 見た目の方式を切り替える。
+     * 見た目の方式を切り替える。騎士型・虚刃の衛士とも1つのスイッチで揃える。
      *
      * <p>骨格は個体を作るときに組むため、<b>出し直さないと反映されない</b>。
      * 塗り直した絵を見るための道具なので、出ている個体はその場で作り直す。
@@ -222,23 +224,32 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
             return;
         }
         KnightDefinition.useAuthoredModels(authored);
+        HollowGuardDefinition.useAuthoredModels(authored);
         int reborn = 0;
-        List<Location> places = new ArrayList<>();
+        List<Location> knightPlaces = new ArrayList<>();
+        List<Location> hollowPlaces = new ArrayList<>();
         for (RaidBoss boss : active) {
             if (boss instanceof KnightBoss knight) {
-                places.add(knight.location());
+                knightPlaces.add(knight.location());
+            } else if (boss instanceof HollowGuardBoss hollowGuard) {
+                hollowPlaces.add(hollowGuard.location());
             }
         }
-        // 描いたモデルの方式は騎士型だけが持つ。虚刃の衛士はそのまま残す
         active.removeIf(boss -> {
-            if (boss instanceof KnightBoss) {
+            if (boss instanceof KnightBoss || boss instanceof HollowGuardBoss) {
                 boss.despawn();
                 return true;
             }
             return false;
         });
-        for (Location place : places) {
+        for (Location place : knightPlaces) {
             KnightBoss boss = new KnightBoss(this, place);
+            boss.spawn();
+            active.add(boss);
+            reborn++;
+        }
+        for (Location place : hollowPlaces) {
+            HollowGuardBoss boss = new HollowGuardBoss(this, place);
             boss.spawn();
             active.add(boss);
             reborn++;

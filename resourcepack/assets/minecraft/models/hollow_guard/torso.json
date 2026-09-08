@@ -1,0 +1,22 @@
+{
+  "__comment": "胴 / ID 3001 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "item/hollow_guard/guard_torso",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "胴",
+      "from": [-3.2, 0.8, 0.8],
+      "to": [19.2, 15.2, 15.2],
+      "faces": {
+        "north": { "uv": [8, 10, 16, 15], "texture": "#skin" },
+        "east": { "uv": [0, 5, 5, 10], "texture": "#skin" },
+        "south": { "uv": [0, 10, 8, 15], "texture": "#skin" },
+        "west": { "uv": [5, 5, 10, 10], "texture": "#skin" },
+        "up": { "uv": [0, 0, 8, 5], "texture": "#skin" },
+        "down": { "uv": [8, 0, 16, 5], "texture": "#skin" }
+      }
+    }
+  ]
+}
