@@ -20,6 +20,13 @@ import org.bukkit.entity.Player;
  * <p><b>盾で防がれると、その場で消える</b>（実機で確認して追加。§2「軌道の修正」）。
  * 第三形態の金のオノ（{@link jp.mcserver.core.raid.GoldenAxe}）もこのクラスで表す
  * ——動き方は同じで、素材・ダメージ・「盾を一時的に使えなくするか」だけが違う。
+ *
+ * <p><b>着地の判定に {@code groundY()} をそのまま使うと、出現直後に即座に「着地した」と
+ * 誤判定して一度も落下せずに消えてしまう不具合があった</b>（`raid_species.md` §2「軌道の
+ * 修正」）。出現位置は地表面よりかなり高く、{@code groundY()} は近くに地面が無いと渡した
+ * 位置をそのまま返すため、「いまの高さ ≦ groundY()」がその高さのまま真になってしまう。
+ * 実際にその位置がブロックの中かを直接見る {@code solidAt()} で接触を確かめてから、
+ * 初めて {@code groundY()} で着地するYを求めるよう直した。
  */
 final class RainBlade implements FloatingBlade {
 
@@ -70,11 +77,12 @@ final class RainBlade implements FloatingBlade {
             return ticksSinceLand > LINGER_TICKS;
         }
         homeHorizontally();
-        double groundY = boss.groundY(position);
         fallSpeed = SwordRain.nextFallSpeed(fallSpeed);
         double nextY = position.getY() - fallSpeed;
-        if (nextY <= groundY) {
-            position.setY(groundY - SwordRain.EMBED_DEPTH);
+        Location probe = position.clone();
+        probe.setY(nextY);
+        if (boss.solidAt(probe)) {
+            position.setY(boss.groundY(position) - SwordRain.EMBED_DEPTH);
             land();
             return false;
         }

@@ -3574,8 +3574,10 @@ public final class CoreTests {
         check("移動開始から80tickのあいだ追従し、10tickごとに狙いを更新し直す",
                 SpatialSlash.TRACKING_DURATION_TICKS == 80
                         && SpatialSlash.RETARGET_INTERVAL_TICKS == 10);
-        check("空間斬撃は召喚位置基準で+5から始まる（足元Y=1の会場ではY=6相当）",
-                SpatialSlash.SPAWN_Y_OFFSET == 5.0);
+        check("空間斬撃は虚刃の衛士自身の頭上（地表面+4）に出現する（実機で確認して、狙った"
+                + "相手の位置・+5から修正）", SpatialSlash.SPAWN_Y_OFFSET == 4.0);
+        check("召喚してから移動を始めるまでの待機は30tick（実機で確認して5tickから修正）",
+                SpatialSlash.START_DELAY_TICKS == 30);
 
         // 追尾しながら直進する軌道の幾何（HomingDart）
         {
@@ -3613,9 +3615,11 @@ public final class CoreTests {
                 GrandWhirl.SPEED_BLOCKS_PER_SECOND == SpatialSlash.SPEED_BLOCKS_PER_SECOND
                         && GrandWhirl.TRACKING_DURATION_TICKS == SpatialSlash.TRACKING_DURATION_TICKS
                         && GrandWhirl.RETARGET_INTERVAL_TICKS == SpatialSlash.RETARGET_INTERVAL_TICKS);
-        check("待機は10tick（空間斬撃の5tickより長い）",
-                GrandWhirl.START_DELAY_TICKS == 10 && GrandWhirl.START_DELAY_TICKS
+        check("待機は40tick（空間斬撃の30tickより長い。実機で確認して10tickから修正）",
+                GrandWhirl.START_DELAY_TICKS == 40 && GrandWhirl.START_DELAY_TICKS
                         > SpatialSlash.START_DELAY_TICKS);
+        check("全域大旋回も空間斬撃と同じく、虚刃の衛士自身の頭上に出現する",
+                GrandWhirl.SPAWN_Y_OFFSET == SpatialSlash.SPAWN_Y_OFFSET);
         check("第二形態の並びは金14・銅15・鉄16・ダイヤモンド17・ネザライト18の5つを繰り返す",
                 GrandWhirl.bladeAt(0, false) == GrandWhirl.Blade.GOLD
                         && GrandWhirl.bladeAt(0, false).damage() == 14.0

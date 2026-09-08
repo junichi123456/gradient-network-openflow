@@ -3,12 +3,16 @@ package jp.mcserver.core.raid;
 /**
  * 特殊「空間斬撃」（`raid_species.md` §2、第二形態から）。
  *
- * <p>個体の召喚位置の足元Yを基準に、そこから5ブロック上（足元Y=1の会場ではY=6に相当）で
- * 浮遊剣（銅の剣）が現れ、5tick待機したあと、狙った相手へ向けて直進する
- * （{@link HomingDart}）。一次実装は戦場の中心を軸とした円弧を描く方式だったが、
- * 旋回を始めた時点の位置で軌道を固定してしまうため、動く相手にほとんど当たらなかった。
- * 修正後は、移動を始めてから{@link #TRACKING_DURATION_TICKS}tickのあいだ、
- * {@link #RETARGET_INTERVAL_TICKS}tickごとに狙いを相手の現在位置へ更新し続ける。
+ * <p><b>虚刃の衛士自身の頭上</b>（地表面から{@link #SPAWN_Y_OFFSET}ブロック）に浮遊剣
+ * （銅の剣）が現れ、{@link #START_DELAY_TICKS}tick待機したあと、狙った相手へ向けて直進する
+ * （{@link HomingDart}）。一次実装は狙った相手の位置に召喚していたが、相手の足場（洞窟の中・
+ * 段差の上など）に引きずられて出現位置が安定しなかったため、個体自身の頭上という固定点に
+ * 直した。
+ *
+ * <p>一次実装は戦場の中心を軸とした円弧を描く方式だったが、旋回を始めた時点の位置で軌道を
+ * 固定してしまうため、動く相手にほとんど当たらなかった。修正後は、移動を始めてから
+ * {@link #TRACKING_DURATION_TICKS}tickのあいだ、{@link #RETARGET_INTERVAL_TICKS}tickごとに
+ * 狙いを相手の現在位置へ更新し続ける。<b>命中した瞬間（防がれたかに関わらず）その場で消える。</b>
  */
 public final class SpatialSlash {
 
@@ -16,12 +20,10 @@ public final class SpatialSlash {
     }
 
     /**
-     * 出現高度。個体の召喚位置の足元Yからの相対値（ブロック）。
-     *
-     * <p><b>絶対座標のYではなく、召喚位置基準。</b>足元Y=1の会場を基準に決めた値（Y=6）を
-     * オフセットへ直した（6−1=5）。実際の高度は {@code 召喚位置の足元Y + この値}。
+     * 出現高度。個体の足元（地表面）からの相対値（ブロック）。虚刃の衛士自身の頭上に
+     * 出現する——狙った相手の位置ではない（実機で確認して修正）。
      */
-    public static final double SPAWN_Y_OFFSET = 5.0;
+    public static final double SPAWN_Y_OFFSET = 4.0;
 
     /** 剣の長さ（ブロック）。 */
     public static final double SWORD_LENGTH = 3.0;
@@ -32,8 +34,11 @@ public final class SpatialSlash {
     /** 総移動距離の上限（ブロック）。これを超えて飛び続けることはない。 */
     public static final double MAX_DISTANCE_BLOCKS = 100.0;
 
-    /** 召喚してから移動を始めるまでの待機（tick）。このあいだ軌道を通りうる相手を追尾する。 */
-    public static final int START_DELAY_TICKS = 5;
+    /**
+     * 召喚してから移動を始めるまでの待機（tick）。このあいだ、虚刃の衛士の頭上に留まる
+     * （個体が動けば一緒に動く）。実機で確認して5→30へ修正。
+     */
+    public static final int START_DELAY_TICKS = 30;
 
     /**
      * 移動を始めてから、相手を追尾し続ける時間（tick）。この時間が尽きるか、

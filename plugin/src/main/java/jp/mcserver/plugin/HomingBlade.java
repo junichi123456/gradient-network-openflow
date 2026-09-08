@@ -13,19 +13,21 @@ import org.bukkit.entity.Player;
  * （`raid_species.md` §2）。第三形態の金のオノもこのクラスで表す——動き方は同じで、
  * 素材・速度・ダメージ・「盾を一時的に使えなくするか」だけが違う。
  *
- * <p>召喚してから {@code startDelayTicks} が明けるまでは静止し、そのあいだ
- * 「軌道を通りうるプレイヤー」——ここでは追う対象として渡された {@link Player}
- * の現在位置——を追尾する。明けたら移動を始め、{@code retargetIntervalTicks} ごとに
- * 狙いを相手の現在位置へ更新し直しながら、{@code speedBlocksPerTick} で直進する
- * （{@link HomingDart}）。{@code trackingDurationTicks} が尽きるか、合計移動距離が
- * {@code maxDistanceBlocks} に達したら止まる。
+ * <p><b>虚刃の衛士自身の頭上</b>（地表面から {@code heightAboveGround} ブロック）に出現し、
+ * {@code startDelayTicks} が明けるまではそこに留まる（個体が動けば一緒に動く）。
+ * 明けたら移動を始め、{@code retargetIntervalTicks} ごとに狙いを相手の現在位置へ更新し
+ * 直しながら、{@code speedBlocksPerTick} で直進する（{@link HomingDart}）。
+ * {@code trackingDurationTicks} が尽きるか、合計移動距離が {@code maxDistanceBlocks} に
+ * 達したら止まる。
  *
- * <p><b>一次実装は戦場の中心を軸に旋回する円弧だった。実機で確認したところ、
- * 旋回を始めた時点の位置で軌道を固定してしまうため、動く相手にほとんど当たらなかった。</b>
- * そこで、狙いを更新し続けながら直進するこの方式に直した。
+ * <p>一次実装は狙った相手の位置に出現させていたが、相手の足場によって出現位置が安定しな
+ * かったため、個体自身の頭上という固定点に直した（実機で確認）。さらに以前は戦場の中心を
+ * 軸に旋回する円弧だったため、旋回を始めた時点の位置で軌道を固定してしまい、動く相手に
+ * ほとんど当たらなかった——狙いを更新し続けながら直進するこの方式に直した。
  *
- * <p><b>盾で防がれるか、地面に接触すると、その場で消える</b>（実機で確認して追加）。
- * 一次実装は地形との当たり判定を持たず、地中を飛び抜けることがあった。
+ * <p><b>命中した瞬間（防がれたかに関わらず）、盾で防がれても、地面に接触しても、その場で
+ * 消える</b>（実機で確認して追加）。一次実装は地形との当たり判定を持たず、地中を飛び抜ける
+ * ことがあった。
  */
 final class HomingBlade implements FloatingBlade {
 
@@ -34,6 +36,7 @@ final class HomingBlade implements FloatingBlade {
     private final RaidBossBase boss;
     private final BladeDisplay display;
     private final Player tracked;
+    private final double heightAboveGround;
     private final int startDelayTicks;
     private final double speedBlocksPerTick;
     private final double maxDistanceBlocks;
@@ -52,23 +55,24 @@ final class HomingBlade implements FloatingBlade {
     private double aimY;
     private double aimZ;
 
-    HomingBlade(RaidBossBase boss, Location spawnXZ, Player tracked, double spawnY,
+    HomingBlade(RaidBossBase boss, Player tracked, double heightAboveGround,
                double speedBlocksPerTick, double maxDistanceBlocks, int startDelayTicks,
                int trackingDurationTicks, int retargetIntervalTicks, double damage,
                double knockbackBlocks, Material material, double visualScale) {
-        this(boss, spawnXZ, tracked, spawnY, speedBlocksPerTick, maxDistanceBlocks, startDelayTicks,
-                trackingDurationTicks, retargetIntervalTicks, damage, knockbackBlocks, material,
-                visualScale, false);
+        this(boss, tracked, heightAboveGround, speedBlocksPerTick, maxDistanceBlocks,
+                startDelayTicks, trackingDurationTicks, retargetIntervalTicks, damage,
+                knockbackBlocks, material, visualScale, false);
     }
 
     /** 第三形態の金のオノなど、盾を一時的に使えなくする一本。 */
-    HomingBlade(RaidBossBase boss, Location spawnXZ, Player tracked, double spawnY,
+    HomingBlade(RaidBossBase boss, Player tracked, double heightAboveGround,
                double speedBlocksPerTick, double maxDistanceBlocks, int startDelayTicks,
                int trackingDurationTicks, int retargetIntervalTicks, double damage,
                double knockbackBlocks, Material material, double visualScale,
                boolean disablesShieldOnGuard) {
         this.boss = boss;
         this.tracked = tracked;
+        this.heightAboveGround = heightAboveGround;
         this.speedBlocksPerTick = speedBlocksPerTick;
         this.maxDistanceBlocks = maxDistanceBlocks;
         this.startDelayTicks = startDelayTicks;
@@ -77,8 +81,7 @@ final class HomingBlade implements FloatingBlade {
         this.damage = damage;
         this.knockbackBlocks = knockbackBlocks;
         this.disablesShieldOnGuard = disablesShieldOnGuard;
-        this.position = spawnXZ.clone();
-        this.position.setY(spawnY);
+        this.position = aboveBoss();
         this.aimX = position.getX();
         this.aimY = position.getY();
         this.aimZ = position.getZ();
@@ -86,15 +89,19 @@ final class HomingBlade implements FloatingBlade {
         display.placeFlying(position);
     }
 
+    private Location aboveBoss() {
+        Location origin = boss.origin();
+        return origin.clone().add(0, heightAboveGround, 0);
+    }
+
     @Override
     public boolean tick() {
         tick++;
         if (tick <= startDelayTicks) {
-            if (isTrackedValid()) {
-                Location at = tracked.getLocation();
-                position.setX(at.getX());
-                position.setZ(at.getZ());
-            }
+            Location above = aboveBoss();
+            position.setX(above.getX());
+            position.setY(above.getY());
+            position.setZ(above.getZ());
             display.placeFlying(position);
             return false;
         }
@@ -134,16 +141,15 @@ final class HomingBlade implements FloatingBlade {
         return tracked != null && tracked.isOnline() && !tracked.isDead();
     }
 
-    /** @return 盾に防がれたか。防がれたら、この後 {@link #tick()} は true を返して消える */
+    /** @return 誰かに当たったか。当たったら（防がれたかに関わらず）、その場で消える */
     private boolean strikeNearby() {
         for (Player player : boss.playersInRange(position, HIT_RADIUS)) {
             if (!struck.add(player.getUniqueId())) {
                 continue;
             }
-            if (boss.independentHit(player, position, damage, knockbackBlocks, 0.15, true,
-                    disablesShieldOnGuard)) {
-                return true;
-            }
+            boss.independentHit(player, position, damage, knockbackBlocks, 0.15, true,
+                    disablesShieldOnGuard);
+            return true;
         }
         return false;
     }
