@@ -16,6 +16,7 @@
 | `implementation_feasibility.md` | 仕様のうち実装で詰まる箇所の切り分け | 主要な論点は整理済み |
 | `local_test_setup.md` | Windows での検証環境の作り方と確認項目 | 手順は通っている |
 | `capacity_plan.md` / `mod_rulings.md` | 収容計画 / Mod の判例集 | 初版のまま |
+| `rail_infra_spec.md` | 地下鉄インフラ管理・経済連携プラグインの要件定義（Vault・Towny/Lands 連携） | **要件定義のみ。実装は未着手**（`core`/`plugin` ともコード無し） |
 | `core/` | サーバー非依存のロジック（Java、外部依存なし） | 検証 **757 件** 成功 |
 | `plugin/` | Paper 1.21.4 の検証用プラグイン | ビルド・読み込みは通る。中身は騎士型と村人の取引のみ |
 | `resourcepack/` | リソースパック。較正用の立方体、生成した雛形、塗り絵 | 雛形 **騎士型29件 + 虚刃の衛士7件**。**塗り絵は騎士型11枚が描き込み済み、虚刃の衛士5枚は下地のみ**（手順は `PAINTING.md`） |
