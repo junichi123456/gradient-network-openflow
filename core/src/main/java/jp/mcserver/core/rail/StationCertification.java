@@ -36,10 +36,20 @@ public final class StationCertification {
     public static final int MIN_OUTER_HEIGHT = MIN_INNER_HEIGHT + 2;
     public static final int MIN_OUTER_DEPTH = MIN_INNER_DEPTH + 2;
 
+    /** 外寸の最大値（ユーザーが確定した値）。これを超える駅舎は認定しない。 */
+    public static final int MAX_OUTER_WIDTH = 32;
+    public static final int MAX_OUTER_HEIGHT = 17;
+    public static final int MAX_OUTER_DEPTH = 52;
+
+    /** 壁の厚み1ブロックぶんを外寸から引いた内寸の最大値。 */
+    public static final int MAX_INNER_WIDTH = MAX_OUTER_WIDTH - 2;
+    public static final int MAX_INNER_HEIGHT = MAX_OUTER_HEIGHT - 2;
+    public static final int MAX_INNER_DEPTH = MAX_OUTER_DEPTH - 2;
+
     public static boolean fitsSpace(int outerWidth, int outerHeight, int outerDepth) {
-        return outerWidth >= MIN_OUTER_WIDTH
-                && outerHeight >= MIN_OUTER_HEIGHT
-                && outerDepth >= MIN_OUTER_DEPTH;
+        return outerWidth >= MIN_OUTER_WIDTH && outerWidth <= MAX_OUTER_WIDTH
+                && outerHeight >= MIN_OUTER_HEIGHT && outerHeight <= MAX_OUTER_HEIGHT
+                && outerDepth >= MIN_OUTER_DEPTH && outerDepth <= MAX_OUTER_DEPTH;
     }
 
     // ------------------------------------------------------------ 各面の最低使用率
@@ -62,14 +72,14 @@ public final class StationCertification {
      * 面はその大きさなりの正しい面積になる。天井・床は幅×奥行、南北の壁は幅×高さ、
      * 東西の壁は奥行×高さを持つ（3辺のうち向かい合う2面は同じ面積になる）。
      *
-     * <p>例: 外寸 幅30×高さ20×奥行45 なら、天井・床はそれぞれ 30×45=1,350、
-     * 南北の壁はそれぞれ 30×20=600、東西の壁はそれぞれ 45×20=900 になる——6面とも
+     * <p>例: 外寸 幅30×高さ15×奥行45 なら、天井・床はそれぞれ 30×45=1,350、
+     * 南北の壁はそれぞれ 30×15=450、東西の壁はそれぞれ 45×15=675 になる——6面とも
      * 同じ面積になるわけではない。
      *
-     * <p><b>これは「直方体1つが駅舎の全体である」という前提のもとでの面積である。</b>
-     * 実際に建てた構造物が本当に単純な直方体1つか（L字型でない、床や壁に穴が無い、
-     * 離れた場所に別の部屋が無い、など）を確かめるのは、ワールドを実際に走査する
-     * プラグイン側の仕事であり、ここでは検証しない。
+     * <p><b>「実際に建てた構造物が単純な直方体1つであるか」は検証しない</b>
+     * （ユーザーが決定：<b>各面の舗装率さえ満たせば駅舎として許容する</b>）。
+     * L字型か・床や壁に穴が無いか・離れた場所に別の部屋が無いか、といった形そのものの
+     * 妥当性チェックは、この判定の対象外である。
      */
     public static int faceArea(Face face, int outerWidth, int outerHeight, int outerDepth) {
         if (outerWidth <= 0 || outerHeight <= 0 || outerDepth <= 0) {

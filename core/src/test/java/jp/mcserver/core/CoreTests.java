@@ -3849,13 +3849,19 @@ public final class CoreTests {
                 vassalBill.suzerainPayment().fromTreasury() == 400
                         && vassalBill.vassalPayment().fromTreasury() == 600);
 
-        // F-04: 駅舎認定（空間要件）
-        check("外寸22×12×42ちょうどなら空間要件を満たす",
+        // F-04: 駅舎認定（空間要件。最小22×12×42・最大32×17×52、ユーザーが確定）
+        check("外寸22×12×42ちょうどなら空間要件を満たす（最小値の境界）",
                 StationCertification.fitsSpace(22, 12, 42));
-        check("いずれか1辺でも足りなければ不合格",
+        check("いずれか1辺でも最小値に届かなければ不合格",
                 !StationCertification.fitsSpace(21, 12, 42)
                         && !StationCertification.fitsSpace(22, 11, 42)
                         && !StationCertification.fitsSpace(22, 12, 41));
+        check("外寸32×17×52ちょうどなら空間要件を満たす（最大値の境界）",
+                StationCertification.fitsSpace(32, 17, 52));
+        check("いずれか1辺でも最大値を超えれば不合格",
+                !StationCertification.fitsSpace(33, 17, 52)
+                        && !StationCertification.fitsSpace(32, 18, 52)
+                        && !StationCertification.fitsSpace(32, 17, 53));
 
         // F-04: 各面の最低使用率（40%以上）
         var faceOk = StationCertification.checkFace(StationCertification.Face.NORTH, 400, 1000);
@@ -3871,43 +3877,44 @@ public final class CoreTests {
                 StationCertification.checkFace(StationCertification.Face.CEILING, 100, 1000));
         check("1面でも40%未満なら全体は不合格", !StationCertification.allFacesPass(allSixOk));
 
-        // F-04: 面積は「向かい合う2面ごとに違う値」になる（最小サイズより大きい駅舎の例）
-        // 幅30×高さ20×奥行45（内寸ではなく外寸。最小の22×12×42より大きい）
+        // F-04: 面積は「向かい合う2面ごとに違う値」になる（最小・最大の範囲内で、かつ
+        // 最小より大きい駅舎の例。幅30×高さ15×奥行45——外寸の最大32×17×52の範囲内）
         check("天井・床は幅×奥行（30×45=1,350）",
-                StationCertification.faceArea(StationCertification.Face.CEILING, 30, 20, 45) == 1350
-                        && StationCertification.faceArea(StationCertification.Face.FLOOR, 30, 20, 45)
+                StationCertification.faceArea(StationCertification.Face.CEILING, 30, 15, 45) == 1350
+                        && StationCertification.faceArea(StationCertification.Face.FLOOR, 30, 15, 45)
                                 == 1350);
-        check("南北の壁は幅×高さ（30×20=600）",
-                StationCertification.faceArea(StationCertification.Face.NORTH, 30, 20, 45) == 600
-                        && StationCertification.faceArea(StationCertification.Face.SOUTH, 30, 20, 45)
-                                == 600);
-        check("東西の壁は奥行×高さ（45×20=900）——6面が同じ面積にはならない",
-                StationCertification.faceArea(StationCertification.Face.EAST, 30, 20, 45) == 900
-                        && StationCertification.faceArea(StationCertification.Face.WEST, 30, 20, 45)
-                                == 900);
+        check("南北の壁は幅×高さ（30×15=450）",
+                StationCertification.faceArea(StationCertification.Face.NORTH, 30, 15, 45) == 450
+                        && StationCertification.faceArea(StationCertification.Face.SOUTH, 30, 15, 45)
+                                == 450);
+        check("東西の壁は奥行×高さ（45×15=675）——6面が同じ面積にはならない",
+                StationCertification.faceArea(StationCertification.Face.EAST, 30, 15, 45) == 675
+                        && StationCertification.faceArea(StationCertification.Face.WEST, 30, 15, 45)
+                                == 675);
 
         // F-04: certifyBox（外寸から6面の面積を自動で求める便利版）で、
-        // 30×20×45の駅舎でも面ごとに正しい閾値（面積の40%）で判定できるかを確かめる
-        var boxFullPass = StationCertification.certifyBox(30, 20, 45, Map.of(
+        // 30×15×45の駅舎でも面ごとに正しい閾値（面積の40%）で判定できるかを確かめる
+        var boxFullPass = StationCertification.certifyBox(30, 15, 45, Map.of(
                         StationCertification.Face.CEILING, 540,   // 1350の40%ちょうど
                         StationCertification.Face.FLOOR, 540,
-                        StationCertification.Face.NORTH, 240,     // 600の40%ちょうど
-                        StationCertification.Face.SOUTH, 240,
-                        StationCertification.Face.EAST, 360,      // 900の40%ちょうど
-                        StationCertification.Face.WEST, 360),
+                        StationCertification.Face.NORTH, 180,     // 450の40%ちょうど
+                        StationCertification.Face.SOUTH, 180,
+                        StationCertification.Face.EAST, 270,      // 675の40%ちょうど
+                        StationCertification.Face.WEST, 270),
                 Map.of("石レンガ", 1120, "レンガ", 480), 200);
-        check("30×20×45でも、面ごとに正しい面積（1350/600/900）の40%を閾値に判定し認定される",
+        check("30×15×45でも、面ごとに正しい面積（1350/450/675）の40%を閾値に判定し認定される"
+                        + "（ユーザーの決定どおり、各面の舗装率さえ満たせば足りる）",
                 boxFullPass.certified() && boxFullPass.spaceOk() && boxFullPass.facesOk());
-        var boxOneFaceShort = StationCertification.certifyBox(30, 20, 45, Map.of(
+        var boxOneFaceShort = StationCertification.certifyBox(30, 15, 45, Map.of(
                         StationCertification.Face.CEILING, 540,
                         StationCertification.Face.FLOOR, 540,
-                        StationCertification.Face.NORTH, 240,
-                        StationCertification.Face.SOUTH, 240,
-                        StationCertification.Face.EAST, 359,      // 360に1本足りない
-                        StationCertification.Face.WEST, 360),
+                        StationCertification.Face.NORTH, 180,
+                        StationCertification.Face.SOUTH, 180,
+                        StationCertification.Face.EAST, 269,      // 270に1本足りない
+                        StationCertification.Face.WEST, 270),
                 Map.of("石レンガ", 1120, "レンガ", 480), 200);
-        check("東西の壁（900の40%=360）だけが1本足りなければ、その面だけを理由に不合格になる"
-                        + "（他の5面は600・1350の40%を満たしていても認定されない）",
+        check("東西の壁（675の40%=270）だけが1本足りなければ、その面だけを理由に不合格になる"
+                        + "（他の5面は450・1350の40%を満たしていても認定されない）",
                 !boxOneFaceShort.certified() && !boxOneFaceShort.facesOk());
 
         // F-04: 種類の上限2種・主ブロック比率70%・総数1,600個
