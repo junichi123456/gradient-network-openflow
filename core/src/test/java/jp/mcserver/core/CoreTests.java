@@ -5,6 +5,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import jp.mcserver.core.rail.DiplomacyQuota;
+import jp.mcserver.core.rail.MonthlyBilling;
+import jp.mcserver.core.rail.RailCost;
+import jp.mcserver.core.rail.RailType;
+import jp.mcserver.core.rail.StationCertification;
+import jp.mcserver.core.rail.VehicleSpeed;
 import jp.mcserver.core.raid.Angles;
 import jp.mcserver.core.raid.GoldenAxe;
 import jp.mcserver.core.raid.GrandWhirl;
@@ -74,6 +80,7 @@ public final class CoreTests {
         spearGeometry();
         hollowGuard();
         hollowGuardSpecial();
+        railInfra();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -3763,6 +3770,159 @@ public final class CoreTests {
     /** 2つの向きの差を -π〜π で返す。 */
     private static double signedOffset(double angle, double from) {
         return Math.atan2(Math.sin(angle - from), Math.cos(angle - from));
+    }
+
+    private static void railInfra() {
+        section("rail_infra_spec.md 地下鉄インフラ管理・経済連携プラグイン（要件定義のみ、core実装）");
+
+        // F-01: 設置許可判定
+        check("高度はY-10〜10のみ許可", RailCost.altitudeAllowed(-10) && RailCost.altitudeAllowed(10)
+                && RailCost.altitudeAllowed(0) && !RailCost.altitudeAllowed(-11)
+                && !RailCost.altitudeAllowed(11));
+
+        var deniedByAltitude = RailCost.canPlace(11, true, 0, 100);
+        check("高度違反は設置不可", !deniedByAltitude.allowed()
+                && deniedByAltitude.denial() == RailCost.Denial.ALTITUDE);
+        var deniedByAffiliation = RailCost.canPlace(0, false, 0, 100);
+        check("未所属は設置不可", !deniedByAffiliation.allowed()
+                && deniedByAffiliation.denial() == RailCost.Denial.NOT_AFFILIATED);
+        var deniedByLimit = RailCost.canPlace(0, true, 100, 100);
+        check("当月上限に達していれば設置不可", !deniedByLimit.allowed()
+                && deniedByLimit.denial() == RailCost.Denial.MONTHLY_LIMIT_REACHED);
+        var allowed = RailCost.canPlace(0, true, 99, 100);
+        check("3条件をすべて満たせば設置可能", allowed.allowed() && allowed.denial() == RailCost.Denial.NONE);
+
+        // F-01: コスト計算（設置総数は「国家全体の累計」——ユーザーへ確認して決定）
+        check("設置手数料は10本ごとに+10段階で上がる（今回ぶんは含まない累計）",
+                RailCost.fee(0) == 0 && RailCost.fee(9) == 0 && RailCost.fee(10) == 10
+                        && RailCost.fee(19) == 10 && RailCost.fee(20) == 20);
+        check("領土内外の倍率は1.0/1.5", RailCost.territoryMultiplier(false) == 1.0
+                && RailCost.territoryMultiplier(true) == 1.5);
+        check("レールの基本単価は50", RailType.RAIL.basePrice() == 50);
+        check("パワードレール150・ディテクターレール80・アクティベーターレール90",
+                RailType.POWERED_RAIL.basePrice() == 150 && RailType.DETECTOR_RAIL.basePrice() == 80
+                        && RailType.ACTIVATOR_RAIL.basePrice() == 90);
+        check("領土内・累計0本なら基本単価そのまま（レール50）",
+                RailCost.totalCost(RailType.RAIL, 0, false) == 50);
+        check("累計10本目以降は手数料+10が乗る（レール60）",
+                RailCost.totalCost(RailType.RAIL, 10, false) == 60);
+        check("領土外は1.5倍（レール50→75）",
+                RailCost.totalCost(RailType.RAIL, 0, true) == 75);
+        check("手数料と領土外倍率は両方乗る（パワードレール(150+10)*1.5=240）",
+                RailCost.totalCost(RailType.POWERED_RAIL, 10, true) == 240);
+
+        // F-01: 引き落とし（残高不足は部分徴収せず全額キャンセル）
+        var balances = new NationalAccounts.Balances(100, 0);
+        var charged = RailCost.charge(balances, RailType.RAIL, 0, false);
+        check("残高が足りれば全額引き落とす",
+                charged.paid() && charged.amount() == 50 && charged.after().treasury() == 50);
+        var poor = new NationalAccounts.Balances(49, 1_000_000);
+        var cancelled = RailCost.charge(poor, RailType.RAIL, 0, false);
+        check("国庫が足りなければ、外交準備高が潤沢でも全額キャンセルする（部分徴収しない）",
+                !cancelled.paid() && cancelled.after().treasury() == 49
+                        && cancelled.after().reserve() == 1_000_000);
+
+        // F-02: 外交連携と月間設置上限
+        check("基本枠は100ブロック/月", DiplomacyQuota.effectiveLimit(0, 0) == 100);
+        check("同盟国1か国につき+10（基本枠の10%）", DiplomacyQuota.effectiveLimit(1, 0) == 110);
+        check("属国（宗主国側）1か国につき+20（基本枠の20%）", DiplomacyQuota.effectiveLimit(0, 1) == 120);
+        check("同盟2・属国3なら 100+20+60=180",
+                DiplomacyQuota.effectiveLimit(2, 3) == 180);
+
+        // F-03: 月末維持費請求
+        check("維持費のレールごとの月額単価は設置時の基本単価と同額（手数料は含まない）",
+                MonthlyBilling.maintenanceCost(RailType.RAIL, false) == 50);
+        check("維持費も領土外倍率1.5が乗る（パワードレール150→225）",
+                MonthlyBilling.maintenanceCost(RailType.POWERED_RAIL, true) == 225);
+        var apportionment = MonthlyBilling.apportion(1000);
+        check("属国負担の按分は宗主国40%・属国60%",
+                apportionment.toSuzerain() == 400 && apportionment.toVassal() == 600
+                        && apportionment.toSuzerain() + apportionment.toVassal() == 1000);
+        var independentBill = MonthlyBilling.billIndependent(
+                new NationalAccounts.Balances(1000, 0), 700);
+        check("独立国は全額を自国の国庫（国内専用の勘定）から引き落とす",
+                independentBill.fulfilled() && independentBill.fromTreasury() == 700
+                        && independentBill.fromReserve() == 0);
+        var vassalBill = MonthlyBilling.billVassal(
+                new NationalAccounts.Balances(1000, 0), new NationalAccounts.Balances(1000, 0), 1000);
+        check("属国の請求は宗主国・属国それぞれの国庫から独立して引き落とす",
+                vassalBill.suzerainPayment().fromTreasury() == 400
+                        && vassalBill.vassalPayment().fromTreasury() == 600);
+
+        // F-04: 駅舎認定（空間要件）
+        check("外寸22×12×42ちょうどなら空間要件を満たす",
+                StationCertification.fitsSpace(22, 12, 42));
+        check("いずれか1辺でも足りなければ不合格",
+                !StationCertification.fitsSpace(21, 12, 42)
+                        && !StationCertification.fitsSpace(22, 11, 42)
+                        && !StationCertification.fitsSpace(22, 12, 41));
+
+        // F-04: 各面の最低使用率（40%以上）
+        var faceOk = StationCertification.checkFace(StationCertification.Face.NORTH, 400, 1000);
+        check("40%ちょうどは合格（以上なので境界を含む）", faceOk.passed() && faceOk.ratio() == 0.4);
+        var faceNg = StationCertification.checkFace(StationCertification.Face.NORTH, 399, 1000);
+        check("40%未満は不合格", !faceNg.passed());
+        Map<StationCertification.Face, StationCertification.FaceResult> allSixOk = new java.util.HashMap<>();
+        for (StationCertification.Face face : StationCertification.Face.values()) {
+            allSixOk.put(face, StationCertification.checkFace(face, 400, 1000));
+        }
+        check("6面すべてが40%以上なら合格", StationCertification.allFacesPass(allSixOk));
+        allSixOk.put(StationCertification.Face.CEILING,
+                StationCertification.checkFace(StationCertification.Face.CEILING, 100, 1000));
+        check("1面でも40%未満なら全体は不合格", !StationCertification.allFacesPass(allSixOk));
+
+        // F-04: 種類の上限2種・主ブロック比率70%・総数1,600個
+        var twoTypesPass = StationCertification.judgeBlocks(
+                Map.of("石レンガ", 1120, "レンガ", 480));
+        check("2種類・比率70%ちょうど・合計1,600ちょうどなら合格",
+                twoTypesPass.passed() && twoTypesPass.effectiveTotal() == 1600
+                        && Math.abs(twoTypesPass.primaryRatio() - 0.7) < 1e-9);
+        var ratioTooLow = StationCertification.judgeBlocks(
+                Map.of("石レンガ", 1119, "レンガ", 481));
+        check("比率が70%未満なら、合計が1,600あっても不合格（比率違反）",
+                !ratioTooLow.ratioPassed() && ratioTooLow.totalPassed() && !ratioTooLow.passed());
+        var totalTooLow = StationCertification.judgeBlocks(
+                Map.of("石レンガ", 1120, "レンガ", 479));
+        check("合計が1,600未満なら、比率を満たしていても不合格（数量不足）",
+                totalTooLow.ratioPassed() && !totalTooLow.totalPassed() && !totalTooLow.passed());
+        var threeTypes = StationCertification.judgeBlocks(
+                Map.of("石レンガ", 1200, "レンガ", 500, "苔むした石レンガ", 200));
+        check("3種類以上あるときは使用数上位2種のみ計上し、3種類目は数えない"
+                        + "（1200+500=1700。200を足した1900にはならない）",
+                threeTypes.counted().size() == 2 && threeTypes.effectiveTotal() == 1700
+                        && threeTypes.passed());
+
+        // F-04: 配置制限（150ブロック以内は不可）
+        check("ちょうど150ブロックは「以内」に含まれ、設置不可",
+                !StationCertification.distanceAllowed(150.0));
+        check("150ブロックを超えれば設置可能",
+                StationCertification.distanceAllowed(150.0001)
+                        && StationCertification.distanceAllowed(200));
+
+        // F-04: 総合判定
+        Map<StationCertification.Face, StationCertification.FaceResult> passingFaces = new java.util.HashMap<>();
+        for (StationCertification.Face face : StationCertification.Face.values()) {
+            passingFaces.put(face, StationCertification.checkFace(face, 400, 1000));
+        }
+        var fullPass = StationCertification.certify(22, 12, 42, passingFaces,
+                Map.of("石レンガ", 1120, "レンガ", 480), 200);
+        check("空間・各面・ブロック集計・距離のすべてを満たせば認定される", fullPass.certified());
+        var failOnSpace = StationCertification.certify(20, 12, 42, passingFaces,
+                Map.of("石レンガ", 1120, "レンガ", 480), 200);
+        check("いずれか1条件でも欠ければ認定されない（空間要件で不合格の例）",
+                !failOnSpace.certified() && !failOnSpace.spaceOk());
+
+        check("対象ブロックは17種（うち硫黄レンガ・辰砂レンガはバニラに無く、"
+                        + "対応するMod未確認——実装着手前に要確認）",
+                StationCertification.BLOCK_TYPE_LABELS.size() == 17);
+
+        // F-05: 乗り物速度制御
+        check("トロッコの最高速度は8→13 block/sへ引き上げ",
+                VehicleSpeed.MINECART_DEFAULT_MAX_SPEED == 8.0
+                        && VehicleSpeed.MINECART_MAX_SPEED == 13.0);
+        check("氷上のボートは8 block/sに制限（対象は氷・薄氷・氷塊・青氷の4種）",
+                VehicleSpeed.BOAT_ON_ICE_MAX_SPEED == 8.0
+                        && VehicleSpeed.BOAT_SLOWING_ICE_BLOCKS.size() == 4);
     }
 
     private static void section(String name) {
