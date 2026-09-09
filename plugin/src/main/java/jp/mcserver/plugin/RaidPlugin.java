@@ -85,6 +85,9 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         // 『消滅の呪い』の全面付与（§3.1）。1経路でも漏れると蓄積の抜け道になる
         getServer().getPluginManager()
                 .registerEvents(new VanishingCurseEnforcer(getLogger()), this);
+        // 除外要素（§1.4）のモブ禁止と、交配クールダウンの軽減
+        getServer().getPluginManager().registerEvents(new MobSpawnRestrictions(), this);
+        getServer().getPluginManager().registerEvents(new BreedingCooldown(), this);
         // 開催の進行（§12.1）。登録・告知・開始・制限時間を回す
         getServer().getPluginManager().registerEvents(host, this);
         // レイド専用次元の保護（設置・破壊・PvP の禁止）
