@@ -2,7 +2,6 @@ package jp.mcserver.plugin.rail;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.logging.Logger;
 import jp.mcserver.core.rail.DiplomacyQuota;
 import jp.mcserver.core.rail.RailCost;
 import jp.mcserver.core.rail.RailType;
@@ -26,11 +25,11 @@ public final class RailListener implements Listener {
             Material.RAIL, Material.POWERED_RAIL, Material.DETECTOR_RAIL, Material.ACTIVATOR_RAIL);
 
     private final RailDatabase db;
-    private final Logger logger;
+    private final StationIndex stationIndex;
 
-    public RailListener(RailDatabase db, Logger logger) {
+    public RailListener(RailDatabase db, StationIndex stationIndex) {
         this.db = db;
-        this.logger = logger;
+        this.stationIndex = stationIndex;
     }
 
     private static RailType typeOf(Material material) {
@@ -106,11 +105,17 @@ public final class RailListener implements Listener {
         db.deleteRail(at.getWorld().getName(), at.getBlockX(), at.getBlockY(), at.getBlockZ());
     }
 
-    /** F-04: 認定駅舎の範囲内での Mob スポーンを、明るさ等に関わらず全面キャンセルする。 */
+    /**
+     * F-04: 認定駅舎の範囲内での Mob スポーンを、明るさ等に関わらず全面キャンセルする。
+     *
+     * <p><b>サーバー内のあらゆるモブのスポーンのたびに呼ばれるため、SQLite には触れない。</b>
+     * {@link #db} ではなく、起動時に読み込んでおいたメモリ上の {@link StationIndex} だけで
+     * 判定する（負荷対策の相談で見つかった点。§6）。
+     */
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onEntitySpawn(EntitySpawnEvent event) {
         Location at = event.getLocation();
-        if (db.isInsideAnyActiveStation(at.getWorld().getName(), at.getBlockX(), at.getBlockY(),
+        if (stationIndex.contains(at.getWorld().getName(), at.getBlockX(), at.getBlockY(),
                 at.getBlockZ())) {
             event.setCancelled(true);
         }

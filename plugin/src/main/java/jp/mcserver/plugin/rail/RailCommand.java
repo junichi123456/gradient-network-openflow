@@ -115,7 +115,7 @@ public final class RailCommand implements CommandExecutor {
         String nationId = nationOpt.get();
 
         StationScanner.ScanResult scan = StationScanner.scan(a, b, module.config());
-        double distance = module.database().nearestActiveStationDistance(a.getWorld().getName(),
+        double distance = module.stationIndex().nearestDistance(a.getWorld().getName(),
                 scan.centerX(), scan.centerY(), scan.centerZ());
         var certification = StationCertification.certifyBox(scan.outerWidth(), scan.outerHeight(),
                 scan.outerDepth(), scan.qualifyingCountsByFace(), scan.blockCounts(), distance);
@@ -143,6 +143,8 @@ public final class RailCommand implements CommandExecutor {
         int maxZ = Math.max(a.getBlockZ(), b.getBlockZ());
         module.database().insertStation(nationId, a.getWorld().getName(), minX, minY, minZ,
                 maxX, maxY, maxZ);
+        // DBへの登録とあわせて、判定に使うメモリ上の一覧にも足す（§6「負荷対策」）
+        module.stationIndex().add(a.getWorld().getName(), minX, minY, minZ, maxX, maxY, maxZ);
         sender.sendMessage("§a駅舎として認定しました。以降この範囲では Mob が湧きません");
     }
 

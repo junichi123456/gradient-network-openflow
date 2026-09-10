@@ -300,8 +300,9 @@ L_max = L_base + 同盟補正 + 属国補正
 |---|---|
 | `RailDatabase` | SQLite の接続とスキーマ（`rail_data`・`nation_monthly_data`・`station_data`、要件定義書§4のまま）。加えて、本物の国家プラグインが無いあいだの代用テーブル（`rail_nations`・`rail_nation_players`・`rail_alliances`・`rail_claims`）を持つ |
 | `RailConfig` | `config.yml` の `station.qualifying-blocks`（対象17種の `Material` 名リスト）を読む。解決できない名前は起動時に警告して除外する（下記） |
+| `StationIndex` | 認定駅舎のバウンディングボックスをメモリ上に持つ（下記「負荷対策」） |
 | `StationScanner` | F-04 の実際のワールド走査。指定した2点のバウンディングボックスを舐めて、面ごとの対象ブロック数・種類ごとの総数を数え、`StationCertification.certifyBox` へ渡す |
-| `RailListener` | `BlockPlaceEvent`（F-01 の設置判定・課金・記録）、`BlockBreakEvent`（記録の削除、**返金はしない**）、`EntitySpawnEvent`（認定駅舎内の Mob スポーンを全面キャンセル） |
+| `RailListener` | `BlockPlaceEvent`（F-01 の設置判定・課金・記録）、`BlockBreakEvent`（記録の削除、**返金はしない**）、`EntitySpawnEvent`（認定駅舎内の Mob スポーンを全面キャンセル、`StationIndex` だけを見る） |
 | `VehicleSpeedListener` | `VehicleCreateEvent`（トロッコに `Minecart#setMaxSpeed` で13block/sを適用）、`VehicleMoveEvent`（氷上のボートの速度を8block/sへ減速） |
 | `MonthlyBillingTask` | `BukkitRunnable`。毎日チェックし、その日が月末なら1回だけ請求を実行、当月設置カウントを全国家ぶんリセットする |
 | `RailCommand` | `/rail check`・`/rail station pos1|pos2|create`・`/rail admin ...`（下記） |
@@ -327,6 +328,22 @@ L_max = L_base + 同盟補正 + 属国補正
 時間で溶ける氷。正式な和名は「霜氷」）しか無く、これを「薄氷」と読んだ——`VehicleSpeedListener`
 の javadoc に同じ注記がある。
 
+### 負荷対策（サーバー全体の負荷相談から見つかった点）
+
+**`EntitySpawnEvent`（F-04 の Mob スポーンキャンセル判定）は、サーバー内のあらゆるモブの
+スポーンのたびに発火する。** モブの湧きはサーバーの常時負荷の中心（`capacity_plan.md`
+§1.3）であり、そのたびに SQLite へ同期クエリを投げる実装になっていた——実機での実測を
+待たず、指摘を受けて直した。
+
+`StationIndex` を新設し、認定駅舎のバウンディングボックスを起動時に一度だけ `rail.db` から
+読み込んでメモリへ持つようにした。`RailListener#onEntitySpawn` は以後、この
+`StationIndex`（`CopyOnWriteArrayList`）だけを見て判定する——駅舎の作成は低頻度、
+Mobスポーンは高頻度という比率に合わせ、読み取り側にロックを要らなくしてある。
+`/rail station create` で新しい駅舎を認定したときは、DBへの登録と同時に `StationIndex`
+へも足すため、再起動しなくても即座に判定へ反映される。`RailDatabase` 側の
+`isInsideAnyActiveStation`/`nearestActiveStationDistance` は不要になったため削除し、
+起動時に一括読み込みする `activeStations()` に置き換えた。
+
 **未確認・未実装のまま残っている点**:
 
 - **実機でのビルド・起動そのものが未確認。** paper-api 1.26.2・sqlite-jdbc 3.46.1.3 の
@@ -336,6 +353,8 @@ L_max = L_base + 同盟補正 + 属国補正
   `SULFUR_BRICKS`/`CINNABAR_BRICKS` は仮の名前。実際の名前が分かれば `config.yml` を
   直すだけでよい——`RailConfig` が名前ベースで解決するため、コード変更は不要）
 - `/rail station create` の自動検出（上記）
-- 大量のレール設置が発生したときの SQLite への同期書き込みの負荷（今回は着手しない、
-  実機の負荷を見てから判断する）
+- **レール設置・破壊のたびの `rail_data`／国庫（`rail_nations`）への同期書き込みは、
+  まだ SQLite への都度アクセスのまま。** `EntitySpawnEvent` ほど高頻度ではないため今回は
+  手を付けていないが、レール設置が大量に集中する場面（例: 大人数が同時に敷設）が出てきたら
+  同じ考え方（メモリキャッシュ＋定期flush）で見直す余地がある
 - `/rail check` 以外の、一般プレイヤー向けの案内・GUI（要件定義書は管理コマンドのみ規定）

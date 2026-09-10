@@ -12,6 +12,7 @@ public final class RailModule {
     private final JavaPlugin plugin;
     private RailDatabase database;
     private RailConfig config;
+    private final StationIndex stationIndex = new StationIndex();
     private MonthlyBillingTask billingTask;
 
     public RailModule(JavaPlugin plugin) {
@@ -28,8 +29,11 @@ public final class RailModule {
             return;
         }
         config = RailConfig.load(plugin.getConfig(), plugin.getLogger());
+        // 認定駅舎の一覧を起動時に一度だけ読み込み、以後はメモリだけで判定する
+        // （Mobスポーンのたびに SQLite を叩かないようにするため。§6「負荷対策」）
+        stationIndex.loadAll(database.activeStations());
 
-        var listener = new RailListener(database, plugin.getLogger());
+        var listener = new RailListener(database, stationIndex);
         plugin.getServer().getPluginManager().registerEvents(listener, plugin);
         plugin.getServer().getPluginManager().registerEvents(new VehicleSpeedListener(), plugin);
 
@@ -45,7 +49,7 @@ public final class RailModule {
 
         plugin.getLogger().info("地下鉄インフラを有効化した（対象ブロック "
                 + config.qualifyingBlocks().size() + "/" + RailConfig.DEFAULT_QUALIFYING_BLOCK_NAMES.size()
-                + " 種を解決）");
+                + " 種を解決、認定駅舎 " + stationIndex.size() + " 件を読み込み）");
     }
 
     public void disable() {
@@ -68,6 +72,10 @@ public final class RailModule {
 
     public RailConfig config() {
         return config;
+    }
+
+    public StationIndex stationIndex() {
+        return stationIndex;
     }
 
     public MonthlyBillingTask billingTask() {

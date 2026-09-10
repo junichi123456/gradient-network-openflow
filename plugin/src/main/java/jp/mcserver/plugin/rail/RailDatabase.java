@@ -451,19 +451,6 @@ public final class RailDatabase implements AutoCloseable {
 
     public record StationRecord(long id, String ownerNation, String world,
                                 int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
-
-        public double distanceTo(String world, int x, int y, int z) {
-            if (!this.world.equals(world)) {
-                return Double.POSITIVE_INFINITY;
-            }
-            double cx = (minX + maxX) / 2.0;
-            double cy = (minY + maxY) / 2.0;
-            double cz = (minZ + maxZ) / 2.0;
-            double dx = cx - x;
-            double dy = cy - y;
-            double dz = cz - z;
-            return Math.sqrt(dx * dx + dy * dy + dz * dz);
-        }
     }
 
     public void insertStation(String ownerNation, String world, int minX, int minY, int minZ,
@@ -485,41 +472,26 @@ public final class RailDatabase implements AutoCloseable {
         }
     }
 
-    /** そのブロック座標が、有効な認定駅舎のいずれかの範囲内にあるか（F-04 の Mob 湧き潰し）。 */
-    public boolean isInsideAnyActiveStation(String world, int x, int y, int z) {
-        String sql = "SELECT COUNT(*) FROM station_data WHERE is_active = 1 AND world = ? "
-                + "AND ? BETWEEN min_x AND max_x AND ? BETWEEN min_y AND max_y "
-                + "AND ? BETWEEN min_z AND max_z";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, world);
-            ps.setInt(2, x);
-            ps.setInt(3, y);
-            ps.setInt(4, z);
-            try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                return rs.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            throw new RailDatabaseException(e);
-        }
-    }
-
-    /** 最寄りの既存駅舎までの距離（F-04 の150ブロック配置制限）。既存駅舎が無ければ無限大。 */
-    public double nearestActiveStationDistance(String world, int x, int y, int z) {
-        String sql = "SELECT owner_nation, world, min_x, min_y, min_z, max_x, max_y, max_z "
-                + "FROM station_data WHERE is_active = 1";
-        double nearest = Double.POSITIVE_INFINITY;
+    /**
+     * 有効な認定駅舎すべて。<b>起動時に一度だけ呼び、{@link StationIndex} へ渡す</b>——
+     * 「その座標が駅舎の中か」「最寄りの駅舎までの距離は」という判定そのものは、以後
+     * メモリ上の {@link StationIndex} だけで行う（Mobスポーンのたびに SQLite を叩かない
+     * ようにするため。負荷対策の相談で見つかった点）。
+     */
+    public List<StationRecord> activeStations() {
+        String sql = "SELECT station_id, owner_nation, world, min_x, min_y, min_z, "
+                + "max_x, max_y, max_z FROM station_data WHERE is_active = 1";
+        List<StationRecord> records = new ArrayList<>();
         try (Statement st = connection.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                StationRecord record = new StationRecord(0, rs.getString(1), rs.getString(2),
-                        rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7),
-                        rs.getInt(8));
-                nearest = Math.min(nearest, record.distanceTo(world, x, y, z));
+                records.add(new StationRecord(rs.getLong(1), rs.getString(2), rs.getString(3),
+                        rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8),
+                        rs.getInt(9)));
             }
         } catch (SQLException e) {
             throw new RailDatabaseException(e);
         }
-        return nearest;
+        return records;
     }
 
     /** JDBC の検査例外を、呼び出し側の Bukkit イベント処理で扱いやすい非検査例外に包む。 */
