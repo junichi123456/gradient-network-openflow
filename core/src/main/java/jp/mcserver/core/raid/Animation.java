@@ -48,6 +48,29 @@ public final class Animation {
             public double apply(double ratio) {
                 return ratio * ratio * (3 - 2 * ratio);
             }
+        },
+        /**
+         * 目標をわずかに追い越してから収まる。勢いが残ったまま止まる、重さのある
+         * 「戻り」に使う——機械のように速度ゼロへ直接減速するより生物らしく見える。
+         * 区間の終わり（ratio=1）ではちょうど目標に一致するので、次のキーフレームとは
+         * 継ぎ目なく繋がる。
+         */
+        EASE_OUT_BACK {
+            /** 行き過ぎの量。バネの標準値（1.70158）だと目立ちすぎるため控えめにした。 */
+            private static final double OVERSHOOT = 0.6;
+
+            @Override
+            public double apply(double ratio) {
+                // 端点は浮動小数点の丸め誤差を避けるため、計算式を通さず直接返す
+                if (ratio <= 0) {
+                    return 0;
+                }
+                if (ratio >= 1) {
+                    return 1;
+                }
+                double t = ratio - 1;
+                return 1 + (OVERSHOOT + 1) * t * t * t + OVERSHOOT * t * t;
+            }
         };
 
         /**

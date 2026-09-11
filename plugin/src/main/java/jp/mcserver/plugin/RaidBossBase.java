@@ -82,6 +82,15 @@ abstract class RaidBossBase implements RaidBoss {
     private static final int TURN_MAX_TICKS = 40;
     private static final double TURN_TOLERANCE_DEGREES = 12.0;
 
+    /**
+     * 残り角度がこの倍率を切ったら減速に入る（{@link #turnToward}）。等速のまま来て
+     * 目標でぴたりと止まると機械的に見えるため、目標へ近づくほど歩幅を絞る。
+     */
+    private static final double TURN_DECELERATION_RATIO = 0.3;
+
+    /** 減速中でも歩みが遅くなりすぎて終わらない、という事態を防ぐ下限（度/更新）。 */
+    private static final double TURN_MIN_STEP_DEGREES = 2.0;
+
     private static final double FALL_GRAVITY = 0.08;
     private static final double FALL_MAX = 1.5;
 
@@ -104,7 +113,10 @@ abstract class RaidBossBase implements RaidBoss {
     private final int participants;
     private final MotionSelector selector = new MotionSelector();
     private final RageMeter rage = new RageMeter();
-    private final PoseTransition transition = new PoseTransition();
+    // モーションが切り替わるたびに通るため、ここを EASE_OUT_BACK にするだけで
+    // 全モーション間のつなぎが「勢いが残って収まる」動きになる（生物らしさの指摘対応）
+    private final PoseTransition transition =
+            new PoseTransition(PoseTransition.DEFAULT_TICKS, Animation.Easing.EASE_OUT_BACK);
     private final Stage stage;
     private final Stage.CenterVisit centerVisit = new Stage.CenterVisit();
     private final Location stageCenter;
@@ -1291,10 +1303,26 @@ abstract class RaidBossBase implements RaidBoss {
         tracking.push(at.getX(), at.getZ());
     }
 
+    /**
+     * 向きを目標へ寄せる。<b>近づくほど歩幅を絞り、目標でぴたり停止ではなく減速して収まる</b>
+     * ようにしてある——等速で回ってきて急に止まる動きは機械的に見えるため
+     * （実機の指摘「モーション間の動作を生物らしく」を受けて直した）。
+     *
+     * <p>残り角度が大きいあいだは {@link Tuning#maxTurnDegrees} の等速上限で回り、
+     * {@link #TURN_DECELERATION_RATIO} を切ったところから残り角度に比例して減速する。
+     * 減速だけに任せると際限なく遅くなるため、{@link #TURN_MIN_STEP_DEGREES} を下限に
+     * 敷いて確実に収束させる。
+     */
     private double turnToward(double target) {
         double delta = normalizeDegrees(target - bodyYaw);
-        double step = Math.max(-tuning.maxTurnDegrees(),
-                Math.min(tuning.maxTurnDegrees(), delta));
+        if (Math.abs(delta) <= TURN_MIN_STEP_DEGREES) {
+            bodyYaw = normalizeDegrees(bodyYaw + delta);
+            return bodyYaw;
+        }
+        double eased = delta * TURN_DECELERATION_RATIO;
+        double magnitude = Math.max(TURN_MIN_STEP_DEGREES,
+                Math.min(Math.abs(eased), tuning.maxTurnDegrees()));
+        double step = Math.copySign(magnitude, delta);
         bodyYaw = normalizeDegrees(bodyYaw + step);
         return bodyYaw;
     }

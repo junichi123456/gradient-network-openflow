@@ -1963,15 +1963,21 @@ public final class CoreTests {
                         && Animation.Easing.EASE_IN_OUT.apply(0.75) > 0.75);
         check("加速は序盤が遅い", Animation.Easing.EASE_IN.apply(0.5) == 0.25);
         check("減速は序盤が速い", Animation.Easing.EASE_OUT.apply(0.5) == 0.75);
-        check("どの緩急も単調に増える",
-                java.util.Arrays.stream(Animation.Easing.values()).allMatch(e -> {
-                    for (int i = 1; i <= 100; i++) {
-                        if (e.apply(i / 100.0) < e.apply((i - 1) / 100.0)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }));
+        check("どの緩急も単調に増える（行き過ぎを除く）",
+                java.util.Arrays.stream(Animation.Easing.values())
+                        .filter(e -> e != Animation.Easing.EASE_OUT_BACK)
+                        .allMatch(e -> {
+                            for (int i = 1; i <= 100; i++) {
+                                if (e.apply(i / 100.0) < e.apply((i - 1) / 100.0)) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }));
+        check("行き過ぎの緩急は、序盤〜中盤で目標を追い越し、終わりでは目標にちょうど収まる",
+                Animation.Easing.EASE_OUT_BACK.apply(0) == 0
+                        && Animation.Easing.EASE_OUT_BACK.apply(1) == 1
+                        && Animation.Easing.EASE_OUT_BACK.apply(0.75) > 1.0);
 
         var eased = new Animation("緩急つき", 20, false, Map.of(
                 "頭", List.of(new Animation.Keyframe(0, Transform.IDENTITY),
