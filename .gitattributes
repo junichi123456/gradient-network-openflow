@@ -1,0 +1,4 @@
+# PowerShell スクリプトは BOM 付き UTF-8・CRLF のまま保つ。
+# BOM が無いと Windows PowerShell 5.1 が ANSI として読み、日本語のコメントが
+# 化けて構文が壊れる。git に改行を変換させない。
+*.ps1 -text

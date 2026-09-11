@@ -1,0 +1,18 @@
+plugins {
+    id 'java-library'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+// core は外部依存を持たない。Minecraft を起動せずに検証できる層である。
+repositories {
+    mavenCentral()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
