@@ -21,25 +21,40 @@ import org.bukkit.scheduler.BukkitTask;
  * 開催の進行（§12.1）。
  *
  * <p><b>登録 → 告知 → 締切 → 開始 → 制限時間 → 終了</b>の一巡を回す。枠の割り当てと
- * 「同日1枠」の規則は {@link Raid.DailyEntry} が持ち、ここは時刻とプレイヤーを繋ぐ。
+ * 「同日2枠まで」の規則は {@link Raid.DailyEntry} が持ち、ここは時刻とプレイヤーを繋ぐ。
+ *
+ * <p><b>毎日、同じ時間割で開催する</b>（もとは隔週1日だけだったが、ユーザーへ確認して
+ * 変更した）。1人が同じ開催日に入れる枠は2つまでだが、<b>報酬（ドロップ）を受け取れるのは
+ * 1日1回だけ</b>——2回目の参加も討伐そのものはできるが、資格を満たしても報酬は渡らない
+ * （{@link Raid.DailyEntry#canClaimReward}、判定と配布は {@link RaidPlugin#grantDrops}）。
+ * 出現する個体の種類は<b>週替わり</b>で {@link #ROTATION} が切り替える。
  *
  * <p><b>会場はレイド専用次元である</b>（{@link RaidArena}）。枠が始まると参加者を
  * 中心から半径13以内へ強制的に送り、<b>20秒後に個体が高さ3から落ちてくる</b>。
  * 個体は常に北向きで出る。終了時は落下物を片付け、参加者を元の位置へ戻す。
  *
  * <p><b>単身討伐許可証</b>は開催枠の外側の経路である（§12.4）。開催日でなくても挑めるが
- * ソロ限定であり、同日1枠の消費もしない。枠の規則は「枠を並べて参加者を増やす」ための
- * ものであり、ソロ挑戦はその枠組みの外にある。
+ * ソロ限定であり、同日枠の消費も、報酬1日1回の制限もしない（既に許可証という物理的な
+ * 消費アイテムで頻度が制限されているため）。
  */
 final class RaidHost implements Listener {
 
     /**
-     * 隔週日曜の基準日。
+     * 週替わりローテーションの基準日。
      *
-     * <p>2026-01-04 は日曜である。ここから14日ごとが開催日になる（§12.1）。
-     * 運用で変える場合はここを直す。
+     * <p>2026-01-04 は日曜である。ここから7日ごとに {@link #ROTATION} が次の種へ進む
+     * （§12.2）。運用で変える場合はここを直す。
      */
     private static final LocalDate ANCHOR = LocalDate.of(2026, 1, 4);
+
+    /**
+     * 出現する個体の週替わりローテーション（§12.2）。
+     *
+     * <p><b>実装済みの2種のみ。</b>構想は11種（{@code raid_species.md}）だが、今回のロー
+     * テーション配線は実際に出せる種だけを対象にした。新しい種を実装したら
+     * {@link Raid.Rotation#add} で末尾に加える。
+     */
+    private static final Raid.Rotation ROTATION = new Raid.Rotation(List.of("knight", "hollow"));
 
     /** 進行の確認間隔（tick）。1秒ごとに見る。 */
     private static final long WATCH_INTERVAL = 20;
@@ -173,16 +188,35 @@ final class RaidHost implements Listener {
      * 個体を出す。
      *
      * <p><b>高さ3から自由落下して地表面に到達し、常に北向きで出る</b>（会場の取り決め）。
-     * 参加人数は戦場の内側にいる者で数えるため、迎え入れたあとに出す。
+     * 参加人数は戦場の内側にいる者で数えるため、迎え入れたあとに出す。種は
+     * {@link #ROTATION} の週替わりで決まる（§12.2）。
      */
     private void spawnBoss() {
         World world = session.arena().getWorld();
-        KnightBoss boss = new KnightBoss(plugin, RaidArena.bossDrop(world),
-                RaidArena.FACING_NORTH, true);
-        boss.spawn();
+        String species = ROTATION.speciesForWeek(currentWeek());
+        RaidBoss boss;
+        String label;
+        if (species.equals("hollow")) {
+            HollowGuardBoss hollow = new HollowGuardBoss(plugin, RaidArena.bossDrop(world),
+                    RaidArena.FACING_NORTH, true);
+            hollow.spawn();
+            boss = hollow;
+            label = "虚刃の衛士";
+        } else {
+            KnightBoss knight = new KnightBoss(plugin, RaidArena.bossDrop(world),
+                    RaidArena.FACING_NORTH, true);
+            knight.spawn();
+            boss = knight;
+            label = "騎士型";
+        }
         plugin.adopt(boss);
         session.boss(boss);
-        plugin.getServer().broadcastMessage("§6[レイド] §f騎士型が降りてきた");
+        plugin.getServer().broadcastMessage("§6[レイド] §f" + label + "が降りてきた");
+    }
+
+    /** 今週の週番号（{@link #ROTATION} の引数）。 */
+    private static int currentWeek() {
+        return Raid.weekNumber((int) ANCHOR.toEpochDay(), today());
     }
 
     /** 出現までの数え。参加者にだけ出す。 */
@@ -202,7 +236,7 @@ final class RaidHost implements Listener {
         if (ended == null) {
             return;
         }
-        KnightBoss boss = ended.boss();
+        RaidBoss boss = ended.boss();
         switch (ended.outcome()) {
             case DEFEATED -> plugin.getServer().broadcastMessage(
                     "§6[レイド] §f第" + ended.slot() + "枠 — 討伐しました");
@@ -233,6 +267,29 @@ final class RaidHost implements Listener {
         }
     }
 
+    // ------------------------------------------------------------ 報酬1日1回の判定
+
+    /**
+     * 開催枠（1〜{@link Raid#SLOTS_PER_DAY}枠。ソロを除く）の進行中セッションの個体か。
+     *
+     * <p>{@link RaidPlugin#grantDrops} が、報酬を1日1回に絞ってよい相手かを見分けるために使う。
+     * 単身討伐（枠0）や {@code /raid spawn} の検証個体はここに含めない
+     * （既に許可証という別の頻度制限があるか、そもそも運営の検証用であるため）。
+     */
+    boolean isSlotSessionBoss(RaidBoss boss) {
+        return session != null && session.slot() >= 1 && session.boss() == boss;
+    }
+
+    /** 進行中セッションの開催日。無ければ今日。 */
+    int sessionDay() {
+        return session != null ? session.day() : today();
+    }
+
+    /** 報酬の1日1回判定を持つ台帳。 */
+    Raid.DailyEntry dailyEntry() {
+        return entry;
+    }
+
     /** 死亡を記録する。復帰はできない（§12.5）。 */
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
@@ -254,7 +311,7 @@ final class RaidHost implements Listener {
         switch (action) {
             case "slots" -> showSlots(player);
             case "join" -> join(player, args);
-            case "leave" -> leave(player);
+            case "leave" -> leave(player, args);
             case "solo" -> solo(player);
             case "arena" -> showArena(player);
             case "warp" -> warp(player);
@@ -283,9 +340,15 @@ final class RaidHost implements Listener {
                     Raid.MAX_PARTICIPANTS,
                     entry.started(day, slot) ? " §8（開始済み）" : ""));
         }
-        int mine = entry.slotOf(day, player.getUniqueId().toString());
-        player.sendMessage(mine == 0 ? "§7あなたは未登録です"
-                : "§aあなたは第" + mine + "枠に登録しています");
+        String id = player.getUniqueId().toString();
+        List<Integer> mine = entry.slotsOf(day, id);
+        player.sendMessage(mine.isEmpty() ? "§7あなたは未登録です"
+                : "§aあなたは第" + mine.stream().map(String::valueOf)
+                        .collect(java.util.stream.Collectors.joining("・")) + "枠に登録しています（本日あと "
+                        + entry.entriesRemaining(day, id) + " 回登録できます）");
+        player.sendMessage(entry.canClaimReward(day, id)
+                ? "§7本日の報酬はまだ受け取っていません"
+                : "§7本日はすでに報酬を受け取り済みです（今日はこれ以上討伐しても報酬はありません）");
     }
 
     private void join(Player player, String[] args) {
@@ -301,25 +364,54 @@ final class RaidHost implements Listener {
                     + Raid.REGISTRATION_CLOSES_MINUTES + " 分前まで）");
             return;
         }
-        Raid.Entry result = entry.register(today(), slot, player.getUniqueId().toString());
+        String id = player.getUniqueId().toString();
+        int day = today();
+        Raid.Entry result = entry.register(day, slot, id);
         switch (result) {
-            case ACCEPTED -> player.sendMessage("§a第" + slot + "枠に登録しました — "
-                    + start.toLocalDate() + " " + start.getHour() + ":00");
+            case ACCEPTED -> {
+                player.sendMessage("§a第" + slot + "枠に登録しました — "
+                        + start.toLocalDate() + " " + start.getHour() + ":00");
+                if (!entry.canClaimReward(day, id)) {
+                    player.sendMessage("§7本日はすでに報酬を受け取り済みです。"
+                            + "今回討伐しても報酬（ドロップ）はありません");
+                }
+            }
             case SLOT_FULL -> player.sendMessage("§c第" + slot + "枠は満員です（上限 "
                     + Raid.MAX_PARTICIPANTS + " 名）");
-            case ALREADY_TODAY -> player.sendMessage("§c同じ開催日に入れるのは1枠だけです（いまは第"
-                    + entry.slotOf(today(), player.getUniqueId().toString()) + "枠）");
+            case ALREADY_IN_SLOT -> player.sendMessage("§c既にその枠に登録しています");
+            case DAILY_LIMIT_REACHED -> player.sendMessage("§c同じ開催日に入れるのは"
+                    + Raid.MAX_ENTRIES_PER_DAY + "回までです（いまは第"
+                    + entry.slotsOf(day, id).stream().map(String::valueOf)
+                            .collect(java.util.stream.Collectors.joining("・")) + "枠）");
             case NO_SLOT -> player.sendMessage("§cその枠はありません");
             default -> { }
         }
     }
 
-    private void leave(Player player) {
-        if (entry.cancel(today(), player.getUniqueId().toString())) {
-            player.sendMessage("§7登録を取り消しました");
+    private void leave(Player player, String[] args) {
+        String id = player.getUniqueId().toString();
+        int day = today();
+        List<Integer> mine = entry.slotsOf(day, id);
+        if (mine.isEmpty()) {
+            player.sendMessage("§c未登録です");
             return;
         }
-        player.sendMessage("§c取り消せません（未登録か、枠がすでに始まっています）");
+        int slot;
+        if (args.length >= 2) {
+            slot = parseSlot(args[1]);
+        } else if (mine.size() == 1) {
+            slot = mine.get(0);
+        } else {
+            player.sendMessage("§7複数の枠に登録しています。/raid leave <枠番号> で指定してください（いまは第"
+                    + mine.stream().map(String::valueOf)
+                            .collect(java.util.stream.Collectors.joining("・")) + "枠）");
+            return;
+        }
+        if (entry.cancel(day, id, slot)) {
+            player.sendMessage("§7第" + slot + "枠の登録を取り消しました");
+            return;
+        }
+        player.sendMessage("§c取り消せません（その枠に未登録か、すでに始まっています）");
     }
 
     /**
@@ -398,32 +490,27 @@ final class RaidHost implements Listener {
 
     // ------------------------------------------------------------ 時刻
 
-    /** いまの開催日（エポック日）。同日1枠の判定に使う。 */
+    /** いまの開催日（エポック日）。同日2枠までの判定に使う。毎日が開催日である。 */
     private static int today() {
         return (int) LocalDate.now().toEpochDay();
     }
 
-    /** 次に始まる枠の時刻。 */
+    /** 次に始まる枠の時刻。毎日開催のため、今日の残り枠→無ければ明日の第1枠。 */
     private LocalDateTime nextSlotStart() {
         LocalDateTime now = LocalDateTime.now();
-        int sessionDay = Raid.nextSessionDay((int) ANCHOR.toEpochDay(), today());
-        LocalDate date = LocalDate.ofEpochDay(sessionDay);
-        if (date.equals(now.toLocalDate())) {
-            for (int slot = 1; slot <= Raid.SLOTS_PER_DAY; slot++) {
-                LocalDateTime at = date.atTime(Raid.slotHour(slot), 0);
-                if (at.isAfter(now)) {
-                    return at;
-                }
+        LocalDate date = now.toLocalDate();
+        for (int slot = 1; slot <= Raid.SLOTS_PER_DAY; slot++) {
+            LocalDateTime at = date.atTime(Raid.slotHour(slot), 0);
+            if (at.isAfter(now)) {
+                return at;
             }
-            date = date.plusDays(Raid.CYCLE_DAYS);
         }
-        return date.atTime(Raid.slotHour(1), 0);
+        return date.plusDays(1).atTime(Raid.slotHour(1), 0);
     }
 
-    /** その枠の今回の開始時刻。 */
+    /** その枠の今日の開始時刻。 */
     private LocalDateTime slotStart(int slot) {
-        int sessionDay = Raid.nextSessionDay((int) ANCHOR.toEpochDay(), today());
-        return LocalDate.ofEpochDay(sessionDay).atTime(Raid.slotHour(slot), 0);
+        return LocalDate.now().atTime(Raid.slotHour(slot), 0);
     }
 
     /** その時刻の枠番号。 */

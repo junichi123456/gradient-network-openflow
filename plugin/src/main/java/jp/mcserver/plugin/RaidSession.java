@@ -45,7 +45,7 @@ final class RaidSession {
     private final Set<UUID> alive = new LinkedHashSet<>();
     private final long deadlineMillis;
 
-    private KnightBoss boss;
+    private RaidBoss boss;
     private Outcome outcome = Outcome.RUNNING;
 
     RaidSession(int day, int slot, Location arena, long startMillis) {
@@ -75,11 +75,11 @@ final class RaidSession {
         return outcome == Outcome.RUNNING;
     }
 
-    KnightBoss boss() {
+    RaidBoss boss() {
         return boss;
     }
 
-    void boss(KnightBoss spawned) {
+    void boss(RaidBoss spawned) {
         this.boss = spawned;
     }
 

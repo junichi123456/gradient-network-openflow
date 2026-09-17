@@ -1718,15 +1718,10 @@ public final class CoreTests {
     private static void raid() {
         section("§12 レイドイベント");
 
-        check("周期は2週間", Raid.CYCLE_DAYS == 14);
-        check("初回の開催日を跨ぐまでは初回が次回",
-                Raid.nextSessionDay(70, 70) == 70 && Raid.nextSessionDay(70, 60) == 70);
-        check("開催日を過ぎれば次の隔週へ",
-                Raid.nextSessionDay(70, 71) == 84 && Raid.nextSessionDay(70, 84) == 84
-                        && Raid.nextSessionDay(70, 85) == 98);
-        check("開催回を数えられる",
-                Raid.sessionNumber(70, 70) == 1 && Raid.sessionNumber(70, 84) == 2
-                        && Raid.sessionNumber(70, 69) == 0);
+        check("毎日開催に変更（ユーザーへ確認して決定）。週番号は基準日から7日ごとに進む（0始まり）",
+                Raid.weekNumber(70, 70) == 0 && Raid.weekNumber(70, 76) == 0
+                        && Raid.weekNumber(70, 77) == 1 && Raid.weekNumber(70, 84) == 2);
+        check("基準日より前は0週目のまま", Raid.weekNumber(70, 60) == 0);
 
         check("日曜21時は次元の再生成と衝突しない",
                 Raid.slotIsClear(7, 21, 15));
@@ -1735,28 +1730,29 @@ public final class CoreTests {
         check("資源ワールドの再生成（火・金03時）を検出する",
                 !Raid.slotIsClear(2, 3, 10) && !Raid.slotIsClear(5, 3, 10));
 
-        // ローテーション
+        // ローテーション（毎日開催になったため、開催回ではなく週で切り替える）
         var rotation = new Raid.Rotation(List.of("個体A", "個体B", "個体C", "個体D", "個体E"));
         check("初回リリースは5種", rotation.roster().size() == Raid.INITIAL_SPECIES);
-        check("出現順は固定で循環する",
-                rotation.speciesFor(1).equals("個体A") && rotation.speciesFor(5).equals("個体E")
-                        && rotation.speciesFor(6).equals("個体A") && rotation.speciesFor(11).equals("個体A"));
+        check("出現順は週番号(0始まり)で固定循環する",
+                rotation.speciesForWeek(0).equals("個体A") && rotation.speciesForWeek(4).equals("個体E")
+                        && rotation.speciesForWeek(5).equals("個体A")
+                        && rotation.speciesForWeek(10).equals("個体A"));
         check("周回数を数えられる",
                 rotation.completedCycles(9) == 1 && rotation.completedCycles(10) == 2);
         check("2周するまで追加できない",
                 !rotation.canAddSpecies(9) && rotation.canAddSpecies(10));
-        check("追加までの残り回数がわかる",
-                rotation.sessionsUntilAddition(0) == 10
-                        && rotation.sessionsUntilAddition(7) == 3
-                        && rotation.sessionsUntilAddition(10) == 0);
-        check("2周は約4.6か月に相当する",
-                rotation.roster().size() * Raid.CYCLES_BEFORE_ADDITION * Raid.CYCLE_DAYS == 140);
+        check("追加までの残り週数がわかる",
+                rotation.weeksUntilAddition(0) == 10
+                        && rotation.weeksUntilAddition(7) == 3
+                        && rotation.weeksUntilAddition(10) == 0);
+        check("2周は10週間（70日）に相当する",
+                rotation.roster().size() * Raid.CYCLES_BEFORE_ADDITION * Raid.WEEK_DAYS == 70);
 
         var expanded = rotation.add("個体F");
         check("追加した種は末尾に入る",
-                expanded.roster().size() == 6 && expanded.speciesFor(6).equals("個体F"));
-        check("6種になれば次の追加は12回後",
-                expanded.sessionsUntilAddition(0) == 12);
+                expanded.roster().size() == 6 && expanded.speciesForWeek(5).equals("個体F"));
+        check("6種になれば次の追加は12週間後",
+                expanded.weeksUntilAddition(0) == 12);
         check("構想の総数は11種", Raid.PLANNED_SPECIES == 11);
 
         // 難易度
@@ -1793,20 +1789,24 @@ public final class CoreTests {
         check("開催日が1日でもネザーの再生成と衝突しない",
                 Raid.slotHours().stream().allMatch(hour -> Raid.slotIsClear(0, hour, 1)));
 
-        // 参加登録（§12.1）
+        // 参加登録（§12.1・1日2回まで）
         var entry = new Raid.DailyEntry();
         check("登録を受け付ける",
                 entry.register(70, 1, "太郎") == Raid.Entry.ACCEPTED
-                        && entry.slotOf(70, "太郎") == 1
+                        && entry.slotsOf(70, "太郎").equals(List.of(1))
                         && entry.participants(70, 1).equals(List.of("太郎")));
-        check("同じ開催日の別の枠には入れない",
-                entry.register(70, 3, "太郎") == Raid.Entry.ALREADY_TODAY
-                        && entry.slotOf(70, "太郎") == 1);
-        check("同じ枠への二重登録も拒否される",
-                entry.register(70, 1, "太郎") == Raid.Entry.ALREADY_TODAY);
-        check("次の開催日には参加できる",
-                entry.register(84, 2, "太郎") == Raid.Entry.ACCEPTED
-                        && entry.slotOf(84, "太郎") == 2);
+        check("同じ開催日でも2回目として別の枠に入れる（1日2回まで・ユーザーへ確認して決定）",
+                entry.register(70, 3, "太郎") == Raid.Entry.ACCEPTED
+                        && entry.slotsOf(70, "太郎").equals(List.of(1, 3))
+                        && entry.entriesRemaining(70, "太郎") == 0);
+        check("同じ枠への二重登録は拒否される",
+                entry.register(70, 1, "太郎") == Raid.Entry.ALREADY_IN_SLOT);
+        check("同日3回目は上限（1日2回）に達し拒否される",
+                entry.register(70, 4, "太郎") == Raid.Entry.DAILY_LIMIT_REACHED);
+        check("翌日にはまた2回参加できる",
+                entry.register(71, 2, "太郎") == Raid.Entry.ACCEPTED
+                        && entry.slotsOf(71, "太郎").equals(List.of(2))
+                        && entry.entriesRemaining(71, "太郎") == 1);
         check("存在しない枠は拒否される",
                 entry.register(70, 0, "花子") == Raid.Entry.NO_SLOT
                         && entry.register(70, 7, "花子") == Raid.Entry.NO_SLOT);
@@ -1822,25 +1822,37 @@ public final class CoreTests {
                 full.register(70, 3, "溢れた人") == Raid.Entry.ACCEPTED);
         check("空きのある枠を案内できる",
                 full.openSlots(70).equals(List.of(1, 3, 4, 5, 6)));
-        check("その日の延べ参加者を数えられる",
+        check("その日の延べ参加者数は登録の総数で数える（同じ人の2回もそれぞれ数える）",
                 full.participantCount(70) == Raid.MAX_PARTICIPANTS + 1);
-        check("辞退すると枠が空き、同じ日に別の枠へ入り直せる",
-                full.cancel(70, "溢れた人") && !full.hasParticipated(70, "溢れた人")
+        check("辞退すると枠が空き、同じ日に入り直せる",
+                full.cancel(70, "溢れた人", 3) && full.slotsOf(70, "溢れた人").isEmpty()
                         && full.register(70, 1, "溢れた人") == Raid.Entry.ACCEPTED);
-        check("入っていない者の辞退は何も起きない",
-                !full.cancel(70, "いない人"));
+        check("入っていない枠の辞退は何も起きない",
+                !full.cancel(70, "いない人", 1));
 
         var started = new Raid.DailyEntry();
         started.register(70, 4, "次郎");
         started.start(70, 4);
         check("開始した枠からは辞退できない",
-                started.started(70, 4) && !started.cancel(70, "次郎")
+                started.started(70, 4) && !started.cancel(70, "次郎", 4)
                         && started.hasParticipated(70, "次郎"));
-        check("開始後は成否を問わず別の枠に入り直せない",
-                started.register(70, 5, "次郎") == Raid.Entry.ALREADY_TODAY);
+        check("開始後も、2回目の枠にはまだ入れる（1日2回のうち1回消費しただけ）",
+                started.register(70, 5, "次郎") == Raid.Entry.ACCEPTED
+                        && started.slotsOf(70, "次郎").equals(List.of(4, 5)));
+        check("2回とも使い切れば同日3回目は拒否される",
+                started.register(70, 6, "次郎") == Raid.Entry.DAILY_LIMIT_REACHED);
         check("開始していない枠は辞退できる",
-                started.register(70, 5, "三郎") == Raid.Entry.ACCEPTED
-                        && started.cancel(70, "三郎"));
+                started.register(70, 1, "三郎") == Raid.Entry.ACCEPTED
+                        && started.cancel(70, "三郎", 1));
+
+        // 報酬は1日1回まで（§12.1・参加登録の回数とは別に管理する）
+        var rewardEntry = new Raid.DailyEntry();
+        check("最初は誰でも報酬を受け取れる", rewardEntry.canClaimReward(70, "四郎"));
+        rewardEntry.claimReward(70, "四郎");
+        check("受け取ったあとは同じ日はもう受け取れない（2回目の討伐は報酬なし）",
+                !rewardEntry.canClaimReward(70, "四郎"));
+        check("報酬の可否は他の参加者には影響しない", rewardEntry.canClaimReward(70, "五郎"));
+        check("翌日にはまた受け取れる", rewardEntry.canClaimReward(71, "四郎"));
 
         // 国家バフの重複（§12.4）
         check("同じ開催日の最初の討伐でだけ国家バフが付く",
@@ -3207,19 +3219,17 @@ public final class CoreTests {
 
         // 開催の進行（§12.1）
         check("制限時間は40分", Raid.timeLimitMillis() == 40L * 60 * 1000);
-        check("告知は3回（3日前・1時間前・10分前）", Raid.Notice.values().length == 3);
+        check("告知は2回（1時間前・10分前。3日前は毎日開催への変更で廃止した）",
+                Raid.Notice.values().length == 2);
         check("10分前の告知は登録の締切と同時",
                 Raid.Notice.TEN_MINUTES.minutesBefore() == Raid.REGISTRATION_CLOSES_MINUTES);
-        check("3日前は4320分前", Raid.Notice.THREE_DAYS.minutesBefore() == 3 * 24 * 60);
-        check("4日前には告知しない", Raid.dueNotices(4 * 24 * 60).isEmpty());
-        check("3日前に入ると1回目が出る",
-                Raid.dueNotices(3 * 24 * 60).equals(List.of(Raid.Notice.THREE_DAYS)));
-        check("1時間前では2回目までが出ている（出したかは呼ぶ側が覚える）",
-                Raid.dueNotices(60).equals(
-                        List.of(Raid.Notice.THREE_DAYS, Raid.Notice.ONE_HOUR)));
-        check("10分前では3回すべてが出ている", Raid.dueNotices(10).size() == 3);
-        check("開始後も3回すべてを出したことになっている（取りこぼさない）",
-                Raid.dueNotices(0).size() == 3 && Raid.dueNotices(-5).size() == 3);
+        check("2時間前には告知しない", Raid.dueNotices(2 * 60).isEmpty());
+        check("1時間前に入ると1回目が出る",
+                Raid.dueNotices(60).equals(List.of(Raid.Notice.ONE_HOUR)));
+        check("10分前では2回すべてが出ている（出したかは呼ぶ側が覚える）",
+                Raid.dueNotices(10).size() == 2);
+        check("開始後も2回すべてを出したことになっている（取りこぼさない）",
+                Raid.dueNotices(0).size() == 2 && Raid.dueNotices(-5).size() == 2);
         check("登録は開始10分前で締切",
                 Raid.registrationOpen(11) && !Raid.registrationOpen(10)
                         && !Raid.registrationOpen(0));
@@ -3227,15 +3237,15 @@ public final class CoreTests {
         var entries = new Raid.DailyEntry();
         int day = 100;
         check("登録できる", entries.register(day, 1, "a").accepted());
-        check("同じ開催日に2枠目は入れない（§12.1）",
-                entries.register(day, 2, "a") == Raid.Entry.ALREADY_TODAY);
-        check("開始前なら辞退できる", entries.cancel(day, "a"));
-        check("辞退したら別の枠に入り直せる", entries.register(day, 2, "a").accepted());
+        check("同じ開催日でも2枠目に入れる（1日2回まで・§12.1）",
+                entries.register(day, 2, "a").accepted());
+        check("同日3枠目は上限（1日2回）に達し拒否される",
+                entries.register(day, 3, "a") == Raid.Entry.DAILY_LIMIT_REACHED);
+        check("開始前なら辞退できる", entries.cancel(day, "a", 1));
+        check("辞退すると枠が空き、また登録できる", entries.register(day, 3, "a").accepted());
         entries.start(day, 2);
         check("開始した枠からは抜けられない（成否を問わず使い切る）",
-                !entries.cancel(day, "a"));
-        check("開始後は別の枠にも入れない",
-                entries.register(day, 3, "a") == Raid.Entry.ALREADY_TODAY);
+                !entries.cancel(day, "a", 2));
 
         // 『消滅の呪い』の全面付与（§3.1）
         check("エンチャントが付いた品には呪いが必要",

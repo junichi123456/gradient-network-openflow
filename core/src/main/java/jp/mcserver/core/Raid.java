@@ -8,14 +8,20 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * レイドイベント（§12）。隔週で実施する PvE の共同討伐。
+ * レイドイベント（§12）。毎日実施する PvE の共同討伐。
+ *
+ * <p>もとは隔週1日だけの開催だったが、<b>毎日・同じ時間割で開催</b>に変更した
+ * （ユーザーへ確認して決定）。合わせて、1人が同じ開催日に入れる枠を1つから2つに広げ、
+ * そのかわり<b>報酬（ドロップ）を受け取れるのは1日1回まで</b>とした——2回目の参加は
+ * 討伐そのものはできるが、資格を満たしても報酬は渡らない。個体の種類は
+ * <b>週替わり</b>で {@link Rotation} が切り替える。
  */
 public final class Raid {
 
     private Raid() {}
 
-    /** 開催周期（日）。 */
-    public static final int CYCLE_DAYS = 14;
+    /** 週替わりローテーションの周期（日）。 */
+    public static final int WEEK_DAYS = 7;
 
     /**
      * 参加人数の上限。
@@ -53,12 +59,14 @@ public final class Raid {
     /**
      * 告知の時点（§12.1）。開始までの残り分で表す。
      *
-     * <p>3日前・1時間前・10分前の3回である。10分前は<b>登録の締切と同時</b>で、
+     * <p>1時間前・10分前の2回である。10分前は<b>登録の締切と同時</b>で、
      * 「まだ入れる」最後の合図になる。
+     *
+     * <p><b>「3日前」は毎日開催への変更で廃止した。</b>次の枠は常に24時間以内に来るため、
+     * 3日前という猶予そのものが成立しない（隔週だった頃は装備を整え直す時間の合図
+     * だったが、毎日開催ではその意味を持てない）。
      */
     public enum Notice {
-        /** 3日前。装備を整え始める合図である（『消滅の呪い』により毎回作り直す） */
-        THREE_DAYS(3 * 24 * 60, "3日前"),
         /** 1時間前 */
         ONE_HOUR(60, "1時間前"),
         /** 10分前。登録の締切と同時である */
@@ -136,29 +144,19 @@ public final class Raid {
         return !buffedToday.contains(nation);
     }
 
-    // ------------------------------------------------------------ 開催日
+    // ------------------------------------------------------------ 週替わり
 
     /**
-     * 次の開催日。
+     * 基準日から数えて何週目か（0始まり）。{@link Rotation#speciesForWeek} の引数に使う。
      *
-     * @param anchorDay 初回の開催日（サーバー稼働日）
+     * <p>毎日開催するため「次の開催日」という概念は無くなった（今日が常に開催日である）。
+     * 基準日はもっぱらこの週番号の起点として残る。
+     *
+     * @param anchorDay 基準日（サーバー稼働日）
      * @param today     現在のサーバー稼働日
      */
-    public static int nextSessionDay(int anchorDay, int today) {
-        if (today <= anchorDay) {
-            return anchorDay;
-        }
-        int elapsed = today - anchorDay;
-        int cycles = (elapsed + CYCLE_DAYS - 1) / CYCLE_DAYS;
-        return anchorDay + cycles * CYCLE_DAYS;
-    }
-
-    /** 開催回数（初回を1回目とする）。開催日以外を渡した場合は直近の開催回数を返す。 */
-    public static int sessionNumber(int anchorDay, int today) {
-        if (today < anchorDay) {
-            return 0;
-        }
-        return (today - anchorDay) / CYCLE_DAYS + 1;
+    public static int weekNumber(int anchorDay, int today) {
+        return Math.max(0, today - anchorDay) / WEEK_DAYS;
     }
 
     // ------------------------------------------------------------ 開催枠
@@ -226,6 +224,9 @@ public final class Raid {
         return !(end || nether || resource);
     }
 
+    /** 1人が同じ開催日に入れる枠数（§12.1）。 */
+    public static final int MAX_ENTRIES_PER_DAY = 2;
+
     /** 登録の結果（§12.1）。 */
     public enum Entry {
         /** 受け付けた。 */
@@ -234,8 +235,10 @@ public final class Raid {
         NO_SLOT,
         /** その枠は満員である。 */
         SLOT_FULL,
-        /** 同じ開催日にすでに参加している。 */
-        ALREADY_TODAY;
+        /** 同じ開催日、同じ枠にすでに登録している。 */
+        ALREADY_IN_SLOT,
+        /** 同じ開催日の登録数が上限（{@value #MAX_ENTRIES_PER_DAY}）に達している。 */
+        DAILY_LIMIT_REACHED;
 
         public boolean accepted() {
             return this == ACCEPTED;
@@ -245,19 +248,24 @@ public final class Raid {
     /**
      * 同じ開催日の参加登録（§12.1）。
      *
-     * <p><b>1人が参加できるのは同日1枠だけである。</b>枠を並べるのは参加できる人数を
-     * 増やすためであり、同じ人が周回して報酬を重ねるためではない。
+     * <p><b>1人が参加できるのは同日 {@value #MAX_ENTRIES_PER_DAY} 枠まで。</b>
+     * 枠を並べるのは参加できる人数を増やすためだが、2回目の参加も認める
+     * （ユーザーへ確認して決定）。<b>ただし報酬（ドロップ）を受け取れるのは同日1回だけ</b>
+     * ——{@link #canClaimReward}/{@link #claimReward} が、参加登録とは別にこれを管理する。
      */
     public static final class DailyEntry {
 
         /** 開催日 → 枠番号 → 参加者 */
         private final Map<Integer, Map<Integer, Set<String>>> byDay = new HashMap<>();
 
-        /** 開催日 → 参加者 → 枠番号 */
-        private final Map<Integer, Map<String, Integer>> slotOfPlayer = new HashMap<>();
+        /** 開催日 → 参加者 → 入っている枠（登録順）。1〜{@value #MAX_ENTRIES_PER_DAY} 個 */
+        private final Map<Integer, Map<String, List<Integer>>> slotsOfPlayer = new HashMap<>();
 
         /** 開催日 → すでに開始した枠。開始後は辞退できない */
         private final Map<Integer, Set<Integer>> started = new HashMap<>();
+
+        /** 開催日 → その日に報酬を受け取った参加者。1日1回だけ（§12.1）。 */
+        private final Map<Integer, Set<String>> rewardClaimed = new HashMap<>();
 
         /**
          * 登録する。
@@ -270,8 +278,13 @@ public final class Raid {
             if (slot < 1 || slot > SLOTS_PER_DAY) {
                 return Entry.NO_SLOT;
             }
-            if (hasParticipated(day, player)) {
-                return Entry.ALREADY_TODAY;
+            List<Integer> mine = slotsOfPlayer.getOrDefault(day, Map.of())
+                    .getOrDefault(player, List.of());
+            if (mine.contains(slot)) {
+                return Entry.ALREADY_IN_SLOT;
+            }
+            if (mine.size() >= MAX_ENTRIES_PER_DAY) {
+                return Entry.DAILY_LIMIT_REACHED;
             }
             Set<String> members = byDay
                     .computeIfAbsent(day, key -> new HashMap<>())
@@ -280,18 +293,25 @@ public final class Raid {
                 return Entry.SLOT_FULL;
             }
             members.add(player);
-            slotOfPlayer.computeIfAbsent(day, key -> new HashMap<>()).put(player, slot);
+            slotsOfPlayer.computeIfAbsent(day, key -> new HashMap<>())
+                    .computeIfAbsent(player, key -> new ArrayList<>())
+                    .add(slot);
             return Entry.ACCEPTED;
         }
 
-        /** その日にすでに参加しているか。 */
+        /** その日にすでに1回でも参加しているか。 */
         public boolean hasParticipated(int day, String player) {
-            return slotOfPlayer.getOrDefault(day, Map.of()).containsKey(player);
+            return !slotsOf(day, player).isEmpty();
         }
 
-        /** その日に入っている枠。入っていなければ 0。 */
-        public int slotOf(int day, String player) {
-            return slotOfPlayer.getOrDefault(day, Map.of()).getOrDefault(player, 0);
+        /** その日にあと何回登録できるか。 */
+        public int entriesRemaining(int day, String player) {
+            return MAX_ENTRIES_PER_DAY - slotsOf(day, player).size();
+        }
+
+        /** その日に入っている枠（登録順）。入っていなければ空。 */
+        public List<Integer> slotsOf(int day, String player) {
+            return slotsOfPlayer.getOrDefault(day, Map.of()).getOrDefault(player, List.of());
         }
 
         /** その枠の参加者。登録順に並ぶ。 */
@@ -321,16 +341,17 @@ public final class Raid {
             return open;
         }
 
-        /** その日の延べ参加者数。 */
+        /** その日の延べ参加者数（登録の総数。同じ人が2回入れば2と数える）。 */
         public int participantCount(int day) {
-            return slotOfPlayer.getOrDefault(day, Map.of()).size();
+            return slotsOfPlayer.getOrDefault(day, Map.of()).values().stream()
+                    .mapToInt(List::size).sum();
         }
 
         /**
          * 枠を開始する。以降その枠の参加者は辞退できない。
          *
          * <p><b>参加は成否を問わず使い切る</b>（§12.1）。全滅しても時間切れでも、
-         * その日は別の枠に入り直せない。開始した時点で枠を消費したものとして扱う。
+         * その枠には入り直せない。開始した時点で枠を消費したものとして扱う。
          */
         public void start(int day, int slot) {
             if (slot < 1 || slot > SLOTS_PER_DAY) {
@@ -345,24 +366,40 @@ public final class Raid {
         }
 
         /** 登録を取り消す。締切前の辞退にのみ用いる。開始した枠からは抜けられない。 */
-        public boolean cancel(int day, String player) {
-            int slot = slotOf(day, player);
-            if (slot == 0 || started(day, slot)) {
+        public boolean cancel(int day, String player, int slot) {
+            if (started(day, slot) || !slotsOf(day, player).contains(slot)) {
                 return false;
             }
             Map<Integer, Set<String>> slots = byDay.get(day);
             if (slots != null && slots.get(slot) != null) {
                 slots.get(slot).remove(player);
             }
-            slotOfPlayer.get(day).remove(player);
+            slotsOfPlayer.get(day).get(player).remove((Integer) slot);
             return true;
+        }
+
+        /**
+         * 報酬（ドロップ）を受け取れるか（§12.1）。<b>参加登録の回数とは別の管理</b>——
+         * 2回目の参加も討伐そのものはできるが、報酬は同日すでに受け取っていれば渡らない。
+         */
+        public boolean canClaimReward(int day, String player) {
+            return !rewardClaimed.getOrDefault(day, Set.of()).contains(player);
+        }
+
+        /** 報酬を受け取った記録を付ける。以後その日は {@link #canClaimReward} が false になる。 */
+        public void claimReward(int day, String player) {
+            rewardClaimed.computeIfAbsent(day, key -> new LinkedHashSet<>()).add(player);
         }
     }
 
     // ------------------------------------------------------------ ローテーション
 
     /**
-     * 出現順のローテーション（§12.2）。
+     * 週替わりローテーション（§12.2）。
+     *
+     * <p>毎日開催に変わったため、出現する種は「開催回」ではなく<b>週</b>で切り替える
+     * （ユーザーへ確認して決定）。同じ週の中では、何回開催しても・何枠あっても種は
+     * 変わらない。{@link Raid#weekNumber} で求めた週番号をそのまま渡す。
      *
      * @param roster 出現順に並べた種の識別子
      */
@@ -378,31 +415,35 @@ public final class Raid {
             }
         }
 
-        /** 指定回に出現する種。 */
-        public String speciesFor(int sessionNumber) {
-            if (sessionNumber < 1) {
-                throw new IllegalArgumentException("開催回が不正である: " + sessionNumber);
+        /**
+         * 指定週に出現する種。
+         *
+         * @param weekNumber {@link Raid#weekNumber} が返す週番号（0始まり）
+         */
+        public String speciesForWeek(int weekNumber) {
+            if (weekNumber < 0) {
+                throw new IllegalArgumentException("週番号が不正である: " + weekNumber);
             }
-            return roster.get((sessionNumber - 1) % roster.size());
+            return roster.get(weekNumber % roster.size());
         }
 
         /** 完了した周回数。 */
-        public int completedCycles(int sessionsHeld) {
-            return sessionsHeld / roster.size();
+        public int completedCycles(int weeksHeld) {
+            return weeksHeld / roster.size();
         }
 
         /**
          * 種を追加できるか（§12.2）。
          * 現在の構成でローテーションが2周するまで追加しない。
          */
-        public boolean canAddSpecies(int sessionsHeldSinceLastAddition) {
-            return completedCycles(sessionsHeldSinceLastAddition) >= CYCLES_BEFORE_ADDITION;
+        public boolean canAddSpecies(int weeksHeldSinceLastAddition) {
+            return completedCycles(weeksHeldSinceLastAddition) >= CYCLES_BEFORE_ADDITION;
         }
 
-        /** 追加までに残っている開催回数。 */
-        public int sessionsUntilAddition(int sessionsHeldSinceLastAddition) {
+        /** 追加までに残っている週数。 */
+        public int weeksUntilAddition(int weeksHeldSinceLastAddition) {
             int required = roster.size() * CYCLES_BEFORE_ADDITION;
-            return Math.max(0, required - sessionsHeldSinceLastAddition);
+            return Math.max(0, required - weeksHeldSinceLastAddition);
         }
 
         /** 種を1つ追加した新しいローテーション。追加分は末尾に置き、次の周から回る。 */

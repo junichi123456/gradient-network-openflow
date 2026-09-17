@@ -294,16 +294,34 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
      *
      * <p><b>確定贈与である。</b>資格のある者には必ず全種が渡る。持ち物が満杯なら足元へ落とす。
      * 資格は「体力の 1/(参加人数×1.5) 以上を削ったか」で、生死は問わない（§12.5）。
+     *
+     * <p><b>報酬は1日1回まで</b>（§12.1、ユーザーへ確認して決定）。開催枠（ソロを除く）の
+     * 個体に限り、その日すでに報酬を受け取った者は資格を満たしても対象から外す
+     * ——2回目の参加（1日2回まで許される）は討伐できても、報酬は渡らない。
      */
     private void grantDrops(RaidBoss boss) {
+        boolean dailyLimited = host.isSlotSessionBoss(boss);
+        int day = host.sessionDay();
         List<java.util.UUID> rewarded = boss.rewarded();
-        if (rewarded.isEmpty()) {
-            getServer().broadcastMessage("§7ドロップの条件（"
-                    + String.format("%.0f", boss.rewardThreshold())
-                    + " ダメージ）を満たした者がいませんでした");
+        List<java.util.UUID> granted = new ArrayList<>();
+        for (java.util.UUID id : rewarded) {
+            if (dailyLimited && !host.dailyEntry().canClaimReward(day, id.toString())) {
+                Player already = getServer().getPlayer(id);
+                if (already != null) {
+                    already.sendMessage("§7本日はすでに報酬を受け取り済みのため、今回の討伐に報酬はありません");
+                }
+                continue;
+            }
+            granted.add(id);
+        }
+        if (granted.isEmpty()) {
+            getServer().broadcastMessage(rewarded.isEmpty()
+                    ? "§7ドロップの条件（" + String.format("%.0f", boss.rewardThreshold())
+                            + " ダメージ）を満たした者がいませんでした"
+                    : "§7ドロップの条件を満たした者はいましたが、全員すでに本日の報酬を受け取り済みでした");
             return;
         }
-        for (java.util.UUID id : rewarded) {
+        for (java.util.UUID id : granted) {
             Player player = getServer().getPlayer(id);
             if (player == null) {
                 // 離脱した者へは渡せない。取り置きは永続化の話になるため、いまは記録だけ
@@ -319,8 +337,11 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
             player.sendMessage("§6討伐報酬 §7— " + String.join("§7 / §6", got));
             player.sendMessage(String.format("§7与えたダメージ %.0f（条件 %.0f）",
                     boss.dealtBy(id), boss.rewardThreshold()));
+            if (dailyLimited) {
+                host.dailyEntry().claimReward(day, id.toString());
+            }
         }
-        getServer().broadcastMessage("§7ドロップを " + rewarded.size() + " 名へ配りました");
+        getServer().broadcastMessage("§7ドロップを " + granted.size() + " 名へ配りました");
     }
 
     /**
