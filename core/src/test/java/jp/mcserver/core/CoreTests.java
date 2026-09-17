@@ -951,11 +951,15 @@ public final class CoreTests {
         check("継続料は外交準備高から引き落とされる",
                 !billing.dissolved() && billing.paid() == 20_000
                         && billing.after().reserve() == 80_000);
+        check("同盟継続料は相手国ではなく全額が世界政府へ入る（§17）",
+                billing.toWorld() == billing.paid());
 
         var broke = new NationalAccounts.Balances(1_000, 2_000);
         var failed = Alliance.bill(broke, 10);
         check("払えなければ即解消となる",
                 failed.dissolved() && failed.paid() == 3_000 && failed.after().gdp() == 0);
+        check("解消時も、実際に払えた分だけが世界政府へ入る（未払い分は納入されない）",
+                failed.toWorld() == 3_000);
     }
 
     // ---------------------------------------------------------------- §8.2

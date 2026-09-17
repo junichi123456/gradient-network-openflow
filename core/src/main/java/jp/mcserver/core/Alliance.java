@@ -69,15 +69,24 @@ public final class Alliance {
         return new Check(true, Denial.NONE, "締結可能です");
     }
 
-    /** 継続料の徴収結果。 */
-    public record Billing(NationalAccounts.Balances after, long paid, boolean dissolved) {}
+    /**
+     * 継続料の徴収結果。
+     *
+     * @param toWorld 世界政府への納入額（§17「同盟継続料の全額」。常に {@code paid} と同額）
+     */
+    public record Billing(NationalAccounts.Balances after, long paid, long toWorld, boolean dissolved) {}
 
     /**
      * 継続料の徴収（§8.1）。外交準備高から支払い、不足すれば国庫で補填する（§7.1）。
      * それでも払えなければ<b>即解消</b>となり、払った側への返還はない。
+     *
+     * <p><b>納入先</b>: 属国上納・制裁・援助金・月次減価と異なり、相手国（同盟の締結先）は
+     * 受け取らない。§17「世界政府」の流入一覧に「同盟継続料の全額」とあるとおり、
+     * 全額が世界政府（完全な死蔵。§17）へ入る。
      */
     public static Billing bill(NationalAccounts.Balances balances, int rank) {
         var payment = NationalAccounts.payDiplomatic(balances, upkeep(rank));
-        return new Billing(payment.after(), upkeep(rank) - payment.unpaid(), !payment.fulfilled());
+        long paid = upkeep(rank) - payment.unpaid();
+        return new Billing(payment.after(), paid, paid, !payment.fulfilled());
     }
 }
