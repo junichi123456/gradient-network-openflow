@@ -227,14 +227,18 @@ L_max = L_base + 同盟補正 + 属国補正
 
 ### ④〜⑦ 鉄道専用の国家代用（要件定義書には無い、実装のみのテーブル）
 
-本物の国家プラグインができるまでの間に合わせ（§6）。`RailDatabase` にだけ存在する。
+本物の国家プラグインができるまでの間に合わせ（§6）。このうち `rail_nations` /
+`rail_nation_players` / `rail_alliances` の3つは、`world_council_spec.md`「世界協議」も
+同じ国庫を必要としたため、`NationLedger`（`nation.db`）へ切り出し、両モジュールが共有する
+台帳に格上げした（`world_council_spec.md` §7.1）。`rail_claims` のみ、鉄道固有のデータとして
+`RailDatabase`（`rail.db`）に残っている。
 
-| テーブル | 内容 |
-|---|---|
-| `rail_nations` | `nation_id` (PK)・`treasury`・`reserve`・`suzerain_nation_id` |
-| `rail_nation_players` | `player_uuid` (PK) → `nation_id` |
-| `rail_alliances` | `nation_a`・`nation_b` の組（同盟） |
-| `rail_claims` | `world`・`chunk_x`・`chunk_z` (PK) → `nation_id`（未登録＝領土外） |
+| テーブル | 置き場所 | 内容 |
+|---|---|---|
+| `rail_nations` | `NationLedger`（`nation.db`） | `nation_id` (PK)・`treasury`・`reserve`・`suzerain_nation_id` |
+| `rail_nation_players` | `NationLedger`（`nation.db`） | `player_uuid` (PK) → `nation_id` |
+| `rail_alliances` | `NationLedger`（`nation.db`） | `nation_a`・`nation_b` の組（同盟） |
+| `rail_claims` | `RailDatabase`（`rail.db`） | `world`・`chunk_x`・`chunk_z` (PK) → `nation_id`（未登録＝領土外） |
 
 ---
 
@@ -298,7 +302,8 @@ L_max = L_base + 同盟補正 + 属国補正
 
 | クラス | 内容 |
 |---|---|
-| `RailDatabase` | SQLite の接続とスキーマ（`rail_data`・`nation_monthly_data`・`station_data`、要件定義書§4のまま）。加えて、本物の国家プラグインが無いあいだの代用テーブル（`rail_nations`・`rail_nation_players`・`rail_alliances`・`rail_claims`）を持つ |
+| `RailDatabase` | SQLite の接続とスキーマ（`rail_data`・`nation_monthly_data`・`station_data`、要件定義書§4のまま）と、鉄道固有の代用テーブル（`rail_claims`）。国庫・外交準備高・プレイヤー所属・宗主国関係・同盟関係は `NationLedger` に委譲する（下記） |
+| `NationLedger`（`plugin/src/main/java/jp/mcserver/plugin/nation/`） | 国庫・外交準備高・プレイヤー所属・宗主国関係・同盟関係（旧 `rail_nations`・`rail_nation_players`・`rail_alliances`）。`nation.db`。`world_council_spec.md`「世界協議」と共有する（同スペック §7.1） |
 | `RailConfig` | `config.yml` の `station.qualifying-blocks`（対象17種の `Material` 名リスト）を読む。解決できない名前は起動時に警告して除外する（下記） |
 | `StationIndex` | 認定駅舎のバウンディングボックスをメモリ上に持つ（下記「負荷対策」） |
 | `StationScanner` | F-04 の実際のワールド走査。指定した2点のバウンディングボックスを舐めて、面ごとの対象ブロック数・種類ごとの総数を数え、`StationCertification.certifyBox` へ渡す |
@@ -314,9 +319,16 @@ L_max = L_base + 同盟補正 + 属国補正
 （`project_status.md` のとおり、`core` にロジックはあるが `plugin` へは未接続）。そこで
 `rail_nations`・`rail_nation_players`・`rail_alliances`・`rail_claims` という、鉄道機能だけが
 使う代用テーブルを SQLite に作り、`/rail admin setnation|deposit|ally|vassal|claim|unclaim`
-で運営が手動で埋める形にした。**本物の国家プラグインができたら、この4テーブルと
-`RailDatabase` の該当メソッドだけを差し替えれば、`RailListener`/`RailCommand` 側は
-変更不要**なように、境界をここに置いてある。
+で運営が手動で埋める形にした。**本物の国家プラグインができたら、この代用データと
+`RailDatabase`/`NationLedger` の該当メソッドだけを差し替えれば、`RailListener`/`RailCommand`
+側は変更不要**なように、境界をここに置いてある。
+
+**その後、`world_council_spec.md`「世界協議」も同じ国庫（国家予算）を必要としたため、
+`rail_nations`・`rail_nation_players`・`rail_alliances` の3テーブルは鉄道専用の枠を外し、
+両モジュールが共有する `NationLedger`（`nation.db`）へ格上げした（ユーザーへ確認して決定。
+世界協議 §7.1）。`rail_claims`（チャンク単位の領土代用）のみ、鉄道固有のデータとして
+`RailDatabase`（`rail.db`）に残した——鉄道以外は今のところこの「自国領土」データを必要と
+していないため。**
 
 **`/rail station create` は要件定義書の1コマンドの想定より手順が増えている。** 「プレイヤーが
 立っている空間」を自動で検出する（壁をたどって部屋の形を見つける）処理は要件定義書に

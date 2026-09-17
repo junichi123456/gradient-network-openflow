@@ -14,17 +14,16 @@ import java.util.UUID;
 import java.util.logging.Logger;
 import jp.mcserver.core.NationalAccounts;
 import jp.mcserver.core.rail.RailType;
+import jp.mcserver.plugin.nation.NationLedger;
 
 /**
- * 地下鉄インフラの永続化（`rail_infra_spec.md` §4）と、本物の国家プラグインが
- * まだ無いあいだの<b>鉄道専用の最小限の代用品</b>（ユーザーへ確認して決定。§6）。
+ * 地下鉄インフラの永続化（`rail_infra_spec.md` §4）。
  *
- * <p>プレイヤー→国家、国家→国庫残高・同盟数・属国関係、チャンク→所属国、といった
- * 「本来は国家プラグインが持つはずのデータ」を、この1ファイルの SQLite に間借りして持つ。
- * 本物の国家プラグインができたら、この代用テーブル（{@code rail_nations} /
- * {@code rail_nation_players} / {@code rail_alliances} / {@code rail_claims}）だけを
- * 差し替えればよいよう、`rail_data` / `nation_monthly_data` / `station_data`（要件定義書
- * どおりの本来のテーブル）とは分けてある。
+ * <p>レール・駅舎など鉄道固有のデータ（{@code rail_data} / {@code nation_monthly_data} /
+ * {@code station_data} / {@code rail_claims}）だけをこのクラスが持つ。国庫・外交準備高・
+ * プレイヤー所属・宗主国関係・同盟関係は、鉄道専用の代用品として作られたのち
+ * `world_council_spec.md`「世界協議」とも共有する台帳に格上げされた
+ * {@link NationLedger}（{@code nation.db}）へ委譲する。
  *
  * <p>SQLite への単純な同期 JDBC 呼び出しである。呼び出し元（{@link RailListener} 等）は
  * メインスレッドから呼ぶため、大量のレールを一度に処理する運用になったら非同期化を検討する
@@ -33,20 +32,22 @@ import jp.mcserver.core.rail.RailType;
 public final class RailDatabase implements AutoCloseable {
 
     private final Connection connection;
+    private final NationLedger ledger;
     private final Logger logger;
 
-    private RailDatabase(Connection connection, Logger logger) {
+    private RailDatabase(Connection connection, NationLedger ledger, Logger logger) {
         this.connection = connection;
+        this.ledger = ledger;
         this.logger = logger;
     }
 
-    public static RailDatabase open(File dataFolder, Logger logger) throws SQLException {
+    public static RailDatabase open(File dataFolder, NationLedger ledger, Logger logger) throws SQLException {
         if (!dataFolder.exists() && !dataFolder.mkdirs()) {
             throw new SQLException("データフォルダを作成できない: " + dataFolder);
         }
         File file = new File(dataFolder, "rail.db");
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + file.getAbsolutePath());
-        RailDatabase db = new RailDatabase(connection, logger);
+        RailDatabase db = new RailDatabase(connection, ledger, logger);
         db.createSchema();
         return db;
     }
@@ -81,25 +82,6 @@ public final class RailDatabase implements AutoCloseable {
                         max_x INTEGER NOT NULL, max_y INTEGER NOT NULL, max_z INTEGER NOT NULL,
                         is_active INTEGER NOT NULL DEFAULT 1
                     )""");
-            // 鉄道専用の国家代用（本物の国家プラグインができたら置き換える）
-            st.execute("""
-                    CREATE TABLE IF NOT EXISTS rail_nations (
-                        nation_id TEXT PRIMARY KEY,
-                        treasury INTEGER NOT NULL DEFAULT 0,
-                        reserve INTEGER NOT NULL DEFAULT 0,
-                        suzerain_nation_id TEXT
-                    )""");
-            st.execute("""
-                    CREATE TABLE IF NOT EXISTS rail_nation_players (
-                        player_uuid TEXT PRIMARY KEY,
-                        nation_id TEXT NOT NULL
-                    )""");
-            st.execute("""
-                    CREATE TABLE IF NOT EXISTS rail_alliances (
-                        nation_a TEXT NOT NULL,
-                        nation_b TEXT NOT NULL,
-                        PRIMARY KEY (nation_a, nation_b)
-                    )""");
             // 「自国領土」の代用。チャンク単位で国家を割り当てる（未登録＝領土外として扱う）
             st.execute("""
                     CREATE TABLE IF NOT EXISTS rail_claims (
@@ -121,44 +103,21 @@ public final class RailDatabase implements AutoCloseable {
         }
     }
 
-    // ------------------------------------------------------------ 国家代用
+    // ------------------------------------------------------------ 国家代用（NationLedger へ委譲）
 
     /** プレイヤーの所属国家。未登録なら空。 */
     public Optional<String> nationOfPlayer(UUID playerId) {
-        String sql = "SELECT nation_id FROM rail_nation_players WHERE player_uuid = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, playerId.toString());
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next() ? Optional.of(rs.getString(1)) : Optional.empty();
-            }
-        } catch (SQLException e) {
-            throw new RailDatabaseException(e);
-        }
+        return ledger.nationOfPlayer(playerId);
     }
 
     /** プレイヤーの所属国家を設定する（運営コマンドの代用登録）。国家が無ければ作る。 */
     public void setNationOfPlayer(UUID playerId, String nationId) {
-        ensureNation(nationId);
-        String sql = "INSERT INTO rail_nation_players(player_uuid, nation_id) VALUES(?, ?) "
-                + "ON CONFLICT(player_uuid) DO UPDATE SET nation_id = excluded.nation_id";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, playerId.toString());
-            ps.setString(2, nationId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RailDatabaseException(e);
-        }
+        ledger.setNationOfPlayer(playerId, nationId);
     }
 
-    /** 国家が無ければ空の国庫で作る（べき等）。 */
+    /** 国家が無ければ、国庫（{@link NationLedger}）と当月設置カウントの両方を作る（べき等）。 */
     public void ensureNation(String nationId) {
-        String sql = "INSERT OR IGNORE INTO rail_nations(nation_id, treasury, reserve) VALUES(?, 0, 0)";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, nationId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RailDatabaseException(e);
-        }
+        ledger.ensureNation(nationId);
         String sql2 = "INSERT OR IGNORE INTO nation_monthly_data(nation_id, placed_count_current_month) "
                 + "VALUES(?, 0)";
         try (PreparedStatement ps = connection.prepareStatement(sql2)) {
@@ -170,108 +129,37 @@ public final class RailDatabase implements AutoCloseable {
     }
 
     public NationalAccounts.Balances balances(String nationId) {
-        ensureNation(nationId);
-        String sql = "SELECT treasury, reserve FROM rail_nations WHERE nation_id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, nationId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) {
-                    return NationalAccounts.Balances.empty();
-                }
-                return new NationalAccounts.Balances(rs.getLong(1), rs.getLong(2));
-            }
-        } catch (SQLException e) {
-            throw new RailDatabaseException(e);
-        }
+        return ledger.balances(nationId);
     }
 
     public void saveBalances(String nationId, NationalAccounts.Balances balances) {
-        ensureNation(nationId);
-        String sql = "UPDATE rail_nations SET treasury = ?, reserve = ? WHERE nation_id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, balances.treasury());
-            ps.setLong(2, balances.reserve());
-            ps.setString(3, nationId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RailDatabaseException(e);
-        }
+        ledger.saveBalances(nationId, balances);
     }
 
     /** 納入（運営コマンド `/rail admin deposit` の代用。本来は国家プラグイン側の機能）。 */
     public void deposit(String nationId, long amount) {
-        saveBalances(nationId, NationalAccounts.donate(balances(nationId), amount));
+        ledger.deposit(nationId, amount);
     }
 
     public void setSuzerain(String vassalNationId, String suzerainNationId) {
-        ensureNation(vassalNationId);
-        ensureNation(suzerainNationId);
-        String sql = "UPDATE rail_nations SET suzerain_nation_id = ? WHERE nation_id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, suzerainNationId);
-            ps.setString(2, vassalNationId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RailDatabaseException(e);
-        }
+        ledger.setSuzerain(vassalNationId, suzerainNationId);
     }
 
     public Optional<String> suzerainOf(String nationId) {
-        String sql = "SELECT suzerain_nation_id FROM rail_nations WHERE nation_id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, nationId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next() || rs.getString(1) == null) {
-                    return Optional.empty();
-                }
-                return Optional.of(rs.getString(1));
-            }
-        } catch (SQLException e) {
-            throw new RailDatabaseException(e);
-        }
+        return ledger.suzerainOf(nationId);
     }
 
     /** 自国が宗主国として持つ属国の数（{@code DiplomacyQuota} の引数）。 */
     public int suzerainOfVassalCount(String nationId) {
-        String sql = "SELECT COUNT(*) FROM rail_nations WHERE suzerain_nation_id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, nationId);
-            try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            throw new RailDatabaseException(e);
-        }
+        return ledger.suzerainOfVassalCount(nationId);
     }
 
     public void addAlliance(String nationA, String nationB) {
-        ensureNation(nationA);
-        ensureNation(nationB);
-        String a = nationA.compareTo(nationB) <= 0 ? nationA : nationB;
-        String b = nationA.compareTo(nationB) <= 0 ? nationB : nationA;
-        String sql = "INSERT OR IGNORE INTO rail_alliances(nation_a, nation_b) VALUES(?, ?)";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, a);
-            ps.setString(2, b);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RailDatabaseException(e);
-        }
+        ledger.addAlliance(nationA, nationB);
     }
 
     public int allianceCount(String nationId) {
-        String sql = "SELECT COUNT(*) FROM rail_alliances WHERE nation_a = ? OR nation_b = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, nationId);
-            ps.setString(2, nationId);
-            try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            throw new RailDatabaseException(e);
-        }
+        return ledger.allianceCount(nationId);
     }
 
     // ------------------------------------------------------------ 領土の代用（チャンク単位）

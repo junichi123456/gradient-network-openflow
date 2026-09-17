@@ -11,6 +11,10 @@ import jp.mcserver.core.rail.RailCost;
 import jp.mcserver.core.rail.RailType;
 import jp.mcserver.core.rail.StationCertification;
 import jp.mcserver.core.rail.VehicleSpeed;
+import jp.mcserver.core.worldcouncil.WorldCouncilEligibility;
+import jp.mcserver.core.worldcouncil.WorldCouncilPayout;
+import jp.mcserver.core.worldcouncil.WorldCouncilRanking;
+import jp.mcserver.core.worldcouncil.WorldCouncilRoster;
 import jp.mcserver.core.raid.Angles;
 import jp.mcserver.core.raid.GoldenAxe;
 import jp.mcserver.core.raid.GrandWhirl;
@@ -81,6 +85,7 @@ public final class CoreTests {
         hollowGuard();
         hollowGuardSpecial();
         railInfra();
+        worldCouncil();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -3975,6 +3980,109 @@ public final class CoreTests {
         check("氷上のボートは8 block/sに制限（対象は氷・薄氷・氷塊・青氷の4種）",
                 VehicleSpeed.BOAT_ON_ICE_MAX_SPEED == 8.0
                         && VehicleSpeed.BOAT_SLOWING_ICE_BLOCKS.size() == 4);
+    }
+
+    private static void worldCouncil() {
+        section("world_council_spec.md 世界協議（BLOCK CONQUESTを用いた国家対抗イベントの統合レイヤー、core実装）");
+
+        // 参加資格：rank7以上（属国保有資格＝リーダー枠開放の基準と同じ）
+        check("rank7以上は参加資格あり", WorldCouncilEligibility.eligible(7)
+                && WorldCouncilEligibility.eligible(25));
+        check("rank6以下は参加資格なし", !WorldCouncilEligibility.eligible(6)
+                && !WorldCouncilEligibility.eligible(0));
+
+        // 実効国家名：属国は宗主国に読み替える
+        check("独立国はそのままの国家名", WorldCouncilEligibility.effectiveNation("A国", null).equals("A国"));
+        check("属国は宗主国名に読み替える（1か国の扱いは宗主国）",
+                WorldCouncilEligibility.effectiveNation("B国（属国）", "A国").equals("A国"));
+
+        // 参加登録：国家数・代表者数の上限
+        check("最大参加国家数4・1か国あたり代表者2名・最大参加人数8",
+                WorldCouncilRoster.MAX_NATIONS == 4 && WorldCouncilRoster.REPRESENTATIVES_PER_NATION == 2
+                        && WorldCouncilRoster.MAX_PARTICIPANTS == 8);
+
+        var noEntries = List.<WorldCouncilRoster.Entry>of();
+        var deniedByRank = WorldCouncilRoster.canRegisterNation("C国", 6, noEntries);
+        check("rank7未満の国家は登録できない", !deniedByRank.allowed()
+                && deniedByRank.denial() == WorldCouncilRoster.Denial.RANK_TOO_LOW);
+        var okToRegister = WorldCouncilRoster.canRegisterNation("A国", 7, noEntries);
+        check("rank7以上・未登録・空き枠ありなら登録できる", okToRegister.allowed());
+
+        var oneEntry = List.of(new WorldCouncilRoster.Entry("A国", List.of("Jun")));
+        var deniedByDuplicate = WorldCouncilRoster.canRegisterNation("A国", 10, oneEntry);
+        check("既に登録済みの実効国家名（属国込み）は重複登録できない", !deniedByDuplicate.allowed()
+                && deniedByDuplicate.denial() == WorldCouncilRoster.Denial.ALREADY_REGISTERED);
+
+        var fourEntries = List.of(
+                new WorldCouncilRoster.Entry("A国", List.of()),
+                new WorldCouncilRoster.Entry("B国", List.of()),
+                new WorldCouncilRoster.Entry("C国", List.of()),
+                new WorldCouncilRoster.Entry("D国", List.of()));
+        var deniedByNationLimit = WorldCouncilRoster.canRegisterNation("E国", 10, fourEntries);
+        check("4か国が登録済みなら5か国目は登録できない", !deniedByNationLimit.allowed()
+                && deniedByNationLimit.denial() == WorldCouncilRoster.Denial.NATION_LIMIT_REACHED);
+
+        var teamOfOne = new WorldCouncilRoster.Entry("A国", List.of("Jun"));
+        var okToAdd = WorldCouncilRoster.canAddRepresentative("Aoi", teamOfOne, List.of(teamOfOne));
+        check("1人目が登録済みなら2人目を追加できる", okToAdd.allowed());
+        var teamOfTwo = new WorldCouncilRoster.Entry("A国", List.of("Jun", "Aoi"));
+        var deniedByRepLimit = WorldCouncilRoster.canAddRepresentative("Ren", teamOfTwo, List.of(teamOfTwo));
+        check("代表者が2名揃っていれば3人目は追加できない", !deniedByRepLimit.allowed()
+                && deniedByRepLimit.denial() == WorldCouncilRoster.Denial.REPRESENTATIVE_LIMIT_REACHED);
+        var otherTeam = new WorldCouncilRoster.Entry("B国", List.of());
+        var deniedByDupRep = WorldCouncilRoster.canAddRepresentative(
+                "Jun", otherTeam, List.of(teamOfTwo, otherTeam));
+        check("既に他国の代表者である者は追加登録できない", !deniedByDupRep.allowed()
+                && deniedByDupRep.denial() == WorldCouncilRoster.Denial.DUPLICATE_REPRESENTATIVE);
+
+        check("4か国×2名が揃うと開催可能", WorldCouncilRoster.ready(List.of(
+                new WorldCouncilRoster.Entry("A国", List.of("a1", "a2")),
+                new WorldCouncilRoster.Entry("B国", List.of("b1", "b2")),
+                new WorldCouncilRoster.Entry("C国", List.of("c1", "c2")),
+                new WorldCouncilRoster.Entry("D国", List.of("d1", "d2")))));
+        check("代表者が1名でも欠けていれば開催不可", !WorldCouncilRoster.ready(List.of(
+                new WorldCouncilRoster.Entry("A国", List.of("a1", "a2")),
+                new WorldCouncilRoster.Entry("B国", List.of("b1")),
+                new WorldCouncilRoster.Entry("C国", List.of("c1", "c2")),
+                new WorldCouncilRoster.Entry("D国", List.of("d1", "d2")))));
+
+        // 最終順位：BLOCK CONQUEST §7.5 と同じ判定（合計得点→得点差→共同優勝）
+        var ranked = WorldCouncilRanking.rank(List.of(
+                new WorldCouncilRanking.Entry("A国", 50, 4),
+                new WorldCouncilRanking.Entry("B国", 70, 2),
+                new WorldCouncilRanking.Entry("C国", 70, 6),
+                new WorldCouncilRanking.Entry("D国", 30, 0)));
+        check("合計得点が高い順に並ぶ", ranked.get(0).effectiveNation().equals("B国")
+                && ranked.get(1).effectiveNation().equals("C国")
+                && ranked.get(2).effectiveNation().equals("A国")
+                && ranked.get(3).effectiveNation().equals("D国"));
+        check("得点合計が同点なら、代表者間の得点差が小さいほうが上位（B国diff2 < C国diff6）",
+                ranked.get(0).rank() == 1 && ranked.get(1).rank() == 2);
+
+        var joint = WorldCouncilRanking.rank(List.of(
+                new WorldCouncilRanking.Entry("A国", 70, 3),
+                new WorldCouncilRanking.Entry("B国", 70, 3),
+                new WorldCouncilRanking.Entry("C国", 40, 0)));
+        check("合計得点も得点差も同点なら共同優勝（同順位）",
+                joint.get(0).rank() == 1 && joint.get(1).rank() == 1);
+        check("共同優勝の次の順位は、同順位の人数ぶんだけ飛ぶ（1位×2 → 次は3位）",
+                joint.get(2).rank() == 3);
+
+        // 還付金：固定額表・非課税（外交準備高を経由しない）
+        check("1〜4位の還付額は40,000/24,000/12,000/4,000（暫定値）",
+                WorldCouncilPayout.amountFor(1) == 40_000
+                        && WorldCouncilPayout.amountFor(2) == 24_000
+                        && WorldCouncilPayout.amountFor(3) == 12_000
+                        && WorldCouncilPayout.amountFor(4) == 4_000);
+        check("5位以下・順位なしは還付されない", WorldCouncilPayout.amountFor(5) == 0
+                && WorldCouncilPayout.amountFor(0) == 0);
+
+        var beforePayout = new NationalAccounts.Balances(1_000, 500);
+        var afterFirst = WorldCouncilPayout.credit(beforePayout, 1);
+        check("還付は国庫にのみ加算され、外交準備高は変化しない（非課税）",
+                afterFirst.treasury() == 41_000 && afterFirst.reserve() == 500);
+        var afterNone = WorldCouncilPayout.credit(beforePayout, 5);
+        check("順位圏外は国庫が変化しない", afterNone.treasury() == 1_000 && afterNone.reserve() == 500);
     }
 
     private static void section(String name) {

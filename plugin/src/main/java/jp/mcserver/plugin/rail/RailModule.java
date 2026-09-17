@@ -1,15 +1,20 @@
 package jp.mcserver.plugin.rail;
 
 import java.sql.SQLException;
+import jp.mcserver.plugin.nation.NationLedger;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * 地下鉄インフラ（`rail_infra_spec.md`）の配線をまとめる。{@code RaidPlugin} からは
  * {@link #enable} / {@link #disable} だけを呼べばよい。
+ *
+ * <p>国家代用の台帳（{@link NationLedger}）はここで開き、{@link #ledger()} 経由で
+ * `world_council_spec.md`「世界協議」とも共有する（§「国庫データの置き場所」）。
  */
 public final class RailModule {
 
     private final JavaPlugin plugin;
+    private NationLedger ledger;
     private RailDatabase database;
     private RailConfig config;
     private final StationIndex stationIndex = new StationIndex();
@@ -22,9 +27,10 @@ public final class RailModule {
     public void enable() {
         plugin.saveDefaultConfig();
         try {
-            database = RailDatabase.open(plugin.getDataFolder(), plugin.getLogger());
+            ledger = NationLedger.open(plugin.getDataFolder(), plugin.getLogger());
+            database = RailDatabase.open(plugin.getDataFolder(), ledger, plugin.getLogger());
         } catch (SQLException e) {
-            plugin.getLogger().severe("rail.db を開けなかった。地下鉄インフラは無効のまま: "
+            plugin.getLogger().severe("rail.db / nation.db を開けなかった。地下鉄インフラは無効のまま: "
                     + e.getMessage());
             return;
         }
@@ -59,6 +65,16 @@ public final class RailModule {
         if (database != null) {
             database.close();
         }
+        // ledger は world_council_spec.md「世界協議」とも共有するため、RailModule が
+        // 開いた以上はここで閉じる（WorldCouncilModule 側では close しない）
+        if (ledger != null) {
+            ledger.close();
+        }
+    }
+
+    /** 国家代用の台帳。`world_council_spec.md`「世界協議」もこれを共有する。 */
+    public NationLedger ledger() {
+        return ledger;
     }
 
     public void reloadConfig() {

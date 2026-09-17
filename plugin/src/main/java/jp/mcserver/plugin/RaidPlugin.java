@@ -77,6 +77,12 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
     private final jp.mcserver.plugin.rail.RailModule rail =
             new jp.mcserver.plugin.rail.RailModule(this);
 
+    /**
+     * 世界協議（`world_council_spec.md`）。国庫データ（{@code NationLedger}）は
+     * {@link #rail} が開くものを共有するため、{@code rail.enable()} の後に組み立てる。
+     */
+    private jp.mcserver.plugin.worldcouncil.WorldCouncilModule worldCouncil;
+
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
@@ -95,6 +101,13 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         host.start();
         // 地下鉄インフラ（rail_infra_spec.md）。レイドとは独立な別系統
         rail.enable();
+        // 世界協議（world_council_spec.md）。国庫データは rail が開いた NationLedger を共有する
+        if (rail.ledger() != null) {
+            worldCouncil = new jp.mcserver.plugin.worldcouncil.WorldCouncilModule(this, rail.ledger());
+            worldCouncil.enable();
+        } else {
+            getLogger().warning("nation.db を開けなかったため、世界協議を無効のままにします");
+        }
         // jar の日時を出す。差し替えたつもりで古い jar が動いている、という取り違えを防ぐ
         getLogger().info("レイド検証プラグインを有効化しました（jar " + jarStamp() + "）");
     }
@@ -105,6 +118,9 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         host.stop();
         // 表示エンティティを残さない（§12.6 の死活管理）
         despawnAll();
+        if (worldCouncil != null) {
+            worldCouncil.disable();
+        }
         rail.disable();
     }
 
