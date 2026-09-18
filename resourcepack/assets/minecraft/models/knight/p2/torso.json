@@ -1,0 +1,22 @@
+{
+  "__comment": "人胴 / ID 2101 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "item/knight/torso",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "人胴",
+      "from": [0, -1.2, 3.04],
+      "to": [16, 17.2, 12.96],
+      "faces": {
+        "north": { "uv": [5.5, 9.5, 11, 15.5], "texture": "#skin" },
+        "east": { "uv": [0, 3.5, 3.5, 9.5], "texture": "#skin" },
+        "south": { "uv": [0, 9.5, 5.5, 15.5], "texture": "#skin" },
+        "west": { "uv": [3.5, 3.5, 7, 9.5], "texture": "#skin" },
+        "up": { "uv": [0, 0, 5.5, 3.5], "texture": "#skin" },
+        "down": { "uv": [5.5, 0, 11, 3.5], "texture": "#skin" }
+      }
+    }
+  ]
+}
