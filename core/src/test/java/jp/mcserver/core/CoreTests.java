@@ -229,6 +229,26 @@ public final class CoreTests {
             total += w.advance(60, true); // 1分ごとに操作あり
         }
         check("1分刻みで進めれば3窓ぶん36分が計上される", total == 36);
+
+        // Hub滞在中は判定窓を一時停止する（アップロードされた仕様書との統合で復活させた規定）。
+        // Hubにいるあいだ advance() を呼ばない、という呼び出し側の規約だけで実現できる
+        // ——窓の経過秒数・pitchフラグのどちらも、呼ばれなければ動かないため
+        w = new ActivityWindow();
+        w.onLogin();
+        w.advance(7 * 60, true);          // 窓の途中まで進める（pitchは動いた）
+        // ここでHubへ入る。Hub滞在中はadvance()を一切呼ばない（＝判定窓が凍結する）
+        w.advance(5 * 60, false);         // Hubを出て残り5分ぶん進める。pitchは動いていない
+        check("Hub滞在で advance() を呼ばなければ窓は凍結し、退出後は同じ窓の続きとして"
+                        + "扱われる（Hub前のpitch移動だけで12分ぶん計上される）",
+                w.countedTodayMinutes() == 12);
+
+        w = new ActivityWindow();
+        w.onLogin();
+        credited = w.advance(8 * 60, false); // Hub外で8分、pitch動かず
+        // Hubへ入り、しばらく滞在（advance()を呼ばない＝時間経過も日次上限も消費しない）
+        credited += w.advance(4 * 60, true); // Hubを出て残り4分、pitchが動く
+        check("Hub滞在中は有効活動時間の日次上限も消費しない（呼ばれない間は進まない）",
+                credited == 12 && w.countedTodayMinutes() == 12);
     }
 
     // ---------------------------------------------------------------- §3.2
