@@ -792,10 +792,11 @@ public final class CoreTests {
         var b = NationalAccounts.Balances.empty();
         check("初期残高は0", b.gdp() == 0);
 
-        check("稼得expの0.5倍が計上される", NationalAccounts.accrual(30_000) == 15_000);
-        check("端数は切り捨てる", NationalAccounts.accrual(101) == 50);
+        check("稼得expの0.03倍が計上される（旧版の0.5から変更。ユーザーへ確認して決定）",
+                NationalAccounts.accrual(1_000_000) == 30_000);
+        check("端数は切り捨てる", NationalAccounts.accrual(101) == 3);
 
-        b = NationalAccounts.accrue(b, 30_000);
+        b = NationalAccounts.accrue(b, 500_000);
         check("計上は外交準備高に入り、国庫は増えない",
                 b.reserve() == 15_000 && b.treasury() == 0);
 
@@ -921,18 +922,33 @@ public final class CoreTests {
         check("蓄積が乏しくても下限30,000は確保される",
                 AidLedger.cap(0) == 30_000 && AidLedger.cap(100_000) == 30_000);
 
-        check("上限内なら受領できる", ledger.check(100, 1_000_000, 200_000).allowed());
+        check("上限内なら受領できる", ledger.check(100, 1_000_000, 200_000, "北方連合").allowed());
         check("上限を超えると拒否される",
-                !ledger.check(100, 1_000_000, 200_001).allowed());
+                !ledger.check(100, 1_000_000, 200_001, "北方連合").allowed());
 
         ledger.record(100, 150_000);
         check("受領後は残枠が減る", ledger.remaining(100, 1_000_000) == 50_000);
         check("残枠を超える受領は部分的にも実行しない",
-                !ledger.check(100, 1_000_000, 60_000).allowed()
-                        && ledger.check(100, 1_000_000, 50_000).allowed());
+                !ledger.check(100, 1_000_000, 60_000, "北方連合").allowed()
+                        && ledger.check(100, 1_000_000, 50_000, "北方連合").allowed());
         check("29日後はまだ枠に含まれる", ledger.receivedInWindow(129) == 150_000);
         check("30日を過ぎた受領は枠から外れる", ledger.receivedInWindow(130) == 0);
         check("枠が空けば再び受領できる", ledger.remaining(130, 1_000_000) == 200_000);
+
+        // 相互援助の禁止（§7.3、ユーザーへ確認して決定）
+        var mutual = new AidLedger();
+        check("送付記録が無ければブロックされない", !mutual.blockedFrom("南方公国", 200));
+        mutual.recordSent("南方公国", 200);
+        check("送った直後は、その相手からの受領がブロックされる",
+                mutual.blockedFrom("南方公国", 200));
+        check("上限内であっても、送った相手からは受領できない",
+                !mutual.check(200, 1_000_000, 1_000, "南方公国").allowed());
+        check("別の国からは通常どおり受領できる",
+                mutual.check(200, 1_000_000, 1_000, "西方王国").allowed());
+        check("32日後はまだブロックされる（33日未満）", mutual.blockedFrom("南方公国", 232));
+        check("33日を過ぎればブロックが外れる", !mutual.blockedFrom("南方公国", 233));
+        check("ブロックが外れれば通常どおり受領できる",
+                mutual.check(233, 1_000_000, 1_000, "南方公国").allowed());
     }
 
     // ---------------------------------------------------------------- §8.1

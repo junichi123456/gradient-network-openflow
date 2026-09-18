@@ -11,6 +11,10 @@ import java.util.List;
  *
  * <p>上限 = max(30,000, 自国の国内総生産 × 20%)。下限を置くのは、蓄積の乏しい国が
  * 援助を受けられなくなるのを避けるためである。
+ *
+ * <p>上限だけでは A→B・B→A という往復を防げない（双方が準備高を持てば独立に成立する）ため、
+ * <b>直近33日以内に援助金を送った相手国からは受領できない</b>という相互援助の禁止を併せ持つ
+ * （§7.3。一方向の後援・救済は制限しない）。
  */
 public final class AidLedger {
 
@@ -23,9 +27,19 @@ public final class AidLedger {
     /** 蓄積が乏しい国のための下限（exp）。個人の日次上限1日分に相当する。 */
     public static final long CAP_FLOOR = 30_000;
 
+    /**
+     * 相互援助の禁止期間（日）。直近この日数以内に送った相手国からは受領できない。
+     *
+     * <p>直近30日を単位とする各種評価窓（§4.5・§7.2・§14.1）をまたぐ長さにするため、
+     * 首都変更（§4.10）・属国の再従属（§8.2）と同じ33日を用いる。
+     */
+    public static final int MUTUAL_BAN_DAYS = 33;
+
     private record Receipt(long day, long amount) {}
+    private record Sent(String toNation, long day) {}
 
     private final List<Receipt> receipts = new ArrayList<>();
+    private final List<Sent> sentHistory = new ArrayList<>();
 
     /** 直近30日に受領した額。 */
     public long receivedInWindow(long today) {
@@ -57,15 +71,37 @@ public final class AidLedger {
         receipts.add(new Receipt(today, amount));
     }
 
+    /** 援助金の送付を記録する（相互援助の禁止判定に使う）。古い記録は捨てる。 */
+    public void recordSent(String toNation, long today) {
+        sentHistory.removeIf(s -> today - s.day() >= MUTUAL_BAN_DAYS);
+        sentHistory.add(new Sent(toNation, today));
+    }
+
+    /**
+     * 直近{@value #MUTUAL_BAN_DAYS}日以内にその国へ援助金を送っているため、
+     * その国からの受領がブロックされるか。
+     */
+    public boolean blockedFrom(String fromNation, long today) {
+        return sentHistory.stream()
+                .anyMatch(s -> s.toNation().equals(fromNation) && today - s.day() < MUTUAL_BAN_DAYS);
+    }
+
     /** 判定の結果。 */
     public record Check(boolean allowed, long remaining, String message) {}
 
     /**
      * 受け取れるかを判定する。上限を超える援助は<b>部分的にも実行しない</b>。
+     * 直近{@value #MUTUAL_BAN_DAYS}日以内に送った相手からの受領も同様に拒否する
+     * （相互援助の禁止。§7.3）。
      *
-     * @param delivered 受領国の勘定に入る額（償却後）
+     * @param delivered  受領国の勘定に入る額（償却後）
+     * @param fromNation 送付国
      */
-    public Check check(long today, long gdp, long delivered) {
+    public Check check(long today, long gdp, long delivered, String fromNation) {
+        if (blockedFrom(fromNation, today)) {
+            return new Check(false, remaining(today, gdp), "直近" + MUTUAL_BAN_DAYS + "日以内に "
+                    + fromNation + " へ援助金を送っているため受領できません（相互援助の禁止）");
+        }
         long remaining = remaining(today, gdp);
         if (delivered <= remaining) {
             return new Check(true, remaining, "受領可能です（30日の残枠 " + remaining + "）");
