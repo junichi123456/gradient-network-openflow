@@ -4189,6 +4189,11 @@ public final class CoreTests {
         check("自国民は自国の証券を保有できない", !NationalSecurities.canHold("A国", "A国"));
         check("他国民は保有できる", NationalSecurities.canHold("A国", "B国"));
 
+        // 満期は90日・180日・360日から選ぶ
+        check("90/180/360日は有効な満期", NationalSecurities.validMaturity(90)
+                && NationalSecurities.validMaturity(180) && NationalSecurities.validMaturity(360));
+        check("それ以外は無効な満期", !NationalSecurities.validMaturity(30) && !NationalSecurities.validMaturity(365));
+
         // 発行：購入代金は国庫で受け取る（国債の元本・国家株の代金で共通）。通貨量は変わらない
         var issuer0 = new NationalAccounts.Balances(100_000, 50_000);
         var afterIssue = NationalSecurities.issue(issuer0, 1_000_000);
@@ -4200,35 +4205,58 @@ public final class CoreTests {
         check("償還できれば国庫だけが減り、不履行はゼロ",
                 redemption.after().treasury() == 100_000 && redemption.after().reserve() == 50_000
                         && redemption.unpaid() == 0);
-        check("償還可能かを事前判定できる", NationalSecurities.canRepayAtMaturity(solventIssuer, 1_000_000));
+        check("国庫が支払えるかを事前判定できる（満期償還・強制買い戻し共通）",
+                NationalSecurities.treasuryCanPay(solventIssuer, 1_000_000));
 
         var insolventIssuer = new NationalAccounts.Balances(400_000, 50_000);
         var defaultedRedemption = NationalSecurities.redeemBond(insolventIssuer, 1_000_000);
         check("国庫が不足すれば不履行額が残る（デフォルト）", defaultedRedemption.unpaid() == 600_000
                 && defaultedRedemption.after().treasury() == 0);
-        check("償還可能判定はデフォルトを事前に検知できる",
-                !NationalSecurities.canRepayAtMaturity(insolventIssuer, 1_000_000));
+        check("事前判定はデフォルトを検知できる", !NationalSecurities.treasuryCanPay(insolventIssuer, 1_000_000));
 
-        // 利子・配当：活動日ゲート付きで外交準備高からのみ支払う。国庫は補填しない
+        // 買い戻し：国庫から支払い消却する（通常は市場価格、強制売却の売れ残りは額面。原資は国庫のみ）
+        var buybackIssuer = new NationalAccounts.Balances(500_000, 20_000);
+        var buyback = NationalSecurities.buyback(buybackIssuer, 300_000);
+        check("買い戻しは国庫のみが減り、準備高は変化しない",
+                buyback.after().treasury() == 200_000 && buyback.after().reserve() == 20_000
+                        && buyback.unpaid() == 0);
+
+        // 日割り発生：活動日のみ積み上がる。非活動日の分は発生時点で消滅する
+        check("活動日は月額を日数で按分した額が発生する（30日で月額3,000なら100/日）",
+                NationalSecurities.dailyAccrual(3_000, 30, true) == 100);
+        check("非活動日は発生しない（消滅）", NationalSecurities.dailyAccrual(3_000, 30, false) == 0);
+
+        // 月次支払い：1か月分の積み上げ額を、準備高からのみ・不足分は切り捨てて支払う
         var payer = new NationalAccounts.Balances(1_000, 10_000);
-        var activePayout = NationalSecurities.payToActivePlayer(payer, 500, true);
-        check("活動日は準備高から支払われ、国庫は変化しない",
-                activePayout.paid() == 500 && activePayout.issuerAfter().reserve() == 9_500
-                        && activePayout.issuerAfter().treasury() == 1_000);
-
-        var inactivePayout = NationalSecurities.payToActivePlayer(payer, 500, false);
-        check("非活動日は支払われず消滅する（準備高も減らない）",
-                inactivePayout.paid() == 0 && inactivePayout.issuerAfter().reserve() == 10_000);
+        var settled = NationalSecurities.settle(payer, 3_000);
+        check("月次支払いは準備高から行われ、国庫は変化しない",
+                settled.paid() == 3_000 && settled.issuerAfter().reserve() == 7_000
+                        && settled.issuerAfter().treasury() == 1_000);
 
         var shortReservePayer = new NationalAccounts.Balances(1_000, 300);
-        var partialPayout = NationalSecurities.payToActivePlayer(shortReservePayer, 500, true);
+        var partialSettle = NationalSecurities.settle(shortReservePayer, 3_000);
         check("準備高が不足すれば支払えるだけを支払い、国庫からは補填しない",
-                partialPayout.paid() == 300 && partialPayout.issuerAfter().reserve() == 0
-                        && partialPayout.issuerAfter().treasury() == 1_000);
+                partialSettle.paid() == 300 && partialSettle.issuerAfter().reserve() == 0
+                        && partialSettle.issuerAfter().treasury() == 1_000);
 
-        // 通貨発行の上限：利子・配当の合計は同期間の準備高計上額を超えられない
-        check("計上額以下なら上限内", NationalSecurities.withinIssuanceCap(300_000, 300_000));
-        check("計上額を超えれば上限超過", !NationalSecurities.withinIssuanceCap(300_001, 300_000));
+        // デフォルト条件：国債の利子は全額支払えなければデフォルト（配当は裁量のため対象外）
+        check("準備高が利子を下回ればデフォルト", NationalSecurities.bondInterestDefaulted(shortReservePayer, 3_000));
+        check("準備高が利子以上ならデフォルトしない", !NationalSecurities.bondInterestDefaulted(payer, 3_000));
+
+        // 発行残高の上限：直近30日の準備高計上額の9倍（国債・国家株の合計、発行価格ベース）
+        check("上限は計上額の9倍", NationalSecurities.issuanceCap(255_000) == 2_295_000);
+        check("上限以内なら発行できる", NationalSecurities.canIssue(2_000_000, 295_000, 255_000));
+        check("上限を超えれば発行できない", !NationalSecurities.canIssue(2_000_000, 295_001, 255_000));
+
+        // デフォルト後、90日間は新規発行が禁止される（統一・制裁の再発議クールダウンと同じ値）
+        var defaults = NationalSecurities.recordDefault(List.of(), "A国", 100);
+        check("デフォルト直後は禁止される", NationalSecurities.issuanceBanned("A国", 100, defaults));
+        check("89日後もまだ禁止される", NationalSecurities.issuanceBanned("A国", 189, defaults));
+        check("90日後は解除される", !NationalSecurities.issuanceBanned("A国", 190, defaults));
+        var relisted = NationalSecurities.recordDefault(defaults, "B国", 190);
+        check("期限切れの記録は自然に消え、新しい記録だけが残る",
+                !NationalSecurities.issuanceBanned("A国", 190, relisted)
+                        && NationalSecurities.issuanceBanned("B国", 190, relisted));
     }
 
     private static void section(String name) {
