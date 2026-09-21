@@ -15,6 +15,7 @@ import jp.mcserver.core.worldcouncil.WorldCouncilEligibility;
 import jp.mcserver.core.worldcouncil.WorldCouncilPayout;
 import jp.mcserver.core.worldcouncil.WorldCouncilRanking;
 import jp.mcserver.core.worldcouncil.WorldCouncilRoster;
+import jp.mcserver.core.worldcouncil.WorldCouncilSchedule;
 import jp.mcserver.core.raid.Angles;
 import jp.mcserver.core.raid.GoldenAxe;
 import jp.mcserver.core.raid.GrandWhirl;
@@ -4119,20 +4120,68 @@ public final class CoreTests {
                 joint.get(2).rank() == 3);
 
         // 還付金：固定額表・非課税（外交準備高を経由しない）
-        check("1〜4位の還付額は40,000/24,000/12,000/4,000（暫定値）",
-                WorldCouncilPayout.amountFor(1) == 40_000
-                        && WorldCouncilPayout.amountFor(2) == 24_000
-                        && WorldCouncilPayout.amountFor(3) == 12_000
-                        && WorldCouncilPayout.amountFor(4) == 4_000);
+        check("1〜4位の還付額は500,000/300,000/150,000/50,000（配分比10:6:3:1、暫定値）",
+                WorldCouncilPayout.amountFor(1) == 500_000
+                        && WorldCouncilPayout.amountFor(2) == 300_000
+                        && WorldCouncilPayout.amountFor(3) == 150_000
+                        && WorldCouncilPayout.amountFor(4) == 50_000);
         check("5位以下・順位なしは還付されない", WorldCouncilPayout.amountFor(5) == 0
                 && WorldCouncilPayout.amountFor(0) == 0);
 
         var beforePayout = new NationalAccounts.Balances(1_000, 500);
         var afterFirst = WorldCouncilPayout.credit(beforePayout, 1);
         check("還付は国庫にのみ加算され、外交準備高は変化しない（非課税）",
-                afterFirst.treasury() == 41_000 && afterFirst.reserve() == 500);
+                afterFirst.treasury() == 501_000 && afterFirst.reserve() == 500);
         var afterNone = WorldCouncilPayout.credit(beforePayout, 5);
         check("順位圏外は国庫が変化しない", afterNone.treasury() == 1_000 && afterNone.reserve() == 500);
+
+        // 開催条件（§17）：初回90日後以降・前回開催から28日間隔・33日ロックアウト
+        check("初回開催の最短日はサーバー開始+90日",
+                WorldCouncilSchedule.earliestHostDay(0, null) == 90);
+        check("2回目以降は前回開催+28日",
+                WorldCouncilSchedule.earliestHostDay(0, 90L) == 118);
+        check("最短日未満は開催不可", !WorldCouncilSchedule.dateReady(89, 0, null));
+        check("最短日に達すれば開催可能（以降も真のまま）",
+                WorldCouncilSchedule.dateReady(90, 0, null)
+                        && WorldCouncilSchedule.dateReady(200, 0, null));
+
+        var candidates = List.of(
+                new WorldCouncilSchedule.Candidate("A国", 10, 500_000),
+                new WorldCouncilSchedule.Candidate("B国", 8, 800_000),
+                new WorldCouncilSchedule.Candidate("C国", 12, 300_000),
+                new WorldCouncilSchedule.Candidate("D国", 7, 100_000),
+                new WorldCouncilSchedule.Candidate("E国", 20, 900_000),
+                new WorldCouncilSchedule.Candidate("F国", 5, 1_000_000));
+        var selected = WorldCouncilSchedule.selectParticipants(100, candidates, List.of());
+        check("直近30日生産額の上位4か国を選抜する（rank7未満のF国は対象外）",
+                selected.isPresent() && selected.get().equals(List.of("E国", "B国", "A国", "C国")));
+
+        var locks = List.of(new WorldCouncilSchedule.Lock("B国", 133));
+        check("ロックアウト中の国家は選抜対象から外れる", WorldCouncilSchedule.isLocked("B国", 100, locks)
+                && !WorldCouncilSchedule.isLocked("B国", 133, locks));
+        var selectedWithLock = WorldCouncilSchedule.selectParticipants(100, candidates, locks);
+        check("ロックアウト中を除くと次点（D国）が繰り上がる",
+                selectedWithLock.isPresent() && selectedWithLock.get().equals(List.of("E国", "A国", "C国", "D国")));
+
+        var fewCandidates = List.of(
+                new WorldCouncilSchedule.Candidate("A国", 10, 500_000),
+                new WorldCouncilSchedule.Candidate("B国", 8, 800_000),
+                new WorldCouncilSchedule.Candidate("C国", 12, 300_000));
+        check("適格国が4か国に満たなければ開催を見送る（空）",
+                WorldCouncilSchedule.selectParticipants(100, fewCandidates, List.of()).isEmpty());
+
+        var newLocks = WorldCouncilSchedule.withLocksAfterHosting(List.of(), 100, List.of("E国", "B国", "A国"));
+        check("開催後、最終順位1〜3位に33日ロックを課す（4位のC国は対象外）",
+                WorldCouncilSchedule.isLocked("E国", 100, newLocks)
+                        && WorldCouncilSchedule.isLocked("B国", 100, newLocks)
+                        && WorldCouncilSchedule.isLocked("A国", 100, newLocks)
+                        && !WorldCouncilSchedule.isLocked("C国", 100, newLocks));
+        check("ロックは33日で解除される", WorldCouncilSchedule.isLocked("E国", 132, newLocks)
+                && !WorldCouncilSchedule.isLocked("E国", 133, newLocks));
+        var expiredThenRelocked = WorldCouncilSchedule.withLocksAfterHosting(newLocks, 133, List.of("C国"));
+        check("期限切れのロックは新しい開催処理で自然に消える",
+                !WorldCouncilSchedule.isLocked("E国", 133, expiredThenRelocked)
+                        && WorldCouncilSchedule.isLocked("C国", 133, expiredThenRelocked));
     }
 
     private static void section(String name) {
