@@ -87,6 +87,7 @@ public final class CoreTests {
         hollowGuardSpecial();
         railInfra();
         worldCouncil();
+        nationalSecurities();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -167,11 +168,8 @@ public final class CoreTests {
         }
         check("rankSustainedBy が B(a)×0.1 の境界で正しく切り替わる", sustained);
 
-        check("シュルカー累計 6個=210,000", Formulas.shulkerCumulativeCost(6) == 210_000);
-        check("シュルカー累計 24個=1,272,000", Formulas.shulkerCumulativeCost(24) == 1_272_000);
-        check("シュルカー累計 54個=4,482,000", Formulas.shulkerCumulativeCost(54) == 4_482_000);
-        check("シュルカー上限 rank0=6", Formulas.shulkerLimit(0) == 6);
-        check("シュルカー上限 rank25=54", Formulas.shulkerLimit(25) == 54);
+        check("シュルカーボックス1人あたり上限は10個（§16、クラフトのみで入手・現存数判定）",
+                Formulas.SHULKER_PERSONAL_LIMIT == 10);
         check("exp換算 3,750/h", Formulas.EXP_PER_HOUR == 3750);
     }
 
@@ -1621,9 +1619,9 @@ public final class CoreTests {
         var citizen = new MenuScreen.Context(Role.CITIZEN, 10, Government.NONE, false, false,
                 0, 100, false, false, false, 12);
         var citizenSlots = MenuScreen.build(citizen);
-        check("市民は国庫とシュルカーを見られる",
+        check("市民は国庫とシュルカーの一覧を見られる",
                 MenuScreen.find(citizenSlots, MenuEntry.TREASURY_VIEW).isPresent()
-                        && MenuScreen.find(citizenSlots, MenuEntry.SHULKER_BUY).isPresent());
+                        && MenuScreen.find(citizenSlots, MenuEntry.SHULKER_LIST).isPresent());
         check("市民にはチーフ以上の項目を表示しない",
                 MenuScreen.find(citizenSlots, MenuEntry.DISPUTE).isEmpty()
                         && MenuScreen.find(citizenSlots, MenuEntry.MEMBER_EXPEL).isEmpty());
@@ -4182,6 +4180,55 @@ public final class CoreTests {
         check("期限切れのロックは新しい開催処理で自然に消える",
                 !WorldCouncilSchedule.isLocked("E国", 133, expiredThenRelocked)
                         && WorldCouncilSchedule.isLocked("C国", 133, expiredThenRelocked));
+    }
+
+    private static void nationalSecurities() {
+        section("§7.5 国債と国家株");
+
+        // 保有制限：自国民は自国の証券を保有できない
+        check("自国民は自国の証券を保有できない", !NationalSecurities.canHold("A国", "A国"));
+        check("他国民は保有できる", NationalSecurities.canHold("A国", "B国"));
+
+        // 発行：購入代金は国庫で受け取る（国債の元本・国家株の代金で共通）。通貨量は変わらない
+        var issuer0 = new NationalAccounts.Balances(100_000, 50_000);
+        var afterIssue = NationalSecurities.issue(issuer0, 1_000_000);
+        check("発行代金は国庫にのみ加算される", afterIssue.treasury() == 1_100_000 && afterIssue.reserve() == 50_000);
+
+        // 満期償還：国庫から元本を返す。国庫のみ、準備高は使わない
+        var solventIssuer = new NationalAccounts.Balances(1_100_000, 50_000);
+        var redemption = NationalSecurities.redeemBond(solventIssuer, 1_000_000);
+        check("償還できれば国庫だけが減り、不履行はゼロ",
+                redemption.after().treasury() == 100_000 && redemption.after().reserve() == 50_000
+                        && redemption.unpaid() == 0);
+        check("償還可能かを事前判定できる", NationalSecurities.canRepayAtMaturity(solventIssuer, 1_000_000));
+
+        var insolventIssuer = new NationalAccounts.Balances(400_000, 50_000);
+        var defaultedRedemption = NationalSecurities.redeemBond(insolventIssuer, 1_000_000);
+        check("国庫が不足すれば不履行額が残る（デフォルト）", defaultedRedemption.unpaid() == 600_000
+                && defaultedRedemption.after().treasury() == 0);
+        check("償還可能判定はデフォルトを事前に検知できる",
+                !NationalSecurities.canRepayAtMaturity(insolventIssuer, 1_000_000));
+
+        // 利子・配当：活動日ゲート付きで外交準備高からのみ支払う。国庫は補填しない
+        var payer = new NationalAccounts.Balances(1_000, 10_000);
+        var activePayout = NationalSecurities.payToActivePlayer(payer, 500, true);
+        check("活動日は準備高から支払われ、国庫は変化しない",
+                activePayout.paid() == 500 && activePayout.issuerAfter().reserve() == 9_500
+                        && activePayout.issuerAfter().treasury() == 1_000);
+
+        var inactivePayout = NationalSecurities.payToActivePlayer(payer, 500, false);
+        check("非活動日は支払われず消滅する（準備高も減らない）",
+                inactivePayout.paid() == 0 && inactivePayout.issuerAfter().reserve() == 10_000);
+
+        var shortReservePayer = new NationalAccounts.Balances(1_000, 300);
+        var partialPayout = NationalSecurities.payToActivePlayer(shortReservePayer, 500, true);
+        check("準備高が不足すれば支払えるだけを支払い、国庫からは補填しない",
+                partialPayout.paid() == 300 && partialPayout.issuerAfter().reserve() == 0
+                        && partialPayout.issuerAfter().treasury() == 1_000);
+
+        // 通貨発行の上限：利子・配当の合計は同期間の準備高計上額を超えられない
+        check("計上額以下なら上限内", NationalSecurities.withinIssuanceCap(300_000, 300_000));
+        check("計上額を超えれば上限超過", !NationalSecurities.withinIssuanceCap(300_001, 300_000));
     }
 
     private static void section(String name) {

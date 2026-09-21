@@ -24,7 +24,7 @@ public enum MenuEntry {
     MARKET("GUI市場", Section.ECONOMY, Access.EVERYONE, "エメラルド"),
     RECRUITMENT("求人区画", Section.ECONOMY, Access.EVERYONE, "看板"),
     TREASURY_VIEW("国庫の残高と納入", Section.ECONOMY, Access.CITIZEN, "金塊"),
-    SHULKER_BUY("シュルカーボックスの購入", Section.ECONOMY, Access.CITIZEN, "シュルカーボックス"),
+    SHULKER_LIST("所有シュルカーボックスの一覧", Section.ECONOMY, Access.CITIZEN, "シュルカーボックス"),
 
     // 4行目: 国家運営
     CLAIM_TOOL("領土の操作", Section.ADMIN, Access.HEAD, "棒"),

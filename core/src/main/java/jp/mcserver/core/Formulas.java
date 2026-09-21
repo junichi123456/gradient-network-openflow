@@ -74,27 +74,13 @@ public final class Formulas {
         return Math.min(MAX_RANK, Math.max(0, (int) Math.floor(a + 1e-9)));
     }
 
-    /** シュルカーボックスの価格 30,000 + 2,000e（§14）。 */
-    public static long shulkerPrice(int purchaseCount) {
-        if (purchaseCount < 0) {
-            throw new IllegalArgumentException("購入回数が負である: " + purchaseCount);
-        }
-        return 30_000L + 2_000L * purchaseCount;
-    }
-
-    /** シュルカーボックスを k 個買うまでの累計費用（e のリセットが無い場合、§14）。 */
-    public static long shulkerCumulativeCost(int count) {
-        long total = 0;
-        for (int e = 0; e < count; e++) {
-            total += shulkerPrice(e);
-        }
-        return total;
-    }
-
-    /** 国家単位のシュルカーボックス保有上限 = 2 × 定員（§14）。 */
-    public static int shulkerLimit(int rank) {
-        return 2 * capacity(rank);
-    }
+    /**
+     * シュルカーボックス1人あたりの保有上限（現存数で判定、§16）。
+     *
+     * <p>クラフトのみで入手する個人の物流用具のため、価格式・国家単位の上限式は無い
+     * （旧仕様の「国家共有・30,000+2,000e exp・国家単位上限」は§16の改定で廃止した）。
+     */
+    public static final int SHULKER_PERSONAL_LIMIT = 10;
 
     private static void requireRank(int rank) {
         if (rank < 0 || rank > MAX_RANK) {
