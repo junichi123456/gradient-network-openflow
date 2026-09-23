@@ -90,6 +90,7 @@ public final class CoreTests {
         nationalSecurities();
         jobProficiency();
         genetics();
+        horseTraining();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -4326,6 +4327,56 @@ public final class CoreTests {
         check("突然変異率は0.1%", Genetics.MUTATION_RATE == 0.001);
         check("突然変異の獲得値はランクⅠ帯（1〜10）",
                 Genetics.MUTATION_TRAIT_VALUE_MIN == 1 && Genetics.MUTATION_TRAIT_VALUE_MAX == 10);
+    }
+
+    private static void horseTraining() {
+        section("§26.7 馬の育成システム（簡略化版）");
+
+        check("仔馬は14分で成体になる", HorseTraining.MATURATION_MINUTES == 14);
+
+        // 近親交配：血統ツリーは持たず、直近の親2頭のIDだけを見る
+        var noParents = new HorseTraining.Parentage(null, null);
+        var childOfAB = new HorseTraining.Parentage("A", "B");
+        var halfSiblingOfAB = new HorseTraining.Parentage("A", "C");
+        var unrelatedToAB = new HorseTraining.Parentage("X", "Y");
+
+        check("片方がもう片方の親なら近親交配", HorseTraining.related("A", noParents, "child", childOfAB));
+        check("親を共有していれば近親交配（半兄弟）",
+                HorseTraining.related("child1", childOfAB, "child2", halfSiblingOfAB));
+        check("親を共有していなければ近親交配ではない",
+                !HorseTraining.related("child1", childOfAB, "child3", unrelatedToAB));
+        check("親の記録が無い個体同士は近親交配と判定されない",
+                !HorseTraining.related("wild1", noParents, "wild2", noParents));
+
+        // 近親交配時は継承のブレを反転させる（通常+3平均 → 近親交配-3平均）
+        check("通常の交配はブレをそのまま使う", HorseTraining.inbredDriftRoll(5, false) == 5);
+        check("近親交配はブレを反転させる", HorseTraining.inbredDriftRoll(5, true) == -5);
+        check("反転後も§26.3のドリフト範囲に収まる（-8〜+2）",
+                HorseTraining.inbredDriftRoll(Genetics.DRIFT_MAX, true) == -Genetics.DRIFT_MAX
+                        && HorseTraining.inbredDriftRoll(Genetics.DRIFT_MIN, true) == -Genetics.DRIFT_MIN);
+
+        // 怪我：頑丈さのランクが高いほど発生率が下がる（毎Tick物理ではなく離散判定）
+        check("頑丈さ0（無形質）は基準発生率5%", HorseTraining.injuryRate(0) == 0.05);
+        check("頑丈さランクⅩ（91〜100）で発生率が半減（2.5%）", HorseTraining.injuryRate(100) == 0.025);
+        check("頑丈さランクⅤ（41〜50）で発生率が25%軽減（3.75%）",
+                Math.abs(HorseTraining.injuryRate(41) - 0.0375) < 1e-9);
+
+        // 重症度：軽傷70%・重傷25%・後遺症5%
+        check("低いrollは軽傷", HorseTraining.injurySeverity(0.0) == HorseTraining.InjuryStage.MINOR
+                && HorseTraining.injurySeverity(0.69) == HorseTraining.InjuryStage.MINOR);
+        check("中間のrollは重傷", HorseTraining.injurySeverity(0.70) == HorseTraining.InjuryStage.MAJOR
+                && HorseTraining.injurySeverity(0.94) == HorseTraining.InjuryStage.MAJOR);
+        check("高いrollは後遺症", HorseTraining.injurySeverity(0.95) == HorseTraining.InjuryStage.PERMANENT
+                && HorseTraining.injurySeverity(0.99) == HorseTraining.InjuryStage.PERMANENT);
+
+        // 段階ごとの扱い
+        check("軽傷・後遺症は騎乗可能、重傷のみ不可",
+                HorseTraining.ridable(HorseTraining.InjuryStage.MINOR)
+                        && !HorseTraining.ridable(HorseTraining.InjuryStage.MAJOR)
+                        && HorseTraining.ridable(HorseTraining.InjuryStage.PERMANENT));
+        check("軽傷は移動速度-30%", HorseTraining.MINOR_SPEED_MULTIPLIER == 0.70);
+        check("後遺症は速さ・スタミナが恒久的に5〜10%低下",
+                HorseTraining.PERMANENT_STAT_LOSS_MIN == 0.05 && HorseTraining.PERMANENT_STAT_LOSS_MAX == 0.10);
     }
 
     private static void section(String name) {
