@@ -88,6 +88,8 @@ public final class CoreTests {
         railInfra();
         worldCouncil();
         nationalSecurities();
+        jobProficiency();
+        genetics();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -4257,6 +4259,73 @@ public final class CoreTests {
         check("期限切れの記録は自然に消え、新しい記録だけが残る",
                 !NationalSecurities.issuanceBanned("A国", 190, relisted)
                         && NationalSecurities.issuanceBanned("B国", 190, relisted));
+    }
+
+    private static void jobProficiency() {
+        section("§25 ジョブ経験値と熟練度");
+
+        // レベル閾値 L(n) = 10,000 × n²
+        check("L(1)=10,000", JobProficiency.threshold(1) == 10_000);
+        check("L(5)=250,000", JobProficiency.threshold(5) == 250_000);
+        check("L(10)=1,000,000", JobProficiency.threshold(10) == 1_000_000);
+
+        // 累計XPからレベルを求める（閾値の逆関数）
+        check("9,999は未到達（レベル0）", JobProficiency.levelFor(9_999) == 0);
+        check("10,000でレベル1に到達", JobProficiency.levelFor(10_000) == 1);
+        check("250,000でレベル5に到達", JobProficiency.levelFor(250_000) == 5);
+        check("999,999はまだレベル9", JobProficiency.levelFor(999_999) == 9);
+        check("1,000,000でレベル10（上限）に到達", JobProficiency.levelFor(1_000_000) == 10);
+
+        // 降格：14日は猶予、以降3日ごとに1段階
+        check("14日以内は降格しない", JobProficiency.levelAfterInactivity(10, 14) == 10);
+        check("16日目はまだ降格しない（3日刻みの境界前）", JobProficiency.levelAfterInactivity(10, 16) == 10);
+        check("猶予後3日で1段階下がる（14+3=17日）", JobProficiency.levelAfterInactivity(10, 17) == 9);
+        check("猶予後6日で2段階下がる", JobProficiency.levelAfterInactivity(10, 20) == 8);
+        check("レベル0を下回らない", JobProficiency.levelAfterInactivity(2, 365) == 0);
+
+        // カテゴリ別の経済効果上限（§25.6・§25.8、§14.3の政策範囲を超えないための上限）
+        check("農業の上限は収穫exp+12%・収穫量確率+40%",
+                JobProficiency.AGRICULTURE_HARVEST_EXP_BONUS_CAP == 0.12
+                        && JobProficiency.AGRICULTURE_YIELD_CHANCE_BONUS_CAP == 0.40);
+        check("商売の上限は手数料-0.4%pt", JobProficiency.TRADE_FEE_DISCOUNT_CAP == 0.004);
+        check("外交の上限は貢献度+10%・対外支払い-4%",
+                JobProficiency.DIPLOMACY_CONTRIBUTION_BONUS_CAP == 0.10
+                        && JobProficiency.DIPLOMACY_PAYMENT_DISCOUNT_CAP == 0.04);
+    }
+
+    private static void genetics() {
+        section("§26 育種システム（作物・一般動物、馬を除く）");
+
+        // ランク：0=無形質、1〜10=Ⅰ〜Ⅹ
+        check("値0は無形質（ランク0）", Genetics.rank(0) == 0);
+        check("値1〜10はランクⅠ", Genetics.rank(1) == 1 && Genetics.rank(10) == 1);
+        check("値11はランクⅡ", Genetics.rank(11) == 2);
+        check("値90はランクⅨ（境界の暫定判断）", Genetics.rank(90) == 9);
+        check("値91以上はランクⅩ", Genetics.rank(91) == 10 && Genetics.rank(100) == 10);
+
+        // 作物のドリフト：植えた時点の値 + roll、0〜100に丸める
+        check("通常のドリフトはそのまま加算される", Genetics.cropDrift(50, 3) == 53);
+        check("上限を超えれば100に丸める", Genetics.cropDrift(98, 8) == 100);
+        check("下限を下回れば0に丸める", Genetics.cropDrift(1, -2) == 0);
+
+        // 動物の交配：両親平均 + roll
+        check("両親平均にrollを加える", Genetics.animalInherit(40, 60, 3) == 53);
+        check("平均が整数にならない場合は切り捨て", Genetics.animalInherit(41, 60, 0) == 50);
+
+        // 瀕死イベント発現率：耐性形質がランク5（値41〜50）以上で半減
+        check("無形質は基準発現率1%", Genetics.nearDeathEventRate(0) == Genetics.NEAR_DEATH_BASE_RATE);
+        check("値40（ランク4）はまだ基準発現率", Genetics.nearDeathEventRate(40) == Genetics.NEAR_DEATH_BASE_RATE);
+        check("値41（ランク5）で発現率が半減", Genetics.nearDeathEventRate(41) == Genetics.NEAR_DEATH_RESISTANT_RATE);
+
+        // 不作・瀕死イベントの発生条件は共通で1日2回判定
+        check("不作・瀕死とも1日2回判定される", Genetics.EVENT_CHECKS_PER_DAY == 2);
+        check("不作イベントの発現率は10%、二次感染率は50%",
+                Genetics.CROP_BLIGHT_RATE == 0.10 && Genetics.CROP_BLIGHT_SECONDARY_INFECTION_RATE == 0.50);
+
+        // 突然変異率は作物・動物で共通
+        check("突然変異率は0.1%", Genetics.MUTATION_RATE == 0.001);
+        check("突然変異の獲得値はランクⅠ帯（1〜10）",
+                Genetics.MUTATION_TRAIT_VALUE_MIN == 1 && Genetics.MUTATION_TRAIT_VALUE_MAX == 10);
     }
 
     private static void section(String name) {
