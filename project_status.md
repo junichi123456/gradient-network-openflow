@@ -16,7 +16,6 @@
 | `implementation_feasibility.md` | 仕様のうち実装で詰まる箇所の切り分け | 主要な論点は整理済み |
 | `local_test_setup.md` | Windows での検証環境の作り方と確認項目 | 手順は通っている |
 | `capacity_plan.md` / `mod_rulings.md` | 収容計画 / Mod の判例集 | 初版のまま |
-| `datapack/` | 石の扉・トラップドア（§27）のレシピ上書き。クリムゾンの扉/トラップドアを流用 | レシピ・表示名（`resourcepack/assets/minecraft/lang/ja_jp.json`）は実装済み。**テクスチャ4枚（扉上下・トラップドア・インベントリ表示）の塗り替えは未着手** |
 | `rail_infra_spec.md` | 地下鉄インフラ管理プラグインの要件定義。Vault・Towny/Lands は使わず、自作の代用データで済ませる方針に変更 | **`core`（`jp.mcserver.core.rail`、検証48件）・`plugin`（`jp.mcserver.plugin.rail`、SQLite永続化・`/rail`コマンド）とも実装済み。実機でのビルド・起動は未確認**（paper-api 1.26.2・sqlite-jdbc へのバージョン変更を含む）。国家代用データ（国庫等）は `NationLedger` へ切り出し、世界協議と共有する構成に変更 |
 | `world_council_spec.md` | 世界協議（BLOCK CONQUESTを用いた国家対抗イベント）の要件定義。国家資格判定・専用ワールド移送・還付の統合レイヤーのみが対象（ユーザーへ確認して決定） | **`core`（`jp.mcserver.core.worldcouncil`、検証22件）・`plugin`（`jp.mcserver.plugin.worldcouncil`、`/worldcouncil`コマンド）とも実装済み。実機でのビルド・起動は未確認。BLOCK CONQUEST本体（盤面・カード・進行のデータパック）は仕様のみで実装は未着手** |
 | `core/` | サーバー非依存のロジック（Java、外部依存なし） | 検証 **946 件** 成功 |
