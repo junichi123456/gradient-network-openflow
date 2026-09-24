@@ -1,0 +1,7 @@
+{
+  "pack": {
+    "pack_format": 61,
+    "supported_formats": { "min_inclusive": 42, "max_inclusive": 61 },
+    "description": "石の扉・トラップドアのレシピ上書き（附録: 石のドア/トラップドア）"
+  }
+}
