@@ -99,13 +99,18 @@ git pull
 `E:\raid-dev\plugin\build.gradle` をメモ帳で開き、次の行のバージョンを**立てるサーバーのバージョン**に合わせる。**既定は 1.26.3**（最新版に追従。地下鉄インフラの駅舎ブロック17種のうち2種は1.26.2で追加されたもので、`rail_infra_spec.md` §6 のとおり以降のバージョンにも引き継がれている）。
 
 ```gradle
-compileOnly 'io.papermc.paper:paper-api:1.26.3-R0.1-SNAPSHOT'
+compileOnly 'io.papermc.paper:paper-api:26.3.build.9-alpha'
 ```
 
-同じく `E:\raid-dev\plugin\src\main\resources\plugin.yml` の `api-version` も合わせる。
+> **1.26.3 からバージョン文字列の形式が変わっている。** 旧来の「1.26.3-R0.1-SNAPSHOT」形式では
+> `repo.papermc.io` に該当バージョンが見つからない。実機で `repo.papermc.io` の
+> `paper-api` ディレクトリを直接開いて確認したところ、「26.3.build.9-alpha」という
+> 別形式（先頭の「1.」が無く、末尾は「-alpha」）になっていた。ビルド番号（`build.9`）は
+> 今後の再ビルドで進む可能性があるため、上記の指定でビルドが失敗する場合は
+> https://repo.papermc.io/repository/maven-public/io/papermc/paper/paper-api/ を
+> ブラウザで開いて最新のディレクトリ名を確認し、ここを合わせ直すこと。
 
-> **このバージョン文字列は実機での確認が要る。** 私の環境からは `repo.papermc.io` に
-> 到達できず、ビルドを試せていない。ビルドが通らなければ、まずここを疑うこと。
+同じく `E:\raid-dev\plugin\src\main\resources\plugin.yml` の `api-version` も合わせる（こちらは `'1.26'` のようなメジャー系列表記のままでよく、上記のビルド番号は含めない）。
 
 地下鉄インフラの永続化に SQLite（`org.xerial:sqlite-jdbc`）を使う。`plugin/build.gradle` に
 依存として書いてあるので、ビルド時に Gradle が自動で取得する——追加の手作業は無い。
