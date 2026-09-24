@@ -18,9 +18,9 @@ repositories {
 
 dependencies {
     // 対象バージョンに合わせて差し替える。
-    // 1.26.2 へ移行予定（rail_infra_spec.md）——このバージョン文字列は実機での確認が要る。
+    // 1.26.3 へ移行予定（最新版に追従。rail_infra_spec.md）——このバージョン文字列は実機での確認が要る。
     // 私の環境では repo.papermc.io に到達できずビルドを試せていない。
-    compileOnly 'io.papermc.paper:paper-api:1.26.2-R0.1-SNAPSHOT'
+    compileOnly 'io.papermc.paper:paper-api:1.26.3-R0.1-SNAPSHOT'
     implementation project(':core')
     // 地下鉄インフラ（rail_infra_spec.md）の永続化。バージョンは要確認（同じ理由でmavenCentralにも
     // 到達できていない）。java.sql.* は JDK 標準なので、このドライバが無くてもコンパイルは通る

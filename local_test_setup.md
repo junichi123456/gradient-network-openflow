@@ -96,10 +96,10 @@ git pull
 
 ### 2.2 対象バージョンを合わせる
 
-`E:\raid-dev\plugin\build.gradle` をメモ帳で開き、次の行のバージョンを**立てるサーバーのバージョン**に合わせる。**既定は 1.26.2**（地下鉄インフラの駅舎ブロック17種のうち2種が1.26.2で追加されたため、`rail_infra_spec.md` §6 のとおり移行予定にした）。
+`E:\raid-dev\plugin\build.gradle` をメモ帳で開き、次の行のバージョンを**立てるサーバーのバージョン**に合わせる。**既定は 1.26.3**（最新版に追従。地下鉄インフラの駅舎ブロック17種のうち2種は1.26.2で追加されたもので、`rail_infra_spec.md` §6 のとおり以降のバージョンにも引き継がれている）。
 
 ```gradle
-compileOnly 'io.papermc.paper:paper-api:1.26.2-R0.1-SNAPSHOT'
+compileOnly 'io.papermc.paper:paper-api:1.26.3-R0.1-SNAPSHOT'
 ```
 
 同じく `E:\raid-dev\plugin\src\main\resources\plugin.yml` の `api-version` も合わせる。
@@ -138,14 +138,14 @@ mkdir E:\raid-test
 cd E:\raid-test
 ```
 
-**ブラウザで取得する。** [papermc.io/downloads/paper](https://papermc.io/downloads/paper) を開き、バージョン選択で対象バージョン（例: 1.21.4）を選び、**Download** を押す。
+**ブラウザで取得する。** [papermc.io/downloads/paper](https://papermc.io/downloads/paper) を開き、バージョン選択で対象バージョン（**1.26.3**。最新版に追従）を選び、**Download** を押す。
 
 > **API 経由の取得は避ける。** Paper の v2 API は停止しており（`{"error":"sunset"}` が返る）、後継のエンドポイントは変わりうる。ブラウザからの取得が確実である。
 
 落としたファイルを配置する。ビルド番号はワイルドカードで拾える。
 
 ```powershell
-Move-Item "$HOME\Downloads\paper-1.21.4-*.jar" E:\raid-test\paper.jar
+Move-Item "$HOME\Downloads\paper-1.26.3-*.jar" E:\raid-test\paper.jar
 ```
 
 **バージョンは3か所で揃える。** サーバーの jar、`plugin/build.gradle` の `paper-api`、Minecraft クライアント。1つでも違うと接続できないか、プラグインが動かない。
@@ -831,7 +831,7 @@ ItemDisplay の180度のずれは描画側で戻している。ここで確か�
 ## 地下鉄インフラ（`rail_infra_spec.md`）
 
 **実機での検証はまだ一度もしていない。** ビルドが通るかどうかから確認が要る
-（paper-api を 1.21.4→1.26.2 へ、依存に sqlite-jdbc を追加した——`rail_infra_spec.md` §6）。
+（paper-api を 1.21.4→1.26.3 へ、依存に sqlite-jdbc を追加した——`rail_infra_spec.md` §6）。
 
 **本物の国家プラグインがまだ無いため、鉄道専用の代用データを `/rail admin` で手で
 埋める必要がある。** 実際の所属国家・国庫・同盟・領土とは連動しない（§6「鉄道専用の
@@ -890,7 +890,7 @@ ItemDisplay の180度のずれは描画側で戻している。ここで確か�
 
 対象ブロックは `config.yml` の `station.qualifying-blocks`（17種）。**「硫黄レンガ」
 「辰砂レンガ」は仮の Material 名（`SULFUR_BRICKS`/`CINNABAR_BRICKS`）のままなので、
-このサーバーの 1.26.2 でこの名前が存在しなければ、起動ログに警告が出てこの2種は
+このサーバーの 1.26.3 でこの名前が存在しなければ、起動ログに警告が出てこの2種は
 対象から除外される。** 実際の名前が分かったら `config.yml` を直して `/rail admin reload`。
 
 外寸22×12×42〜32×17×52の空間を、指定ブロックで（各面40%以上・計上2種まで・
@@ -1037,5 +1037,5 @@ java -Dstdout.encoding=UTF-8 -cp out jp.mcserver.core.raid.RigSketch > knight.sv
 |---|---|
 | 実装済み | 部位の生成と見た目、親子の変換合成、**長辺に沿って分割した当たり判定**、**接地**、待機→移動→攻撃の周期、待機・歩行のループモーション、**状況に応じた技の選択**、**武器からの攻撃力計算**、ダメージ判定、ノックバック、妨害、パリイ、**弱点の露出と発光**、**激昂**、ボスバー、効果音とパーティクル、段階移行と骨格の入れ替え、除去、**村人の取引テーブル（§3.2）**、**虚刃の衛士（レイド種2、実体3種・特殊4種・第三形態まで）**、**地下鉄インフラ（`rail_infra_spec.md`、国庫等は`NationLedger`で世界協議と共有）**、**世界協議（`world_council_spec.md`、統合レイヤーのみ。BLOCK CONQUEST本体は未実装）** |
 | 未実装 | レイド種3〜5、領土・経済・外交・市場・Hub の Bukkit 側の実装（`core` にロジックはあるが未接続）、BLOCK CONQUEST 本体（盤面・カード・進行のデータパック） |
-| 検証済み | **Paper 1.21.4 上でビルドと読み込みまで通っていた**（`Initialized 1 plugin` / `RaidPlugin (0.1.0)` / `レイド検証プラグインを有効化しました`）。**地下鉄インフラの追加にあわせて paper-api を 1.26.2 へ、依存に sqlite-jdbc を追加したため、この検証はやり直しが要る**（`rail_infra_spec.md` §6） |
+| 検証済み | **Paper 1.21.4 上でビルドと読み込みまで通っていた**（`Initialized 1 plugin` / `RaidPlugin (0.1.0)` / `レイド検証プラグインを有効化しました`）。**地下鉄インフラの追加にあわせて paper-api を 1.26.3 へ、依存に sqlite-jdbc を追加したため、この検証はやり直しが要る**（`rail_infra_spec.md` §6） |
 | 調整が要るとみられる箇所 | 当たり判定の実体（Interaction）への攻撃をどのイベントで拾うか、槍の判定距離（既定5ブロック）、パリイの判定（盾を構えているか）、地下鉄インフラの「硫黄レンガ」「辰砂レンガ」の Material 定数名 |
