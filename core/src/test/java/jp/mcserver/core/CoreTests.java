@@ -4401,6 +4401,37 @@ public final class CoreTests {
         check("高いrollは後遺症", HorseTraining.injurySeverity(0.95) == HorseTraining.InjuryStage.PERMANENT
                 && HorseTraining.injurySeverity(0.99) == HorseTraining.InjuryStage.PERMANENT);
 
+        // 速さの実数値換算：0→4.857m/s（バニラ下限相当）、100→17.0m/s（新上限）
+        check("速さ0は4.857m/s", Math.abs(HorseTraining.maxSpeedMps(0) - 4.857) < 1e-9);
+        check("速さ100は17.0m/s", HorseTraining.maxSpeedMps(100) == 17.0);
+        check("速さ50は中間値（約10.93m/s）", Math.abs(HorseTraining.maxSpeedMps(50) - 10.9285) < 1e-9);
+
+        // 高速域の旋回困難：14.0m/s未満は影響なし、17.0m/sへ向けて段階的に強くなる
+        check("13.9m/sは慣性の影響なし", HorseTraining.baseInertiaEffect(13.9) == 0.0);
+        check("14.0m/sちょうどはまだ影響ゼロ（ここから強くなり始める）",
+                HorseTraining.baseInertiaEffect(14.0) == 0.0);
+        check("15.5m/s（14〜17の中間）は影響50%", HorseTraining.baseInertiaEffect(15.5) == 0.5);
+        check("17.0m/s（上限）は影響100%", HorseTraining.baseInertiaEffect(17.0) == 1.0);
+
+        // 旋回性は自身の最高速度の80%以上でのみ働く
+        check("自身の最高速度17.0m/sの80%＝13.6m/s以上で旋回性が働く",
+                HorseTraining.turningStatActive(13.61, 17.0) && !HorseTraining.turningStatActive(13.5, 17.0));
+        check("旋回性100は慣性影響を75%軽減、0は軽減なし",
+                HorseTraining.turningMitigation(100) == 0.75 && HorseTraining.turningMitigation(0) == 0.0);
+
+        // 速度上限が全個体共通のため、慣性が働き始める14.0m/sは常に「自身の最高速度の80%」を超えている
+        check("最高速度17.0m/sの馬が14.0m/sを出した時点で旋回性は必ず有効",
+                HorseTraining.turningStatActive(14.0, 17.0));
+        check("最高速度15.0m/sの馬でも14.0m/sの時点で旋回性は有効（80%＝12.0m/s）",
+                HorseTraining.turningStatActive(14.0, 15.0));
+
+        check("速度14.0m/s未満は旋回性の有無によらず慣性の影響がゼロ",
+                HorseTraining.effectiveInertiaEffect(13.9, 17.0, 100) == 0.0);
+        check("最高速度・旋回性100でも慣性は残る（75%軽減で25%）",
+                Math.abs(HorseTraining.effectiveInertiaEffect(17.0, 17.0, 100) - 0.25) < 1e-9);
+        check("旋回性0なら慣性の影響をそのまま受ける",
+                HorseTraining.effectiveInertiaEffect(17.0, 17.0, 0) == 1.0);
+
         // 段階ごとの扱い
         check("軽傷・後遺症は騎乗可能、重傷のみ不可",
                 HorseTraining.ridable(HorseTraining.InjuryStage.MINOR)

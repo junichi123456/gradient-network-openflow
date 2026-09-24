@@ -23,6 +23,10 @@ import java.util.Set;
  *   <li>速さと頑丈さはトレードオフにする（{@link #toughnessAfterTradeoff}）</li>
  *   <li>血統は2世代・6頭（親2頭＋祖父母4頭）まで見る（{@link #related}）</li>
  *   <li>怪我の発生率はその時点のスタミナ残量に連動する（{@link #injuryRate}）</li>
+ *   <li>速さ100は実速度17.0 m/秒に相当し、14.0 m/秒以上では強力な推進力により
+ *       旋回が段階的に困難になる。旋回性は自身の最高速度の80%以上でのみ働き、
+ *       100でこの影響を75%まで軽減する（{@link #maxSpeedMps}・
+ *       {@link #effectiveInertiaEffect}）</li>
  * </ul>
  */
 public final class HorseTraining {
@@ -109,6 +113,79 @@ public final class HorseTraining {
         int excess = Math.max(0, inheritedSpeed - SPEED_TOUGHNESS_TRADEOFF_THRESHOLD);
         int penalty = (int) Math.round(excess * SPEED_TOUGHNESS_TRADEOFF_RATE);
         return Math.max(Genetics.VALUE_MIN, inheritedToughness - penalty);
+    }
+
+    // ---- 速さの実数値換算と高速域の旋回困難（§26.7.1） ----
+
+    /**
+     * 速さ0のときの実速度（m/秒）。バニラの movement_speed 属性が取り得る下限
+     * （0.1125）に相当する。
+     */
+    public static final double SPEED_TRAIT_MIN_MPS = 4.857;
+
+    /**
+     * 速さ100のときの実速度（m/秒）の上限。バニラの movement_speed 属性の自然な
+     * 上限（0.3375、14.57 m/秒相当）を超えて設定する。
+     */
+    public static final double SPEED_TRAIT_MAX_MPS = 17.0;
+
+    /** 速さの値（0〜100）を実速度（m/秒）へ変換する。0が下限、100が上限に対応する。 */
+    public static double maxSpeedMps(int speedValue) {
+        Genetics.rank(speedValue); // 0〜100の範囲検証を兼ねる
+        return SPEED_TRAIT_MIN_MPS + (speedValue / 100.0) * (SPEED_TRAIT_MAX_MPS - SPEED_TRAIT_MIN_MPS);
+    }
+
+    /** この速度（m/秒）から、非常に強力な推進力により旋回が困難になり始める。 */
+    public static final double INERTIA_THRESHOLD_MPS = 14.0;
+
+    /** 旋回性が効き始める、自身の最高速度に対する割合（80%以上）。 */
+    public static final double TURNING_RELEVANT_SPEED_FRACTION = 0.8;
+
+    /** 旋回性100のとき、慣性の影響を削減できる最大割合（75%）。 */
+    public static final double TURNING_MAX_MITIGATION = 0.75;
+
+    /**
+     * 現在速度による、旋回困難（慣性の影響）の基礎的な強さ（0〜1）。
+     * {@value #INERTIA_THRESHOLD_MPS} m/秒未満では0、{@link #SPEED_TRAIT_MAX_MPS}
+     * （全個体に共通の速度上限）に向けて段階的に強くなる。
+     */
+    public static double baseInertiaEffect(double currentSpeedMps) {
+        if (currentSpeedMps < INERTIA_THRESHOLD_MPS) {
+            return 0.0;
+        }
+        double clamped = Math.min(currentSpeedMps, SPEED_TRAIT_MAX_MPS);
+        return (clamped - INERTIA_THRESHOLD_MPS) / (SPEED_TRAIT_MAX_MPS - INERTIA_THRESHOLD_MPS);
+    }
+
+    /**
+     * 旋回性が効いているか。自身の最高速度の{@value #TURNING_RELEVANT_SPEED_FRACTION}
+     * 倍以上を出している場合にのみ、旋回性による軽減が働く。
+     */
+    public static boolean turningStatActive(double currentSpeedMps, double horseMaxSpeedMps) {
+        return currentSpeedMps >= horseMaxSpeedMps * TURNING_RELEVANT_SPEED_FRACTION;
+    }
+
+    /** 旋回性の値による、慣性影響の軽減率（0〜{@value #TURNING_MAX_MITIGATION}）。 */
+    public static double turningMitigation(int turningValue) {
+        Genetics.rank(turningValue); // 0〜100の範囲検証を兼ねる
+        return (turningValue / 100.0) * TURNING_MAX_MITIGATION;
+    }
+
+    /**
+     * 旋回性による軽減を適用した、最終的な旋回困難（慣性の影響、0〜1）。
+     * 自身の最高速度の80%未満では旋回性は働かない（{@link #turningStatActive}）。
+     * ただし速度上限（{@value #SPEED_TRAIT_MAX_MPS} m/秒）が全個体で共通のため、
+     * {@value #INERTIA_THRESHOLD_MPS} m/秒（80%相当は13.6 m/秒）に達している時点で
+     * 常にこの条件は満たされる。
+     */
+    public static double effectiveInertiaEffect(double currentSpeedMps, double horseMaxSpeedMps, int turningValue) {
+        double base = baseInertiaEffect(currentSpeedMps);
+        if (base == 0.0) {
+            return 0.0;
+        }
+        boolean active = turningStatActive(currentSpeedMps, horseMaxSpeedMps);
+        double mitigation = active ? turningMitigation(turningValue) : 0.0;
+        return base * (1 - mitigation);
     }
 
     // ---- 地形との駆け引き（§26.7.4） ----
