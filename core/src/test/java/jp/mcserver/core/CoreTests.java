@@ -4368,30 +4368,47 @@ public final class CoreTests {
         check("速さ100なら超過30の30%＝9だけ頑丈さが下がる", HorseTraining.toughnessAfterTradeoff(80, 100) == 71);
         check("頑丈さは0を下回らない", HorseTraining.toughnessAfterTradeoff(5, 100) == 0);
 
-        // 地形との駆け引き：坂の区間に入った時点の1回判定。頑丈さが高いほど負荷が軽い
-        check("平地はスタミナ消費・速度とも影響なし",
-                HorseTraining.staminaCostMultiplier(HorseTraining.Terrain.FLAT, 0) == 1.0
-                        && HorseTraining.speedMultiplier(HorseTraining.Terrain.FLAT, 100) == 1.0);
-        check("緩斜面：頑丈さ0はスタミナ消費2倍・速度90%",
-                HorseTraining.staminaCostMultiplier(HorseTraining.Terrain.GENTLE_SLOPE, 0) == 2.0
-                        && HorseTraining.speedMultiplier(HorseTraining.Terrain.GENTLE_SLOPE, 0) == 0.9);
-        check("緩斜面：頑丈さランクⅩは負荷が半分軽減される（消費1.5倍・速度95%）",
-                HorseTraining.staminaCostMultiplier(HorseTraining.Terrain.GENTLE_SLOPE, 100) == 1.5
-                        && Math.abs(HorseTraining.speedMultiplier(HorseTraining.Terrain.GENTLE_SLOPE, 100) - 0.95) < 1e-9);
-        check("急斜面：頑丈さ0はスタミナ消費4倍・速度70%",
-                HorseTraining.staminaCostMultiplier(HorseTraining.Terrain.STEEP_SLOPE, 0) == 4.0
-                        && HorseTraining.speedMultiplier(HorseTraining.Terrain.STEEP_SLOPE, 0) == 0.7);
-        check("急斜面：頑丈さランクⅩでも消費2.5倍・速度85%は残る",
-                HorseTraining.staminaCostMultiplier(HorseTraining.Terrain.STEEP_SLOPE, 100) == 2.5
-                        && Math.abs(HorseTraining.speedMultiplier(HorseTraining.Terrain.STEEP_SLOPE, 100) - 0.85) < 1e-9);
+        // ジャンプは育種で固定
+        check("育種のジャンプ力は2ブロック固定", HorseTraining.BRED_JUMP_HEIGHT_BLOCKS == 2);
 
-        // 怪我：頑丈さだけでなく、その時点のスタミナ残量にも連動する（押すか落とすかの駆け引き）
-        check("頑丈さ0・スタミナ満タンは基準発生率5%", HorseTraining.injuryRate(0, 1.0) == 0.05);
-        check("頑丈さランクⅩ・スタミナ満タンは発生率が半減（2.5%）", HorseTraining.injuryRate(100, 1.0) == 0.025);
-        check("頑丈さ0・スタミナ空は発生率が3倍（15%）",
-                Math.abs(HorseTraining.injuryRate(0, 0.0) - 0.15) < 1e-9);
-        check("頑丈さランクⅩでもスタミナ空なら発生率が3倍される（7.5%）",
-                Math.abs(HorseTraining.injuryRate(100, 0.0) - 0.075) < 1e-9);
+        // 最大スタミナ：101 + 値×0.35（値100で136）
+        check("スタミナ0は101", HorseTraining.maxStamina(0) == 101.0);
+        check("スタミナ100は136", HorseTraining.maxStamina(100) == 136.0);
+
+        // 1ブロック上昇のスタミナ消費：基準2.0、頑丈さで最大45%軽減
+        check("頑丈さ0は上昇1回で2.0消費", HorseTraining.riseStaminaCost(0) == 2.0);
+        check("頑丈さ100は45%軽減されて1.1消費",
+                Math.abs(HorseTraining.riseStaminaCost(100) - 1.1) < 1e-9);
+
+        // 水平移動のスタミナ消費：自身の最高速度の80%以上でのみ、5ブロックにつき1.0
+        check("80%未満の水平移動はスタミナを消費しない",
+                HorseTraining.horizontalStaminaCost(100, 0.79) == 0.0);
+        check("80%以上は5ブロックで1.0消費", HorseTraining.horizontalStaminaCost(5, 0.80) == 1.0);
+        check("80%以上は10ブロックで2.0消費", HorseTraining.horizontalStaminaCost(10, 1.0) == 2.0);
+
+        // スタミナ回復は自身の最高速度の40%以下でのみ始まる
+        check("40%以下は回復が始まる", HorseTraining.staminaRecovering(0.40) && HorseTraining.staminaRecovering(0.0));
+        check("40%超は回復しない", !HorseTraining.staminaRecovering(0.41));
+
+        // 累積疲労：上限100、デイサイクル終了時に10回復
+        check("累積疲労はデイサイクル終了時に10回復する", HorseTraining.recoverFatigueDaily(100) == 90);
+        check("0を下回らない", HorseTraining.recoverFatigueDaily(5) == 0);
+
+        // 累積疲労の蓄積：スタミナ超過後、自身の最高速度の70%以上の走行で10ブロックごとに6
+        check("スタミナに余力があれば高速走行でも累積疲労は発生しない",
+                HorseTraining.fatigueAccumulation(10, 1.0, false) == 0.0);
+        check("スタミナ超過後、70%未満の走行では発生しない",
+                HorseTraining.fatigueAccumulation(10, 0.69, true) == 0.0);
+        check("スタミナ超過後、70%以上・10ブロックで6蓄積する",
+                Math.abs(HorseTraining.fatigueAccumulation(10, 0.70, true) - 6.0) < 1e-9);
+
+        // デイサイクル終了時の怪我判定：累積疲労がそのまま発生率（%）になり、頑丈さ（足腰強度）で軽減
+        check("頑丈さ0・累積疲労100は確定で怪我が発生する（100%）",
+                HorseTraining.injuryChanceFromFatigue(100, 0) == 100.0);
+        check("頑丈さ100でも累積疲労100なら最大25%しか回避できない（75%は残る）",
+                Math.abs(HorseTraining.injuryChanceFromFatigue(100, 100) - 75.0) < 1e-9);
+        check("累積疲労0なら頑丈さによらず発生しない",
+                HorseTraining.injuryChanceFromFatigue(0, 0) == 0.0);
 
         // 重症度：軽傷70%・重傷25%・後遺症5%
         check("低いrollは軽傷", HorseTraining.injurySeverity(0.0) == HorseTraining.InjuryStage.MINOR
@@ -4400,6 +4417,14 @@ public final class CoreTests {
                 && HorseTraining.injurySeverity(0.94) == HorseTraining.InjuryStage.MAJOR);
         check("高いrollは後遺症", HorseTraining.injurySeverity(0.95) == HorseTraining.InjuryStage.PERMANENT
                 && HorseTraining.injurySeverity(0.99) == HorseTraining.InjuryStage.PERMANENT);
+
+        // 累積ダメージ：軽傷20・重傷35。後遺症は単発の恒久低下として別扱いのため加算しない
+        check("軽傷は累積ダメージ20",
+                HorseTraining.cumulativeDamageFor(HorseTraining.InjuryStage.MINOR) == 20.0);
+        check("重傷は累積ダメージ35",
+                HorseTraining.cumulativeDamageFor(HorseTraining.InjuryStage.MAJOR) == 35.0);
+        check("後遺症はここでは加算しない（恒久ステータス低下として別扱い）",
+                HorseTraining.cumulativeDamageFor(HorseTraining.InjuryStage.PERMANENT) == 0.0);
 
         // 速さの実数値換算：0→4.857m/s（バニラ下限相当）、100→17.0m/s（新上限）
         check("速さ0は4.857m/s", Math.abs(HorseTraining.maxSpeedMps(0) - 4.857) < 1e-9);

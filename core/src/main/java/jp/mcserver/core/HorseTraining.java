@@ -18,15 +18,17 @@ import java.util.Set;
  * 保った。
  *
  * <ul>
- *   <li>地形は毎Tickでなく、坂の区間に入った時点の1回判定にする
- *       （{@link #speedMultiplier}・{@link #staminaCostMultiplier}）</li>
+ *   <li>坂道の物理演算の代わりに、1ブロック上昇・水平移動ともブロック単位の
+ *       離散的なスタミナ消費で表す（{@link #riseStaminaCost}・
+ *       {@link #horizontalStaminaCost}）</li>
  *   <li>速さと頑丈さはトレードオフにする（{@link #toughnessAfterTradeoff}）</li>
  *   <li>血統は2世代・6頭（親2頭＋祖父母4頭）まで見る（{@link #related}）</li>
- *   <li>怪我の発生率はその時点のスタミナ残量に連動する（{@link #injuryRate}）</li>
- *   <li>速さ100は実速度17.0 m/秒に相当し、14.0 m/秒以上では強力な推進力により
- *       旋回が段階的に困難になる。旋回性は自身の最高速度の80%以上でのみ働き、
- *       100でこの影響を75%まで軽減する（{@link #maxSpeedMps}・
- *       {@link #effectiveInertiaEffect}）</li>
+ *   <li>怪我はデイサイクル終了時、前日の累積疲労から一括判定する
+ *       （{@link #injuryChanceFromFatigue}）</li>
+ *   <li>速さ100は実速度17.0 m/秒に相当し（{@link #maxSpeedMps}、育種のみに適用。
+ *       野生馬はバニラの自然な値をそのまま使う）、14.0 m/秒以上では強力な推進力
+ *       により旋回が段階的に困難になる。旋回性は自身の最高速度の80%以上でのみ
+ *       働き、100でこの影響を75%まで軽減する（{@link #effectiveInertiaEffect}）</li>
  * </ul>
  */
 public final class HorseTraining {
@@ -129,7 +131,12 @@ public final class HorseTraining {
      */
     public static final double SPEED_TRAIT_MAX_MPS = 17.0;
 
-    /** 速さの値（0〜100）を実速度（m/秒）へ変換する。0が下限、100が上限に対応する。 */
+    /**
+     * 速さの値（0〜100）を実速度（m/秒）へ変換する。0が下限、100が上限に対応する。
+     *
+     * <p><b>育種（ブリード品種）にのみ適用する。</b> 野生捕獲の馬は形質を持たず、
+     * バニラの movement_speed 属性の自然な値（4.857〜14.57 m/秒）をそのまま使う。
+     */
     public static double maxSpeedMps(int speedValue) {
         Genetics.rank(speedValue); // 0〜100の範囲検証を兼ねる
         return SPEED_TRAIT_MIN_MPS + (speedValue / 100.0) * (SPEED_TRAIT_MAX_MPS - SPEED_TRAIT_MIN_MPS);
@@ -188,75 +195,124 @@ public final class HorseTraining {
         return base * (1 - mitigation);
     }
 
-    // ---- 地形との駆け引き（§26.7.4） ----
+    // ---- ジャンプ（§26.7.2） ----
+
+    /** 育種のジャンプ力は固定（個体差を持たせない）。 */
+    public static final int BRED_JUMP_HEIGHT_BLOCKS = 2;
+
+    // ---- スタミナ（§26.7.4） ----
 
     /**
-     * 地形の種別。毎Tickの傾斜計算は行わず、坂の区間に入った時点でこの分類を
-     * 1回だけ判定する（判定自体はplugin側が行い、coreは区分だけを受け取る）。
+     * スタミナの値（0〜100）に対する基準値・倍率。最大スタミナ = 101 + 値×0.35
+     * （値100で136になる）。
      */
-    public enum Terrain { FLAT, GENTLE_SLOPE, STEEP_SLOPE }
+    public static final double MAX_STAMINA_BASE = 101.0;
+    public static final double MAX_STAMINA_PER_VALUE = 0.35;
 
-    private static double baseStaminaCostMultiplier(Terrain terrain) {
-        return switch (terrain) {
-            case FLAT -> 1.0;
-            case GENTLE_SLOPE -> 2.0;
-            case STEEP_SLOPE -> 4.0;
-        };
+    /** スタミナの値から最大スタミナを求める。値100で136になる。 */
+    public static double maxStamina(int staminaValue) {
+        Genetics.rank(staminaValue); // 0〜100の範囲検証を兼ねる
+        return MAX_STAMINA_BASE + staminaValue * MAX_STAMINA_PER_VALUE;
     }
 
-    private static double baseSpeedMultiplier(Terrain terrain) {
-        return switch (terrain) {
-            case FLAT -> 1.0;
-            case GENTLE_SLOPE -> 0.9;
-            case STEEP_SLOPE -> 0.7;
-        };
-    }
-
-    /** 頑丈さのランク1段階あたり、地形の負荷を軽減する割合（ランクⅩで最大50%）。 */
-    public static final double TOUGHNESS_TERRAIN_MITIGATION_PER_RANK = 0.05;
-
-    /** その地形区間でのスタミナ消費倍率。頑丈さが高いほど坂の負荷が軽い。 */
-    public static double staminaCostMultiplier(Terrain terrain, int toughnessValue) {
-        int rank = Genetics.rank(toughnessValue);
-        double base = baseStaminaCostMultiplier(terrain);
-        double reduction = (base - 1.0) * (rank * TOUGHNESS_TERRAIN_MITIGATION_PER_RANK);
-        return base - reduction;
-    }
-
-    /** その地形区間での速度倍率。頑丈さが高いほど坂による減速が小さい。 */
-    public static double speedMultiplier(Terrain terrain, int toughnessValue) {
-        int rank = Genetics.rank(toughnessValue);
-        double base = baseSpeedMultiplier(terrain);
-        double recovery = (1.0 - base) * (rank * TOUGHNESS_TERRAIN_MITIGATION_PER_RANK);
-        return base + recovery;
-    }
-
-    // ---- 怪我（§26.7.4） ----
-
-    /** 危険な行動1回あたりの基準怪我発生率（スタミナが満タンの場合）。 */
-    public static final double BASE_INJURY_RATE = 0.05;
-
-    /** 頑丈さランク1段階あたりの発生率軽減幅（ランクⅩで最大50%軽減）。 */
-    public static final double TOUGHNESS_REDUCTION_PER_RANK = 0.05;
-
-    /** スタミナが空の状態で危険な行動を起こした場合の倍率上限（満タン時の3倍）。 */
-    public static final double STAMINA_RISK_MAX_MULTIPLIER = 3.0;
+    /** 1ブロック上昇（ジャンプ・段差の乗り越えとも）あたりの基準スタミナ消費。 */
+    public static final double RISE_STAMINA_COST_BASE = 2.0;
 
     /**
-     * 頑丈さとその時点のスタミナ残量に応じた怪我発生率。スタミナが少ないほど、
-     * 同じ危険な行動でも発生率が上がる——「疲弊した馬を押すか、落とすか」の
-     * 駆け引きを生む。
-     *
-     * @param staminaFraction 0（空）〜1（満タン）のスタミナ残量比
+     * 頑丈さ1につき、上昇時のスタミナ消費を軽減する割合（頑丈さ100で最大45%軽減）。
+     * 「傾斜・登坂耐性」としての頑丈さの働きにあたる。
      */
-    public static double injuryRate(int toughnessValue, double staminaFraction) {
-        if (staminaFraction < 0 || staminaFraction > 1) {
-            throw new IllegalArgumentException("スタミナ残量比が範囲外である: " + staminaFraction);
+    public static final double RISE_STAMINA_REDUCTION_PER_VALUE = 0.0045;
+
+    /**
+     * 1ブロック上昇あたりのスタミナ消費。移動速度によらず一律に発生し、頑丈さで
+     * 軽減される（最大45%）。段差をジャンプなしで乗り越える場合も同じ消費とする。
+     */
+    public static double riseStaminaCost(int toughnessValue) {
+        Genetics.rank(toughnessValue); // 0〜100の範囲検証を兼ねる
+        double reduction = toughnessValue * RISE_STAMINA_REDUCTION_PER_VALUE;
+        return RISE_STAMINA_COST_BASE * (1 - reduction);
+    }
+
+    /** 水平移動でスタミナを消費し始める、自身の最高速度に対する割合（80%以上）。 */
+    public static final double HORIZONTAL_STAMINA_SPEED_THRESHOLD = 0.80;
+
+    /** 水平移動1ブロックあたりのスタミナ消費（5ブロックで1.0＝0.2/ブロック）。 */
+    public static final double HORIZONTAL_STAMINA_COST_PER_BLOCK = 0.2;
+
+    /**
+     * 水平移動によるスタミナ消費。自身の最高速度の80%以上でのみ発生する
+     * （80%未満は消費なし）。
+     */
+    public static double horizontalStaminaCost(double blocksTraveled, double speedFraction) {
+        if (blocksTraveled < 0) {
+            throw new IllegalArgumentException("移動距離が負である: " + blocksTraveled);
         }
-        int rank = Genetics.rank(toughnessValue);
-        double toughnessAdjusted = BASE_INJURY_RATE * (1 - rank * TOUGHNESS_REDUCTION_PER_RANK);
-        double staminaMultiplier = 1 + (1 - staminaFraction) * (STAMINA_RISK_MAX_MULTIPLIER - 1);
-        return toughnessAdjusted * staminaMultiplier;
+        return speedFraction >= HORIZONTAL_STAMINA_SPEED_THRESHOLD ? blocksTraveled * HORIZONTAL_STAMINA_COST_PER_BLOCK : 0.0;
+    }
+
+    /** スタミナの回復が始まる、自身の最高速度に対する割合の上限（40%以下）。 */
+    public static final double STAMINA_RECOVERY_SPEED_THRESHOLD = 0.40;
+
+    /**
+     * その時点の速度でスタミナが回復するか。自身の最高速度の40%以下のときのみ
+     * 回復する（回復量自体は§22で運用しながら定める）。
+     */
+    public static boolean staminaRecovering(double speedFraction) {
+        return speedFraction <= STAMINA_RECOVERY_SPEED_THRESHOLD;
+    }
+
+    // ---- 累積疲労と怪我（§26.7.4） ----
+
+    /** 累積疲労の上限。 */
+    public static final double FATIGUE_CAP = 100.0;
+
+    /** 1デイサイクルの終了時に回復する累積疲労。 */
+    public static final double FATIGUE_DAILY_RECOVERY = 10.0;
+
+    /** デイサイクル終了時、前日の累積疲労を回復させる（0を下回らない）。 */
+    public static double recoverFatigueDaily(double fatigue) {
+        return Math.max(0.0, fatigue - FATIGUE_DAILY_RECOVERY);
+    }
+
+    /** スタミナ超過後の走行で累積疲労が発生し始める、自身の最高速度に対する割合（70%以上）。 */
+    public static final double FATIGUE_ACCUMULATION_SPEED_THRESHOLD = 0.70;
+
+    /** スタミナ超過後の走行1ブロックあたりの累積疲労（10ブロックで6＝0.6/ブロック）。 */
+    public static final double FATIGUE_ACCUMULATION_PER_BLOCK = 0.6;
+
+    /**
+     * 走行による累積疲労の増分。スタミナを使い切った状態（{@code staminaExhausted}）
+     * で、なお自身の最高速度の70%以上を出している場合にのみ発生する。
+     */
+    public static double fatigueAccumulation(double blocksTraveled, double speedFraction, boolean staminaExhausted) {
+        if (blocksTraveled < 0) {
+            throw new IllegalArgumentException("移動距離が負である: " + blocksTraveled);
+        }
+        boolean accumulates = staminaExhausted && speedFraction >= FATIGUE_ACCUMULATION_SPEED_THRESHOLD;
+        return accumulates ? blocksTraveled * FATIGUE_ACCUMULATION_PER_BLOCK : 0.0;
+    }
+
+    /**
+     * 頑丈さ1につき、怪我判定に使う累積疲労を軽減する量（頑丈さ100で最大25点）。
+     * 「足腰強度」としての頑丈さの働きにあたる。頑丈さが最大でも、累積疲労が
+     * 上限（100）なら怪我判定に使う値は75まで残り、75%の確率で怪我が発生する
+     * （＝最大でも25%の確率でしか怪我を避けられない）。
+     */
+    public static final double FATIGUE_TOUGHNESS_MITIGATION_PER_VALUE = 0.25;
+
+    /**
+     * デイサイクル終了時、前日の累積疲労と頑丈さから求める怪我の発生率（0〜100）。
+     * この値をそのままパーセントとして扱う（累積疲労が上限かつ頑丈さ0なら
+     * 確定で発生する）。
+     */
+    public static double injuryChanceFromFatigue(double fatigue, int toughnessValue) {
+        if (fatigue < 0 || fatigue > FATIGUE_CAP) {
+            throw new IllegalArgumentException("累積疲労が範囲外である: " + fatigue);
+        }
+        Genetics.rank(toughnessValue); // 0〜100の範囲検証を兼ねる
+        double mitigated = fatigue - toughnessValue * FATIGUE_TOUGHNESS_MITIGATION_PER_VALUE;
+        return Math.max(0.0, mitigated);
     }
 
     /** 怪我の段階（§26.7.4）。 */
@@ -278,6 +334,25 @@ public final class HorseTraining {
             return InjuryStage.MINOR;
         }
         return roll < MAJOR_UPPER ? InjuryStage.MAJOR : InjuryStage.PERMANENT;
+    }
+
+    /** 軽傷1回あたりの累積ダメージ。 */
+    public static final double CUMULATIVE_DAMAGE_MINOR = 20.0;
+
+    /** 重傷1回あたりの累積ダメージ。 */
+    public static final double CUMULATIVE_DAMAGE_MAJOR = 35.0;
+
+    /**
+     * その段階の怪我による累積ダメージの増分。後遺症は単発の恒久ステータス
+     * 低下（{@link #PERMANENT_STAT_LOSS_MIN}〜{@link #PERMANENT_STAT_LOSS_MAX}）
+     * として別途扱うため、ここでは加算しない（0を返す）。
+     */
+    public static double cumulativeDamageFor(InjuryStage stage) {
+        return switch (stage) {
+            case MINOR -> CUMULATIVE_DAMAGE_MINOR;
+            case MAJOR -> CUMULATIVE_DAMAGE_MAJOR;
+            case PERMANENT -> 0.0;
+        };
     }
 
     /** 軽傷時の移動速度倍率（−30%）。 */
