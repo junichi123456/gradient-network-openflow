@@ -4330,23 +4330,31 @@ public final class CoreTests {
     }
 
     private static void horseTraining() {
-        section("§26.7 馬の育成システム（簡略化版）");
+        section("§26.7 馬の育成システム（簡略化版、競技性を補強）");
 
         check("仔馬は14分で成体になる", HorseTraining.MATURATION_MINUTES == 14);
 
-        // 近親交配：血統ツリーは持たず、直近の親2頭のIDだけを見る
-        var noParents = new HorseTraining.Parentage(null, null);
-        var childOfAB = new HorseTraining.Parentage("A", "B");
-        var halfSiblingOfAB = new HorseTraining.Parentage("A", "C");
-        var unrelatedToAB = new HorseTraining.Parentage("X", "Y");
+        // 近親交配：2世代・6頭（親2頭＋祖父母4頭）まで見る
+        var noAncestry = new HorseTraining.Parentage(null, null, null, null, null, null);
+        var childOfAB = new HorseTraining.Parentage("A", "B", null, null, null, null);
+        var halfSiblingOfAB = new HorseTraining.Parentage("A", "C", null, null, null, null);
+        var unrelatedToAB = new HorseTraining.Parentage("X", "Y", null, null, null, null);
+        // horseAの祖父母はG1〜G4。horseBは直近の親は共有しないが、祖父母G3を共有する
+        var horseA = new HorseTraining.Parentage("P1", "P2", "G1", "G2", "G3", "G4");
+        var horseB = new HorseTraining.Parentage("P4", "P5", "G3", "G5", "G6", "G7");
+        var horseCNoOverlap = new HorseTraining.Parentage("P6", "P7", "G8", "G9", "G10", "G11");
 
-        check("片方がもう片方の親なら近親交配", HorseTraining.related("A", noParents, "child", childOfAB));
-        check("親を共有していれば近親交配（半兄弟）",
+        check("片方がもう片方の親なら近親交配", HorseTraining.related("A", noAncestry, "child", childOfAB));
+        check("直近の親を共有していれば近親交配（半兄弟）",
                 HorseTraining.related("child1", childOfAB, "child2", halfSiblingOfAB));
-        check("親を共有していなければ近親交配ではない",
+        check("祖先を共有していなければ近親交配ではない",
                 !HorseTraining.related("child1", childOfAB, "child3", unrelatedToAB));
-        check("親の記録が無い個体同士は近親交配と判定されない",
-                !HorseTraining.related("wild1", noParents, "wild2", noParents));
+        check("祖先の記録が無い個体同士は近親交配と判定されない",
+                !HorseTraining.related("wild1", noAncestry, "wild2", noAncestry));
+        check("直近の親は違っても、祖父母を共有していれば近親交配（2世代まで判定）",
+                HorseTraining.related("horseA", horseA, "horseB", horseB));
+        check("祖父母まで見ても祖先が重ならなければ近親交配ではない",
+                !HorseTraining.related("horseA", horseA, "horseC", horseCNoOverlap));
 
         // 近親交配時は継承のブレを反転させる（通常+3平均 → 近親交配-3平均）
         check("通常の交配はブレをそのまま使う", HorseTraining.inbredDriftRoll(5, false) == 5);
@@ -4355,11 +4363,35 @@ public final class CoreTests {
                 HorseTraining.inbredDriftRoll(Genetics.DRIFT_MAX, true) == -Genetics.DRIFT_MAX
                         && HorseTraining.inbredDriftRoll(Genetics.DRIFT_MIN, true) == -Genetics.DRIFT_MIN);
 
-        // 怪我：頑丈さのランクが高いほど発生率が下がる（毎Tick物理ではなく離散判定）
-        check("頑丈さ0（無形質）は基準発生率5%", HorseTraining.injuryRate(0) == 0.05);
-        check("頑丈さランクⅩ（91〜100）で発生率が半減（2.5%）", HorseTraining.injuryRate(100) == 0.025);
-        check("頑丈さランクⅤ（41〜50）で発生率が25%軽減（3.75%）",
-                Math.abs(HorseTraining.injuryRate(41) - 0.0375) < 1e-9);
+        // 特化のトレードオフ：速さが70を超えた分だけ頑丈さが下がる（万能馬を作れなくする）
+        check("速さ70以下ならトレードオフなし", HorseTraining.toughnessAfterTradeoff(80, 70) == 80);
+        check("速さ100なら超過30の30%＝9だけ頑丈さが下がる", HorseTraining.toughnessAfterTradeoff(80, 100) == 71);
+        check("頑丈さは0を下回らない", HorseTraining.toughnessAfterTradeoff(5, 100) == 0);
+
+        // 地形との駆け引き：坂の区間に入った時点の1回判定。頑丈さが高いほど負荷が軽い
+        check("平地はスタミナ消費・速度とも影響なし",
+                HorseTraining.staminaCostMultiplier(HorseTraining.Terrain.FLAT, 0) == 1.0
+                        && HorseTraining.speedMultiplier(HorseTraining.Terrain.FLAT, 100) == 1.0);
+        check("緩斜面：頑丈さ0はスタミナ消費2倍・速度90%",
+                HorseTraining.staminaCostMultiplier(HorseTraining.Terrain.GENTLE_SLOPE, 0) == 2.0
+                        && HorseTraining.speedMultiplier(HorseTraining.Terrain.GENTLE_SLOPE, 0) == 0.9);
+        check("緩斜面：頑丈さランクⅩは負荷が半分軽減される（消費1.5倍・速度95%）",
+                HorseTraining.staminaCostMultiplier(HorseTraining.Terrain.GENTLE_SLOPE, 100) == 1.5
+                        && Math.abs(HorseTraining.speedMultiplier(HorseTraining.Terrain.GENTLE_SLOPE, 100) - 0.95) < 1e-9);
+        check("急斜面：頑丈さ0はスタミナ消費4倍・速度70%",
+                HorseTraining.staminaCostMultiplier(HorseTraining.Terrain.STEEP_SLOPE, 0) == 4.0
+                        && HorseTraining.speedMultiplier(HorseTraining.Terrain.STEEP_SLOPE, 0) == 0.7);
+        check("急斜面：頑丈さランクⅩでも消費2.5倍・速度85%は残る",
+                HorseTraining.staminaCostMultiplier(HorseTraining.Terrain.STEEP_SLOPE, 100) == 2.5
+                        && Math.abs(HorseTraining.speedMultiplier(HorseTraining.Terrain.STEEP_SLOPE, 100) - 0.85) < 1e-9);
+
+        // 怪我：頑丈さだけでなく、その時点のスタミナ残量にも連動する（押すか落とすかの駆け引き）
+        check("頑丈さ0・スタミナ満タンは基準発生率5%", HorseTraining.injuryRate(0, 1.0) == 0.05);
+        check("頑丈さランクⅩ・スタミナ満タンは発生率が半減（2.5%）", HorseTraining.injuryRate(100, 1.0) == 0.025);
+        check("頑丈さ0・スタミナ空は発生率が3倍（15%）",
+                Math.abs(HorseTraining.injuryRate(0, 0.0) - 0.15) < 1e-9);
+        check("頑丈さランクⅩでもスタミナ空なら発生率が3倍される（7.5%）",
+                Math.abs(HorseTraining.injuryRate(100, 0.0) - 0.075) < 1e-9);
 
         // 重症度：軽傷70%・重傷25%・後遺症5%
         check("低いrollは軽傷", HorseTraining.injurySeverity(0.0) == HorseTraining.InjuryStage.MINOR
