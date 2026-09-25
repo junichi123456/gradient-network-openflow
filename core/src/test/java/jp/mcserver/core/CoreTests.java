@@ -4589,6 +4589,16 @@ public final class CoreTests {
         check("6歳のシーズン終了は確定で死亡する", HorseTraining.diesAtSeasonEnd(6));
         check("5歳・7歳のシーズン終了では死亡しない",
                 !HorseTraining.diesAtSeasonEnd(5) && !HorseTraining.diesAtSeasonEnd(7));
+
+        // シーズンと年齢：繁殖は引退馬のみ。引退確定スプリットの翌スプリットから可能
+        check("引退を決めたのと同じスプリットではまだ繁殖に使えない",
+                !HorseTraining.breedingEligible(10, 10));
+        check("引退確定の翌スプリットから繁殖に使える",
+                HorseTraining.breedingEligible(10, 11));
+        check("翌スプリットより後でも繁殖に使える",
+                HorseTraining.breedingEligible(10, 20));
+        check("引退を決める前のスプリットでは繁殖に使えない",
+                !HorseTraining.breedingEligible(10, 9));
     }
 
     private static void section(String name) {

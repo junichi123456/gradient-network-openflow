@@ -59,6 +59,9 @@ import java.util.Set;
  *       （{@link #ageAfterSeasonRollover}）。5歳のシーズンを終えると確定で故障し
  *       （{@link #forcedInjuryAtSeasonEnd}）、6歳のシーズンを終えると確定で死亡する
  *       （{@link #diesAtSeasonEnd}、§27.9）</li>
+ *   <li>繁殖に使えるのは引退馬のみ（{@link #breedingEligible}）。引退はそれが
+ *       決まったスプリットの終了時に確定し、繁殖に使えるのは翌スプリットから
+ *       （§27.9）</li>
  * </ul>
  */
 public final class HorseTraining {
@@ -668,5 +671,20 @@ public final class HorseTraining {
      */
     public static boolean diesAtSeasonEnd(int ageYears) {
         return ageYears == AGE_DEATH_YEARS;
+    }
+
+    /**
+     * 繁殖（§26.7.5・§27.2・§27.6）に使える状態か（§27.9）。繁殖に使えるのは
+     * 「引退馬」のみであり、引退はそれが決まったスプリットの終了時に確定し、
+     * 繁殖に使えるようになるのは翌スプリットからである——引退を決めたスプリットが
+     * 終わるまでは、まだ現役馬として扱う。
+     *
+     * @param retirementDecidedSplit 引退が決まったスプリットの通し番号。シーズンを
+     *     跨いでも単純に大小比較できるよう、呼び出し側が
+     *     {@code (season - 1) * SEASON_SPLITS + split} のような通し値を用意する
+     * @param currentSplit 現在のスプリットの通し番号（同じ基準で数える）
+     */
+    public static boolean breedingEligible(int retirementDecidedSplit, int currentSplit) {
+        return currentSplit > retirementDecidedSplit;
     }
 }
