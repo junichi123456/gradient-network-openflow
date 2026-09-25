@@ -40,6 +40,13 @@ import java.util.Set;
  *       （{@link #fightingSpiritActive}・{@link #fightingSpiritPowerBonus}）、
  *       本番得意は重賞のレースでスピード+5（{@link #peakPerformerSpeedBonus}）を
  *       もたらす（§27.7、いずれも競馬専用ワールド限定）</li>
+ *   <li>ラストスパートは、残りスタミナが閾値（根性0で15%、根性100で20%）以下に
+ *       なると入る（{@link #spurtActive}）。スタミナ消費が2倍
+ *       （{@link #spurtStaminaConsumptionMultiplier}）になる代わり、最高速度を
+ *       1.1倍まで出せる（{@link #spurtSpeedMultiplier}）。スタミナがゴール前で
+ *       尽きるか、スパートに入る間もなく終わるかが、距離適性（§27.3）のシグナルに
+ *       なる。賢さによるペース配分の具体的な調整式は末脚計算全体と合わせて実装段階で
+ *       定める（未定・§23、§27.4）</li>
  * </ul>
  */
 public final class HorseTraining {
@@ -489,5 +496,52 @@ public final class HorseTraining {
      */
     public static double peakPerformerSpeedBonus(boolean hasPeakPerformer, boolean isGradedRace) {
         return (hasPeakPerformer && isGradedRace) ? PEAK_PERFORMER_SPEED_BONUS : 0.0;
+    }
+
+    // ---- ラストスパート（§27.4、競馬専用ワールド限定） ----
+
+    /** ラストスパートの発動閾値（根性0のとき）。残りスタミナが最大スタミナの15%以下で発動する。 */
+    public static final double SPURT_TRIGGER_THRESHOLD_BASE = 0.15;
+
+    /** ラストスパートの発動閾値（根性100のとき）。最大で20%まで早く発動できる。 */
+    public static final double SPURT_TRIGGER_THRESHOLD_MAX = 0.20;
+
+    /**
+     * 根性の値からラストスパートの発動閾値（残りスタミナの割合）を求める。根性が
+     * 高いほど、より多くスタミナが残っている段階でスパートへ入れる（§27.4）。
+     */
+    public static double spurtTriggerThreshold(int gutsValue) {
+        requireStatValue(gutsValue);
+        double range = SPURT_TRIGGER_THRESHOLD_MAX - SPURT_TRIGGER_THRESHOLD_BASE;
+        return SPURT_TRIGGER_THRESHOLD_BASE + (gutsValue / (double) STAT_MAX) * range;
+    }
+
+    /**
+     * 残りスタミナの割合（0〜1）と根性の値から、ラストスパートに入っているかを判定する。
+     * この状態は、レース距離がその馬のスタミナに対して長すぎる（ゴール前に尽きる）か
+     * 短すぎる（スパートに入る間もなく終わる）かという、距離適性のシグナルにもなる
+     * （§27.3・§27.4）。
+     */
+    public static boolean spurtActive(double remainingStaminaFraction, int gutsValue) {
+        if (remainingStaminaFraction < 0.0 || remainingStaminaFraction > 1.0) {
+            throw new IllegalArgumentException("残りスタミナの割合が範囲外である: " + remainingStaminaFraction);
+        }
+        return remainingStaminaFraction <= spurtTriggerThreshold(gutsValue);
+    }
+
+    /** ラストスパート中のスタミナ消費倍率。 */
+    public static final double SPURT_STAMINA_CONSUMPTION_MULTIPLIER = 2.0;
+
+    /** ラストスパート中に出せる最高速度の倍率。 */
+    public static final double SPURT_MAX_SPEED_MULTIPLIER = 1.1;
+
+    /** ラストスパート中かどうかから、スタミナ消費倍率を求める。 */
+    public static double spurtStaminaConsumptionMultiplier(boolean spurting) {
+        return spurting ? SPURT_STAMINA_CONSUMPTION_MULTIPLIER : 1.0;
+    }
+
+    /** ラストスパート中かどうかから、最高速度の倍率を求める。 */
+    public static double spurtSpeedMultiplier(boolean spurting) {
+        return spurting ? SPURT_MAX_SPEED_MULTIPLIER : 1.0;
     }
 }

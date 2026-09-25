@@ -4523,6 +4523,24 @@ public final class CoreTests {
                 HorseTraining.peakPerformerSpeedBonus(false, true) == 0.0);
         check("本番得意を持っていても重賞でなければボーナスなし",
                 HorseTraining.peakPerformerSpeedBonus(true, false) == 0.0);
+
+        // ラストスパート：根性による発動閾値の延長（基準15%、根性100で20%）
+        check("根性0の発動閾値は15%", Math.abs(HorseTraining.spurtTriggerThreshold(0) - 0.15) < 1e-9);
+        check("根性100の発動閾値は20%", Math.abs(HorseTraining.spurtTriggerThreshold(100) - 0.20) < 1e-9);
+        check("根性50の発動閾値は中間の17.5%",
+                Math.abs(HorseTraining.spurtTriggerThreshold(50) - 0.175) < 1e-9);
+
+        // ラストスパート：残りスタミナが閾値以下で発動する
+        check("根性0で残り15%はスパート発動", HorseTraining.spurtActive(0.15, 0));
+        check("根性0で残り16%はまだ発動しない", !HorseTraining.spurtActive(0.16, 0));
+        check("根性100なら残り20%でもスパート発動", HorseTraining.spurtActive(0.20, 100));
+        check("根性0なら残り20%はまだ発動しない", !HorseTraining.spurtActive(0.20, 0));
+
+        // ラストスパート：消費2倍・速度1.1倍
+        check("スパート中はスタミナ消費が2倍", HorseTraining.spurtStaminaConsumptionMultiplier(true) == 2.0);
+        check("スパート中でなければ消費は等倍", HorseTraining.spurtStaminaConsumptionMultiplier(false) == 1.0);
+        check("スパート中は最高速度が1.1倍", HorseTraining.spurtSpeedMultiplier(true) == 1.1);
+        check("スパート中でなければ速度は等倍", HorseTraining.spurtSpeedMultiplier(false) == 1.0);
     }
 
     private static void section(String name) {
