@@ -4474,6 +4474,26 @@ public final class CoreTests {
         check("軽傷は移動速度-30%", HorseTraining.MINOR_SPEED_MULTIPLIER == 0.70);
         check("後遺症はスピード・スタミナが恒久的に5〜10%低下",
                 HorseTraining.PERMANENT_STAT_LOSS_MIN == 0.05 && HorseTraining.PERMANENT_STAT_LOSS_MAX == 0.10);
+
+        // パワー：登坂の減速軽減（旧版の地形起伏別スタミナ消費式とは別の、単純な速度倍率）
+        check("パワー0は基準どおり30%減速（倍率0.70）",
+                Math.abs(HorseTraining.uphillSpeedMultiplier(0) - 0.70) < 1e-9);
+        check("パワー100は減速なし（倍率1.0）", HorseTraining.uphillSpeedMultiplier(100) == 1.0);
+        check("パワー50は半分だけ軽減される（倍率0.85）",
+                Math.abs(HorseTraining.uphillSpeedMultiplier(50) - 0.85) < 1e-9);
+
+        // 性格（気性）：調教成功率への影響（気性が荒いほど下がる）
+        check("気性0は調教成功率100%", HorseTraining.trainingSuccessRate(0) == 1.0);
+        check("気性100は調教成功率60%まで下がる",
+                Math.abs(HorseTraining.trainingSuccessRate(100) - 0.60) < 1e-9);
+
+        // 性格（気性）：調教失敗時の特性獲得確率（気性が荒いほど上がる）
+        check("気性0は特性獲得確率0%", HorseTraining.traitAcquisitionChanceOnTrainingFailure(0) == 0.0);
+        check("気性100は特性獲得確率30%（上限）",
+                Math.abs(HorseTraining.traitAcquisitionChanceOnTrainingFailure(100) - 0.30) < 1e-9);
+
+        // 特性：闘争心・本番得意の2種のみ（オーバーワールドでは効果を持たない）
+        check("特性は闘争心・本番得意の2種", HorseTraining.SpecialTrait.values().length == 2);
     }
 
     private static void section(String name) {

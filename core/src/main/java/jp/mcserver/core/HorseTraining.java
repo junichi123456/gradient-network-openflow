@@ -26,10 +26,16 @@ import java.util.Set;
  *       回復速度（{@link #staminaRecoveryRate}）の両方を左右する（§26.7.4）</li>
  *   <li>怪我はデイサイクル終了時、前日の累積疲労から一括判定する
  *       （{@link #injuryChanceFromFatigue}、§26.7.6）</li>
- *   <li>パワーはジャンプ力（{@link #jumpHeightBlocks}）、根性はスタミナ切れ時の
- *       踏ん張り（{@link #gutsFatigueAvoidanceChance}）に効果を持つ。賢さは
+ *   <li>パワーはジャンプ力（{@link #jumpHeightBlocks}）と登坂時の減速軽減
+ *       （{@link #uphillSpeedMultiplier}）、根性はスタミナ切れ時の踏ん張り
+ *       （{@link #gutsFatigueAvoidanceChance}）に効果を持つ。賢さは
  *       オーバーワールドでは効果を持たず、競馬専用ワールドのレース展開AI
  *       （§27.4）でのみ働く</li>
+ *   <li>性格（気性）は5属性・健康ステータスとは別枠の遺伝形質。気性が荒いほど
+ *       調教の成功率（{@link #trainingSuccessRate}）が下がるが、調教失敗時に
+ *       特性{@link SpecialTrait}を獲得できる確率
+ *       （{@link #traitAcquisitionChanceOnTrainingFailure}）が上がる（§26.7.7）。
+ *       特性そのものの効果は賢さと同じく競馬専用ワールド専用（未定・§23）</li>
  * </ul>
  */
 public final class HorseTraining {
@@ -227,6 +233,26 @@ public final class HorseTraining {
         return JUMP_HEIGHT_BASE_BLOCKS + powerValue * JUMP_HEIGHT_PER_POWER_VALUE;
     }
 
+    // ---- パワー：登坂の減速軽減（§26.7.5） ----
+
+    /** 登坂時の移動速度低下（バニラ相当の基準、パワー0で30%低下）。 */
+    public static final double UPHILL_SPEED_PENALTY_BASE = 0.30;
+
+    /** パワー1につき軽減される登坂時の速度低下（パワー100で低下を完全に軽減）。 */
+    public static final double UPHILL_SPEED_PENALTY_MITIGATION_PER_POWER_VALUE = 0.003;
+
+    /**
+     * パワーの値から、登坂時の移動速度倍率（0〜1）を求める。パワー0でバニラ相当の
+     * 基準どおり{@value #UPHILL_SPEED_PENALTY_BASE}（30%）低下し、パワー100で
+     * 低下なし（倍率1.0）まで軽減される。
+     */
+    public static double uphillSpeedMultiplier(int powerValue) {
+        requireStatValue(powerValue);
+        double penalty = Math.max(0.0,
+                UPHILL_SPEED_PENALTY_BASE - powerValue * UPHILL_SPEED_PENALTY_MITIGATION_PER_POWER_VALUE);
+        return 1.0 - penalty;
+    }
+
     // ---- 健康ステータス（旧・頑丈さ、§26.7.4） ----
 
     /**
@@ -374,5 +400,44 @@ public final class HorseTraining {
     /** その段階で騎乗できるか（重傷のみ不可）。 */
     public static boolean ridable(InjuryStage stage) {
         return stage != InjuryStage.MAJOR;
+    }
+
+    // ---- 性格（気性、§26.7.7） ----
+
+    /**
+     * 特性の種類。名称が示すとおりレース展開に関わる特性のため、賢さ（{@link RaceStat#WISDOM}）
+     * と同じくオーバーワールドではこの特性そのものに効果を持たせない。効果は競馬専用
+     * ワールドのレース展開AI（§27.4）に持ち込んだ場合にのみ発揮される（未定・§23）。
+     */
+    public enum SpecialTrait { FIGHTING_SPIRIT, PEAK_PERFORMER }
+
+    /** 気性0のときの調教成功率（100%）。 */
+    public static final double TRAINING_SUCCESS_RATE_BASE = 1.0;
+
+    /** 気性1につき下がる調教成功率（気性100で成功率60%まで下がる）。 */
+    public static final double TRAINING_SUCCESS_RATE_PENALTY_PER_TEMPERAMENT_VALUE = 0.004;
+
+    /**
+     * 気性の値（値0〜100、荒いほど大きい）から調教の成功率を求める（§26.7.2）。
+     * 気性が荒いほど成功率が下がる。
+     */
+    public static double trainingSuccessRate(int temperamentValue) {
+        requireStatValue(temperamentValue);
+        return TRAINING_SUCCESS_RATE_BASE - temperamentValue * TRAINING_SUCCESS_RATE_PENALTY_PER_TEMPERAMENT_VALUE;
+    }
+
+    /** 気性100のとき、調教失敗時に特性を獲得できる確率の上限。 */
+    public static final double TRAIT_ACQUISITION_CHANCE_MAX = 0.30;
+
+    /** 気性1につき加算される、調教失敗時の特性獲得確率。 */
+    public static final double TRAIT_ACQUISITION_CHANCE_PER_TEMPERAMENT_VALUE = TRAIT_ACQUISITION_CHANCE_MAX / STAT_MAX;
+
+    /**
+     * 調教に失敗した際、気性の値から特性（{@link SpecialTrait}）を新たに獲得できる確率を
+     * 求める（§26.7.2・§26.7.7）。気性が荒いほど獲得しやすい。
+     */
+    public static double traitAcquisitionChanceOnTrainingFailure(int temperamentValue) {
+        requireStatValue(temperamentValue);
+        return temperamentValue * TRAIT_ACQUISITION_CHANCE_PER_TEMPERAMENT_VALUE;
     }
 }
