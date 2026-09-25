@@ -4576,6 +4576,19 @@ public final class CoreTests {
         check("48時間ならスプリット1でも古馬・距離別シリーズに出走可能",
                 HorseTraining.openRaceEligible(48));
         check("47時間はまだ出走不可", !HorseTraining.openRaceEligible(47));
+
+        // シーズンと年齢：3歳以降はシーズン切り替わりごとに+1（出生スプリットは無関係）
+        check("2歳はシーズン切り替わりで3歳になる", HorseTraining.ageAfterSeasonRollover(2) == 3);
+        check("3歳はシーズン切り替わりで4歳になる", HorseTraining.ageAfterSeasonRollover(3) == 4);
+        check("5歳はシーズン切り替わりで6歳になる", HorseTraining.ageAfterSeasonRollover(5) == 6);
+
+        // シーズンと年齢：5歳シーズン終了で確定故障、6歳シーズン終了で確定死亡
+        check("5歳のシーズン終了は確定で故障する", HorseTraining.forcedInjuryAtSeasonEnd(5));
+        check("4歳・6歳のシーズン終了では故障しない",
+                !HorseTraining.forcedInjuryAtSeasonEnd(4) && !HorseTraining.forcedInjuryAtSeasonEnd(6));
+        check("6歳のシーズン終了は確定で死亡する", HorseTraining.diesAtSeasonEnd(6));
+        check("5歳・7歳のシーズン終了では死亡しない",
+                !HorseTraining.diesAtSeasonEnd(5) && !HorseTraining.diesAtSeasonEnd(7));
     }
 
     private static void section(String name) {

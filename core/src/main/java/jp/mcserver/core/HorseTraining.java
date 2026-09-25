@@ -55,6 +55,10 @@ import java.util.Set;
  *       クラシック路線（大地三冠・花冠三冠）はスプリット3・4にのみ出走できる
  *       （{@link #classicRaceEligible}）。古馬・距離別シリーズは2歳に達していれば
  *       スプリットを問わない（{@link #openRaceEligible}、§27.9）</li>
+ *   <li>2歳以降の加齢は実時間ではなくシーズンの切り替わりで進む
+ *       （{@link #ageAfterSeasonRollover}）。5歳のシーズンを終えると確定で故障し
+ *       （{@link #forcedInjuryAtSeasonEnd}）、6歳のシーズンを終えると確定で死亡する
+ *       （{@link #diesAtSeasonEnd}、§27.9）</li>
  * </ul>
  */
 public final class HorseTraining {
@@ -605,6 +609,8 @@ public final class HorseTraining {
     /**
      * 3歳馬クラシック路線への出走条件（§27.9）。2歳（実時間{@value #AGE_TWO_HOURS}時間
      * 経過）に達し、かつ現在のスプリットが3・4のいずれかであることの両方を満たす必要がある。
+     * 出生タイミング（どのスプリットで生まれたか）は問わない——2歳に達してさえいれば、
+     * 当シーズンのスプリット3・4に出走できる。
      */
     public static boolean classicRaceEligible(int hoursSinceBirth, int currentSplit) {
         requireHours(hoursSinceBirth);
@@ -624,5 +630,43 @@ public final class HorseTraining {
         if (hoursSinceBirth < 0) {
             throw new IllegalArgumentException("出生からの経過時間が負である: " + hoursSinceBirth);
         }
+    }
+
+    /** 2歳に達した馬が3歳以降の加齢を始める年齢（シーズン切り替わりで+1）。 */
+    public static final int AGE_SEASONAL_PROGRESSION_START_YEARS = 2;
+
+    /**
+     * シーズンが切り替わった（次のシーズンのスプリット1に戻った）ときの、3歳以降の
+     * 加齢を求める（§27.9）。実時間ではなく、シーズンの切り替わりそのものが1歳分の
+     * 加齢に相当する——2歳の馬は次の切り替わりで3歳になり、以降は切り替わるたびに
+     * 1歳ずつ加齢する。
+     */
+    public static int ageAfterSeasonRollover(int ageYears) {
+        if (ageYears < AGE_SEASONAL_PROGRESSION_START_YEARS) {
+            throw new IllegalArgumentException("2歳未満の馬に3歳以降の加齢は適用できない: " + ageYears);
+        }
+        return ageYears + 1;
+    }
+
+    /** この年齢のシーズンを終えると、確定で故障する（§27.9）。 */
+    public static final int AGE_FORCED_INJURY_YEARS = 5;
+
+    /** この年齢のシーズンを終えると、確定で死亡する（§27.9）。 */
+    public static final int AGE_DEATH_YEARS = 6;
+
+    /**
+     * その年齢のシーズンを終えた時点で、確率判定なしに故障するか（§27.9）。§26.7.6の
+     * 怪我判定（累積疲労に基づく確率的な怪我）とは別枠の、年齢による強制的な発生である。
+     */
+    public static boolean forcedInjuryAtSeasonEnd(int ageYears) {
+        return ageYears == AGE_FORCED_INJURY_YEARS;
+    }
+
+    /**
+     * その年齢のシーズンを終えた時点で、確率判定なしに死亡するか（§27.9）。
+     * {@link #forcedInjuryAtSeasonEnd}と同じく、年齢による強制的な発生である。
+     */
+    public static boolean diesAtSeasonEnd(int ageYears) {
+        return ageYears == AGE_DEATH_YEARS;
     }
 }
