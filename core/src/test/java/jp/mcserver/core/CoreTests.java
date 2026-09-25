@@ -4549,6 +4549,33 @@ public final class CoreTests {
                 Math.abs(HorseTraining.wisdomStaminaEfficiencyMultiplier(100) - 0.9) < 1e-9);
         check("賢さ50は中間の1.0倍",
                 Math.abs(HorseTraining.wisdomStaminaEfficiencyMultiplier(50) - 1.0) < 1e-9);
+
+        // シーズンと年齢：実時間24時間で調教可能（1歳）
+        check("出生直後（0時間）は調教不可", !HorseTraining.trainable(0));
+        check("23時間はまだ調教不可", !HorseTraining.trainable(23));
+        check("24時間で調教可能（1歳）", HorseTraining.trainable(24));
+        check("24時間より後も調教可能", HorseTraining.trainable(100));
+
+        // シーズンと年齢：スプリット3・4のみクラシック路線が解禁される
+        check("スプリット1・2はクラシック路線の対象外",
+                !HorseTraining.classicSplit(1) && !HorseTraining.classicSplit(2));
+        check("スプリット3・4はクラシック路線の対象",
+                HorseTraining.classicSplit(3) && HorseTraining.classicSplit(4));
+
+        // シーズンと年齢：クラシック路線は2歳（48時間）かつスプリット3・4の両方が必要
+        check("47時間はスプリット3でも出走不可（まだ2歳未満）",
+                !HorseTraining.classicRaceEligible(47, 3));
+        check("48時間でもスプリット1なら出走不可",
+                !HorseTraining.classicRaceEligible(48, 1));
+        check("48時間かつスプリット3なら出走可能",
+                HorseTraining.classicRaceEligible(48, 3));
+        check("48時間かつスプリット4なら出走可能",
+                HorseTraining.classicRaceEligible(48, 4));
+
+        // シーズンと年齢：古馬・距離別シリーズは2歳ならスプリットを問わない
+        check("48時間ならスプリット1でも古馬・距離別シリーズに出走可能",
+                HorseTraining.openRaceEligible(48));
+        check("47時間はまだ出走不可", !HorseTraining.openRaceEligible(47));
     }
 
     private static void section(String name) {

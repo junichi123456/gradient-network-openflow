@@ -50,6 +50,11 @@ import java.util.Set;
  *       （最大効率）となる倍率を掛ける（{@link #wisdomStaminaEfficiencyMultiplier}、
  *       §27.4）。「ゴール前で尽きないようペース配分を調整する」という役割は、
  *       行動を動的に変えるロジックではなく、この燃費の差として実装した</li>
+ *   <li>出生から実時間24時間で1歳（調教可能、{@link #trainable}）、48時間で2歳
+ *       （レース出走可能）になる。1シーズン＝4週間＝4スプリットのうち、3歳馬
+ *       クラシック路線（大地三冠・花冠三冠）はスプリット3・4にのみ出走できる
+ *       （{@link #classicRaceEligible}）。古馬・距離別シリーズは2歳に達していれば
+ *       スプリットを問わない（{@link #openRaceEligible}、§27.9）</li>
  * </ul>
  */
 public final class HorseTraining {
@@ -567,5 +572,57 @@ public final class HorseTraining {
         requireStatValue(wisdomValue);
         double range = WISDOM_STAMINA_EFFICIENCY_MAX - WISDOM_STAMINA_EFFICIENCY_AT_ZERO;
         return WISDOM_STAMINA_EFFICIENCY_AT_ZERO + (wisdomValue / (double) STAT_MAX) * range;
+    }
+
+    // ---- シーズンと年齢（§27.9、競馬専用ワールド限定） ----
+
+    /** 出生から1歳（調教可能）になるまでの実時間（時間）。 */
+    public static final int AGE_ONE_HOURS = 24;
+
+    /** 出生から2歳（レース出走可能）になるまでの実時間（時間）。 */
+    public static final int AGE_TWO_HOURS = 48;
+
+    /** 出生からの経過時間（実時間、時間単位）から、調教が可能か（1歳に達したか）を判定する。 */
+    public static boolean trainable(int hoursSinceBirth) {
+        requireHours(hoursSinceBirth);
+        return hoursSinceBirth >= AGE_ONE_HOURS;
+    }
+
+    /** 1シーズンを構成するスプリット数（1スプリット＝1週間、§27.9）。 */
+    public static final int SEASON_SPLITS = 4;
+
+    /**
+     * 3歳馬クラシック路線（大地三冠・花冠三冠、§27.8.2）の出走が解禁される
+     * スプリットか（3・4のみ、§27.9）。
+     */
+    public static boolean classicSplit(int split) {
+        if (split < 1 || split > SEASON_SPLITS) {
+            throw new IllegalArgumentException("スプリットが範囲外である: " + split);
+        }
+        return split == 3 || split == 4;
+    }
+
+    /**
+     * 3歳馬クラシック路線への出走条件（§27.9）。2歳（実時間{@value #AGE_TWO_HOURS}時間
+     * 経過）に達し、かつ現在のスプリットが3・4のいずれかであることの両方を満たす必要がある。
+     */
+    public static boolean classicRaceEligible(int hoursSinceBirth, int currentSplit) {
+        requireHours(hoursSinceBirth);
+        return hoursSinceBirth >= AGE_TWO_HOURS && classicSplit(currentSplit);
+    }
+
+    /**
+     * 古馬シリーズ・距離別シリーズ（§27.8.2）への出走条件（§27.9）。2歳（実時間
+     * {@value #AGE_TWO_HOURS}時間経過）に達していればスプリットを問わない。
+     */
+    public static boolean openRaceEligible(int hoursSinceBirth) {
+        requireHours(hoursSinceBirth);
+        return hoursSinceBirth >= AGE_TWO_HOURS;
+    }
+
+    private static void requireHours(int hoursSinceBirth) {
+        if (hoursSinceBirth < 0) {
+            throw new IllegalArgumentException("出生からの経過時間が負である: " + hoursSinceBirth);
+        }
     }
 }
