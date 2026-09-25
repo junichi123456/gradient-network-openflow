@@ -2,6 +2,7 @@ package jp.mcserver.core;
 
 import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,10 +33,13 @@ import java.util.Set;
  *       オーバーワールドでは効果を持たず、競馬専用ワールドのレース展開AI
  *       （§27.4）でのみ働く</li>
  *   <li>性格（気性）は5属性・健康ステータスとは別枠の遺伝形質。気性が荒いほど
- *       調教の成功率（{@link #trainingSuccessRate}）が下がるが、調教失敗時に
- *       特性{@link SpecialTrait}を獲得できる確率
- *       （{@link #traitAcquisitionChanceOnTrainingFailure}）が上がる（§26.7.7）。
- *       特性そのものの効果は賢さと同じく競馬専用ワールド専用（未定・§23）</li>
+ *       調教の成功率（{@link #trainingSuccessRate}）が下がるが、<b>競馬専用ワールドで
+ *       レースに敗北した際</b>に特性{@link SpecialTrait}を獲得できる確率
+ *       （{@link #traitAcquisitionChanceOnRaceDefeat}）が上がる（§26.7.7）。
+ *       闘争心は直近5レースで自分に勝った馬が出走するレースでパワー+10
+ *       （{@link #fightingSpiritActive}・{@link #fightingSpiritPowerBonus}）、
+ *       本番得意は重賞のレースでスピード+5（{@link #peakPerformerSpeedBonus}）を
+ *       もたらす（§27.7、いずれも競馬専用ワールド限定）</li>
  * </ul>
  */
 public final class HorseTraining {
@@ -405,9 +409,10 @@ public final class HorseTraining {
     // ---- 性格（気性、§26.7.7） ----
 
     /**
-     * 特性の種類。名称が示すとおりレース展開に関わる特性のため、賢さ（{@link RaceStat#WISDOM}）
-     * と同じくオーバーワールドではこの特性そのものに効果を持たせない。効果は競馬専用
-     * ワールドのレース展開AI（§27.4）に持ち込んだ場合にのみ発揮される（未定・§23）。
+     * 特性の種類。獲得のトリガー（競馬専用ワールドでのレース敗北、§26.7.7）自体が
+     * 競馬専用ワールド限定であるため、実質的にこの2種は競馬専用ワールドでのみ扱う。
+     * 効果は{@link #fightingSpiritPowerBonus}・{@link #peakPerformerSpeedBonus}
+     * に定める（§27.7）。
      */
     public enum SpecialTrait { FIGHTING_SPIRIT, PEAK_PERFORMER }
 
@@ -426,18 +431,63 @@ public final class HorseTraining {
         return TRAINING_SUCCESS_RATE_BASE - temperamentValue * TRAINING_SUCCESS_RATE_PENALTY_PER_TEMPERAMENT_VALUE;
     }
 
-    /** 気性100のとき、調教失敗時に特性を獲得できる確率の上限。 */
+    /** 気性100のとき、レース敗北時に特性を獲得できる確率の上限。 */
     public static final double TRAIT_ACQUISITION_CHANCE_MAX = 0.30;
 
-    /** 気性1につき加算される、調教失敗時の特性獲得確率。 */
+    /** 気性1につき加算される、レース敗北時の特性獲得確率。 */
     public static final double TRAIT_ACQUISITION_CHANCE_PER_TEMPERAMENT_VALUE = TRAIT_ACQUISITION_CHANCE_MAX / STAT_MAX;
 
     /**
-     * 調教に失敗した際、気性の値から特性（{@link SpecialTrait}）を新たに獲得できる確率を
-     * 求める（§26.7.2・§26.7.7）。気性が荒いほど獲得しやすい。
+     * 競馬専用ワールドでレースに敗北した（1着以外だった）際、気性の値から特性
+     * （{@link SpecialTrait}）を新たに獲得できる確率を求める（§26.7.7）。獲得の
+     * トリガーは調教の失敗ではなくレースの敗北であり、気性が荒いほど獲得しやすい。
      */
-    public static double traitAcquisitionChanceOnTrainingFailure(int temperamentValue) {
+    public static double traitAcquisitionChanceOnRaceDefeat(int temperamentValue) {
         requireStatValue(temperamentValue);
         return temperamentValue * TRAIT_ACQUISITION_CHANCE_PER_TEMPERAMENT_VALUE;
+    }
+
+    // ---- 特性による効果（§27.7、競馬専用ワールド限定） ----
+
+    /** 闘争心が発動したときのパワーの上乗せ。 */
+    public static final double FIGHTING_SPIRIT_POWER_BONUS = 10.0;
+
+    /** 闘争心の判定で遡る、本馬自身の直近レース数。 */
+    public static final int FIGHTING_SPIRIT_LOOKBACK_RACES = 5;
+
+    /**
+     * 闘争心が発動する条件を判定する。{@code recentRaces} は本馬自身の直近レース結果
+     * （新しい順）で、各要素はそのレースで本馬より着順が上だった馬のIDの集合。
+     * 直近{@value #FIGHTING_SPIRIT_LOOKBACK_RACES}レースのみを参照し、それより
+     * 前のレースは無視する。今回のレースの出走馬（{@code fieldHorseIds}）に、
+     * この参照範囲内で本馬に勝ったことのある馬が1頭でも含まれていれば発動する。
+     */
+    public static boolean fightingSpiritActive(
+            List<Set<String>> recentRaces, Set<String> fieldHorseIds) {
+        int lookback = Math.min(recentRaces.size(), FIGHTING_SPIRIT_LOOKBACK_RACES);
+        for (int i = 0; i < lookback; i++) {
+            for (String rivalId : recentRaces.get(i)) {
+                if (fieldHorseIds.contains(rivalId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /** 闘争心の発動条件を満たす場合のパワーの上乗せ、満たさない場合は0。 */
+    public static double fightingSpiritPowerBonus(boolean hasFightingSpirit, boolean fightingSpiritActive) {
+        return (hasFightingSpirit && fightingSpiritActive) ? FIGHTING_SPIRIT_POWER_BONUS : 0.0;
+    }
+
+    /** 本番得意が発動したときのスピードの上乗せ。 */
+    public static final double PEAK_PERFORMER_SPEED_BONUS = 5.0;
+
+    /**
+     * 本番得意の発動条件を満たす（レースのクラスが重賞、§27.5）場合のスピードの
+     * 上乗せ、満たさない場合は0。
+     */
+    public static double peakPerformerSpeedBonus(boolean hasPeakPerformer, boolean isGradedRace) {
+        return (hasPeakPerformer && isGradedRace) ? PEAK_PERFORMER_SPEED_BONUS : 0.0;
     }
 }

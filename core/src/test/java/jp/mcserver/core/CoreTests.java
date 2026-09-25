@@ -4487,13 +4487,42 @@ public final class CoreTests {
         check("気性100は調教成功率60%まで下がる",
                 Math.abs(HorseTraining.trainingSuccessRate(100) - 0.60) < 1e-9);
 
-        // 性格（気性）：調教失敗時の特性獲得確率（気性が荒いほど上がる）
-        check("気性0は特性獲得確率0%", HorseTraining.traitAcquisitionChanceOnTrainingFailure(0) == 0.0);
+        // 性格（気性）：レース敗北時の特性獲得確率（気性が荒いほど上がる。調教失敗とは連動しない）
+        check("気性0は特性獲得確率0%", HorseTraining.traitAcquisitionChanceOnRaceDefeat(0) == 0.0);
         check("気性100は特性獲得確率30%（上限）",
-                Math.abs(HorseTraining.traitAcquisitionChanceOnTrainingFailure(100) - 0.30) < 1e-9);
+                Math.abs(HorseTraining.traitAcquisitionChanceOnRaceDefeat(100) - 0.30) < 1e-9);
 
-        // 特性：闘争心・本番得意の2種のみ（オーバーワールドでは効果を持たない）
+        // 特性：闘争心・本番得意の2種のみ（獲得のトリガーはレース敗北、効果は競馬専用ワールド限定）
         check("特性は闘争心・本番得意の2種", HorseTraining.SpecialTrait.values().length == 2);
+
+        // 闘争心：直近5レースで自分に勝った馬が出走していれば発動する
+        var raceBeatenByX = java.util.Set.of("horseX");
+        var raceBeatenByNobody = java.util.Set.<String>of();
+        var raceBeatenByY = java.util.Set.of("horseY");
+        var recentRaces = java.util.List.of(raceBeatenByNobody, raceBeatenByX, raceBeatenByNobody,
+                raceBeatenByNobody, raceBeatenByNobody);
+        check("直近5レース以内に負けた相手が出走していれば発動する",
+                HorseTraining.fightingSpiritActive(recentRaces, java.util.Set.of("horseX", "horseZ")));
+        check("出走馬に負けた相手がいなければ発動しない",
+                !HorseTraining.fightingSpiritActive(recentRaces, java.util.Set.of("horseY", "horseZ")));
+        var sixthRaceBeatenByY = java.util.List.of(raceBeatenByNobody, raceBeatenByNobody,
+                raceBeatenByNobody, raceBeatenByNobody, raceBeatenByNobody, raceBeatenByY);
+        check("6レース以上前に負けた相手は対象に含めない",
+                !HorseTraining.fightingSpiritActive(sixthRaceBeatenByY, java.util.Set.of("horseY")));
+        check("闘争心を持ち、発動条件を満たせばパワー+10",
+                HorseTraining.fightingSpiritPowerBonus(true, true) == 10.0);
+        check("闘争心を持っていなければ発動条件を満たしてもボーナスなし",
+                HorseTraining.fightingSpiritPowerBonus(false, true) == 0.0);
+        check("闘争心を持っていても発動条件を満たさなければボーナスなし",
+                HorseTraining.fightingSpiritPowerBonus(true, false) == 0.0);
+
+        // 本番得意：重賞のレースでのみ発動する
+        check("本番得意を持ち、重賞であればスピード+5",
+                HorseTraining.peakPerformerSpeedBonus(true, true) == 5.0);
+        check("本番得意を持っていなければ重賞でもボーナスなし",
+                HorseTraining.peakPerformerSpeedBonus(false, true) == 0.0);
+        check("本番得意を持っていても重賞でなければボーナスなし",
+                HorseTraining.peakPerformerSpeedBonus(true, false) == 0.0);
     }
 
     private static void section(String name) {
