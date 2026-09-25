@@ -4541,6 +4541,14 @@ public final class CoreTests {
         check("スパート中でなければ消費は等倍", HorseTraining.spurtStaminaConsumptionMultiplier(false) == 1.0);
         check("スパート中は最高速度が1.1倍", HorseTraining.spurtSpeedMultiplier(true) == 1.1);
         check("スパート中でなければ速度は等倍", HorseTraining.spurtSpeedMultiplier(false) == 1.0);
+
+        // 賢さ：スタミナ効率（線形補間、賢さ0で1.1倍・100で0.9倍）
+        check("賢さ0はスタミナ消費1.1倍（非効率）",
+                Math.abs(HorseTraining.wisdomStaminaEfficiencyMultiplier(0) - 1.1) < 1e-9);
+        check("賢さ100はスタミナ消費0.9倍（最大効率）",
+                Math.abs(HorseTraining.wisdomStaminaEfficiencyMultiplier(100) - 0.9) < 1e-9);
+        check("賢さ50は中間の1.0倍",
+                Math.abs(HorseTraining.wisdomStaminaEfficiencyMultiplier(50) - 1.0) < 1e-9);
     }
 
     private static void section(String name) {

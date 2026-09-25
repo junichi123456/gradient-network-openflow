@@ -45,8 +45,11 @@ import java.util.Set;
  *       （{@link #spurtStaminaConsumptionMultiplier}）になる代わり、最高速度を
  *       1.1倍まで出せる（{@link #spurtSpeedMultiplier}）。スタミナがゴール前で
  *       尽きるか、スパートに入る間もなく終わるかが、距離適性（§27.3）のシグナルに
- *       なる。賢さによるペース配分の具体的な調整式は末脚計算全体と合わせて実装段階で
- *       定める（未定・§23、§27.4）</li>
+ *       なる</li>
+ *   <li>賢さはレース中のスタミナ消費全般に、賢さ0で1.1倍・賢さ100で0.9倍
+ *       （最大効率）となる倍率を掛ける（{@link #wisdomStaminaEfficiencyMultiplier}、
+ *       §27.4）。「ゴール前で尽きないようペース配分を調整する」という役割は、
+ *       行動を動的に変えるロジックではなく、この燃費の差として実装した</li>
  * </ul>
  */
 public final class HorseTraining {
@@ -543,5 +546,26 @@ public final class HorseTraining {
     /** ラストスパート中かどうかから、最高速度の倍率を求める。 */
     public static double spurtSpeedMultiplier(boolean spurting) {
         return spurting ? SPURT_MAX_SPEED_MULTIPLIER : 1.0;
+    }
+
+    // ---- 賢さ：スタミナ効率（§27.4、競馬専用ワールド限定） ----
+
+    /** 賢さ0のときのスタミナ消費倍率（非効率）。 */
+    public static final double WISDOM_STAMINA_EFFICIENCY_AT_ZERO = 1.1;
+
+    /** 賢さ100のときのスタミナ消費倍率（最大効率）。 */
+    public static final double WISDOM_STAMINA_EFFICIENCY_MAX = 0.9;
+
+    /**
+     * 賢さの値から、レース中のスタミナ消費全般に一律で掛かる倍率を求める（§27.4）。
+     * 賢さ0で{@value #WISDOM_STAMINA_EFFICIENCY_AT_ZERO}倍、賢さ100で
+     * {@value #WISDOM_STAMINA_EFFICIENCY_MAX}倍（最大効率）となるよう線形に補間する。
+     * ラストスパート中の消費倍率（{@link #spurtStaminaConsumptionMultiplier}）にも
+     * 重ねて掛かる。
+     */
+    public static double wisdomStaminaEfficiencyMultiplier(int wisdomValue) {
+        requireStatValue(wisdomValue);
+        double range = WISDOM_STAMINA_EFFICIENCY_MAX - WISDOM_STAMINA_EFFICIENCY_AT_ZERO;
+        return WISDOM_STAMINA_EFFICIENCY_AT_ZERO + (wisdomValue / (double) STAT_MAX) * range;
     }
 }
