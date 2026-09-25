@@ -11,6 +11,11 @@ import jp.mcserver.core.rail.RailCost;
 import jp.mcserver.core.rail.RailType;
 import jp.mcserver.core.rail.StationCertification;
 import jp.mcserver.core.rail.VehicleSpeed;
+import jp.mcserver.core.racing.Grade;
+import jp.mcserver.core.racing.RaceCalendar;
+import jp.mcserver.core.racing.RacingCourse;
+import jp.mcserver.core.racing.RacingPedigree;
+import jp.mcserver.core.racing.ScheduledRace;
 import jp.mcserver.core.worldcouncil.WorldCouncilEligibility;
 import jp.mcserver.core.worldcouncil.WorldCouncilPayout;
 import jp.mcserver.core.worldcouncil.WorldCouncilRanking;
@@ -91,6 +96,7 @@ public final class CoreTests {
         jobProficiency();
         genetics();
         horseTraining();
+        racingWorld();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -4599,6 +4605,95 @@ public final class CoreTests {
                 HorseTraining.breedingEligible(10, 20));
         check("引退を決める前のスプリットでは繁殖に使えない",
                 !HorseTraining.breedingEligible(10, 9));
+
+        // 競馬専用ワールド：インブリード評価（変動幅の拡大）
+        check("3×3（強度）は変動幅1.5倍",
+                HorseTraining.inbreedVarianceMultiplier(HorseTraining.InbreedProximity.STRONG) == 1.5);
+        check("4×4等（中〜軽度）は変動幅1.2倍",
+                HorseTraining.inbreedVarianceMultiplier(HorseTraining.InbreedProximity.MODERATE) == 1.2);
+        check("アウトブリードは変動幅そのまま（1.0倍）",
+                HorseTraining.inbreedVarianceMultiplier(HorseTraining.InbreedProximity.NONE) == 1.0);
+
+        // 競馬専用ワールド：ニックス成立時のステータスボーナス（5〜15%の範囲）
+        check("ニックス成立時は渡された率がそのまま適用される",
+                HorseTraining.nicksStatBonus(true, 0.10) == 0.10);
+        check("ニックス不成立ならボーナスなし",
+                HorseTraining.nicksStatBonus(false, 0.10) == 0.0);
+        check("ニックスボーナス率の上限は15%",
+                HorseTraining.nicksStatBonus(true, HorseTraining.NICKS_BONUS_MAX) == 0.15);
+        check("ニックスボーナス率の下限は5%",
+                HorseTraining.nicksStatBonus(true, HorseTraining.NICKS_BONUS_MIN) == 0.05);
+    }
+
+    private static void racingWorld() {
+        section("§27.2・§27.8 競馬専用ワールド（血統・競馬場・年間レースカレンダー）");
+
+        // 血統登録：直系4代・計30頭（祖父母4＋曾祖父母8＋高祖父母16）
+        var pedigree = new RacingPedigree("A", "B",
+                java.util.List.of("G1", "G2", "G3", "G4"),
+                java.util.List.of("GG1", "GG2", "GG3", "GG4", "GG5", "GG6", "GG7", "GG8"),
+                java.util.List.of("GGG1", "GGG2", "GGG3", "GGG4", "GGG5", "GGG6", "GGG7", "GGG8",
+                        "GGG9", "GGG10", "GGG11", "GGG12", "GGG13", "GGG14", "GGG15", "GGG16"));
+        check("直系4代の祖先を保持できる（父母2＋祖父母4＋曾祖父母8＋高祖父母16＝30頭）",
+                pedigree.ancestors().size() == 30);
+        check("30頭という頭数はRacingPedigree.TRACKED_ANCESTOR_COUNTと一致する",
+                RacingPedigree.TRACKED_ANCESTOR_COUNT == 30);
+        check("祖父母は4頭に満たないと拒否される",
+                throwsIllegalArgument(() -> new RacingPedigree("A", "B",
+                        java.util.List.of("G1", "G2", "G3"),
+                        java.util.List.of("GG1", "GG2", "GG3", "GG4", "GG5", "GG6", "GG7", "GG8"),
+                        pedigree.greatGreatGrandparents())));
+
+        // 競馬場一覧：10場、開催区分・坂・小回り・芝質・収録距離を持つ
+        check("競馬場は10場", RacingCourse.values().length == 10);
+        check("丘陵（中山相当）は坂と小回りを両方持つ",
+                RacingCourse.KYURYO.hasHill() && RacingCourse.KYURYO.tightTurn());
+        check("平原（東京相当）は主要場・坂ありだが小回りではない",
+                RacingCourse.HEIGEN.classification() == RacingCourse.Classification.MAJOR
+                        && RacingCourse.HEIGEN.hasHill() && !RacingCourse.HEIGEN.tightTurn());
+        check("丘陵は芝3600mを収録している（ステイヤーズシリーズの最長距離）",
+                RacingCourse.KYURYO.hostsTurfDistance(3600));
+        check("湿地は芝1800mを収録していない",
+                !RacingCourse.SHITCHI.hostsTurfDistance(1800));
+
+        // 年間レースカレンダー：3冠4種＋距離別4種＝計31レース
+        check("年間レースカレンダーは31レース", RaceCalendar.SEASON_RACES.size() == RaceCalendar.TOTAL_RACES);
+        check("1日の開催数は最大5", RaceCalendar.SEASON_RACES.stream()
+                .collect(java.util.stream.Collectors.groupingBy(
+                        r -> r.split() + "-" + r.day(), java.util.stream.Collectors.counting()))
+                .values().stream().allMatch(count -> count <= RaceCalendar.MAX_RACES_PER_DAY));
+        check("大地三冠は3レース、すべてスプリット3・4のクラシック路線",
+                RaceCalendar.racesInSeries("大地三冠").size() == 3
+                        && RaceCalendar.racesInSeries("大地三冠").stream()
+                                .allMatch(r -> r.classicRace() && (r.split() == 3 || r.split() == 4)));
+        check("花冠三冠は3レース", RaceCalendar.racesInSeries("花冠三冠").size() == 3);
+        check("新緑三冠は3レース、クラシック路線ではない",
+                RaceCalendar.racesInSeries("新緑三冠").size() == 3
+                        && RaceCalendar.racesInSeries("新緑三冠").stream().noneMatch(ScheduledRace::classicRace));
+        check("黄金三冠は3レース", RaceCalendar.racesInSeries("黄金三冠").size() == 3);
+        check("スプリントシリーズは6レース", RaceCalendar.racesInSeries("スプリントシリーズ").size() == 6);
+        check("マイルシリーズは4レース", RaceCalendar.racesInSeries("マイルシリーズ").size() == 4);
+        check("中距離シリーズは5レース", RaceCalendar.racesInSeries("中距離シリーズ").size() == 5);
+        check("ステイヤーズシリーズは4レース、すべて芝3000m以上",
+                RaceCalendar.racesInSeries("ステイヤーズシリーズ").size() == 4
+                        && RaceCalendar.racesInSeries("ステイヤーズシリーズ").stream()
+                                .allMatch(r -> r.distanceMeters() >= 3000));
+        check("全レースがG1〜G3のいずれか", RaceCalendar.SEASON_RACES.stream()
+                .allMatch(r -> r.grade() == Grade.G1 || r.grade() == Grade.G2 || r.grade() == Grade.G3));
+        check("スプリット3の土曜には丘陵皐月賞・渓谷桜花賞が含まれる",
+                RaceCalendar.racesOn(3, java.time.DayOfWeek.SATURDAY).stream()
+                        .anyMatch(r -> r.name().equals("丘陵皐月賞"))
+                        && RaceCalendar.racesOn(3, java.time.DayOfWeek.SATURDAY).stream()
+                                .anyMatch(r -> r.name().equals("渓谷桜花賞")));
+    }
+
+    private static boolean throwsIllegalArgument(Runnable action) {
+        try {
+            action.run();
+            return false;
+        } catch (IllegalArgumentException expected) {
+            return true;
+        }
     }
 
     private static void section(String name) {

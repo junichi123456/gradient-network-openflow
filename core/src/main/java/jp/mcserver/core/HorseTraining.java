@@ -62,6 +62,11 @@ import java.util.Set;
  *   <li>繁殖に使えるのは引退馬のみ（{@link #breedingEligible}）。引退はそれが
  *       決まったスプリットの終了時に確定し、繁殖に使えるのは翌スプリットから
  *       （§27.9）</li>
+ *   <li>競馬専用ワールドの血統は、共通祖先の近さに応じてステータス初期値の変動幅を
+ *       拡大する（{@link #inbreedVarianceMultiplier}）。ニックス成立時のステータス
+ *       ボーナスは{@link #nicksStatBonus}で表すが、系統タグ自体は
+ *       {@link jp.mcserver.core.racing.RacingPedigree}（4代30頭モデル）で管理する
+ *       （§27.2）</li>
  * </ul>
  */
 public final class HorseTraining {
@@ -686,5 +691,63 @@ public final class HorseTraining {
      */
     public static boolean breedingEligible(int retirementDecidedSplit, int currentSplit) {
         return currentSplit > retirementDecidedSplit;
+    }
+
+    // ---- 競馬専用ワールド：血統・配合（§27.2、競馬専用ワールド限定） ----
+
+    /**
+     * 共通祖先の近さ（§27.2）。直系5代以内に共通の祖先を持つ場合のみ意味を持つ
+     * （それより遠い、または共通祖先が無い場合は{@link #NONE}）。
+     */
+    public enum InbreedProximity {
+        /** 3×3（父方・母方双方の3代前に共通祖先）。 */
+        STRONG,
+        /** 4×4／4×5／5×5。 */
+        MODERATE,
+        /** 共通祖先なし（アウトブリード）、または直系5代より遠い。 */
+        NONE
+    }
+
+    /** 3×3インブリード（強度）のとき、ステータス初期値の変動幅にかかる倍率。 */
+    public static final double INBREED_VARIANCE_MULTIPLIER_STRONG = 1.5;
+
+    /** 4×4／4×5／5×5インブリード（中〜軽度）のとき、変動幅にかかる倍率。 */
+    public static final double INBREED_VARIANCE_MULTIPLIER_MODERATE = 1.2;
+
+    /** アウトブリードのとき、変動幅にかかる倍率（標準のまま）。 */
+    public static final double INBREED_VARIANCE_MULTIPLIER_NONE = 1.0;
+
+    /**
+     * 共通祖先の近さから、ステータス初期値の変動幅（ドリフト）にかかる倍率を求める
+     * （§27.2）。§26.7.3の近親交配（ドリフトを減点方向にのみ振る）とは異なり、
+     * このワールドでは変動幅を拡大するだけで、方向自体は歪めない。
+     */
+    public static double inbreedVarianceMultiplier(InbreedProximity proximity) {
+        return switch (proximity) {
+            case STRONG -> INBREED_VARIANCE_MULTIPLIER_STRONG;
+            case MODERATE -> INBREED_VARIANCE_MULTIPLIER_MODERATE;
+            case NONE -> INBREED_VARIANCE_MULTIPLIER_NONE;
+        };
+    }
+
+    /** ニックス成立時のステータス初期値ボーナスの下限（§27.2）。 */
+    public static final double NICKS_BONUS_MIN = 0.05;
+
+    /** ニックス成立時のステータス初期値ボーナスの上限（§27.2）。 */
+    public static final double NICKS_BONUS_MAX = 0.15;
+
+    /**
+     * 配合表に一致するニックスが成立した場合の、産駒のステータス初期値ボーナスを
+     * 求める（§27.2）。{@code bonusRate}は組み合わせごとに異なりうる、
+     * {@value #NICKS_BONUS_MIN}〜{@value #NICKS_BONUS_MAX}の範囲の値を呼び出し側が
+     * 渡す——系統タグとニックスの具体的な組み合わせ表は別途定める（§23）ため、
+     * ここでは「成立していれば渡された率を、していなければ0を返す」という
+     * 仕組みだけを提供する。
+     */
+    public static double nicksStatBonus(boolean nicksMatched, double bonusRate) {
+        if (bonusRate < NICKS_BONUS_MIN || bonusRate > NICKS_BONUS_MAX) {
+            throw new IllegalArgumentException("ニックスボーナス率が範囲外である: " + bonusRate);
+        }
+        return nicksMatched ? bonusRate : 0.0;
     }
 }
