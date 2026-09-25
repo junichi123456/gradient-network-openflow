@@ -27,3 +27,11 @@ station:
     - RESIN_BRICKS
     - SULFUR_BRICKS
     - CINNABAR_BRICKS
+
+# クッションの座る機能の無効化（minecraft_server_spec.md §1.4）。
+# 「クッション」は Minecraft 1.26.3 で追加されたブロックで、対応する Material
+# 定数名をまだ確認していない。CUSHION は仮の名前である。実際の名前が分かったら
+# ここを書き換えること。このサーバーの Paper が知らない名前なら起動時に警告し、
+# 座る機能の無効化そのものが機能しない（右クリックは通常どおり通る）。
+cushion:
+  material-name: CUSHION

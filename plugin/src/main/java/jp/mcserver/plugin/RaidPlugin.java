@@ -94,6 +94,11 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         // 除外要素（§1.4）のモブ禁止と、交配クールダウンの軽減
         getServer().getPluginManager().registerEvents(new MobSpawnRestrictions(), this);
         getServer().getPluginManager().registerEvents(new BreedingCooldown(), this);
+        // クッションの座る機能の無効化（§1.4）。saveDefaultConfig() は rail.enable() でも
+        // 呼ぶが冪等なため、ここで先に呼んでも問題ない
+        saveDefaultConfig();
+        getServer().getPluginManager()
+                .registerEvents(CushionSitRestriction.load(getConfig(), getLogger()), this);
         // 開催の進行（§12.1）。登録・告知・開始・制限時間を回す
         getServer().getPluginManager().registerEvents(host, this);
         // レイド専用次元の保護（設置・破壊・PvP の禁止）
