@@ -1,42 +1,51 @@
 package jp.mcserver.core;
 
+import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
- * 馬の育成システム（§26.7、簡略化版）。
+ * 馬の育成システム（§26.7）。
  *
- * <p>馬は他の家畜（§26.1・§26.3）と同じ形質システムをそのまま使う。耐性形質に加えて、
- * レースステータス4種（速さ・スタミナ・頑丈さ・旋回性）を持つ——いずれも
- * {@link Genetics} と同じ値0〜100・ランクⅠ〜Ⅹで表し、継承の基本式も
- * {@link Genetics#animalInherit} をそのまま使う。
- *
- * <p>旧版が持っていた「形質0〜100とパラメータ0〜200の二重体系」「毎Tickの坂道物理
- * （傾斜率・スタミナ消費・速度補正の3式）」「4世代16頭ぶんの血統ツリーと5段階の血量
- * ペナルティ表」は実装コストに見合わないため単純化したが、競技としての手触り
- * （地形との駆け引き・特化の代償・血統の戦略性・スタミナ管理のリスク）は次の4点で
- * 保った。
+ * <p><b>改訂の経緯</b>: 旧版は旋回性・慣性による高速域の操作性低下、地形起伏ごとの
+ * 離散的なスタミナ消費、ジャンプ力2ブロック固定などを持っていた。この複雑さは
+ * 競馬専用ワールド（§27）へ役割ごと移し、オーバーワールドは**5属性のポイント
+ * 振り分け制**に一本化した。
  *
  * <ul>
- *   <li>坂道の物理演算の代わりに、1ブロック上昇・水平移動ともブロック単位の
- *       離散的なスタミナ消費で表す（{@link #riseStaminaCost}・
- *       {@link #horizontalStaminaCost}）</li>
- *   <li>速さと頑丈さはトレードオフにする（{@link #toughnessAfterTradeoff}）</li>
- *   <li>血統は2世代・6頭（親2頭＋祖父母4頭）まで見る（{@link #related}）</li>
+ *   <li>レースステータスは{@link RaceStat}の5種。値0〜100で、5属性の合計は
+ *       個体ごとに決まる{@link #inheritedCap 配分ポイント上限}を超えられない
+ *       （§26.7.1）。特化と代償は、個別のトレードオフ式ではなく<b>配分そのもの</b>
+ *       が担う</li>
+ *   <li>配分ポイント上限は、旧版の血統判定（{@link #related}、2世代・6頭）を
+ *       そのまま流用し、両親の上限の平均値に{@link Genetics}と同じドリフト
+ *       （{@link #inheritedCap}）を加えて決まる（§26.7.3）</li>
+ *   <li>頑丈さは<b>健康ステータス</b>に改称し、5属性とは別枠の遺伝形質として
+ *       維持する。怪我しやすさ（{@link #injuryChanceFromFatigue}）とスタミナ
+ *       回復速度（{@link #staminaRecoveryRate}）の両方を左右する（§26.7.4）</li>
  *   <li>怪我はデイサイクル終了時、前日の累積疲労から一括判定する
- *       （{@link #injuryChanceFromFatigue}）</li>
- *   <li>速さ100は実速度17.0 m/秒に相当し（{@link #maxSpeedMps}、育種のみに適用。
- *       野生馬はバニラの自然な値をそのまま使う）、14.0 m/秒以上では強力な推進力
- *       により旋回が段階的に困難になる。旋回性は自身の最高速度の80%以上でのみ
- *       働き、100でこの影響を75%まで軽減する（{@link #effectiveInertiaEffect}）</li>
+ *       （{@link #injuryChanceFromFatigue}、§26.7.6）</li>
+ *   <li>パワーはジャンプ力（{@link #jumpHeightBlocks}）、根性はスタミナ切れ時の
+ *       踏ん張り（{@link #gutsFatigueAvoidanceChance}）に効果を持つ。賢さは
+ *       オーバーワールドでは効果を持たず、競馬専用ワールドのレース展開AI
+ *       （§27.4）でのみ働く</li>
  * </ul>
  */
 public final class HorseTraining {
 
     private HorseTraining() {}
 
-    /** レースステータスの種類（§26.7.1）。値・ランクの扱いは{@link Genetics}と共通。 */
-    public enum RaceStat { SPEED, STAMINA, TOUGHNESS, TURNING }
+    /**
+     * レースステータスの種類（§26.7.1）。値の扱いは{@link Genetics}と共通（0〜100）。
+     * WISDOM はオーバーワールドでは効果を持たず、競馬専用ワールドのレース展開AI
+     * （§27.4）でのみ働く。
+     */
+    public enum RaceStat { SPEED, STAMINA, POWER, GUTS, WISDOM }
+
+    /** レースステータス1つあたりの値の下限・上限（§26.7.1）。 */
+    public static final int STAT_MIN = Genetics.VALUE_MIN;
+    public static final int STAT_MAX = Genetics.VALUE_MAX;
 
     /** 仔馬が成体になるまでの時間（分）。 */
     public static final int MATURATION_MINUTES = 14;
@@ -88,7 +97,8 @@ public final class HorseTraining {
     /**
      * 継承時のブレを近親交配かどうかに応じて返す（§26.7.3）。
      * 通常は{@link Genetics#DRIFT_MIN}〜{@link Genetics#DRIFT_MAX}（平均+3）、
-     * 近親交配ならこれを反転した範囲（平均-3）とする。
+     * 近親交配ならこれを反転した範囲（平均-3）とする。配分ポイント上限
+     * （{@link #inheritedCap}）にも同じブレを使う。
      *
      * @param roll {@link Genetics#DRIFT_MIN}〜{@link Genetics#DRIFT_MAX} の乱数（呼び出し側が用意する）
      */
@@ -99,170 +109,193 @@ public final class HorseTraining {
         return inbred ? -roll : roll;
     }
 
-    // ---- 特化のトレードオフ（§26.7.1） ----
+    // ---- 配分ポイント上限の継承（§26.7.3） ----
 
-    /** 速さがこの値を超えた分だけ、頑丈さから差し引く（「サラブレッド化」の代償）。 */
-    public static final int SPEED_TOUGHNESS_TRADEOFF_THRESHOLD = 70;
-
-    /** 超過分に対する頑丈さの減少率。 */
-    public static final double SPEED_TOUGHNESS_TRADEOFF_RATE = 0.3;
+    /** 配分ポイント上限の範囲。 */
+    public static final int CAP_MIN = 90;
+    public static final int CAP_MAX = 120;
 
     /**
-     * 継承した速さの値に応じて、頑丈さの値を補正する（全ステータス高の「万能馬」を
-     * 作れないようにするトレードオフ）。
+     * 配分ポイントの合計上限を、両親の上限の平均値に roll（通常は
+     * {@link Genetics#DRIFT_MIN}〜{@link Genetics#DRIFT_MAX}、近親交配なら
+     * {@link #inbredDriftRoll} で反転した範囲）を加えて求める。{@link #CAP_MIN}〜
+     * {@link #CAP_MAX} に収める。
      */
-    public static int toughnessAfterTradeoff(int inheritedToughness, int inheritedSpeed) {
-        int excess = Math.max(0, inheritedSpeed - SPEED_TOUGHNESS_TRADEOFF_THRESHOLD);
-        int penalty = (int) Math.round(excess * SPEED_TOUGHNESS_TRADEOFF_RATE);
-        return Math.max(Genetics.VALUE_MIN, inheritedToughness - penalty);
+    public static int inheritedCap(int parentACap, int parentBCap, int roll) {
+        requireCap(parentACap);
+        requireCap(parentBCap);
+        int base = Math.floorDiv(parentACap + parentBCap, 2);
+        return clampCap(base + roll);
     }
 
-    // ---- 速さの実数値換算と高速域の旋回困難（§26.7.1） ----
+    private static int clampCap(int value) {
+        return Math.max(CAP_MIN, Math.min(CAP_MAX, value));
+    }
+
+    private static void requireCap(int cap) {
+        if (cap < CAP_MIN || cap > CAP_MAX) {
+            throw new IllegalArgumentException("配分ポイント上限が範囲外である: " + cap);
+        }
+    }
+
+    // ---- 5属性の配分（§26.7.1〜26.7.3） ----
+
+    /** 配分（5属性それぞれの値）の合計。 */
+    public static int allocationTotal(Map<RaceStat, Integer> allocation) {
+        int total = 0;
+        for (RaceStat stat : RaceStat.values()) {
+            total += requireStatValue(allocation.getOrDefault(stat, 0));
+        }
+        return total;
+    }
+
+    /** 配分の合計が、与えられた配分ポイント上限に収まっているか。 */
+    public static boolean isValidAllocation(Map<RaceStat, Integer> allocation, int cap) {
+        requireCap(cap);
+        return allocationTotal(allocation) <= cap;
+    }
 
     /**
-     * 速さ0のときの実速度（m/秒）。バニラの movement_speed 属性が取り得る下限
-     * （0.1125）に相当する。
-     */
-    public static final double SPEED_TRAIT_MIN_MPS = 4.857;
-
-    /**
-     * 速さ100のときの実速度（m/秒）の上限。バニラの movement_speed 属性の自然な
-     * 上限（0.3375、14.57 m/秒相当）を超えて設定する。
-     */
-    public static final double SPEED_TRAIT_MAX_MPS = 17.0;
-
-    /**
-     * 速さの値（0〜100）を実速度（m/秒）へ変換する。0が下限、100が上限に対応する。
+     * 配分の合計が上限を超えている場合、上限に収まるよう按分して縮小する
+     * （§26.7.3「合計が上限を超える場合は、上限に収まるよう按分して縮小する」）。
+     * 上限以内であれば、そのままの配分を返す。
      *
-     * <p><b>育種（ブリード品種）にのみ適用する。</b> 野生捕獲の馬は形質を持たず、
-     * バニラの movement_speed 属性の自然な値（4.857〜14.57 m/秒）をそのまま使う。
+     * <p>端数は {@link RaceStat} の宣言順で切り捨てていき、最後の属性
+     * （{@link RaceStat#WISDOM}）に残りをすべて割り当てることで、合計が
+     * ちょうど上限に一致するようにする。
      */
-    public static double maxSpeedMps(int speedValue) {
-        Genetics.rank(speedValue); // 0〜100の範囲検証を兼ねる
-        return SPEED_TRAIT_MIN_MPS + (speedValue / 100.0) * (SPEED_TRAIT_MAX_MPS - SPEED_TRAIT_MIN_MPS);
-    }
-
-    /** この速度（m/秒）から、非常に強力な推進力により旋回が困難になり始める。 */
-    public static final double INERTIA_THRESHOLD_MPS = 14.0;
-
-    /** 旋回性が効き始める、自身の最高速度に対する割合（80%以上）。 */
-    public static final double TURNING_RELEVANT_SPEED_FRACTION = 0.8;
-
-    /** 旋回性100のとき、慣性の影響を削減できる最大割合（75%）。 */
-    public static final double TURNING_MAX_MITIGATION = 0.75;
-
-    /**
-     * 現在速度による、旋回困難（慣性の影響）の基礎的な強さ（0〜1）。
-     * {@value #INERTIA_THRESHOLD_MPS} m/秒未満では0、{@link #SPEED_TRAIT_MAX_MPS}
-     * （全個体に共通の速度上限）に向けて段階的に強くなる。
-     */
-    public static double baseInertiaEffect(double currentSpeedMps) {
-        if (currentSpeedMps < INERTIA_THRESHOLD_MPS) {
-            return 0.0;
+    public static Map<RaceStat, Integer> scaleToCap(Map<RaceStat, Integer> allocation, int cap) {
+        requireCap(cap);
+        int total = allocationTotal(allocation);
+        Map<RaceStat, Integer> result = new EnumMap<>(RaceStat.class);
+        if (total <= cap) {
+            for (RaceStat stat : RaceStat.values()) {
+                result.put(stat, allocation.getOrDefault(stat, 0));
+            }
+            return result;
         }
-        double clamped = Math.min(currentSpeedMps, SPEED_TRAIT_MAX_MPS);
-        return (clamped - INERTIA_THRESHOLD_MPS) / (SPEED_TRAIT_MAX_MPS - INERTIA_THRESHOLD_MPS);
-    }
-
-    /**
-     * 旋回性が効いているか。自身の最高速度の{@value #TURNING_RELEVANT_SPEED_FRACTION}
-     * 倍以上を出している場合にのみ、旋回性による軽減が働く。
-     */
-    public static boolean turningStatActive(double currentSpeedMps, double horseMaxSpeedMps) {
-        return currentSpeedMps >= horseMaxSpeedMps * TURNING_RELEVANT_SPEED_FRACTION;
-    }
-
-    /** 旋回性の値による、慣性影響の軽減率（0〜{@value #TURNING_MAX_MITIGATION}）。 */
-    public static double turningMitigation(int turningValue) {
-        Genetics.rank(turningValue); // 0〜100の範囲検証を兼ねる
-        return (turningValue / 100.0) * TURNING_MAX_MITIGATION;
-    }
-
-    /**
-     * 旋回性による軽減を適用した、最終的な旋回困難（慣性の影響、0〜1）。
-     * 自身の最高速度の80%未満では旋回性は働かない（{@link #turningStatActive}）。
-     * ただし速度上限（{@value #SPEED_TRAIT_MAX_MPS} m/秒）が全個体で共通のため、
-     * {@value #INERTIA_THRESHOLD_MPS} m/秒（80%相当は13.6 m/秒）に達している時点で
-     * 常にこの条件は満たされる。
-     */
-    public static double effectiveInertiaEffect(double currentSpeedMps, double horseMaxSpeedMps, int turningValue) {
-        double base = baseInertiaEffect(currentSpeedMps);
-        if (base == 0.0) {
-            return 0.0;
+        RaceStat[] stats = RaceStat.values();
+        int remaining = cap;
+        for (int i = 0; i < stats.length; i++) {
+            RaceStat stat = stats[i];
+            if (i == stats.length - 1) {
+                result.put(stat, remaining);
+            } else {
+                int scaled = (int) Math.floor(allocation.getOrDefault(stat, 0) * ((double) cap / total));
+                result.put(stat, scaled);
+                remaining -= scaled;
+            }
         }
-        boolean active = turningStatActive(currentSpeedMps, horseMaxSpeedMps);
-        double mitigation = active ? turningMitigation(turningValue) : 0.0;
-        return base * (1 - mitigation);
+        return result;
     }
 
-    // ---- ジャンプ（§26.7.2） ----
+    /**
+     * 産駒誕生時の配分を、両親の配分から通常の交配式（{@link Genetics#animalInherit}、
+     * §26.3）で暫定決定し、必要なら{@link #scaleToCap}で上限に収める（§26.7.3）。
+     */
+    public static Map<RaceStat, Integer> inheritAllocation(
+            Map<RaceStat, Integer> parentA, Map<RaceStat, Integer> parentB,
+            Map<RaceStat, Integer> rolls, int cap) {
+        Map<RaceStat, Integer> raw = new EnumMap<>(RaceStat.class);
+        for (RaceStat stat : RaceStat.values()) {
+            int inherited = Genetics.animalInherit(
+                    parentA.getOrDefault(stat, 0), parentB.getOrDefault(stat, 0),
+                    rolls.getOrDefault(stat, 0));
+            raw.put(stat, inherited);
+        }
+        return scaleToCap(raw, cap);
+    }
 
-    /** 育種のジャンプ力は固定（個体差を持たせない）。 */
-    public static final int BRED_JUMP_HEIGHT_BLOCKS = 2;
+    private static int requireStatValue(int value) {
+        if (value < STAT_MIN || value > STAT_MAX) {
+            throw new IllegalArgumentException("レースステータスの値が範囲外である: " + value);
+        }
+        return value;
+    }
 
-    // ---- スタミナ（§26.7.4） ----
+    // ---- パワー：ジャンプ力（§26.7.5） ----
+
+    /** パワー0のときのジャンプ力（ブロック）。 */
+    public static final double JUMP_HEIGHT_BASE_BLOCKS = 1.0;
+
+    /** パワー1につき加算されるジャンプ力（パワー100で+1ブロック＝旧版の2ブロック相当）。 */
+    public static final double JUMP_HEIGHT_PER_POWER_VALUE = 0.01;
+
+    /** パワーの値からジャンプ力（ブロック）を求める。旧版の「2ブロックで固定」を廃止した置き換え。 */
+    public static double jumpHeightBlocks(int powerValue) {
+        requireStatValue(powerValue);
+        return JUMP_HEIGHT_BASE_BLOCKS + powerValue * JUMP_HEIGHT_PER_POWER_VALUE;
+    }
+
+    // ---- 健康ステータス（旧・頑丈さ、§26.7.4） ----
+
+    /**
+     * 健康ステータス1につき、怪我判定に使う累積疲労を軽減する量（健康ステータス100で
+     * 最大25点）。健康ステータスが最大でも、累積疲労が上限（100）なら怪我判定に使う
+     * 値は75まで残り、75%の確率で怪我が発生する（＝最大でも25%の確率でしか怪我を
+     * 避けられない）。
+     */
+    public static final double FATIGUE_HEALTH_MITIGATION_PER_VALUE = 0.25;
+
+    /**
+     * デイサイクル終了時、前日の累積疲労と健康ステータスから求める怪我の発生率
+     * （0〜100）。この値をそのままパーセントとして扱う（累積疲労が上限かつ
+     * 健康ステータス0なら確定で発生する）。
+     */
+    public static double injuryChanceFromFatigue(double fatigue, int healthStatusValue) {
+        if (fatigue < 0 || fatigue > FATIGUE_CAP) {
+            throw new IllegalArgumentException("累積疲労が範囲外である: " + fatigue);
+        }
+        requireStatValue(healthStatusValue);
+        double mitigated = fatigue - healthStatusValue * FATIGUE_HEALTH_MITIGATION_PER_VALUE;
+        return Math.max(0.0, mitigated);
+    }
+
+    /** 健康ステータス0のときのスタミナ回復速度（基準値）。 */
+    public static final double STAMINA_RECOVERY_RATE_BASE = 5.0;
+
+    /** 健康ステータス1につき加算されるスタミナ回復速度。 */
+    public static final double STAMINA_RECOVERY_RATE_PER_HEALTH_VALUE = 0.05;
+
+    /** 健康ステータスの値からスタミナ回復速度を求める（§26.7.4「スタミナ管理」）。 */
+    public static double staminaRecoveryRate(int healthStatusValue) {
+        requireStatValue(healthStatusValue);
+        return STAMINA_RECOVERY_RATE_BASE + healthStatusValue * STAMINA_RECOVERY_RATE_PER_HEALTH_VALUE;
+    }
+
+    // ---- スタミナ（§26.7.6） ----
 
     /**
      * スタミナの値（0〜100）に対する基準値・倍率。最大スタミナ = 101 + 値×0.35
-     * （値100で136になる）。
+     * （値100で136になる。旧版の式を出発点として維持する）。
      */
     public static final double MAX_STAMINA_BASE = 101.0;
     public static final double MAX_STAMINA_PER_VALUE = 0.35;
 
     /** スタミナの値から最大スタミナを求める。値100で136になる。 */
     public static double maxStamina(int staminaValue) {
-        Genetics.rank(staminaValue); // 0〜100の範囲検証を兼ねる
+        requireStatValue(staminaValue);
         return MAX_STAMINA_BASE + staminaValue * MAX_STAMINA_PER_VALUE;
     }
 
-    /** 1ブロック上昇（ジャンプ・段差の乗り越えとも）あたりの基準スタミナ消費。 */
-    public static final double RISE_STAMINA_COST_BASE = 2.0;
+    // ---- 根性：累積疲労の回避（§26.7.6） ----
+
+    /** 根性100のとき、累積疲労の蓄積を回避できる確率の上限。 */
+    public static final double GUTS_FATIGUE_AVOIDANCE_MAX = 0.30;
+
+    /** 根性1につき加算される、累積疲労の蓄積を回避できる確率。 */
+    public static final double GUTS_FATIGUE_AVOIDANCE_PER_VALUE = GUTS_FATIGUE_AVOIDANCE_MAX / STAT_MAX;
 
     /**
-     * 頑丈さ1につき、上昇時のスタミナ消費を軽減する割合（頑丈さ100で最大45%軽減）。
-     * 「傾斜・登坂耐性」としての頑丈さの働きにあたる。
+     * 根性の値から、本来なら蓄積するはずの累積疲労を踏ん張って回避できる確率を求める
+     * （§26.7.6「根性による軽減」）。
      */
-    public static final double RISE_STAMINA_REDUCTION_PER_VALUE = 0.0045;
-
-    /**
-     * 1ブロック上昇あたりのスタミナ消費。移動速度によらず一律に発生し、頑丈さで
-     * 軽減される（最大45%）。段差をジャンプなしで乗り越える場合も同じ消費とする。
-     */
-    public static double riseStaminaCost(int toughnessValue) {
-        Genetics.rank(toughnessValue); // 0〜100の範囲検証を兼ねる
-        double reduction = toughnessValue * RISE_STAMINA_REDUCTION_PER_VALUE;
-        return RISE_STAMINA_COST_BASE * (1 - reduction);
+    public static double gutsFatigueAvoidanceChance(int gutsValue) {
+        requireStatValue(gutsValue);
+        return gutsValue * GUTS_FATIGUE_AVOIDANCE_PER_VALUE;
     }
 
-    /** 水平移動でスタミナを消費し始める、自身の最高速度に対する割合（80%以上）。 */
-    public static final double HORIZONTAL_STAMINA_SPEED_THRESHOLD = 0.80;
-
-    /** 水平移動1ブロックあたりのスタミナ消費（5ブロックで1.0＝0.2/ブロック）。 */
-    public static final double HORIZONTAL_STAMINA_COST_PER_BLOCK = 0.2;
-
-    /**
-     * 水平移動によるスタミナ消費。自身の最高速度の80%以上でのみ発生する
-     * （80%未満は消費なし）。
-     */
-    public static double horizontalStaminaCost(double blocksTraveled, double speedFraction) {
-        if (blocksTraveled < 0) {
-            throw new IllegalArgumentException("移動距離が負である: " + blocksTraveled);
-        }
-        return speedFraction >= HORIZONTAL_STAMINA_SPEED_THRESHOLD ? blocksTraveled * HORIZONTAL_STAMINA_COST_PER_BLOCK : 0.0;
-    }
-
-    /** スタミナの回復が始まる、自身の最高速度に対する割合の上限（40%以下）。 */
-    public static final double STAMINA_RECOVERY_SPEED_THRESHOLD = 0.40;
-
-    /**
-     * その時点の速度でスタミナが回復するか。自身の最高速度の40%以下のときのみ
-     * 回復する（回復量自体は§22で運用しながら定める）。
-     */
-    public static boolean staminaRecovering(double speedFraction) {
-        return speedFraction <= STAMINA_RECOVERY_SPEED_THRESHOLD;
-    }
-
-    // ---- 累積疲労と怪我（§26.7.4） ----
+    // ---- 累積疲労（§26.7.6） ----
 
     /** 累積疲労の上限。 */
     public static final double FATIGUE_CAP = 100.0;
@@ -275,47 +308,23 @@ public final class HorseTraining {
         return Math.max(0.0, fatigue - FATIGUE_DAILY_RECOVERY);
     }
 
-    /** スタミナ超過後の走行で累積疲労が発生し始める、自身の最高速度に対する割合（70%以上）。 */
-    public static final double FATIGUE_ACCUMULATION_SPEED_THRESHOLD = 0.70;
-
-    /** スタミナ超過後の走行1ブロックあたりの累積疲労（10ブロックで6＝0.6/ブロック）。 */
-    public static final double FATIGUE_ACCUMULATION_PER_BLOCK = 0.6;
+    /**
+     * スタミナを使い切った状態でなお運動を続けた場合の、累積疲労の増分
+     * （具体的な蓄積量は実測後に§22で定める出発点）。
+     */
+    public static final double FATIGUE_ACCUMULATION_PER_EXERTION = 6.0;
 
     /**
-     * 走行による累積疲労の増分。スタミナを使い切った状態（{@code staminaExhausted}）
-     * で、なお自身の最高速度の70%以上を出している場合にのみ発生する。
+     * 運動による累積疲労の増分。スタミナを使い切った状態（{@code staminaExhausted}）
+     * で、なお運動を続けた（{@code stillExerting}）場合にのみ発生する。
      */
-    public static double fatigueAccumulation(double blocksTraveled, double speedFraction, boolean staminaExhausted) {
-        if (blocksTraveled < 0) {
-            throw new IllegalArgumentException("移動距離が負である: " + blocksTraveled);
-        }
-        boolean accumulates = staminaExhausted && speedFraction >= FATIGUE_ACCUMULATION_SPEED_THRESHOLD;
-        return accumulates ? blocksTraveled * FATIGUE_ACCUMULATION_PER_BLOCK : 0.0;
+    public static double fatigueAccumulation(boolean staminaExhausted, boolean stillExerting) {
+        return (staminaExhausted && stillExerting) ? FATIGUE_ACCUMULATION_PER_EXERTION : 0.0;
     }
 
-    /**
-     * 頑丈さ1につき、怪我判定に使う累積疲労を軽減する量（頑丈さ100で最大25点）。
-     * 「足腰強度」としての頑丈さの働きにあたる。頑丈さが最大でも、累積疲労が
-     * 上限（100）なら怪我判定に使う値は75まで残り、75%の確率で怪我が発生する
-     * （＝最大でも25%の確率でしか怪我を避けられない）。
-     */
-    public static final double FATIGUE_TOUGHNESS_MITIGATION_PER_VALUE = 0.25;
+    // ---- 怪我（§26.7.6） ----
 
-    /**
-     * デイサイクル終了時、前日の累積疲労と頑丈さから求める怪我の発生率（0〜100）。
-     * この値をそのままパーセントとして扱う（累積疲労が上限かつ頑丈さ0なら
-     * 確定で発生する）。
-     */
-    public static double injuryChanceFromFatigue(double fatigue, int toughnessValue) {
-        if (fatigue < 0 || fatigue > FATIGUE_CAP) {
-            throw new IllegalArgumentException("累積疲労が範囲外である: " + fatigue);
-        }
-        Genetics.rank(toughnessValue); // 0〜100の範囲検証を兼ねる
-        double mitigated = fatigue - toughnessValue * FATIGUE_TOUGHNESS_MITIGATION_PER_VALUE;
-        return Math.max(0.0, mitigated);
-    }
-
-    /** 怪我の段階（§26.7.4）。 */
+    /** 怪我の段階（§26.7.6）。 */
     public enum InjuryStage { MINOR, MAJOR, PERMANENT }
 
     private static final double MINOR_UPPER = 0.70;
@@ -358,7 +367,7 @@ public final class HorseTraining {
     /** 軽傷時の移動速度倍率（−30%）。 */
     public static final double MINOR_SPEED_MULTIPLIER = 0.70;
 
-    /** 後遺症時の速さ・スタミナの恒久低下率の範囲（5〜10%）。 */
+    /** 後遺症時のスピード・スタミナの恒久低下率の範囲（5〜10%）。 */
     public static final double PERMANENT_STAT_LOSS_MIN = 0.05;
     public static final double PERMANENT_STAT_LOSS_MAX = 0.10;
 

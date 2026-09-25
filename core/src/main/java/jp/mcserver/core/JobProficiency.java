@@ -108,8 +108,8 @@ public final class JobProficiency {
 
     /** 畜産：騎乗中の怪我率低減の上限（-15%）。馬に騎乗している場合にのみ作用する（§26.7）。 */
     public static final double HUSBANDRY_RIDING_INJURY_REDUCTION_CAP = 0.15;
-    /** 畜産：騎乗時の旋回性上乗せの上限（+15）。 */
-    public static final int HUSBANDRY_TURNING_BONUS_CAP = 15;
+    /** 畜産：騎乗中のスタミナ回復速度上乗せの上限（+15%）。 */
+    public static final double HUSBANDRY_STAMINA_RECOVERY_BONUS_CAP = 0.15;
 
     private static void requireLevel(int level) {
         if (level < 1 || level > MAX_LEVEL) {

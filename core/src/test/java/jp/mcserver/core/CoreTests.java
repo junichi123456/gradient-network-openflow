@@ -4330,11 +4330,11 @@ public final class CoreTests {
     }
 
     private static void horseTraining() {
-        section("§26.7 馬の育成システム（簡略化版、競技性を補強）");
+        section("§26.7 馬の育成システム（5属性ポイント振り分け制）");
 
         check("仔馬は14分で成体になる", HorseTraining.MATURATION_MINUTES == 14);
 
-        // 近親交配：2世代・6頭（親2頭＋祖父母4頭）まで見る
+        // 近親交配：2世代・6頭（親2頭＋祖父母4頭）まで見る（配分ポイント上限の継承に使う）
         var noAncestry = new HorseTraining.Parentage(null, null, null, null, null, null);
         var childOfAB = new HorseTraining.Parentage("A", "B", null, null, null, null);
         var halfSiblingOfAB = new HorseTraining.Parentage("A", "C", null, null, null, null);
@@ -4363,52 +4363,92 @@ public final class CoreTests {
                 HorseTraining.inbredDriftRoll(Genetics.DRIFT_MAX, true) == -Genetics.DRIFT_MAX
                         && HorseTraining.inbredDriftRoll(Genetics.DRIFT_MIN, true) == -Genetics.DRIFT_MIN);
 
-        // 特化のトレードオフ：速さが70を超えた分だけ頑丈さが下がる（万能馬を作れなくする）
-        check("速さ70以下ならトレードオフなし", HorseTraining.toughnessAfterTradeoff(80, 70) == 80);
-        check("速さ100なら超過30の30%＝9だけ頑丈さが下がる", HorseTraining.toughnessAfterTradeoff(80, 100) == 71);
-        check("頑丈さは0を下回らない", HorseTraining.toughnessAfterTradeoff(5, 100) == 0);
+        // 配分ポイント上限の継承：両親の平均値に-2〜+8のブレ、90〜120に収める
+        check("両親とも100・ブレ0なら上限100のまま", HorseTraining.inheritedCap(100, 100, 0) == 100);
+        check("平均+3相当のブレを加えられる", HorseTraining.inheritedCap(100, 100, 3) == 103);
+        check("120を超えない", HorseTraining.inheritedCap(120, 120, Genetics.DRIFT_MAX) == 120);
+        check("90を下回らない", HorseTraining.inheritedCap(90, 90, Genetics.DRIFT_MIN) == 90);
 
-        // ジャンプは育種で固定
-        check("育種のジャンプ力は2ブロック固定", HorseTraining.BRED_JUMP_HEIGHT_BLOCKS == 2);
+        // 5属性の配分：合計が上限を超えられない
+        java.util.Map<HorseTraining.RaceStat, Integer> even = new java.util.EnumMap<>(HorseTraining.RaceStat.class);
+        for (HorseTraining.RaceStat stat : HorseTraining.RaceStat.values()) {
+            even.put(stat, 20);
+        }
+        check("5属性へ均等配分（20ずつ）で合計100", HorseTraining.allocationTotal(even) == 100);
+        check("合計100は上限100以内なら有効", HorseTraining.isValidAllocation(even, 100));
+        check("合計100は上限90を超えるため無効", !HorseTraining.isValidAllocation(even, 90));
+
+        java.util.Map<HorseTraining.RaceStat, Integer> speedFocused =
+                new java.util.EnumMap<>(HorseTraining.RaceStat.class);
+        speedFocused.put(HorseTraining.RaceStat.SPEED, 30);
+        speedFocused.put(HorseTraining.RaceStat.STAMINA, 20);
+        speedFocused.put(HorseTraining.RaceStat.POWER, 10);
+        speedFocused.put(HorseTraining.RaceStat.GUTS, 20);
+        speedFocused.put(HorseTraining.RaceStat.WISDOM, 20);
+        check("パワーを削ってスピードへ回す配分も合計100になる",
+                HorseTraining.allocationTotal(speedFocused) == 100);
+
+        // 上限超過時は按分して縮小する
+        java.util.Map<HorseTraining.RaceStat, Integer> overCap =
+                new java.util.EnumMap<>(HorseTraining.RaceStat.class);
+        for (HorseTraining.RaceStat stat : HorseTraining.RaceStat.values()) {
+            overCap.put(stat, 20);
+        }
+        var scaled = HorseTraining.scaleToCap(overCap, 90);
+        check("上限90に按分縮小すると合計は90になる", HorseTraining.allocationTotal(scaled) == 90);
+        check("上限以内ならそのまま返す",
+                HorseTraining.allocationTotal(HorseTraining.scaleToCap(overCap, 100)) == 100);
+
+        // 産駒誕生時の配分継承：両親の配分から交配式で暫定決定し、上限に収める
+        java.util.Map<HorseTraining.RaceStat, Integer> rolls = new java.util.EnumMap<>(HorseTraining.RaceStat.class);
+        for (HorseTraining.RaceStat stat : HorseTraining.RaceStat.values()) {
+            rolls.put(stat, 0);
+        }
+        var inherited = HorseTraining.inheritAllocation(even, even, rolls, 100);
+        check("両親が均等配分でブレ0なら、そのまま均等配分を継承する",
+                HorseTraining.allocationTotal(inherited) == 100
+                        && inherited.get(HorseTraining.RaceStat.SPEED) == 20);
+        var inheritedOverCap = HorseTraining.inheritAllocation(even, even, rolls, 90);
+        check("継承した配分が新しい上限を超える場合は縮小する",
+                HorseTraining.allocationTotal(inheritedOverCap) == 90);
+
+        // パワー：ジャンプ力（旧版の「2ブロック固定」の置き換え）
+        check("パワー0のジャンプ力は1ブロック", HorseTraining.jumpHeightBlocks(0) == 1.0);
+        check("パワー100のジャンプ力は2ブロック（旧版の固定値と一致）",
+                HorseTraining.jumpHeightBlocks(100) == 2.0);
 
         // 最大スタミナ：101 + 値×0.35（値100で136）
         check("スタミナ0は101", HorseTraining.maxStamina(0) == 101.0);
         check("スタミナ100は136", HorseTraining.maxStamina(100) == 136.0);
 
-        // 1ブロック上昇のスタミナ消費：基準2.0、頑丈さで最大45%軽減
-        check("頑丈さ0は上昇1回で2.0消費", HorseTraining.riseStaminaCost(0) == 2.0);
-        check("頑丈さ100は45%軽減されて1.1消費",
-                Math.abs(HorseTraining.riseStaminaCost(100) - 1.1) < 1e-9);
-
-        // 水平移動のスタミナ消費：自身の最高速度の80%以上でのみ、5ブロックにつき1.0
-        check("80%未満の水平移動はスタミナを消費しない",
-                HorseTraining.horizontalStaminaCost(100, 0.79) == 0.0);
-        check("80%以上は5ブロックで1.0消費", HorseTraining.horizontalStaminaCost(5, 0.80) == 1.0);
-        check("80%以上は10ブロックで2.0消費", HorseTraining.horizontalStaminaCost(10, 1.0) == 2.0);
-
-        // スタミナ回復は自身の最高速度の40%以下でのみ始まる
-        check("40%以下は回復が始まる", HorseTraining.staminaRecovering(0.40) && HorseTraining.staminaRecovering(0.0));
-        check("40%超は回復しない", !HorseTraining.staminaRecovering(0.41));
+        // 根性：スタミナ切れ時の累積疲労回避確率（0〜30%）
+        check("根性0は回避確率0%", HorseTraining.gutsFatigueAvoidanceChance(0) == 0.0);
+        check("根性100は回避確率30%",
+                Math.abs(HorseTraining.gutsFatigueAvoidanceChance(100) - 0.30) < 1e-9);
 
         // 累積疲労：上限100、デイサイクル終了時に10回復
         check("累積疲労はデイサイクル終了時に10回復する", HorseTraining.recoverFatigueDaily(100) == 90);
         check("0を下回らない", HorseTraining.recoverFatigueDaily(5) == 0);
 
-        // 累積疲労の蓄積：スタミナ超過後、自身の最高速度の70%以上の走行で10ブロックごとに6
-        check("スタミナに余力があれば高速走行でも累積疲労は発生しない",
-                HorseTraining.fatigueAccumulation(10, 1.0, false) == 0.0);
-        check("スタミナ超過後、70%未満の走行では発生しない",
-                HorseTraining.fatigueAccumulation(10, 0.69, true) == 0.0);
-        check("スタミナ超過後、70%以上・10ブロックで6蓄積する",
-                Math.abs(HorseTraining.fatigueAccumulation(10, 0.70, true) - 6.0) < 1e-9);
+        // 累積疲労の蓄積：スタミナを使い切ってなお運動を続けた場合のみ発生する
+        check("スタミナに余力があれば運動を続けても累積疲労は発生しない",
+                HorseTraining.fatigueAccumulation(false, true) == 0.0);
+        check("スタミナを使い切っていても運動をやめれば発生しない",
+                HorseTraining.fatigueAccumulation(true, false) == 0.0);
+        check("スタミナを使い切ってなお運動を続けると発生する",
+                HorseTraining.fatigueAccumulation(true, true) == HorseTraining.FATIGUE_ACCUMULATION_PER_EXERTION);
 
-        // デイサイクル終了時の怪我判定：累積疲労がそのまま発生率（%）になり、頑丈さ（足腰強度）で軽減
-        check("頑丈さ0・累積疲労100は確定で怪我が発生する（100%）",
+        // 健康ステータス：怪我しやすさの軽減（旧・頑丈さの式をそのまま引き継ぐ）
+        check("健康ステータス0・累積疲労100は確定で怪我が発生する（100%）",
                 HorseTraining.injuryChanceFromFatigue(100, 0) == 100.0);
-        check("頑丈さ100でも累積疲労100なら最大25%しか回避できない（75%は残る）",
+        check("健康ステータス100でも累積疲労100なら最大25%しか回避できない（75%は残る）",
                 Math.abs(HorseTraining.injuryChanceFromFatigue(100, 100) - 75.0) < 1e-9);
-        check("累積疲労0なら頑丈さによらず発生しない",
+        check("累積疲労0なら健康ステータスによらず発生しない",
                 HorseTraining.injuryChanceFromFatigue(0, 0) == 0.0);
+
+        // 健康ステータス：スタミナ回復速度への効果
+        check("健康ステータス0の回復速度は基準値5.0", HorseTraining.staminaRecoveryRate(0) == 5.0);
+        check("健康ステータス100の回復速度は基準値+5.0＝10.0", HorseTraining.staminaRecoveryRate(100) == 10.0);
 
         // 重症度：軽傷70%・重傷25%・後遺症5%
         check("低いrollは軽傷", HorseTraining.injurySeverity(0.0) == HorseTraining.InjuryStage.MINOR
@@ -4426,44 +4466,13 @@ public final class CoreTests {
         check("後遺症はここでは加算しない（恒久ステータス低下として別扱い）",
                 HorseTraining.cumulativeDamageFor(HorseTraining.InjuryStage.PERMANENT) == 0.0);
 
-        // 速さの実数値換算：0→4.857m/s（バニラ下限相当）、100→17.0m/s（新上限）
-        check("速さ0は4.857m/s", Math.abs(HorseTraining.maxSpeedMps(0) - 4.857) < 1e-9);
-        check("速さ100は17.0m/s", HorseTraining.maxSpeedMps(100) == 17.0);
-        check("速さ50は中間値（約10.93m/s）", Math.abs(HorseTraining.maxSpeedMps(50) - 10.9285) < 1e-9);
-
-        // 高速域の旋回困難：14.0m/s未満は影響なし、17.0m/sへ向けて段階的に強くなる
-        check("13.9m/sは慣性の影響なし", HorseTraining.baseInertiaEffect(13.9) == 0.0);
-        check("14.0m/sちょうどはまだ影響ゼロ（ここから強くなり始める）",
-                HorseTraining.baseInertiaEffect(14.0) == 0.0);
-        check("15.5m/s（14〜17の中間）は影響50%", HorseTraining.baseInertiaEffect(15.5) == 0.5);
-        check("17.0m/s（上限）は影響100%", HorseTraining.baseInertiaEffect(17.0) == 1.0);
-
-        // 旋回性は自身の最高速度の80%以上でのみ働く
-        check("自身の最高速度17.0m/sの80%＝13.6m/s以上で旋回性が働く",
-                HorseTraining.turningStatActive(13.61, 17.0) && !HorseTraining.turningStatActive(13.5, 17.0));
-        check("旋回性100は慣性影響を75%軽減、0は軽減なし",
-                HorseTraining.turningMitigation(100) == 0.75 && HorseTraining.turningMitigation(0) == 0.0);
-
-        // 速度上限が全個体共通のため、慣性が働き始める14.0m/sは常に「自身の最高速度の80%」を超えている
-        check("最高速度17.0m/sの馬が14.0m/sを出した時点で旋回性は必ず有効",
-                HorseTraining.turningStatActive(14.0, 17.0));
-        check("最高速度15.0m/sの馬でも14.0m/sの時点で旋回性は有効（80%＝12.0m/s）",
-                HorseTraining.turningStatActive(14.0, 15.0));
-
-        check("速度14.0m/s未満は旋回性の有無によらず慣性の影響がゼロ",
-                HorseTraining.effectiveInertiaEffect(13.9, 17.0, 100) == 0.0);
-        check("最高速度・旋回性100でも慣性は残る（75%軽減で25%）",
-                Math.abs(HorseTraining.effectiveInertiaEffect(17.0, 17.0, 100) - 0.25) < 1e-9);
-        check("旋回性0なら慣性の影響をそのまま受ける",
-                HorseTraining.effectiveInertiaEffect(17.0, 17.0, 0) == 1.0);
-
         // 段階ごとの扱い
         check("軽傷・後遺症は騎乗可能、重傷のみ不可",
                 HorseTraining.ridable(HorseTraining.InjuryStage.MINOR)
                         && !HorseTraining.ridable(HorseTraining.InjuryStage.MAJOR)
                         && HorseTraining.ridable(HorseTraining.InjuryStage.PERMANENT));
         check("軽傷は移動速度-30%", HorseTraining.MINOR_SPEED_MULTIPLIER == 0.70);
-        check("後遺症は速さ・スタミナが恒久的に5〜10%低下",
+        check("後遺症はスピード・スタミナが恒久的に5〜10%低下",
                 HorseTraining.PERMANENT_STAT_LOSS_MIN == 0.05 && HorseTraining.PERMANENT_STAT_LOSS_MAX == 0.10);
     }
 
