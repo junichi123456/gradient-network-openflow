@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+}
+
+dependencies {
+    // 対象バージョンに合わせて差し替える。1.26.3 へ移行(最新版に追従。rail_infra_spec.md)。
+    // 1.26.3 の Paper バージョン文字列は「1.26.3-R0.1-SNAPSHOT」形式ではなく
+    // 「26.3.build.<ビルド番号>-alpha」形式(実機での repo.papermc.io 閲覧で確認済み)。
+    // ビルド番号は今後の再ビルドで進む可能性があるため、ビルドが失敗したら
+    // https://repo.papermc.io/repository/maven-public/io/papermc/paper/paper-api/ で
+    // 最新のディレクトリ名を確認し、ここを合わせ直すこと。
+    compileOnly 'io.papermc.paper:paper-api:26.3.build.9-alpha'
+    implementation project(':core')
+    // 地下鉄インフラ（rail_infra_spec.md）の永続化。バージョンは要確認（同じ理由でmavenCentralにも
+    // 到達できていない）。java.sql.* は JDK 標準なので、このドライバが無くてもコンパイルは通る
+    // ——実行時に DriverManager がクラスパス上のドライバを探す形なので、動かすときだけ要る。
+    implementation 'org.xerial:sqlite-jdbc:3.46.1.3'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// core のクラスを jar に同梱する（core は外部依存を持たないため shadow は不要）
+jar {
+    archiveBaseName = 'raid-plugin'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    // 閉包の中で解決するため、core の jar 生成を明示的に先行させる
+    dependsOn ':core:jar'
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+processResources {
+    filteringCharset = 'UTF-8'
+}

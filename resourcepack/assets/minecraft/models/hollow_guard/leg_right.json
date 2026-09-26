@@ -1,0 +1,22 @@
+{
+  "__comment": "右足 / ID 3005 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "item/hollow_guard/guard_leg",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "右足",
+      "from": [1.6, -8, 1.6],
+      "to": [14.4, 8, 14.4],
+      "faces": {
+        "north": { "uv": [4.5, 10, 9, 15.5], "texture": "#skin" },
+        "east": { "uv": [0, 4.5, 4.5, 10], "texture": "#skin" },
+        "south": { "uv": [0, 10, 4.5, 15.5], "texture": "#skin" },
+        "west": { "uv": [4.5, 4.5, 9, 10], "texture": "#skin" },
+        "up": { "uv": [0, 0, 4.5, 4.5], "texture": "#skin" },
+        "down": { "uv": [4.5, 0, 9, 4.5], "texture": "#skin" }
+      }
+    }
+  ]
+}
