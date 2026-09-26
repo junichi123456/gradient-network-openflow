@@ -4735,6 +4735,25 @@ public final class CoreTests {
         check("登録済みの馬のみ重賞に出走できる",
                 NationalRegistration.gradedRaceEligible(true)
                         && !NationalRegistration.gradedRaceEligible(false));
+
+        // クラス昇級（§27.5）：出走歴0なら新馬戦限定
+        check("出走歴0は新馬戦", RaceClass.currentClass(0, 0) == RaceClass.NEWCOMER);
+        check("出走歴があり勝ち星0は未勝利", RaceClass.currentClass(1, 0) == RaceClass.MAIDEN);
+        check("勝ち星1は1勝クラス", RaceClass.currentClass(3, 1) == RaceClass.ONE_WIN);
+        check("勝ち星2は2勝クラス", RaceClass.currentClass(5, 2) == RaceClass.TWO_WIN);
+        check("勝ち星3はオープン", RaceClass.currentClass(8, 3) == RaceClass.OPEN);
+        check("勝ち星3を超えてもオープンのまま（重賞は別判定）",
+                RaceClass.currentClass(20, 10) == RaceClass.OPEN);
+
+        // 重賞（G3）昇級：オープン戦の出走歴＋累積賞金5,000exp以上の両方が必要
+        check("オープン戦未出走なら累積賞金があっても重賞に出走できない",
+                !RaceClass.gradedEligible(0, 10_000));
+        check("オープン戦出走歴があっても累積賞金5,000未満なら出走できない",
+                !RaceClass.gradedEligible(1, 4_999));
+        check("オープン戦出走歴があり累積賞金5,000ちょうどなら出走できる",
+                RaceClass.gradedEligible(1, 5_000));
+        check("3連勝の最短到達（新馬戦500+1勝1,500+2勝2,500＝4,500）だけでは5,000に届かない",
+                4_500 < RaceClass.GRADED_ELIGIBILITY_MIN_CUMULATIVE_PRIZE_EXP);
     }
 
     private static boolean throwsIllegalState(Runnable action) {
