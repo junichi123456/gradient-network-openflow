@@ -16,8 +16,8 @@ import java.time.DayOfWeek;
  * @param classicRace 3歳馬クラシック路線（大地三冠・花冠三冠）に属し、出走が
  *     スプリット3・4に限られるか（§27.9）
  * @param prizeMoneyExp 1着賞金（exp、§27.5・§27.8.2）。距離別シリーズは格付けに
- *     応じた定額（G3=3,000・G2=6,000、{@link RaceClass}参照）、3冠4種はレースごとの
- *     個別額（9,000〜40,000）を持つ。§2の日次exp上限の対象外である
+ *     応じた定額（G3=10,000・G2=25,000、{@link RaceClass}参照）、3冠4種はレースごとの
+ *     個別額（60,000〜275,000）を持つ。§2の日次exp上限の対象外である
  */
 public record ScheduledRace(
         String name,

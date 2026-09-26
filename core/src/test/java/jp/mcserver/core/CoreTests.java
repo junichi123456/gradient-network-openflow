@@ -18,6 +18,7 @@ import jp.mcserver.core.racing.RaceClass;
 import jp.mcserver.core.racing.RacingCourse;
 import jp.mcserver.core.racing.RacingPedigree;
 import jp.mcserver.core.racing.ScheduledRace;
+import jp.mcserver.core.racing.SeriesConquestBonus;
 import jp.mcserver.core.racing.StablingUpkeep;
 import jp.mcserver.core.racing.TrainingMenu;
 import jp.mcserver.core.worldcouncil.WorldCouncilEligibility;
@@ -4776,6 +4777,40 @@ public final class CoreTests {
                 StablingUpkeep.totalUpkeepExp(10) == 11_000);
         check("保有頭数が負なら合計を求められない",
                 throwsIllegalArgument(() -> StablingUpkeep.totalUpkeepExp(-1)));
+
+        // 制覇ボーナス（§27.8.5）：三冠は一律、距離別シリーズはシリーズ最高額に準拠
+        check("三冠ボーナスは一律100,000exp", SeriesConquestBonus.TRIPLE_CROWN_BONUS_EXP == 100_000);
+        check("ボーナス100,000expは個体70,000・国庫30,000に分割される",
+                SeriesConquestBonus.individualShareExp(100_000) == 70_000
+                        && SeriesConquestBonus.nationalShareExp(100_000) == 30_000);
+        check("個体取り分と国庫取り分の合計は必ず元のボーナス額と一致する（端数を国庫側に寄せる）",
+                SeriesConquestBonus.individualShareExp(25_000) + SeriesConquestBonus.nationalShareExp(25_000)
+                        == 25_000);
+        check("ボーナス額が負なら分割できない",
+                throwsIllegalArgument(() -> SeriesConquestBonus.individualShareExp(-1)));
+
+        check("スプリントシリーズのチャンピオンボーナスはタイガスプリントS（G2）の25,000exp",
+                SeriesConquestBonus.distanceSeriesChampionBonusExp(RaceCalendar.SPRINT) == 25_000);
+        check("マイルシリーズは全レースG3のため最高額も10,000exp",
+                SeriesConquestBonus.distanceSeriesChampionBonusExp(RaceCalendar.MILE) == 10_000);
+        check("中距離シリーズのチャンピオンボーナスはタイガ記念（G2）の25,000exp",
+                SeriesConquestBonus.distanceSeriesChampionBonusExp(RaceCalendar.MIDDLE) == 25_000);
+        check("ステイヤーズシリーズは全レースG2のため最高額も25,000exp",
+                SeriesConquestBonus.distanceSeriesChampionBonusExp(RaceCalendar.STAYERS) == 25_000);
+        check("三冠（全レースG1）のシリーズ名を渡すと対象外として拒否される",
+                throwsIllegalArgument(() -> SeriesConquestBonus.distanceSeriesChampionBonusExp(RaceCalendar.OGON)));
+        check("存在しないシリーズ名は拒否される",
+                throwsIllegalArgument(() -> SeriesConquestBonus.distanceSeriesChampionBonusExp("存在しないシリーズ")));
+
+        check("1着は10点・2着は5点・3着は3点・4着は1点・5着以下は0点",
+                SeriesConquestBonus.pointsForFinish(1) == 10
+                        && SeriesConquestBonus.pointsForFinish(2) == 5
+                        && SeriesConquestBonus.pointsForFinish(3) == 3
+                        && SeriesConquestBonus.pointsForFinish(4) == 1
+                        && SeriesConquestBonus.pointsForFinish(5) == 0
+                        && SeriesConquestBonus.pointsForFinish(12) == 0);
+        check("着順0以下は指定できない",
+                throwsIllegalArgument(() -> SeriesConquestBonus.pointsForFinish(0)));
     }
 
     private static boolean throwsIllegalState(Runnable action) {

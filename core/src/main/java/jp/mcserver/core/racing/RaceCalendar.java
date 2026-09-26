@@ -22,14 +22,22 @@ public final class RaceCalendar {
     /** シーズン内の総レース数（3冠4種・距離別4種の合計、§27.8.3）。 */
     public static final int TOTAL_RACES = 31;
 
-    private static final String DAICHI = "大地三冠";
-    private static final String KAKAN = "花冠三冠";
-    private static final String SHINRYOKU = "新緑三冠";
-    private static final String OGON = "黄金三冠";
-    private static final String SPRINT = "スプリントシリーズ";
-    private static final String MILE = "マイルシリーズ";
-    private static final String MIDDLE = "中距離シリーズ";
-    private static final String STAYERS = "ステイヤーズシリーズ";
+    /** 大地三冠のシリーズ名（§27.8.2）。3歳牡馬クラシック路線。 */
+    public static final String DAICHI = "大地三冠";
+    /** 花冠三冠のシリーズ名（§27.8.2）。3歳牝馬クラシック路線。 */
+    public static final String KAKAN = "花冠三冠";
+    /** 新緑三冠のシリーズ名（§27.8.2）。春の古馬シリーズ。 */
+    public static final String SHINRYOKU = "新緑三冠";
+    /** 黄金三冠のシリーズ名（§27.8.2）。秋の古馬シリーズ。 */
+    public static final String OGON = "黄金三冠";
+    /** スプリントシリーズ名（§27.8.2）。 */
+    public static final String SPRINT = "スプリントシリーズ";
+    /** マイルシリーズ名（§27.8.2）。 */
+    public static final String MILE = "マイルシリーズ";
+    /** 中距離シリーズ名（§27.8.2）。 */
+    public static final String MIDDLE = "中距離シリーズ";
+    /** ステイヤーズシリーズ名（§27.8.2）。 */
+    public static final String STAYERS = "ステイヤーズシリーズ";
 
     private static final long G3_PRIZE = RaceClass.G3.flatPrizeMoneyExp();
     private static final long G2_PRIZE = RaceClass.G2.flatPrizeMoneyExp();
