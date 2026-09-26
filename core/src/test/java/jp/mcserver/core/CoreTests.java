@@ -11,6 +11,8 @@ import jp.mcserver.core.rail.RailCost;
 import jp.mcserver.core.rail.RailType;
 import jp.mcserver.core.rail.StationCertification;
 import jp.mcserver.core.rail.VehicleSpeed;
+import jp.mcserver.core.racing.AbilityBonusSize;
+import jp.mcserver.core.racing.AbilityValue;
 import jp.mcserver.core.racing.Grade;
 import jp.mcserver.core.racing.NationalRegistration;
 import jp.mcserver.core.racing.RaceCalendar;
@@ -21,7 +23,14 @@ import jp.mcserver.core.racing.RacingPedigree;
 import jp.mcserver.core.racing.ScheduledRace;
 import jp.mcserver.core.racing.SeriesConquestBonus;
 import jp.mcserver.core.racing.StablingUpkeep;
+import jp.mcserver.core.racing.TraitAcquisition;
+import jp.mcserver.core.racing.TraitCatalog;
+import jp.mcserver.core.racing.TraitCategory;
+import jp.mcserver.core.racing.TraitDefinition;
+import jp.mcserver.core.racing.TraitLoadout;
+import jp.mcserver.core.racing.TraitTier;
 import jp.mcserver.core.racing.TrainingMenu;
+import jp.mcserver.core.racing.TrainingOutcome;
 import jp.mcserver.core.worldcouncil.WorldCouncilEligibility;
 import jp.mcserver.core.worldcouncil.WorldCouncilPayout;
 import jp.mcserver.core.worldcouncil.WorldCouncilRanking;
@@ -103,6 +112,7 @@ public final class CoreTests {
         genetics();
         horseTraining();
         racingWorld();
+        traitSystem();
 
         System.out.println();
         System.out.println("合計 " + (passed + failed) + " 件: 成功 " + passed + " / 失敗 " + failed);
@@ -4819,6 +4829,114 @@ public final class CoreTests {
                         && SeriesConquestBonus.pointsForFinish(12) == 0);
         check("着順0以下は指定できない",
                 throwsIllegalArgument(() -> SeriesConquestBonus.pointsForFinish(0)));
+    }
+
+    private static void traitSystem() {
+        section("§27.3・§27.4・§27.7.2 能力値スケールと通常・上位特性");
+
+        // 能力値スケール（§27.3）：0〜100、出生時上限72、調教成長上限+20
+        check("出生時の能力値は72までなら有効", AbilityValue.birthValueValid(72));
+        check("出生時の能力値が73以上は無効", !AbilityValue.birthValueValid(73));
+        check("出生時の能力値0は有効（下限）", AbilityValue.birthValueValid(0));
+        check("出生時の能力値が負なら例外", throwsIllegalArgument(() -> AbilityValue.birthValueValid(-1)));
+
+        check("調教による生涯成長は20までなら有効", AbilityValue.trainingGrowthValid(20));
+        check("調教による生涯成長が21以上は無効", !AbilityValue.trainingGrowthValid(21));
+        check("出生時最大72＋調教最大20＝最大92（特性抜き）",
+                AbilityValue.BIRTH_CAP + AbilityValue.MAX_TRAINING_GROWTH == 92);
+
+        // 基礎移動速度（§27.4）：スピード0で10m/s、100で25m/s、線形
+        check("スピード0の最高速度は10m/s", AbilityValue.baseSpeedMetersPerSecond(0) == 10.0);
+        check("スピード100の最高速度は25m/s", AbilityValue.baseSpeedMetersPerSecond(100) == 25.0);
+        check("スピード50の最高速度は中間の17.5m/s", AbilityValue.baseSpeedMetersPerSecond(50) == 17.5);
+        check("能力プラス補正でスピード100を超えても同じ傾きで外挿する（103→25.45m/s）",
+                Math.abs(AbilityValue.baseSpeedMetersPerSecond(103) - 25.45) < 1e-9);
+        check("スピードが負なら速度換算できない",
+                throwsIllegalArgument(() -> AbilityValue.baseSpeedMetersPerSecond(-1)));
+
+        // 調教の結果（§27.3）：失敗+1/成功+2/大成功+4、疲労+20/+15/+15
+        check("失敗は対象ステータス+1・疲労+20",
+                TrainingOutcome.FAILURE.statGain() == 1 && TrainingOutcome.FAILURE.fatigueGain() == 20);
+        check("成功は対象ステータス+2・疲労+15",
+                TrainingOutcome.SUCCESS.statGain() == 2 && TrainingOutcome.SUCCESS.fatigueGain() == 15);
+        check("大成功は対象ステータス+4・疲労+15",
+                TrainingOutcome.GREAT_SUCCESS.statGain() == 4 && TrainingOutcome.GREAT_SUCCESS.fatigueGain() == 15);
+
+        // 能力プラス補正の大きさ（§27.7.2）：小+1・中+3・大+5・特大+7
+        check("能力プラス補正は小+1・中+3・大+5・特大+7",
+                AbilityBonusSize.SMALL.bonusValue() == 1
+                        && AbilityBonusSize.MEDIUM.bonusValue() == 3
+                        && AbilityBonusSize.LARGE.bonusValue() == 5
+                        && AbilityBonusSize.EXTRA_LARGE.bonusValue() == 7);
+        check("能力値100に小補正3つで103になる（ユーザー例示どおり）",
+                100 + AbilityBonusSize.SMALL.bonusValue() * 3 == 103);
+
+        // 特性カタログ（§27.7.2）：94件（原案104件から海外関連10件を除外）
+        check("特性カタログは94件（除外10件＝海外遠征2件＋海外競馬場別特性8件）",
+                TraitCatalog.ALL.size() == TraitCatalog.ENTRY_COUNT
+                        && TraitCatalog.ENTRY_COUNT == 94
+                        && TraitCatalog.EXCLUDED_COUNT == 10);
+        check("上位特性は必ず進化元の通常特性を持つ",
+                TraitCatalog.ALL.stream()
+                        .filter(t -> t.tier() == TraitTier.UPPER)
+                        .allMatch(t -> t.evolvesFromId() != null));
+        check("通常特性は進化元を持たない",
+                TraitCatalog.ALL.stream()
+                        .filter(t -> t.tier() == TraitTier.NORMAL)
+                        .allMatch(t -> t.evolvesFromId() == null));
+        check("進化元のidは必ずカタログ中の通常特性を指す",
+                TraitCatalog.ALL.stream()
+                        .filter(t -> t.evolvesFromId() != null)
+                        .allMatch(t -> TraitCatalog.byId(t.evolvesFromId())
+                                .filter(parent -> parent.tier() == TraitTier.NORMAL)
+                                .isPresent()));
+        check("競馬場別特性は中央4場（平原・丘陵・竹林・渓谷）に改名済みで、海外場は含まれない",
+                TraitCatalog.byId(57).orElseThrow().name().equals("平原巧者")
+                        && TraitCatalog.ALL.stream().noneMatch(t -> t.name().contains("香港")
+                                || t.name().contains("ドバイ") || t.name().contains("ロンシャン")
+                                || t.name().contains("アスコット")));
+
+        // カテゴリ競合（§27.7.2）：同一カテゴリ・別系統は競合、同一系統・別カテゴリは競合しない
+        TraitDefinition daibutai = TraitCatalog.byId(1).orElseThrow();      // 大舞台（通常・レース系）
+        TraitDefinition hareButai = TraitCatalog.byId(2).orElseThrow();     // 晴れ舞台（上位・大舞台の進化形）
+        TraitDefinition kenkonIttek = TraitCatalog.byId(21).orElseThrow(); // 乾坤一擲（通常・レース系、GIレースで大舞台と競合する例）
+        TraitDefinition harukeiba = TraitCatalog.byId(49).orElseThrow();   // 春競馬（通常・季節系）
+        check("大舞台と晴れ舞台（同じ系統の通常⇔上位）は競合しない",
+                !TraitCatalog.conflicts(daibutai, hareButai));
+        check("大舞台と乾坤一擲（同じレース系カテゴリ・別系統）は競合する",
+                TraitCatalog.conflicts(daibutai, kenkonIttek));
+        check("大舞台（レース系）と春競馬（季節系）はカテゴリが異なるため競合しない",
+                !TraitCatalog.conflicts(daibutai, harukeiba));
+        check("競馬場別特性（NONE区分）どうしは競合しない",
+                !TraitCatalog.conflicts(TraitCatalog.byId(57).orElseThrow(), TraitCatalog.byId(59).orElseThrow()));
+        check("同一カテゴリの判定はTraitCategory.NONEには適用されない",
+                TraitCategory.NONE != TraitCategory.RACE_GRADE);
+
+        // 保有枠（§27.7.2）：最大8系統、うち上位は信頼レベルに応じて最大3
+        check("信頼レベル0では上位特性を持てない", TraitLoadout.maxUpperSlots(0) == 0);
+        check("信頼レベル1で上位特性1個、2で2個、3以上で頭打ちの3個",
+                TraitLoadout.maxUpperSlots(1) == 1
+                        && TraitLoadout.maxUpperSlots(2) == 2
+                        && TraitLoadout.maxUpperSlots(3) == 3
+                        && TraitLoadout.maxUpperSlots(10) == 3);
+        check("8系統・上位3（信頼レベル3）はちょうど枠に収まる", TraitLoadout.isValid(8, 3, 3));
+        check("9系統は枠を超えるため無効", !TraitLoadout.isValid(9, 0, 3));
+        check("信頼レベル1で上位2つは信頼レベルの上限を超えるため無効", !TraitLoadout.isValid(5, 2, 1));
+        check("上位特性数が保有系統数を超えることはできない", !TraitLoadout.isValid(2, 3, 3));
+        check("信頼レベルが負なら例外", throwsIllegalArgument(() -> TraitLoadout.maxUpperSlots(-1)));
+
+        // 特性の獲得・進化（§27.7.2）：発動条件下で2勝、または初挑戦初勝利
+        check("発動条件下で2勝すれば通常特性を獲得できる", TraitAcquisition.normalTraitAcquired(5, 2));
+        check("初挑戦1着（初挑戦初勝利）でも通常特性を獲得できる", TraitAcquisition.normalTraitAcquired(1, 1));
+        check("初挑戦で負ければまだ獲得できない", !TraitAcquisition.normalTraitAcquired(1, 0));
+        check("2戦目で通算1勝ではまだ獲得できない（初挑戦初勝利ではない）",
+                !TraitAcquisition.normalTraitAcquired(2, 1));
+        check("出走数より勝利数が多いのは不正", throwsIllegalArgument(() -> TraitAcquisition.normalTraitAcquired(1, 2)));
+
+        check("通常特性の保有後、発動条件下でさらに2勝すれば上位特性へ進化する",
+                TraitAcquisition.upperTraitEvolved(2));
+        check("発動条件下で1勝だけではまだ進化しない", !TraitAcquisition.upperTraitEvolved(1));
+        check("進化判定の勝利数が負なら例外", throwsIllegalArgument(() -> TraitAcquisition.upperTraitEvolved(-1)));
     }
 
     private static boolean throwsIllegalState(Runnable action) {
