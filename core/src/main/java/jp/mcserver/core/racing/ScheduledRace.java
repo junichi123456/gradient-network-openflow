@@ -15,6 +15,9 @@ import java.time.DayOfWeek;
  *     スプリントシリーズ・マイルシリーズ・中距離シリーズ・ステイヤーズシリーズ）
  * @param classicRace 3歳馬クラシック路線（大地三冠・花冠三冠）に属し、出走が
  *     スプリット3・4に限られるか（§27.9）
+ * @param prizeMoneyExp 1着賞金（exp、§27.5・§27.8.2）。距離別シリーズは格付けに
+ *     応じた定額（G3=3,000・G2=6,000、{@link RaceClass}参照）、3冠4種はレースごとの
+ *     個別額（9,000〜40,000）を持つ。§2の日次exp上限の対象外である
  */
 public record ScheduledRace(
         String name,
@@ -24,7 +27,8 @@ public record ScheduledRace(
         int split,
         DayOfWeek day,
         String seriesName,
-        boolean classicRace) {
+        boolean classicRace,
+        long prizeMoneyExp) {
 
     public ScheduledRace {
         if (!course.hostsTurfDistance(distanceMeters)) {
@@ -36,6 +40,9 @@ public record ScheduledRace(
         }
         if (day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY) {
             throw new IllegalArgumentException("主要レースは土日のいずれかで開催する: " + day);
+        }
+        if (prizeMoneyExp <= 0) {
+            throw new IllegalArgumentException("1着賞金は正の値である必要がある: " + prizeMoneyExp);
         }
     }
 }
