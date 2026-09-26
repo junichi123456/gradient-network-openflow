@@ -89,6 +89,20 @@ public final class NationalAccounts {
     }
 
     /**
+     * 競走馬のレース1着賞金・三冠/距離別シリーズ制覇ボーナス（§27.5・§27.8.5）。国庫にのみ入る。
+     *
+     * <p>馬主個人のexpにはならず、全額がここで馬主の属する国の国庫に入金される。馬側に
+     * 残るのは記録専用の累積獲得賞金のみで、こちらは国庫の残高とは独立している
+     * （{@code jp.mcserver.core.racing.RacePrizePayout}参照）。
+     */
+    public static Balances receiveRacePrize(Balances b, long amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("賞金額が負である: " + amount);
+        }
+        return b.withTreasury(b.treasury() + amount);
+    }
+
+    /**
      * 支払いの結果。
      *
      * @param unpaid 残高不足で支払えなかった額

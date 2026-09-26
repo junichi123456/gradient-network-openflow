@@ -15,6 +15,7 @@ import jp.mcserver.core.racing.Grade;
 import jp.mcserver.core.racing.NationalRegistration;
 import jp.mcserver.core.racing.RaceCalendar;
 import jp.mcserver.core.racing.RaceClass;
+import jp.mcserver.core.racing.RacePrizePayout;
 import jp.mcserver.core.racing.RacingCourse;
 import jp.mcserver.core.racing.RacingPedigree;
 import jp.mcserver.core.racing.ScheduledRace;
@@ -4780,14 +4781,21 @@ public final class CoreTests {
 
         // 制覇ボーナス（§27.8.5）：三冠は一律、距離別シリーズはシリーズ最高額に準拠
         check("三冠ボーナスは一律100,000exp", SeriesConquestBonus.TRIPLE_CROWN_BONUS_EXP == 100_000);
-        check("ボーナス100,000expは個体70,000・国庫30,000に分割される",
-                SeriesConquestBonus.individualShareExp(100_000) == 70_000
-                        && SeriesConquestBonus.nationalShareExp(100_000) == 30_000);
-        check("個体取り分と国庫取り分の合計は必ず元のボーナス額と一致する（端数を国庫側に寄せる）",
-                SeriesConquestBonus.individualShareExp(25_000) + SeriesConquestBonus.nationalShareExp(25_000)
-                        == 25_000);
-        check("ボーナス額が負なら分割できない",
-                throwsIllegalArgument(() -> SeriesConquestBonus.individualShareExp(-1)));
+
+        // 賞金の振り分け（§27.5・§27.8.5）：分割ではなく、全額が国庫と馬の記録の両方に計上される
+        check("100,000expの賞金は、国庫への入金・馬の累積獲得賞金の両方に全額計上される",
+                RacePrizePayout.of(100_000).treasuryCreditExp() == 100_000
+                        && RacePrizePayout.of(100_000).horseCumulativePrizeExp() == 100_000);
+        check("賞金が負なら振り分けを求められない",
+                throwsIllegalArgument(() -> RacePrizePayout.of(-1)));
+        check("賞金の振り分けを直接組み立てるときは、負の額を拒否する",
+                throwsIllegalArgument(() -> new RacePrizePayout(-1, 0)));
+        check("レース1着賞金は国庫にのみ入り、外交準備高には影響しない",
+                NationalAccounts.receiveRacePrize(NationalAccounts.Balances.empty(), 500_000)
+                        .equals(new NationalAccounts.Balances(500_000, 0)));
+        check("賞金額が負ならレース賞金の受け取りを拒否する",
+                throwsIllegalArgument(() ->
+                        NationalAccounts.receiveRacePrize(NationalAccounts.Balances.empty(), -1)));
 
         check("スプリントシリーズのチャンピオンボーナスはタイガスプリントS（G2）の25,000exp",
                 SeriesConquestBonus.distanceSeriesChampionBonusExp(RaceCalendar.SPRINT) == 25_000);

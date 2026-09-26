@@ -8,9 +8,9 @@ import java.util.List;
  * <p>三冠（大地・花冠・新緑・黄金）は3レース全勝で一律{@value #TRIPLE_CROWN_BONUS_EXP} exp、
  * 距離別シリーズ（スプリント・マイル・中距離・ステイヤーズ）はシリーズ内の合計得点
  * （{@link #pointsForFinish}）最上位が、そのシリーズの最高額レースと同額のボーナス
- * （{@link #distanceSeriesChampionBonusExp}）を、それぞれ獲得する。ボーナスはいずれも
- * 馬の累積賞金（§27.5の重賞昇級判定にもカウントされる）と、馬主の属する国の国庫
- * （§7、§27.11の調教・維持コストの回収先）に7:3で分割する。
+ * （{@link #distanceSeriesChampionBonusExp}）を、それぞれ獲得する。ボーナスの振り分け
+ * （国庫への入金・馬の累積獲得賞金への加算）は{@link RacePrizePayout}を参照——全額が
+ * 両方に計上され、§27.5の1着賞金と同じく国庫と馬とで山分けする分割ではない。
  */
 public final class SeriesConquestBonus {
 
@@ -18,29 +18,6 @@ public final class SeriesConquestBonus {
 
     /** 三冠（3レース全勝）達成ボーナス（exp、§27.8.5）。4シリーズ共通の一律額。 */
     public static final long TRIPLE_CROWN_BONUS_EXP = 100_000;
-
-    private static final long INDIVIDUAL_SHARE_NUMERATOR = 7;
-    private static final long SHARE_DENOMINATOR = 10;
-
-    /** ボーナスのうち、馬の累積賞金（個体）に計上する取り分（exp、端数切り捨て）。 */
-    public static long individualShareExp(long bonusExp) {
-        if (bonusExp < 0) {
-            throw new IllegalArgumentException("ボーナス額が負である: " + bonusExp);
-        }
-        return bonusExp * INDIVIDUAL_SHARE_NUMERATOR / SHARE_DENOMINATOR;
-    }
-
-    /**
-     * ボーナスのうち、馬主の属する国の国庫に計上する取り分（exp）。個体取り分の
-     * 残余として求めるため、{@link #individualShareExp}との合計が必ずbonusExpと一致する
-     * （端数を国庫側に寄せ、損失を出さない）。
-     */
-    public static long nationalShareExp(long bonusExp) {
-        if (bonusExp < 0) {
-            throw new IllegalArgumentException("ボーナス額が負である: " + bonusExp);
-        }
-        return bonusExp - individualShareExp(bonusExp);
-    }
 
     /**
      * 距離別シリーズ（スプリント・マイル・中距離・ステイヤーズ）の制覇ボーナス（exp）。
