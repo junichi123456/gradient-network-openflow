@@ -18,6 +18,8 @@ import jp.mcserver.core.racing.RaceClass;
 import jp.mcserver.core.racing.RacingCourse;
 import jp.mcserver.core.racing.RacingPedigree;
 import jp.mcserver.core.racing.ScheduledRace;
+import jp.mcserver.core.racing.StablingUpkeep;
+import jp.mcserver.core.racing.TrainingMenu;
 import jp.mcserver.core.worldcouncil.WorldCouncilEligibility;
 import jp.mcserver.core.worldcouncil.WorldCouncilPayout;
 import jp.mcserver.core.worldcouncil.WorldCouncilRanking;
@@ -4754,6 +4756,26 @@ public final class CoreTests {
                 RaceClass.gradedEligible(1, 5_000));
         check("3連勝の最短到達（新馬戦500+1勝1,500+2勝2,500＝4,500）だけでは5,000に届かない",
                 4_500 < RaceClass.GRADED_ELIGIBILITY_MIN_CUMULATIVE_PRIZE_EXP);
+
+        // 調教・維持コスト（§27.11）：国庫負担で、頭数が増えるほど割高になる
+        check("プール調教（低負荷）は300exp", TrainingMenu.POOL.costExp() == 300);
+        check("坂路調教・ウッドチップ調教（中負荷）は600exp",
+                TrainingMenu.SLOPE.costExp() == 600 && TrainingMenu.WOOD_CHIP.costExp() == 600);
+        check("併せ馬調教（高負荷）は1,200exp", TrainingMenu.PAIRED.costExp() == 1_200);
+        check("休養は無料", TrainingMenu.REST.costExp() == 0);
+
+        check("1頭目の維持費は200exp", StablingUpkeep.upkeepForNthHorse(1) == 200);
+        check("4頭目の維持費は800exp（重賞登録枠と同じ頭数）", StablingUpkeep.upkeepForNthHorse(4) == 800);
+        check("0頭目以下は指定できない",
+                throwsIllegalArgument(() -> StablingUpkeep.upkeepForNthHorse(0)));
+
+        check("保有0頭なら維持費の合計は0", StablingUpkeep.totalUpkeepExp(0) == 0);
+        check("保有4頭の維持費合計は200+400+600+800=2,000exp（1スプリットあたり）",
+                StablingUpkeep.totalUpkeepExp(4) == 2_000);
+        check("保有10頭の維持費合計は等差数列の和で11,000exp（1スプリットあたり）",
+                StablingUpkeep.totalUpkeepExp(10) == 11_000);
+        check("保有頭数が負なら合計を求められない",
+                throwsIllegalArgument(() -> StablingUpkeep.totalUpkeepExp(-1)));
     }
 
     private static boolean throwsIllegalState(Runnable action) {
