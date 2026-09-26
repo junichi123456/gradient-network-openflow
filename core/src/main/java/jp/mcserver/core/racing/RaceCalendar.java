@@ -9,7 +9,8 @@ import java.util.List;
  * <p>1シーズン＝4週間（4スプリット、§27.9）の中に、3冠4種（大地三冠・花冠三冠・
  * 新緑三冠・黄金三冠）と距離別4種（スプリント・マイル・中距離・ステイヤーズ、
  * §27.8.2）、計{@value #TOTAL_RACES}レースを収める。主要レースは土日のいずれかに
- * 開催し、1日の開催数は{@value #MAX_RACES_PER_DAY}が上限。
+ * 開催し、1日の開催数は{@value #MAX_RACES_PER_DAY}が上限。すべてG3以上の重賞であり、
+ * 出走には{@link NationalRegistration}による国別の事前登録が要る（§27.10）。
  */
 public final class RaceCalendar {
 
@@ -55,7 +56,7 @@ public final class RaceCalendar {
 
             // スプリット2・土
             new ScheduledRace("渓谷大阪杯", Grade.G1, RacingCourse.KEIKOKU, 2000,
-                    2, DayOfWeek.SATURDAY, SHINRYOKU, false, 24_000),
+                    2, DayOfWeek.SATURDAY, SHINRYOKU, false, 165_000),
             new ScheduledRace("丘陵ステイヤーズS", Grade.G2, RacingCourse.KYURYO, 3600,
                     2, DayOfWeek.SATURDAY, STAYERS, false, G2_PRIZE),
             new ScheduledRace("湿地スプリントS", Grade.G3, RacingCourse.SHITCHI, 1000,
@@ -65,7 +66,7 @@ public final class RaceCalendar {
 
             // スプリット2・日
             new ScheduledRace("竹林天皇賞・春", Grade.G1, RacingCourse.CHIKURIN, 3200,
-                    2, DayOfWeek.SUNDAY, SHINRYOKU, false, 24_000),
+                    2, DayOfWeek.SUNDAY, SHINRYOKU, false, 165_000),
             new ScheduledRace("平原ステイヤーズS", Grade.G2, RacingCourse.HEIGEN, 3400,
                     2, DayOfWeek.SUNDAY, STAYERS, false, G2_PRIZE),
             new ScheduledRace("樹海スプリントS", Grade.G3, RacingCourse.JUKAI, 1200,
@@ -73,15 +74,15 @@ public final class RaceCalendar {
 
             // スプリット3・土
             new ScheduledRace("丘陵皐月賞", Grade.G1, RacingCourse.KYURYO, 2000,
-                    3, DayOfWeek.SATURDAY, DAICHI, true, 16_000),
+                    3, DayOfWeek.SATURDAY, DAICHI, true, 110_000),
             new ScheduledRace("渓谷桜花賞", Grade.G1, RacingCourse.KEIKOKU, 1600,
-                    3, DayOfWeek.SATURDAY, KAKAN, true, 11_500),
+                    3, DayOfWeek.SATURDAY, KAKAN, true, 76_000),
             new ScheduledRace("火山記念", Grade.G3, RacingCourse.KAZAN, 2000,
                     3, DayOfWeek.SATURDAY, MIDDLE, false, G3_PRIZE),
 
             // スプリット3・日
             new ScheduledRace("渓谷宝塚記念", Grade.G1, RacingCourse.KEIKOKU, 2200,
-                    3, DayOfWeek.SUNDAY, SHINRYOKU, false, 24_000),
+                    3, DayOfWeek.SUNDAY, SHINRYOKU, false, 165_000),
             new ScheduledRace("竹林ステイヤーズS", Grade.G2, RacingCourse.CHIKURIN, 3200,
                     3, DayOfWeek.SUNDAY, STAYERS, false, G2_PRIZE),
             new ScheduledRace("タイガスプリントS", Grade.G2, RacingCourse.TAIGA, 1200,
@@ -91,11 +92,11 @@ public final class RaceCalendar {
 
             // スプリット4・土
             new ScheduledRace("平原優駿", Grade.G1, RacingCourse.HEIGEN, 2400,
-                    4, DayOfWeek.SATURDAY, DAICHI, true, 24_000),
+                    4, DayOfWeek.SATURDAY, DAICHI, true, 165_000),
             new ScheduledRace("平原優駿牝馬", Grade.G1, RacingCourse.HEIGEN, 2400,
-                    4, DayOfWeek.SATURDAY, KAKAN, true, 12_000),
+                    4, DayOfWeek.SATURDAY, KAKAN, true, 82_000),
             new ScheduledRace("平原天皇賞・秋", Grade.G1, RacingCourse.HEIGEN, 2000,
-                    4, DayOfWeek.SATURDAY, OGON, false, 24_000),
+                    4, DayOfWeek.SATURDAY, OGON, false, 165_000),
             new ScheduledRace("湿地記念", Grade.G3, RacingCourse.SHITCHI, 2000,
                     4, DayOfWeek.SATURDAY, MIDDLE, false, G3_PRIZE),
             new ScheduledRace("丘陵マイルS", Grade.G3, RacingCourse.KYURYO, 1600,
@@ -103,13 +104,13 @@ public final class RaceCalendar {
 
             // スプリット4・日
             new ScheduledRace("竹林菊花賞", Grade.G1, RacingCourse.CHIKURIN, 3000,
-                    4, DayOfWeek.SUNDAY, DAICHI, true, 16_000),
+                    4, DayOfWeek.SUNDAY, DAICHI, true, 110_000),
             new ScheduledRace("竹林秋華賞", Grade.G1, RacingCourse.CHIKURIN, 2000,
-                    4, DayOfWeek.SUNDAY, KAKAN, true, 9_000),
+                    4, DayOfWeek.SUNDAY, KAKAN, true, 60_000),
             new ScheduledRace("平原国際杯", Grade.G1, RacingCourse.HEIGEN, 2400,
-                    4, DayOfWeek.SUNDAY, OGON, false, 40_000),
+                    4, DayOfWeek.SUNDAY, OGON, false, 275_000),
             new ScheduledRace("丘陵記念", Grade.G1, RacingCourse.KYURYO, 2500,
-                    4, DayOfWeek.SUNDAY, OGON, false, 40_000),
+                    4, DayOfWeek.SUNDAY, OGON, false, 275_000),
             new ScheduledRace("渓谷ステイヤーズS", Grade.G2, RacingCourse.KEIKOKU, 3000,
                     4, DayOfWeek.SUNDAY, STAYERS, false, G2_PRIZE));
 

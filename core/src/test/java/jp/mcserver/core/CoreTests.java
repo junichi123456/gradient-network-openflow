@@ -12,6 +12,7 @@ import jp.mcserver.core.rail.RailType;
 import jp.mcserver.core.rail.StationCertification;
 import jp.mcserver.core.rail.VehicleSpeed;
 import jp.mcserver.core.racing.Grade;
+import jp.mcserver.core.racing.NationalRegistration;
 import jp.mcserver.core.racing.RaceCalendar;
 import jp.mcserver.core.racing.RaceClass;
 import jp.mcserver.core.racing.RacingCourse;
@@ -4687,35 +4688,53 @@ public final class CoreTests {
                         && RaceCalendar.racesOn(3, java.time.DayOfWeek.SATURDAY).stream()
                                 .anyMatch(r -> r.name().equals("渓谷桜花賞")));
 
-        // クラス区分：新馬戦500expからG2の6,000expまで一直線の定額（G1のみレースごとの個別額）
+        // クラス区分：新馬戦500expからG2の25,000expまで一直線の定額（G1のみレースごとの個別額）
         check("新馬戦は500exp", RaceClass.NEWCOMER.flatPrizeMoneyExp() == 500);
-        check("未勝利は700exp", RaceClass.MAIDEN.flatPrizeMoneyExp() == 700);
-        check("1勝クラスは1,000exp", RaceClass.ONE_WIN.flatPrizeMoneyExp() == 1000);
-        check("2勝クラスは1,500exp", RaceClass.TWO_WIN.flatPrizeMoneyExp() == 1500);
-        check("オープンは2,200exp", RaceClass.OPEN.flatPrizeMoneyExp() == 2200);
-        check("G3は3,000exp", RaceClass.G3.flatPrizeMoneyExp() == 3000);
-        check("G2は6,000exp", RaceClass.G2.flatPrizeMoneyExp() == 6000);
+        check("未勝利は800exp", RaceClass.MAIDEN.flatPrizeMoneyExp() == 800);
+        check("1勝クラスは1,500exp", RaceClass.ONE_WIN.flatPrizeMoneyExp() == 1500);
+        check("2勝クラスは2,500exp", RaceClass.TWO_WIN.flatPrizeMoneyExp() == 2500);
+        check("オープンは5,000exp", RaceClass.OPEN.flatPrizeMoneyExp() == 5000);
+        check("G3は10,000exp", RaceClass.G3.flatPrizeMoneyExp() == 10_000);
+        check("G2は25,000exp", RaceClass.G2.flatPrizeMoneyExp() == 25_000);
         check("G1は定額を持たず、呼び出すと例外になる",
                 throwsIllegalState(RaceClass.G1::flatPrizeMoneyExp));
 
         // 1着賞金：全レースが正の値を持ち、格付けに応じた定額または個別額と一致する
         check("全レースの1着賞金が正の値", RaceCalendar.SEASON_RACES.stream()
                 .allMatch(r -> r.prizeMoneyExp() > 0));
-        check("G3のレースは一律3,000exp", RaceCalendar.SEASON_RACES.stream()
+        check("G3のレースは一律10,000exp", RaceCalendar.SEASON_RACES.stream()
                 .filter(r -> r.grade() == Grade.G3)
                 .allMatch(r -> r.prizeMoneyExp() == RaceClass.G3.flatPrizeMoneyExp()));
-        check("距離別シリーズのG2は一律6,000exp（3冠のG1は対象外）",
+        check("距離別シリーズのG2は一律25,000exp（3冠のG1は対象外）",
                 RaceCalendar.SEASON_RACES.stream()
                         .filter(r -> r.grade() == Grade.G2)
                         .allMatch(r -> r.prizeMoneyExp() == RaceClass.G2.flatPrizeMoneyExp()));
-        check("G1最高額（平原国際杯・丘陵記念）は40,000exp",
+        check("G1最高額（平原国際杯・丘陵記念）は275,000exp",
                 RaceCalendar.SEASON_RACES.stream()
                         .filter(r -> r.name().equals("平原国際杯") || r.name().equals("丘陵記念"))
-                        .allMatch(r -> r.prizeMoneyExp() == 40_000));
-        check("G1最低額（竹林秋華賞）は9,000exp",
+                        .allMatch(r -> r.prizeMoneyExp() == 275_000));
+        check("G1最低額（竹林秋華賞）は60,000exp",
                 RaceCalendar.SEASON_RACES.stream()
                         .filter(r -> r.name().equals("竹林秋華賞"))
-                        .allMatch(r -> r.prizeMoneyExp() == 9_000));
+                        .allMatch(r -> r.prizeMoneyExp() == 60_000));
+        check("新馬戦とG1最高額の差は550倍",
+                RaceCalendar.SEASON_RACES.stream().mapToLong(ScheduledRace::prizeMoneyExp).max()
+                        .orElseThrow() / RaceClass.NEWCOMER.flatPrizeMoneyExp() == 550);
+
+        // 国別の重賞登録（§27.10）：1カ国4頭まで、登録期間はスプリット3・4
+        check("登録0〜3頭ならさらに登録できる",
+                NationalRegistration.canRegisterAnother(0)
+                        && NationalRegistration.canRegisterAnother(3));
+        check("登録4頭で上限、それ以上は登録できない",
+                !NationalRegistration.canRegisterAnother(4));
+        check("登録期間はスプリット3・4（§27.9のクラシック解禁と同じ判定）",
+                NationalRegistration.registrationWindowOpen(3)
+                        && NationalRegistration.registrationWindowOpen(4)
+                        && !NationalRegistration.registrationWindowOpen(1)
+                        && !NationalRegistration.registrationWindowOpen(2));
+        check("登録済みの馬のみ重賞に出走できる",
+                NationalRegistration.gradedRaceEligible(true)
+                        && !NationalRegistration.gradedRaceEligible(false));
     }
 
     private static boolean throwsIllegalState(Runnable action) {
