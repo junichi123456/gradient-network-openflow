@@ -2,7 +2,7 @@ name: RaidPlugin
 version: 0.1.0
 main: jp.mcserver.plugin.RaidPlugin
 api-version: '1.26'
-description: レイド個体の検証（§12）と村人の取引テーブル（§3.2）、地下鉄インフラ（rail_infra_spec.md）、世界協議（world_council_spec.md）
+description: レイド個体の検証（§12）と村人の取引テーブル（§3.2）、地下鉄インフラ（rail_infra_spec.md）、世界協議（world_council_spec.md）、競馬専用ワールド（§27、試験実装）
 commands:
   raid:
     description: レイドの開催（登録・開始）と個体の検証
@@ -16,6 +16,10 @@ commands:
     description: 世界協議の参加登録・開催・還付の運営操作
     usage: /worldcouncil register <国家> <rank> | /worldcouncil addrep <国家> <プレイヤー> | /worldcouncil status | /worldcouncil begin | /worldcouncil advanceday | /worldcouncil finish <1位> <2位> <3位> <4位>
     permission: worldcouncil.admin
+  horse:
+    description: 競馬専用ワールドの競走馬の登録・調教・確認（試験実装、§27.3）
+    usage: /horse create <名前> | /horse train <id> slope|woodchip|pool|paired|rest | /horse status <id> | /horse list
+    permission: horse.use
 permissions:
   raid.test:
     description: レイド個体の検証コマンド
@@ -29,3 +33,6 @@ permissions:
   worldcouncil.admin:
     description: 世界協議の運営コマンド（/worldcouncil 以下すべて。管理者開催のため既定で op）
     default: op
+  horse.use:
+    description: 競馬専用ワールドの一般コマンド（/horse create・train・status・list）
+    default: true

@@ -156,6 +156,23 @@ public final class NationLedger implements AutoCloseable {
         saveBalances(nationId, NationalAccounts.donate(balances(nationId), amount));
     }
 
+    /**
+     * 国庫からの国内支払い（支度金・定期給付、および競走馬の調教・維持費
+     * §27.11）。外交準備高は対象外のため、不足しても補填されない。
+     *
+     * @return 実際に支払えた額（残高不足なら要求額に満たない）
+     */
+    public long payDomestic(String nationId, long amount) {
+        NationalAccounts.Payment payment = NationalAccounts.payDomestic(balances(nationId), amount);
+        saveBalances(nationId, payment.after());
+        return payment.fromTreasury();
+    }
+
+    /** 競走馬のレース1着賞金・三冠/シリーズ制覇ボーナス（§27.5・§27.8.5）。国庫にのみ入る。 */
+    public void receiveRacePrize(String nationId, long amount) {
+        saveBalances(nationId, NationalAccounts.receiveRacePrize(balances(nationId), amount));
+    }
+
     // ------------------------------------------------------------ 宗主国・同盟
 
     public void setSuzerain(String vassalNationId, String suzerainNationId) {

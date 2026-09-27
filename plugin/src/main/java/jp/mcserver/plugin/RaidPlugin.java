@@ -83,6 +83,12 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
      */
     private jp.mcserver.plugin.worldcouncil.WorldCouncilModule worldCouncil;
 
+    /**
+     * 競馬専用ワールド（`minecraft_server_spec.md` §27、試験実装）。国庫データは
+     * {@link #rail} が開くものを共有するため、{@code rail.enable()} の後に組み立てる。
+     */
+    private jp.mcserver.plugin.racing.RacingModule racing;
+
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
@@ -113,6 +119,14 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         } else {
             getLogger().warning("nation.db を開けなかったため、世界協議を無効のままにします");
         }
+        // 競馬専用ワールド（minecraft_server_spec.md §27、試験実装）。国庫データは
+        // rail が開いた NationLedger を共有する
+        if (rail.ledger() != null) {
+            racing = new jp.mcserver.plugin.racing.RacingModule(this, rail.ledger());
+            racing.enable();
+        } else {
+            getLogger().warning("nation.db を開けなかったため、競馬専用ワールドを無効のままにします");
+        }
         // jar の日時を出す。差し替えたつもりで古い jar が動いている、という取り違えを防ぐ
         getLogger().info("レイド検証プラグインを有効化しました（jar " + jarStamp() + "）");
     }
@@ -125,6 +139,9 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         despawnAll();
         if (worldCouncil != null) {
             worldCouncil.disable();
+        }
+        if (racing != null) {
+            racing.disable();
         }
         rail.disable();
     }

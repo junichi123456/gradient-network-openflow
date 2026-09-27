@@ -12,6 +12,7 @@ import jp.mcserver.core.rail.RailType;
 import jp.mcserver.core.rail.StationCertification;
 import jp.mcserver.core.rail.VehicleSpeed;
 import jp.mcserver.core.racing.AbilityBonusSize;
+import jp.mcserver.core.racing.AbilityStat;
 import jp.mcserver.core.racing.AbilityValue;
 import jp.mcserver.core.racing.Grade;
 import jp.mcserver.core.racing.NationalRegistration;
@@ -4775,6 +4776,14 @@ public final class CoreTests {
                 TrainingMenu.SLOPE.costExp() == 600 && TrainingMenu.WOOD_CHIP.costExp() == 600);
         check("併せ馬調教（高負荷）は1,200exp", TrainingMenu.PAIRED.costExp() == 1_200);
         check("休養は無料", TrainingMenu.REST.costExp() == 0);
+
+        check("プール調教はスタミナを伸ばす", TrainingMenu.POOL.targetStats().equals(List.of(AbilityStat.STAMINA)));
+        check("坂路調教はパワーを伸ばす", TrainingMenu.SLOPE.targetStats().equals(List.of(AbilityStat.POWER)));
+        check("ウッドチップ調教はスピードを伸ばす",
+                TrainingMenu.WOOD_CHIP.targetStats().equals(List.of(AbilityStat.SPEED)));
+        check("併せ馬調教は根性・賢さの両方を伸ばす",
+                TrainingMenu.PAIRED.targetStats().equals(List.of(AbilityStat.GUTS, AbilityStat.WISDOM)));
+        check("休養は能力値を伸ばさない", TrainingMenu.REST.targetStats().isEmpty());
 
         check("1頭目の維持費は200exp", StablingUpkeep.upkeepForNthHorse(1) == 200);
         check("4頭目の維持費は800exp（重賞登録枠と同じ頭数）", StablingUpkeep.upkeepForNthHorse(4) == 800);
