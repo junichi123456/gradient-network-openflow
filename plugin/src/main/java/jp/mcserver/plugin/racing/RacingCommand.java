@@ -48,8 +48,10 @@ public final class RacingCommand implements CommandExecutor {
             case "train" -> train(player, args);
             case "status" -> status(player, args);
             case "list" -> list(player);
+            case "admin" -> admin(player, args);
             default -> sender.sendMessage("§7/horse create <名前> | /horse train <id> "
-                    + "slope|woodchip|pool|paired|rest | /horse status <id> | /horse list");
+                    + "slope|woodchip|pool|paired|rest | /horse status <id> | /horse list"
+                    + " | /horse admin resetday <id>");
         }
         return true;
     }
@@ -153,6 +155,37 @@ public final class RacingCommand implements CommandExecutor {
         player.sendMessage("§6所有する競走馬 " + horses.size() + "頭");
         for (RacingDatabase.HorseRecord horse : horses) {
             player.sendMessage("§7  #" + horse.horseId() + " " + horse.name());
+        }
+    }
+
+    // ------------------------------------------------------------ /horse admin（検証用）
+
+    /**
+     * 検証用の運営コマンド。{@code resetday}は1日1回の制限を外して同じ馬を続けて
+     * 調教できるようにする——生涯成長上限+20や疲労の積み上がりを、実時間を待たずに
+     * 確かめるため。所有者を問わず、どの馬にも使える。本番前に外すか残すかは未定。
+     */
+    private void admin(Player player, String[] args) {
+        if (!player.hasPermission("horse.admin")) {
+            player.sendMessage("§c権限がありません");
+            return;
+        }
+        String action = args.length > 1 ? args[1] : "";
+        if (!action.equals("resetday") || args.length < 3) {
+            player.sendMessage("§c使い方: /horse admin resetday <id>");
+            return;
+        }
+        int id;
+        try {
+            id = Integer.parseInt(args[2]);
+        } catch (NumberFormatException e) {
+            player.sendMessage("§c馬のIDは数値で指定してください");
+            return;
+        }
+        if (module.database().clearLastTrainedDay(id)) {
+            player.sendMessage("§a#" + id + " の本日の調教済みを解除しました（検証用）");
+        } else {
+            player.sendMessage("§c馬が見つかりません（ID " + id + "）");
         }
     }
 

@@ -233,6 +233,21 @@ public final class RacingDatabase implements AutoCloseable {
         }
     }
 
+    /**
+     * 本日の調教済みを解除する（検証用の{@code /horse admin resetday}）。
+     *
+     * @return 該当する馬がいたか
+     */
+    public boolean clearLastTrainedDay(int horseId) {
+        String sql = "UPDATE racing_horses SET last_trained_day = NULL WHERE horse_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, horseId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RacingDatabaseException(e);
+        }
+    }
+
     private void saveTrainingResult(int horseId, Map<AbilityStat, Integer> current, int fatigueAfter,
             int trainingDay) {
         String sql = """
