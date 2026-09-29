@@ -1,6 +1,6 @@
 package jp.mcserver.plugin.worldcouncil;
 
-import org.bukkit.GameRule;
+import org.bukkit.GameRules;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -60,7 +60,7 @@ public final class WorldCouncilDayCycle {
                 }
                 world.setFullTime(value);
                 if (tick >= ANIMATION_TICKS) {
-                    world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+                    world.setGameRule(GameRules.ADVANCE_TIME, false);
                     cancel();
                 }
             }

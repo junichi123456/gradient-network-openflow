@@ -6,17 +6,25 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * モブが交配（繁殖）を行う間隔のクールダウンを、全体で20%軽減する
  * （`minecraft_server_spec.md` §1.4）。
  *
- * <p>{@link EntityBreedEvent} が発火する時点で、バニラの実装はすでに双方の親へ
- * 通常のクールダウン（次に「愛情モード」に入れるまでの待ち時間）を課している。
- * ここではその値を1つずつ {@link #REMAINING_RATIO}（0.8）倍に縮め、次に交配できる
- * ようになるまでの待ち時間を短くする——「愛情モードに入ってから実際に交配するまで」の
- * 待ち時間ではなく、<b>交配してから次に交配できるようになるまでの間隔</b>を対象にした
- * （要件の「交配を行う間隔のクールダウン」という文言をそう読んだ）。
+ * <p>Bukkit API に「交配クールダウン」専用の口は無い。バニラでは、成体の
+ * {@link org.bukkit.entity.Ageable#getAge() 年齢}が正の値であることがそのまま
+ * 「次に交配できるまでの残りtick」を表し、毎tick 1ずつ0へ向かって減る。交配が成立すると
+ * 双方の親の年齢が6000（5分）にセットされる。
+ *
+ * <p><b>その6000は{@link EntityBreedEvent}の発火後に、同じtickの中でセットされる</b>
+ * （Paper の {@code Animal} / {@code VillagerMakeLove} のパッチで確認。イベントが
+ * キャンセルされなかった場合にだけ年齢を設定する順序になっている）。そのためイベントの
+ * 中で年齢を読み書きしても、直後にバニラの6000で上書きされる。ここでは次tickに回して、
+ * セット済みの残りtickを{@link #REMAINING_RATIO}（0.8）倍に縮める——「交配してから
+ * 次に交配できるようになるまでの間隔」を対象にした（要件の「交配を行う間隔の
+ * クールダウン」という文言をそう読んだ）。
  */
 final class BreedingCooldown implements Listener {
 
@@ -25,14 +33,21 @@ final class BreedingCooldown implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBreed(EntityBreedEvent event) {
-        reduce(event.getMother());
-        reduce(event.getFather());
+        LivingEntity mother = event.getMother();
+        LivingEntity father = event.getFather();
+        Plugin plugin = JavaPlugin.getProvidingPlugin(BreedingCooldown.class);
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            reduce(mother);
+            reduce(father);
+        });
     }
 
-    private void reduce(LivingEntity parent) {
-        if (parent instanceof Breedable breedable) {
-            int reduced = (int) Math.round(breedable.getBreedCooldown() * REMAINING_RATIO);
-            breedable.setBreedCooldown(reduced);
+    private static void reduce(LivingEntity parent) {
+        if (parent instanceof Breedable breedable && breedable.isValid()) {
+            int remaining = breedable.getAge();
+            if (remaining > 0) {
+                breedable.setAge((int) Math.round(remaining * REMAINING_RATIO));
+            }
         }
     }
 }
