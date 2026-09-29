@@ -14,7 +14,7 @@
 
 | 段 | やること |
 |---|---|
-| 1 | Java 21 と Gradle を入れる |
+| 1 | Java 25 と Gradle を入れる |
 | 2 | ソースを取ってきてプラグインをビルドする |
 | 3 | Paper サーバーを立てる |
 | 4 | プラグインを入れて起動する |
@@ -22,14 +22,19 @@
 
 ---
 
-## 1. Java 21 と Gradle を入れる
+## 1. Java 25 と Gradle を入れる
 
-### 1.1 Java 21
+### 1.1 Java 25
+
+> **Java 21 では足りない。** `paper-api:26.3.build.9-alpha` は JVM 25 以上を要求する
+> （21 のままビルドすると依存の解決で失敗する。実機で確認済み）。サーバー本体
+> （Paper 1.26.3）の起動にも同じ Java 25 を使う。`core/build.gradle`・`plugin/build.gradle`
+> の toolchain も 25 に合わせてある。
 
 PowerShell で実行する。
 
 ```powershell
-winget install Microsoft.OpenJDK.21
+winget install Microsoft.OpenJDK.25
 ```
 
 終わったら **PowerShell を閉じて開き直し**、確認する。
@@ -38,7 +43,7 @@ winget install Microsoft.OpenJDK.21
 java -version
 ```
 
-`openjdk version "21..."` と出れば成功。
+`openjdk version "25..."` と出れば成功。
 
 ### 1.2 Gradle
 
@@ -56,7 +61,7 @@ Expand-Archive -Path gradle.zip -DestinationPath C:\gradle -Force
 C:\gradle\gradle-9.7.1\bin\gradle.bat -v
 ```
 
-`Gradle 9.7.1` と Java 21 が表示されれば成功。
+`Gradle 9.7.1` と Java 25 が表示されれば成功。
 
 > **毎回このフルパスで呼ぶ。** 短くしたい場合は、PowerShell で `Set-Alias gradle C:\gradle\gradle-9.7.1\bin\gradle.bat` を実行すると、そのウィンドウの間だけ `gradle` と打てる。
 
@@ -1065,7 +1070,9 @@ plugin化したのは**能力値の確認と1日1回の調教だけ**（`/horse 
 | `gradle` が見つからない | **フルパス**で呼ぶ（`C:\gradle\gradle-9.7.1\bin\gradle.bat`）。winget では入らない |
 | `winget install Gradle.Gradle` が失敗する | 正常。Gradle は winget に登録されていない。手順1.2 の ZIP を使う |
 | ビルドで paper-api が見つからない | `build.gradle` のバージョン指定が対象と合っていない。エラーメッセージを共有してほしい |
-| 起動直後に閉じる | `eula.txt` が `false` のまま。または Java 21 が入っていない |
+| 起動直後に閉じる | `eula.txt` が `false` のまま。または Java 25 が入っていない |
+| ビルドで paper-api が Java 25 を要求する（`compatible with Java 25` など） | Java 21 のまま。手順1.1 の Java 25 を入れ、`build.gradle` の toolchain が 25 になっているか確認する |
+| ビルドで `cannot find symbol`（Paper の API） | `paper-api` はアルファ版のため、API の形が変わることがある。エラーメッセージをそのまま共有してほしい |
 | クライアントが接続できない | **サーバーとクライアントのバージョンが違う**。25565 番ポートの競合も確認 |
 | プラグインが読み込まれない | 起動ログの警告を読む。`api-version` の不一致が多い |
 | 個体が見えない | 表示エンティティに未対応のバージョン。または `/raid despawn` 後に召喚し直す |
