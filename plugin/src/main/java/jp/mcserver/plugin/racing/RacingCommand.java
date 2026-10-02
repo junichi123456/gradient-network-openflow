@@ -12,6 +12,7 @@ import jp.mcserver.core.racing.TrainingOutcome;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
 /**
@@ -48,10 +49,11 @@ public final class RacingCommand implements CommandExecutor {
             case "train" -> train(player, args);
             case "status" -> status(player, args);
             case "list" -> list(player);
+            case "spawn" -> spawn(player, args);
             case "admin" -> admin(player, args);
             default -> sender.sendMessage("§7/horse create <名前> | /horse train <id> "
                     + "slope|woodchip|pool|paired|rest | /horse status <id> | /horse list"
-                    + " | /horse admin resetday <id>");
+                    + " | /horse spawn <id> | /horse admin resetday <id>");
         }
         return true;
     }
@@ -133,7 +135,28 @@ public final class RacingCommand implements CommandExecutor {
                 + "（国庫から " + cost + " exp徴収、§27.11）");
         applied.forEach((stat, gain) -> player.sendMessage("§7  " + statLabel(stat) + " +" + gain
                 + (gain < outcome.statGain() ? "（生涯成長上限+20に到達したため頭打ち）" : "")));
-        player.sendMessage(statusLines(module.database().horse(horse.horseId()).orElseThrow()));
+        RacingDatabase.HorseRecord updated = module.database().horse(horse.horseId()).orElseThrow();
+        module.mounts().refreshSpeed(updated);
+        player.sendMessage(statusLines(updated));
+    }
+
+    // ------------------------------------------------------------ /horse spawn
+
+    private void spawn(Player player, String[] args) {
+        if (args.length < 2) {
+            player.sendMessage("§c使い方: /horse spawn <id>");
+            return;
+        }
+        parseOwnedHorse(player, args[1]).ifPresent(record -> {
+            Horse horse = module.mounts().spawn(player, record);
+            boolean racingWorld = RacingMounts.isRacingWorld(horse.getWorld());
+            player.sendMessage("§a「" + record.name() + "」を出しました（最高速度 約"
+                    + String.format("%.1f", RacingMounts.metersPerSecond(horse)) + "m/s）");
+            player.sendMessage(racingWorld
+                    ? "§7競馬専用次元のため、仕様書どおりの速さ（スピード0で10〜100で25m/s）です"
+                    : "§7国家ワールドのため、速さはバニラの馬の範囲（約4.9〜14.6m/s）に縮めています");
+            player.sendMessage("§7出し直すと前の1頭は消えます（1つの記録につき1頭）");
+        });
     }
 
     // ------------------------------------------------------------ /horse status, list

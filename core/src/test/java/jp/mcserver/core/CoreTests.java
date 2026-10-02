@@ -15,6 +15,7 @@ import jp.mcserver.core.racing.AbilityBonusSize;
 import jp.mcserver.core.racing.AbilityStat;
 import jp.mcserver.core.racing.AbilityValue;
 import jp.mcserver.core.racing.Grade;
+import jp.mcserver.core.racing.MountSpeed;
 import jp.mcserver.core.racing.NationalRegistration;
 import jp.mcserver.core.racing.RaceCalendar;
 import jp.mcserver.core.racing.RaceClass;
@@ -4946,6 +4947,25 @@ public final class CoreTests {
                 TraitAcquisition.upperTraitEvolved(2));
         check("発動条件下で1勝だけではまだ進化しない", !TraitAcquisition.upperTraitEvolved(1));
         check("進化判定の勝利数が負なら例外", throwsIllegalArgument(() -> TraitAcquisition.upperTraitEvolved(-1)));
+
+        // ゲーム内に出す馬の移動速度属性（§27.4）：国家ワールドはバニラの範囲、競馬専用次元は仕様どおり
+        check("国家ワールド: スピード0はバニラの下限0.1125",
+                MountSpeed.vanillaScaledAttribute(0) == MountSpeed.VANILLA_MIN_ATTRIBUTE);
+        check("国家ワールド: スピード100はバニラの上限0.3375",
+                MountSpeed.vanillaScaledAttribute(100) == MountSpeed.VANILLA_MAX_ATTRIBUTE);
+        check("国家ワールド: スピード50はちょうど中間の0.225",
+                Math.abs(MountSpeed.vanillaScaledAttribute(50) - 0.225) < 1e-9);
+        check("国家ワールド: 100を超えても（特性の補正）バニラの上限で頭打ち",
+                MountSpeed.vanillaScaledAttribute(107) == MountSpeed.VANILLA_MAX_ATTRIBUTE);
+        check("国家ワールド: スピードが負なら例外",
+                throwsIllegalArgument(() -> MountSpeed.vanillaScaledAttribute(-1)));
+        check("競馬専用次元: スピード0は10m/s相当の属性値",
+                Math.abs(MountSpeed.specAttribute(0) * MountSpeed.METERS_PER_SECOND_PER_ATTRIBUTE - 10.0) < 1e-9);
+        check("競馬専用次元: スピード100は25m/s相当の属性値で、バニラの上限を超える",
+                Math.abs(MountSpeed.specAttribute(100) * MountSpeed.METERS_PER_SECOND_PER_ATTRIBUTE - 25.0) < 1e-9
+                        && MountSpeed.specAttribute(100) > MountSpeed.VANILLA_MAX_ATTRIBUTE);
+        check("バニラの馬の上限0.3375は約14.6m/s（換算係数43.17の確認）",
+                Math.abs(MountSpeed.VANILLA_MAX_ATTRIBUTE * MountSpeed.METERS_PER_SECOND_PER_ATTRIBUTE - 14.57) < 0.01);
     }
 
     private static boolean throwsIllegalState(Runnable action) {

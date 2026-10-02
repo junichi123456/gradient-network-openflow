@@ -21,6 +21,7 @@ public final class RacingModule {
     private final JavaPlugin plugin;
     private final NationLedger ledger;
     private RacingDatabase database;
+    private RacingMounts mounts;
 
     public RacingModule(JavaPlugin plugin, NationLedger ledger) {
         this.plugin = plugin;
@@ -35,6 +36,9 @@ public final class RacingModule {
                     + e.getMessage());
             return;
         }
+
+        mounts = new RacingMounts(plugin, database);
+        plugin.getServer().getPluginManager().registerEvents(mounts, plugin);
 
         var command = new RacingCommand(this);
         var registered = plugin.getServer().getPluginCommand("horse");
@@ -60,5 +64,9 @@ public final class RacingModule {
 
     public RacingDatabase database() {
         return database;
+    }
+
+    RacingMounts mounts() {
+        return mounts;
     }
 }

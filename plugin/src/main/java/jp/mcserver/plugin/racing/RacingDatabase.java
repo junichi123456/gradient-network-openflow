@@ -75,8 +75,28 @@ public final class RacingDatabase implements AutoCloseable {
                         birth_wisdom INTEGER NOT NULL,
                         fatigue INTEGER NOT NULL DEFAULT 0,
                         trust_level INTEGER NOT NULL DEFAULT 0,
-                        last_trained_day INTEGER
+                        last_trained_day INTEGER,
+                        entity_uuid TEXT
                     )""");
+        }
+        addEntityUuidColumnIfMissing();
+    }
+
+    /** {@code /horse spawn}以前に作られた racing.db には{@code entity_uuid}列が無いため足す。 */
+    private void addEntityUuidColumnIfMissing() throws SQLException {
+        boolean present = false;
+        try (Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery("PRAGMA table_info(racing_horses)")) {
+            while (rs.next()) {
+                if ("entity_uuid".equals(rs.getString("name"))) {
+                    present = true;
+                }
+            }
+        }
+        if (!present) {
+            try (Statement st = connection.createStatement()) {
+                st.execute("ALTER TABLE racing_horses ADD COLUMN entity_uuid TEXT");
+            }
         }
     }
 
@@ -233,6 +253,18 @@ public final class RacingDatabase implements AutoCloseable {
         }
     }
 
+    /** この記録に対応する、ゲーム内に出している馬（{@code /horse spawn}）を記録する。 */
+    public void setEntityUuid(int horseId, UUID entityUuid) {
+        String sql = "UPDATE racing_horses SET entity_uuid = ? WHERE horse_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, entityUuid.toString());
+            ps.setInt(2, horseId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RacingDatabaseException(e);
+        }
+    }
+
     /**
      * 本日の調教済みを解除する（検証用の{@code /horse admin resetday}）。
      *
@@ -286,6 +318,7 @@ public final class RacingDatabase implements AutoCloseable {
         int lastTrainedDay = rs.getInt("last_trained_day");
         // wasNull() は直前に読んだ列の結果しか反映しない。他の列を読む前に確定させる
         Optional<Integer> lastTrainedDayOpt = rs.wasNull() ? Optional.empty() : Optional.of(lastTrainedDay);
+        String entityUuid = rs.getString("entity_uuid");
         return new HorseRecord(
                 rs.getInt("horse_id"),
                 UUID.fromString(rs.getString("owner_uuid")),
@@ -295,7 +328,8 @@ public final class RacingDatabase implements AutoCloseable {
                 birth,
                 rs.getInt("fatigue"),
                 rs.getInt("trust_level"),
-                lastTrainedDayOpt);
+                lastTrainedDayOpt,
+                entityUuid == null ? Optional.empty() : Optional.of(UUID.fromString(entityUuid)));
     }
 
     /** 競走馬1頭の永続化された状態。 */
@@ -308,7 +342,8 @@ public final class RacingDatabase implements AutoCloseable {
             Map<AbilityStat, Integer> birthValues,
             int fatigue,
             int trustLevel,
-            Optional<Integer> lastTrainedDay) {
+            Optional<Integer> lastTrainedDay,
+            Optional<UUID> entityUuid) {
 
         /** 本日（{@code trainingDay}）すでに調教済みか。 */
         public boolean trainedOn(int trainingDay) {

@@ -18,7 +18,7 @@ commands:
     permission: worldcouncil.admin
   horse:
     description: 競馬専用ワールドの競走馬の登録・調教・確認（試験実装、§27.3）
-    usage: /horse create <名前> | /horse train <id> slope|woodchip|pool|paired|rest | /horse status <id> | /horse list | /horse admin resetday <id>
+    usage: /horse create <名前> | /horse train <id> slope|woodchip|pool|paired|rest | /horse status <id> | /horse list | /horse spawn <id> | /horse admin resetday <id>
     permission: horse.use
 permissions:
   raid.test:
