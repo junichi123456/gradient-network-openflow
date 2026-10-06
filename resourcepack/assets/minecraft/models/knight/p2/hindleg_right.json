@@ -1,0 +1,22 @@
+{
+  "__comment": "右後足 / ID 2115 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "item/knight/horse_leg",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "右後足",
+      "from": [4.736, -16, 4.736],
+      "to": [11.264, 8, 11.264],
+      "faces": {
+        "north": { "uv": [10.5, 3.5, 14, 16], "texture": "#skin" },
+        "east": { "uv": [0, 3.5, 3.5, 16], "texture": "#skin" },
+        "south": { "uv": [3.5, 3.5, 7, 16], "texture": "#skin" },
+        "west": { "uv": [7, 3.5, 10.5, 16], "texture": "#skin" },
+        "up": { "uv": [3.5, 0, 7, 3.5], "texture": "#skin" },
+        "down": { "uv": [7, 0, 10.5, 3.5], "texture": "#skin" }
+      }
+    }
+  ]
+}

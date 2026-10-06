@@ -1,0 +1,22 @@
+{
+  "__comment": "剣 / ID 3007 / 自動生成（core の ModelPack）",
+  "textures": {
+    "skin": "item/hollow_guard/guard_sword",
+    "particle": "#skin"
+  },
+  "elements": [
+    {
+      "name": "剣",
+      "from": [7.4, -4, 7.4],
+      "to": [8.6, 8, 8.6],
+      "faces": {
+        "north": { "uv": [4.5, 1.5, 6, 16], "texture": "#skin" },
+        "east": { "uv": [0, 1.5, 1.5, 16], "texture": "#skin" },
+        "south": { "uv": [1.5, 1.5, 3, 16], "texture": "#skin" },
+        "west": { "uv": [3, 1.5, 4.5, 16], "texture": "#skin" },
+        "up": { "uv": [1.5, 0, 3, 1.5], "texture": "#skin" },
+        "down": { "uv": [3, 0, 4.5, 1.5], "texture": "#skin" }
+      }
+    }
+  ]
+}
