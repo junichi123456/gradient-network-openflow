@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -154,6 +155,29 @@ public final class NationLedger implements AutoCloseable {
     /** 国庫への納入（運営コマンドの代用。援助金や世界協議の還付もこの経路を使う）。 */
     public void deposit(String nationId, long amount) {
         saveBalances(nationId, NationalAccounts.donate(balances(nationId), amount));
+    }
+
+    /**
+     * 複数の国家への納入を1つのトランザクションで行う。1件でも失敗すれば全件を取り消す
+     * （世界協議の還付。上位だけが受け取った状態で止まらないようにする）。
+     *
+     * @param amounts 国家 → 納入額
+     */
+    public void depositAll(Map<String, Long> amounts) {
+        try {
+            connection.setAutoCommit(false);
+            try {
+                amounts.forEach(this::deposit);
+                connection.commit();
+            } catch (RuntimeException e) {
+                connection.rollback();
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            throw new NationLedgerException(e);
+        }
     }
 
     /**

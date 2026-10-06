@@ -47,6 +47,12 @@ interface RaidBoss {
     /** ドロップの配布に必要なダメージ量。 */
     double rewardThreshold();
 
+    /** 種の識別子（{@code knight}・{@code hollow_guard}）。ドロップ品の名前を引くのに使う。 */
+    String speciesId();
+
+    /** 種の表示名（騎士・虚刃の衛士）。 */
+    String speciesName();
+
     /** 討伐時の記録（戦闘時間・非接地の割合・攻撃稼働率）。調整のためにログへ出す。 */
     default List<String> report() {
         return List.of();

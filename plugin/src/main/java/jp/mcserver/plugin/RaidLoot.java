@@ -53,29 +53,58 @@ final class RaidLoot {
         };
     }
 
+    /**
+     * 種ごとの品名の冠（`raid_species.md` のドロップ表）。騎士型は固有名「反骨裂き」を冠し、
+     * まだ固有名を決めていない種は表示名をそのまま冠する。
+     */
+    static String epithet(String speciesId, String speciesName) {
+        return "knight".equals(speciesId) ? "反骨裂き" : speciesName;
+    }
+
+    /**
+     * 品名。core の {@link RaidDrop} は騎士型の名前（反骨裂きの〜）で持っているため、
+     * 他の種では冠だけを差し替える。
+     */
+    static String displayName(RaidDrop.Grant grant, String speciesId, String speciesName) {
+        String knightPrefix = "反骨裂きの";
+        String name = grant.displayName();
+        if (name.startsWith(knightPrefix)) {
+            return epithet(speciesId, speciesName) + "の" + name.substring(knightPrefix.length());
+        }
+        return name;
+    }
+
     /** 品の説明。性能を持たないことが分かるようにする。 */
-    private static List<String> lore(String id) {
+    private static List<String> lore(String id, String speciesName) {
+        String proof = "§7" + speciesName + "の討伐の証";
         return switch (id) {
-            case "banner_pattern" -> List.of("§7騎士型の討伐の証", "§8旗に織り込める");
-            case "smithing_template" -> List.of("§7騎士型の討伐の証",
+            case "banner_pattern" -> List.of(proof, "§8旗に織り込める");
+            case "smithing_template" -> List.of(proof,
                     "§c複製できない", "§84部位を揃えるには4度討たねばならない");
-            case "solo_permit" -> List.of("§7騎士型への単身討伐に挑める",
+            // 単身討伐で出る個体は、使った週の当番の種である（RaidHost の週替わり）
+            case "solo_permit" -> List.of("§7その週のレイド個体へ単身討伐に挑める",
                     "§8開催期間の外でも使える／ソロ限定");
-            case "horse_armor" -> List.of("§7騎士型の討伐の証", "§8性能は通常の馬鎧と同等");
-            case "trophy_head" -> List.of("§7騎士型の討伐の証", "§8装飾。性能は持たない");
-            default -> List.of("§7騎士型の討伐の証");
+            case "horse_armor" -> List.of(proof, "§8性能は通常の馬鎧と同等");
+            case "trophy_head" -> List.of(proof, "§8装飾。性能は持たない");
+            default -> List.of(proof);
         };
     }
 
-    /** 1つぶんの品を組み立てる。 */
-    static ItemStack build(RaidDrop.Grant grant, Plugin plugin) {
+    /**
+     * 1つぶんの品を組み立てる。
+     *
+     * @param speciesId   討伐した種の識別子
+     * @param speciesName 討伐した種の表示名
+     */
+    static ItemStack build(RaidDrop.Grant grant, String speciesId, String speciesName,
+                           Plugin plugin) {
         ItemStack stack = new ItemStack(base(grant.id()), grant.amount());
         ItemMeta meta = stack.getItemMeta();
         if (meta == null) {
             return stack;
         }
-        meta.setDisplayName("§6" + grant.displayName());
-        meta.setLore(new ArrayList<>(lore(grant.id())));
+        meta.setDisplayName("§6" + displayName(grant, speciesId, speciesName));
+        meta.setLore(new ArrayList<>(lore(grant.id(), speciesName)));
         meta.getPersistentDataContainer()
                 .set(key(plugin), PersistentDataType.STRING, grant.id());
         stack.setItemMeta(meta);

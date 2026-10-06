@@ -208,8 +208,19 @@ public final class RailCommand implements CommandExecutor {
                     sender.sendMessage("§7/rail admin deposit <nation> <amount>");
                     return;
                 }
-                module.database().deposit(args[2], Long.parseLong(args[3]));
-                sender.sendMessage("§7" + args[2] + " の国庫へ " + args[3] + " を納入しました");
+                long amount;
+                try {
+                    amount = Long.parseLong(args[3]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage("§c金額は整数で指定してください: " + args[3]);
+                    return;
+                }
+                if (amount <= 0) {
+                    sender.sendMessage("§c金額は1以上で指定してください: " + args[3]);
+                    return;
+                }
+                module.database().deposit(args[2], amount);
+                sender.sendMessage("§7" + args[2] + " の国庫へ " + amount + " を納入しました");
             }
             case "ally" -> {
                 if (args.length < 4) {

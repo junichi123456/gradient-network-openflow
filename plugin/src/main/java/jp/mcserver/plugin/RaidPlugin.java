@@ -339,8 +339,9 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
             }
             List<String> got = new ArrayList<>();
             for (var grant : RaidDrop.roll(random)) {
-                RaidLoot.give(player, RaidLoot.build(grant, this));
-                got.add(grant.displayName()
+                RaidLoot.give(player,
+                        RaidLoot.build(grant, boss.speciesId(), boss.speciesName(), this));
+                got.add(RaidLoot.displayName(grant, boss.speciesId(), boss.speciesName())
                         + (grant.amount() > 1 ? " ×" + grant.amount() : ""));
             }
             player.sendMessage("§6討伐報酬 §7— " + String.join("§7 / §6", got));

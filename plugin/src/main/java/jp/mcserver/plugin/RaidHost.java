@@ -177,6 +177,14 @@ final class RaidHost implements Listener {
                 session.admit(player, RaidArena.entryPoint(world, random));
             }
         }
+        if (session.participantCount() == 0) {
+            // 登録者が全員オフライン・入場を断られた。誰もいない会場で個体を出し、
+            // 制限時間いっぱいまで回し続けることはしない（枠は開始時点で消費済み）
+            plugin.getServer().broadcastMessage("§7[レイド] 第" + slot
+                    + "枠 — 会場に入れた参加者がいないため中止しました");
+            session = null;
+            return;
+        }
         // 個体は20秒後に落ちてくる。降りてから身構える間を置く
         spawnCountdown = RaidArena.SPAWN_DELAY_TICKS;
         plugin.getServer().broadcastMessage("§6[レイド] §f第" + slot + "枠を開始しました — "
@@ -442,10 +450,14 @@ final class RaidHost implements Listener {
             player.sendMessage("§c不死のトーテムはレイド次元へ持ち込めません。預けてから挑んでください");
             return;
         }
-        permit.setAmount(permit.getAmount() - 1);
-        session = new RaidSession(today(), 0, RaidArena.center(world),
+        RaidSession solo = new RaidSession(today(), 0, RaidArena.center(world),
                 System.currentTimeMillis());
-        session.admit(player, RaidArena.entryPoint(world, random));
+        if (!solo.admit(player, RaidArena.entryPoint(world, random))) {
+            // 入場を断られた（RaidArena#onEnter が理由を伝える）。許可証は減らさない
+            return;
+        }
+        permit.setAmount(permit.getAmount() - 1);
+        session = solo;
         spawnCountdown = RaidArena.SPAWN_DELAY_TICKS;
         player.sendMessage("§6単身討伐 §f— 許可証を1枚使いました / 制限時間 "
                 + Raid.TIME_LIMIT_MINUTES + " 分");

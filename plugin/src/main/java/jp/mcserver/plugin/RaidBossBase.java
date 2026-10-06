@@ -198,6 +198,16 @@ abstract class RaidBossBase implements RaidBoss {
                 BarStyle.SEGMENTED_10);
     }
 
+    @Override
+    public String speciesId() {
+        return species.id();
+    }
+
+    @Override
+    public String speciesName() {
+        return species.displayName();
+    }
+
     int participants() {
         return participants;
     }
@@ -776,6 +786,9 @@ abstract class RaidBossBase implements RaidBoss {
             waveCenter.getWorld().spawnParticle(Particle.SWEEP_ATTACK, edge, 1, 0, 0, 0, 0);
         }
         for (Player player : waveCenter.getWorld().getPlayers()) {
+            if (player.isDead() || player.getGameMode().name().equals("SPECTATOR")) {
+                continue;
+            }
             Location at = player.getLocation();
             if (!stage.contains(at.getX(), at.getZ())) {
                 continue;
@@ -1088,10 +1101,9 @@ abstract class RaidBossBase implements RaidBoss {
                     Math.sin(radians) * area.radiusBlocks());
             center.getWorld().spawnParticle(trailParticle(), edge, 1, 0, 0, 0, 0);
         }
-        for (Player player : center.getWorld().getPlayers()) {
-            if (player.getLocation().distance(center) <= area.radiusBlocks()) {
-                applyDamage(player, area.damage(), ShieldGuard.GUARDS_AREA_EFFECTS);
-            }
+        // 戦場の外・戦闘不能・観戦中の者は巻き込まない（広がる衝撃波・浮遊剣の着地と同じ規則）
+        for (Player player : playersInRange(center, area.radiusBlocks())) {
+            applyDamage(player, area.damage(), ShieldGuard.GUARDS_AREA_EFFECTS);
         }
     }
 

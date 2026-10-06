@@ -1,8 +1,12 @@
 package jp.mcserver.plugin.worldcouncil;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import jp.mcserver.core.worldcouncil.WorldCouncilPayout;
 import jp.mcserver.core.worldcouncil.WorldCouncilRoster;
+import jp.mcserver.plugin.nation.NationLedger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -48,6 +52,10 @@ public final class WorldCouncilCommand implements CommandExecutor {
     }
 
     private void register(CommandSender sender, String[] args) {
+        if (module.inSession()) {
+            sender.sendMessage("§c開催中は登録を変更できません");
+            return;
+        }
         if (args.length < 3) {
             sender.sendMessage("§c使い方: /worldcouncil register <国家> <rank>");
             return;
@@ -65,12 +73,16 @@ public final class WorldCouncilCommand implements CommandExecutor {
             sender.sendMessage("§c" + check.message());
             return;
         }
-        module.roster().put(nation, new java.util.ArrayList<>());
+        module.roster().put(nation, new ArrayList<>());
         sender.sendMessage("§a" + nation + " を登録しました（" + module.roster().size()
                 + "/" + WorldCouncilRoster.MAX_NATIONS + "か国）");
     }
 
     private void addRep(CommandSender sender, String[] args) {
+        if (module.inSession()) {
+            sender.sendMessage("§c開催中は登録を変更できません");
+            return;
+        }
         if (args.length < 3) {
             sender.sendMessage("§c使い方: /worldcouncil addrep <国家> <プレイヤー>");
             return;
@@ -107,23 +119,39 @@ public final class WorldCouncilCommand implements CommandExecutor {
     }
 
     private void begin(CommandSender sender) {
+        if (module.inSession()) {
+            sender.sendMessage("§c開催中です（終えるには /worldcouncil finish）");
+            return;
+        }
         if (!WorldCouncilRoster.ready(module.rosterEntries())) {
             sender.sendMessage("§c参加登録が揃っていません（/worldcouncil status で確認）");
             return;
         }
-        int moved = 0;
+        // 先に全員がオンラインかを確かめる。途中で止めると、一部だけが会場に残ってしまう
+        List<Player> players = new ArrayList<>();
         for (List<String> reps : module.roster().values()) {
             for (String name : reps) {
                 Player player = Bukkit.getPlayerExact(name);
                 if (player == null) {
-                    sender.sendMessage("§c" + name + " がオンラインではありません。移送を中止しました");
+                    sender.sendMessage("§c" + name + " がオンラインではありません。移送しませんでした");
                     return;
                 }
-                module.arena().enter(module.plugin(), player);
-                moved++;
+                players.add(player);
             }
         }
-        sender.sendMessage("§a" + moved + "名を専用ワールドへ移送しました");
+        List<Player> moved = new ArrayList<>();
+        for (Player player : players) {
+            if (!module.arena().enter(player)) {
+                // 1人でも移送できなければ、移した人を戻して開催を取りやめる
+                moved.forEach(module.arena()::exit);
+                sender.sendMessage("§c" + player.getName()
+                        + " を移送できませんでした。全員を戻して開催を取りやめました");
+                return;
+            }
+            moved.add(player);
+        }
+        module.setInSession(true);
+        sender.sendMessage("§a" + moved.size() + "名を専用ワールドへ移送しました");
     }
 
     private void advanceDay(CommandSender sender) {
@@ -133,32 +161,60 @@ public final class WorldCouncilCommand implements CommandExecutor {
     }
 
     private void finish(CommandSender sender, String[] args) {
+        if (!module.inSession()) {
+            sender.sendMessage("§c開催中ではありません（先に /worldcouncil begin）");
+            return;
+        }
         if (args.length < 5) {
             sender.sendMessage("§c使い方: /worldcouncil finish <1位> <2位> <3位> <4位>");
             return;
         }
-        for (int rank = 1; rank <= 4; rank++) {
+        // 払う前にすべて確かめる。途中で弾くと、上位だけが還付を受けた状態で止まる
+        Map<String, Long> payouts = new LinkedHashMap<>();
+        for (int rank = 1; rank <= WorldCouncilRoster.MAX_NATIONS; rank++) {
             String nation = args[rank];
             if (!module.roster().containsKey(nation)) {
-                sender.sendMessage("§c" + nation + " は登録されていません");
+                sender.sendMessage("§c" + nation + " は登録されていません。還付していません");
                 return;
             }
-            long amount = WorldCouncilPayout.amountFor(rank);
-            module.ledger().deposit(nation, amount);
-            sender.sendMessage("§a" + rank + "位 " + nation + " に " + amount + " を非課税で還付しました");
+            if (payouts.containsKey(nation)) {
+                sender.sendMessage("§c" + nation + " が2回指定されています。還付していません");
+                return;
+            }
+            payouts.put(nation, WorldCouncilPayout.amountFor(rank));
+        }
+        try {
+            module.ledger().depositAll(payouts);
+        } catch (NationLedger.NationLedgerException e) {
+            module.plugin().getLogger().log(java.util.logging.Level.SEVERE, "世界協議: 還付に失敗した", e);
+            sender.sendMessage("§c国庫への書き込みに失敗しました。どの国にも還付していません");
+            return;
+        }
+        int rank = 1;
+        for (Map.Entry<String, Long> payout : payouts.entrySet()) {
+            sender.sendMessage("§a" + rank++ + "位 " + payout.getKey() + " に " + payout.getValue()
+                    + " を非課税で還付しました");
         }
 
         int moved = 0;
+        int offline = 0;
         for (List<String> reps : module.roster().values()) {
             for (String name : reps) {
                 Player player = Bukkit.getPlayerExact(name);
                 if (player != null) {
-                    module.arena().exit(player);
-                    moved++;
+                    if (module.arena().exit(player)) {
+                        moved++;
+                    }
+                } else {
+                    offline++;
                 }
             }
         }
         sender.sendMessage("§a" + moved + "名を国家ワールドへ復帰させました");
+        if (offline > 0) {
+            sender.sendMessage("§e" + offline + "名はオフラインです。次にログインしたときに戻します");
+        }
+        module.setInSession(false);
         module.clearRoster();
     }
 }

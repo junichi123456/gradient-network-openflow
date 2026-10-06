@@ -98,11 +98,16 @@ final class WeaponDamage {
                 : Math.min(SpearBalance.COUNTER_DAMAGE_CAP, dealt + sharpness(spear));
     }
 
-    /** 武器の基礎攻撃力（プレイヤーの素の1を含む合計）。 */
+    /**
+     * 武器の基礎攻撃力（プレイヤーの素の1を含む合計）。
+     *
+     * <p>銅の道具（1.21.9）は石と同じ攻撃力として置いた（剣5・斧9・つるはし3・シャベル3.5）。
+     * 実機の値と違えばここを直す。
+     */
     private static double base(Material material) {
         return switch (material) {
             case NETHERITE_AXE -> 10.0;
-            case DIAMOND_AXE, IRON_AXE, STONE_AXE -> 9.0;
+            case DIAMOND_AXE, IRON_AXE, STONE_AXE, COPPER_AXE -> 9.0;
             case TRIDENT -> 9.0;
             case NETHERITE_SWORD -> 8.0;
             case DIAMOND_SWORD -> 7.0;
@@ -111,14 +116,14 @@ final class WeaponDamage {
             case MACE -> 6.0;
             case NETHERITE_SHOVEL -> 6.5;
             case NETHERITE_PICKAXE -> 6.0;
-            case STONE_SWORD -> 5.0;
+            case STONE_SWORD, COPPER_SWORD -> 5.0;
             case DIAMOND_SHOVEL -> 5.5;
             case DIAMOND_PICKAXE -> 5.0;
             case WOODEN_SWORD, GOLDEN_SWORD -> 4.0;
             case IRON_SHOVEL -> 4.5;
             case IRON_PICKAXE -> 4.0;
-            case STONE_SHOVEL -> 3.5;
-            case STONE_PICKAXE -> 3.0;
+            case STONE_SHOVEL, COPPER_SHOVEL -> 3.5;
+            case STONE_PICKAXE, COPPER_PICKAXE -> 3.0;
             case WOODEN_SHOVEL, GOLDEN_SHOVEL -> 2.5;
             case WOODEN_PICKAXE, GOLDEN_PICKAXE -> 2.0;
             default -> FIST;
