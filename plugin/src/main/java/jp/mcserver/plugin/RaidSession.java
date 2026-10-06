@@ -86,12 +86,20 @@ final class RaidSession {
     /**
      * 参加者を迎え入れる。立っていた場所を覚えておく。
      *
+     * <p>移動が取り消された場合（不死のトーテムを持っている等。{@link RaidArena#onEnter}）は
+     * 参加者として数えない。
+     *
      * @param entry 降ろす点。1人ずつ引く（1点に重ねると押し出しで弾かれる）
+     * @return 迎え入れたか
      */
-    void admit(Player player, Location entry) {
-        came.put(player.getUniqueId(), player.getLocation().clone());
+    boolean admit(Player player, Location entry) {
+        Location from = player.getLocation().clone();
+        if (!player.teleport(entry)) {
+            return false;
+        }
+        came.put(player.getUniqueId(), from);
         alive.add(player.getUniqueId());
-        player.teleport(entry);
+        return true;
     }
 
     /** 参加者（生死を問わない）。報酬の配布は生死を問わない（§12.5）。 */

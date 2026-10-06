@@ -25,8 +25,8 @@ public final class HollowGuardDefinition {
 
     // ------------------------------------------------------------ 基準値
 
-    /** 基準体力（参加1名）。**仮の値。** 騎士型（600）と同じ値を暫定で置く。実測で調整する。 */
-    public static final long BASE_HEALTH = 600;
+    /** 基準体力（参加1名）。全種共通の基準（{@link jp.mcserver.core.Raid#BASE_HEALTH}、剣で3分）に従う。 */
+    public static final long BASE_HEALTH = jp.mcserver.core.Raid.BASE_HEALTH;
 
     /** 武器のリーチ（ブロック）。武器が3倍サイズであることを踏まえ、騎士型（2.2）より長く取る。**仮の値。** */
     public static final double WEAPON_REACH = 4.5;

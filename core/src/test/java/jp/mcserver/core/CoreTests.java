@@ -38,6 +38,8 @@ import jp.mcserver.core.worldcouncil.WorldCouncilPayout;
 import jp.mcserver.core.worldcouncil.WorldCouncilRanking;
 import jp.mcserver.core.worldcouncil.WorldCouncilRoster;
 import jp.mcserver.core.worldcouncil.WorldCouncilSchedule;
+import jp.mcserver.core.raid.HollowGuardDefinition;
+import jp.mcserver.core.raid.SpearBalance;
 import jp.mcserver.core.raid.Angles;
 import jp.mcserver.core.raid.GoldenAxe;
 import jp.mcserver.core.raid.GrandWhirl;
@@ -107,6 +109,7 @@ public final class CoreTests {
         spearGeometry();
         hollowGuard();
         hollowGuardSpecial();
+        spearBalance();
         railInfra();
         worldCouncil();
         nationalSecurities();
@@ -1819,13 +1822,15 @@ public final class CoreTests {
 
         // 難易度
         check("参加1名は基準値", Raid.difficulty(1).healthPercent() == 100);
-        check("1人増えるごとに体力が0.9倍ぶん増える",
-                Raid.difficulty(2).healthPercent() == 190
-                        && Raid.difficulty(3).healthPercent() == 280
-                        && Raid.difficulty(6).healthPercent() == 550);
-        check("上限の12名では10.9倍",
-                Raid.difficulty(12).healthPercent() == 1090
-                        && Raid.difficulty(12).healthMultiplier() == 10.9);
+        check("体力は参加人数に比例する（1人増えるごとに1.0倍ぶん）",
+                Raid.difficulty(2).healthPercent() == 200
+                        && Raid.difficulty(3).healthPercent() == 300
+                        && Raid.difficulty(6).healthPercent() == 600);
+        check("上限の12名では12倍",
+                Raid.difficulty(12).healthPercent() == 1200
+                        && Raid.difficulty(12).healthMultiplier() == 12.0);
+        check("基準体力は剣のクリティカルを3分当て続けた量（12 ÷ 0.625秒 × 180秒）",
+                Raid.BASE_HEALTH == Math.round(12 / 0.625 * 180));
         check("参加人数の上限は12名（描画の実体数から決めた線・§12.6）",
                 Raid.MAX_PARTICIPANTS == 12);
 
@@ -1845,7 +1850,7 @@ public final class CoreTests {
                 Raid.dailyCapacity() == 72);
         check("最初の登録開始も最後の終了も同じ日に収まる",
                 Raid.registrationFitsInDay()
-                        && Raid.lastSlotEndMinuteOfDay() == 21 * 60 + 40);
+                        && Raid.lastSlotEndMinuteOfDay() == 21 * 60 + 15);
         check("すべての枠が次元の再生成と衝突しない（日曜開催）",
                 Raid.slotHours().stream().allMatch(hour -> Raid.slotIsClear(0, hour, 15)));
         check("開催日が1日でもネザーの再生成と衝突しない",
@@ -1923,11 +1928,11 @@ public final class CoreTests {
         check("別の国家には同じ日でも付く",
                 Raid.nationBuffGranted(Set.of("北方連合"), "南方公国"));
         check("倍率は誤差なく百分率から導かれる",
-                Raid.difficulty(3).healthMultiplier() == 2.8
-                        && Raid.difficulty(2).healthMultiplier() == 1.9);
+                Raid.difficulty(3).healthMultiplier() == 3.0
+                        && Raid.difficulty(2).healthMultiplier() == 2.0);
         check("スケールするのは体力だけである（取り巻きは全種で不採用・§12.3）",
                 Raid.difficulty(1).healthPercent() == 100
-                        && Raid.difficulty(12).healthPercent() == 1090);
+                        && Raid.difficulty(12).healthPercent() == 1200);
         check("上限を超える人数は受け付けない",
                 thrown(() -> Raid.difficulty(13)));
 
@@ -2189,7 +2194,7 @@ public final class CoreTests {
                         && species.phaseAt(50).name().equals("第二形態")
                         && species.phaseAt(0).name().equals("第二形態"));
         check("参加人数で体力がスケールする",
-                species.healthFor(1) == 2_000 && species.healthFor(2) == 3_800);
+                species.healthFor(1) == 2_000 && species.healthFor(2) == 4_000);
         check("必要な更新間隔を個体から求められる",
                 species.requiredUpdateInterval(20) == 1
                         && species.requiredUpdateInterval(0) == 2);
@@ -2316,11 +2321,12 @@ public final class CoreTests {
         var second = boss.phaseAt(50);
 
         // 体力
-        check("参加1名で600、2名で1.9倍の1,140",
-                boss.healthFor(1) == 600 && boss.healthFor(2) == 1_140);
-        check("3名で2.8倍の1,680", boss.healthFor(3) == 1_680);
-        check("1人増えるごとに0.9倍ぶん増える",
-                boss.healthFor(10) == 600 * 91 / 10 && boss.healthFor(12) == 6_540);
+        check("参加1名で3,456、2名で2倍の6,912",
+                boss.healthFor(1) == 3_456 && boss.healthFor(2) == 6_912);
+        check("3名で3倍の10,368", boss.healthFor(3) == 10_368);
+        check("上限の12名で12倍の41,472", boss.healthFor(12) == 41_472);
+        check("虚刃の衛士も同じ基準体力",
+                HollowGuardDefinition.boss().healthFor(1) == Raid.BASE_HEALTH);
 
         // 第一形態のモーション
         var chargeOne = first.motion("突進切り上げ");
@@ -2669,6 +2675,27 @@ public final class CoreTests {
                 first.heaviestMotionMaxDamage() == 60.0);
         check("第二形態の最も重い一撃は3段突きの合計72",
                 second.heaviestMotionMaxDamage() == 72.0);
+    }
+
+    private static void spearBalance() {
+        section("スピアの補正（ヤリ）");
+        var netherite = SpearBalance.Tier.NETHERITE;
+        check("ネザライトの突きは1回16.5", SpearBalance.jab(netherite) == 16.5);
+        double share = SpearBalance.jabDps(netherite) / SpearBalance.SWORD_REFERENCE_DPS;
+        check(String.format("ネザライトの突きは剣の基準の約75%%（%.1f%%）", share * 100),
+                share > 0.74 && share < 0.76);
+        check("ダイヤは突きの値の比（4/5）で13.2",
+                Math.abs(SpearBalance.jab(SpearBalance.Tier.DIAMOND) - 13.2) < 1e-9);
+        check("どの素材もネザライトを超えない",
+                java.util.Arrays.stream(SpearBalance.Tier.values())
+                        .allMatch(t -> SpearBalance.jabDps(t) <= SpearBalance.jabDps(netherite)));
+        check("全力疾走（毎秒5.6）だけでは迎え撃ちは成立しない",
+                SpearBalance.counter(netherite, 5.6) == 0);
+        check("突進（毎秒6）を正面から迎えれば成立する（5.6 + 6 = 11.6 → 23.2）",
+                Math.abs(SpearBalance.counter(netherite, 11.6) - 23.2) < 1e-9);
+        check("迎え撃ちは1回30まで", SpearBalance.counter(netherite, 40) == 30);
+        check("素材が劣るほど成立に速さが要る",
+                SpearBalance.counter(SpearBalance.Tier.WOODEN, 11.6) == 0);
     }
 
     private static boolean thrown(Runnable action) {
@@ -3280,7 +3307,7 @@ public final class CoreTests {
                 Stage.DEFAULT_RADIUS * 2 / 2 <= 34);
 
         // 開催の進行（§12.1）
-        check("制限時間は40分", Raid.timeLimitMillis() == 40L * 60 * 1000);
+        check("制限時間は15分（約10分の戦闘に1.5倍の余裕）", Raid.timeLimitMillis() == 15L * 60 * 1000);
         check("告知は2回（1時間前・10分前。3日前は毎日開催への変更で廃止した）",
                 Raid.Notice.values().length == 2);
         check("10分前の告知は登録の締切と同時",

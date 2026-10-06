@@ -1,10 +1,8 @@
 package jp.mcserver.plugin;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import jp.mcserver.core.raid.HollowGuardDefinition;
@@ -23,12 +21,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.projectiles.ProjectileSource;
 
 /**
  * レイド個体の検証用プラグイン（§12）。
@@ -46,14 +41,6 @@ import org.bukkit.projectiles.ProjectileSource;
 public final class RaidPlugin extends JavaPlugin implements Listener {
 
     private final List<RaidBoss> active = new ArrayList<>();
-
-    /**
-     * 飛び道具の発射地点（§12.6）。
-     *
-     * <p>遠くから放たれた攻撃を通さないため、<b>撃った位置</b>を覚えておく。
-     * 射手の現在位置で見ると、遠くから撃って踏み込むだけで通ってしまう。
-     */
-    private final Map<UUID, Location> launchPoints = new HashMap<>();
 
     /**
      * 体力を減らさないプレイヤー（検証用）。
@@ -413,7 +400,6 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         int count = active.size() + (calibration.isEmpty() ? 0 : 1);
         active.forEach(RaidBoss::despawn);
         active.clear();
-        launchPoints.clear();
         clearCalibration();
         return count;
     }
@@ -451,36 +437,11 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         });
     }
 
-    /** プレイヤーが放った飛び道具の発射地点を覚える。 */
-    @EventHandler
-    public void onLaunch(ProjectileLaunchEvent event) {
-        if (active.isEmpty()) {
-            return;
-        }
-        ProjectileSource source = event.getEntity().getShooter();
-        if (source instanceof Player shooter) {
-            launchPoints.put(event.getEntity().getUniqueId(), shooter.getLocation().clone());
-        }
-    }
-
-    /**
-     * 地面に着弾した飛び道具の記録を捨てる。外れた矢の分を溜め込まないため。
-     *
-     * <p><b>実体に当たった場合は消さない。</b>この事象はダメージ事象より先に起きるため、
-     * ここで消すと発射地点が失われ、着弾位置（＝個体の近く）で判定してしまう。
-     * 外から撃った矢がすべて通ることになる。実体に当たった分はダメージ側で消す。
-     */
-    @EventHandler
-    public void onProjectileHit(ProjectileHitEvent event) {
-        if (event.getHitEntity() == null) {
-            launchPoints.remove(event.getEntity().getUniqueId());
-        }
-    }
-
     /**
      * 部位への攻撃を個体へ伝える。
      *
-     * <p>近接は殴った位置、飛び道具は<b>発射地点</b>を「放たれた位置」として渡す。
+     * <p>飛び道具は個体側で一律に拒む（矢・投げたトライデントなど。ダメージは通さない）。
+     * ここでは近接と区別して渡すだけである。
      */
     @EventHandler
     public void onHit(EntityDamageByEntityEvent event) {
@@ -499,8 +460,7 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
         } else if (damager instanceof Projectile projectile
                 && projectile.getShooter() instanceof Player shooter) {
             attacker = shooter;
-            origin = launchPoints.getOrDefault(projectile.getUniqueId(),
-                    projectile.getLocation());
+            origin = projectile.getLocation();
             ranged = true;
             // 投げたトライデントは手に残らない。飛んでいる本体で見る
             weapon = damager instanceof Trident ? Material.TRIDENT : Material.AIR;
@@ -512,16 +472,25 @@ public final class RaidPlugin extends JavaPlugin implements Listener {
             if (boss.handleHit(event.getEntity().getUniqueId(), attacker, origin, ranged,
                     weapon)) {
                 event.setCancelled(true); // ダメージは個体側で処理する
-                launchPoints.remove(damager.getUniqueId());
                 if (boss.isDead()) {
-                    boss.playDefeat();
-                    grantDrops(boss);
-                    boss.despawn();
-                    active.remove(boss);
-                    getServer().broadcastMessage("個体を討伐しました");
+                    defeated(boss);
                 }
                 return;
             }
         }
+    }
+
+    /**
+     * 討伐を締めくくる。近接の一撃でも、個体の周期の中で起きた迎え撃ちでも同じ手順を通る。
+     */
+    void defeated(RaidBoss boss) {
+        if (!active.remove(boss)) {
+            return;
+        }
+        boss.playDefeat();
+        grantDrops(boss);
+        boss.despawn();
+        getServer().broadcastMessage("個体を討伐しました");
+        boss.report().forEach(line -> getLogger().info("[討伐記録] " + line));
     }
 }

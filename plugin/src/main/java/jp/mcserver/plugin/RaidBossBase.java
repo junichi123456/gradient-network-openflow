@@ -147,6 +147,16 @@ abstract class RaidBossBase implements RaidBoss {
     private double parryDamage;
     private int parryCount;
     private final Set<UUID> struck = new HashSet<>();
+    /** 最後に攻撃を通した tick（プレイヤーごと）。スピアの1突きが複数の部位に当たるのを1回に数える */
+    private final Map<UUID, Integer> lastHitTick = new HashMap<>();
+    /** 前のtickの位置（プレイヤーごと）。迎え撃ちの速さを求める */
+    private final Map<UUID, Location> lastSeen = new HashMap<>();
+    /** このモーション中に迎え撃ちを成立させた者。1回の突進につき1人1回まで */
+    private final Set<UUID> countered = new HashSet<>();
+    /** 足元が地面から離れていたtick数（接地の公平性の記録） */
+    private int airborneTicks;
+    /** 通した攻撃の間隔の合計（tick、プレイヤーごと）。攻撃に使えた時間の割合を見積もる */
+    private final Map<UUID, Double> busyTicks = new HashMap<>();
     private final java.util.Random random = new java.util.Random();
 
     private final Map<UUID, Double> contribution = new LinkedHashMap<>();
@@ -330,6 +340,123 @@ abstract class RaidBossBase implements RaidBoss {
             }
             default -> { }
         }
+        checkSpearCounter(here, rig.origin());
+        // 足元は毎tick地面の天面へ合わせるので、接地していれば真下は固体である
+        if (!solidAt(rig.origin().subtract(0, 0.1, 0))) {
+            airborneTicks++;
+        }
+    }
+
+    // ------------------------------------------------------------ 調整用の記録
+
+    /**
+     * 討伐時の記録。体力・制限時間・技の隙を実測で見直すために出す。
+     *
+     * <p>攻撃稼働率は「通した攻撃の回数 × その武器の攻撃間隔」を戦闘時間で割った見積もりである。
+     * 想定は約30%（剣の基準で3分ぶんの攻撃を約10分の戦闘で入れる）。
+     */
+    @Override
+    public List<String> report() {
+        List<String> lines = new ArrayList<>();
+        double seconds = totalTick / 20.0;
+        lines.add(String.format("%s / 参加 %d 名 / 体力 %d / 戦闘 %d:%02d / 非接地 %.1f%%",
+                species.displayName(), participants, maxHealth, (int) seconds / 60,
+                (int) seconds % 60, totalTick == 0 ? 0 : 100.0 * airborneTicks / totalTick));
+        contribution.forEach((id, dealt) -> {
+            org.bukkit.OfflinePlayer who = Bukkit.getOfflinePlayer(id);
+            lines.add(String.format("  %s: 与ダメージ %.0f / 攻撃稼働率 %.0f%%",
+                    who.getName() == null ? id.toString() : who.getName(), dealt,
+                    totalTick == 0 ? 0 : 100.0 * busyTicks.getOrDefault(id, 0.0) / totalTick));
+        });
+        return lines;
+    }
+
+    /** 持っている武器が攻撃を溜め切るのに要するtick数。 */
+    private static double cooldownTicks(Player attacker) {
+        org.bukkit.attribute.AttributeInstance speed =
+                attacker.getAttribute(org.bukkit.attribute.Attribute.ATTACK_SPEED);
+        return speed == null || speed.getValue() <= 0 ? 20.0 : 20.0 / speed.getValue();
+    }
+
+    // ------------------------------------------------------------ 迎え撃ち
+
+    /**
+     * スピアの溜め突撃による迎え撃ち（{@link jp.mcserver.core.raid.SpearBalance}）。
+     *
+     * <p>溜め突撃のダメージ事象が当たり判定（生き物ではない）へ届くとは限らないため、
+     * こちらで判定する。<b>突進の最中</b>に、スピアを溜めているプレイヤーが部位から
+     * {@link jp.mcserver.core.raid.SpearBalance#COUNTER_REACH} 以内におり、個体へ近づく
+     * 相対の速さが素材の閾値を超えていれば成立する。成立すればダメージを与え、
+     * パリイと同じく技を止めて弱点を露出させる。
+     *
+     * @param before このtickに動く前の足元
+     * @param after  動いたあとの足元
+     */
+    private void checkSpearCounter(Location before, Location after) {
+        World world = after.getWorld();
+        boolean charging = state == State.MOTION && motion != null && !interrupted
+                && chargeDirection != null;
+        Vector bossStep = after.toVector().subtract(before.toVector());
+        for (Player player : world.getPlayers()) {
+            Location now = player.getLocation();
+            Location previous = lastSeen.put(player.getUniqueId(), now);
+            if (!charging || previous == null || previous.getWorld() != world
+                    || countered.contains(player.getUniqueId())
+                    || !player.hasActiveItem()
+                    || WeaponDamage.spearTier(player.getActiveItem().getType()) == null) {
+                continue;
+            }
+            Location nearest = nearestHitPoint(player);
+            if (nearest == null || nearest.distance(player.getEyeLocation())
+                    > jp.mcserver.core.raid.SpearBalance.COUNTER_REACH + 1.0) {
+                continue;
+            }
+            Vector toward = nearest.toVector().subtract(now.toVector());
+            toward.setY(0);
+            if (toward.lengthSquared() < 1.0e-4) {
+                continue;
+            }
+            Vector relative = now.toVector().subtract(previous.toVector()).subtract(bossStep);
+            double closingSpeed = relative.setY(0).dot(toward.normalize()) * 20.0;
+            double dealt = WeaponDamage.counter(player.getActiveItem(), closingSpeed);
+            if (dealt <= 0) {
+                continue;
+            }
+            countered.add(player.getUniqueId());
+            health -= dealt;
+            contribution.merge(player.getUniqueId(), dealt, Double::sum);
+            interrupted = true;
+            parts.expose(PartTracker.EXPOSURE_TICKS);
+            announce(String.format("§b%s が %s を迎え撃った — %.1f（秒速 %.1f）・弱点が露出",
+                    player.getName(), motion.name(), dealt, closingSpeed));
+            sound("item.shield.block", 1.4f, 0.8f);
+            sound("item.trident.hit", 1.0f, 0.7f);
+            particles(Particle.CRIT, nearest, 40, 0.6);
+            if (isDead()) {
+                plugin.defeated(this);
+            }
+            return;
+        }
+    }
+
+    /** そのプレイヤーの目に最も近い、ダメージの通る部位の点。 */
+    private Location nearestHitPoint(Player player) {
+        Location eye = player.getEyeLocation();
+        Location best = null;
+        double bestDistance = Double.MAX_VALUE;
+        for (String name : rig.rig().partNames()) {
+            if (!rig.rig().part(name).damageable()) {
+                continue;
+            }
+            for (Location point : rig.hitPointsOf(name)) {
+                double distance = point.distance(eye);
+                if (distance < bestDistance) {
+                    best = point;
+                    bestDistance = distance;
+                }
+            }
+        }
+        return best;
     }
 
     private void enter(State next) {
@@ -417,6 +544,7 @@ abstract class RaidBossBase implements RaidBoss {
         motion = selector.select(phase, situation, totalTick).motion();
         struckByWindow.clear();
         struck.clear();
+        countered.clear();
         interrupted = false;
         landedThisMotion = false;
         chargeTravelled = 0;
@@ -991,9 +1119,22 @@ abstract class RaidBossBase implements RaidBoss {
             sound("entity.zombie.attack_iron_door", 0.6f, 1.9f);
             return true;
         }
+        if (ranged) {
+            // 飛び道具（矢・投げたトライデント・雪玉など）は一律で通さない（P4）
+            attacker.sendMessage("§7飛び道具は通らない");
+            sound("entity.zombie.attack_iron_door", 0.8f, 1.7f);
+            return true;
+        }
         if (WeaponDamage.rejected(weapon)) {
             attacker.sendMessage("§7その武器は通らない");
             sound("entity.zombie.attack_iron_door", 0.8f, 1.7f);
+            return true;
+        }
+        // スピアの突きは1回で複数の実体に当たる。部位ごとに当たり判定を持つため、
+        // 同じtickの2件目以降は捨てて1突き1回に数える（先に届いた部位が残る）
+        int now = Bukkit.getCurrentTick();
+        Integer last = lastHitTick.put(attacker.getUniqueId(), now);
+        if (last != null && last == now) {
             return true;
         }
         if (state == State.MOTION && motion != null) {
@@ -1016,6 +1157,7 @@ abstract class RaidBossBase implements RaidBoss {
         }
         health -= result.dealt();
         contribution.merge(attacker.getUniqueId(), result.dealt(), Double::sum);
+        busyTicks.merge(attacker.getUniqueId(), cooldownTicks(attacker), Double::sum);
         accumulateParry(result.dealt(), attacker);
 
         if (result.critical()) {

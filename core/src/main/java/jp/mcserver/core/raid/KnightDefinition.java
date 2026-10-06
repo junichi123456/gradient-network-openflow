@@ -19,8 +19,8 @@ public final class KnightDefinition {
 
     private KnightDefinition() {}
 
-    /** 基準体力（参加1名）。 */
-    public static final long BASE_HEALTH = 600;
+    /** 基準体力（参加1名）。全種共通の基準（{@link jp.mcserver.core.Raid#BASE_HEALTH}、剣で3分）に従う。 */
+    public static final long BASE_HEALTH = jp.mcserver.core.Raid.BASE_HEALTH;
 
     /** 頭の弱点倍率。パリイ・妨害・空振りの直後だけ開く。 */
     public static final double HEAD_VULNERABILITY = 2.5;

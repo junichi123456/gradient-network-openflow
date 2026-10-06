@@ -1,6 +1,7 @@
 package jp.mcserver.plugin;
 
 import java.util.Map;
+import jp.mcserver.core.raid.SpearBalance;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -16,6 +17,10 @@ import org.bukkit.inventory.ItemStack;
  *
  * <p>再現するのはバニラの近接ダメージのうち、レイドで効いてくる要素に絞る。
  * 武器の基礎値、ダメージ増加、クールダウンによる減衰、落下中のクリティカルである。
+ *
+ * <p><b>スピア（ヤリ）は補正した値で組み立てる</b>（{@link SpearBalance}）。バニラの値のままでは
+ * 剣の2割強しか出ず、使える武器にならないためである。スピアはクリティカルを出さない。
+ * 斧は上限を設けずにバニラの値で通す（ユーザーへ確認して決定）。
  */
 final class WeaponDamage {
 
@@ -44,17 +49,53 @@ final class WeaponDamage {
      */
     static double of(Player attacker) {
         ItemStack weapon = attacker.getInventory().getItemInMainHand();
-        double damage = base(weapon.getType()) + sharpness(weapon);
+        SpearBalance.Tier spear = spearTier(weapon.getType());
+        double damage = (spear != null ? SpearBalance.jab(spear) : base(weapon.getType()))
+                + sharpness(weapon);
 
         // クールダウンによる減衰。連打すると威力が落ちる（バニラと同じ式）
         float cooled = attacker.getAttackCooldown();
         damage *= 0.2 + cooled * cooled * 0.8;
 
-        // 落下中の一撃はクリティカル
-        if (cooled > 0.9f && attacker.getFallDistance() > 0 && !attacker.isOnGround()) {
+        // 落下中の一撃はクリティカル。スピアはバニラでもクリティカルを出さない
+        if (spear == null && cooled > 0.9f && attacker.getFallDistance() > 0
+                && !attacker.isOnGround()) {
             damage *= 1.5;
         }
         return Math.max(0.5, damage);
+    }
+
+    /** スピアの素材。スピアでなければ null。 */
+    static SpearBalance.Tier spearTier(Material material) {
+        if (material == null) {
+            return null;
+        }
+        return switch (material) {
+            case WOODEN_SPEAR -> SpearBalance.Tier.WOODEN;
+            case STONE_SPEAR -> SpearBalance.Tier.STONE;
+            case COPPER_SPEAR -> SpearBalance.Tier.COPPER;
+            case IRON_SPEAR -> SpearBalance.Tier.IRON;
+            case GOLDEN_SPEAR -> SpearBalance.Tier.GOLDEN;
+            case DIAMOND_SPEAR -> SpearBalance.Tier.DIAMOND;
+            case NETHERITE_SPEAR -> SpearBalance.Tier.NETHERITE;
+            default -> null;
+        };
+    }
+
+    /**
+     * 迎え撃ち（溜め突撃）のダメージ。ダメージ増加の加算分も乗せるが、上限
+     * （{@link SpearBalance#COUNTER_DAMAGE_CAP}）は超えない。
+     *
+     * @return 成立しなければ 0
+     */
+    static double counter(ItemStack spear, double closingSpeed) {
+        SpearBalance.Tier tier = spearTier(spear.getType());
+        if (tier == null) {
+            return 0;
+        }
+        double dealt = SpearBalance.counter(tier, closingSpeed);
+        return dealt <= 0 ? 0
+                : Math.min(SpearBalance.COUNTER_DAMAGE_CAP, dealt + sharpness(spear));
     }
 
     /** 武器の基礎攻撃力（プレイヤーの素の1を含む合計）。 */

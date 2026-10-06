@@ -46,4 +46,9 @@ interface RaidBoss {
 
     /** ドロップの配布に必要なダメージ量。 */
     double rewardThreshold();
+
+    /** 討伐時の記録（戦闘時間・非接地の割合・攻撃稼働率）。調整のためにログへ出す。 */
+    default List<String> report() {
+        return List.of();
+    }
 }

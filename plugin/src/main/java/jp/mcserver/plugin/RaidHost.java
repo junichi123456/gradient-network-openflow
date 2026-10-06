@@ -171,7 +171,9 @@ final class RaidHost implements Listener {
         for (String name : names) {
             Player player = plugin.getServer().getPlayer(UUID.fromString(name));
             if (player != null) {
-                // 降ろす点は1人ずつ引く。1点に重ねると押し出しで弾かれる
+                // 降ろす点は1人ずつ引く。1点に重ねると押し出しで弾かれる。
+                // 不死のトーテムを持つ者は入れない（RaidArena#onEnter が理由を伝える）。
+                // 枠は開始時点で消費するため、断られた者もこの枠には入り直せない（§12.1）
                 session.admit(player, RaidArena.entryPoint(world, random));
             }
         }
@@ -433,6 +435,11 @@ final class RaidHost implements Listener {
         World world = RaidArena.world(plugin);
         if (world == null) {
             player.sendMessage("§c会場（ワールド " + RaidArena.WORLD + "）が読み込めません");
+            return;
+        }
+        if (RaidArena.carriesTotem(player)) {
+            // 許可証を減らす前に断る。入場は RaidArena#onEnter でも止まる
+            player.sendMessage("§c不死のトーテムはレイド次元へ持ち込めません。預けてから挑んでください");
             return;
         }
         permit.setAmount(permit.getAmount() - 1);
