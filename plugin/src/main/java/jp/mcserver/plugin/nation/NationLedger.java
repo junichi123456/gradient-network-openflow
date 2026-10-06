@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -225,6 +227,40 @@ public final class NationLedger implements AutoCloseable {
         } catch (SQLException e) {
             throw new NationLedgerException(e);
         }
+    }
+
+    /** その国家に所属するプレイヤー（世界協議の代表者の代わりを探すのに使う）。 */
+    public List<UUID> playersOf(String nationId) {
+        String sql = "SELECT player_uuid FROM rail_nation_players WHERE nation_id = ?";
+        List<UUID> players = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, nationId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    players.add(UUID.fromString(rs.getString(1)));
+                }
+            }
+        } catch (SQLException e) {
+            throw new NationLedgerException(e);
+        }
+        return players;
+    }
+
+    /** 自国が宗主国として持つ属国。 */
+    public List<String> vassalsOf(String nationId) {
+        String sql = "SELECT nation_id FROM rail_nations WHERE suzerain_nation_id = ?";
+        List<String> vassals = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, nationId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    vassals.add(rs.getString(1));
+                }
+            }
+        } catch (SQLException e) {
+            throw new NationLedgerException(e);
+        }
+        return vassals;
     }
 
     /** 自国が宗主国として持つ属国の数（{@code DiplomacyQuota} の引数）。 */

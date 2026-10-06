@@ -1,9 +1,13 @@
 package jp.mcserver.plugin.worldcouncil;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 import jp.mcserver.core.worldcouncil.WorldCouncilPayout;
 import jp.mcserver.core.worldcouncil.WorldCouncilRoster;
 import jp.mcserver.plugin.nation.NationLedger;
@@ -28,6 +32,7 @@ import org.bukkit.entity.Player;
 public final class WorldCouncilCommand implements CommandExecutor {
 
     private final WorldCouncilModule module;
+    private final Random random = new Random();
 
     public WorldCouncilCommand(WorldCouncilModule module) {
         this.module = module;
@@ -127,18 +132,52 @@ public final class WorldCouncilCommand implements CommandExecutor {
             sender.sendMessage("§c参加登録が揃っていません（/worldcouncil status で確認）");
             return;
         }
-        // 先に全員がオンラインかを確かめる。途中で止めると、一部だけが会場に残ってしまう
-        List<Player> players = new ArrayList<>();
-        for (List<String> reps : module.roster().values()) {
-            for (String name : reps) {
-                Player player = Bukkit.getPlayerExact(name);
-                if (player == null) {
-                    sender.sendMessage("§c" + name + " がオンラインではありません。移送しませんでした");
-                    return;
-                }
-                players.add(player);
+        // 出場者を先に全員ぶん決める。途中で止めると、一部だけが会場に残ってしまう
+        Set<String> online = new HashSet<>();
+        Set<String> unavailable = new HashSet<>();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            online.add(player.getName());
+            if (module.arena().isInside(player)) {
+                // 前回の退避が残っている者は、戻すまで次の出場者にしない
+                unavailable.add(player.getName());
             }
         }
+        // 他国の登録代表者は、オフラインでも代わりの候補から外す
+        module.roster().values().forEach(unavailable::addAll);
+
+        Map<String, List<String>> lineup = new LinkedHashMap<>();
+        List<String> substitutes = new ArrayList<>();
+        Map<String, String> substituteNations = new LinkedHashMap<>();
+        for (Map.Entry<String, List<String>> entry : module.roster().entrySet()) {
+            String nation = entry.getKey();
+            List<String> registered = entry.getValue();
+            List<String> vassalMembers = new ArrayList<>();
+            for (String vassal : module.ledger().vassalsOf(nation)) {
+                vassalMembers.addAll(onlineNames(vassal));
+            }
+            Set<String> blocked = new HashSet<>(unavailable);
+            registered.forEach(blocked::remove);
+            List<String> chosen = WorldCouncilRoster.fillRepresentatives(registered, online,
+                    onlineNames(nation), vassalMembers, blocked, random);
+            if (chosen.size() < WorldCouncilRoster.REPRESENTATIVES_PER_NATION) {
+                sender.sendMessage("§c" + nation + " は代表者が揃いません（オンラインで出場できるのは "
+                        + chosen.size() + "/" + WorldCouncilRoster.REPRESENTATIVES_PER_NATION
+                        + "名。属国の所属者も探しました）。開催を取りやめました");
+                return;
+            }
+            for (String name : chosen) {
+                if (!registered.contains(name)) {
+                    substitutes.add(name + "（" + nation + "）");
+                    substituteNations.put(name, nation);
+                }
+            }
+            unavailable.addAll(chosen);
+            lineup.put(nation, chosen);
+        }
+        List<Player> players = new ArrayList<>();
+        lineup.values().forEach(names -> names.forEach(
+                name -> players.add(Bukkit.getPlayerExact(name))));
+
         List<Player> moved = new ArrayList<>();
         for (Player player : players) {
             if (!module.arena().enter(player)) {
@@ -150,8 +189,32 @@ public final class WorldCouncilCommand implements CommandExecutor {
             }
             moved.add(player);
         }
+        // 代わりに出た者を代表者として扱う（finish での復帰・回線落ちの判定に使う）
+        lineup.forEach((nation, names) -> module.roster().put(nation, new ArrayList<>(names)));
+        substituteNations.forEach((name, nation) -> {
+            Player player = Bukkit.getPlayerExact(name);
+            if (player != null) {
+                player.sendMessage("§6登録された代表者がオフラインのため、あなたが " + nation
+                        + " の代表として世界協議に招待されました");
+            }
+        });
         module.setInSession(true);
         sender.sendMessage("§a" + moved.size() + "名を専用ワールドへ移送しました");
+        if (!substitutes.isEmpty()) {
+            sender.sendMessage("§eオフラインの代表者に代わって出場: " + String.join("、", substitutes));
+        }
+    }
+
+    /** その国家に所属するオンラインのプレイヤー名。 */
+    private List<String> onlineNames(String nation) {
+        List<String> names = new ArrayList<>();
+        for (UUID id : module.ledger().playersOf(nation)) {
+            Player player = Bukkit.getPlayer(id);
+            if (player != null) {
+                names.add(player.getName());
+            }
+        }
+        return names;
     }
 
     private void advanceDay(CommandSender sender) {

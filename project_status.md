@@ -18,7 +18,7 @@
 | `capacity_plan.md` / `mod_rulings.md` | 収容計画 / Mod の判例集 | 初版のまま |
 | `rail_infra_spec.md` | 地下鉄インフラ管理プラグインの要件定義。Vault・Towny/Lands は使わず、自作の代用データで済ませる方針に変更 | **`core`（`jp.mcserver.core.rail`、検証48件）・`plugin`（`jp.mcserver.plugin.rail`、SQLite永続化・`/rail`コマンド）とも実装済み。実機では Paper 1.26.3 でビルド・読み込みと `setnation`・`deposit`・`check` まで確認済み、F-01 以降は未確認**。国家代用データ（国庫等）は `NationLedger` へ切り出し、世界協議と共有する構成に変更 |
 | `world_council_spec.md` | 世界協議（BLOCK CONQUESTを用いた国家対抗イベント）の要件定義。国家資格判定・専用ワールド移送・還付の統合レイヤーのみが対象（ユーザーへ確認して決定） | **`core`（`jp.mcserver.core.worldcouncil`、検証22件）・`plugin`（`jp.mcserver.plugin.worldcouncil`、`/worldcouncil`コマンド）とも実装済み。ビルド・読み込みは確認済み、機能の実機検証は未実施。参加者の持ち物の退避はファイルに書き、再起動・回線落ちでも失わない。BLOCK CONQUEST本体（盤面・カード・進行のデータパック）は仕様のみで実装は未着手** |
-| `core/` | サーバー非依存のロジック（Java、外部依存なし） | 検証 **1,268 件** 成功 |
+| `core/` | サーバー非依存のロジック（Java、外部依存なし） | 検証 **1,275 件** 成功 |
 | `plugin/` | Paper 1.26.3（移行予定・最新版に追従）の検証用プラグイン | 騎士型・虚刃の衛士・村人の取引・『消滅の呪い』・開催の一巡・レイド専用次元・**地下鉄インフラ（rail_infra_spec.md）**・**世界協議（world_council_spec.md）**・**モブの除外6種と交配クールダウン20%軽減（§1.4）**まで実装済み。**paper-api を1.21.4→1.26.3へ変更したため、実機ビルドはまだ誰も試していない** |
 | `resourcepack/` | リソースパック。較正用の立方体、生成した雛形、塗り絵 | 雛形 **騎士型29件 + 虚刃の衛士7件**。**塗り絵は騎士型11枚が描き込み済み、虚刃の衛士5枚は下地のみ**（手順は `PAINTING.md`） |
 
@@ -238,7 +238,7 @@
 
 | 手段 | 状態 |
 |---|---|
-| `./core/run-tests.sh` | **1,268 件成功**。Bukkit に依存しないロジックを網羅 |
+| `./core/run-tests.sh` | **1,275 件成功**。Bukkit に依存しないロジックを網羅 |
 | `./core/simulate-knight.sh` | 戦闘をオフラインで再現。12名・8DPS で討伐 約1分 |
 | `./core/dump-rig.sh` | 表示へ送るべき配置を数値で出す |
 | `./core/sketch-knight.sh` | 骨格の略図（SVG） |

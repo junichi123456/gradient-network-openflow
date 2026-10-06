@@ -1,6 +1,9 @@
 package jp.mcserver.core.worldcouncil;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.random.RandomGenerator;
 
 /**
  * 「世界協議」の参加登録。
@@ -61,6 +64,57 @@ public final class WorldCouncilRoster {
             return new Check(false, Denial.DUPLICATE_REPRESENTATIVE, "既に他国の代表者として登録されています");
         }
         return new Check(true, Denial.NONE, "追加できます");
+    }
+
+    /**
+     * 開始時に実際に出場する代表者を決める（参加優先度）。
+     *
+     * <ol>
+     *   <li>登録した代表者のうちオンラインの者（登録順）</li>
+     *   <li>足りなければ、その国家に所属するオンラインの者をランダムな順で</li>
+     *   <li>それでも足りなければ、その国家の属国に所属するオンラインの者をランダムな順で
+     *       （属国は宗主国の枠に含める。{@link WorldCouncilEligibility#effectiveNation}）</li>
+     * </ol>
+     *
+     * <p>役職は見ない（ユーザーへ確認して決定。役職のデータがまだ無い）。
+     * {@link #REPRESENTATIVES_PER_NATION} 名に届かなければ、届いた分だけを返す。
+     * 揃ったかは呼び出し側が人数で判断する。
+     *
+     * @param registered      登録した代表者
+     * @param online          いまオンラインのプレイヤー名
+     * @param nationMembers   その国家に所属するプレイヤー名
+     * @param vassalMembers   その国家の属国に所属するプレイヤー名
+     * @param unavailable     他国の代表者・他国の代わりに選ばれた者など、選んではならない名前
+     * @param random          候補を並べる乱数
+     */
+    public static List<String> fillRepresentatives(List<String> registered, Set<String> online,
+                                                   List<String> nationMembers,
+                                                   List<String> vassalMembers,
+                                                   Set<String> unavailable,
+                                                   RandomGenerator random) {
+        List<String> chosen = new ArrayList<>();
+        for (String name : registered) {
+            take(chosen, name, online, unavailable);
+        }
+        for (List<String> pool : List.of(nationMembers, vassalMembers)) {
+            List<String> shuffled = new ArrayList<>(pool);
+            for (int i = shuffled.size() - 1; i > 0; i--) {
+                java.util.Collections.swap(shuffled, i, random.nextInt(i + 1));
+            }
+            for (String name : shuffled) {
+                take(chosen, name, online, unavailable);
+            }
+        }
+        return chosen;
+    }
+
+    private static void take(List<String> chosen, String name, Set<String> online,
+                             Set<String> unavailable) {
+        if (chosen.size() >= REPRESENTATIVES_PER_NATION || chosen.contains(name)
+                || !online.contains(name) || unavailable.contains(name)) {
+            return;
+        }
+        chosen.add(name);
     }
 
     /** 4か国×2名が揃い、開催可能な状態か。 */

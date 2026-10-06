@@ -4149,6 +4149,35 @@ public final class CoreTests {
                 new WorldCouncilRoster.Entry("C国", List.of("c1", "c2")),
                 new WorldCouncilRoster.Entry("D国", List.of("d1", "d2")))));
 
+        // 開始時の代わりの選出：登録者（オンライン）→ 自国の所属者 → 属国の所属者
+        var rng = new java.util.Random(1);
+        check("登録した代表者が2名ともオンラインなら、そのまま出場する",
+                WorldCouncilRoster.fillRepresentatives(List.of("a1", "a2"), Set.of("a1", "a2", "m1"),
+                        List.of("m1"), List.of(), Set.of(), rng).equals(List.of("a1", "a2")));
+        check("1名がオフラインなら、自国のオンラインの所属者で埋める",
+                WorldCouncilRoster.fillRepresentatives(List.of("a1", "a2"), Set.of("a1", "m1"),
+                        List.of("m1", "m2"), List.of("v1"), Set.of(), rng).equals(List.of("a1", "m1")));
+        check("自国に候補がいなければ、属国の所属者で埋める",
+                WorldCouncilRoster.fillRepresentatives(List.of("a1", "a2"), Set.of("v1"),
+                        List.of("m1"), List.of("v1"), Set.of(), rng).equals(List.of("v1")));
+        check("自国の候補は属国の候補より先に選ばれる",
+                WorldCouncilRoster.fillRepresentatives(List.of("a1", "a2"), Set.of("m1", "v1", "v2"),
+                        List.of("m1"), List.of("v1", "v2"), Set.of(), rng).get(0).equals("m1"));
+        check("他国の代表者は代わりに選ばれない",
+                WorldCouncilRoster.fillRepresentatives(List.of("a1", "a2"), Set.of("a1", "b1"),
+                        List.of("b1"), List.of(), Set.of("b1"), rng).equals(List.of("a1")));
+        check("登録者と所属者が重なっても二重に数えない",
+                WorldCouncilRoster.fillRepresentatives(List.of("a1", "a2"), Set.of("a1"),
+                        List.of("a1"), List.of(), Set.of(), rng).equals(List.of("a1")));
+        java.util.Set<String> firstPicks = new java.util.HashSet<>();
+        for (int seed = 0; seed < 50; seed++) {
+            firstPicks.add(WorldCouncilRoster.fillRepresentatives(List.of("x1", "x2"),
+                    Set.of("m1", "m2", "m3"), List.of("m1", "m2", "m3"), List.of(), Set.of(),
+                    new java.util.Random(seed)).get(0));
+        }
+        check("同じ立場の候補はランダムな順で選ばれる（50回で複数の人が先頭に来る）",
+                firstPicks.size() > 1);
+
         // 最終順位：BLOCK CONQUEST §7.5 と同じ判定（合計得点→得点差→共同優勝）
         var ranked = WorldCouncilRanking.rank(List.of(
                 new WorldCouncilRanking.Entry("A国", 50, 4),
