@@ -50,7 +50,7 @@ public final class RaidSpecies {
             return java.util.Optional.ofNullable(walk);
         }
 
-        /** 標準の待機40tick・移動20tick。 */
+        /** 標準の待機（{@link MotionSpec#DEFAULT_IDLE_TICKS}）・移動20tick。 */
         public static Behavior standard(double blocksPer20Ticks) {
             return new Behavior(MotionSpec.DEFAULT_IDLE_TICKS, 20, blocksPer20Ticks);
         }
@@ -115,7 +115,7 @@ public final class RaidSpecies {
             this(name, healthThreshold, motions, gimmick, invulnerableUnless, behavior, null);
         }
 
-        /** 標準の行動サイクル（待機40tick・移動20tick）を用いる段階。 */
+        /** 標準の行動サイクル（待機80tick・移動20tick）を用いる段階。 */
         public Phase(String name, int healthThreshold, List<MotionSpec> motions, String gimmick,
                      String invulnerableUnless, double blocksPer20Ticks) {
             this(name, healthThreshold, motions, gimmick, invulnerableUnless,

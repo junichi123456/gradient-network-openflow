@@ -264,8 +264,8 @@ public final class HollowGuardDefinition {
     }
 
     /**
-     * シールドマッシュ。剣を縦に構えて5ブロック体当たりする。剣は{@link Rig.Part#immune()}
-     * であり、殴っても個体にダメージは通らない（騎士型の槍と同じ扱い）。
+     * シールドマッシュ。剣を縦に構えて5ブロック体当たりする。剣を殴った攻撃は
+     * {@link #SWORD_DAMAGE_MULTIPLIER}（80%）だけ個体へ通る（{@link Rig.Part#reducedDamage}）。
      *
      * <p><b>ダメージは軽く、主目的はノックバックによる押しのけである。</b>正面へ構えた剣が
      * 盾のように機能し、それ自体が判定源として当たったプレイヤーを押し出す。

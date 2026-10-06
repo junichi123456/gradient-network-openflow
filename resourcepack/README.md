@@ -157,7 +157,7 @@ resource-pack-prompt=騎士型の見た目に必要です
 
 | ファイル | 役割 | 生成 |
 |---|---|---|
-| `pack.mcmeta` | パックの宣言。`pack_format 46` は 1.21.4 | 手書き |
+| `pack.mcmeta` | パックの宣言。`pack_format 46` は 1.21.4（`supported_formats` で 42〜61 を許す）。**1.26.3 のクライアントで「互換性なし」と出ないかは実機で未確認**。出たら数値を上げる | 手書き |
 | `assets/minecraft/items/paper.json` | `custom_model_data` からモデルへの振り分け（**騎士型・虚刃の衛士の両種目ぶんをまとめる**） | **自動**（上書き） |
 | `assets/minecraft/models/knight/p1/*.json` | 騎士型・第一形態の部位（13件） | **自動**（上書き） |
 | `assets/minecraft/models/knight/p2/*.json` | 騎士型・第二形態の部位（16件） | **自動**（上書き） |

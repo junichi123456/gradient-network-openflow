@@ -6,7 +6,7 @@ Bukkit / Paper API への依存を一切持たない純粋な Java であり、`
 ## 実行
 
 ```sh
-./run-tests.sh                     # 検証（1258件）
+./run-tests.sh                     # 検証（1268件）
 ./simulate-knight.sh 20 8 80       # 騎士型の戦闘をオフラインで再現
 ./generate-pack.sh                 # リソースパックの雛形を骨格から生成
 ./dump-rig.sh 1 0                  # 表示へ送るべき配置（実機の /raid dump と比べる）

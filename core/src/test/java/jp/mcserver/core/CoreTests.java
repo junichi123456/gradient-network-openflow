@@ -2671,7 +2671,7 @@ public final class CoreTests {
                 thrown(() -> first.motion("踏みつけ")));
 
         // 一撃の重さ
-        check("第一形態の最も重い一撃は突進の30",
+        check("第一形態の最も重いモーションは3段突きの合計60",
                 first.heaviestMotionMaxDamage() == 60.0);
         check("第二形態の最も重い一撃は3段突きの合計72",
                 second.heaviestMotionMaxDamage() == 72.0);

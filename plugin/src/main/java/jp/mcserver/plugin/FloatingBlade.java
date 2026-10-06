@@ -3,8 +3,9 @@ package jp.mcserver.plugin;
 /**
  * 特殊系統（浮遊する剣）の1本。{@link SpecialTrack} が生成・保持・破棄する。
  *
- * <p>4種（{@code RainBlade}・{@code SlashBlade}・{@code SpikeBlade}・{@code WhirlBlade}）は
- * 移動の法則がそれぞれ異なるため別クラスに分けるが、駆動する側からは同じ形で扱えればよい。
+ * <p>移動の法則ごとに3クラスある。降り注ぐ刃は {@code RainBlade}、串刺しは {@code SpikeBlade}、
+ * 空間斬撃と全域大旋回はどちらも追尾直進なので {@code HomingBlade} を共有する。
+ * 駆動する側からは同じ形で扱えればよい。
  */
 interface FloatingBlade {
 

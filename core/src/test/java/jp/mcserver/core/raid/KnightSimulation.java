@@ -82,8 +82,8 @@ public final class KnightSimulation {
         }
 
         System.out.println("=== 騎士型 オフライン検証 ===");
-        System.out.printf("参加人数 %d / 体力 %,d（基準600 × %.1f倍）%n",
-                participants, fight.maxHealth,
+        System.out.printf("参加人数 %d / 体力 %,d（基準%,d × %.1f倍）%n",
+                participants, fight.maxHealth, fight.boss.baseHealth(),
                 Raid.difficulty(participants).healthMultiplier());
         System.out.printf("1人あたりDPS %.1f / 被ダメ軽減 %.0f%% / パリイ区間の攻撃通過率 %.0f%% / 制限時間 %d分%n",
                 dpsPerPlayer, reductionPercent, parryPercent, Raid.TIME_LIMIT_MINUTES);

@@ -269,12 +269,8 @@ public record MotionSpec(String name, Animation animation, Idle idleAfter,
      * @param topSpeedPer20Ticks    到達する速度（20tickあたりのブロック数）
      * @param accelerationTicks     走り出しから到達速度までの tick
      * @param distanceBlocks        開始位置から走る距離
-     */
-    /**
-     * 突進。
-     *
-     * @param homingDegrees        走りながら追う角度（片側の度数）。0 なら向きを変えない
-     * @param centerCorridorBlocks 中心から何ブロック以内を通るか。0 なら拘束しない
+     * @param homingDegrees         走りながら追う角度（片側の度数）。0 なら向きを変えない
+     * @param centerCorridorBlocks  中心から何ブロック以内を通るか。0 なら拘束しない
      */
     public record Charge(int startTick, double backstepBlocks, int backstepTicks,
                          double startSpeedPer20Ticks, double topSpeedPer20Ticks,
@@ -389,7 +385,6 @@ public record MotionSpec(String name, Animation animation, Idle idleAfter,
         }
     }
 
-    /** 円周上の移動。 */
     /**
      * 円周を回る移動。
      *
