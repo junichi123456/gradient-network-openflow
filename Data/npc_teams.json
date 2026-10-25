@@ -194,7 +194,7 @@
       {
         "species_id": "084",
         "move_ids": [
-          "gap_dark_p_105",
+          "void_gap_dark_p_105",
           "gap_grass_s_90",
           "MVP_011",
           "gap_dragon_s_50"
@@ -321,7 +321,7 @@
         "species_id": "041B",
         "move_ids": [
           "MV_199",
-          "dark_wisp",
+          "void_dark_wisp",
           "comet",
           "MV_217"
         ],
@@ -416,7 +416,7 @@
       {
         "species_id": "157B",
         "move_ids": [
-          "MVP_179",
+          "void_MVP_179",
           "MVP_152",
           "MV_211",
           "MV_258"
@@ -427,7 +427,7 @@
         "species_id": "138B",
         "move_ids": [
           "MV_279",
-          "gap_dark_s_95",
+          "void_gap_dark_s_95",
           "gap_dragon_s_80",
           "mvn_018"
         ],
@@ -467,7 +467,7 @@
         "species_id": "196",
         "move_ids": [
           "MV_098",
-          "gap_dark_s_120",
+          "void_gap_dark_s_120",
           "MVP_011",
           "MVP_082"
         ],

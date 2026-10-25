@@ -55,12 +55,12 @@ public static class TacticalBuilder
     }
 
     private static Dictionary<string, Profile> _profiles;
-    private static float[,] _mult;              // 属性相性 9x9（毎回引くと重い）
+    private static float[,] _mult;              // 属性相性 10x10（毎回引くと重い）
     private static List<string> _heldItems;
 
     private static readonly Element[] Elements =
         { Element.Neutral, Element.Fire, Element.Water, Element.Grass,
-          Element.Electric, Element.Ground, Element.Ice, Element.Dragon, Element.Dark };
+          Element.Electric, Element.Ground, Element.Ice, Element.Dragon, Element.Dark, Element.Void };
 
     public static IReadOnlyDictionary<string, Profile> Profiles
     {
@@ -71,9 +71,9 @@ public static class TacticalBuilder
     {
         if (_profiles != null) return;
 
-        _mult = new float[9, 9];
-        for (int a = 0; a < 9; a++)
-            for (int d = 0; d < 9; d++)
+        _mult = new float[Elements.Length, Elements.Length];
+        for (int a = 0; a < Elements.Length; a++)
+            for (int d = 0; d < Elements.Length; d++)
                 _mult[a, d] = TypeChartManager.GetMultiplier(
                     Elements[a].ToString(), Elements[d].ToString());
 
@@ -112,7 +112,7 @@ public static class TacticalBuilder
                         : sp.Trait == "yukisuberi" ? WeatherType.Snow : WeatherType.None,
             Attacks = moves.Where(m => m.Power > 0).ToList(),
             Statuses = moves.Where(m => m.Power <= 0).ToList(),
-            BestPowerByType = new float[9],
+            BestPowerByType = new float[Elements.Length],
         };
 
         foreach (var m in p.Attacks)
@@ -204,7 +204,7 @@ public static class TacticalBuilder
         foreach (var ft in foeTypes)
         {
             float best = 0f;
-            for (int t = 0; t < 9; t++)
+            for (int t = 0; t < Elements.Length; t++)
             {
                 if (me.BestPowerByType[t] <= 0f) continue;
                 best = Mathf.Max(best, me.BestPowerByType[t] * Mult(Elements[t], ft));

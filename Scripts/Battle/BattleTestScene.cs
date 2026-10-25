@@ -71,6 +71,7 @@ public partial class BattleTestScene : Node2D
         VerifyFlow(BuildTeam(PlayerRoster), BuildTeam(EnemyRoster));
         VerifyNetwork(BuildTeam(PlayerRoster));
         VerifyCycleTick();
+        VerifyVoidType();
         RunBattle();
 
         GetTree().Quit();
@@ -607,6 +608,90 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 優先度が種族値を上書きする: "
                  + $"{(byPriority[0].Actor == high ? "OK" : "NG")} "
                  + $"({byPriority[0].Actor.ActorName}(BST{BattleScheduler.Bst(byPriority[0].Actor)}, 優先度1) が先)");
+    }
+
+    // 虚(Void)属性: 相性表・個体数・learnset・虚技が仕様どおりに入っていること。
+    private void VerifyVoidType()
+    {
+        // 1. 相性表が10属性で、Element enum と同じ名前・同じ順序。
+        var names = System.Enum.GetNames<Element>();
+        string[] chartTypes;
+        using (var f = FileAccess.Open("res://Data/type_chart.json", FileAccess.ModeFlags.Read))
+        {
+            using var doc = System.Text.Json.JsonDocument.Parse(f.GetAsText());
+            chartTypes = doc.RootElement.GetProperty("types").EnumerateArray()
+                            .Select(e => e.GetString()).ToArray();
+        }
+        bool typesOk = chartTypes.Length == 10 && names.Length == 10 && chartTypes.SequenceEqual(names);
+        GD.Print($"[検証] 相性表が10属性で Element と一致: {(typesOk ? "OK" : "NG")} "
+                 + $"(types={chartTypes.Length} enum={names.Length})");
+
+        // 2. 虚の6マス。
+        (string atk, string def, float want)[] cells =
+        {
+            ("Fire", "Void", 0.5f), ("Dark", "Void", 0.5f), ("Ice", "Void", 2.0f),
+            ("Neutral", "Void", 2.0f), ("Void", "Neutral", 0.5f), ("Void", "Fire", 2.0f),
+        };
+        var badCells = cells.Where(c => TypeChartManager.GetMultiplier(c.atk, c.def) != c.want)
+                            .Select(c => $"{c.atk}->{c.def}={TypeChartManager.GetMultiplier(c.atk, c.def)}").ToList();
+        GD.Print($"[検証] 虚の6マス(炎→虚0.5/闇→虚0.5/氷→虚2.0/無→虚2.0/虚→無0.5/虚→炎2.0): "
+                 + $"{(badCells.Count == 0 ? "OK" : "NG " + string.Join(",", badCells))}");
+
+        // 3. 既存81マスが変わっていない（変更前の 9x9 を埋め込んで比較）。行=攻撃、列=防御。
+        string[] old9 = { "Neutral", "Fire", "Water", "Grass", "Electric", "Ground", "Ice", "Dragon", "Dark" };
+        float[][] oldMatrix =
+        {
+            new[] { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 0.5f },
+            new[] { 1f, 1f, 0.5f, 2f, 1f, 1f, 2f, 1f, 1f },
+            new[] { 1f, 2f, 1f, 1f, 0.5f, 1f, 1f, 1f, 1f },
+            new[] { 1f, 0.5f, 1f, 1f, 1f, 2f, 1f, 1f, 1f },
+            new[] { 1f, 1f, 2f, 1f, 1f, 0.5f, 1f, 1f, 1f },
+            new[] { 1f, 1f, 1f, 0.5f, 2f, 1f, 1f, 1f, 1f },
+            new[] { 1f, 0.5f, 1f, 1f, 1f, 1f, 1f, 2f, 1f },
+            new[] { 1f, 1f, 1f, 1f, 1f, 1f, 0.5f, 1f, 2f },
+            new[] { 2f, 1f, 1f, 1f, 1f, 1f, 1f, 0.5f, 1f },
+        };
+        int changed = 0;
+        for (int a = 0; a < 9; a++)
+            for (int d = 0; d < 9; d++)
+                if (TypeChartManager.GetMultiplier(old9[a], old9[d]) != oldMatrix[a][d]) changed++;
+        GD.Print($"[検証] 既存81マスが変わっていない: {(changed == 0 ? "OK" : "NG")} (相違{changed}マス)");
+
+        // 4. 個体数（二重属性は両方に計上）: 虚30・闇46・水45。
+        var all = SpeciesDatabase.Instance.All.Values.ToList();
+        int nVoid = all.Count(sp => sp.Types.Contains(Element.Void));
+        int nDark = all.Count(sp => sp.Types.Contains(Element.Dark));
+        int nWater = all.Count(sp => sp.Types.Contains(Element.Water));
+        GD.Print($"[検証] 個体数 虚30・闇46・水45: {(nVoid == 30 && nDark == 46 && nWater == 45 ? "OK" : "NG")} "
+                 + $"(虚{nVoid} 闇{nDark} 水{nWater})");
+
+        // 5. 虚の30種の learnset: 闇(水→虚の047・055は水)の攻撃技が0件、虚の攻撃技が1件以上。
+        var leftover = new List<string>();
+        foreach (var sp in all.Where(sp => sp.Types.Contains(Element.Void)))
+        {
+            string banned = sp.SpeciesId is "047" or "055" ? "Water" : "Dark";
+            var moves = sp.Learnset.Select(l => MoveDatabase.Get(l.MoveId)).Where(m => m != null && m.Power > 0).ToList();
+            if (moves.Any(m => m.Type == banned)) leftover.Add($"{sp.SpeciesId}:{banned}技あり");
+            if (!moves.Any(m => m.Type == "Void")) leftover.Add($"{sp.SpeciesId}:虚技なし");
+        }
+        GD.Print($"[検証] 虚の個体の learnset に闇(水)の攻撃技が無く虚の攻撃技がある: "
+                 + $"{(leftover.Count == 0 ? "OK" : "NG " + string.Join(",", leftover))}");
+
+        // 6. 虚の攻撃技57件が、元の闇技と威力・分類・射程・命中・PP・接触で一致。
+        var voidMoves = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+                                    .Where(m => m.Type == "Void" && m.Power > 0).ToList();
+        var mismatch = new List<string>();
+        foreach (var v in voidMoves)
+        {
+            var src = v.Id.StartsWith("void_") ? MoveDatabase.Get(v.Id.Substring(5)) : null;
+            if (src == null || src.Type != "Dark" || src.Power != v.Power || src.Category != v.Category
+                || src.Range != v.Range || src.Accuracy != v.Accuracy || src.MaxPp != v.MaxPp
+                || src.IsContact != v.IsContact)
+                mismatch.Add(v.Id);
+        }
+        GD.Print($"[検証] 虚の攻撃技57件が元の闇技と性能一致: "
+                 + $"{(voidMoves.Count == 57 && mismatch.Count == 0 ? "OK" : "NG")} "
+                 + $"({voidMoves.Count}件 不一致{mismatch.Count})");
     }
 
     // 状態異常とランク減衰がターンではなくサイクル単位で刻まれることを見る。

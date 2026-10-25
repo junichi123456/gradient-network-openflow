@@ -8,7 +8,7 @@ opens it without mojibake.
 import json, csv, io
 
 TYPE_JA = {"Neutral":"無","Fire":"炎","Water":"水","Grass":"草","Electric":"雷",
-           "Ground":"地","Ice":"氷","Dragon":"竜","Dark":"闇"}
+           "Ground":"地","Ice":"氷","Dragon":"竜","Dark":"闇","Void":"虚"}
 CAT_JA  = {"Physical":"物理","Special":"特殊","Status":"変化"}
 MULTI_JA= {"Variable2To5":"2〜5発","RepeatPerHit":"3発(発ごと命中)"}
 

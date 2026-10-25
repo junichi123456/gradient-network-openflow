@@ -63,7 +63,8 @@ def fam_of(n):
     return None
 FAM_TAG={'ストレート':'Straight','フィスト':'Fist','ブロー':'Fist','パンチ':'Punch',
          'スラスト':'Thrust','クラッシュ':'Crush','レンド':'Rend','フラッシュ':'Flash'}
-FAM_CAP={'ストレート':10,'フィスト':8,'ブロー':6,'スラスト':10,'クラッシュ':5,'レンド':3,'フラッシュ':2}
+# 虚(Void)は闇の攻撃技の複製なので、闇に1件ずつあるストレート・スラストが虚にも1件ずつ増える（10→11）。
+FAM_CAP={'ストレート':11,'フィスト':8,'ブロー':6,'スラスト':11,'クラッシュ':5,'レンド':3,'フラッシュ':2}
 fam_bad=[]
 for f,tag in FAM_TAG.items():
     g=[m for m in ms if fam_of(m['name'])==f]
@@ -84,15 +85,16 @@ check(all(v<=2 for v in per.values()) and all(m['power']<=70 for m in punch) and
 thrust=[m for m in ms if fam_of(m['name'])=='スラスト']
 tper=collections.Counter(m['type'] for m in thrust)
 check(all(m.get('range')=='TwoTile' for m in thrust) and not any(m.get('is_contact') for m in thrust)
-      and len(thrust)==10 and tper['Neutral']==2
+      and len(thrust)==11 and tper['Neutral']==2
       and all(tper[e]==1 for e in tper if e!='Neutral'),
-      "スラスト: 10件(無属性2・他1)・全て2マス射程かつ非接触", f"{len(thrust)}件 {dict(tper)}")
+      "スラスト: 11件(無属性2・他1、虚を含む)・全て2マス射程かつ非接触", f"{len(thrust)}件 {dict(tper)}")
 
 # 系統を離れた2マス射程技は名称とタグだけを変えており、射程と非接触は維持
 loose=[m for m in ms if m.get('range')=='TwoTile' and fam_of(m['name'])!='スラスト']
-check(len(loose)==17 and all(not m.get('is_contact') and m.get('weapon_tag','None')=='None'
+check(len(loose)==19 and   # 虚の複製で闇の2件ぶん増える（17→19）
+       all(not m.get('is_contact') and m.get('weapon_tag','None')=='None'
                              for m in loose),
-      "系統外の2マス射程17件: 非接触のままタグなし", f"{len(loose)}件")
+      "系統外の2マス射程19件: 非接触のままタグなし", f"{len(loose)}件")
 
 flash=[m for m in ms if fam_of(m['name'])=='フラッシュ']
 check(all(m['power']==50 and not m.get('is_contact') and m.get('is_guaranteed_hit')
@@ -143,7 +145,8 @@ check(not any(m.get('is_contact') and m.get('range','Adjacent')!='Adjacent' for 
 # ため、Adjacent（唯一の無制限射程）を使わないとグリッドを埋められない。
 # 射程持ちの特殊技が上限内に収まっていることだけ確認する。
 rc=collections.Counter(m.get('range','Adjacent') for m in spe)
-check(rc['Line']<=54 and rc['Area']<=18 and rc['Room']<=36,
+# 属性が10になったので上限の総和は 6/2/4 x 10 = 60/20/40。
+check(rc['Line']<=60 and rc['Area']<=20 and rc['Room']<=40,
       "射程持ちの特殊技が属性上限の総和内", str(dict(rc)))
 
 # §4 - every range change must have been paid for, given the recorded

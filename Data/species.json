@@ -2473,12 +2473,12 @@
     "sprite_key": "016",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -2490,15 +2490,15 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
+        "move_id": "void_MV_127"
       },
       {
         "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 6,
-        "move_id": "gap_dark_p_30"
+        "move_id": "void_gap_dark_p_30"
       },
       {
         "level": 7,
@@ -2510,15 +2510,15 @@
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
-        "move_id": "MVP_161"
+        "move_id": "void_MVP_161"
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "void_mvn_093"
       },
       {
         "level": 10,
@@ -2530,7 +2530,7 @@
       },
       {
         "level": 11,
-        "move_id": "MVP_164"
+        "move_id": "void_MVP_164"
       },
       {
         "level": 11,
@@ -2554,7 +2554,7 @@
       },
       {
         "level": 11,
-        "move_id": "mvn_099"
+        "move_id": "void_mvn_099"
       },
       {
         "level": 12,
@@ -2566,35 +2566,35 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "void_MVP_166"
       },
       {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "void_nightmare_ball"
       },
       {
         "level": 15,
-        "move_id": "gap_dark_s_75"
+        "move_id": "void_gap_dark_s_75"
       },
       {
         "level": 16,
-        "move_id": "MVP_171"
+        "move_id": "void_MVP_171"
       },
       {
         "level": 16,
-        "move_id": "gap_dark_s_80"
+        "move_id": "void_gap_dark_s_80"
       },
       {
         "level": 18,
-        "move_id": "dark_laser"
+        "move_id": "void_dark_laser"
       },
       {
         "level": 23,
-        "move_id": "gap_dark_s_115"
+        "move_id": "void_gap_dark_s_115"
       }
     ],
     "evolution": null,
@@ -3586,28 +3586,28 @@
     "sprite_key": "022",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 5,
-        "move_id": "gap_dark_p_25"
+        "move_id": "void_gap_dark_p_25"
       },
       {
         "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 7,
-        "move_id": "MV_123"
+        "move_id": "void_MV_123"
       },
       {
         "level": 7,
@@ -3619,15 +3619,15 @@
       },
       {
         "level": 8,
-        "move_id": "MV_125"
+        "move_id": "void_MV_125"
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "void_mvn_093"
       },
       {
         "level": 10,
-        "move_id": "MVP_162"
+        "move_id": "void_MVP_162"
       },
       {
         "level": 10,
@@ -3643,7 +3643,7 @@
       },
       {
         "level": 11,
-        "move_id": "MV_128"
+        "move_id": "void_MV_128"
       },
       {
         "level": 13,
@@ -3655,7 +3655,7 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
@@ -3663,7 +3663,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "void_MVP_166"
       },
       {
         "level": 14,
@@ -3679,11 +3679,11 @@
       },
       {
         "level": 15,
-        "move_id": "MVP_169"
+        "move_id": "void_MVP_169"
       },
       {
         "level": 15,
-        "move_id": "gap_dark_s_75"
+        "move_id": "void_gap_dark_s_75"
       },
       {
         "level": 16,
@@ -3691,7 +3691,7 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_171"
+        "move_id": "void_MVP_171"
       },
       {
         "level": 17,
@@ -3699,15 +3699,15 @@
       },
       {
         "level": 18,
-        "move_id": "MVP_174"
+        "move_id": "void_MVP_174"
       },
       {
         "level": 18,
-        "move_id": "dark_laser"
+        "move_id": "void_dark_laser"
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       }
     ],
     "evolution": null,
@@ -4339,16 +4339,16 @@
     "sprite_key": "027",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -4364,39 +4364,39 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
+        "move_id": "void_MV_127"
       },
       {
         "level": 7,
-        "move_id": "gap_dark_s_35"
+        "move_id": "void_gap_dark_s_35"
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
-        "move_id": "MVP_161"
+        "move_id": "void_MVP_161"
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "void_gap_dark_s_50"
       },
       {
         "level": 12,
-        "move_id": "mvn_098"
+        "move_id": "void_mvn_098"
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "void_MVP_167"
       },
       {
         "level": 14,
-        "move_id": "nightmare_pulse"
+        "move_id": "void_nightmare_pulse"
       },
       {
         "level": 15,
@@ -4412,7 +4412,7 @@
       },
       {
         "level": 16,
-        "move_id": "gap_dark_s_80"
+        "move_id": "void_gap_dark_s_80"
       },
       {
         "level": 16,
@@ -4428,7 +4428,7 @@
       },
       {
         "level": 18,
-        "move_id": "dark_laser"
+        "move_id": "void_dark_laser"
       },
       {
         "level": 18,
@@ -4436,15 +4436,15 @@
       },
       {
         "level": 20,
-        "move_id": "gap_dark_s_100"
+        "move_id": "void_gap_dark_s_100"
       },
       {
         "level": 21,
-        "move_id": "MV_136"
+        "move_id": "void_MV_136"
       },
       {
         "level": 24,
-        "move_id": "gap_dark_s_120"
+        "move_id": "void_gap_dark_s_120"
       }
     ],
     "evolution": null,
@@ -4961,7 +4961,7 @@
     "sprite_key": "030",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark",
+      "Void",
       "Water"
     ],
     "learnset": [
@@ -4991,15 +4991,15 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
+        "move_id": "void_MV_127"
       },
       {
         "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 6,
-        "move_id": "gap_dark_p_30"
+        "move_id": "void_gap_dark_p_30"
       },
       {
         "level": 6,
@@ -5007,7 +5007,7 @@
       },
       {
         "level": 7,
-        "move_id": "gap_dark_s_35"
+        "move_id": "void_gap_dark_s_35"
       },
       {
         "level": 7,
@@ -5031,7 +5031,7 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "void_mvn_093"
       },
       {
         "level": 10,
@@ -5055,7 +5055,7 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
@@ -5063,11 +5063,11 @@
       },
       {
         "level": 14,
-        "move_id": "nightmare_pulse"
+        "move_id": "void_nightmare_pulse"
       },
       {
         "level": 15,
-        "move_id": "MVP_169"
+        "move_id": "void_MVP_169"
       },
       {
         "level": 15,
@@ -5075,7 +5075,7 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_170"
+        "move_id": "void_MVP_170"
       },
       {
         "level": 16,
@@ -5083,15 +5083,15 @@
       },
       {
         "level": 17,
-        "move_id": "dark_wisp"
+        "move_id": "void_dark_wisp"
       },
       {
         "level": 18,
-        "move_id": "MVP_174"
+        "move_id": "void_MVP_174"
       },
       {
         "level": 18,
-        "move_id": "dark_laser"
+        "move_id": "void_dark_laser"
       },
       {
         "level": 21,
@@ -5864,16 +5864,16 @@
     "sprite_key": "034B",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -5885,7 +5885,7 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
+        "move_id": "void_MV_127"
       },
       {
         "level": 5,
@@ -5897,7 +5897,7 @@
       },
       {
         "level": 7,
-        "move_id": "gap_dark_s_35"
+        "move_id": "void_gap_dark_s_35"
       },
       {
         "level": 7,
@@ -5909,11 +5909,11 @@
       },
       {
         "level": 9,
-        "move_id": "MVP_161"
+        "move_id": "void_MVP_161"
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "void_mvn_093"
       },
       {
         "level": 10,
@@ -5921,27 +5921,27 @@
       },
       {
         "level": 11,
-        "move_id": "mvn_099"
+        "move_id": "void_mvn_099"
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "void_MVP_167"
       },
       {
         "level": 15,
-        "move_id": "gap_dark_s_75"
+        "move_id": "void_gap_dark_s_75"
       },
       {
         "level": 17,
-        "move_id": "dark_wisp"
+        "move_id": "void_dark_wisp"
       },
       {
         "level": 19,
-        "move_id": "gap_dark_s_95"
+        "move_id": "void_gap_dark_s_95"
       },
       {
         "level": 19,
@@ -5957,11 +5957,11 @@
       },
       {
         "level": 21,
-        "move_id": "MV_136"
+        "move_id": "void_MV_136"
       },
       {
         "level": 24,
-        "move_id": "gap_dark_s_120"
+        "move_id": "void_gap_dark_s_120"
       }
     ],
     "evolution": null,
@@ -7166,7 +7166,7 @@
     "default_visual_scale": 1.0,
     "types": [
       "Water",
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
@@ -7175,7 +7175,7 @@
       },
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
@@ -7191,11 +7191,11 @@
       },
       {
         "level": 4,
-        "move_id": "mvn_092"
+        "move_id": "void_mvn_092"
       },
       {
         "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 7,
@@ -7219,7 +7219,7 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "void_mvn_093"
       },
       {
         "level": 10,
@@ -7231,7 +7231,7 @@
       },
       {
         "level": 11,
-        "move_id": "mvn_099"
+        "move_id": "void_mvn_099"
       },
       {
         "level": 12,
@@ -7243,15 +7243,15 @@
       },
       {
         "level": 15,
-        "move_id": "MVP_169"
+        "move_id": "void_MVP_169"
       },
       {
         "level": 15,
-        "move_id": "gap_dark_s_75"
+        "move_id": "void_gap_dark_s_75"
       },
       {
         "level": 16,
-        "move_id": "gap_dark_s_80"
+        "move_id": "void_gap_dark_s_80"
       },
       {
         "level": 18,
@@ -7285,7 +7285,7 @@
     "default_visual_scale": 1.0,
     "types": [
       "Ice",
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
@@ -7294,11 +7294,11 @@
       },
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -7330,7 +7330,7 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "void_mvn_093"
       },
       {
         "level": 9,
@@ -7346,7 +7346,7 @@
       },
       {
         "level": 11,
-        "move_id": "MVP_164"
+        "move_id": "void_MVP_164"
       },
       {
         "level": 11,
@@ -7378,7 +7378,7 @@
       },
       {
         "level": 17,
-        "move_id": "dark_wisp"
+        "move_id": "void_dark_wisp"
       },
       {
         "level": 18,
@@ -8332,7 +8332,7 @@
     "sprite_key": "047",
     "default_visual_scale": 1.0,
     "types": [
-      "Water"
+      "Void"
     ],
     "learnset": [
       {
@@ -8341,11 +8341,11 @@
       },
       {
         "level": 3,
-        "move_id": "gap_water_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_023"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -8353,11 +8353,11 @@
       },
       {
         "level": 5,
-        "move_id": "aqua_gun"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 6,
-        "move_id": "gap_water_s_30"
+        "move_id": "void_gap_dark_s_35"
       },
       {
         "level": 7,
@@ -8369,7 +8369,7 @@
       },
       {
         "level": 8,
-        "move_id": "gap_water_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
@@ -8377,15 +8377,15 @@
       },
       {
         "level": 10,
-        "move_id": "MVP_059"
+        "move_id": "void_MVP_162"
       },
       {
         "level": 10,
-        "move_id": "gap_water_s_50"
+        "move_id": "void_gap_dark_s_50"
       },
       {
         "level": 11,
-        "move_id": "MV_217"
+        "move_id": "void_mvn_098"
       },
       {
         "level": 11,
@@ -8401,35 +8401,35 @@
       },
       {
         "level": 13,
-        "move_id": "gap_water_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 15,
-        "move_id": "MVP_048"
+        "move_id": "void_gap_dark_p_60"
       },
       {
         "level": 15,
-        "move_id": "high_pressure_water"
+        "move_id": "void_nightmare_ball"
       },
       {
         "level": 16,
-        "move_id": "MV_228"
+        "move_id": "void_dark_wisp"
       },
       {
         "level": 18,
-        "move_id": "hydro_stream"
+        "move_id": "void_dark_laser"
       },
       {
         "level": 20,
-        "move_id": "MV_223"
+        "move_id": "void_mvn_099"
       },
       {
         "level": 21,
-        "move_id": "gap_water_s_105"
+        "move_id": "void_gap_dark_s_100"
       },
       {
         "level": 25,
-        "move_id": "MV_224"
+        "move_id": "void_mvn_092"
       }
     ],
     "evolution": null,
@@ -9590,16 +9590,16 @@
     "sprite_key": "055",
     "default_visual_scale": 1.0,
     "types": [
-      "Water"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_water_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_023"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -9611,27 +9611,27 @@
       },
       {
         "level": 5,
-        "move_id": "mvh_water"
+        "move_id": "void_gap_dark_p_25"
       },
       {
         "level": 6,
-        "move_id": "gap_water_s_30"
+        "move_id": "void_gap_dark_s_35"
       },
       {
         "level": 7,
-        "move_id": "MV_212"
+        "move_id": "void_MVP_164"
       },
       {
         "level": 9,
-        "move_id": "MVP_042"
+        "move_id": "void_MVP_161"
       },
       {
         "level": 10,
-        "move_id": "MVP_044"
+        "move_id": "void_MVP_162"
       },
       {
         "level": 10,
-        "move_id": "gap_water_s_50"
+        "move_id": "void_gap_dark_s_50"
       },
       {
         "level": 10,
@@ -9647,11 +9647,11 @@
       },
       {
         "level": 11,
-        "move_id": "MV_221"
+        "move_id": "void_MV_128"
       },
       {
         "level": 12,
-        "move_id": "MV_227"
+        "move_id": "void_gap_dark_p_60"
       },
       {
         "level": 12,
@@ -9663,15 +9663,15 @@
       },
       {
         "level": 13,
-        "move_id": "gap_water_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_046"
+        "move_id": "void_MVP_166"
       },
       {
         "level": 15,
-        "move_id": "MVP_048"
+        "move_id": "void_MVP_168"
       },
       {
         "level": 15,
@@ -9679,23 +9679,23 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_051"
+        "move_id": "void_MVP_170"
       },
       {
         "level": 17,
-        "move_id": "MVP_053"
+        "move_id": "void_MVP_172"
       },
       {
         "level": 19,
-        "move_id": "MVP_056"
+        "move_id": "void_MVP_176"
       },
       {
         "level": 20,
-        "move_id": "gap_water_p_100"
+        "move_id": "void_gap_dark_p_100"
       },
       {
         "level": 23,
-        "move_id": "gap_water_p_115"
+        "move_id": "void_MVP_178"
       }
     ],
     "evolution": null,
@@ -9833,28 +9833,28 @@
     "sprite_key": "056",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 5,
-        "move_id": "gap_dark_p_25"
+        "move_id": "void_gap_dark_p_25"
       },
       {
         "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 7,
-        "move_id": "MV_123"
+        "move_id": "void_MV_123"
       },
       {
         "level": 7,
@@ -9866,19 +9866,19 @@
       },
       {
         "level": 8,
-        "move_id": "MV_125"
+        "move_id": "void_MV_125"
       },
       {
         "level": 9,
-        "move_id": "MVP_161"
+        "move_id": "void_MVP_161"
       },
       {
         "level": 10,
-        "move_id": "MVP_162"
+        "move_id": "void_MVP_162"
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "void_gap_dark_s_50"
       },
       {
         "level": 10,
@@ -9894,7 +9894,7 @@
       },
       {
         "level": 12,
-        "move_id": "gap_dark_p_60"
+        "move_id": "void_gap_dark_p_60"
       },
       {
         "level": 13,
@@ -9902,7 +9902,7 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
@@ -9910,11 +9910,11 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "void_MVP_166"
       },
       {
         "level": 15,
-        "move_id": "MVP_168"
+        "move_id": "void_MVP_168"
       },
       {
         "level": 16,
@@ -9922,23 +9922,23 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_170"
+        "move_id": "void_MVP_170"
       },
       {
         "level": 18,
-        "move_id": "MVP_175"
+        "move_id": "void_MVP_175"
       },
       {
         "level": 19,
-        "move_id": "MV_135"
+        "move_id": "void_MV_135"
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       },
       {
         "level": 23,
-        "move_id": "MVP_179"
+        "move_id": "void_MVP_179"
       }
     ],
     "evolution": null,
@@ -10075,12 +10075,12 @@
     "sprite_key": "057",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
@@ -10092,7 +10092,7 @@
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -10112,7 +10112,7 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
+        "move_id": "void_MV_127"
       },
       {
         "level": 5,
@@ -10120,23 +10120,23 @@
       },
       {
         "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 7,
-        "move_id": "MV_123"
+        "move_id": "void_MV_123"
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "void_mvn_093"
       },
       {
         "level": 10,
-        "move_id": "MVP_162"
+        "move_id": "void_MVP_162"
       },
       {
         "level": 10,
@@ -10144,23 +10144,23 @@
       },
       {
         "level": 11,
-        "move_id": "mvn_099"
+        "move_id": "void_mvn_099"
       },
       {
         "level": 13,
-        "move_id": "MVP_165"
+        "move_id": "void_MVP_165"
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "void_nightmare_ball"
       },
       {
         "level": 15,
-        "move_id": "gap_dark_s_75"
+        "move_id": "void_gap_dark_s_75"
       },
       {
         "level": 15,
@@ -10172,7 +10172,7 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_171"
+        "move_id": "void_MVP_171"
       },
       {
         "level": 16,
@@ -10180,7 +10180,7 @@
       },
       {
         "level": 16,
-        "move_id": "gap_dark_s_80"
+        "move_id": "void_gap_dark_s_80"
       },
       {
         "level": 17,
@@ -10188,7 +10188,7 @@
       },
       {
         "level": 18,
-        "move_id": "dark_laser"
+        "move_id": "void_dark_laser"
       },
       {
         "level": 18,
@@ -11056,7 +11056,7 @@
     "default_visual_scale": 1.0,
     "types": [
       "Fire",
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
@@ -11081,7 +11081,7 @@
       },
       {
         "level": 5,
-        "move_id": "gap_dark_p_25"
+        "move_id": "void_gap_dark_p_25"
       },
       {
         "level": 6,
@@ -11097,7 +11097,7 @@
       },
       {
         "level": 9,
-        "move_id": "MVP_161"
+        "move_id": "void_MVP_161"
       },
       {
         "level": 10,
@@ -11105,7 +11105,7 @@
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "void_gap_dark_s_50"
       },
       {
         "level": 10,
@@ -11117,7 +11117,7 @@
       },
       {
         "level": 13,
-        "move_id": "MVP_165"
+        "move_id": "void_MVP_165"
       },
       {
         "level": 13,
@@ -11125,11 +11125,11 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "void_MVP_167"
       },
       {
         "level": 15,
-        "move_id": "MVP_168"
+        "move_id": "void_MVP_168"
       },
       {
         "level": 16,
@@ -11141,7 +11141,7 @@
       },
       {
         "level": 17,
-        "move_id": "MVP_173"
+        "move_id": "void_MVP_173"
       },
       {
         "level": 18,
@@ -11157,7 +11157,7 @@
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       },
       {
         "level": 23,
@@ -12394,7 +12394,7 @@
     "sprite_key": "073",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
@@ -12403,11 +12403,11 @@
       },
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -12419,15 +12419,15 @@
       },
       {
         "level": 5,
-        "move_id": "mvh_dark"
+        "move_id": "void_mvh_dark"
       },
       {
         "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 7,
-        "move_id": "MV_121"
+        "move_id": "void_MV_121"
       },
       {
         "level": 7,
@@ -12447,7 +12447,7 @@
       },
       {
         "level": 8,
-        "move_id": "MV_124"
+        "move_id": "void_MV_124"
       },
       {
         "level": 8,
@@ -12463,11 +12463,11 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "void_mvn_093"
       },
       {
         "level": 10,
-        "move_id": "MVP_163"
+        "move_id": "void_MVP_163"
       },
       {
         "level": 10,
@@ -12479,7 +12479,7 @@
       },
       {
         "level": 11,
-        "move_id": "MVP_164"
+        "move_id": "void_MVP_164"
       },
       {
         "level": 12,
@@ -12487,35 +12487,35 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "void_MVP_166"
       },
       {
         "level": 15,
-        "move_id": "MVP_168"
+        "move_id": "void_MVP_168"
       },
       {
         "level": 15,
-        "move_id": "gap_dark_s_75"
+        "move_id": "void_gap_dark_s_75"
       },
       {
         "level": 16,
-        "move_id": "MVP_170"
+        "move_id": "void_MVP_170"
       },
       {
         "level": 18,
-        "move_id": "MVP_175"
+        "move_id": "void_MVP_175"
       },
       {
         "level": 18,
-        "move_id": "dark_laser"
+        "move_id": "void_dark_laser"
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       }
     ],
     "evolution": null,
@@ -13637,12 +13637,12 @@
     "default_visual_scale": 1.0,
     "types": [
       "Fire",
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
@@ -13674,7 +13674,7 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
+        "move_id": "void_MV_127"
       },
       {
         "level": 5,
@@ -13682,11 +13682,11 @@
       },
       {
         "level": 5,
-        "move_id": "mvh_dark"
+        "move_id": "void_mvh_dark"
       },
       {
         "level": 7,
-        "move_id": "MV_121"
+        "move_id": "void_MV_121"
       },
       {
         "level": 8,
@@ -13694,11 +13694,11 @@
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
-        "move_id": "MV_126"
+        "move_id": "void_MV_126"
       },
       {
         "level": 10,
@@ -13710,7 +13710,7 @@
       },
       {
         "level": 12,
-        "move_id": "gap_dark_p_60"
+        "move_id": "void_gap_dark_p_60"
       },
       {
         "level": 13,
@@ -13726,7 +13726,7 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 15,
@@ -13746,7 +13746,7 @@
       },
       {
         "level": 16,
-        "move_id": "gap_dark_s_80"
+        "move_id": "void_gap_dark_s_80"
       },
       {
         "level": 17,
@@ -13754,7 +13754,7 @@
       },
       {
         "level": 18,
-        "move_id": "MVP_174"
+        "move_id": "void_MVP_174"
       },
       {
         "level": 18,
@@ -13908,7 +13908,7 @@
     "sprite_key": "079B",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark",
+      "Void",
       "Fire"
     ],
     "learnset": [
@@ -13918,7 +13918,7 @@
       },
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
@@ -13938,7 +13938,7 @@
       },
       {
         "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 7,
@@ -13962,7 +13962,7 @@
       },
       {
         "level": 9,
-        "move_id": "MV_126"
+        "move_id": "void_MV_126"
       },
       {
         "level": 10,
@@ -13974,7 +13974,7 @@
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "void_gap_dark_s_50"
       },
       {
         "level": 11,
@@ -13990,7 +13990,7 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
@@ -13998,7 +13998,7 @@
       },
       {
         "level": 15,
-        "move_id": "MVP_169"
+        "move_id": "void_MVP_169"
       },
       {
         "level": 17,
@@ -14010,15 +14010,15 @@
       },
       {
         "level": 19,
-        "move_id": "MVP_176"
+        "move_id": "void_MVP_176"
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       },
       {
         "level": 23,
-        "move_id": "MVP_179"
+        "move_id": "void_MVP_179"
       }
     ],
     "evolution": null,
@@ -14834,12 +14834,12 @@
     "default_visual_scale": 1.0,
     "types": [
       "Grass",
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
@@ -14883,7 +14883,7 @@
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
@@ -14919,7 +14919,7 @@
       },
       {
         "level": 12,
-        "move_id": "gap_dark_p_60"
+        "move_id": "void_gap_dark_p_60"
       },
       {
         "level": 13,
@@ -14931,11 +14931,11 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "void_MVP_166"
       },
       {
         "level": 15,
-        "move_id": "gap_dark_s_75"
+        "move_id": "void_gap_dark_s_75"
       },
       {
         "level": 16,
@@ -14943,15 +14943,15 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_170"
+        "move_id": "void_MVP_170"
       },
       {
         "level": 17,
-        "move_id": "MVP_173"
+        "move_id": "void_MVP_173"
       },
       {
         "level": 18,
-        "move_id": "MVP_175"
+        "move_id": "void_MVP_175"
       },
       {
         "level": 18,
@@ -14959,7 +14959,7 @@
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       }
     ],
     "evolution": null,
@@ -14976,7 +14976,7 @@
     "default_visual_scale": 1.0,
     "types": [
       "Electric",
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
@@ -15005,7 +15005,7 @@
       },
       {
         "level": 4,
-        "move_id": "mvn_092"
+        "move_id": "void_mvn_092"
       },
       {
         "level": 5,
@@ -15029,7 +15029,7 @@
       },
       {
         "level": 7,
-        "move_id": "gap_dark_s_35"
+        "move_id": "void_gap_dark_s_35"
       },
       {
         "level": 8,
@@ -15037,11 +15037,11 @@
       },
       {
         "level": 9,
-        "move_id": "MVP_161"
+        "move_id": "void_MVP_161"
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "void_gap_dark_s_50"
       },
       {
         "level": 10,
@@ -15061,15 +15061,15 @@
       },
       {
         "level": 11,
-        "move_id": "mvn_099"
+        "move_id": "void_mvn_099"
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "void_MVP_166"
       },
       {
         "level": 14,
@@ -15077,11 +15077,11 @@
       },
       {
         "level": 15,
-        "move_id": "gap_dark_s_75"
+        "move_id": "void_gap_dark_s_75"
       },
       {
         "level": 16,
-        "move_id": "MVP_171"
+        "move_id": "void_MVP_171"
       },
       {
         "level": 16,
@@ -15089,11 +15089,11 @@
       },
       {
         "level": 16,
-        "move_id": "gap_dark_s_80"
+        "move_id": "void_gap_dark_s_80"
       },
       {
         "level": 17,
-        "move_id": "dark_wisp"
+        "move_id": "void_dark_wisp"
       },
       {
         "level": 18,
@@ -16484,12 +16484,12 @@
     "sprite_key": "091B",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -16501,19 +16501,19 @@
       },
       {
         "level": 5,
-        "move_id": "gap_dark_p_25"
+        "move_id": "void_gap_dark_p_25"
       },
       {
         "level": 7,
-        "move_id": "MV_123"
+        "move_id": "void_MV_123"
       },
       {
         "level": 8,
-        "move_id": "MV_125"
+        "move_id": "void_MV_125"
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
@@ -16521,11 +16521,11 @@
       },
       {
         "level": 9,
-        "move_id": "MVP_161"
+        "move_id": "void_MVP_161"
       },
       {
         "level": 10,
-        "move_id": "MVP_162"
+        "move_id": "void_MVP_162"
       },
       {
         "level": 10,
@@ -16541,7 +16541,7 @@
       },
       {
         "level": 12,
-        "move_id": "gap_dark_p_60"
+        "move_id": "void_gap_dark_p_60"
       },
       {
         "level": 13,
@@ -16549,7 +16549,7 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
@@ -16557,7 +16557,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "void_MVP_167"
       },
       {
         "level": 15,
@@ -16565,27 +16565,27 @@
       },
       {
         "level": 15,
-        "move_id": "MVP_168"
+        "move_id": "void_MVP_168"
       },
       {
         "level": 16,
-        "move_id": "MVP_170"
+        "move_id": "void_MVP_170"
       },
       {
         "level": 18,
-        "move_id": "MVP_175"
+        "move_id": "void_MVP_175"
       },
       {
         "level": 19,
-        "move_id": "MV_135"
+        "move_id": "void_MV_135"
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       },
       {
         "level": 23,
-        "move_id": "MVP_179"
+        "move_id": "void_MVP_179"
       }
     ],
     "evolution": null,
@@ -18203,7 +18203,7 @@
     "sprite_key": "099",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark",
+      "Void",
       "Ground"
     ],
     "learnset": [
@@ -18217,11 +18217,11 @@
       },
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -18265,11 +18265,11 @@
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "void_mvn_093"
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "void_gap_dark_s_50"
       },
       {
         "level": 10,
@@ -18285,7 +18285,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "void_MVP_166"
       },
       {
         "level": 14,
@@ -18297,7 +18297,7 @@
       },
       {
         "level": 16,
-        "move_id": "gap_dark_s_80"
+        "move_id": "void_gap_dark_s_80"
       },
       {
         "level": 18,
@@ -18305,7 +18305,7 @@
       },
       {
         "level": 19,
-        "move_id": "gap_dark_s_95"
+        "move_id": "void_gap_dark_s_95"
       },
       {
         "level": 21,
@@ -20731,12 +20731,12 @@
     "sprite_key": "111B",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -20748,11 +20748,11 @@
       },
       {
         "level": 5,
-        "move_id": "mvh_dark"
+        "move_id": "void_mvh_dark"
       },
       {
         "level": 7,
-        "move_id": "MV_123"
+        "move_id": "void_MV_123"
       },
       {
         "level": 7,
@@ -20764,15 +20764,15 @@
       },
       {
         "level": 8,
-        "move_id": "MV_125"
+        "move_id": "void_MV_125"
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "void_mvn_093"
       },
       {
         "level": 10,
-        "move_id": "MVP_162"
+        "move_id": "void_MVP_162"
       },
       {
         "level": 11,
@@ -20780,23 +20780,23 @@
       },
       {
         "level": 11,
-        "move_id": "MV_128"
+        "move_id": "void_MV_128"
       },
       {
         "level": 13,
-        "move_id": "MVP_165"
+        "move_id": "void_MVP_165"
       },
       {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "void_nightmare_ball"
       },
       {
         "level": 15,
-        "move_id": "MVP_168"
+        "move_id": "void_MVP_168"
       },
       {
         "level": 16,
-        "move_id": "MVP_171"
+        "move_id": "void_MVP_171"
       },
       {
         "level": 18,
@@ -20804,15 +20804,15 @@
       },
       {
         "level": 18,
-        "move_id": "MVP_174"
+        "move_id": "void_MVP_174"
       },
       {
         "level": 19,
-        "move_id": "MV_135"
+        "move_id": "void_MV_135"
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       },
       {
         "level": 24,
@@ -20820,7 +20820,7 @@
       },
       {
         "level": 24,
-        "move_id": "MVP_180"
+        "move_id": "void_MVP_180"
       },
       {
         "level": 25,
@@ -21466,7 +21466,7 @@
     "sprite_key": "115",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark",
+      "Void",
       "Fire"
     ],
     "learnset": [
@@ -21484,7 +21484,7 @@
       },
       {
         "level": 5,
-        "move_id": "gap_dark_p_25"
+        "move_id": "void_gap_dark_p_25"
       },
       {
         "level": 6,
@@ -21500,11 +21500,11 @@
       },
       {
         "level": 9,
-        "move_id": "MV_126"
+        "move_id": "void_MV_126"
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "void_gap_dark_s_50"
       },
       {
         "level": 10,
@@ -21552,7 +21552,7 @@
       },
       {
         "level": 16,
-        "move_id": "MVP_170"
+        "move_id": "void_MVP_170"
       },
       {
         "level": 17,
@@ -21560,7 +21560,7 @@
       },
       {
         "level": 18,
-        "move_id": "MVP_175"
+        "move_id": "void_MVP_175"
       },
       {
         "level": 19,
@@ -21568,7 +21568,7 @@
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       },
       {
         "level": 23,
@@ -24122,16 +24122,16 @@
     "sprite_key": "130",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -24143,11 +24143,11 @@
       },
       {
         "level": 5,
-        "move_id": "gap_dark_p_25"
+        "move_id": "void_gap_dark_p_25"
       },
       {
         "level": 7,
-        "move_id": "MV_123"
+        "move_id": "void_MV_123"
       },
       {
         "level": 7,
@@ -24155,15 +24155,15 @@
       },
       {
         "level": 8,
-        "move_id": "MV_125"
+        "move_id": "void_MV_125"
       },
       {
         "level": 9,
-        "move_id": "mvn_093"
+        "move_id": "void_mvn_093"
       },
       {
         "level": 10,
-        "move_id": "MVP_162"
+        "move_id": "void_MVP_162"
       },
       {
         "level": 11,
@@ -24171,11 +24171,11 @@
       },
       {
         "level": 11,
-        "move_id": "MV_128"
+        "move_id": "void_MV_128"
       },
       {
         "level": 13,
-        "move_id": "MVP_165"
+        "move_id": "void_MVP_165"
       },
       {
         "level": 14,
@@ -24183,15 +24183,15 @@
       },
       {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "void_nightmare_ball"
       },
       {
         "level": 15,
-        "move_id": "MVP_168"
+        "move_id": "void_MVP_168"
       },
       {
         "level": 16,
-        "move_id": "MVP_171"
+        "move_id": "void_MVP_171"
       },
       {
         "level": 18,
@@ -24199,15 +24199,15 @@
       },
       {
         "level": 18,
-        "move_id": "MVP_174"
+        "move_id": "void_MVP_174"
       },
       {
         "level": 19,
-        "move_id": "MV_135"
+        "move_id": "void_MV_135"
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       },
       {
         "level": 23,
@@ -24215,7 +24215,7 @@
       },
       {
         "level": 24,
-        "move_id": "MVP_180"
+        "move_id": "void_MVP_180"
       },
       {
         "level": 25,
@@ -25763,7 +25763,7 @@
     "default_visual_scale": 1.0,
     "types": [
       "Ground",
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
@@ -25792,7 +25792,7 @@
       },
       {
         "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 6,
@@ -25844,7 +25844,7 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_166"
+        "move_id": "void_MVP_166"
       },
       {
         "level": 14,
@@ -25852,7 +25852,7 @@
       },
       {
         "level": 15,
-        "move_id": "gap_dark_s_75"
+        "move_id": "void_gap_dark_s_75"
       },
       {
         "level": 16,
@@ -25860,15 +25860,15 @@
       },
       {
         "level": 17,
-        "move_id": "MVP_172"
+        "move_id": "void_MVP_172"
       },
       {
         "level": 17,
-        "move_id": "dark_wisp"
+        "move_id": "void_dark_wisp"
       },
       {
         "level": 19,
-        "move_id": "gap_dark_s_95"
+        "move_id": "void_gap_dark_s_95"
       },
       {
         "level": 20,
@@ -26862,16 +26862,16 @@
     "sprite_key": "145",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -26883,15 +26883,15 @@
       },
       {
         "level": 5,
-        "move_id": "MV_127"
+        "move_id": "void_MV_127"
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
-        "move_id": "MVP_161"
+        "move_id": "void_MVP_161"
       },
       {
         "level": 9,
@@ -26903,7 +26903,7 @@
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "void_gap_dark_s_50"
       },
       {
         "level": 10,
@@ -26923,15 +26923,15 @@
       },
       {
         "level": 12,
-        "move_id": "mvn_098"
+        "move_id": "void_mvn_098"
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "void_MVP_167"
       },
       {
         "level": 14,
-        "move_id": "nightmare_pulse"
+        "move_id": "void_nightmare_pulse"
       },
       {
         "level": 15,
@@ -26939,7 +26939,7 @@
       },
       {
         "level": 16,
-        "move_id": "gap_dark_s_80"
+        "move_id": "void_gap_dark_s_80"
       },
       {
         "level": 16,
@@ -26947,15 +26947,15 @@
       },
       {
         "level": 18,
-        "move_id": "dark_laser"
+        "move_id": "void_dark_laser"
       },
       {
         "level": 21,
-        "move_id": "MV_136"
+        "move_id": "void_MV_136"
       },
       {
         "level": 24,
-        "move_id": "gap_dark_s_120"
+        "move_id": "void_gap_dark_s_120"
       }
     ],
     "evolution": null,
@@ -27093,12 +27093,12 @@
     "default_visual_scale": 1.0,
     "types": [
       "Grass",
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
@@ -27118,7 +27118,7 @@
       },
       {
         "level": 5,
-        "move_id": "gap_dark_p_25"
+        "move_id": "void_gap_dark_p_25"
       },
       {
         "level": 6,
@@ -27138,11 +27138,11 @@
       },
       {
         "level": 8,
-        "move_id": "MV_125"
+        "move_id": "void_MV_125"
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
@@ -27154,7 +27154,7 @@
       },
       {
         "level": 10,
-        "move_id": "MVP_163"
+        "move_id": "void_MVP_163"
       },
       {
         "level": 10,
@@ -27170,7 +27170,7 @@
       },
       {
         "level": 12,
-        "move_id": "gap_dark_p_60"
+        "move_id": "void_gap_dark_p_60"
       },
       {
         "level": 13,
@@ -27194,7 +27194,7 @@
       },
       {
         "level": 15,
-        "move_id": "gap_dark_s_75"
+        "move_id": "void_gap_dark_s_75"
       },
       {
         "level": 16,
@@ -27214,7 +27214,7 @@
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       }
     ],
     "evolution": null,
@@ -27719,16 +27719,16 @@
     "sprite_key": "150",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -27736,7 +27736,7 @@
       },
       {
         "level": 5,
-        "move_id": "mvh_dark"
+        "move_id": "void_mvh_dark"
       },
       {
         "level": 6,
@@ -27744,7 +27744,7 @@
       },
       {
         "level": 7,
-        "move_id": "MV_121"
+        "move_id": "void_MV_121"
       },
       {
         "level": 7,
@@ -27756,7 +27756,7 @@
       },
       {
         "level": 8,
-        "move_id": "MV_124"
+        "move_id": "void_MV_124"
       },
       {
         "level": 8,
@@ -27764,15 +27764,15 @@
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
-        "move_id": "MV_126"
+        "move_id": "void_MV_126"
       },
       {
         "level": 10,
-        "move_id": "MVP_163"
+        "move_id": "void_MVP_163"
       },
       {
         "level": 10,
@@ -27784,11 +27784,11 @@
       },
       {
         "level": 12,
-        "move_id": "gap_dark_p_60"
+        "move_id": "void_gap_dark_p_60"
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
@@ -27796,31 +27796,31 @@
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "void_MVP_167"
       },
       {
         "level": 15,
-        "move_id": "MVP_169"
+        "move_id": "void_MVP_169"
       },
       {
         "level": 16,
-        "move_id": "MVP_171"
+        "move_id": "void_MVP_171"
       },
       {
         "level": 18,
-        "move_id": "MVP_174"
+        "move_id": "void_MVP_174"
       },
       {
         "level": 19,
-        "move_id": "MVP_176"
+        "move_id": "void_MVP_176"
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       },
       {
         "level": 23,
-        "move_id": "MVP_179"
+        "move_id": "void_MVP_179"
       }
     ],
     "evolution": null,
@@ -28777,16 +28777,16 @@
     "sprite_key": "157B",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -28802,19 +28802,19 @@
       },
       {
         "level": 5,
-        "move_id": "gap_dark_p_25"
+        "move_id": "void_gap_dark_p_25"
       },
       {
         "level": 7,
-        "move_id": "MV_121"
+        "move_id": "void_MV_121"
       },
       {
         "level": 8,
-        "move_id": "MV_125"
+        "move_id": "void_MV_125"
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
@@ -28826,11 +28826,11 @@
       },
       {
         "level": 10,
-        "move_id": "MVP_162"
+        "move_id": "void_MVP_162"
       },
       {
         "level": 11,
-        "move_id": "MVP_164"
+        "move_id": "void_MVP_164"
       },
       {
         "level": 11,
@@ -28842,19 +28842,19 @@
       },
       {
         "level": 13,
-        "move_id": "MVP_165"
+        "move_id": "void_MVP_165"
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 15,
-        "move_id": "MVP_168"
+        "move_id": "void_MVP_168"
       },
       {
         "level": 16,
-        "move_id": "MVP_170"
+        "move_id": "void_MVP_170"
       },
       {
         "level": 17,
@@ -28862,19 +28862,19 @@
       },
       {
         "level": 17,
-        "move_id": "MVP_173"
+        "move_id": "void_MVP_173"
       },
       {
         "level": 19,
-        "move_id": "MVP_176"
+        "move_id": "void_MVP_176"
       },
       {
         "level": 20,
-        "move_id": "gap_dark_p_100"
+        "move_id": "void_gap_dark_p_100"
       },
       {
         "level": 23,
-        "move_id": "MVP_179"
+        "move_id": "void_MVP_179"
       }
     ],
     "evolution": null,
@@ -30109,16 +30109,16 @@
     "sprite_key": "166",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -30126,15 +30126,15 @@
       },
       {
         "level": 5,
-        "move_id": "gap_dark_p_25"
+        "move_id": "void_gap_dark_p_25"
       },
       {
         "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 7,
-        "move_id": "MV_121"
+        "move_id": "void_MV_121"
       },
       {
         "level": 7,
@@ -30142,19 +30142,19 @@
       },
       {
         "level": 8,
-        "move_id": "MV_124"
+        "move_id": "void_MV_124"
       },
       {
         "level": 9,
-        "move_id": "MV_126"
+        "move_id": "void_MV_126"
       },
       {
         "level": 10,
-        "move_id": "MVP_163"
+        "move_id": "void_MVP_163"
       },
       {
         "level": 10,
-        "move_id": "gap_dark_s_50"
+        "move_id": "void_gap_dark_s_50"
       },
       {
         "level": 10,
@@ -30162,7 +30162,7 @@
       },
       {
         "level": 12,
-        "move_id": "gap_dark_p_60"
+        "move_id": "void_gap_dark_p_60"
       },
       {
         "level": 13,
@@ -30174,11 +30174,11 @@
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "void_MVP_167"
       },
       {
         "level": 14,
@@ -30194,23 +30194,23 @@
       },
       {
         "level": 15,
-        "move_id": "MVP_169"
+        "move_id": "void_MVP_169"
       },
       {
         "level": 16,
-        "move_id": "MVP_171"
+        "move_id": "void_MVP_171"
       },
       {
         "level": 18,
-        "move_id": "MVP_174"
+        "move_id": "void_MVP_174"
       },
       {
         "level": 19,
-        "move_id": "MVP_176"
+        "move_id": "void_MVP_176"
       },
       {
         "level": 21,
-        "move_id": "gap_dark_p_105"
+        "move_id": "void_gap_dark_p_105"
       },
       {
         "level": 21,
@@ -30218,7 +30218,7 @@
       },
       {
         "level": 23,
-        "move_id": "MVP_179"
+        "move_id": "void_MVP_179"
       }
     ],
     "evolution": null,
@@ -33361,12 +33361,12 @@
     "sprite_key": "189",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark"
+      "Void"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
@@ -33374,7 +33374,7 @@
       },
       {
         "level": 3,
-        "move_id": "mvn_089"
+        "move_id": "void_mvn_089"
       },
       {
         "level": 4,
@@ -33382,7 +33382,7 @@
       },
       {
         "level": 5,
-        "move_id": "mvh_dark"
+        "move_id": "void_mvh_dark"
       },
       {
         "level": 5,
@@ -33394,7 +33394,7 @@
       },
       {
         "level": 7,
-        "move_id": "MV_123"
+        "move_id": "void_MV_123"
       },
       {
         "level": 7,
@@ -33402,11 +33402,11 @@
       },
       {
         "level": 8,
-        "move_id": "gap_dark_s_40"
+        "move_id": "void_gap_dark_s_40"
       },
       {
         "level": 9,
-        "move_id": "MV_126"
+        "move_id": "void_MV_126"
       },
       {
         "level": 10,
@@ -33418,7 +33418,7 @@
       },
       {
         "level": 11,
-        "move_id": "MVP_164"
+        "move_id": "void_MVP_164"
       },
       {
         "level": 12,
@@ -33426,31 +33426,31 @@
       },
       {
         "level": 13,
-        "move_id": "MVP_165"
+        "move_id": "void_MVP_165"
       },
       {
         "level": 13,
-        "move_id": "gap_dark_s_65"
+        "move_id": "void_gap_dark_s_65"
       },
       {
         "level": 15,
-        "move_id": "MVP_168"
+        "move_id": "void_MVP_168"
       },
       {
         "level": 16,
-        "move_id": "MVP_171"
+        "move_id": "void_MVP_171"
       },
       {
         "level": 18,
-        "move_id": "MVP_175"
+        "move_id": "void_MVP_175"
       },
       {
         "level": 20,
-        "move_id": "gap_dark_p_100"
+        "move_id": "void_gap_dark_p_100"
       },
       {
         "level": 23,
-        "move_id": "MVP_179"
+        "move_id": "void_MVP_179"
       }
     ],
     "evolution": null,
@@ -34243,13 +34243,13 @@
     "sprite_key": "196",
     "default_visual_scale": 1.0,
     "types": [
-      "Dark",
+      "Void",
       "Dragon"
     ],
     "learnset": [
       {
         "level": 3,
-        "move_id": "gap_dark_p_15"
+        "move_id": "void_gap_dark_p_15"
       },
       {
         "level": 3,
@@ -34273,11 +34273,11 @@
       },
       {
         "level": 5,
-        "move_id": "gap_dark_p_25"
+        "move_id": "void_gap_dark_p_25"
       },
       {
         "level": 6,
-        "move_id": "dark_shot"
+        "move_id": "void_dark_shot"
       },
       {
         "level": 6,
@@ -34289,7 +34289,7 @@
       },
       {
         "level": 8,
-        "move_id": "MV_124"
+        "move_id": "void_MV_124"
       },
       {
         "level": 8,
@@ -34317,19 +34317,19 @@
       },
       {
         "level": 12,
-        "move_id": "gap_dark_p_60"
+        "move_id": "void_gap_dark_p_60"
       },
       {
         "level": 14,
-        "move_id": "MVP_167"
+        "move_id": "void_MVP_167"
       },
       {
         "level": 14,
-        "move_id": "nightmare_ball"
+        "move_id": "void_nightmare_ball"
       },
       {
         "level": 15,
-        "move_id": "MVP_169"
+        "move_id": "void_MVP_169"
       },
       {
         "level": 16,
@@ -34341,11 +34341,11 @@
       },
       {
         "level": 18,
-        "move_id": "MVP_175"
+        "move_id": "void_MVP_175"
       },
       {
         "level": 18,
-        "move_id": "dark_laser"
+        "move_id": "void_dark_laser"
       },
       {
         "level": 21,
@@ -34353,7 +34353,7 @@
       },
       {
         "level": 24,
-        "move_id": "gap_dark_s_120"
+        "move_id": "void_gap_dark_s_120"
       },
       {
         "level": 27,

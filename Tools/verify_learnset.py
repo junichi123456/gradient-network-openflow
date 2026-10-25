@@ -72,9 +72,10 @@ for s in sp:
 chk(3,">=310種の自属性110以上が<=3/属性", not v, f"違反{len(v)}件 {v[:3]}")
 
 # 4 補完属性(サンプル手計算)
-exp={'Fire':'Electric','Water':'Ground','Dark':'Ice','Neutral':'Dragon','Grass':'Water',
-     'Ice':'Water','Dragon':'Fire','Ground':'Fire','Electric':'Grass'}
-chk(4,"補完属性が手計算と一致", all(COMP[k]==[v2] for k,v2 in exp.items()), "9属性")
+exp={'Neutral':['Dragon'],'Fire':['Neutral','Electric','Ice'],'Water':['Ground'],
+     'Grass':['Water','Void'],'Electric':['Grass'],'Ground':['Fire'],'Ice':['Water','Void'],
+     'Dragon':['Fire'],'Dark':['Ice'],'Void':['Fire','Dark']}
+chk(4,"補完属性が手計算と一致", len(exp)==10 and all(COMP[k]==v2 for k,v2 in exp.items()), "10属性")
 
 # 5 物理/特殊 8:2 と 60%キャップ
 ratio_bad=[]; cap_bad=[]

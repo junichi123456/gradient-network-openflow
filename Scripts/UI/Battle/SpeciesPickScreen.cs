@@ -22,7 +22,7 @@ public partial class SpeciesPickScreen : Control
     [Signal] public delegate void CancelledEventHandler();
 
     private static readonly string[] Elements =
-        { "Fire", "Water", "Grass", "Electric", "Ground", "Ice", "Dragon", "Dark", "Neutral" };
+        { "Fire", "Water", "Grass", "Electric", "Ground", "Ice", "Dragon", "Dark", "Void", "Neutral" };
 
     private BattleTeam _team;
     private int _slot;

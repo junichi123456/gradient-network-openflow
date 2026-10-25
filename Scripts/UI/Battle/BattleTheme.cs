@@ -54,6 +54,7 @@ public static class BattleTheme
         "Ice"      => new Color("5fc0d4"),
         "Dragon"   => new Color("a084e8"),
         "Dark"     => new Color("9b87b5"),
+        "Void"     => new Color("6b7a8f"),
         _          => new Color("a3abb4"),
     };
 
@@ -61,7 +62,7 @@ public static class BattleTheme
     {
         "Neutral" => "無", "Fire" => "炎", "Water" => "水", "Grass" => "草",
         "Electric" => "電", "Ground" => "地", "Ice" => "氷", "Dragon" => "竜",
-        "Dark" => "闇", _ => "無",
+        "Dark" => "闇", "Void" => "虚", _ => "無",
     };
 
     // SpeciesData.Types は Element enum なので、そのまま渡せる口も用意する。
