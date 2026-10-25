@@ -15,7 +15,7 @@ import collections
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'Tools', 'artifacts')
 sys.path.insert(0, os.path.join(ROOT, 'Tools'))
-from learnset_rules import TRAIT_TAG, TRAIT_NAMED, profile_of
+from learnset_rules import TRAIT_TAG, TRAIT_NAMED, profile_of, legacy_had
 
 sp = json.load(open(f'{ROOT}/Data/species.json', encoding='utf-8'))
 mv = json.load(open(f'{ROOT}/Data/moves.json', encoding='utf-8'))
@@ -61,8 +61,9 @@ for s in order:
     out.append({
         'id': s['species_id'], 'n': s['display_name'],
         'ty': [EL[x] for x in s['types']],
-        'hp': s['base_hp'], 'a': s['base_atk'], 'd': s['base_def'],
-        'bst': s['base_hp'] + s['base_atk'] + s['base_def'],
+        # Phase 5 で HABCDS 表示に作り替える。それまでは旧HAD(BST3)のまま。
+        'hp': legacy_had(s)[0], 'a': legacy_had(s)[1], 'd': legacy_had(s)[2],
+        'bst': sum(legacy_had(s)),
         'pf': pf, 'pb': '特性' if why == 'trait' else '型',
         'tr': t.get('name', s['trait']), 'td': t.get('description', ''),
         'p': sum(1 for m in atk if m['category'] == 'Physical'),

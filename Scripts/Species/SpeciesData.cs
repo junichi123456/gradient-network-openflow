@@ -26,6 +26,20 @@ public class SpeciesData
     public int BaseAtk { get; set; }
     public int BaseDef { get; set; }
 
+    // HABCDS: BaseHP=H, BaseAtk=A(物理攻撃), BaseDef=B(物理防御), そして
+    // 魔力 C / 精神 D / 俊敏 S。Phase 3 ではデータとして載せるだけで、
+    // ダメージ計算・行動順への配線は Phase 4。
+    public int BaseSpAtk { get; set; }
+    public int BaseSpDef { get; set; }
+    public int BaseSpeed { get; set; }
+
+    // PhysicalWall / PhysicalAttacker / SpecialWall / SpecialAttacker / Mixed
+    // （仕様書 §3-b。JSON の文字列そのまま）
+    public string Role { get; set; } = "";
+
+    // 6能力の合計（BST6）。species.json 側で BST3 から式で固定した値。
+    public int Bst => BaseHP + BaseAtk + BaseDef + BaseSpAtk + BaseSpDef + BaseSpeed;
+
     // Phase 18-A input: EXP awarded for defeating this species (before
     // victim-level scaling). Preserved exactly from the old inline value.
     public int BaseExpYield { get; set; } = 55;

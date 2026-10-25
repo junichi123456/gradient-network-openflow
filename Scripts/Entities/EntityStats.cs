@@ -71,6 +71,15 @@ public partial class EntityStats : Node
 
     [Export] public int BaseAtk { get; set; } = 70;
     [Export] public int BaseDef { get; set; } = 70;
+
+    // HABCDS の残り3能力の種族値（魔力 C / 精神 D / 俊敏 S）。Phase 3 では
+    // 種族から写すだけで、実数値・ダメージ計算・行動順には使わない（Phase 4）。
+    public int BaseSpAtk { get; set; } = 70;
+    public int BaseSpDef { get; set; } = 70;
+    public int BaseSpeed { get; set; } = 70;
+
+    // 6能力の種族値合計（BST6）。合計種族値の唯一の定義。
+    public int BaseTotal => BaseMaxHp + BaseAtk + BaseDef + BaseSpAtk + BaseSpDef + BaseSpeed;
     [Export] public int BreakthroughAtk { get; set; } = 0;
     [Export] public int BreakthroughDef { get; set; } = 0;
 
@@ -214,6 +223,11 @@ public partial class EntityStats : Node
         BaseMaxHp = species.BaseHP;
         BaseAtk = species.BaseAtk;
         BaseDef = species.BaseDef;
+        // 魔力/精神/俊敏は Phase 3 では「合計種族値(BST6)を保つ」ためだけに写す。
+        // ダメージ計算・行動順への配線は Phase 4。
+        BaseSpAtk = species.BaseSpAtk;
+        BaseSpDef = species.BaseSpDef;
+        BaseSpeed = species.BaseSpeed;
         BaseExpYield = species.BaseExpYield;
         Type1 = species.Types.Count > 0 ? species.Types[0].ToString() : "Neutral";
         Type2 = species.Types.Count > 1 ? species.Types[1].ToString() : "";

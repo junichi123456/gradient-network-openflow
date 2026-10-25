@@ -3,14 +3,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # 生成器と同じ表を参照する。ここに写しを置くと、特性を足したときに検証側だけ
 # 古い表を見て「特性適応技」を見落とし、属性上限違反として誤検出する。
 from learnset_rules import (SIGNATURE as SIG_MAP, TRAIT_TAG, TRAIT_NAMED,
-                            NO_ATTACK_TRAITS, CEIL as CEIL_D, profile_of)
+                            NO_ATTACK_TRAITS, CEIL as CEIL_D, profile_of, legacy_had)
 def rhu(x): return int(math.floor(x+0.5))
 sp=json.load(open('Data/species.json')); mv=json.load(open('Data/moves.json'))
 M={m['id']:m for m in mv}
 tc=json.load(open('Data/type_chart.json')); T=tc['types']; MAT=tc['matrix']; ti={t:i for i,t in enumerate(T)}
 WEAK={X:[Y for Y in T if MAT[ti[Y]][ti[X]]==2.0] for X in T}
 COMP={X:sorted({Z for W in WEAK[X] for Z in WEAK[W]},key=T.index) for X in T}
-def tot(s): return s['base_hp']+s['base_atk']+s['base_def']
+def tot(s): return sum(legacy_had(s))   # 内部尺度は旧HADのBST3（species.json の base_* は HABCDS）
 ok=True
 def chk(n,label,cond,detail=""):
     global ok
@@ -102,7 +102,7 @@ chk(5,"少数側の最高威力<=多数側の60%(打ち分け90%)", not cap_bad,
 
 # 6/7 防御特化種: 設置技>=1
 FIELD={m['id'] for m in mv if m.get('field_placement','None')!='None'}
-defs=[s for s in sp if s['base_atk']/s['base_def'] < 1/1.30]
+defs=[s for s in sp if legacy_had(s)[1]/legacy_had(s)[2] < 1/1.30]
 nofield=[s['display_name'] for s in defs if not any(e['move_id'] in FIELD for e in s['learnset'])]
 chk(6,f"防御特化{len(defs)}種が設置技を1種以上保有", not nofield, f"欠落{len(nofield)} {nofield[:3]}")
 sub=[(s['display_name'],s['types'][0],[e['move_id'] for e in s['learnset'] if e['move_id'] in FIELD])

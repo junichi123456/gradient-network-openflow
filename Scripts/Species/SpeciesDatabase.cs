@@ -15,6 +15,11 @@ internal class SpeciesJson
     [JsonPropertyName("base_hp")] public int BaseHP { get; set; }
     [JsonPropertyName("base_atk")] public int BaseAtk { get; set; }
     [JsonPropertyName("base_def")] public int BaseDef { get; set; }
+    // HABCDS（魔力/精神/俊敏）と役割。legacy_had / speed_source は C# では読まない。
+    [JsonPropertyName("base_spatk")] public int BaseSpAtk { get; set; }
+    [JsonPropertyName("base_spdef")] public int BaseSpDef { get; set; }
+    [JsonPropertyName("base_speed")] public int BaseSpeed { get; set; }
+    [JsonPropertyName("role")] public string Role { get; set; } = "";
     [JsonPropertyName("base_exp_yield")] public int BaseExpYield { get; set; } = 55;
     [JsonPropertyName("sprite_key")] public string SpriteKey { get; set; } = "";
     [JsonPropertyName("default_visual_scale")] public float DefaultVisualScale { get; set; } = 1.0f;
@@ -140,6 +145,10 @@ public partial class SpeciesDatabase : Node
             BaseHP = j.BaseHP,
             BaseAtk = j.BaseAtk,
             BaseDef = j.BaseDef,
+            BaseSpAtk = j.BaseSpAtk,
+            BaseSpDef = j.BaseSpDef,
+            BaseSpeed = j.BaseSpeed,
+            Role = j.Role ?? "",
             BaseExpYield = j.BaseExpYield,
             SpriteKey = j.SpriteKey,
             DefaultVisualScale = j.DefaultVisualScale,
@@ -181,6 +190,11 @@ public partial class SpeciesDatabase : Node
                     foreach (var typeName in entry.Types)
                         if (!Enum.TryParse<Element>(typeName, out _))
                             errors.Add($"Species '{entry.SpeciesId}' has type '{typeName}' outside the Element closed set.");
+
+                    if (entry.BaseHP < 1 || entry.BaseAtk < 1 || entry.BaseDef < 1
+                        || entry.BaseSpAtk < 1 || entry.BaseSpDef < 1 || entry.BaseSpeed < 1)
+                        errors.Add($"Species '{entry.SpeciesId}' has a HABCDS stat below 1 "
+                            + $"(H{entry.BaseHP} A{entry.BaseAtk} B{entry.BaseDef} C{entry.BaseSpAtk} D{entry.BaseSpDef} S{entry.BaseSpeed}).");
 
                     if (entry.Types.Count < 1 || entry.Types.Count > 2)
                         errors.Add($"Species '{entry.SpeciesId}' has {entry.Types.Count} types (must be 1-2).");

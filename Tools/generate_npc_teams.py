@@ -67,7 +67,9 @@ def load(name):
 
 
 def bst(sp):
-    return sp['base_hp'] + sp['base_atk'] + sp['base_def']
+    # Phase 4 で BST6 に置き換える。それまでは旧HADの合計（BST3）で選ぶ。
+    h = sp.get('legacy_had')
+    return h['hp'] + h['atk'] + h['def'] if h else sp['base_hp'] + sp['base_atk'] + sp['base_def']
 
 
 def pick_moves(sp, moves):

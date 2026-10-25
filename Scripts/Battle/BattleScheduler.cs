@@ -168,8 +168,10 @@ public sealed class BattleScheduler
 
     // 合計種族値。実ステータスではなく種族値そのものを見るので、
     // ランク変化や持ち物で行動順が動くことはない。
-    public static int Bst(Entity e) =>
-        e.Stats.BaseMaxHp + e.Stats.BaseAtk + e.Stats.BaseDef;
+    // Phase 3: species.json の H/A/B を足し直すと HABCDS の配分で旧BST3の
+    // 順序が崩れる（天候の「低種族値側が勝つ」が反転する）ため、6能力合計
+    // (BST6 = 旧BST3の単調増加関数) に差し替えた。他の BST3 計算箇所は Phase 4。
+    public static int Bst(Entity e) => e.Stats.BaseTotal;
 
     // サイクルが終わったか（全員が行動を終えたか）。
     public bool CycleComplete =>

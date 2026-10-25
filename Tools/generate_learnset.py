@@ -36,7 +36,7 @@ def round_half_up(x):
     return int(math.floor(x + 0.5))
 
 def total_of(s):
-    return s['base_hp'] + s['base_atk'] + s['base_def']
+    return sum(legacy_had(s))   # 旧HADのBST3（HABCDS導入後は legacy_had から読む）
 
 # ---------------------------------------------------------------- §1 chart
 tc = json.load(open(CHART)); TYPES = tc['types']; MAT = tc['matrix']
@@ -208,7 +208,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     tot = total_of(s)
     own_types = list(s['types'])
     prime = own_types[0]
-    defensive = s['base_atk'] / s['base_def'] < 1 / 1.25   # §3-b
+    defensive = legacy_had(s)[1] / legacy_had(s)[2] < 1 / 1.25   # §3-b
 
     # --- 上限体系（単属性 / 複合属性で別系列）------------------------
     # 種族値180=最低 / 500=最高 を両端に線形補間する。

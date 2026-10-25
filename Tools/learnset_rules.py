@@ -69,6 +69,16 @@ CEIL = {
 }
 
 
+def legacy_had(s):
+    """旧HAD (h, a, d)。HABCDS 導入後の species.json では base_* が新しい値なので、
+    learnset 系ツールの内部尺度（BST3 = h+a+d、BST180〜500 前提の閾値）は
+    legacy_had から読む。無ければ（HABCDS 導入前の species.json）base_* が旧HAD。"""
+    h = s.get('legacy_had')
+    if h:
+        return h['hp'], h['atk'], h['def']
+    return s['base_hp'], s['base_atk'], s['base_def']
+
+
 def profile_of(trait_id, species_index):
     """種族の攻撃型。特性による指定が最優先、無ければ 4:3:3 の周期。"""
     if trait_id in TRAIT_PHYSICAL: return 'Physical', 'trait'

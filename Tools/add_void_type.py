@@ -12,7 +12,7 @@
 import json, os, sys, collections
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from learnset_rules import SIGNATURE, profile_of
+from learnset_rules import SIGNATURE, profile_of, legacy_had
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 D = lambda n: os.path.join(ROOT, 'Data', n)
@@ -61,7 +61,7 @@ def dump(n, obj):
 
 
 def bst3(x):
-    return x['base_hp'] + x['base_atk'] + x['base_def']
+    return sum(legacy_had(x))
 
 
 def spaced(cands, k):

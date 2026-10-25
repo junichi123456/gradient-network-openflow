@@ -28,7 +28,8 @@ eco_name   = name_index('Data/ecology.json')
 rows = []
 for s in species:
     types = "/".join(TYPE_JA.get(t, t) for t in s.get('types', []))
-    bst = s.get('base_hp',0) + s.get('base_atk',0) + s.get('base_def',0)
+    _h = s.get('legacy_had') or {'hp': s.get('base_hp',0), 'atk': s.get('base_atk',0), 'def': s.get('base_def',0)}
+    bst = _h['hp'] + _h['atk'] + _h['def']   # 旧HADのBST3
     for e in s.get('learnset', []):
         m = moves.get(e['move_id'])
         if m is None: raise SystemExit(f"未知の move_id: {e['move_id']} ({s['species_id']})")

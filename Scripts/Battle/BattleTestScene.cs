@@ -73,8 +73,13 @@ public partial class BattleTestScene : Node2D
         VerifyCycleTick();
         VerifyVoidType();
         VerifyHollow();
+        VerifyHabcdsData();
         RunBattle();
 
+        // 終了時クラッシュ対策: 試合が長引くと未処理の Tween の C# ラッパーが
+        // 終了処理と競合し Godot が abort する(exit 134)ことがあるので、先に回収する。
+        System.GC.Collect();
+        System.GC.WaitForPendingFinalizers();
         GetTree().Quit();
     }
 
@@ -693,6 +698,63 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 虚の攻撃技57件が元の闇技と性能一致: "
                  + $"{(voidMoves.Count == 57 && mismatch.Count == 0 ? "OK" : "NG")} "
                  + $"({voidMoves.Count}件 不一致{mismatch.Count})");
+    }
+
+    // HABCDS データ（Phase 3）。species.json の6能力・役割・俊敏が仕様どおりに載っていること。
+    // 配線（ダメージ計算・行動順）は Phase 4 なので、ここは読み込んだ値だけを見る。
+    private void VerifyHabcdsData()
+    {
+        var all = SpeciesDatabase.Instance.All.Values.ToList();
+        SpeciesData Sp(string id) => SpeciesDatabase.Instance.Get(id);
+
+        // 1. 287種すべてが6能力を持ち（全て10以上）、合計が360〜630。代表3種の合計。
+        var bad1 = all.Where(sp => new[] { sp.BaseHP, sp.BaseAtk, sp.BaseDef, sp.BaseSpAtk, sp.BaseSpDef, sp.BaseSpeed }.Min() < 10
+                                   || sp.Bst < 360 || sp.Bst > 630).Select(sp => sp.SpeciesId).ToList();
+        bool ref1 = Sp("003").Bst == 360 && Sp("186").Bst == 503 && Sp("203").Bst == 630;
+        GD.Print($"[検証] 287種がHABCDSを持ち全て10以上・合計360〜630(003=360/186=503/203=630): "
+                 + $"{(all.Count == 287 && bad1.Count == 0 && ref1 ? "OK" : "NG")} "
+                 + $"({all.Count}種 違反{bad1.Count} 003={Sp("003").Bst} 186={Sp("186").Bst} 203={Sp("203").Bst})");
+
+        // 2. 打ち分け79種: |(B+D)-0.8H|<=1.0、B/(B+D) in [0.35,0.65]、A/(A+C) in [0.40,0.60]。
+        var mixed = all.Where(sp => sp.Role == "Mixed").ToList();
+        var bad2 = mixed.Where(sp =>
+        {
+            double bd = sp.BaseDef + sp.BaseSpDef, ac = sp.BaseAtk + sp.BaseSpAtk;
+            return System.Math.Abs(bd - 0.8 * sp.BaseHP) > 1.0
+                || sp.BaseDef / bd < 0.35 || sp.BaseDef / bd > 0.65
+                || sp.BaseAtk / ac < 0.40 || sp.BaseAtk / ac > 0.60;
+        }).Select(sp => sp.SpeciesId).ToList();
+        GD.Print($"[検証] 打ち分け79種の耐久配分(B+D=0.8H±1, B:D 35〜65%, A:C 40〜60%): "
+                 + $"{(mixed.Count == 79 && bad2.Count == 0 ? "OK" : "NG")} ({mixed.Count}種 違反{bad2.Count} {string.Join(",", bad2.Take(5))})");
+
+        // 3. 物理/特殊型208種の役割と能力の整合（攻撃型 <=> 主側の攻撃 > max(H, 主側の防御)）と内訳。
+        int Count(string role) => all.Count(sp => sp.Role == role);
+        var bad3 = new List<string>();
+        foreach (var sp in all)
+        {
+            switch (sp.Role)
+            {
+                case "PhysicalAttacker": if (!(sp.BaseAtk > System.Math.Max(sp.BaseHP, sp.BaseDef))) bad3.Add(sp.SpeciesId); break;
+                case "PhysicalWall": if (sp.BaseAtk > System.Math.Max(sp.BaseHP, sp.BaseDef)) bad3.Add(sp.SpeciesId); break;
+                case "SpecialAttacker": if (!(sp.BaseSpAtk > System.Math.Max(sp.BaseHP, sp.BaseSpDef))) bad3.Add(sp.SpeciesId); break;
+                case "SpecialWall": if (sp.BaseSpAtk > System.Math.Max(sp.BaseHP, sp.BaseSpDef)) bad3.Add(sp.SpeciesId); break;
+                case "Mixed": break;
+                default: bad3.Add(sp.SpeciesId + ":role=" + sp.Role); break;
+            }
+        }
+        bool counts3 = Count("PhysicalWall") == 76 && Count("PhysicalAttacker") == 48
+                    && Count("SpecialWall") == 53 && Count("SpecialAttacker") == 31;
+        GD.Print($"[検証] 役割と能力が整合(物理耐久76・物理攻撃48・特殊耐久53・特殊攻撃31): "
+                 + $"{(bad3.Count == 0 && counts3 ? "OK" : "NG")} "
+                 + $"(物耐{Count("PhysicalWall")} 物攻{Count("PhysicalAttacker")} 特耐{Count("SpecialWall")} 特攻{Count("SpecialAttacker")} 違反{bad3.Count})");
+
+        // 4. 俊敏: 全種35〜130で最小35・最大130。基準点 199=104、130B・196・201=130。
+        int minS = all.Min(sp => sp.BaseSpeed), maxS = all.Max(sp => sp.BaseSpeed);
+        bool refs4 = Sp("199").BaseSpeed == 104 && Sp("130B").BaseSpeed == 130
+                  && Sp("196").BaseSpeed == 130 && Sp("201").BaseSpeed == 130;
+        GD.Print($"[検証] 俊敏35〜130(最小35・最大130)と基準点(199=104/130B・196・201=130): "
+                 + $"{(minS == 35 && maxS == 130 && refs4 ? "OK" : "NG")} "
+                 + $"(最小{minS} 最大{maxS} 199={Sp("199").BaseSpeed} 130B={Sp("130B").BaseSpeed} 196={Sp("196").BaseSpeed} 201={Sp("201").BaseSpeed})");
     }
 
     // 虚脱(Hollow): 蓄積で発症し、一致補正が消え、自分の2回目の行動終了時に解除される。

@@ -28,8 +28,9 @@ def main():
     traits = {t['id']: t for t in
               json.load(open(f'{ROOT}/Data/traits.json', encoding='utf-8'))}
     name = lambda sid: species.get(sid, {}).get('display_name', sid)
-    bst = lambda sid: (species[sid]['base_hp'] + species[sid]['base_atk']
-                       + species[sid]['base_def']) if sid in species else 0
+    # 過去の実験結果の集計用なので旧HADのBST3（legacy_had）で数える
+    _l = lambda sp_: sp_.get('legacy_had') or {'hp': sp_['base_hp'], 'atk': sp_['base_atk'], 'def': sp_['base_def']}
+    bst = lambda sid: (sum(_l(species[sid]).values())) if sid in species else 0
 
     # ---- builds: loop -> team -> (A, B, [entries]) ----
     builds = collections.defaultdict(dict)
