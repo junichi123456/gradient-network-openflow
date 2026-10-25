@@ -1,0 +1,129 @@
+# このリポジトリでの作業の進め方
+
+## 作業フロー（ユーザー指示 2026-10-25 により恒久化）
+
+すべての指示は **草案 → 確認 → 実装 → 検証** の順で処理する。
+
+### 1. 仕様書の草案（Opus が書く）
+
+指示を受けたら、まず `docs/design/drafts/<YYYY-MM-DD>-<slug>.md` に仕様書の
+草案を書く。実装には入らない。草案に必ず含めるもの:
+
+- **目的** — 何を達成したいのか（指示の言い換えではなく、達成条件）
+- **現状** — 既存コードのどこが関係するか。ファイル名と関数名まで書く
+- **変更内容** — ファイルごとに、何をどう変えるか
+- **判断が必要だった点** — 複数の解釈が成り立つところと、採った解釈
+- **検証方法** — 何をどう確かめれば「できた」と言えるか。期待値まで書く
+- **やらないこと** — 指示の範囲外だと判断したもの
+
+草案は実装者（別プロセスの Sonnet）が会話履歴なしで読む。**この会話で前提に
+なっている事柄を省略すると実装できない。** 仕様書は単独で完結させる。
+
+### 2. 確認（ユーザーに聞く）
+
+草案のうち、解釈が分かれて**結果が実質的に変わる**ところだけを
+`AskUserQuestion` でユーザーに確認する。慣例的な既定値がある選択や、
+コードを読めば決まることは自分で決めて、草案にそう書く。
+
+確認で決まった内容を草案に反映し、そこで仕様書は確定とする。
+
+### 3. 実装（Sonnet に委譲する）
+
+確定した仕様書をもとに、`Agent` ツールで `model: "sonnet"` を指定して
+実装させる。プロンプトには仕様書のパスを渡し、仕様書に書いていないことは
+勝手に決めずに報告させる。
+
+### 4. 検証（Opus が自分でやる）
+
+Sonnet の報告を信用せず、必ず自分で確かめる。
+
+```sh
+dotnet build MysteryDungeonRoguelike.csproj      # コンパイルエラーを先に出す
+godot --headless --path . Scenes/BattleTestScene.tscn  # 回帰スイート（現在112項目）
+git diff                                          # 仕様書と差分を突き合わせる
+```
+
+通らなければ自分で直すか、仕様書を直して再委譲する。
+
+### 適用範囲
+
+コード・データ・Artifact を変える作業はすべてこのフローを通す。
+純粋な質問や既存結果の分析には仕様書を作らず直接答える——ただし、その答えを
+受けて変更に入るなら、そこから改めてこのフローに乗せる。
+
+## このリポジトリ固有の注意
+
+### ツールチェーンのセットアップ（コンテナは使い捨て）
+
+クラウドセッションのコンテナは再作成されると `godot` も `dotnet` も消える。
+`dotnet: command not found` が出たら、まずこれを実行する。
+
+```sh
+S=/tmp   # 作業用ディレクトリならどこでもよい
+curl -sSL https://dot.net/v1/dotnet-install.sh -o $S/dotnet-install.sh
+bash $S/dotnet-install.sh --channel 8.0 --install-dir /opt/dotnet
+ln -sf /opt/dotnet/dotnet /usr/local/bin/dotnet
+
+curl -sSL -o $S/godot.zip \
+  https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_mono_linux_x86_64.zip
+unzip -q -o $S/godot.zip -d /opt/godot4
+ln -sf /opt/godot4/Godot_v4.3-stable_mono_linux_x86_64/Godot_v4.3-stable_mono_linux.x86_64 \
+  /usr/local/bin/godot
+```
+
+`godot --version` が `4.3.stable.mono` を返せば完了。
+
+headless 実行ではスプライトの import エラーが大量に出る（`.godot/imported/`
+が無いため）。**戦闘ロジックの検証には影響しない**ので無視してよい。
+
+### ビルド
+
+`godot --headless` は古いアセンブリを黙って使うことがある。**必ず
+`dotnet build MysteryDungeonRoguelike.csproj` を先に実行する。** これを
+飛ばすと、新しく足したコマンドライン引数が無視されて既定の経路に落ちる。
+
+### 種族値を変えると固定シードの再現性が崩れる
+
+`MetaScenario` の生成は Fisher-Yates シャッフルを使っており、**順序に
+依存する。** どれか1種の種族値合計を変えると、ソート済みリストの並びが
+変わり、生成列全体に伝播する。シード `20260822UL` で作った「同じ」構築
+番号（#66 / #53 / #30 など）が、変更後は別の構築になる。過去の実験結果と
+比較するときは必ずこれを疑う。
+
+### 行動順と天候の向きは逆
+
+- 行動順: 優先度 → **種族値合計の低い側が先** → 乱数
+- 入場時の天候: **種族値合計の高い側から順に発動** するので、低い側が
+  最後に上書きして勝つ（`BattleArena.ApplyEntryWeather`）
+
+### Artifact の同期
+
+learnset や個体性能を変えたら、2つの Artifact を必ず更新する。
+
+```sh
+python3 Tools/build_ls_payload.py   # learnset インスペクタのペイロードを再生成
+python3 Tools/refresh_move_editor.py # 技データベース エディタ
+```
+
+生成した `Tools/artifacts/learnset_viewer.html` と
+`Tools/artifacts/move_editor.html` を、**同じ `file_path` で再公開**して
+URL を保つ。
+
+- learnset インスペクタ: `188eb9b1-d49d-4c39-bf77-895a30185e99`
+- 技データベース エディタ: `975b54fe-5c46-4597-ae30-26d694ac3eb2`
+
+### 構築の規則
+
+1構築内で重複が禁止されるのは**種族と持ち物だけ**。技は別個体どうしなら
+重複してよい（同じ個体が同じ技を2つ持つことだけが禁止）。
+
+### 適応モードはシャード分割できない
+
+`--strongest` や `--random` は状態を持たないのでシャード分割できるが、
+`--meta-core` / `--meta-challengers` / `--tactics` は構築の変更が次の試合に
+引き継がれるため、**単一プロセスで逐次実行**するしかない。
+
+### 設計記録
+
+実験の設計と結果は `docs/design/pvp_spec.md` に節を足して記録する
+（現在 §27 まで）。仕様書の草案は `docs/design/drafts/` に置く。
