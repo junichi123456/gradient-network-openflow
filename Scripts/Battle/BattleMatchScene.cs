@@ -198,6 +198,7 @@ public partial class BattleMatchScene : Node2D
         int homeWin = 0, awayWin = 0, draw = 0, unresolved = 0;
         var cycles = new List<int>();
         int bstAgree = 0, bstTie = 0, bstDecided = 0, buildViolations = 0;
+        var csvRows = new List<string>();
 
         for (int i = 0; i < _matches; i++)
         {
@@ -230,6 +231,16 @@ public partial class BattleMatchScene : Node2D
             }
             cycles.Add(r.Cycles);
 
+            if (!string.IsNullOrEmpty(_outPath))
+            {
+                string oc = r.Outcome switch
+                {
+                    BattleOutcome.PlayerWin => "H", BattleOutcome.EnemyWin => "A",
+                    BattleOutcome.Draw => "D", _ => "U",
+                };
+                csvRows.Add($"{i},{oc},{r.HomeSel},{r.AwaySel},{r.HomeBst},{r.AwayBst},{r.Cycles}");
+            }
+
             if (r.Outcome == BattleOutcome.PlayerWin || r.Outcome == BattleOutcome.EnemyWin)
             {
                 if (r.HomeBst == r.AwayBst) bstTie++;
@@ -242,6 +253,9 @@ public partial class BattleMatchScene : Node2D
                 }
             }
         }
+
+        if (!string.IsNullOrEmpty(_outPath))
+            System.IO.File.AppendAllLines(_outPath, csvRows);
 
         GD.Print("");
         GD.Print($"[検証] 毎試合とも構築規則を満たし、全員が持ち物を持つ: "
@@ -791,6 +805,8 @@ public partial class BattleMatchScene : Node2D
         public int Cycles { get; init; }
         public int HomeBst { get; init; }   // 選出4匹の合計種族値（自陣）
         public int AwayBst { get; init; }   // 同・敵陣
+        public string HomeSel { get; init; }   // 選出4匹の species_id（"|" 区切り）
+        public string AwaySel { get; init; }
 
         // 選出され、実際に盤面に立った個体だけが入る（種族ID→生存かどうか）。
         // §22の適応ロジック（弱点個体の特定）に使う——それ以外の呼び出しは無視してよい。
@@ -875,6 +891,8 @@ public partial class BattleMatchScene : Node2D
         {
             Outcome = flow.Outcome, Cycles = sched.CycleNumber,
             HomeBst = homeBst, AwayBst = awayBst,
+            HomeSel = string.Join("|", sched.Roster.Where(e => e.Faction == Faction.Player).Select(e => e.SpeciesId)),
+            AwaySel = string.Join("|", sched.Roster.Where(e => e.Faction == Faction.Enemy).Select(e => e.SpeciesId)),
             HomeAlive = sched.Roster.Where(e => e.Faction == Faction.Player)
                 .ToDictionary(e => e.SpeciesId, e => e.IsAlive),
             AwayAlive = sched.Roster.Where(e => e.Faction == Faction.Enemy)
