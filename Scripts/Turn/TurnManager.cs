@@ -60,7 +60,9 @@ public partial class TurnManager : Node
             bool shielded = BuildUpRelay.TryClaim(entity);
 
             var action = actor.FilterActionForStatus(playerAction);
+            entity?.NotifyOwnActionStarting();
             action.Execute(TurnCount);
+            entity?.NotifyOwnActionEnded(); // 虚脱の「2回目の行動終了時」解除
 
             if (shielded) BuildUpRelay.Release(entity);
             if (entity != null && entity.Stats.Trait == "build_up")

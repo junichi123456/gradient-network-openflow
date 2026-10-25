@@ -92,7 +92,9 @@ public sealed class BattleScheduler
             else
             {
                 var action = c.Actor.FilterActionForStatus(c.Action);
+                c.Actor.NotifyOwnActionStarting();
                 action?.Execute(TotalTurns);
+                c.Actor.NotifyOwnActionEnded();
 
                 // 「自分のターン終了時」に効く持ち物。行動が不発でも
                 // ターンは終わるので、この位置は行動の成否に依らない。

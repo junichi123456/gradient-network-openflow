@@ -222,6 +222,7 @@ public partial class StatusEffectManager : Node
         "Grass" => AilmentType.VineBound,
         "Ice" => AilmentType.Freeze,
         "Dark" => AilmentType.Darkness,
+        "Void" => AilmentType.Hollow,
         _ => null,
     };
 
@@ -353,6 +354,33 @@ public partial class StatusEffectManager : Node
     public bool IsVineBound => Ailment == AilmentType.VineBound;
     public bool IsInDarkness => Ailment == AilmentType.Darkness;
 
+    // 虚脱: 使う技の一致補正(STAB)が消える。解除は「自分の2回目の行動終了時」
+    // で、サイクル終了(AdvanceTurn)では刻まない。行動の開始時点で虚脱だった
+    // 行動だけを数える（自分の行動中に虚脱になった場合、その行動は数えない）。
+    public bool IsHollow => Ailment == AilmentType.Hollow;
+    private int _hollowActionsElapsed;
+    private bool _hollowAtActionStart;
+
+    // 虚脱になった瞬間に呼ばれる（蓄積の発症・確定付与のどちらも）。
+    // ログは呼び出し側(Entity)が持つので、通知だけ出す。
+    public event System.Action HollowApplied;
+
+    public void NotifyOwnActionStarting() => _hollowAtActionStart = IsHollow;
+
+    // 行動が実行されて終わるたびに呼ぶ。2回目で虚脱を解除して true を返す。
+    public bool NotifyOwnActionEnded()
+    {
+        bool counted = _hollowAtActionStart && IsHollow;
+        _hollowAtActionStart = false;
+        if (!counted) return false;
+
+        _hollowActionsElapsed++;
+        if (_hollowActionsElapsed < 2) return false;
+
+        ClearAilment();
+        return true;
+    }
+
     // ---- trait_catalog_v2 stage 1 traits ----
 
     // バッテリー: permanently occupies the Ailment slot with Paralyze (帯電)
@@ -467,6 +495,11 @@ public partial class StatusEffectManager : Node
         Ailment = type;
         _ailmentTurnsElapsed = 0;
         _toxicStacks = type == AilmentType.Toxic ? 1 : 0;
+        if (type == AilmentType.Hollow)
+        {
+            _hollowActionsElapsed = 0;
+            HollowApplied?.Invoke();
+        }
         return true;
     }
 
@@ -474,6 +507,7 @@ public partial class StatusEffectManager : Node
     {
         Ailment = AilmentType.None;
         _ailmentTurnsElapsed = 0;
+        _hollowActionsElapsed = 0;
         _toxicStacks = 0;
     }
 
@@ -499,6 +533,8 @@ public partial class StatusEffectManager : Node
         _tempRankTurnsRemaining = 0;
         Ailment = AilmentType.None;
         _ailmentTurnsElapsed = 0;
+        _hollowActionsElapsed = 0;
+        _hollowAtActionStart = false;
         _toxicStacks = 0;
         IsStunned = false;
         _accumulation.Clear();

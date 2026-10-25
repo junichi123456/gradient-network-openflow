@@ -446,6 +446,8 @@ public class AttackAction : IAction
         // no double-counting to guard.
         var (atkType1, atkType2) = CombatTypes(_attacker);
         bool stabApplies = effectiveType == atkType1 || (!string.IsNullOrEmpty(atkType2) && effectiveType == atkType2);
+        // 虚脱: 自身の一致補正(1.2 / 〇〇派の1.5)がかからない。
+        if (_attacker.StatusEffects.IsHollow) stabApplies = false;
         // 〇〇派 (§3): when STAB already applies, a matching stab-template
         // trait replaces the usual 1.2x with 1.5x ("差し替え" - it's not an
         // additional stack, STAB just becomes stronger for this holder).
@@ -1750,7 +1752,9 @@ public class AttackAction : IAction
     {
         if (target.StatusEffects.TryApplyAilment(ailment))
         {
-            MessageLogger.Log($"{target.ActorName} was afflicted with {ailment}!", MessageLogger.IneffectiveColor);
+            // 虚脱の発症ログは Entity 側(HollowApplied)が日本語で出す。
+            if (ailment != AilmentType.Hollow)
+                MessageLogger.Log($"{target.ActorName} was afflicted with {ailment}!", MessageLogger.IneffectiveColor);
 
             // キュアベル(使い切り): 状態異常になった瞬間に回復する。
             if (target.Holds(Combat.BattleItemEffect.CureAilment))

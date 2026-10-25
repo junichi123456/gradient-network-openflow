@@ -73,7 +73,9 @@ public class TurnScheduler
 
                     IAction action = actor.DecideAction();
                     action = actor.FilterActionForStatus(action);
+                    entity?.NotifyOwnActionStarting();
                     action?.Execute(turnNumber);
+                    entity?.NotifyOwnActionEnded(); // 虚脱の「2回目の行動終了時」解除
 
                     // ふわふわ/ゆきすべり for NPCs. The player is asked for a
                     // second input (see TurnManager.AwaitingFollowUpMove);

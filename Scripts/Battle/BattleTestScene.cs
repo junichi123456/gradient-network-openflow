@@ -72,6 +72,7 @@ public partial class BattleTestScene : Node2D
         VerifyNetwork(BuildTeam(PlayerRoster));
         VerifyCycleTick();
         VerifyVoidType();
+        VerifyHollow();
         RunBattle();
 
         GetTree().Quit();
@@ -692,6 +693,116 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 虚の攻撃技57件が元の闇技と性能一致: "
                  + $"{(voidMoves.Count == 57 && mismatch.Count == 0 ? "OK" : "NG")} "
                  + $"({voidMoves.Count}件 不一致{mismatch.Count})");
+    }
+
+    // 虚脱(Hollow): 蓄積で発症し、一致補正が消え、自分の2回目の行動終了時に解除される。
+    private void VerifyHollow()
+    {
+        var atk = _sched.Roster.First(e => e.Faction == Faction.Enemy);
+        var def = _sched.Roster.First(e => e.Faction == Faction.Player);
+        foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); }
+
+        string oldType1 = atk.Stats.Type1, oldType2 = atk.Stats.Type2, oldTrait = atk.Stats.Trait;
+
+        // 1. 宣言なしの虚技1発で虚脱の蓄積が+25（初回命中で止めて見る）。
+        var voidMove = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+            .First(m => m.Type == "Void" && m.Power >= 40 && m.Accuracy >= 100
+                        && m.Range == MoveRange.Adjacent && m.AilmentEffect == AilmentType.None
+                        && m.RankEffects.Count == 0);
+        int acc = 0;
+        for (int i = 0; i < 16 && acc == 0; i++)
+        {
+            def.StatusEffects.Reset(); def.Stats.HealToFull();
+            new AttackAction(atk, def, MakeSlot(atk, voidMove), _floor).Execute(0);
+            acc = def.StatusEffects.GetAccumulation(AilmentType.Hollow);
+        }
+        GD.Print($"[検証] 虚技の命中で虚脱の蓄積が+25: {(acc == 25 ? "OK" : "NG")} ({voidMove.Name} 蓄積{acc})");
+        def.StatusEffects.Reset(); def.Stats.HealToFull();
+
+        // 2. 虚脱中は一致技のダメージが非一致時と同値（〇〇派でも1.0）。
+        var fire = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+            .First(m => m.Type == "Fire" && m.Category == MoveCategory.Physical && m.Range == MoveRange.Adjacent
+                        && m.Accuracy >= 100 && m.Power >= 40 && m.RankEffects.Count == 0
+                        && m.AilmentEffect == AilmentType.None);
+        atk.Stats.Type1 = "Fire"; atk.Stats.Type2 = ""; atk.Stats.Trait = "";
+        int stab = MeasureHit(atk, def, fire, null);
+        atk.Stats.Trait = "fire_stab";
+        int stabHa = MeasureHit(atk, def, fire, null);
+        atk.StatusEffects.TryApplyAilment(AilmentType.Hollow);
+        int hollow = MeasureHit(atk, def, fire, null);
+        atk.Stats.Trait = "";
+        int hollowPlain = MeasureHit(atk, def, fire, null);
+        atk.StatusEffects.Reset();
+        atk.Stats.Type1 = "Dragon";
+        int noMatch = MeasureHit(atk, def, fire, null);
+        atk.Stats.Type1 = oldType1; atk.Stats.Type2 = oldType2; atk.Stats.Trait = oldTrait;
+        GD.Print($"[検証] 虚脱中は一致技が非一致時と同ダメージ(〇〇派でも): "
+                 + $"{(hollow == noMatch && hollowPlain == noMatch && stab > noMatch && stabHa > stab ? "OK" : "NG")} "
+                 + $"(一致{stab} / 〇〇派{stabHa} / 虚脱{hollow}・{hollowPlain} / 非一致{noMatch})");
+
+        BattleScheduler.Commitment Act()
+        {
+            var phys = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+                .First(m => m.Category == MoveCategory.Physical && m.Range == MoveRange.Adjacent
+                            && m.Accuracy >= 100 && m.Power >= 40 && m.RankEffects.Count == 0);
+            def.Stats.HealToFull();
+            return new BattleScheduler.Commitment(atk, new AttackAction(atk, def, MakeSlot(atk, phys), _floor), 0);
+        }
+
+        // 3. 行動前に虚脱 → 1回目の行動後はまだ虚脱、2回目の行動後に解除。
+        atk.StatusEffects.Reset();
+        atk.StatusEffects.TryApplyAilment(AilmentType.Hollow);
+        _sched.ResolveTurn(Act(), default);
+        bool afterFirst = atk.StatusEffects.IsHollow;
+        _sched.ResolveTurn(Act(), default);
+        bool afterSecond = atk.StatusEffects.IsHollow;
+        GD.Print($"[検証] 行動前に虚脱: 1回目の行動後は虚脱のまま・2回目の行動後に解除: "
+                 + $"{(afterFirst && !afterSecond ? "OK" : "NG")} (1回目後={afterFirst} 2回目後={afterSecond})");
+
+        // 4. 行動後に虚脱 → 同サイクル終了時はまだ、次サイクルの行動後もまだ、その次の行動後に解除。
+        atk.StatusEffects.Reset();
+        _sched.BeginCycle();
+        _sched.ResolveTurn(Act(), default);
+        atk.StatusEffects.TryApplyAilment(AilmentType.Hollow);
+        _sched.EndCycle();
+        bool atCycleEnd = atk.StatusEffects.IsHollow;
+        _sched.BeginCycle();
+        _sched.ResolveTurn(Act(), default);
+        bool afterN1 = atk.StatusEffects.IsHollow;
+        _sched.EndCycle();
+        _sched.BeginCycle();
+        _sched.ResolveTurn(Act(), default);
+        bool afterN2 = atk.StatusEffects.IsHollow;
+        _sched.EndCycle();
+        // 自分の行動中に付いた虚脱は、その行動の終了を数えない（付いた行動の後に2回行動して解除）。
+        atk.StatusEffects.Reset();
+        atk.NotifyOwnActionStarting();
+        atk.StatusEffects.TryApplyAilment(AilmentType.Hollow);
+        atk.NotifyOwnActionEnded();
+        bool midAction = atk.StatusEffects.IsHollow;
+        _sched.ResolveTurn(Act(), default);
+        bool midFirst = atk.StatusEffects.IsHollow;
+        _sched.ResolveTurn(Act(), default);
+        bool midSecond = atk.StatusEffects.IsHollow;
+        GD.Print($"[検証] 行動後に虚脱: サイクル終了では刻まず次の次の行動後に解除: "
+                 + $"{(atCycleEnd && afterN1 && !afterN2 && midAction && midFirst && !midSecond ? "OK" : "NG")} "
+                 + $"(終了時={atCycleEnd} N+1後={afterN1} N+2後={afterN2} / 行動中付与 直後={midAction} 1回目後={midFirst} 2回目後={midSecond})");
+
+        // 5. 気絶で飛ばした手番は数えない。
+        atk.StatusEffects.Reset();
+        atk.StatusEffects.TryApplyAilment(AilmentType.Hollow);
+        atk.StatusEffects.TryApplyAilment(AilmentType.Stun);
+        _sched.ResolveTurn(Act(), default);
+        bool afterSkip = atk.StatusEffects.IsHollow;
+        _sched.ResolveTurn(Act(), default);
+        bool afterOne = atk.StatusEffects.IsHollow;
+        _sched.ResolveTurn(Act(), default);
+        bool afterTwo = atk.StatusEffects.IsHollow;
+        GD.Print($"[検証] 気絶で飛ばした手番は数えない: "
+                 + $"{(afterSkip && afterOne && !afterTwo ? "OK" : "NG")} "
+                 + $"(飛ばした後={afterSkip} 行動1回後={afterOne} 行動2回後={afterTwo})");
+
+        foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); x.HeldItemId = null; }
     }
 
     // 状態異常とランク減衰がターンではなくサイクル単位で刻まれることを見る。

@@ -149,7 +149,9 @@ def main():
         assert nm not in names, nm
         names.add(nm)
         v['name'] = nm
-        # ailment_effect: Darkness は Phase 2 で Hollow に書き換える（Phase 1 は Darkness のまま複製）
+        # ailment_effect: 闇の暗闇宣言は虚では虚脱宣言(Hollow)に変える（Phase 2）。Poison/Toxic はそのまま。
+        if v.get('ailment_effect') == 'Darkness':
+            v['ailment_effect'] = 'Hollow'
         void_moves.append(v)
     moves = moves + void_moves
     M = {m['id']: m for m in moves}

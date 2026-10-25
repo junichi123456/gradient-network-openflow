@@ -190,6 +190,7 @@ public partial class Entity : Node2D, ITurnActor
             StatusEffects = new StatusEffectManager { Name = "StatusEffects" };
             AddChild(StatusEffects);
         }
+        StatusEffects.HollowApplied += OnHollowApplied;
 
         // trait_catalog_v2 stage 1: バッテリー permanently occupies the
         // Ailment slot (帯電/Paralyze) via the mutual-exclusion rule, with
@@ -638,6 +639,24 @@ public partial class Entity : Node2D, ITurnActor
         if (IsMovementBlocked && (action is MoveAction || action is SwapAction))
             return new WaitAction(this);
         return action;
+    }
+
+    // 虚脱: 自分の行動の開始/終了を StatusEffects に伝える。「2回目の行動
+    // 終了時」に解除されるので、行動が実行された手番だけ呼ぶ（凍結/気絶で
+    // 飛ばした手番では呼ばない）。
+    public void NotifyOwnActionStarting() => StatusEffects.NotifyOwnActionStarting();
+
+    public void NotifyOwnActionEnded()
+    {
+        if (!StatusEffects.NotifyOwnActionEnded()) return;
+        GD.Print($"[Battle] {ActorName}の虚脱が解けた");
+        UI.MessageLogger.Log($"{ActorName}の虚脱が解けた", UI.MessageLogger.ProgressionColor);
+    }
+
+    private void OnHollowApplied()
+    {
+        GD.Print($"[Battle] {ActorName}は虚脱した(タイプ一致の補正が消える)");
+        UI.MessageLogger.Log($"{ActorName}は虚脱した!(タイプ一致の補正が消える)", UI.MessageLogger.IneffectiveColor);
     }
 
     // Phase 21 after-action hook: called once per action-cycle for every

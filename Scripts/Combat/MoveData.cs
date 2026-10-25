@@ -131,6 +131,8 @@ public enum AilmentType
     MudCaked,
     VineBound,
     Darkness,
+    // 虚脱(虚): 一致補正(STAB)が消える。自分の2回目の行動終了時に解除。
+    Hollow,
 }
 
 // One rank change a move applies. A move used to be able to declare
