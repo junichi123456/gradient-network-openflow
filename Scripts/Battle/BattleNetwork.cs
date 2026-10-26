@@ -201,11 +201,18 @@ public partial class BattleNetwork : Node
         {
             var moves = new Godot.Collections.Array();
             foreach (var m in e.MoveIds) moves.Add(m);
+            var sp = e.Spread ?? StatSpread.Zero();
             arr.Add(new Godot.Collections.Dictionary
             {
                 ["s"] = e.SpeciesId,
                 ["m"] = moves,
                 ["i"] = e.ItemId ?? "",
+                ["b"] = new Godot.Collections.Array
+                {
+                    sp.Hp, sp.Atk, sp.Def, sp.SpAtk, sp.SpDef, sp.Speed,
+                },
+                ["nu"] = sp.NatureUp.ToString(),
+                ["nd"] = sp.NatureDown.ToString(),
             });
         }
         return Json.Stringify(arr);
@@ -220,11 +227,27 @@ public partial class BattleNetwork : Node
             var d = v.AsGodotDictionary();
             var moves = d["m"].AsGodotArray().Select(x => x.AsString()).ToList();
             string item = d["i"].AsString();
+
+            // 突破値・気質。キーが無い（古い相手）・形が合わないときは Zero。
+            var spread = StatSpread.Zero();
+            if (d.ContainsKey("b") && d["b"].VariantType == Variant.Type.Array)
+            {
+                var b = d["b"].AsGodotArray();
+                if (b.Count == 6)
+                {
+                    spread.Hp = b[0].AsInt32(); spread.Atk = b[1].AsInt32(); spread.Def = b[2].AsInt32();
+                    spread.SpAtk = b[3].AsInt32(); spread.SpDef = b[4].AsInt32(); spread.Speed = b[5].AsInt32();
+                }
+            }
+            if (d.ContainsKey("nu")) spread.NatureUp = StatSpread.ParseNature(d["nu"].AsString());
+            if (d.ContainsKey("nd")) spread.NatureDown = StatSpread.ParseNature(d["nd"].AsString());
+
             entries.Add(new BattleEntry
             {
                 SpeciesId = d["s"].AsString(),
                 MoveIds = moves,
                 ItemId = string.IsNullOrEmpty(item) ? null : item,
+                Spread = spread,
             });
         }
         return new BattleTeam(entries);

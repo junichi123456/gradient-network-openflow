@@ -40,6 +40,9 @@ public partial class BattlePal : Entity
             Moves.Learn(mid);
 
         HeldItemId = entry.ItemId;   // Entity 側が効果解決に使う
+
+        // 突破値・気質。Stats.Level = 50 のあとに呼ばれる（_Ready の順）。
+        Stats.ApplySpread(entry.Spread ?? StatSpread.Zero());
     }
 
     // 登録内容を持たない個体のフォールバック。learnset から技枠が

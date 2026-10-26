@@ -253,6 +253,9 @@ public partial class BattleHud : Control
 
     // 行動順レール。種族値を隠さず並べ、左ほど先に動くことを見せる。
     //
+    // 並びと表示は公開情報の種族値 S（高い順、同値は BST6 の低い順）。相手の突破値・気質は
+    // 見えないので、実際の行動順（俊敏の実数値）とは食い違い得る「目安」である。
+    //
     // ここに出してよいのは公開情報だけ。種族値も、そのサイクルで既に動いたか
     // どうかも、解決を見ていれば分かるので公開情報にあたる。
     // 一方「このターンに誰を操作するか」は伏せて同時に決める対象なので、
@@ -264,7 +267,8 @@ public partial class BattleHud : Control
 
         var order = _sched.Roster
             .Where(e => e.IsAlive)
-            .OrderBy(BattleScheduler.Bst)
+            .OrderByDescending(e => e.Stats.BaseSpeed)
+            .ThenBy(BattleScheduler.Bst)
             .ToList();
 
         foreach (var e in order)
@@ -279,7 +283,7 @@ public partial class BattleHud : Control
             var col = new VBoxContainer();
             col.AddThemeConstantOverride("separation", 1);
             col.AddChild(Text(e.ActorName, BattleTheme.Faction(e.Faction), BattleTheme.FontLabel));
-            col.AddChild(Text($"BST {BattleScheduler.Bst(e)}", BattleTheme.Muted, 10));
+            col.AddChild(Text($"S {e.Stats.BaseSpeed}", BattleTheme.Muted, 10));
             col.AddChild(operating ? Text("操作中", BattleTheme.Brass, 9)
                                    : Text(acted ? "行動済" : "未行動", BattleTheme.Muted, 9));
             card.AddChild(col);

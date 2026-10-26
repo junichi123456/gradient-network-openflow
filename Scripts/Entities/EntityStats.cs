@@ -11,9 +11,9 @@ namespace MysteryDungeon.Entities;
 // use Attack/Defense, special moves use SpAttack/SpDefense (HABCDS).
 //
 // Phase 17: Attack/Defense/MaxHp are no longer flat designer-set values.
-// Each is derived on demand from a HAD-style formula (species BaseXxx +
-// individual BreakthroughXxx, scaled by Level) - see MaxHp/Attack/
-// Defense below. A concrete Entity subclass (Player/BossEntity/etc.)
+// Each is derived on demand from a formula (species BaseXxx scaled by
+// Level, then the nature, then the individual BreakthroughXxx added on
+// top as a flat real-stat bonus) - see MaxHp/Attack/Defense below. A concrete Entity subclass (Player/BossEntity/etc.)
 // configures BaseMaxHp/BaseAtk/BaseDef/Level in its own _Ready() instead
 // of assigning the real stats directly.
 public partial class EntityStats : Node
@@ -80,20 +80,51 @@ public partial class EntityStats : Node
 
     // 6能力の種族値合計（BST6）。合計種族値の唯一の定義。
     public int BaseTotal => BaseMaxHp + BaseAtk + BaseDef + BaseSpAtk + BaseSpDef + BaseSpeed;
+    // 突破値（Breakthrough）。構築で振る「実数値への直接加算」で、気質補正のあとに足す。
+    // 各0〜25・6能力合計55以下は構築側（StatSpread.Validate）で検証する。
+    // 迷宮側は常に 0・無補正なので、実数値は従来と一致する。
     [Export] public int BreakthroughAtk { get; set; } = 0;
     [Export] public int BreakthroughDef { get; set; } = 0;
     [Export] public int BreakthroughSpAtk { get; set; } = 0;
     [Export] public int BreakthroughSpDef { get; set; } = 0;
     [Export] public int BreakthroughSpeed { get; set; } = 0;
 
-    // Real (calculated) stats - Phase 17's HAD formula. Read-only: set
-    // BaseXxx/BreakthroughXxx/Level instead, never these directly.
-    public int MaxHp => Mathf.FloorToInt((BaseMaxHp * 2 + BreakthroughHP) * Level / 100.0f) + Level + 10;
-    public int Attack => Mathf.FloorToInt((BaseAtk * 2 + BreakthroughAtk) * Level / 100.0f) + 5;
-    public int Defense => Mathf.FloorToInt((BaseDef * 2 + BreakthroughDef) * Level / 100.0f) + 5;
-    public int SpAttack => Mathf.FloorToInt((BaseSpAtk * 2 + BreakthroughSpAtk) * Level / 100.0f) + 5;
-    public int SpDefense => Mathf.FloorToInt((BaseSpDef * 2 + BreakthroughSpDef) * Level / 100.0f) + 5;
-    public int Speed => Mathf.FloorToInt((BaseSpeed * 2 + BreakthroughSpeed) * Level / 100.0f) + 5;
+    // 気質。HP 以外の5能力のうち上昇側 ×1.1・下降側 ×0.9。None/None か同じ能力は無補正。
+    public NatureStat NatureUp { get; set; } = NatureStat.None;
+    public NatureStat NatureDown { get; set; } = NatureStat.None;
+
+    private int NatureMul10(NatureStat stat)
+    {
+        if (NatureUp == NatureDown || stat == NatureStat.None) return 10;
+        if (NatureUp == stat) return 11;
+        if (NatureDown == stat) return 9;
+        return 10;
+    }
+
+    // Real (calculated) stats. 素の値(Base*2*Lv/100+5) -> 気質(*11/10, *9/10, 整数切り捨て)
+    // -> 突破値を加算。HP は気質なし。Read-only: set BaseXxx/BreakthroughXxx/Level
+    // instead, never these directly.
+    public int MaxHp => BaseMaxHp * 2 * Level / 100 + Level + 10 + BreakthroughHP;
+    public int Attack => StatSpread.RealStat(BaseAtk, Level, BreakthroughAtk, NatureMul10(NatureStat.Atk));
+    public int Defense => StatSpread.RealStat(BaseDef, Level, BreakthroughDef, NatureMul10(NatureStat.Def));
+    public int SpAttack => StatSpread.RealStat(BaseSpAtk, Level, BreakthroughSpAtk, NatureMul10(NatureStat.SpAtk));
+    public int SpDefense => StatSpread.RealStat(BaseSpDef, Level, BreakthroughSpDef, NatureMul10(NatureStat.SpDef));
+    public int Speed => StatSpread.RealStat(BaseSpeed, Level, BreakthroughSpeed, NatureMul10(NatureStat.Speed));
+
+    // 構築の突破値・気質を写す。HP は ApplyMaxHpAffectingChange を通すプロパティ経由で
+    // 代入するので、CurrentHp は満タンのまま。
+    public void ApplySpread(StatSpread s)
+    {
+        s ??= StatSpread.Zero();
+        BreakthroughHP = s.Hp;
+        BreakthroughAtk = s.Atk;
+        BreakthroughDef = s.Def;
+        BreakthroughSpAtk = s.SpAtk;
+        BreakthroughSpDef = s.SpDef;
+        BreakthroughSpeed = s.Speed;
+        NatureUp = s.NatureUp;
+        NatureDown = s.NatureDown;
+    }
 
     public int CurrentHp { get; set; }
 

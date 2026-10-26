@@ -58,7 +58,7 @@ public readonly struct TurnResult
     public int CycleNumber { get; }
     public int TurnInCycle { get; }
 
-    // 実際に行動した順。行動順は優先度→種族値→ランダムで決まるので、
+    // 実際に行動した順。行動順は優先度→俊敏の実数値→種族値→ランダムで決まるので、
     // クライアント側では再現できない。ホストが決めた順序をそのまま配る。
     public IReadOnlyList<Faction> ActingOrder { get; }
 

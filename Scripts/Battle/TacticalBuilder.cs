@@ -280,6 +280,7 @@ public static class TacticalBuilder
                 SpeciesId = p.Id,
                 MoveIds = PickMoves(p, t, foeTypes, weather),
                 ItemId = PickItem(p, t, used),
+                Spread = StatSpread.Auto(SpeciesDatabase.Instance?.Get(p.Id)),
             });
         }
         return new BattleTeam(entries);

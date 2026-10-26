@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Godot;
+using MysteryDungeon.Entities;
+using MysteryDungeon.Species;
 
 namespace MysteryDungeon.Battle;
 
@@ -11,6 +13,26 @@ internal class NpcEntryJson
     [JsonPropertyName("species_id")] public string SpeciesId { get; set; }
     [JsonPropertyName("move_ids")] public List<string> MoveIds { get; set; }
     [JsonPropertyName("item_id")] public string ItemId { get; set; }
+
+    // 省略可。省略時は StatSpread.Auto（役割に応じた自動配分）。
+    [JsonPropertyName("breakthrough")] public NpcBreakthroughJson Breakthrough { get; set; }
+    [JsonPropertyName("nature")] public NpcNatureJson Nature { get; set; }
+}
+
+internal class NpcBreakthroughJson
+{
+    [JsonPropertyName("hp")] public int Hp { get; set; }
+    [JsonPropertyName("atk")] public int Atk { get; set; }
+    [JsonPropertyName("def")] public int Def { get; set; }
+    [JsonPropertyName("spatk")] public int SpAtk { get; set; }
+    [JsonPropertyName("spdef")] public int SpDef { get; set; }
+    [JsonPropertyName("speed")] public int Speed { get; set; }
+}
+
+internal class NpcNatureJson
+{
+    [JsonPropertyName("up")] public string Up { get; set; }
+    [JsonPropertyName("down")] public string Down { get; set; }
 }
 
 internal class NpcTeamJson
@@ -48,6 +70,27 @@ public static class NpcTeamDatabase
     private static readonly List<NpcTeam> _teams = new();
     private static bool _loaded;
 
+    // JSON に指定があればそれを、無ければ自動配分。指定は片方だけでも
+    // 省略側は Zero/無補正から始める（検証は team.Validate が行う）。
+    private static StatSpread SpreadOf(NpcEntryJson e)
+    {
+        if (e.Breakthrough == null && e.Nature == null)
+            return StatSpread.Auto(SpeciesDatabase.Instance?.Get(e.SpeciesId));
+
+        var s = StatSpread.Zero();
+        if (e.Breakthrough != null)
+        {
+            s.Hp = e.Breakthrough.Hp; s.Atk = e.Breakthrough.Atk; s.Def = e.Breakthrough.Def;
+            s.SpAtk = e.Breakthrough.SpAtk; s.SpDef = e.Breakthrough.SpDef; s.Speed = e.Breakthrough.Speed;
+        }
+        if (e.Nature != null)
+        {
+            s.NatureUp = StatSpread.ParseNature(e.Nature.Up);
+            s.NatureDown = StatSpread.ParseNature(e.Nature.Down);
+        }
+        return s;
+    }
+
     public static void Load(string resPath = "res://Data/npc_teams.json")
     {
         _loaded = true;
@@ -78,6 +121,7 @@ public static class NpcTeamDatabase
                 SpeciesId = e.SpeciesId,
                 MoveIds = e.MoveIds ?? new List<string>(),
                 ItemId = e.ItemId,
+                Spread = SpreadOf(e),
             }));
 
             // 構築規則を通らない相手は出さない。黙って弱い相手として出すより、

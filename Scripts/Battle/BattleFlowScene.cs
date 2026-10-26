@@ -113,6 +113,7 @@ public partial class BattleFlowScene : Control
                 // learnset の先頭4件はレベル1の技（威力15＋変化技）なので、
                 // NPCと同じ選び方で4つ採る（DefaultLoadout）。
                 MoveIds = DefaultLoadout.PickMoves(sp, MoveManager.MaxMoves),
+                Spread = StatSpread.Auto(sp),
             };
         }).ToList();
         return new BattleTeam(entries);

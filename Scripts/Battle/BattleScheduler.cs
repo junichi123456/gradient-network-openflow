@@ -203,8 +203,8 @@ public sealed class BattleScheduler
             actor, actor?.FloorController?.Weather?.Current ?? Dungeon.WeatherType.None)
         - (actor?.StatusEffects?.PriorityPenalty ?? 0);
 
-    // 行動順。優先度 → 俊敏(S)が高い順 → 合計種族値(BST6)が低い順 → ランダム。
-    // 俊敏は種族値そのものを見る（ランク変化・持ち物では動かない）。
+    // 行動順。優先度 → 俊敏の実数値(気質・突破値込み)が高い順 → 合計種族値(BST6)が低い順 → ランダム。
+    // 俊敏の実数値は構築の突破値・気質で決まり、ランク変化・持ち物では動かない。
     // 対戦仕様の中核なので、検証から直接叩けるように公開している。
     public List<Commitment> Order(Commitment a, Commitment b)
     {
@@ -213,7 +213,7 @@ public sealed class BattleScheduler
 
         int cmp = b.Priority.CompareTo(a.Priority);          // 優先度は高いほうが先
         if (cmp == 0)
-            cmp = b.Actor.Stats.BaseSpeed.CompareTo(a.Actor.Stats.BaseSpeed); // 俊敏(S種族値)は高いほうが先
+            cmp = b.Actor.Stats.Speed.CompareTo(a.Actor.Stats.Speed); // 俊敏(実数値)は高いほうが先
         if (cmp == 0)
             cmp = Bst(a.Actor).CompareTo(Bst(b.Actor));      // 同速なら合計種族値(BST6)は低いほうが先
         // 専用の RandomNumberGenerator を持たず GD.Randf()（Godot本体の

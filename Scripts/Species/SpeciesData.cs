@@ -6,7 +6,7 @@ namespace MysteryDungeon.Species;
 // Phase 20: the SPECIES-CONSTANT half of a pal, the single source of
 // truth for everything that's identical across every individual of one
 // species. Individual/progression values (Level, CurrentExp, CurrentHp,
-// the IV-like Breakthrough* stats, IsDowned) deliberately live OUT of
+// the Breakthrough* flat real-stat bonuses, IsDowned) deliberately live OUT of
 // here - on the entity / PartyMemberRecord - so a member is fully
 // reconstructable from "SpeciesId + individual progress" (Phase 19).
 //
@@ -21,7 +21,7 @@ public class SpeciesData
     public string DisplayName { get; set; }
 
     // Phase 17 HAD inputs. Species constants - the per-individual
-    // Breakthrough* modifiers are added on top at the entity level.
+    // Breakthrough* (flat real-stat bonuses, after nature) are added at the entity level.
     public int BaseHP { get; set; }
     public int BaseAtk { get; set; }
     public int BaseDef { get; set; }

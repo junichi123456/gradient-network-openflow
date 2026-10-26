@@ -370,7 +370,11 @@ public partial class BattleMatchScene : Node2D
         if (idx < 0)
         {
             idx = 0;
-            entries[0] = new BattleEntry { SpeciesId = carrier, ItemId = entries[0].ItemId };
+            entries[0] = new BattleEntry
+            {
+                SpeciesId = carrier, ItemId = entries[0].ItemId,
+                Spread = StatSpread.Auto(SpeciesDatabase.Instance?.Get(carrier)),
+            };
         }
         var entry = entries[idx];
         var others = entry.Learnable().Where(m => m.Id != "rs_item_jam").ToList();
@@ -1082,7 +1086,11 @@ public partial class BattleMatchScene : Node2D
         var entries = new List<BattleEntry>();
         for (int i = 0; i < speciesIds.Count; i++)
         {
-            var entry = new BattleEntry { SpeciesId = speciesIds[i] };
+            var entry = new BattleEntry
+            {
+                SpeciesId = speciesIds[i],
+                Spread = StatSpread.Auto(SpeciesDatabase.Instance?.Get(speciesIds[i])),   // 乱数を使わない
+            };
             var learnable = entry.Learnable();
             Shuffle(learnable, rng);
             entry.MoveIds = learnable.Take(MoveManager.MaxMoves).Select(m => m.Id).ToList();
@@ -1122,6 +1130,7 @@ public partial class BattleMatchScene : Node2D
             {
                 SpeciesId = sid,
                 MoveIds = DefaultLoadout.PickMoves(sp, MoveManager.MaxMoves),
+                Spread = StatSpread.Auto(sp),
             };
         }));
     }
@@ -1133,6 +1142,7 @@ public partial class BattleMatchScene : Node2D
             SpeciesId = e.SpeciesId,
             MoveIds = e.MoveIds,
             ItemId = null,
+            Spread = e.Spread?.Clone() ?? StatSpread.Zero(),
         }));
 
     private static NpcTeam StripItems(NpcTeam profile) => new()

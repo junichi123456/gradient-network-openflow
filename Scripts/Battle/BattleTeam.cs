@@ -24,6 +24,10 @@ public sealed class BattleEntry
     // 持ち物。1匹1つまでで、チーム内で重複できない。null = 持たせない。
     public string ItemId { get; set; }
 
+    // 突破値（実数値への直接加算）と気質。既定は突破0・無補正。
+    // 自動で構築を作る箇所は StatSpread.Auto(species) を入れる。
+    public StatSpread Spread { get; set; } = StatSpread.Zero();
+
     public SpeciesData Species => SpeciesDatabase.Instance?.Get(SpeciesId);
 
     // この種族が覚えられる技の一覧。**習得レベルは見ない**——対人戦では
@@ -95,6 +99,16 @@ public sealed class BattleTeam
         _entries[slot].SpeciesId = speciesId;
         _entries[slot].MoveIds = DefaultLoadout.PickMoves(
             SpeciesDatabase.Instance?.Get(speciesId), MoveManager.MaxMoves);
+        _entries[slot].Spread = StatSpread.Auto(SpeciesDatabase.Instance?.Get(speciesId));
+        return true;
+    }
+
+    // 突破値・気質を差し替える。値の検証は Validate に任せ、ここでは代入だけ
+    // （画面が途中の状態を持てるように）。
+    public bool SetSpread(int slot, StatSpread s)
+    {
+        if (slot < 0 || slot >= _entries.Count) return false;
+        _entries[slot].Spread = s;
         return true;
     }
 
@@ -169,6 +183,12 @@ public sealed class BattleTeam
 
             if (!string.IsNullOrEmpty(e.ItemId) && ItemDatabase.Get(e.ItemId) == null)
                 errors.Add($"{who}: 存在しない持ち物 {e.ItemId}");
+
+            if (e.Spread == null)
+                errors.Add($"{who}: 突破値・気質が未設定");
+            else
+                foreach (var msg in e.Spread.Validate())
+                    errors.Add($"{who}: {msg}");
         }
 
         return errors;

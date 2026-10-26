@@ -93,6 +93,7 @@ public static class MetaScenario
                 SpeciesId = speciesIds[i],
                 MoveIds = DefaultLoadout.PickMoves(sp, MoveManager.MaxMoves),
                 ItemId = itemIds.ElementAtOrDefault(i),
+                Spread = StatSpread.Auto(sp),
             });
         }
         return new BattleTeam(entries);

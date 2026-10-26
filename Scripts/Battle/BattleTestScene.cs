@@ -75,6 +75,7 @@ public partial class BattleTestScene : Node2D
         VerifyHollow();
         VerifyHabcdsData();
         VerifyHabcdsWiring();
+        VerifySpread();
         VerifyRestrictions();
         RunBattle();
 
@@ -687,7 +688,7 @@ public partial class BattleTestScene : Node2D
         // 5. 種族値%の平坦加算が分類に応じた能力を見る。ニュートラルのきずな持ちが、
         //    Neutral の味方3体を連れて撃つと、特殊技は floor(BaseSpAtk*0.08*3)、物理技は
         //    floor(BaseAtk*0.08*3) の加算になる。きずなを外して実数値をその分だけ上げた場合
-        //    （突破値 +2 で実数値 +1）と与ダメが一致することで確かめる。
+        //    （突破値 +1 で実数値 +1）と与ダメが一致することで確かめる。
         var allies = _sched.Roster.Where(e => e.Faction == atk.Faction && e != atk).ToList();
         var oldTypes = allies.Select(a => (a.Stats.Type1, a.Stats.Type2)).ToList();
         foreach (var a in allies) { a.Stats.Type1 = "Neutral"; a.Stats.Type2 = ""; }
@@ -699,9 +700,9 @@ public partial class BattleTestScene : Node2D
         s.Trait = "neutral_bond";
         int bondPh = MeasureHit(atk, def, physMv, null), bondSp = MeasureHit(atk, def, specMv, null);
         s.Trait = "";
-        s.BreakthroughSpAtk = addSp * 2;
+        s.BreakthroughSpAtk = addSp;
         int refSp = MeasureHit(atk, def, specMv, null);
-        s.BreakthroughSpAtk = 0; s.BreakthroughAtk = addPh * 2;
+        s.BreakthroughSpAtk = 0; s.BreakthroughAtk = addPh;
         int refPh = MeasureHit(atk, def, physMv, null);
         s.BreakthroughAtk = 0;
         int noBondSp = MeasureHit(atk, def, specMv, null);
@@ -710,6 +711,130 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 種族値%の平坦加算が分類に応じた能力を見る(きずな): "
                  + $"{(allyN == 3 && addSp == 24 && addPh == 7 && bondSp == refSp && bondPh == refPh && bondSp > noBondSp ? "OK" : "NG")} "
                  + $"(特殊 加算+{addSp}: きずな{bondSp}=基準{refSp}、きずな無し{noBondSp} / 物理 加算+{addPh}: きずな{bondPh}=基準{refPh})");
+
+        foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); x.HeldItemId = null; }
+    }
+
+    // 突破値・気質（Phase S2）: 適用順、構築検証、行動順、自動配分、通信。
+    private void VerifySpread()
+    {
+        foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); x.HeldItemId = null; }
+
+        // 1. 気質の後に突破値を足す。ブシガエル(009, A92): 素 97。
+        //    無補正 97 / ↑攻撃 floor(97*1.1)=106 / ↑攻撃+攻撃25 = 106+25 = 131（先に足すと 134）/ ↓攻撃 floor(97*0.9)=87。
+        var bushi = _sched.Roster.First(e => e.SpeciesId == "009").Stats;
+        bushi.HealToFull();
+        int a0 = bushi.Attack;
+        bushi.NatureUp = NatureStat.Atk; bushi.NatureDown = NatureStat.SpAtk;
+        int aUp = bushi.Attack;
+        bushi.BreakthroughAtk = 25;
+        int aUpBt = bushi.Attack;
+        bushi.BreakthroughAtk = 0;
+        bushi.NatureUp = NatureStat.SpAtk; bushi.NatureDown = NatureStat.Atk;
+        int aDown = bushi.Attack;
+        bushi.NatureUp = NatureStat.None; bushi.NatureDown = NatureStat.None;
+        int hp0 = bushi.MaxHp;
+        bushi.BreakthroughHP = 25;
+        int hpBt = bushi.MaxHp; int curBt = bushi.CurrentHp;
+        bushi.BreakthroughHP = 0;
+        bushi.HealToFull();
+        GD.Print($"[検証] 気質の後に突破値を足す: "
+                 + $"{(a0 == 97 && aUp == 106 && aUpBt == 131 && aDown == 87 && hp0 == 122 && hpBt == 147 && curBt == hpBt && bushi.MaxHp == 122 ? "OK" : "NG")} "
+                 + $"(ブシガエル 攻撃 無補正{a0}・↑{aUp}・↑+25={aUpBt}(先に足すと{(97 + 25) * 11 / 10})・↓{aDown} / HP25 最大{hp0}→{hpBt} 現在{curBt})");
+
+        // 2. 構築検証。BattleTeam.Validate を通して見る。
+        BattleTeam Build(StatSpread sp)
+        {
+            var t = BuildTeam(PlayerRoster);
+            t.Entries[0].Spread = sp;
+            return t;
+        }
+        var over1 = Build(new StatSpread { Atk = 26 }).Validate();
+        var over2 = Build(new StatSpread { Atk = 25, SpAtk = 25, Hp = 6 }).Validate();
+        var tot55 = Build(new StatSpread { Atk = 25, SpAtk = 25, Hp = 5 }).Validate();
+        var tot0 = Build(StatSpread.Zero()).Validate();
+        var sameNat = Build(new StatSpread { NatureUp = NatureStat.Atk, NatureDown = NatureStat.Atk }).Validate();
+        var halfNat = Build(new StatSpread { NatureUp = NatureStat.Atk }).Validate();
+        var goodNat = Build(new StatSpread { NatureUp = NatureStat.Atk, NatureDown = NatureStat.SpAtk }).Validate();
+        bool spreadOk = over1.Count > 0 && over2.Count > 0 && tot55.Count == 0 && tot0.Count == 0
+                        && sameNat.Count > 0 && halfNat.Count > 0 && goodNat.Count == 0;
+        GD.Print($"[検証] 突破値と気質の構築検証: {(spreadOk ? "OK" : "NG")} "
+                 + $"(1能力26→{(over1.Count > 0 ? "弾く" : "通る")}、合計56→{(over2.Count > 0 ? "弾く" : "通る")}、合計55→{(tot55.Count == 0 ? "通る" : "弾く")}、"
+                 + $"合計0→{(tot0.Count == 0 ? "通る" : "弾く")}、↑攻撃↓攻撃→{(sameNat.Count > 0 ? "弾く" : "通る")}、↑攻撃のみ→{(halfNat.Count > 0 ? "弾く" : "通る")}、"
+                 + $"↑攻撃↓魔力→{(goodNat.Count == 0 ? "通る" : "弾く")}。期待は順に 弾く/弾く/通る/通る/弾く/弾く/通る)");
+
+        // 3. 行動順は俊敏の実数値を見る。タマコッコ(003, S50): ↑俊敏+俊敏25 → floor(55*1.1)+25 = 85。
+        //    ブシガエル(009, S73): 無補正・突破0 → 78。優先度0同士でタマコッコが先。戻すとブシガエルが先。
+        var tama = _sched.Roster.First(e => e.SpeciesId == "003");
+        var bushiE = _sched.Roster.First(e => e.SpeciesId == "009");
+        tama.Stats.NatureUp = NatureStat.Speed; tama.Stats.NatureDown = NatureStat.Atk;
+        tama.Stats.BreakthroughSpeed = 25;
+        int tamaSpd = tama.Stats.Speed, bushiSpd = bushiE.Stats.Speed;
+        var fastTama = _sched.Order(new BattleScheduler.Commitment(bushiE, null, 0),
+                                    new BattleScheduler.Commitment(tama, null, 0));
+        tama.Stats.NatureUp = NatureStat.None; tama.Stats.NatureDown = NatureStat.None;
+        tama.Stats.BreakthroughSpeed = 0;
+        var backBushi = _sched.Order(new BattleScheduler.Commitment(tama, null, 0),
+                                     new BattleScheduler.Commitment(bushiE, null, 0));
+        GD.Print($"[検証] 行動順は俊敏の実数値を見る: "
+                 + $"{(tamaSpd == 85 && bushiSpd == 78 && fastTama[0].Actor == tama && backBushi[0].Actor == bushiE ? "OK" : "NG")} "
+                 + $"(タマコッコ S50→実数値{tamaSpd}、ブシガエル S73→実数値{bushiSpd}。振ると{fastTama[0].Actor.ActorName}が先、戻すと{backBushi[0].Actor.ActorName}が先)");
+
+        // 4. 自動配分は決定的で規則どおり。
+        var db = SpeciesDatabase.Instance;
+        int bad = 0, count = 0;
+        foreach (var kv in db.All)
+        {
+            var a = StatSpread.Auto(kv.Value); var b = StatSpread.Auto(kv.Value);
+            count++;
+            bool same = a.Hp == b.Hp && a.Atk == b.Atk && a.Def == b.Def && a.SpAtk == b.SpAtk
+                        && a.SpDef == b.SpDef && a.Speed == b.Speed
+                        && a.NatureUp == b.NatureUp && a.NatureDown == b.NatureDown;
+            int mx = System.Math.Max(System.Math.Max(a.Hp, a.Atk), System.Math.Max(System.Math.Max(a.Def, a.SpAtk), System.Math.Max(a.SpDef, a.Speed)));
+            if (a.Total != 55 || mx > 25 || a.Validate().Count > 0 || !same) bad++;
+        }
+        var sBushi = StatSpread.Auto(db.Get("009"));
+        var sLight = StatSpread.Auto(db.Get("130B"));
+        var sXeno = StatSpread.Auto(db.Get("196"));
+        bool named = sBushi.Hp == 25 && sBushi.Atk == 25 && sBushi.SpDef == 5 && sBushi.Total == 55
+                     && sBushi.NatureUp == NatureStat.Atk && sBushi.NatureDown == NatureStat.SpAtk
+                     && sLight.SpAtk == 25 && sLight.Speed == 25 && sLight.SpDef == 5 && sLight.Total == 55
+                     && sLight.NatureUp == NatureStat.SpAtk && sLight.NatureDown == NatureStat.Atk
+                     && sXeno.Atk == 25 && sXeno.Speed == 25 && sXeno.Def == 5 && sXeno.Total == 55
+                     && sXeno.NatureUp == NatureStat.None && sXeno.NatureDown == NatureStat.None;
+        GD.Print($"[検証] 自動配分は決定的で規則どおり: {(bad == 0 && count == 287 && named ? "OK" : "NG")} "
+                 + $"({count}種中の違反{bad}。ブシガエル {sBushi.NatureLabel} HP{sBushi.Hp}/攻{sBushi.Atk}/精{sBushi.SpDef}、"
+                 + $"ライトロット {sLight.NatureLabel} 魔{sLight.SpAtk}/俊{sLight.Speed}/精{sLight.SpDef}、"
+                 + $"ゼノドラン {sXeno.NatureLabel} 攻{sXeno.Atk}/俊{sXeno.Speed}/防{sXeno.Def})");
+
+        // 5. 通信の直列化で突破値と気質が保たれる。
+        var net = BuildTeam(PlayerRoster);
+        var natures = new[] { NatureStat.Atk, NatureStat.Def, NatureStat.SpAtk, NatureStat.SpDef, NatureStat.Speed, NatureStat.None };
+        for (int i = 0; i < net.Entries.Count; i++)
+        {
+            net.Entries[i].Spread = new StatSpread
+            {
+                Hp = i, Atk = i + 1, Def = i + 2, SpAtk = i + 3, SpDef = i + 4, Speed = i + 5,
+                NatureUp = i == 5 ? NatureStat.None : natures[i],
+                NatureDown = i == 5 ? NatureStat.None : natures[(i + 1) % 5],
+            };
+        }
+        var round = BattleNetwork.DecodeFull(BattleNetwork.EncodeFull(net));
+        bool same2 = round.Entries.Count == net.Entries.Count;
+        for (int i = 0; same2 && i < net.Entries.Count; i++)
+        {
+            var x = net.Entries[i].Spread; var y = round.Entries[i].Spread;
+            same2 = x.Hp == y.Hp && x.Atk == y.Atk && x.Def == y.Def && x.SpAtk == y.SpAtk && x.SpDef == y.SpDef
+                    && x.Speed == y.Speed && x.NatureUp == y.NatureUp && x.NatureDown == y.NatureDown;
+        }
+        var parsed = Json.ParseString(BattleNetwork.EncodeFull(net)).AsGodotArray();
+        bool hasKeys = parsed.All(v => { var d = v.AsGodotDictionary(); return d.ContainsKey("b") && d.ContainsKey("nu") && d.ContainsKey("nd"); });
+        foreach (var v in parsed) { var d = v.AsGodotDictionary(); d.Remove("b"); d.Remove("nu"); d.Remove("nd"); }
+        var legacy = BattleNetwork.DecodeFull(Json.Stringify(parsed));
+        bool zero = legacy.Entries.All(e => e.Spread != null && e.Spread.Total == 0
+                                            && e.Spread.NatureUp == NatureStat.None && e.Spread.NatureDown == NatureStat.None);
+        GD.Print($"[検証] 通信の直列化で突破値と気質が保たれる: {(same2 && hasKeys && zero ? "OK" : "NG")} "
+                 + $"(6匹の6値と気質が一致={same2}、キー b/nu/nd あり={hasKeys}、キーを消した JSON は Zero で読める={zero})");
 
         foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); x.HeldItemId = null; }
     }
