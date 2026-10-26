@@ -52,4 +52,11 @@ public class TraitData
     // not something to infer. None here = the trait has no weather effect,
     // which is every trait today.
     public Dungeon.WeatherType WeatherOnEntry { get; set; } = Dungeon.WeatherType.None;
+
+    // 両刀攻撃の調査用: 2つめの特性の枠(SpeciesData.Trait2)にだけ入れてよい特性の印。
+    public bool Secondary { get; set; }
+
+    // 地形特性: 場に出たとき、保持者のマスと周囲8マスをこの地形にする
+    // (FloorController.ApplyFieldOnEntry)。None = 地形を置かない。
+    public Dungeon.FieldType FieldOnEntry { get; set; } = Dungeon.FieldType.None;
 }

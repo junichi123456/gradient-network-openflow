@@ -88,6 +88,10 @@ public class SpeciesData
     // TraitDatabase, it does not yet require every species to have one.
     public string Trait { get; set; } = "";
 
+    // 両刀攻撃の調査用の2つめの特性枠。secondary の特性だけが入る。空 = 持たない。
+    // Trait と同時に効く(EntityStats.HasTrait)。
+    public string Trait2 { get; set; } = "";
+
     // Ecology is a separate, OPTIONAL slot (independent of Trait - a
     // species can hold both, or neither). null/"" = no ecology.
     public string Ecology { get; set; } = "";

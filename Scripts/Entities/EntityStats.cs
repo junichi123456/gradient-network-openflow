@@ -63,6 +63,11 @@ public partial class EntityStats : Node
     // hasn't run the 287-species assignment yet - see SpeciesData.Trait).
     public string Trait { get; set; } = "";
 
+    // 2つめの特性(secondary の特性だけが入る。空 = 持たない)。
+    public string Trait2 { get; set; } = "";
+
+    public bool HasTrait(string id) => !string.IsNullOrEmpty(id) && (Trait == id || Trait2 == id);
+
     // trait_catalog_v2: the INDEPENDENT ecology slot (Data/ecology.json).
     // Separate from Trait on purpose - a species can hold both at once.
     // "" = unassigned (same stage-9 caveat as Trait above).
@@ -270,6 +275,7 @@ public partial class EntityStats : Node
         Type1 = species.Types.Count > 0 ? species.Types[0].ToString() : "Neutral";
         Type2 = species.Types.Count > 1 ? species.Types[1].ToString() : "";
         Trait = species.Trait;
+        Trait2 = species.Trait2 ?? "";
         Ecology = species.Ecology;
     }
 

@@ -35,6 +35,7 @@ internal class SpeciesJson
     // trait_catalog_v2 stage 2: both optional for now (data model only -
     // the actual 287-species assignment is stage 9). "" = unassigned.
     [JsonPropertyName("trait")] public string Trait { get; set; } = "";
+    [JsonPropertyName("trait2")] public string Trait2 { get; set; } = "";
     [JsonPropertyName("ecology")] public string Ecology { get; set; } = "";
 
     // タグ:伝説。対戦の構築ルールが「1構築に1体まで」を課す対象。
@@ -164,6 +165,7 @@ public partial class SpeciesDatabase : Node
             Learnset = learnset,
             Evolution = evolution,
             Trait = j.Trait ?? "",
+            Trait2 = j.Trait2 ?? "",
             Ecology = j.Ecology ?? "",
             IsLegendary = j.IsLegendary,
         };
@@ -231,6 +233,25 @@ public partial class SpeciesDatabase : Node
         {
             if (!string.IsNullOrEmpty(species.Trait) && TraitDatabase.Get(species.Trait) == null)
                 errors.Add($"Species '{species.SpeciesId}' has trait '{species.Trait}' not found in traits.json.");
+
+            // 2つめの特性(両刀攻撃の調査用)。空は正常。
+            if (!string.IsNullOrEmpty(species.Trait2))
+            {
+                var t2 = TraitDatabase.Get(species.Trait2);
+                if (t2 == null)
+                    errors.Add($"Species '{species.SpeciesId}' has trait2 '{species.Trait2}' not found in traits.json.");
+                else if (!t2.Secondary)
+                    errors.Add($"Species '{species.SpeciesId}' has trait2 '{species.Trait2}' which is not a secondary trait.");
+                if (TraitDatabase.Get(species.Trait)?.Secondary == true)
+                    errors.Add($"Species '{species.SpeciesId}' has secondary trait '{species.Trait}' in the first trait slot.");
+                if (species.Trait2 == species.Trait)
+                    errors.Add($"Species '{species.SpeciesId}' has the same trait and trait2 '{species.Trait}'.");
+                if (species.Offense != "Mixed")
+                    errors.Add($"Species '{species.SpeciesId}' has trait2 '{species.Trait2}' but is not Mixed offense.");
+                var first = TraitDatabase.Get(species.Trait);
+                if (first != null && first.Name != null && first.Name.Contains("リーダー"))
+                    errors.Add($"Species '{species.SpeciesId}' has trait2 '{species.Trait2}' but its first trait '{species.Trait}' is a leader trait.");
+            }
 
             if (!string.IsNullOrEmpty(species.Ecology) && EcologyDatabase.Get(species.Ecology) == null)
                 errors.Add($"Species '{species.SpeciesId}' has ecology '{species.Ecology}' not found in ecology.json.");

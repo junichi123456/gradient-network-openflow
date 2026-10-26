@@ -251,7 +251,10 @@ public partial class StatusEffectManager : Node
     // active on this entity (§2 "発現中は停止") - the mutual-exclusion
     // Ailment slot already guarantees at most one can be active, so a
     // single top-of-method guard covers every tracker at once.
-    public void AccumulateOnHit(string moveType, AilmentType declaredAilment, int declaredChancePercent)
+    //
+    // multiplier: しみこみ(2つめの特性)で技が与える蓄積量を倍にする。基礎・宣言一致・
+    // 毒/猛毒の量に掛ける。AccumulateFlat(特性の固定加算)と発症のしきい値は倍にしない。
+    public void AccumulateOnHit(string moveType, AilmentType declaredAilment, int declaredChancePercent, int multiplier = 1)
     {
         if (Ailment != AilmentType.None) return;
 
@@ -260,13 +263,13 @@ public partial class StatusEffectManager : Node
 
         if (elemental != null)
         {
-            int amount = BaselineAccumulation + (declaredMatchesElemental ? declaredChancePercent * 10 : 0);
+            int amount = (BaselineAccumulation + (declaredMatchesElemental ? declaredChancePercent * 10 : 0)) * multiplier;
             Add(elemental.Value, amount);
         }
 
         bool declaredIsPoisonOrToxic = declaredAilment == AilmentType.Poison || declaredAilment == AilmentType.Toxic;
         if (declaredIsPoisonOrToxic && Ailment == AilmentType.None) // re-check: the elemental Add above may have just triggered
-            Add(declaredAilment, declaredChancePercent * 10);
+            Add(declaredAilment, declaredChancePercent * 10 * multiplier);
     }
 
     private void Add(AilmentType type, int amount)

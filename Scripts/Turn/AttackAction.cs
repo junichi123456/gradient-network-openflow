@@ -701,6 +701,9 @@ public class AttackAction : IAction
         powerFlatBuff += PowerTraitWeather.FlatPowerBonus(
             _attacker, target, effectiveType, Weather);
 
+        // 2つめの特性: ワイドバースト(部屋技 +10)・こわざじょうず(特殊・威力50以下 +20)。
+        powerFlatBuff += SecondaryTraits.FlatPowerBonus(_attacker, move);
+
         // 発煙器官: +10 on ブレス/息系 moves (WeaponTag.Breath, populated in
         // moves.json for the 5 qualifying moves).
         if (HasTrait(_attacker, "hatsuen_kikan") && move.WeaponTag == WeaponTag.Breath)
@@ -1110,7 +1113,7 @@ public class AttackAction : IAction
     // ---- trait_catalog_v2 helpers ----
 
     private static bool HasTrait(Entity entity, string traitId) =>
-        entity != null && entity.Stats.Trait == traitId;
+        entity != null && entity.Stats.HasTrait(traitId);
 
     // Does `entity` hold a Template-category trait of `kind` whose own
     // Element matches `moveType` (e.g. an entity holding "fire_stab" and
@@ -1197,7 +1200,8 @@ public class AttackAction : IAction
         {
             string elem = EffectiveMoveType(_attacker, move);
             for (int i = 1; i < landed; i++)
-                target.StatusEffects.AccumulateOnHit(elem, AilmentType.None, 0);
+                target.StatusEffects.AccumulateOnHit(elem, AilmentType.None, 0,
+                    SecondaryTraits.AccumulationMultiplier(_attacker, target));
         }
 
         return total;
@@ -1764,7 +1768,8 @@ public class AttackAction : IAction
             return;
         }
 
-        target.StatusEffects.AccumulateOnHit(EffectiveMoveType(_attacker, move), move.AilmentEffect, move.AilmentChance);
+        target.StatusEffects.AccumulateOnHit(EffectiveMoveType(_attacker, move), move.AilmentEffect, move.AilmentChance,
+            SecondaryTraits.AccumulationMultiplier(_attacker, target));
     }
 
     // ---- AoE secondary-effect helpers ----
@@ -1788,7 +1793,8 @@ public class AttackAction : IAction
             return;
         }
 
-        target.StatusEffects.AccumulateOnHit(EffectiveMoveType(_attacker, move), move.AilmentEffect, move.AilmentChance);
+        target.StatusEffects.AccumulateOnHit(EffectiveMoveType(_attacker, move), move.AilmentEffect, move.AilmentChance,
+            SecondaryTraits.AccumulationMultiplier(_attacker, target));
     }
 
     // レッツハギング／ひょうてんま (§4, stage 2-b): a trait-driven

@@ -78,6 +78,7 @@ public sealed class BattleArena
     //
     // 同じ天候を既に張っている holder は何もしない（FloorController 側の
     // 「すでにその天候になっている場合は発動しない」がそのまま効く）。
+    // 地形特性(FieldOnEntry)も同じ順で置く: 重なるマスは後に置いた低 BST 側が残る。
     public void ApplyEntryWeather(BattleScheduler scheduler)
     {
         if (scheduler == null) return;
@@ -93,6 +94,9 @@ public sealed class BattleArena
 
         foreach (var side in sides)
             foreach (var actor in side.Members)
-                Floor.ApplyWeatherOnEntry(actor);
+                {
+                    Floor.ApplyWeatherOnEntry(actor);
+                    Floor.ApplyFieldOnEntry(actor);   // 地形特性も同じ順(低 BST 側が後)で置く
+                }
     }
 }

@@ -814,6 +814,41 @@ public partial class FloorController : Node2D
         return true;
     }
 
+    // 地形特性(みずたまりのぬし 等): 場に出たとき、保持者のマスを中心とする
+    // 3x3 のうち盤面内で壁でないマス全てを対応する地形にする。PlaceField と
+    // 違い個体のいるマスも含める(「自身がいるマス」を含むため)。既にある地形は
+    // 上書き(FieldManager.Set の規則)。Trait と Trait2 の両方を見る。
+    // 置いたマスの数を返す(地形特性を持たなければ 0)。
+    public int ApplyFieldOnEntry(Entity actor)
+    {
+        if (actor == null) return 0;
+        int placed = 0;
+        foreach (var traitId in new[] { actor.Stats.Trait, actor.Stats.Trait2 })
+        {
+            var trait = Combat.TraitDatabase.Get(traitId);
+            if (trait == null || trait.FieldOnEntry == FieldType.None) continue;
+
+            int count = 0;
+            for (int dx = -1; dx <= 1; dx++)
+            {
+                for (int dy = -1; dy <= 1; dy++)
+                {
+                    var pos = actor.GridPosition + new Vector2I(dx, dy);
+                    if (!_grid.InBounds(pos)) continue;
+                    if (_grid.GetTile(pos).Terrain == TerrainType.Wall) continue;
+                    _fields.Set(pos, trait.FieldOnEntry);
+                    count++;
+                }
+            }
+            if (count > 0)
+                MessageLogger.Log(
+                    $"{actor.ActorName}の{trait.Name}で足元が変わった! ({count}マス)",
+                    MessageLogger.ProgressionColor);
+            placed += count;
+        }
+        return placed;
+    }
+
     private void TryStairsSense(RandomNumberGenerator rng)
     {
         if (_stairsPos == null) return;

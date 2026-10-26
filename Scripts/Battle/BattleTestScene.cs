@@ -73,6 +73,7 @@ public partial class BattleTestScene : Node2D
         VerifyCycleTick();
         VerifyVoidType();
         VerifyHollow();
+        VerifySecondaryTraits();
         VerifyHabcdsData();
         VerifyHabcdsWiring();
         VerifySpread();
@@ -1049,6 +1050,254 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 両刀攻撃は同じ帯のBST6より速い(38種が S>中央値、再分類41種が S<=中央値): "
                  + $"{(mixedSp.Count == 38 && badMixed == 0 && speedSp.Count == 41 && badSpeed == 0 ? "OK" : "NG")} "
                  + $"(両刀攻撃{mixedSp.Count}種 違反{badMixed} 最小のS-中央値={minGap} / 再分類{speedSp.Count}種 違反{badSpeed})");
+    }
+
+    // 両刀攻撃の調査用「2つめの特性」(Trait2)。仕様書
+    // docs/design/drafts/2026-10-28-mixed-traits.md §4-2。
+    // 「効く条件で効く」と「効かない条件で効かない」を対で見る。
+    private void VerifySecondaryTraits()
+    {
+        void Check(string label, bool ok, string detail)
+            => GD.Print($"[検証] {label}: {(ok ? "OK" : "NG")} ({detail})");
+
+        var atk = _sched.Roster.First(e => e.Faction == Faction.Enemy);
+        var def = _sched.Roster.First(e => e.Faction == Faction.Player);
+        foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); }
+        string savedT = atk.Stats.Trait, savedT2 = atk.Stats.Trait2;
+        string savedDefT = def.Stats.Trait, savedDefT2 = def.Stats.Trait2;
+        string savedType1 = atk.Stats.Type1, savedType2 = atk.Stats.Type2;
+        atk.Stats.Trait = ""; atk.Stats.Trait2 = ""; def.Stats.Trait = ""; def.Stats.Trait2 = "";
+
+        var all = MoveDatabase.AllIds().Select(MoveDatabase.Get).Where(m => m != null).ToList();
+        var roomSpecial = all.First(m => m.Range == MoveRange.Room && m.Category == MoveCategory.Special && m.Power > 0);
+        var adjSpecial = all.First(m => m.Range == MoveRange.Adjacent && m.Category == MoveCategory.Special && m.Power > 0);
+        var discharge = MoveDatabase.Get("MV_170");
+
+        // 1. ワイドバースト: 部屋技で+10・単体技で0・特性なしで0
+        atk.Stats.Trait2 = SecondaryTraits.WideBurst;
+        float wbRoom = SecondaryTraits.FlatPowerBonus(atk, roomSpecial);
+        float wbAdj = SecondaryTraits.FlatPowerBonus(atk, adjSpecial);
+        atk.Stats.Trait2 = "";
+        float wbNone = SecondaryTraits.FlatPowerBonus(atk, roomSpecial);
+        Check("ワイドバースト 部屋技で+10・単体技で0", wbRoom == 10f && wbAdj == 0f && wbNone == 0f,
+              $"部屋{wbRoom} / 単体{wbAdj} / 特性なし{wbNone}");
+
+        // 2. 物理の部屋技(MV_170)にも+10
+        atk.Stats.Trait2 = SecondaryTraits.WideBurst;
+        float wbPhys = SecondaryTraits.FlatPowerBonus(atk, discharge);
+        atk.Stats.Trait2 = "";
+        Check("ワイドバースト 物理の部屋技(MV_170)にも+10",
+              discharge != null && discharge.Category == MoveCategory.Physical && discharge.Range == MoveRange.Room && wbPhys == 10f,
+              $"{discharge?.Name} +{wbPhys}");
+
+        // 3. こわざじょうず: 特殊・威力50以下で+20、それ以外は0
+        var sp50 = all.FirstOrDefault(m => m.Category == MoveCategory.Special && m.Power == 50);
+        var sp55 = all.First(m => m.Category == MoveCategory.Special && m.Power >= 55);
+        var ph50 = all.First(m => m.Category == MoveCategory.Physical && m.Power > 0 && m.Power <= 50);
+        var status = all.First(m => m.Power == 0);
+        atk.Stats.Trait2 = SecondaryTraits.KowazaJouzu;
+        float kw50 = sp50 == null ? -1f : SecondaryTraits.FlatPowerBonus(atk, sp50);
+        float kw55 = SecondaryTraits.FlatPowerBonus(atk, sp55);
+        float kwPh = SecondaryTraits.FlatPowerBonus(atk, ph50);
+        float kwSt = SecondaryTraits.FlatPowerBonus(atk, status);
+        atk.Stats.Trait2 = "";
+        Check("こわざじょうず 特殊・威力50以下で+20、それ以外は0",
+              kw50 == 20f && kw55 == 0f && kwPh == 0f && kwSt == 0f,
+              $"特殊50={kw50} / 特殊{sp55.Power}={kw55} / 物理{ph50.Power}={kwPh} / 変化={kwSt}");
+
+        // 4. しみこみの倍率
+        atk.Stats.Trait2 = SecondaryTraits.Shimikomi;
+        int mTarget = SecondaryTraits.AccumulationMultiplier(atk, def);
+        int mSelf = SecondaryTraits.AccumulationMultiplier(atk, atk);
+        atk.Stats.Trait2 = "";
+        int mOther = SecondaryTraits.AccumulationMultiplier(atk, def);
+        Check("しみこみ 倍率は相手に2・自分に1・非保持者は1", mTarget == 2 && mSelf == 1 && mOther == 1,
+              $"相手{mTarget} / 自分{mSelf} / 非保持者{mOther}");
+
+        // 5. しみこみ: 宣言なしの属性技1発で蓄積+50(非保持者は+25)
+        var fire = all.First(m => m.Type == "Fire" && m.Range == MoveRange.Adjacent && m.Power >= 40
+                                  && m.Accuracy >= 100 && m.AilmentEffect == AilmentType.None
+                                  && m.RankEffects.Count == 0);
+        int FirstHitAcc(AilmentType kind, MoveData mv)
+        {
+            int acc = 0;
+            for (int i = 0; i < 16 && acc == 0; i++)
+            {
+                def.StatusEffects.Reset(); def.Stats.HealToFull();
+                new AttackAction(atk, def, MakeSlot(atk, mv), _floor).Execute(0);
+                acc = def.StatusEffects.GetAccumulation(kind);
+            }
+            return acc;
+        }
+        atk.Stats.Trait2 = SecondaryTraits.Shimikomi;
+        int accHolder = FirstHitAcc(AilmentType.Burn, fire);
+        atk.Stats.Trait2 = "";
+        int accPlain = FirstHitAcc(AilmentType.Burn, fire);
+        Check("しみこみ 属性技1発で蓄積+50(非保持者は+25)", accHolder == 50 && accPlain == 25,
+              $"{fire.Name} 保持者{accHolder} / 非保持者{accPlain}");
+
+        // 6. しみこみ: 特性の固定加算(レッツハギング+500)は2倍にしない
+        var neutralPhys = all.First(m => m.Type == "Neutral" && m.Category == MoveCategory.Physical
+                                         && m.Range == MoveRange.Adjacent && m.Power >= 40 && m.Accuracy >= 100
+                                         && m.AilmentEffect == AilmentType.None && m.RankEffects.Count == 0
+                                         && m.MultiHit == MultiHitMode.None);
+        atk.Stats.Trait = "let_us_hug"; atk.Stats.Trait2 = SecondaryTraits.Shimikomi;
+        int hug2 = FirstHitAcc(AilmentType.VineBound, neutralPhys);
+        bool hug2Ailment = def.StatusEffects.Ailment != AilmentType.None;
+        atk.Stats.Trait2 = "";
+        int hug1 = FirstHitAcc(AilmentType.VineBound, neutralPhys);
+        atk.Stats.Trait = "";
+        Check("しみこみ 特性の固定加算は2倍にしない", hug2 == 500 && !hug2Ailment && hug1 == 500,
+              $"{neutralPhys.Name} しみこみ併用{hug2}(発症={hug2Ailment}) / レッツハギングのみ{hug1}");
+        def.StatusEffects.Reset(); def.Stats.HealToFull();
+
+        // 7. 2つの特性が同時に効く
+        var small = all.First(m => m.Category == MoveCategory.Special && m.Range == MoveRange.Adjacent
+                                   && m.Power >= 30 && m.Power <= 50 && m.Accuracy >= 100
+                                   && m.AilmentEffect == AilmentType.None && m.RankEffects.Count == 0
+                                   && m.MultiHit == MultiHitMode.None);
+        atk.Stats.Trait = ""; atk.Stats.Trait2 = "";
+        int dNone = MeasureHit(atk, def, small, null);
+        atk.Stats.Trait = "koufun";
+        int dKoufun = MeasureHit(atk, def, small, null);
+        atk.Stats.Trait2 = SecondaryTraits.KowazaJouzu;
+        int dBoth = MeasureHit(atk, def, small, null);
+        atk.Stats.Trait = "";
+        int dKowaza = MeasureHit(atk, def, small, null);
+        atk.Stats.Trait2 = "";
+        Check("2つの特性が同時に効く(こうふん+こわざじょうず)",
+              dBoth > dKoufun && dKoufun > dNone && dBoth > dKowaza && dKowaza > dNone,
+              $"{small.Name}(威力{small.Power}) なし{dNone} / こうふん{dKoufun} / こわざ{dKowaza} / 両方{dBoth}");
+
+        // 8. Stats.HasTrait は両方の枠を見る
+        atk.Stats.Trait = "koufun"; atk.Stats.Trait2 = SecondaryTraits.Shimikomi;
+        bool hA = atk.Stats.HasTrait("koufun"), hB = atk.Stats.HasTrait(SecondaryTraits.Shimikomi), hC = atk.Stats.HasTrait("free_fall");
+        atk.Stats.Trait2 = "";
+        bool hEmpty = atk.Stats.HasTrait("");
+        Check("Stats.HasTrait が両方の枠を見る", hA && hB && !hC && !hEmpty,
+              $"A={hA} B={hB} C={hC} 空={hEmpty}");
+
+        atk.Stats.Trait = savedT; atk.Stats.Trait2 = savedT2;
+        def.Stats.Trait = savedDefT; def.Stats.Trait2 = savedDefT2;
+        atk.Stats.Type1 = savedType1; atk.Stats.Type2 = savedType2;
+        foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); }
+
+        // 9〜11. 地形特性。1対1の盤を別に組む(VerifyEntryWeather と同じ組み方)。
+        (BattleArena arena, Node host, BattleScheduler sched, List<BattlePal> pals) Setup(
+            string playerId, int playerTile, string enemyId, int enemyTile)
+        {
+            var h = new Node { Name = "FieldProbe" };
+            AddChild(h);
+            var ar = new BattleArena(h);
+            var sc = new BattleScheduler();
+            BattleEntry Entry(string id) => new()
+            {
+                SpeciesId = id,
+                MoveIds = DefaultLoadout.PickMoves(SpeciesDatabase.Instance?.Get(id), MoveManager.MaxMoves),
+            };
+            BattleDeployment One(Faction f, string id, int tile) => new(f,
+                new Dictionary<BattleEntry, Vector2I>
+                { [Entry(id)] = BattleDeployment.AvailableTiles(f)[tile] });
+            var list = new List<BattlePal>();
+            if (!string.IsNullOrEmpty(playerId)) list.AddRange(ar.Spawn(One(Faction.Player, playerId, playerTile), sc));
+            if (!string.IsNullOrEmpty(enemyId)) list.AddRange(ar.Spawn(One(Faction.Enemy, enemyId, enemyTile), sc));
+            ar.ApplyEntryWeather(sc);
+            return (ar, h, sc, list);
+        }
+
+        // 9. 保持者の3x3が全て対応する地形・5x5の外周16マスは無し(保持者のマスも含む)
+        {
+            var s = Setup("169B", 4, "001", 0);   // 169B(みずたまりのぬし)は自陣の(3,5)
+            var holder = s.pals.First(p => p.SpeciesId == "169B");
+            var c = holder.GridPosition;
+            int inner = 0, innerExpected = 0, outer = 0;
+            for (int dx = -2; dx <= 2; dx++)
+                for (int dy = -2; dy <= 2; dy++)
+                {
+                    var pos = c + new Vector2I(dx, dy);
+                    bool inBoard = pos.X >= 0 && pos.Y >= 0 && pos.X < BattleBoard.Width && pos.Y < BattleBoard.Height;
+                    if (!inBoard) continue;
+                    var f = s.arena.Floor.Fields.Get(pos);
+                    if (Mathf.Max(Mathf.Abs(dx), Mathf.Abs(dy)) <= 1)
+                    {
+                        innerExpected++;
+                        if (f == FieldType.Puddle) inner++;
+                    }
+                    else if (f != FieldType.None) outer++;
+                }
+            bool selfTile = s.arena.Floor.Fields.Get(c) == FieldType.Puddle;
+            Check("地形特性 保持者の3x3が全てみずたまり・外周は無し",
+                  innerExpected == 9 && inner == innerExpected && outer == 0 && selfTile && s.arena.Floor.Fields.Count == 9,
+                  $"保持者{c} 内側{inner}/{innerExpected} 外周の地形{outer} 自分のマス={selfTile} 総数{s.arena.Floor.Fields.Count}");
+            s.host.Free();
+        }
+
+        // 10. 非保持者は地形を置かない
+        {
+            var s = Setup("001", 4, "003", 0);
+            Check("地形特性 非保持者は地形を置かない", s.arena.Floor.Fields.Count == 0,
+                  $"地形{s.arena.Floor.Fields.Count}マス");
+            s.host.Free();
+        }
+
+        // 11. 重なるマスは低BST側(後に置く側)が残る。立てる順を入れ替えた2回で同じ。
+        {
+            // 084(はなばたけのぬし) と 169B(みずたまりのぬし)。重なるのは (1..3, 3..4)。
+            FieldType Overlap(bool playerIs084, bool flip, out int bstP, out int bstE)
+            {
+                string pId = playerIs084 ? "084" : "169B", eId = playerIs084 ? "169B" : "084";
+                var h = new Node { Name = "FieldProbe2" };
+                AddChild(h);
+                var ar = new BattleArena(h);
+                var sc = new BattleScheduler();
+                BattleEntry Entry(string id) => new()
+                {
+                    SpeciesId = id,
+                    MoveIds = DefaultLoadout.PickMoves(SpeciesDatabase.Instance?.Get(id), MoveManager.MaxMoves),
+                };
+                BattleDeployment One(Faction f, string id, int tile) => new(f,
+                    new Dictionary<BattleEntry, Vector2I>
+                    { [Entry(id)] = BattleDeployment.AvailableTiles(f)[tile] });
+                var dp = One(Faction.Player, pId, 0);   // (2,4)
+                var de = One(Faction.Enemy, eId, 3);    // (2,3)
+                List<BattlePal> a, b;
+                if (flip) { b = ar.Spawn(de, sc); a = ar.Spawn(dp, sc); }
+                else { a = ar.Spawn(dp, sc); b = ar.Spawn(de, sc); }
+                ar.ApplyEntryWeather(sc);
+                bstP = BattleScheduler.Bst(a[0]); bstE = BattleScheduler.Bst(b[0]);
+                var f = ar.Floor.Fields.Get(new Vector2I(2, 3));
+                // 重なりのマスが全て同じ地形であること
+                for (int x = 1; x <= 3; x++)
+                    for (int y = 3; y <= 4; y++)
+                        if (ar.Floor.Fields.Get(new Vector2I(x, y)) != f) f = FieldType.None;
+                h.Free();
+                return f;
+            }
+            var r1 = Overlap(true, false, out int b1p, out int b1e);
+            var r2 = Overlap(true, true, out _, out _);
+            var r3 = Overlap(false, false, out _, out _);
+            // 低BST側の地形が残るはず。
+            FieldType expected = (b1p < b1e) ? FieldType.FlowerBed : FieldType.Puddle;
+            Check("地形特性 重なるマスは低BST側が残る(立てる順に依らない)",
+                  r1 == expected && r2 == expected && r3 == expected,
+                  $"084のBST6={b1p} / 169BのBST6={b1e} 期待={expected} 結果 {r1}/{r2}/{r3}");
+        }
+
+        // 12. 種族データ
+        {
+            var db = SpeciesDatabase.Instance;
+            var holders = db.All.Values.Where(s => !string.IsNullOrEmpty(s.Trait2)).ToList();
+            var counts = holders.GroupBy(s => s.Trait2).ToDictionary(g => g.Key, g => g.Count());
+            int C(string k) => counts.GetValueOrDefault(k);
+            bool allMixed = holders.All(s => s.Offense == "Mixed");
+            bool leaders = string.IsNullOrEmpty(db.Get("021B")?.Trait2) && string.IsNullOrEmpty(db.Get("036")?.Trait2);
+            var errors = db.Validate();
+            Check("種族データ 付録Aの16体だけが2つめの特性を持つ",
+                  holders.Count == 16 && allMixed && C("wide_burst") == 4 && C("kowaza_jouzu") == 5 && C("shimikomi") == 4
+                  && C("entry_puddle") == 1 && C("entry_flowerbed") == 1 && C("entry_thin_ice") == 1
+                  && leaders && errors.Count == 0,
+                  $"{holders.Count}体 {string.Join(",", counts.Select(kv => kv.Key + "=" + kv.Value))} 全員両刀={allMixed} リーダー除外={leaders} Validate誤り{errors.Count}");
+        }
     }
 
     // 虚脱(Hollow): 蓄積で発症し、一致補正が消え、自分の2回目の行動終了時に解除される。

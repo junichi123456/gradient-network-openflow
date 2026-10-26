@@ -244,6 +244,19 @@ public partial class TeamBuildScreen : Control
                 desc.AutowrapMode = TextServer.AutowrapMode.WordSmart;
                 col.AddChild(desc);
             }
+
+            // 両刀攻撃の調査用: 2つめの特性があるときだけもう1行足す。
+            var trait2 = string.IsNullOrEmpty(sp.Trait2) ? null : TraitDatabase.Get(sp.Trait2);
+            if (trait2 != null)
+            {
+                var tr2 = Row(6);
+                tr2.AddChild(Pill("特性2", BattleTheme.Muted, BattleTheme.Sunk));
+                tr2.AddChild(Text(trait2.Name, BattleTheme.Ink, BattleTheme.FontSmall));
+                col.AddChild(tr2);
+                var desc2 = Text(trait2.Description ?? "", BattleTheme.Muted, BattleTheme.FontLabel);
+                desc2.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+                col.AddChild(desc2);
+            }
         }
         return card;
     }

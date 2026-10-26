@@ -166,7 +166,11 @@ public partial class SpeciesPickScreen : Control
                             BattleTheme.Muted, 10));
         stats.AddChild(Spacer());
         var trait = TraitDatabase.Get(sp.Trait);
-        if (trait != null) stats.AddChild(Text(trait.Name, BattleTheme.Muted, 10));
+        if (trait != null)
+        {
+            var trait2 = string.IsNullOrEmpty(sp.Trait2) ? null : TraitDatabase.Get(sp.Trait2);
+            stats.AddChild(Text(trait2 != null ? $"{trait.Name} / {trait2.Name}" : trait.Name, BattleTheme.Muted, 10));
+        }
         col.AddChild(stats);
 
         if (taken)

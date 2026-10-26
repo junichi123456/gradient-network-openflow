@@ -18,6 +18,9 @@ internal class TraitJson
     // Optional: enum name of the weather this trait's holder brings onto a
     // floor ("Sunny", "Rain", ...). Absent on every trait today.
     [JsonPropertyName("weather_on_entry")] public string WeatherOnEntry { get; set; }
+
+    [JsonPropertyName("secondary")] public bool? Secondary { get; set; }
+    [JsonPropertyName("field_on_entry")] public string FieldOnEntry { get; set; }
 }
 
 // JSON-driven trait catalog (trait_catalog_v2 - Palworld-style: mostly
@@ -80,6 +83,9 @@ public static class TraitDatabase
                 TemplateKind = templateKind,
                 WeatherOnEntry = Enum.TryParse<Dungeon.WeatherType>(entry.WeatherOnEntry, true, out var traitWeather)
                     ? traitWeather : Dungeon.WeatherType.None,
+                Secondary = entry.Secondary ?? false,
+                FieldOnEntry = Enum.TryParse<Dungeon.FieldType>(entry.FieldOnEntry, true, out var traitField)
+                    ? traitField : Dungeon.FieldType.None,
             };
         }
 
