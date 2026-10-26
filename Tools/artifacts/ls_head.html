@@ -5,7 +5,7 @@
   --ink:#191c21; --ink-2:#48525d; --muted:#6c7683; --line:#dadfda; --line-2:#c4cac5;
   --brass:#8a5f16; --brass-bg:#f2e7d0;
   --el-mu:#7c848d; --el-hi:#c24a26; --el-mi:#2073b8; --el-ku:#3f8c3c; --el-de:#a08016;
-  --el-ti:#8a6b3f; --el-ko:#33899d; --el-ry:#6b4bb5; --el-ya:#5d4f70;
+  --el-ti:#8a6b3f; --el-ko:#33899d; --el-ry:#6b4bb5; --el-ya:#5d4f70; --el-vo:#8a2f6b;
   --f-ui:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic Medium",sans-serif;
   --f-num:ui-monospace,SFMono-Regular,Menlo,Consolas,"Noto Sans Mono",monospace;
 }
@@ -15,7 +15,7 @@
     --ink:#e5e9ee; --ink-2:#b2bcc7; --muted:#8a95a2; --line:#2a2f37; --line-2:#3a414b;
     --brass:#d9ab52; --brass-bg:#332a17;
     --el-mu:#a3abb4; --el-hi:#e8734b; --el-mi:#5aa6e0; --el-ku:#6cbf68; --el-de:#d8b53a;
-    --el-ti:#c09a63; --el-ko:#5fc0d4; --el-ry:#a084e8; --el-ya:#9b87b5;
+    --el-ti:#c09a63; --el-ko:#5fc0d4; --el-ry:#a084e8; --el-ya:#9b87b5; --el-vo:#d070b0;
   }
 }
 :root[data-theme="dark"]{
@@ -23,7 +23,7 @@
   --ink:#e5e9ee; --ink-2:#b2bcc7; --muted:#8a95a2; --line:#2a2f37; --line-2:#3a414b;
   --brass:#d9ab52; --brass-bg:#332a17;
   --el-mu:#a3abb4; --el-hi:#e8734b; --el-mi:#5aa6e0; --el-ku:#6cbf68; --el-de:#d8b53a;
-  --el-ti:#c09a63; --el-ko:#5fc0d4; --el-ry:#a084e8; --el-ya:#9b87b5;
+  --el-ti:#c09a63; --el-ko:#5fc0d4; --el-ry:#a084e8; --el-ya:#9b87b5; --el-vo:#d070b0;
 }
 
 body{background:var(--ground);color:var(--ink);font-family:var(--f-ui);
@@ -100,7 +100,7 @@ input:focus-visible,select:focus-visible,button:focus-visible,.row:focus-visible
     border:1px solid currentColor}
 .el.mu{color:var(--el-mu)} .el.hi{color:var(--el-hi)} .el.mi{color:var(--el-mi)}
 .el.ku{color:var(--el-ku)} .el.de{color:var(--el-de)} .el.ti{color:var(--el-ti)}
-.el.ko{color:var(--el-ko)} .el.ry{color:var(--el-ry)} .el.ya{color:var(--el-ya)}
+.el.ko{color:var(--el-ko)} .el.ry{color:var(--el-ry)} .el.ya{color:var(--el-ya)} .el.vo{color:var(--el-vo)}
 
 .pf{font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:2px;
     background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
@@ -159,6 +159,7 @@ tbody tr:hover{background:var(--surface-2)}
       <input type="search" id="q" placeholder="種族名・技名で検索" aria-label="検索">
       <div class="chipset" id="els"></div>
       <div class="chipset" id="pfs"></div>
+      <div class="chipset" id="roles"></div>
       <select id="traitf" aria-label="特性で絞り込み"><option value="">特性: 指定なし</option></select>
       <span class="count" id="count"></span>
     </div>
@@ -169,7 +170,8 @@ tbody tr:hover{background:var(--surface-2)}
       <div class="panel-h"><span class="panel-t">種族</span>
         <select id="sort" aria-label="並び順">
           <option value="id">図鑑番号順</option>
-          <option value="bst">種族値合計が高い順</option>
+          <option value="bst">種族値合計(BST6)が高い順</option>
+          <option value="sp">俊敏が高い順</option>
           <option value="mx">最大威力が高い順</option>
           <option value="st">変化技が多い順</option>
           <option value="nt">攻撃属性が多い順</option>
