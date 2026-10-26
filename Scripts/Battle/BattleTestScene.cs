@@ -906,7 +906,7 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 虚の個体の learnset に闇(水)の攻撃技が無く虚の攻撃技がある: "
                  + $"{(leftover.Count == 0 ? "OK" : "NG " + string.Join(",", leftover))}");
 
-        // 6. 虚の攻撃技57件が、元の闇技と威力・分類・射程・命中・PP・接触で一致。
+        // 6. 虚の攻撃技55件が、元の闇技と威力・分類・射程・命中・PP・接触で一致。
         var voidMoves = MoveDatabase.AllIds().Select(MoveDatabase.Get)
                                     .Where(m => m.Type == "Void" && m.Power > 0 && !m.Id.StartsWith("rs_")).ToList();
         var mismatch = new List<string>();
@@ -918,8 +918,8 @@ public partial class BattleTestScene : Node2D
                 || src.IsContact != v.IsContact)
                 mismatch.Add(v.Id);
         }
-        GD.Print($"[検証] 虚の攻撃技57件が元の闇技と性能一致: "
-                 + $"{(voidMoves.Count == 57 && mismatch.Count == 0 ? "OK" : "NG")} "
+        GD.Print($"[検証] 虚の攻撃技55件が元の闇技と性能一致: "
+                 + $"{(voidMoves.Count == 55 && mismatch.Count == 0 ? "OK" : "NG")} "
                  + $"({voidMoves.Count}件 不一致{mismatch.Count})");
     }
 

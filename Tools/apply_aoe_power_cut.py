@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""特殊の範囲技の整理を Data/ に適用する（削除15・learnset 9行除去・NPC 4枠置換・威力の引き下げ）。冪等。
+"""特殊の範囲技の整理を Data/ に適用する（削除24・learnset 8行除去・NPC 5枠置換・威力の引き下げ）。冪等。
 
-usage: python3 Tools/apply_aoe_power_cut.py --cut {10|15|20} [--acc]
-  --acc は --cut 20 のときだけ（基準威力80以上の24件で命中-5）。
+usage: python3 Tools/apply_aoe_power_cut.py --cut 20 [--acc]   （採用案は --cut 20 --acc）
+  --acc は基準威力80以上の22件で命中-5。
   入力は前提コミットの Data、または既に一度適用した Data。何度実行しても同じ結果になる。
   元に戻すときは git checkout -- Data/ Tools/aoe_power_rules.py
 仕様書: docs/design/drafts/2026-10-27-aoe-power.md §3-2
@@ -29,7 +29,7 @@ def save(name, obj):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--cut', type=int, required=True, choices=(10, 15, 20))
+    ap.add_argument('--cut', type=int, required=True, choices=(20,))
     ap.add_argument('--acc', action='store_true')
     a = ap.parse_args()
     if a.acc and a.cut != 20:
@@ -41,7 +41,7 @@ def main():
         sys.exit(f'moves.json に無い残す技: {missing}')
     print(f'--cut {a.cut}{" --acc" if a.acc else ""}')
 
-    # 1. moves.json から15件を除く
+    # 1. moves.json から24件を除く
     deleted = set(R.AOE_DELETED)
     gone = [m for m in ms if m['id'] in deleted]
     ms = [m for m in ms if m['id'] not in deleted]
@@ -49,7 +49,7 @@ def main():
     for m in gone:
         print(f'  - {m["id"]:<20} {m["name"]}')
 
-    # 2. learnset から削除技の行と ROW_REMOVALS の9行を除く
+    # 2. learnset から削除技の行と ROW_REMOVALS の8行を除く
     rowrm = set(R.ROW_REMOVALS)
     n_del = n_row = 0
     species_hit = set()
@@ -79,7 +79,7 @@ def main():
             sys.exit(f'NPC 枠が想定外の状態: {tid} {sid} {mids}')
         print(f'  NPC {tid} {sid}: {old} -> {new} ({st})')
 
-    # 4. 残す38件の威力・命中
+    # 4. 残す29件の威力・命中
     red = R.CUT_TABLE[a.cut]
     odd = []
     for n, (i, (bp, ba)) in enumerate(R.AOE_BASE.items(), 1):

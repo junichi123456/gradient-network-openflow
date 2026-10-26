@@ -192,9 +192,9 @@ for x in sp:
     if (o=='Physical' and p_<q_) or (o=='Special' and q_<p_): v18.append((x['display_name'],o,p_,q_))
 chk(18,"物理攻撃/特殊攻撃の個体は多数側の分類が攻撃区分と一致", not v18, f"違反{len(v18)}件 {v18[:3]}")
 
-# 19 削除した特殊の範囲技15件と ROW_REMOVALS の9行が learnset に無い
+# 19 削除した特殊の範囲技24件と ROW_REMOVALS の8行が learnset に無い
 v19=[(x['display_name'],e['move_id']) for x in sp for e in x['learnset']
      if e['move_id'] in AOE_DELETED or (x['species_id'],e['move_id']) in set(ROW_REMOVALS)]
-chk(19,"削除した特殊の範囲技15件と除去9行が learnset に無い", not v19, f"違反{len(v19)}件 {v19[:3]}")
+chk(19,"削除した特殊の範囲技24件と除去8行が learnset に無い", not v19, f"違反{len(v19)}件 {v19[:3]}")
 
 print("\n総合:", "ALL PASS" if ok else "FAILあり")

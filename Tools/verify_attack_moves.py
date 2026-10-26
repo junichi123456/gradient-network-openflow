@@ -132,7 +132,7 @@ for el in set(m['type'] for m in atk):
     if v: viol[el]=v
 check(not viol, "§B 部屋技は同属性内で威力差10以上", str(viol))
 
-# 特殊の範囲技（Room/Area/Surrounding の攻撃技）の整理。対象38件が機械列挙と一致し、威力・命中が採用案どおり。
+# 特殊の範囲技（Room/Area/Surrounding の攻撃技）の整理。対象29件が機械列挙と一致し、威力・命中が採用案どおり。
 _D, _ACC = AOE.ADOPTED
 _M = {m['id']: m for m in ms}
 _aoe_enum = {m['id'] for m in atk if m.get('range') in AOE.AOE_RANGES and m['category']=='Special'
@@ -141,9 +141,9 @@ _pw_bad = [i for i in AOE.AOE_BASE if i in _M and _M[i]['power'] != AOE.AOE_BASE
 _void_bad = [i for i in AOE.AOE_BASE if i.startswith('void_') and i[5:] in _M and i in _M
              and _M[i]['power'] != _M[i[5:]]['power']]
 _del_bad = [i for i in AOE.AOE_DELETED if i in _M]
-check(_aoe_enum == set(AOE.AOE_BASE) and len(AOE.AOE_BASE) == 38 and len(AOE.AOE_DELETED) == 15
+check(_aoe_enum == set(AOE.AOE_BASE) and len(AOE.AOE_BASE) == 29 and len(AOE.AOE_DELETED) == 24
       and not _pw_bad and not _void_bad and not _del_bad,
-      "特殊の範囲技38件が機械列挙と一致し、威力が CUT_TABLE[採用案]どおり・虚と闇が一致・削除15件が無い",
+      "特殊の範囲技29件が機械列挙と一致し、威力が CUT_TABLE[採用案]どおり・虚と闇が一致・削除24件が無い",
       f"採用案{AOE.ADOPTED} 列挙差{sorted(_aoe_enum ^ set(AOE.AOE_BASE))[:3]} 威力違反{_pw_bad[:3]} 虚と闇の不一致{_void_bad[:3]} 削除残り{_del_bad[:3]}")
 _acc_bad = [i for i in AOE.AOE_BASE if i in _M and _M[i]['accuracy'] != AOE.AOE_BASE[i][1] - AOE.acc_cut(i, _ACC)]
 _mv = _M.get('MV_170')

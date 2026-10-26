@@ -28,8 +28,8 @@ const pool = new Map();          // name|power -> power, over every move that ap
 SP.forEach(s => s.mv.forEach(m => { if (m[4] > 0) pool.set(m[1] + '|' + m[4], m[4]); }));
 // The move list itself is the denominator, so it is passed in as counts per band.
 const BANDS = [[15,29],[30,44],[45,59],[60,74],[75,89],[90,104],[105,119],[120,134],[135,149],[180,194]];
-const TOTALS = {"15": 65, "30": 83, "45": 97, "60": 87, "75": 89, "90": 80, "105": 61, "120": 27, "135": 3, "180": 1};
-const REACH  = {"15": 64, "30": 83, "45": 97, "60": 87, "75": 89, "90": 80, "105": 59, "120": 27, "135": 3, "180": 1};
+const TOTALS = {"15": 57, "30": 82, "45": 92, "60": 82, "75": 91, "90": 82, "105": 59, "120": 21, "135": 2, "180": 1};
+const REACH  = {"15": 56, "30": 82, "45": 92, "60": 82, "75": 91, "90": 82, "105": 57, "120": 21, "135": 2, "180": 1};
 document.getElementById('bands').innerHTML = BANDS.map(([lo, hi]) => {
   const t = TOTALS[lo], r = REACH[lo], pct = Math.round(r / t * 100);
   const cls = pct === 0 ? 'none' : pct < 60 ? 'part' : '';

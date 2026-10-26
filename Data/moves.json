@@ -4,8 +4,8 @@
     "name": "ビー・クワイエット",
     "type": "Grass",
     "category": "Special",
-    "power": 130,
-    "accuracy": 100,
+    "power": 110,
+    "accuracy": 95,
     "max_pp": 4,
     "range": "Room"
   },
@@ -25,8 +25,8 @@
     "name": "サンダーレール",
     "type": "Electric",
     "category": "Special",
-    "power": 110,
-    "accuracy": 100,
+    "power": 90,
+    "accuracy": 95,
     "max_pp": 6,
     "range": "Area"
   },
@@ -35,8 +35,8 @@
     "name": "ウォーターピラーバースト",
     "type": "Water",
     "category": "Special",
-    "power": 115,
-    "accuracy": 100,
+    "power": 95,
+    "accuracy": 95,
     "max_pp": 6,
     "range": "Area"
   },
@@ -45,8 +45,8 @@
     "name": "サンドツイスター",
     "type": "Ground",
     "category": "Special",
-    "power": 100,
-    "accuracy": 100,
+    "power": 80,
+    "accuracy": 95,
     "max_pp": 6,
     "range": "Area"
   },
@@ -55,8 +55,8 @@
     "name": "ダークウィスプ",
     "type": "Dark",
     "category": "Special",
-    "power": 85,
-    "accuracy": 100,
+    "power": 65,
+    "accuracy": 95,
     "max_pp": 6,
     "range": "Room"
   },
@@ -85,8 +85,8 @@
     "name": "ボルカニックレイン",
     "type": "Fire",
     "category": "Special",
-    "power": 90,
-    "accuracy": 100,
+    "power": 75,
+    "accuracy": 95,
     "max_pp": 9,
     "range": "Area"
   },
@@ -95,17 +95,7 @@
     "name": "ビームスライサー",
     "type": "Dragon",
     "category": "Special",
-    "power": 65,
-    "accuracy": 100,
-    "max_pp": 9,
-    "range": "Room"
-  },
-  {
-    "id": "all_range_thunder",
-    "name": "オールレンジサンダー",
-    "type": "Electric",
-    "category": "Special",
-    "power": 70,
+    "power": 45,
     "accuracy": 100,
     "max_pp": 9,
     "range": "Room"
@@ -159,16 +149,6 @@
     "accuracy": 100,
     "max_pp": 18,
     "range": "Line"
-  },
-  {
-    "id": "spine_vine",
-    "name": "スパインヴァイン",
-    "type": "Grass",
-    "category": "Special",
-    "power": 45,
-    "accuracy": 100,
-    "max_pp": 21,
-    "range": "Room"
   },
   {
     "id": "power_bomb",
@@ -297,8 +277,8 @@
     "name": "アルティメットドラゴンカノン",
     "type": "Dragon",
     "category": "Special",
-    "power": 100,
-    "accuracy": 70,
+    "power": 80,
+    "accuracy": 65,
     "max_pp": 6,
     "range": "Room",
     "self_stun_next_turn": true
@@ -308,8 +288,8 @@
     "name": "ドラゴンスレイヤーロア",
     "type": "Dragon",
     "category": "Special",
-    "power": 120,
-    "accuracy": 70,
+    "power": 100,
+    "accuracy": 65,
     "max_pp": 6,
     "range": "Area",
     "rank_effect_stat": "Atk",
@@ -363,16 +343,6 @@
     "range": "Adjacent",
     "is_contact": true,
     "weapon_tag": "None"
-  },
-  {
-    "id": "MV_115",
-    "name": "ヤングドラゴンロア",
-    "type": "Dragon",
-    "category": "Special",
-    "power": 60,
-    "accuracy": 100,
-    "max_pp": 24,
-    "range": "Area"
   },
   {
     "id": "MV_116",
@@ -468,17 +438,6 @@
     "is_contact": true
   },
   {
-    "id": "MV_127",
-    "name": "ダークスケイルスマッシュ",
-    "type": "Dark",
-    "category": "Special",
-    "power": 25,
-    "accuracy": 100,
-    "max_pp": 30,
-    "range": "Area",
-    "crit_rank_bonus": 1
-  },
-  {
     "id": "MV_128",
     "name": "シャドウウルフファング",
     "type": "Dark",
@@ -522,8 +481,8 @@
     "name": "ハデスジャッジメント",
     "type": "Dark",
     "category": "Special",
-    "power": 105,
-    "accuracy": 70,
+    "power": 85,
+    "accuracy": 65,
     "max_pp": 6,
     "range": "Area",
     "rank_effect_stat": "Def",
@@ -660,7 +619,7 @@
     "name": "エナジーブラスト",
     "type": "Neutral",
     "category": "Special",
-    "power": 50,
+    "power": 30,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Room"
@@ -690,8 +649,8 @@
     "name": "シャッタースカイ",
     "type": "Neutral",
     "category": "Special",
-    "power": 130,
-    "accuracy": 65,
+    "power": 115,
+    "accuracy": 60,
     "max_pp": 4,
     "range": "Area",
     "recoil_hp_percent": 33
@@ -701,7 +660,7 @@
     "name": "クリティカルエイム",
     "type": "Neutral",
     "category": "Special",
-    "power": 25,
+    "power": 15,
     "accuracy": 100,
     "max_pp": 28,
     "range": "Room",
@@ -879,22 +838,12 @@
     "weapon_tag": "Thrust"
   },
   {
-    "id": "MV_185",
-    "name": "ボルトライトバレット",
-    "type": "Electric",
-    "category": "Special",
-    "power": 25,
-    "accuracy": 100,
-    "max_pp": 33,
-    "range": "Area"
-  },
-  {
     "id": "MV_186",
     "name": "ロアリングサンダー",
     "type": "Electric",
     "category": "Special",
-    "power": 85,
-    "accuracy": 100,
+    "power": 70,
+    "accuracy": 95,
     "max_pp": 9,
     "range": "Room"
   },
@@ -943,16 +892,6 @@
     "is_contact": false
   },
   {
-    "id": "MV_191",
-    "name": "フリーズウェーブ",
-    "type": "Ice",
-    "category": "Special",
-    "power": 60,
-    "accuracy": 100,
-    "max_pp": 24,
-    "range": "Room"
-  },
-  {
     "id": "MV_192",
     "name": "ブリザードパンチ",
     "type": "Ice",
@@ -972,7 +911,7 @@
     "name": "フロストバーンブレス",
     "type": "Ice",
     "category": "Special",
-    "power": 70,
+    "power": 50,
     "accuracy": 100,
     "max_pp": 18,
     "range": "Room",
@@ -994,22 +933,12 @@
     "is_contact": true
   },
   {
-    "id": "MV_196",
-    "name": "アイスストーム",
-    "type": "Ice",
-    "category": "Special",
-    "power": 85,
-    "accuracy": 100,
-    "max_pp": 12,
-    "range": "Room"
-  },
-  {
     "id": "MV_197",
     "name": "アブソリュートゼロウェーブ",
     "type": "Ice",
     "category": "Special",
-    "power": 95,
-    "accuracy": 85,
+    "power": 75,
+    "accuracy": 80,
     "max_pp": 6,
     "range": "Room",
     "ailment_effect": "Freeze",
@@ -1047,18 +976,6 @@
     "range": "Line"
   },
   {
-    "id": "MV_205",
-    "name": "フロストネット",
-    "type": "Ice",
-    "category": "Special",
-    "power": 30,
-    "accuracy": 95,
-    "max_pp": 28,
-    "range": "Area",
-    "ailment_effect": "Freeze",
-    "ailment_chance": 15
-  },
-  {
     "id": "MV_207",
     "name": "サブゼロインパクト",
     "type": "Ice",
@@ -1076,8 +993,8 @@
     "name": "フロストゲイルブレス",
     "type": "Ice",
     "category": "Special",
-    "power": 135,
-    "accuracy": 65,
+    "power": 120,
+    "accuracy": 60,
     "max_pp": 4,
     "range": "Area",
     "ailment_effect": "Freeze",
@@ -1120,16 +1037,6 @@
     "range": "Adjacent",
     "weapon_tag": "Slash",
     "is_contact": true
-  },
-  {
-    "id": "MV_215",
-    "name": "ウォーターカッター",
-    "type": "Water",
-    "category": "Special",
-    "power": 35,
-    "accuracy": 100,
-    "max_pp": 30,
-    "range": "Area"
   },
   {
     "id": "MV_216",
@@ -1181,8 +1088,8 @@
     "name": "タイダルウェーブ",
     "type": "Water",
     "category": "Special",
-    "power": 100,
-    "accuracy": 100,
+    "power": 80,
+    "accuracy": 95,
     "max_pp": 6,
     "range": "Room"
   },
@@ -1191,8 +1098,8 @@
     "name": "グレートタイダルボア",
     "type": "Water",
     "category": "Special",
-    "power": 125,
-    "accuracy": 65,
+    "power": 105,
+    "accuracy": 60,
     "max_pp": 6,
     "range": "Room",
     "recoil_hp_percent": 25
@@ -1209,17 +1116,6 @@
     "is_contact": true
   },
   {
-    "id": "MV_228",
-    "name": "ウォータートルネード",
-    "type": "Water",
-    "category": "Special",
-    "power": 80,
-    "accuracy": 100,
-    "max_pp": 15,
-    "range": "Room",
-    "weapon_tag": "Wind"
-  },
-  {
     "id": "MV_230",
     "name": "アクアパンチ",
     "type": "Water",
@@ -1233,16 +1129,6 @@
     "ailment_effect": "Soaked",
     "ailment_chance": 20,
     "ailment_target": "Enemy"
-  },
-  {
-    "id": "MV_231",
-    "name": "バブルビーム",
-    "type": "Water",
-    "category": "Special",
-    "power": 70,
-    "accuracy": 100,
-    "max_pp": 15,
-    "range": "Room"
   },
   {
     "id": "MV_232",
@@ -1340,8 +1226,8 @@
     "name": "ヘルファイアヴォルテックス",
     "type": "Fire",
     "category": "Special",
-    "power": 110,
-    "accuracy": 65,
+    "power": 90,
+    "accuracy": 60,
     "max_pp": 6,
     "range": "Room",
     "recoil_hp_percent": 25
@@ -1351,8 +1237,8 @@
     "name": "フレイムゲイルブレス",
     "type": "Fire",
     "category": "Special",
-    "power": 120,
-    "accuracy": 65,
+    "power": 100,
+    "accuracy": 60,
     "max_pp": 6,
     "range": "Room",
     "recoil_hp_percent": 33,
@@ -1383,27 +1269,6 @@
     "ailment_effect": "Burn",
     "ailment_chance": 10,
     "is_contact": true
-  },
-  {
-    "id": "MV_247",
-    "name": "ファイアスフィア",
-    "type": "Fire",
-    "category": "Special",
-    "power": 20,
-    "accuracy": 100,
-    "max_pp": 30,
-    "range": "Room"
-  },
-  {
-    "id": "MV_248",
-    "name": "フレイムバーンブレス",
-    "type": "Fire",
-    "category": "Special",
-    "power": 65,
-    "accuracy": 100,
-    "max_pp": 21,
-    "range": "Area",
-    "weapon_tag": "Breath"
   },
   {
     "id": "MV_250",
@@ -1538,8 +1403,8 @@
     "name": "テクトニックシフト",
     "type": "Ground",
     "category": "Special",
-    "power": 110,
-    "accuracy": 100,
+    "power": 90,
+    "accuracy": 95,
     "max_pp": 6,
     "range": "Room"
   },
@@ -1552,21 +1417,6 @@
     "accuracy": 100,
     "max_pp": 6,
     "range": "Line"
-  },
-  {
-    "id": "MV_268",
-    "name": "サンドストームスマッシュ",
-    "type": "Ground",
-    "category": "Special",
-    "power": 65,
-    "accuracy": 100,
-    "max_pp": 24,
-    "range": "Area",
-    "rank_effect_stat": "Evasion",
-    "rank_effect_delta": -1,
-    "rank_effect_target": "Enemy",
-    "rank_effect_chance": 0.2,
-    "weapon_tag": "Wind"
   },
   {
     "id": "MV_272",
@@ -1623,25 +1473,11 @@
     "name": "コラプスロックスマッシュ",
     "type": "Ground",
     "category": "Special",
-    "power": 120,
-    "accuracy": 65,
+    "power": 100,
+    "accuracy": 60,
     "max_pp": 6,
     "range": "Room",
     "recoil_hp_percent": 25
-  },
-  {
-    "id": "MV_280",
-    "name": "サンドバインド",
-    "type": "Ground",
-    "category": "Special",
-    "power": 20,
-    "accuracy": 100,
-    "max_pp": 28,
-    "range": "Room",
-    "rank_effect_stat": "Evasion",
-    "rank_effect_delta": -1,
-    "rank_effect_target": "Enemy",
-    "rank_effect_chance": 0.2
   },
   {
     "id": "MV_281",
@@ -1675,19 +1511,6 @@
     "max_pp": 33,
     "range": "Adjacent",
     "is_contact": true
-  },
-  {
-    "id": "MV_285",
-    "name": "グラスノット",
-    "type": "Grass",
-    "category": "Special",
-    "power": 25,
-    "accuracy": 100,
-    "max_pp": 28,
-    "range": "Area",
-    "rank_effect_stat": "Accuracy",
-    "rank_effect_delta": -1,
-    "rank_effect_target": "Enemy"
   },
   {
     "id": "MV_287",
@@ -1741,8 +1564,8 @@
     "name": "フォレストラース",
     "type": "Grass",
     "category": "Special",
-    "power": 125,
-    "accuracy": 65,
+    "power": 115,
+    "accuracy": 60,
     "max_pp": 6,
     "range": "Area",
     "recoil_hp_percent": 25
@@ -1811,7 +1634,7 @@
     "name": "ベアスマッシュ",
     "type": "Neutral",
     "category": "Special",
-    "power": 30,
+    "power": 20,
     "accuracy": 90,
     "max_pp": 30,
     "range": "Area",
@@ -1840,16 +1663,6 @@
     "accuracy": 100,
     "max_pp": 24,
     "range": "Line"
-  },
-  {
-    "id": "mvn_022",
-    "name": "カーボナイズ",
-    "type": "Fire",
-    "category": "Special",
-    "power": 55,
-    "accuracy": 100,
-    "max_pp": 18,
-    "range": "Room"
   },
   {
     "id": "mvn_023",
@@ -1886,16 +1699,6 @@
     "range": "Line",
     "ailment_effect": "Paralyze",
     "ailment_chance": 30
-  },
-  {
-    "id": "mvn_040",
-    "name": "ボルトトレイル",
-    "type": "Electric",
-    "category": "Special",
-    "power": 45,
-    "accuracy": 100,
-    "max_pp": 24,
-    "range": "Room"
   },
   {
     "id": "mvn_041",
@@ -1966,16 +1769,6 @@
     "range": "Line"
   },
   {
-    "id": "mvn_055",
-    "name": "ソリッドソイル",
-    "type": "Ground",
-    "category": "Special",
-    "power": 55,
-    "accuracy": 100,
-    "max_pp": 18,
-    "range": "Room"
-  },
-  {
     "id": "mvn_056",
     "name": "グリーンリーフ",
     "type": "Grass",
@@ -1995,17 +1788,6 @@
     "accuracy": 100,
     "max_pp": 30,
     "range": "Line",
-    "drain_hp_percent": 50
-  },
-  {
-    "id": "mvn_060",
-    "name": "グラスリング",
-    "type": "Grass",
-    "category": "Special",
-    "power": 25,
-    "accuracy": 100,
-    "max_pp": 28,
-    "range": "Room",
     "drain_hp_percent": 50
   },
   {
@@ -2079,19 +1861,6 @@
     "dragon_multiplier": 1.25
   },
   {
-    "id": "mvn_082",
-    "name": "ドラゴンクロー",
-    "type": "Dragon",
-    "category": "Special",
-    "power": 30,
-    "accuracy": 100,
-    "max_pp": 28,
-    "range": "Room",
-    "recoil_hp_percent": 25,
-    "dragon_multiplier": 1.25,
-    "weapon_tag": "None"
-  },
-  {
     "id": "mvn_083",
     "name": "ドラゴンリング",
     "type": "Dragon",
@@ -2129,18 +1898,6 @@
     "weapon_tag": "Breath"
   },
   {
-    "id": "mvn_092",
-    "name": "ダークネス",
-    "type": "Dark",
-    "category": "Special",
-    "power": 20,
-    "accuracy": 90,
-    "max_pp": 30,
-    "range": "Room",
-    "ailment_effect": "Poison",
-    "ailment_chance": 20
-  },
-  {
     "id": "mvn_093",
     "name": "ダークリング",
     "type": "Dark",
@@ -2169,7 +1926,7 @@
     "name": "シャドウアレイ",
     "type": "Dark",
     "category": "Special",
-    "power": 55,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Room"
@@ -7123,8 +6880,8 @@
     "name": "ホロウウィスプ",
     "type": "Void",
     "category": "Special",
-    "power": 85,
-    "accuracy": 100,
+    "power": 65,
+    "accuracy": 95,
     "max_pp": 6,
     "range": "Room"
   },
@@ -7227,17 +6984,6 @@
     "is_contact": true
   },
   {
-    "id": "void_MV_127",
-    "name": "ホロウスケイルスマッシュ",
-    "type": "Void",
-    "category": "Special",
-    "power": 25,
-    "accuracy": 100,
-    "max_pp": 30,
-    "range": "Area",
-    "crit_rank_bonus": 1
-  },
-  {
     "id": "void_MV_128",
     "name": "ヴォイドウルフファング",
     "type": "Void",
@@ -7268,8 +7014,8 @@
     "name": "ヌルジャッジメント",
     "type": "Void",
     "category": "Special",
-    "power": 105,
-    "accuracy": 70,
+    "power": 85,
+    "accuracy": 65,
     "max_pp": 6,
     "range": "Area",
     "rank_effect_stat": "Def",
@@ -7288,18 +7034,6 @@
     "ailment_effect": "Poison",
     "ailment_chance": 30,
     "weapon_tag": "Breath"
-  },
-  {
-    "id": "void_mvn_092",
-    "name": "ホロウネス",
-    "type": "Void",
-    "category": "Special",
-    "power": 20,
-    "accuracy": 90,
-    "max_pp": 30,
-    "range": "Room",
-    "ailment_effect": "Poison",
-    "ailment_chance": 20
   },
   {
     "id": "void_mvn_093",
@@ -7330,7 +7064,7 @@
     "name": "ヴォイドアレイ",
     "type": "Void",
     "category": "Special",
-    "power": 55,
+    "power": 35,
     "accuracy": 100,
     "max_pp": 21,
     "range": "Room"
