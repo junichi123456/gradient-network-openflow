@@ -7,9 +7,8 @@ namespace MysteryDungeon.Entities;
 
 // Shared combat/survival stats component, attached as a child node of
 // every Entity (see Entity._Ready()). Attack/Defense feed AttackAction's
-// damage formula (via DamageCalculator - see Phase 16); SpAttack/
-// SpDefense are kept as data for a possible future physical/special
-// split but aren't consumed anywhere yet.
+// damage formula (via DamageCalculator - see Phase 16); physical moves
+// use Attack/Defense, special moves use SpAttack/SpDefense (HABCDS).
 //
 // Phase 17: Attack/Defense/MaxHp are no longer flat designer-set values.
 // Each is derived on demand from a HAD-style formula (species BaseXxx +
@@ -72,22 +71,29 @@ public partial class EntityStats : Node
     [Export] public int BaseAtk { get; set; } = 70;
     [Export] public int BaseDef { get; set; } = 70;
 
-    // HABCDS の残り3能力の種族値（魔力 C / 精神 D / 俊敏 S）。Phase 3 では
-    // 種族から写すだけで、実数値・ダメージ計算・行動順には使わない（Phase 4）。
-    public int BaseSpAtk { get; set; } = 70;
-    public int BaseSpDef { get; set; } = 70;
-    public int BaseSpeed { get; set; } = 70;
+    // HABCDS の残り3能力の種族値（魔力 C / 精神 D / 俊敏 S）。
+    // C/D は特殊技のダメージ計算（AttackAction）、S は対戦の行動順
+    // （BattleScheduler.Order）に使う。
+    [Export] public int BaseSpAtk { get; set; } = 70;
+    [Export] public int BaseSpDef { get; set; } = 70;
+    [Export] public int BaseSpeed { get; set; } = 70;
 
     // 6能力の種族値合計（BST6）。合計種族値の唯一の定義。
     public int BaseTotal => BaseMaxHp + BaseAtk + BaseDef + BaseSpAtk + BaseSpDef + BaseSpeed;
     [Export] public int BreakthroughAtk { get; set; } = 0;
     [Export] public int BreakthroughDef { get; set; } = 0;
+    [Export] public int BreakthroughSpAtk { get; set; } = 0;
+    [Export] public int BreakthroughSpDef { get; set; } = 0;
+    [Export] public int BreakthroughSpeed { get; set; } = 0;
 
     // Real (calculated) stats - Phase 17's HAD formula. Read-only: set
     // BaseXxx/BreakthroughXxx/Level instead, never these directly.
     public int MaxHp => Mathf.FloorToInt((BaseMaxHp * 2 + BreakthroughHP) * Level / 100.0f) + Level + 10;
     public int Attack => Mathf.FloorToInt((BaseAtk * 2 + BreakthroughAtk) * Level / 100.0f) + 5;
     public int Defense => Mathf.FloorToInt((BaseDef * 2 + BreakthroughDef) * Level / 100.0f) + 5;
+    public int SpAttack => Mathf.FloorToInt((BaseSpAtk * 2 + BreakthroughSpAtk) * Level / 100.0f) + 5;
+    public int SpDefense => Mathf.FloorToInt((BaseSpDef * 2 + BreakthroughSpDef) * Level / 100.0f) + 5;
+    public int Speed => Mathf.FloorToInt((BaseSpeed * 2 + BreakthroughSpeed) * Level / 100.0f) + 5;
 
     public int CurrentHp { get; set; }
 
@@ -120,9 +126,6 @@ public partial class EntityStats : Node
     // K = 10). 55 is the confirmed "standard enemy" baseline (r = 5.5:
     // at Lv10, ~6 same-level standard kills = 1 level).
     [Export] public int BaseExpYield { get; set; } = 55;
-
-    [Export] public int SpAttack { get; set; } = 10;
-    [Export] public int SpDefense { get; set; } = 10;
 
     // Up to two types; Type2 empty means single-typed.
     [Export] public string Type1 { get; set; } = "Neutral";
@@ -223,8 +226,6 @@ public partial class EntityStats : Node
         BaseMaxHp = species.BaseHP;
         BaseAtk = species.BaseAtk;
         BaseDef = species.BaseDef;
-        // 魔力/精神/俊敏は Phase 3 では「合計種族値(BST6)を保つ」ためだけに写す。
-        // ダメージ計算・行動順への配線は Phase 4。
         BaseSpAtk = species.BaseSpAtk;
         BaseSpDef = species.BaseSpDef;
         BaseSpeed = species.BaseSpeed;

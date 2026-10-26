@@ -923,7 +923,7 @@ public partial class BattleMatchScene : Node2D
 
     private static int Bst(Entity e) => BattleScheduler.Bst(e);
     private static int Bst(BattleEntry e) =>
-        e.Species is { } sp ? sp.BaseHP + sp.BaseAtk + sp.BaseDef : 0;
+        e.Species is { } sp ? sp.Bst : 0;
 
     private static string HpLine(BattleScheduler sched) => string.Join("  ",
         sched.Roster.Select(e => $"{Side(e)}{e.ActorName}"

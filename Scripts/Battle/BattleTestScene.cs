@@ -74,6 +74,7 @@ public partial class BattleTestScene : Node2D
         VerifyVoidType();
         VerifyHollow();
         VerifyHabcdsData();
+        VerifyHabcdsWiring();
         RunBattle();
 
         // 終了時クラッシュ対策: 試合が長引くと未処理の Tween の C# ラッパーが
@@ -449,7 +450,7 @@ public partial class BattleTestScene : Node2D
     // ことを確かめたいので、spawn順を入れ替えた2回で同じ結果になるか見る。
     private void VerifyEntryWeather()
     {
-        // すなあらし=マグマンダー(BST350) / ゆき=ユキツネ(BST215)。
+        // すなあらし=マグマンダー(BST6 503) / ゆき=ユキツネ(BST6 390)。
         // 低種族値のユキツネ側が最後に発動するので、常にゆきが残るはず。
         WeatherType Probe(bool highFirst)
         {
@@ -594,26 +595,122 @@ public partial class BattleTestScene : Node2D
                  + $"{(fallback.Any(t => t == foe.GridPosition) ? "OK" : "NG")}");
     }
 
-    // 行動順規則の機械検証。優先度 > 合計種族値(低いほうが先) の順で効くこと、
-    // 優先度が種族値を上書きすることを、実際の Order() で確かめる。
+    // 行動順規則の機械検証。優先度 > 俊敏(S)の高い順 > 合計種族値BST6(低いほうが先) の順で
+    // 効くことを、実際の Order() で確かめる。盤上の素材は タマコッコ(003: S47・BST6 360) と
+    // ブシガエル(009: S74・BST6 432)。
     private void VerifyTurnOrder()
     {
-        var low = _sched.Roster.OrderBy(BattleScheduler.Bst).First();    // タマコッコ BST180
-        var high = _sched.Roster.OrderByDescending(BattleScheduler.Bst).First(); // ブシガエル BST265
+        var low = _sched.Roster.First(e => e.SpeciesId == "003");   // S47 / BST6 360
+        var high = _sched.Roster.First(e => e.SpeciesId == "009");  // S74 / BST6 432
 
-        // 優先度が同じなら種族値が低いほうが先。
+        // 同優先度・同俊敏なら合計種族値(BST6)が低いほうが先。
+        // 俊敏だけを同値(70)にし、BST6 が動かないよう差分を HP に逆向きに振る。
+        int lowSpd = low.Stats.BaseSpeed, highSpd = high.Stats.BaseSpeed;
+        int lowHp = low.Stats.BaseMaxHp, highHp = high.Stats.BaseMaxHp;
+        low.Stats.BaseSpeed = 70; low.Stats.BaseMaxHp = lowHp + (lowSpd - 70);
+        high.Stats.BaseSpeed = 70; high.Stats.BaseMaxHp = highHp + (highSpd - 70);
         var byBst = _sched.Order(new BattleScheduler.Commitment(high, null, 0),
                                  new BattleScheduler.Commitment(low, null, 0));
-        GD.Print($"[検証] 同優先度なら種族値が低いほうが先: "
-                 + $"{(byBst[0].Actor == low ? "OK" : "NG")} "
-                 + $"({byBst[0].Actor.ActorName}(BST{BattleScheduler.Bst(byBst[0].Actor)}) が先)");
+        int lowBst = BattleScheduler.Bst(low), highBst = BattleScheduler.Bst(high);
+        low.Stats.BaseSpeed = lowSpd; low.Stats.BaseMaxHp = lowHp;
+        high.Stats.BaseSpeed = highSpd; high.Stats.BaseMaxHp = highHp;
+        GD.Print($"[検証] 同優先度・同俊敏なら種族値が低いほうが先: "
+                 + $"{(byBst[0].Actor == low && lowBst == 360 && highBst == 432 ? "OK" : "NG")} "
+                 + $"({byBst[0].Actor.ActorName}(BST{BattleScheduler.Bst(byBst[0].Actor)}) が先、俊敏は両者70に揃えた)");
 
-        // 優先度が高ければ種族値を無視して先。
-        var byPriority = _sched.Order(new BattleScheduler.Commitment(high, null, 1),
-                                      new BattleScheduler.Commitment(low, null, 0));
-        GD.Print($"[検証] 優先度が種族値を上書きする: "
-                 + $"{(byPriority[0].Actor == high ? "OK" : "NG")} "
-                 + $"({byPriority[0].Actor.ActorName}(BST{BattleScheduler.Bst(byPriority[0].Actor)}, 優先度1) が先)");
+        // 優先度が高ければ俊敏を無視して先。遅いタマコッコに優先度1、速いブシガエルに優先度0。
+        var byPriority = _sched.Order(new BattleScheduler.Commitment(low, null, 1),
+                                      new BattleScheduler.Commitment(high, null, 0));
+        GD.Print($"[検証] 優先度が俊敏を上書きする: "
+                 + $"{(byPriority[0].Actor == low ? "OK" : "NG")} "
+                 + $"({byPriority[0].Actor.ActorName}(S{byPriority[0].Actor.Stats.BaseSpeed}, 優先度1) が先、"
+                 + $"相手はS{high.Stats.BaseSpeed}・優先度0)");
+    }
+
+    // HABCDS の配線（Phase 4）: 物理=A対B・特殊=C対D、ベンチマーク、俊敏順、BST6、種族値%加算。
+    private void VerifyHabcdsWiring()
+    {
+        var atk = _sched.Roster.First(e => e.Faction == Faction.Enemy);
+        var def = _sched.Roster.First(e => e.Faction == Faction.Player);
+        foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); x.HeldItemId = null; }
+
+        // 1. 物理技は A 対 B、特殊技は C 対 D。同じ属性・同威力の物理技と特殊技を取り、
+        //    A≠C・B≠D の2個体で、物理の与ダメは C/D を、特殊の与ダメは A/B を変えても動かず、
+        //    それぞれの対応する能力を変えると動くことを見る。
+        var pool = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+            .Where(m => m.Range == MoveRange.Adjacent && m.Accuracy >= 100 && m.Power >= 40
+                        && m.RankEffects.Count == 0 && m.AilmentEffect == AilmentType.None).ToList();
+        var physMv = pool.First(m => m.Category == MoveCategory.Physical
+                                     && pool.Any(o => o.Category == MoveCategory.Special && o.Type == m.Type && o.Power == m.Power));
+        var specMv = pool.First(m => m.Category == MoveCategory.Special && m.Type == physMv.Type && m.Power == physMv.Power);
+
+        var s = atk.Stats; var d = def.Stats;
+        var saved = (s.BaseAtk, s.BaseSpAtk, s.Trait, d.BaseDef, d.BaseSpDef, d.Trait);
+        s.Trait = ""; d.Trait = "";
+        s.BaseAtk = 100; s.BaseSpAtk = 30; d.BaseDef = 40; d.BaseSpDef = 100;
+        int p0 = MeasureHit(atk, def, physMv, null), q0 = MeasureHit(atk, def, specMv, null);
+        s.BaseSpAtk = 130; d.BaseSpDef = 20;                        // C/D だけ動かす
+        int p1 = MeasureHit(atk, def, physMv, null), q1 = MeasureHit(atk, def, specMv, null);
+        s.BaseSpAtk = 30; d.BaseSpDef = 100; s.BaseAtk = 30; d.BaseDef = 100;   // A/B だけ動かす
+        int p2 = MeasureHit(atk, def, physMv, null), q2 = MeasureHit(atk, def, specMv, null);
+        (s.BaseAtk, s.BaseSpAtk, s.Trait, d.BaseDef, d.BaseSpDef, d.Trait) = saved;
+        bool wired = p0 == p1 && q0 == q2 && q1 > q0 && p2 < p0 && p0 > q0;
+        GD.Print($"[検証] 物理技は攻撃対防御・特殊技は魔力対精神でダメージが決まる: {(wired ? "OK" : "NG")} "
+                 + $"(物理 A100/B40→{p0}, C/D変更後{p1}, A/B下げ後{p2} / 特殊 C30/D100→{q0}, C/D変更後{q1}, A/B変更後{q2} / {physMv.Name}・{specMv.Name} 威力{physMv.Power})");
+
+        // 2. ベンチマーク。(a) DamageCalculator に実数値 攻75/防75 を直接渡して威力35 → 13（式は不変）。
+        //    (b) 001 モコロン(71/71/71/29/68/75)同士 Lv50・突破0、STAB・相性・補正なし、威力35 → 物理13・特殊3。
+        int direct = DamageCalculator.Calculate(new DamageContext { BaseAtk = 75, BaseDef = 75, BasePower = 35 });
+        var moko = _sched.Roster.First(e => e.SpeciesId == "001").Stats;
+        int physBench = DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.Attack, BaseDef = moko.Defense, BasePower = 35 });
+        int specBench = DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.SpAttack, BaseDef = moko.SpDefense, BasePower = 35 });
+        GD.Print($"[検証] ベンチマーク(直接70/70/70→13、モコロン同士 物理13・特殊3): "
+                 + $"{(direct == 13 && physBench == 13 && specBench == 3 ? "OK" : "NG")} "
+                 + $"(直接{direct} / モコロン 物理{physBench}[攻{moko.Attack}防{moko.Defense}] 特殊{specBench}[魔{moko.SpAttack}精{moko.SpDefense}])");
+
+        // 3. 同優先度なら俊敏が高いほうが先: ブシガエル(S74) とタマコッコ(S47)。
+        var slow = _sched.Roster.First(e => e.SpeciesId == "003");
+        var fast = _sched.Roster.First(e => e.SpeciesId == "009");
+        var ord = _sched.Order(new BattleScheduler.Commitment(slow, null, 0),
+                               new BattleScheduler.Commitment(fast, null, 0));
+        GD.Print($"[検証] 同優先度なら俊敏が高いほうが先: {(ord[0].Actor == fast ? "OK" : "NG")} "
+                 + $"({ord[0].Actor.ActorName}(S{ord[0].Actor.Stats.BaseSpeed}) が先 / 相手S{ord[1].Actor.Stats.BaseSpeed}。"
+                 + $"BST6は先攻{BattleScheduler.Bst(ord[0].Actor)}・後攻{BattleScheduler.Bst(ord[1].Actor)}で、低い側が後でも俊敏が優先)");
+
+        // 4. BST は6能力合計: タマコッコ 360・ブシガエル 432。
+        int bstSlow = BattleScheduler.Bst(slow), bstFast = BattleScheduler.Bst(fast);
+        bool sumOk = slow.Stats.BaseMaxHp + slow.Stats.BaseAtk + slow.Stats.BaseDef + slow.Stats.BaseSpAtk + slow.Stats.BaseSpDef + slow.Stats.BaseSpeed == bstSlow;
+        GD.Print($"[検証] BSTが6能力合計(BST6): {(bstSlow == 360 && bstFast == 432 && sumOk ? "OK" : "NG")} "
+                 + $"(タマコッコ{bstSlow} ブシガエル{bstFast})");
+
+        // 5. 種族値%の平坦加算が分類に応じた能力を見る。ニュートラルのきずな持ちが、
+        //    Neutral の味方3体を連れて撃つと、特殊技は floor(BaseSpAtk*0.08*3)、物理技は
+        //    floor(BaseAtk*0.08*3) の加算になる。きずなを外して実数値をその分だけ上げた場合
+        //    （突破値 +2 で実数値 +1）と与ダメが一致することで確かめる。
+        var allies = _sched.Roster.Where(e => e.Faction == atk.Faction && e != atk).ToList();
+        var oldTypes = allies.Select(a => (a.Stats.Type1, a.Stats.Type2)).ToList();
+        foreach (var a in allies) { a.Stats.Type1 = "Neutral"; a.Stats.Type2 = ""; }
+        var savedBond = (s.BaseAtk, s.BaseSpAtk, s.Trait, d.BaseDef, d.BaseSpDef, d.Trait);
+        s.BaseAtk = 30; s.BaseSpAtk = 100; d.Trait = "";
+        int allyN = System.Math.Min(3, allies.Count);
+        int addSp = Mathf.FloorToInt(s.BaseSpAtk * 0.08f * allyN);   // 特殊技は魔力を見る（100→24）
+        int addPh = Mathf.FloorToInt(s.BaseAtk * 0.08f * allyN);     // 物理技は攻撃を見る（30→7）
+        s.Trait = "neutral_bond";
+        int bondPh = MeasureHit(atk, def, physMv, null), bondSp = MeasureHit(atk, def, specMv, null);
+        s.Trait = "";
+        s.BreakthroughSpAtk = addSp * 2;
+        int refSp = MeasureHit(atk, def, specMv, null);
+        s.BreakthroughSpAtk = 0; s.BreakthroughAtk = addPh * 2;
+        int refPh = MeasureHit(atk, def, physMv, null);
+        s.BreakthroughAtk = 0;
+        int noBondSp = MeasureHit(atk, def, specMv, null);
+        (s.BaseAtk, s.BaseSpAtk, s.Trait, d.BaseDef, d.BaseSpDef, d.Trait) = savedBond;
+        for (int i = 0; i < allies.Count; i++) { allies[i].Stats.Type1 = oldTypes[i].Type1; allies[i].Stats.Type2 = oldTypes[i].Type2; }
+        GD.Print($"[検証] 種族値%の平坦加算が分類に応じた能力を見る(きずな): "
+                 + $"{(allyN == 3 && addSp == 24 && addPh == 7 && bondSp == refSp && bondPh == refPh && bondSp > noBondSp ? "OK" : "NG")} "
+                 + $"(特殊 加算+{addSp}: きずな{bondSp}=基準{refSp}、きずな無し{noBondSp} / 物理 加算+{addPh}: きずな{bondPh}=基準{refPh})");
+
+        foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); x.HeldItemId = null; }
     }
 
     // 虚(Void)属性: 相性表・個体数・learnset・虚技が仕様どおりに入っていること。

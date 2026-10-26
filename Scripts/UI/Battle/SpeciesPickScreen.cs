@@ -95,7 +95,7 @@ public partial class SpeciesPickScreen : Control
 
         var list = all.Where(s => _filter == null || s.Types.Any(t => t.ToString() == _filter));
         list = _byBst
-            ? list.OrderByDescending(s => s.BaseHP + s.BaseAtk + s.BaseDef).ThenBy(s => s.SpeciesId)
+            ? list.OrderByDescending(s => s.Bst).ThenBy(s => s.SpeciesId)
             : list.OrderBy(s => s.SpeciesId);
 
         var shown = list.ToList();
@@ -154,14 +154,13 @@ public partial class SpeciesPickScreen : Control
         foreach (var t in sp.Types) head.AddChild(ElementChip(t));
         if (sp.IsLegendary) head.AddChild(Pill("伝説", BattleTheme.Brass, BattleTheme.BrassBg));
         head.AddChild(Spacer());
-        head.AddChild(Text($"BST {sp.BaseHP + sp.BaseAtk + sp.BaseDef}",
+        head.AddChild(Text($"BST {sp.Bst}",
                            disabled ? BattleTheme.Line2 : BattleTheme.Ink2, BattleTheme.FontLabel));
         col.AddChild(head);
 
         var stats = Row(8);
-        stats.AddChild(Text($"HP {sp.BaseHP}", BattleTheme.Muted, 10));
-        stats.AddChild(Text($"攻 {sp.BaseAtk}", BattleTheme.Muted, 10));
-        stats.AddChild(Text($"防 {sp.BaseDef}", BattleTheme.Muted, 10));
+        stats.AddChild(Text($"H {sp.BaseHP} A {sp.BaseAtk} B {sp.BaseDef} C {sp.BaseSpAtk} D {sp.BaseSpDef} S {sp.BaseSpeed}",
+                            BattleTheme.Muted, 10));
         stats.AddChild(Spacer());
         var trait = TraitDatabase.Get(sp.Trait);
         if (trait != null) stats.AddChild(Text(trait.Name, BattleTheme.Muted, 10));

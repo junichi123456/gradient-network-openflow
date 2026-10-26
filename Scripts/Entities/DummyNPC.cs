@@ -19,8 +19,6 @@ public partial class DummyNPC : HostileEntity
         SpeciesId = "003";
         base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
 
-        Stats.SpAttack = 6;
-        Stats.SpDefense = 6;
         Stats.Level = 8;
 
         Moves.Learn("gap_neutral_s_35");

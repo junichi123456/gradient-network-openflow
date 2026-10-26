@@ -144,7 +144,8 @@ public sealed class BattleScheduler
         (move?.Priority ?? 0) + Combat.PowerTraitWeather.PriorityBonus(
             actor, actor?.FloorController?.Weather?.Current ?? Dungeon.WeatherType.None);
 
-    // 行動順。優先度が最初で、合計種族値はその次。どちらも同じならランダム。
+    // 行動順。優先度 → 俊敏(S)が高い順 → 合計種族値(BST6)が低い順 → ランダム。
+    // 俊敏は種族値そのものを見る（ランク変化・持ち物では動かない）。
     // 対戦仕様の中核なので、検証から直接叩けるように公開している。
     public List<Commitment> Order(Commitment a, Commitment b)
     {
@@ -153,7 +154,9 @@ public sealed class BattleScheduler
 
         int cmp = b.Priority.CompareTo(a.Priority);          // 優先度は高いほうが先
         if (cmp == 0)
-            cmp = Bst(a.Actor).CompareTo(Bst(b.Actor));      // 種族値は低いほうが先
+            cmp = b.Actor.Stats.BaseSpeed.CompareTo(a.Actor.Stats.BaseSpeed); // 俊敏(S種族値)は高いほうが先
+        if (cmp == 0)
+            cmp = Bst(a.Actor).CompareTo(Bst(b.Actor));      // 同速なら合計種族値(BST6)は低いほうが先
         // 専用の RandomNumberGenerator を持たず GD.Randf()（Godot本体の
         // 大域RNG）を直接使う。BattleScheduler は1試合ごとに new される
         // ため、専用インスタンスだと Godot 管理下のネイティブオブジェクトが
@@ -168,9 +171,7 @@ public sealed class BattleScheduler
 
     // 合計種族値。実ステータスではなく種族値そのものを見るので、
     // ランク変化や持ち物で行動順が動くことはない。
-    // Phase 3: species.json の H/A/B を足し直すと HABCDS の配分で旧BST3の
-    // 順序が崩れる（天候の「低種族値側が勝つ」が反転する）ため、6能力合計
-    // (BST6 = 旧BST3の単調増加関数) に差し替えた。他の BST3 計算箇所は Phase 4。
+    // 6能力合計（BST6 = 旧BST3の狭義単調増加関数）。
     public static int Bst(Entity e) => e.Stats.BaseTotal;
 
     // サイクルが終わったか（全員が行動を終えたか）。

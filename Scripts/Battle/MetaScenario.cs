@@ -52,7 +52,7 @@ public static class MetaScenario
 
     public static List<string> StrongPool(int size) =>
         (SpeciesDatabase.Instance?.All.Values ?? Enumerable.Empty<SpeciesData>())
-            .OrderByDescending(s => s.BaseHP + s.BaseAtk + s.BaseDef)
+            .OrderByDescending(s => s.Bst)
             .Take(size)
             .Select(s => s.SpeciesId)
             .ToList();

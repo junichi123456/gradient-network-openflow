@@ -33,8 +33,9 @@ ROSTER_SIZE = 6
 
 # 1人目と8人目が狙う1匹あたりの合計種族値。初期のパルが BST210〜265 なので、
 # 下端はそこへ合わせる。上端は最上位帯。
-TARGET_BST_MIN = 230
-TARGET_BST_MAX = 380
+# 旧BST3尺度の 230〜380 を BST6 式（360+(BST3-180)*27/32）で写した値。
+TARGET_BST_MIN = 402
+TARGET_BST_MAX = 529
 
 # 相手8人。主属性と、その相手の性格づけになる持ち物の並び。
 # 持ち物はチーム内で重複しない（規則）ので、6匹ぶんをそのまま順に配る。
@@ -67,9 +68,9 @@ def load(name):
 
 
 def bst(sp):
-    # Phase 4 で BST6 に置き換える。それまでは旧HADの合計（BST3）で選ぶ。
-    h = sp.get('legacy_had')
-    return h['hp'] + h['atk'] + h['def'] if h else sp['base_hp'] + sp['base_atk'] + sp['base_def']
+    # 合計種族値は BST6（HABCDS の6能力合計）。
+    return (sp['base_hp'] + sp['base_atk'] + sp['base_def']
+            + sp['base_spatk'] + sp['base_spdef'] + sp['base_speed'])
 
 
 def pick_moves(sp, moves):

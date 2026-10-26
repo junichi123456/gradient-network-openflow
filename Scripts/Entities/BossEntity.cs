@@ -21,8 +21,6 @@ public partial class BossEntity : HostileEntity
         SpeciesId = "124";
         base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
 
-        Stats.SpAttack = 15;
-        Stats.SpDefense = 12;
         Stats.Level = 15;
 
         // Fixed 3-move boss kit (FloorController still applies the same

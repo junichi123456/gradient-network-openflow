@@ -37,7 +37,8 @@ public static class TacticalBuilder
     {
         public string Id;
         public SpeciesData Sp;
-        public int Bst, Hp, Atk, Def;
+        public int Bst, Hp, Atk;   // Bst=BST6, Hp=H, Atk=max(A,C)
+        public float Def;          // (B+D)/2
         public List<Element> Types;
         public bool Legendary;
 
@@ -102,8 +103,9 @@ public static class TacticalBuilder
         var p = new Profile
         {
             Id = sp.SpeciesId, Sp = sp,
-            Hp = sp.BaseHP, Atk = sp.BaseAtk, Def = sp.BaseDef,
-            Bst = sp.BaseHP + sp.BaseAtk + sp.BaseDef,
+            Hp = sp.BaseHP, Atk = System.Math.Max(sp.BaseAtk, sp.BaseSpAtk),
+            Def = (sp.BaseDef + sp.BaseSpDef) / 2f,
+            Bst = sp.Bst,
             Types = sp.Types ?? new List<Element>(),
             Legendary = sp.IsLegendary,
             TraitWeather = trait?.WeatherOnEntry ?? WeatherType.None,

@@ -149,7 +149,7 @@ public partial class SelectionScreen : Control
         if (sp != null) foreach (var t in sp.Types) row.AddChild(ElementChip(t));
         row.AddChild(Spacer());
         if (sp != null)
-            row.AddChild(Text($"BST {sp.BaseHP + sp.BaseAtk + sp.BaseDef}",
+            row.AddChild(Text($"BST {sp.Bst}",
                               BattleTheme.Muted, BattleTheme.FontLabel));
         if (on) row.AddChild(Pill("選出", BattleTheme.Brass, BattleTheme.BrassBg));
         return card;

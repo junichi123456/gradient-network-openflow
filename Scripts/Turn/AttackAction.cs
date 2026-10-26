@@ -581,11 +581,15 @@ public class AttackAction : IAction
         // already documented for.
         // Reworked in stage 9 §1.7 from a MULTIPLIER on the attacker's
         // computed Attack to a FLAT addend derived from the SPECIES value
-        // (Stats.BaseAtk), so the bonus no longer scales with the holder's
+        // (Stats.BaseAtk, or BaseSpAtk for a Special move), so the bonus no longer scales with the holder's
         // level - two members of the same species contribute the same
         // +N at Lv5 and Lv95. DamageContext.AtkFlatBuff/DefFlatBuff are
         // the pre-existing seam for exactly this (Step 1 of the pipeline
         // adds them before any multiplier runs).
+        // HABCDS: 物理技は 攻撃(A) 対 防御(B)、特殊技は 魔力(C) 対 精神(D)。
+        // 種族値%の平坦加算も、その技の分類に対応する能力の種族値を見る。
+        bool special = move.Category == MoveCategory.Special;
+        int attackerBaseOffense = special ? _attacker.Stats.BaseSpAtk : _attacker.Stats.BaseAtk;
         float atkFlatBuff = 0f;
         float defFlatBuff = 0f;
 
@@ -596,7 +600,7 @@ public class AttackAction : IAction
             int allyCount = Mathf.Min(3, PartyElementCensus.CountAlliesWithType(_attacker, _floorController?.AllActors(), bondTrait.Element.Value));
             // Floor(BaseAtk * 0.08 * allies) - one floor over the whole
             // product, not per ally, per the spec's literal formula.
-            atkFlatBuff += Mathf.FloorToInt(_attacker.Stats.BaseAtk * 0.08f * allyCount);
+            atkFlatBuff += Mathf.FloorToInt(attackerBaseOffense * 0.08f * allyCount);
         }
 
         // 〇〇のちから (§4, party census): if some OTHER party member holds
@@ -614,7 +618,7 @@ public class AttackAction : IAction
         // Also reworked in stage 9 §1.7: Floor(BaseDef * 0.10) as a flat
         // addend instead of the old x1.1 on computed Defense. Still
         // existence-only, so "重複不可" holds unchanged.
-        if (HasPartyGuard(target)) defFlatBuff += Mathf.FloorToInt(target.Stats.BaseDef * 0.10f);
+        if (HasPartyGuard(target)) defFlatBuff += Mathf.FloorToInt((special ? target.Stats.BaseSpDef : target.Stats.BaseDef) * 0.10f);
 
         // ---- stage 9 §1.5/§1.9: further DamageContext-input traits ----
 
@@ -733,9 +737,9 @@ public class AttackAction : IAction
         {
             // もふもふ: Atk +10%/follower (cap 30%). とうそつ: Atk +15% (cap 45%).
             if (HasTrait(_attacker, "mofumofu_leader"))
-                atkFlatBuff += SpeciesPercent(_attacker.Stats.BaseAtk, 0.10f, attackerFollowers, 0.30f);
+                atkFlatBuff += SpeciesPercent(attackerBaseOffense, 0.10f, attackerFollowers, 0.30f);
             if (HasTrait(_attacker, "tousotsu_leader"))
-                atkFlatBuff += SpeciesPercent(_attacker.Stats.BaseAtk, 0.15f, attackerFollowers, 0.45f);
+                atkFlatBuff += SpeciesPercent(attackerBaseOffense, 0.15f, attackerFollowers, 0.45f);
 
             // 冷却: Ice moves +5%/follower (cap 15%). 力持ち: Neutral moves ditto.
             if (HasTrait(_attacker, "reikyaku_leader") && effectiveType == "Ice")
@@ -749,7 +753,7 @@ public class AttackAction : IAction
         {
             // 冷却/力持ち/もふもふ all give Def +10%/follower (cap 30%).
             if (HasTrait(target, "reikyaku_leader") || HasTrait(target, "chikaramochi_leader") || HasTrait(target, "mofumofu_leader"))
-                defFlatBuff += SpeciesPercent(target.Stats.BaseDef, 0.10f, targetFollowers, 0.30f);
+                defFlatBuff += SpeciesPercent(special ? target.Stats.BaseSpDef : target.Stats.BaseDef, 0.10f, targetFollowers, 0.30f);
         }
 
         if (isCrit)
@@ -797,8 +801,8 @@ public class AttackAction : IAction
 
         var ctx = new DamageContext
         {
-            BaseAtk = _attacker.Stats.Attack,
-            BaseDef = defenderStats.Defense,
+            BaseAtk = special ? _attacker.Stats.SpAttack : _attacker.Stats.Attack,
+            BaseDef = special ? defenderStats.SpDefense : defenderStats.Defense,
             BasePower = move.Power,
             AtkFlatBuff = atkFlatBuff,
             DefFlatBuff = defFlatBuff,

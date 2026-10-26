@@ -3,7 +3,7 @@
     "id": "npc_fire",
     "name": "ほのおつかい コウ",
     "main_type": "Fire",
-    "total_bst": 1360,
+    "total_bst": 2395,
     "entries": [
       {
         "species_id": "005B",
@@ -71,7 +71,7 @@
     "id": "npc_water",
     "name": "みずつかい ナギ",
     "main_type": "Water",
-    "total_bst": 1490,
+    "total_bst": 2507,
     "entries": [
       {
         "species_id": "007B",
@@ -139,7 +139,7 @@
     "id": "npc_grass",
     "name": "くさつかい モエ",
     "main_type": "Grass",
-    "total_bst": 1600,
+    "total_bst": 2600,
     "entries": [
       {
         "species_id": "060",
@@ -207,7 +207,7 @@
     "id": "npc_electric",
     "name": "でんきつかい ライ",
     "main_type": "Electric",
-    "total_bst": 1695,
+    "total_bst": 2679,
     "entries": [
       {
         "species_id": "167",
@@ -275,7 +275,7 @@
     "id": "npc_ice",
     "name": "こおりつかい ユキ",
     "main_type": "Ice",
-    "total_bst": 1885,
+    "total_bst": 2838,
     "entries": [
       {
         "species_id": "064B",
@@ -343,7 +343,7 @@
     "id": "npc_ground",
     "name": "じめんつかい ダイ",
     "main_type": "Ground",
-    "total_bst": 1995,
+    "total_bst": 2932,
     "entries": [
       {
         "species_id": "087",
@@ -411,7 +411,7 @@
     "id": "npc_dark",
     "name": "あくつかい クロ",
     "main_type": "Dark",
-    "total_bst": 2130,
+    "total_bst": 3045,
     "entries": [
       {
         "species_id": "157B",
@@ -479,7 +479,7 @@
     "id": "npc_dragon",
     "name": "ドラゴンつかい リュウ",
     "main_type": "Dragon",
-    "total_bst": 2155,
+    "total_bst": 3067,
     "entries": [
       {
         "species_id": "160",

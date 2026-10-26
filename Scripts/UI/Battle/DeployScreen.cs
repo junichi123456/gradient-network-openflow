@@ -244,7 +244,7 @@ public partial class DeployScreen : Control
             if (sp != null) foreach (var t in sp.Types) head.AddChild(ElementChip(t));
             head.AddChild(Spacer());
             if (sp != null)
-                head.AddChild(Text($"BST {sp.BaseHP + sp.BaseAtk + sp.BaseDef}",
+                head.AddChild(Text($"BST {sp.Bst}",
                                    BattleTheme.Muted, BattleTheme.FontLabel));
             col.AddChild(head);
 

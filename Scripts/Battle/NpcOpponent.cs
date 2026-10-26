@@ -21,6 +21,9 @@ namespace MysteryDungeon.Battle;
 // 見ないまま決めるので、伏せて同時に決める規則がそのまま成り立つ。
 public sealed class NpcOpponent
 {
+    // BST6 → 旧BST3 尺度の重み（BST6 = 360 + (BST3-180)*27/32 の傾きの逆数）。
+    private const float Bst6Weight = 32f / 27f;
+
     public NpcTeam Profile { get; }
     public Faction Faction { get; }
 
@@ -81,7 +84,9 @@ public sealed class NpcOpponent
     private float SelectionScore(BattleEntry e, List<List<Element>> foeTypes)
     {
         var sp = e.Species;
-        int bst = sp == null ? 0 : sp.BaseHP + sp.BaseAtk + sp.BaseDef;
+        // BST6 は旧BST3に対して傾き27/32なので、1点あたりの重みを旧BST3並みに
+        // 保つため 32/27 を掛ける（定数項は全候補共通で順位に影響しない）。
+        float bst = sp == null ? 0f : sp.Bst * Bst6Weight;
         int power = e.MoveIds.Select(m => MoveDatabase.Get(m)?.Power ?? 0)
                              .DefaultIfEmpty(0).Max();
         float jitter = GD.Randi() % 61;

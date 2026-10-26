@@ -19,8 +19,6 @@ public partial class FastNPC : HostileEntity
         SpeciesId = "042";
         base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
 
-        Stats.SpAttack = 10;
-        Stats.SpDefense = 4;
         Stats.Level = 12;
 
         Moves.Learn("shockwave");

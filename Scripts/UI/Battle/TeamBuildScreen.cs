@@ -158,7 +158,7 @@ public partial class TeamBuildScreen : Control
         if (sp != null && sp.IsLegendary) head.AddChild(Pill("伝説", BattleTheme.Brass, BattleTheme.BrassBg));
         head.AddChild(Spacer());
         if (sp != null)
-            head.AddChild(Text($"BST {sp.BaseHP + sp.BaseAtk + sp.BaseDef}",
+            head.AddChild(Text($"BST {sp.Bst}",
                                BattleTheme.Muted, BattleTheme.FontLabel));
         col.AddChild(head);
 
@@ -212,9 +212,12 @@ public partial class TeamBuildScreen : Control
         {
             var stats = Row(12);
             stats.AddChild(StatChip("HP", sp.BaseHP));
-            stats.AddChild(StatChip("こうげき", sp.BaseAtk));
-            stats.AddChild(StatChip("ぼうぎょ", sp.BaseDef));
-            stats.AddChild(StatChip("合計", sp.BaseHP + sp.BaseAtk + sp.BaseDef));
+            stats.AddChild(StatChip("攻撃", sp.BaseAtk));
+            stats.AddChild(StatChip("防御", sp.BaseDef));
+            stats.AddChild(StatChip("魔力", sp.BaseSpAtk));
+            stats.AddChild(StatChip("精神", sp.BaseSpDef));
+            stats.AddChild(StatChip("俊敏", sp.BaseSpeed));
+            stats.AddChild(StatChip("合計", sp.Bst));
             stats.AddChild(Spacer());
             stats.AddChild(Text("レベル50固定", BattleTheme.Muted, BattleTheme.FontLabel));
             col.AddChild(stats);

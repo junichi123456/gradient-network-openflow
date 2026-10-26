@@ -51,8 +51,6 @@ public partial class AllyEntity : Entity
 
         Faction = Faction.Player;
 
-        Stats.SpAttack = 8;
-        Stats.SpDefense = 8;
         Stats.Level = 8;
 
         Moves.Learn("gap_neutral_s_35");
