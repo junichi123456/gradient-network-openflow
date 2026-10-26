@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """--random --out の CSV を属性別に集計する。
 
-usage: analyze_random_by_element.py <csv>... [--species Data/species.json] [--by element|offense|defense|role|speed]
+usage: analyze_random_by_element.py <csv>... [--species Data/species.json] [--by element|offense|defense|role|speed] [--bootstrap B]
 
 --by: 集計の区分（既定 element）。offense/defense/role は species.json の同名キー、
 speed は種族値 S の帯 (<=62 / 63-87 / 88-99 / >=100)。element 以外は1個体につき1区分（二重計上なし）。
@@ -9,10 +9,12 @@ speed は種族値 S の帯 (<=62 / 63-87 / 88-99 / >=100)。element 以外は1�
 CSV 列（ヘッダ無し）: match,outcome,home_sel,away_sel,home_bst,away_bst,cycles
  - 属性 X の勝率: 選出に X を持つ個体（二重属性は両方に計上）の出場1回ごと。
    同じ側に X が2体いれば2回数える。U・D は分母から除く。
+ - --bootstrap B (既定0=出さない): 試合(CSVの行)を復元抽出でB回リサンプルし、各区分の補正後ptの
+   標準偏差を SE 列に出す。k は元の標本の値を固定、乱数は random.Random(20261027)。
  - 期待勝率: 全試合で P(自陣勝ち)=1/(1+exp(-k*(home_bst-away_bst))) を最尤で当て、
    その出場の試合の期待値の平均。補正後差 = 実勝率 - 期待勝率 (pt)。
 """
-import sys, json, math, os
+import sys, json, math, os, random
 
 def main():
     args = sys.argv[1:]
@@ -22,6 +24,9 @@ def main():
     by = 'element'
     if '--by' in args:
         i = args.index('--by'); by = args[i + 1]; del args[i:i + 2]
+    boot = 0
+    if '--bootstrap' in args:
+        i = args.index('--bootstrap'); boot = int(args[i + 1]); del args[i:i + 2]
     if by not in ('element', 'offense', 'defense', 'role', 'speed'):
         sys.exit('--by は element|offense|defense|role|speed')
     def speed_band(v):
@@ -59,16 +64,31 @@ def main():
     neq = [r for r in dec if r[3] != r[4]]
     hw = sum((r[0] == 'H') == (r[3] > r[4]) for r in neq)
     print(f'BST6が高い側の勝ち: {hw}/{len(neq)} = {100*hw/len(neq):.1f}%（同値 {len(dec)-len(neq)} 試合を除く）')
-    stat = {}
-    for oc, hs, as_, hb, ab in dec:
-        ph = 1 / (1 + math.exp(-k * (hb - ab)))
-        for side, sel in (('H', hs), ('A', as_)):
-            won = (oc == side)
-            exp = ph if side == 'H' else 1 - ph
-            for sid in sel:
-                for t in types[sid]:
-                    s = stat.setdefault(t, [0, 0, 0.0])
-                    s[0] += 1; s[1] += won; s[2] += exp
+    def tally(sample, k):
+        stat = {}
+        for oc, hs, as_, hb, ab in sample:
+            if oc not in ('H', 'A'): continue
+            ph = 1 / (1 + math.exp(-k * (hb - ab)))
+            for side, sel in (('H', hs), ('A', as_)):
+                won = (oc == side)
+                exp = ph if side == 'H' else 1 - ph
+                for sid in sel:
+                    for t in types[sid]:
+                        s = stat.setdefault(t, [0, 0, 0.0])
+                        s[0] += 1; s[1] += won; s[2] += exp
+        return stat
+    stat = tally(dec, k)
+    se = {}
+    if boot > 0:
+        rng = random.Random(20261027)
+        samples = {}
+        for _ in range(boot):
+            st = tally([rows[rng.randrange(len(rows))] for _ in rows], k)
+            for t, (n, w, e) in st.items():
+                if n: samples.setdefault(t, []).append(100 * (w - e) / n)
+        for t, v in samples.items():
+            mu = sum(v) / len(v)
+            se[t] = math.sqrt(sum((x - mu) ** 2 for x in v) / (len(v) - 1)) if len(v) > 1 else 0.0
     if by == 'element':
         order = ['Neutral', 'Fire', 'Water', 'Grass', 'Electric', 'Ground', 'Ice', 'Dragon', 'Dark', 'Void']
     elif by == 'speed':
@@ -77,10 +97,10 @@ def main():
         O = ['Physical', 'Special', 'Mixed']; D = ['Physical', 'Special', 'Both']
         order = {'offense': O, 'defense': D, 'role': [f'{o}-{d}' for o in O for d in D]}[by]
     label = {'element': '属性', 'offense': '攻撃区分', 'defense': '耐久区分', 'role': '役割', 'speed': '俊敏帯'}[by]
-    print(f'{label:<17}{"出場数":>8}{"勝率%":>8}{"期待%":>8}{"補正後pt":>9}')
+    print(f'{label:<17}{"出場数":>8}{"勝率%":>8}{"期待%":>8}{"補正後pt":>9}' + (f'{"SE":>7}' if boot > 0 else ''))
     for t in order + [t for t in stat if t not in order]:
         if t not in stat: continue
         n, w, e = stat[t]
-        print(f'{t:<17}{n:>8}{100*w/n:>8.1f}{100*e/n:>8.1f}{100*(w-e)/n:>+9.1f}')
+        print(f'{t:<17}{n:>8}{100*w/n:>8.1f}{100*e/n:>8.1f}{100*(w-e)/n:>+9.1f}' + (f'{se.get(t, 0.0):>7.2f}' if boot > 0 else ''))
 
 main()

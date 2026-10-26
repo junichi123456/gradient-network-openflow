@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """Independent check of the four attack-move rules (does not import the
 rebalance tool - it re-derives everything from moves.json)."""
-import json, collections, sys
+import json, collections, sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
+import aoe_power_rules as AOE   # 範囲技の基準威力・割り当ての出典（仕様書 2026-10-27-aoe-power）
 
 ms=json.load(open('Data/moves.json',encoding='utf-8'))
 
@@ -58,10 +60,10 @@ GRID=list(range(15,121,5))
 gaps=[]
 for cat in ('Physical','Special'):
     for el in sorted({m['type'] for m in atk}):
-        have={m['power'] for m in atk if m['type']==el and m['category']==cat
+        have={AOE.base_power(m) for m in atk if m['type']==el and m['category']==cat
               and m.get('multi_hit','None') in (None,'None')}
         gaps += [(el,cat,p) for p in GRID if p not in have]
-check(not gaps, "威力15..120の5刻みが各属性・各分類で最低1技", f"空き{len(gaps)} {gaps[:4]}")
+check(not gaps, "威力15..120の5刻みが各属性・各分類で最低1技（範囲技は基準威力で数える）", f"空き{len(gaps)} {gaps[:4]}")
 
 # 技系統ごとの規定
 def fam_of(n):
@@ -129,6 +131,27 @@ for el in set(m['type'] for m in atk):
     v=[(pw[i],pw[i+1]) for i in range(len(pw)-1) if pw[i+1]-pw[i]<10]
     if v: viol[el]=v
 check(not viol, "§B 部屋技は同属性内で威力差10以上", str(viol))
+
+# 範囲技（Room/Area/Surrounding の攻撃技）の威力引き下げ。威力グリッドは基準威力で数えるので、
+# 代わりに「対象53件が機械列挙と一致し、威力・命中が採用案どおり」を固定する。
+_D, _ACC = AOE.ADOPTED
+_aoe_enum = {m['id'] for m in atk if m.get('range') in AOE.AOE_RANGES and m['power'] > 0
+             and m['id'] not in AOE.AOE_EXCLUDED}
+_M = {m['id']: m for m in ms}
+_red = AOE.solve(_D, ms) if _aoe_enum == set(AOE.AOE_BASE) else {}
+_pw_bad = [i for i in AOE.AOE_BASE if i in _M and i in _red and _M[i]['power'] != AOE.AOE_BASE[i][0] - _red[i]]
+_void_bad = [i for i in AOE.AOE_BASE if i.startswith('void_') and i[5:] in _M and i in _M
+             and _M[i]['power'] != _M[i[5:]]['power']]
+check(_aoe_enum == set(AOE.AOE_BASE) and len(AOE.AOE_BASE) == 53 and not _pw_bad and not _void_bad,
+      "範囲技の対象53件が機械列挙と一致し、威力が solve(採用案)どおり",
+      f"採用案{AOE.ADOPTED} 列挙差{sorted(_aoe_enum ^ set(AOE.AOE_BASE))[:3]} 威力違反{_pw_bad[:3]} 虚と闇の不一致{_void_bad[:3]}")
+_acc_bad = [i for i in AOE.AOE_BASE if i in _M and _M[i]['accuracy'] != AOE.AOE_BASE[i][1] - AOE.acc_cut(i, _ACC)]
+_mv = _M.get('MV_170')
+_ex_bad = [i for i in AOE.AOE_EXCLUDED if i not in _M]
+if _mv is None or (_mv['power'], _mv['accuracy'], _mv.get('range')) != (60, 95, 'Room'): _ex_bad.append('MV_170値')
+check(not _acc_bad and not _ex_bad,
+      "範囲技の命中が基準どおり（命中-5は併用時の基準威力80以上だけ）・除外3件が前提値のまま",
+      f"命中違反{_acc_bad[:3]} 除外{_ex_bad}")
 
 # a deleted move must not survive anywhere that references move ids
 species=json.load(open('Data/species.json',encoding='utf-8'))

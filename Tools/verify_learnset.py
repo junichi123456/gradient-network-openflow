@@ -1,5 +1,6 @@
 import json, math, collections, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from aoe_power_rules import base_power   # 範囲技は基準威力で比べる（#5）
 # 生成器と同じ表を参照する。ここに写しを置くと、特性を足したときに検証側だけ
 # 古い表を見て「特性適応技」を見落とし、属性上限違反として誤検出する。
 from learnset_rules import (SIGNATURE as SIG_MAP, TRAIT_TAG, TRAIT_NAMED,
@@ -98,12 +99,12 @@ for s in sp:
     # 両刀攻撃は物理・特殊を1つずつ明示的に足しているため、比率は意図的に
     # 五分へ寄る。
     if majn+minn>0 and majn/(majn+minn) < 0.55: ratio_bad.append((s['display_name'],p,q))
-    mj=[M[e['move_id']]['power'] for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']==major and e['move_id'] not in SIGNATURE]
-    mn=[M[e['move_id']]['power'] for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']!=major and e['move_id'] not in SIGNATURE]
+    mj=[base_power(M[e['move_id']]) for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']==major and e['move_id'] not in SIGNATURE]
+    mn=[base_power(M[e['move_id']]) for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']!=major and e['move_id'] not in SIGNATURE]
     r = 0.9 if prof[s['species_id']]=='Mixed' else 0.6
     if mj and mn and max(mn) > max(mj)*r+1e-6: cap_bad.append((s['display_name'],max(mn),max(mj)))
 chk(5,"物理/特殊が多数側>=55%", not ratio_bad, f"違反{len(ratio_bad)}件 {ratio_bad[:3]}")
-chk(5,"少数側の最高威力<=多数側の60%(両刀攻撃90%)", not cap_bad, f"違反{len(cap_bad)}件 {cap_bad[:3]}")
+chk(5,"少数側の最高威力<=多数側の60%(両刀攻撃90%)（範囲技は基準威力）", not cap_bad, f"違反{len(cap_bad)}件 {cap_bad[:3]}")
 
 # 6/7 防御特化種: 設置技>=1
 FIELD={m['id'] for m in mv if m.get('field_placement','None')!='None'}
