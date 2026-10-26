@@ -16,8 +16,10 @@ namespace MysteryDungeon.UI.Battle;
 // 別画面へ飛ばさないのは、技を差し替えた結果が他の5匹とどう噛み合うかを
 // 見ながら決めるものだから——飛ばすと毎回戻って確認することになる。
 //
-// 右側（1匹の中身）は3段。
-//   種族  … 名前・属性・種族値・特性。押すと種族選択へ
+// 右側（1匹の中身）は4段。
+//   種族  … 名前・属性・役割・種族値・特性。押すと種族選択へ
+//   突破値・気質 … 6能力に合計55まで振る（各25まで）。気質は上昇・下降の2つ。
+//           実数値（Lv50）を見ながら決める。種族を変えると自動配分に戻る
 //   技    … **learnset 全部**から4つ。習得レベルは表示するだけで、選べる
 //           かどうかには関係しない（対人戦はレベルキャップを無視する）
 //   持ち物… 16種から1つ。他の枠が持っていれば持ち替えになる
@@ -126,6 +128,8 @@ public partial class TeamBuildScreen : Control
         _rules.AddChild(RuleChip($"{BattleTeam.RosterSize}匹の登録",
                                  !errors.Any(m => m.Contains("匹ちょうど"))));
         _rules.AddChild(RuleChip("「伝説」は1体まで", !errors.Any(m => m.Contains("伝説"))));
+        _rules.AddChild(RuleChip("突破値・気質が規則内",
+                                 !errors.Any(m => m.Contains("突破値") || m.Contains("気質"))));
 
         _ready.Disabled = errors.Count > 0;
     }
@@ -173,8 +177,13 @@ public partial class TeamBuildScreen : Control
         }
 
         var it = string.IsNullOrEmpty(entry.ItemId) ? null : ItemDatabase.Get(entry.ItemId);
-        col.AddChild(Text(it?.Name ?? "持ち物なし",
-                          it == null ? BattleTheme.Muted : BattleTheme.Brass, 10));
+        var itemRow = Row(8);
+        itemRow.AddChild(Text(it?.Name ?? "持ち物なし",
+                              it == null ? BattleTheme.Muted : BattleTheme.Brass, 10));
+        itemRow.AddChild(Spacer());
+        var nat = (entry.Spread ?? StatSpread.Zero()).NatureLabel;
+        itemRow.AddChild(Text(nat, nat == "無補正" ? BattleTheme.Muted : BattleTheme.Ink2, 10));
+        col.AddChild(itemRow);
         return card;
     }
 
@@ -186,6 +195,7 @@ public partial class TeamBuildScreen : Control
         if (entry == null) return;
 
         _detail.AddChild(SpeciesPanel(entry));
+        _detail.AddChild(SpreadPanel(entry));
         _detail.AddChild(MovePanel(entry));
         _detail.AddChild(ItemPanel(entry));
     }
@@ -202,6 +212,7 @@ public partial class TeamBuildScreen : Control
         head.AddChild(Text(sp?.DisplayName ?? entry.SpeciesId, BattleTheme.Ink, BattleTheme.FontTitle));
         if (sp != null) foreach (var t in sp.Types) head.AddChild(ElementChip(t));
         if (sp != null && sp.IsLegendary) head.AddChild(Pill("伝説", BattleTheme.Brass, BattleTheme.BrassBg));
+        if (sp != null && sp.RoleLabel != "") head.AddChild(Pill(sp.RoleLabel, BattleTheme.Ink2, BattleTheme.Sunk));
         head.AddChild(Spacer());
         var swap = new Button { Text = "種族を変える" };
         swap.Pressed += () => EmitSignal(SignalName.SpeciesPickRequested, _slot);
@@ -235,6 +246,178 @@ public partial class TeamBuildScreen : Control
             }
         }
         return card;
+    }
+
+    // ---- 突破値・気質 ----
+
+    private static readonly string[] StatLabels = { "HP", "攻撃", "防御", "魔力", "精神", "俊敏" };
+
+    // 能力番号 0=HP 1=攻撃 2=防御 3=魔力 4=精神 5=俊敏 で突破値を読み書きする。
+    public static int GetBt(StatSpread s, int i) => i switch
+    {
+        0 => s.Hp, 1 => s.Atk, 2 => s.Def, 3 => s.SpAtk, 4 => s.SpDef, _ => s.Speed,
+    };
+
+    public static void SetBt(StatSpread s, int i, int v)
+    {
+        switch (i)
+        {
+            case 0: s.Hp = v; break;
+            case 1: s.Atk = v; break;
+            case 2: s.Def = v; break;
+            case 3: s.SpAtk = v; break;
+            case 4: s.SpDef = v; break;
+            default: s.Speed = v; break;
+        }
+    }
+
+    // 突破値を delta だけ動かした結果。0〜25 と、合計55に残っているポイントで頭打ち。
+    // 例: 残り3で +5 を押すと +3 になる。
+    public static int ClampedBt(StatSpread s, int i, int delta)
+    {
+        int cur = GetBt(s, i);
+        int remaining = StatSpread.TotalMax - s.Total;
+        int max = System.Math.Min(StatSpread.PerStatMax, cur + System.Math.Max(0, remaining));
+        return System.Math.Clamp(cur + delta, 0, System.Math.Max(cur, max));
+    }
+
+    // 気質の倍率(×10)。HP(0) は常に10。
+    public static int NatureMul10(StatSpread s, int i)
+    {
+        if (i == 0 || s.NatureUp == s.NatureDown) return 10;
+        if ((int)s.NatureUp == i) return 11;
+        if ((int)s.NatureDown == i) return 9;
+        return 10;
+    }
+
+    // 画面に出す実数値（Lv50）。EntityStats と同じ式。
+    public static int RealValue(SpeciesData sp, StatSpread s, int i)
+    {
+        const int level = 50;
+        if (i == 0) return sp.BaseHP * 2 * level / 100 + level + 10 + s.Hp;
+        int b = i switch { 1 => sp.BaseAtk, 2 => sp.BaseDef, 3 => sp.BaseSpAtk, 4 => sp.BaseSpDef, _ => sp.BaseSpeed };
+        return StatSpread.RealStat(b, level, GetBt(s, i), NatureMul10(s, i));
+    }
+
+    // 画面の変更は Spread を複製して書き換え、SetSpread で差し込む。
+    private void ApplySpread(StatSpread s)
+    {
+        _team.SetSpread(_slot, s);
+        Refresh();
+    }
+
+    private Control SpreadPanel(BattleEntry entry)
+    {
+        var card = Card(BattleTheme.Surface, BattleTheme.Line);
+        var col = Col(4);
+        card.AddChild(col);
+
+        var sp = entry.Species;
+        var spread = entry.Spread ?? StatSpread.Zero();
+        int remaining = StatSpread.TotalMax - spread.Total;
+
+        var head = Row(8);
+        head.AddChild(Text("突破値・気質", BattleTheme.Ink, BattleTheme.FontBody));
+        head.AddChild(Pill($"残り {remaining}",
+                           remaining == 0 ? BattleTheme.Brass
+                           : remaining < 0 ? BattleTheme.Crit : BattleTheme.Muted,
+                           remaining < 0 ? BattleTheme.FoeBg : BattleTheme.Sunk));
+        head.AddChild(Spacer());
+        head.AddChild(Text("実数値 = 気質(×1.1/×0.9)の後に突破値を加算。各25まで・合計55まで",
+                           BattleTheme.Muted, BattleTheme.FontLabel));
+        col.AddChild(head);
+
+        // 見出し行
+        var legend = Row(6);
+        legend.AddChild(Fixed("能力", 40, BattleTheme.Muted));
+        legend.AddChild(Fixed("種族値", 46, BattleTheme.Muted));
+        legend.AddChild(Fixed("突破値", 46, BattleTheme.Muted));
+        legend.AddChild(Fixed("調整", 190, BattleTheme.Muted));
+        legend.AddChild(Fixed("実数値", 60, BattleTheme.Muted));
+        col.AddChild(legend);
+
+        for (int i = 0; i < 6; i++)
+        {
+            int stat = i;
+            var row = Row(6);
+            // 気質の上昇は緑、下降は赤で、ラベルと実数値に色を付ける。
+            Color tint = NatureMul10(spread, i) == 11 ? BattleTheme.Ok
+                       : NatureMul10(spread, i) == 9 ? BattleTheme.Crit : BattleTheme.Ink;
+            string mark = NatureMul10(spread, i) == 11 ? "↑" : NatureMul10(spread, i) == 9 ? "↓" : "";
+            row.AddChild(Fixed(StatLabels[i] + mark, 40, tint));
+            int baseVal = sp == null ? 0 : i switch
+            {
+                0 => sp.BaseHP, 1 => sp.BaseAtk, 2 => sp.BaseDef, 3 => sp.BaseSpAtk, 4 => sp.BaseSpDef, _ => sp.BaseSpeed,
+            };
+            row.AddChild(Fixed(baseVal.ToString(), 46, BattleTheme.Ink2));
+            int bt = GetBt(spread, i);
+            row.AddChild(Fixed(bt.ToString(), 46, bt > StatSpread.PerStatMax || bt < 0 ? BattleTheme.Crit : BattleTheme.Ink));
+
+            var btns = Row(3);
+            btns.CustomMinimumSize = new Vector2(190, 0);
+            foreach (int d in new[] { -5, -1, 1, 5 })
+            {
+                int delta = d;
+                var b = new Button { Text = delta > 0 ? $"+{delta}" : $"{delta}" };
+                b.CustomMinimumSize = new Vector2(44, 0);
+                // 押しても値が変わらない方向は押せなくする。
+                b.Disabled = ClampedBt(spread, stat, delta) == bt;
+                b.Pressed += () =>
+                {
+                    var s2 = (entry.Spread ?? StatSpread.Zero()).Clone();
+                    SetBt(s2, stat, ClampedBt(s2, stat, delta));
+                    ApplySpread(s2);
+                };
+                btns.AddChild(b);
+            }
+            row.AddChild(btns);
+            row.AddChild(Fixed(sp == null ? "—" : RealValue(sp, spread, i).ToString(), 60, tint));
+            col.AddChild(row);
+        }
+
+        // 気質
+        var nat = Row(8);
+        nat.AddChild(Text("気質", BattleTheme.Muted, BattleTheme.FontLabel));
+        nat.AddChild(Text("上昇", BattleTheme.Ok, BattleTheme.FontLabel));
+        nat.AddChild(NatureOption(entry, spread, true));
+        nat.AddChild(Text("下降", BattleTheme.Crit, BattleTheme.FontLabel));
+        nat.AddChild(NatureOption(entry, spread, false));
+        nat.AddChild(Text(spread.NatureLabel, BattleTheme.Ink2, BattleTheme.FontLabel));
+        nat.AddChild(Spacer());
+        var auto = new Button { Text = "自動配分" };
+        auto.Pressed += () => ApplySpread(StatSpread.Auto(entry.Species));
+        nat.AddChild(auto);
+        var zero = new Button { Text = "すべて0" };
+        zero.Pressed += () => ApplySpread(StatSpread.Zero());
+        nat.AddChild(zero);
+        col.AddChild(nat);
+
+        // この個体の突破値・気質の違反は、ここにも赤字で出す。
+        foreach (var msg in spread.Validate())
+            col.AddChild(Text(msg, BattleTheme.Crit, BattleTheme.FontLabel));
+        return card;
+    }
+
+    // 気質の選択。0=なし 1=攻撃 2=防御 3=魔力 4=精神 5=俊敏（NatureStat の値と同じ並び）。
+    // もう片方が選んでいる能力は選べない。両方なし＝無補正。
+    private OptionButton NatureOption(BattleEntry entry, StatSpread spread, bool up)
+    {
+        var ob = new OptionButton();
+        var other = up ? spread.NatureDown : spread.NatureUp;
+        var mine = up ? spread.NatureUp : spread.NatureDown;
+        foreach (NatureStat n in System.Enum.GetValues<NatureStat>())
+        {
+            ob.AddItem(StatSpread.StatName(n), (int)n);
+            if (n != NatureStat.None && n == other) ob.SetItemDisabled((int)n, true);
+        }
+        ob.Selected = (int)mine;
+        ob.ItemSelected += idx =>
+        {
+            var s2 = (entry.Spread ?? StatSpread.Zero()).Clone();
+            if (up) s2.NatureUp = (NatureStat)(int)idx; else s2.NatureDown = (NatureStat)(int)idx;
+            ApplySpread(s2);
+        };
+        return ob;
     }
 
     private static Control StatChip(string label, int value)

@@ -139,7 +139,7 @@ public partial class SpeciesPickScreen : Control
         bool disabled = taken || legendaryBlocked;
         var card = ClickableCard(mine ? BattleTheme.BrassBg : BattleTheme.Surface,
                                  mine ? BattleTheme.Brass : BattleTheme.Line);
-        card.CustomMinimumSize = new Vector2(0, 62);
+        card.CustomMinimumSize = new Vector2(0, 76);
         card.SizeFlagsHorizontal = SizeFlags.ExpandFill;
         card.Disabled = disabled;
         string id = sp.SpeciesId;
@@ -157,6 +157,9 @@ public partial class SpeciesPickScreen : Control
         head.AddChild(Text($"BST {sp.Bst}",
                            disabled ? BattleTheme.Line2 : BattleTheme.Ink2, BattleTheme.FontLabel));
         col.AddChild(head);
+
+        if (sp.RoleLabel != "")
+            col.AddChild(Text(sp.RoleLabel, disabled ? BattleTheme.Line2 : BattleTheme.Ink2, 10));
 
         var stats = Row(8);
         stats.AddChild(Text($"H {sp.BaseHP} A {sp.BaseAtk} B {sp.BaseDef} C {sp.BaseSpAtk} D {sp.BaseSpDef} S {sp.BaseSpeed}",
