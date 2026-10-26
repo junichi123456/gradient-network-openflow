@@ -228,7 +228,22 @@ public sealed class NpcOpponent
             {
                 var data = actor.Moves.Slots[slot].Data;
                 if (data == null || actor.Moves.Slots[slot].CurrentPp <= 0) continue;
-                if (data.Power <= 0) continue;              // 変化技は評価しない
+                if (data.Power <= 0)
+                {
+                    if (!data.GrantsProtection) continue;              // 他の変化技は従来どおり評価しない
+                    if (actor.StatusEffects.RestrictionBlocks(actor, slot, data) != null) continue;
+                    foreach (var aim in BattleTargeting.SelectableTiles(actor, slot, grid, floor, sched.Roster))
+                    {
+                        var allies = BattleTargeting.Victims(actor, slot, aim, grid, floor, sched.Roster)
+                            .Where(v => v.Faction == actor.Faction && v.IsAlive && !v.StatusEffects.IsProtected).ToList();
+                        float s = ScoreProtection(allies, threatMoves);
+                        if (s <= 0f) continue;                         // 守る相手・届く脅威が無ければ候補にしない
+                        float score = s - stayPenalty;                 // 攻撃と同じく、その場に留まる被弾見積もりを引く
+                        if (score <= bestScore) continue;
+                        bestScore = score; best = new TurnInput(actorIndex, slot, aim);
+                    }
+                    continue;
+                }
                 // 制限技(技封じ・挑発・射程制限・連続使用禁止)で出せない技は候補から外す。
                 if (actor.StatusEffects.RestrictionBlocks(actor, slot, data) != null) continue;
 
@@ -279,7 +294,7 @@ public sealed class NpcOpponent
     // 1手の得点。実際に当たる相手を TargetResolver 経由で数えるので、
     // 直線が味方に遮られる・範囲が味方を巻き込む、といった事情がそのまま
     // 点に反映される。
-    private float ScoreAttack(Entity actor, int slot, Vector2I aim,
+    internal static float ScoreAttack(Entity actor, int slot, Vector2I aim,
                               GridManager grid, FloorController floor,
                               IEnumerable<Entity> roster)
     {
@@ -290,6 +305,10 @@ public sealed class NpcOpponent
         float score = 0f;
         foreach (var v in victims)
         {
+            // プロテクション中の個体は、どんな技も1回無効にする。当たっても意味が無いので
+            // 得点に何も足さない・引かない（撃破ボーナスも無し。敵味方とも）。
+            if (v.StatusEffects.IsProtected) continue;
+
             float hit = data.Power * Effectiveness(data, v) * (data.Accuracy / 100f);
 
             // 味方は損。巻き込む技を「当たるから」と撃たないための重み。
@@ -302,6 +321,31 @@ public sealed class NpcOpponent
             if (hit >= v.Stats.CurrentHp) score += 120f;
         }
         return score;
+    }
+
+    // プロテクションの重み。敵が実際にその味方を狙うとは限らないので半分。計測後に調整しない。
+    private const float ProtectionWeight = 0.5f;
+
+    // プロテクションの得点（仕様書 docs/design/drafts/2026-10-29-protection.md §3-4 の 11）。
+    // 守れるのは1発だけなので、各味方について、そのマスに届く脅威の1発の最大値を取り、
+    // 倒されかけている味方には撃破ボーナスと同じ 120 を上乗せして、合計に重みを掛ける。
+    // 乱数は使わない。
+    public static float ScoreProtection(IReadOnlyList<Entity> allies,
+        IReadOnlyList<(Entity Foe, MoveData Data, HashSet<Vector2I> Reach)> threatMoves)
+    {
+        float sum = 0f;
+        foreach (var ally in allies)
+        {
+            float t = 0f;
+            foreach (var (_, data, reach) in threatMoves)
+            {
+                if (reach != null && !reach.Contains(ally.GridPosition)) continue;
+                float hit = data.Power * Effectiveness(data, ally) * (data.Accuracy / 100f);
+                if (hit > t) t = hit;
+            }
+            sum += t + (t >= ally.Stats.CurrentHp ? 120f : 0f);
+        }
+        return ProtectionWeight * sum;
     }
 
     // そのマスに居るとき、まだ動いていない敵からどれだけ狙われ得るかの
