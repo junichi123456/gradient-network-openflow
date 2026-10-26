@@ -175,3 +175,11 @@ def fast_blocks(species, move):
 
 OFFENSE_JA = {'Physical': '物理攻撃', 'Special': '特殊攻撃', 'Mixed': '両刀攻撃'}
 DEFENSE_JA = {'Physical': '物理耐久', 'Special': '特殊耐久', 'Both': '両面耐久'}
+
+
+# プロテクション（仕様書 docs/design/drafts/2026-10-29-protection.md）: 両刀攻撃で BST6<=470 の個体が level 10 で1つ覚える氷の変化技。
+PROTECTION_ID = 'mvs_ice_protection'
+PROTECTION_LEVEL = 10
+PROTECTION_BST6_MAX = 470
+def bst6(s): return s['base_hp'] + s['base_atk'] + s['base_def'] + s['base_spatk'] + s['base_spdef'] + s['base_speed']
+def protection_learner(s): return s.get('offense') == 'Mixed' and bst6(s) <= PROTECTION_BST6_MAX

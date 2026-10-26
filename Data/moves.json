@@ -7678,5 +7678,17 @@
     "is_contact": false,
     "ailment_effect": "Hollow",
     "ailment_chance": 100
+  },
+  {
+    "id": "mvs_ice_protection",
+    "name": "プロテクション",
+    "type": "Ice",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 100,
+    "max_pp": 10,
+    "range": "FrontArc",
+    "priority": 3,
+    "grants_protection": true
   }
 ]

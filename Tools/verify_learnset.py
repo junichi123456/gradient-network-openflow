@@ -5,7 +5,8 @@ from aoe_power_rules import eval_power, AOE_DELETED, ROW_REMOVALS   # 威力規�
 # 古い表を見て「特性適応技」を見落とし、属性上限違反として誤検出する。
 from learnset_rules import (SIGNATURE as SIG_MAP, TRAIT_TAG, TRAIT_NAMED,
                             NO_ATTACK_TRAITS, CEIL as CEIL_D, offense_from_species, legacy_had,
-                            RESTRICTION_LEARNERS, fast_blocks)
+                            RESTRICTION_LEARNERS, fast_blocks,
+                            PROTECTION_ID, PROTECTION_LEVEL, protection_learner)
 def rhu(x): return int(math.floor(x+0.5))
 sp=json.load(open('Data/species.json')); mv=json.load(open('Data/moves.json'))
 M={m['id']:m for m in mv}
@@ -225,5 +226,16 @@ oth_t2=[x for x in mixed20 if AMT.classify(x,TR)=='other' and x.get('trait2')]
 if not (all(x.get('trait2') for x in pri) or not oth_t2): v20.append(('優先候補が余っているのに一般へ配っている',))
 if AMT.assign(sp,TR,M)!={x['species_id']:x['trait2'] for x in t2}: v20.append(('assign の再計算と不一致',))
 chk(20,"2つめの特性: 両刀16体のみ・件数4/5/4/1/1/1・リーダー除外・優先候補・再計算一致", not v20, f"違反{len(v20)}件 {v20[:3]}")
+
+# 21 プロテクション（仕様書 docs/design/drafts/2026-10-29-protection.md §3-5）
+want21=sorted(x['species_id'] for x in sp if protection_learner(x))
+have21=sorted(x['species_id'] for x in sp if any(e['move_id']==PROTECTION_ID for e in x['learnset']))
+v21=[]
+if want21!=have21: v21.append(('習得者の集合が不一致',sorted(set(want21)^set(have21))))
+if len(have21)!=31: v21.append(('件数',len(have21)))
+for x in sp:
+    rows=[e for e in x['learnset'] if e['move_id']==PROTECTION_ID]
+    if rows and (len(rows)!=1 or rows[0]['level']!=PROTECTION_LEVEL): v21.append((x['species_id'],'1行・level10でない'))
+chk(21,"プロテクション: 習得者が両刀攻撃かつBST6<=470の31種ちょうど・各1行・level 10・他の種は持たない", not v21, f"違反{len(v21)}件 {v21[:3]}")
 
 print("\n総合:", "ALL PASS" if ok else "FAILあり")

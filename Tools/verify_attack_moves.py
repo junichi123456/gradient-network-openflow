@@ -52,8 +52,15 @@ alive={m['id'] for m in ms}
 check(KEPT_MULTI<=alive, "連続技5種がすべて残存している", str(sorted(KEPT_MULTI-alive)))
 
 # 変化技は今回の対象外なので手つかず
-check(sum(1 for m in ms if m['category']=='Status')==58, "変化技58種が手つかず",
-      str(sum(1 for m in ms if m['category']=='Status')))
+check(sum(1 for m in ms if m['category']=='Status' and m['id']!='mvs_ice_protection')==58, "既存の変化技58種が手つかず（プロテクションを除く）",
+      str(sum(1 for m in ms if m['category']=='Status' and m['id']!='mvs_ice_protection')))
+
+# プロテクションの定義が仕様どおり（仕様書 docs/design/drafts/2026-10-29-protection.md §3-1）
+_PROT={'id':'mvs_ice_protection','name':'プロテクション','type':'Ice','category':'Status','power':0,'accuracy':100,
+       'max_pp':10,'range':'FrontArc','priority':3,'grants_protection':True}
+_p=[m for m in ms if m['id']=='mvs_ice_protection']
+check(len(_p)==1 and _p[0]==_PROT and list(_p[0].keys())==list(_PROT.keys()) and ms[-1]['id']=='mvs_ice_protection',
+      "プロテクションの定義が仕様どおり（10キー完全一致・余分なキー無し・moves.json の末尾）", str(_p))
 
 # 威力グリッド: 15..120 の5刻みが各属性・各分類で最低1技（連続技は除く）
 GRID=list(range(15,121,5))

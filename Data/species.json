@@ -1134,6 +1134,10 @@
         "move_id": "mvs_ep_water"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "MV_217"
       },
@@ -1281,6 +1285,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_water"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 12,
@@ -2793,6 +2801,10 @@
         "move_id": "mvs_ep_dark"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "void_MVP_164"
       },
@@ -3893,6 +3905,10 @@
         "move_id": "mvs_ep_ice"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "gap_ice_s_55"
       },
@@ -4044,6 +4060,10 @@
         "move_id": "poison_fog"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "void_MV_128"
       },
@@ -4185,6 +4205,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_grass"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 12,
@@ -5558,6 +5582,10 @@
         "move_id": "poison_fog"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 12,
         "move_id": "MV_222"
       },
@@ -6820,6 +6848,10 @@
         "move_id": "mvs_ep_ice"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 12,
         "move_id": "MVP_125"
       },
@@ -8065,6 +8097,10 @@
         "move_id": "poison_fog"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "void_MVP_164"
       },
@@ -8227,6 +8263,10 @@
       {
         "level": 10,
         "move_id": "MV_246"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 11,
@@ -9458,6 +9498,10 @@
       {
         "level": 10,
         "move_id": "gap_water_s_50"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 11,
@@ -12313,6 +12357,10 @@
         "move_id": "mvs_ep_ice"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "MV_128"
       },
@@ -13624,6 +13672,10 @@
         "move_id": "mvs_ep_dark"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "void_MVP_164"
       },
@@ -13777,6 +13829,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_fire"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 12,
@@ -16132,6 +16188,10 @@
         "move_id": "mvs_ep_ground"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 12,
         "move_id": "MV_170"
       },
@@ -16297,6 +16357,10 @@
         "move_id": "mvs_ep_grass"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 12,
         "move_id": "void_gap_dark_p_60"
       },
@@ -16444,6 +16508,10 @@
       {
         "level": 10,
         "move_id": "poison_fog"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 11,
@@ -19158,6 +19226,10 @@
         "move_id": "mvs_ep_electric"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "MV_183"
       },
@@ -20246,6 +20318,10 @@
         "move_id": "gap_water_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 12,
         "move_id": "gap_grass_s_60"
       },
@@ -20381,6 +20457,10 @@
       {
         "level": 10,
         "move_id": "gap_grass_s_50"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 11,
@@ -20564,6 +20644,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_ice"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 11,
@@ -21889,6 +21973,10 @@
         "move_id": "gap_grass_s_50"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "gap_neutral_s_55"
       },
@@ -23025,6 +23113,10 @@
       {
         "level": 10,
         "move_id": "poison_fog"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 12,
@@ -25817,6 +25909,10 @@
         "move_id": "mvs_ep_neutral"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "MVP_003"
       },
@@ -27276,6 +27372,10 @@
         "move_id": "mvs_ep_ice"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "MV_288"
       },
@@ -28330,6 +28430,10 @@
       {
         "level": 10,
         "move_id": "poison_fog"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 11,
@@ -31128,6 +31232,10 @@
         "move_id": "mvs_ep_ground"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 12,
         "move_id": "MV_272"
       },
@@ -33671,6 +33779,10 @@
         "move_id": "mvn_061"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 11,
         "move_id": "MV_216"
       },
@@ -34999,6 +35111,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_grass"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 11,
@@ -36437,6 +36553,10 @@
         "move_id": "mvs_ep_fire"
       },
       {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
+      },
+      {
         "level": 12,
         "move_id": "MVP_065"
       },
@@ -36568,6 +36688,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_water"
+      },
+      {
+        "level": 10,
+        "move_id": "mvs_ice_protection"
       },
       {
         "level": 11,
