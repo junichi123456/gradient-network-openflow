@@ -39,7 +39,7 @@ Sonnet の報告を信用せず、必ず自分で確かめる。
 
 ```sh
 dotnet build MysteryDungeonRoguelike.csproj      # コンパイルエラーを先に出す
-godot --headless --path . Scenes/BattleTestScene.tscn  # 回帰スイート（現在132項目）
+godot --headless --path . Scenes/BattleTestScene.tscn  # 回帰スイート（現在145項目）
 git diff                                          # 仕様書と差分を突き合わせる
 ```
 
