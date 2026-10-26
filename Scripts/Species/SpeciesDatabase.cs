@@ -19,6 +19,11 @@ internal class SpeciesJson
     [JsonPropertyName("base_spatk")] public int BaseSpAtk { get; set; }
     [JsonPropertyName("base_spdef")] public int BaseSpDef { get; set; }
     [JsonPropertyName("base_speed")] public int BaseSpeed { get; set; }
+    // 攻撃区分（Physical/Special/Mixed）・その根拠（trait/cycle/speed）・耐久区分（Physical/Special/Both）。
+    // role は "<offense>-<defense>"（例 "Physical-Special"）。
+    [JsonPropertyName("offense")] public string Offense { get; set; } = "";
+    [JsonPropertyName("offense_source")] public string OffenseSource { get; set; } = "";
+    [JsonPropertyName("defense")] public string Defense { get; set; } = "";
     [JsonPropertyName("role")] public string Role { get; set; } = "";
     [JsonPropertyName("base_exp_yield")] public int BaseExpYield { get; set; } = 55;
     [JsonPropertyName("sprite_key")] public string SpriteKey { get; set; } = "";
@@ -148,6 +153,9 @@ public partial class SpeciesDatabase : Node
             BaseSpAtk = j.BaseSpAtk,
             BaseSpDef = j.BaseSpDef,
             BaseSpeed = j.BaseSpeed,
+            Offense = j.Offense ?? "",
+            OffenseSource = j.OffenseSource ?? "",
+            Defense = j.Defense ?? "",
             Role = j.Role ?? "",
             BaseExpYield = j.BaseExpYield,
             SpriteKey = j.SpriteKey,

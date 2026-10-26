@@ -20,10 +20,12 @@ NPCが務める。その6匹・技4つ・持ち物1つを、対戦仕様の構�
   - 持ち物はチーム内で重複しないよう、役割（耐久/火力/補助）から配る
 
   python3 Tools/generate_npc_teams.py
+  python3 Tools/generate_npc_teams.py --refresh-bst   # 編成は変えず total_bst だけ新しい BST6 の合計に書き換える
 """
 
 import json
 import os
+import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, 'Data')
@@ -33,9 +35,9 @@ ROSTER_SIZE = 6
 
 # 1人目と8人目が狙う1匹あたりの合計種族値。初期のパルが BST210〜265 なので、
 # 下端はそこへ合わせる。上端は最上位帯。
-# 旧BST3尺度の 230〜380 を BST6 式（360+(BST3-180)*27/32）で写した値。
-TARGET_BST_MIN = 402
-TARGET_BST_MAX = 529
+# 旧BST3尺度の 230〜380 を BST6 式（320+(BST3-180)*29/32）で写した値。
+TARGET_BST_MIN = 365
+TARGET_BST_MAX = 501
 
 # 相手8人。主属性と、その相手の性格づけになる持ち物の並び。
 # 持ち物はチーム内で重複しない（規則）ので、6匹ぶんをそのまま順に配る。
@@ -223,5 +225,23 @@ def main():
         print(f"  {t['name']:<22} {t['main_type']:<9} 合計BST{t['total_bst']:>5}  {who}")
 
 
+def refresh_bst():
+    """Data/npc_teams.json の各チームの total_bst だけを、現在の species.json の BST6 の合計で
+    書き換える。編成・並び・他のキーは変えない。"""
+    species = {s['species_id']: s for s in load('species.json')}
+    path = os.path.join(DATA, 'npc_teams.json')
+    teams = load('npc_teams.json')
+    for t in teams:
+        t['total_bst'] = sum(bst(species[e['species_id']]) for e in t['entries'])
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(teams, f, ensure_ascii=False, indent=2)
+        f.write('\n')
+    for t in teams:
+        print(f"  {t['id']:<14} total_bst {t['total_bst']}")
+
+
 if __name__ == '__main__':
-    main()
+    if '--refresh-bst' in sys.argv[1:]:
+        refresh_bst()
+    else:
+        main()

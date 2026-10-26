@@ -451,7 +451,7 @@ public partial class BattleTestScene : Node2D
     // ことを確かめたいので、spawn順を入れ替えた2回で同じ結果になるか見る。
     private void VerifyEntryWeather()
     {
-        // すなあらし=マグマンダー(BST6 503) / ゆき=ユキツネ(BST6 390)。
+        // すなあらし=マグマンダー(BST6 474) / ゆき=ユキツネ(BST6 352)。
         // 低種族値のユキツネ側が最後に発動するので、常にゆきが残るはず。
         WeatherType Probe(bool highFirst)
         {
@@ -597,12 +597,12 @@ public partial class BattleTestScene : Node2D
     }
 
     // 行動順規則の機械検証。優先度 > 俊敏(S)の高い順 > 合計種族値BST6(低いほうが先) の順で
-    // 効くことを、実際の Order() で確かめる。盤上の素材は タマコッコ(003: S47・BST6 360) と
-    // ブシガエル(009: S74・BST6 432)。
+    // 効くことを、実際の Order() で確かめる。盤上の素材は タマコッコ(003: S50・BST6 320) と
+    // ブシガエル(009: S73・BST6 397)。
     private void VerifyTurnOrder()
     {
-        var low = _sched.Roster.First(e => e.SpeciesId == "003");   // S47 / BST6 360
-        var high = _sched.Roster.First(e => e.SpeciesId == "009");  // S74 / BST6 432
+        var low = _sched.Roster.First(e => e.SpeciesId == "003");   // S50 / BST6 320
+        var high = _sched.Roster.First(e => e.SpeciesId == "009");  // S73 / BST6 397
 
         // 同優先度・同俊敏なら合計種族値(BST6)が低いほうが先。
         // 俊敏だけを同値(70)にし、BST6 が動かないよう差分を HP に逆向きに振る。
@@ -616,7 +616,7 @@ public partial class BattleTestScene : Node2D
         low.Stats.BaseSpeed = lowSpd; low.Stats.BaseMaxHp = lowHp;
         high.Stats.BaseSpeed = highSpd; high.Stats.BaseMaxHp = highHp;
         GD.Print($"[検証] 同優先度・同俊敏なら種族値が低いほうが先: "
-                 + $"{(byBst[0].Actor == low && lowBst == 360 && highBst == 432 ? "OK" : "NG")} "
+                 + $"{(byBst[0].Actor == low && lowBst == 320 && highBst == 397 ? "OK" : "NG")} "
                  + $"({byBst[0].Actor.ActorName}(BST{BattleScheduler.Bst(byBst[0].Actor)}) が先、俊敏は両者70に揃えた)");
 
         // 優先度が高ければ俊敏を無視して先。遅いタマコッコに優先度1、速いブシガエルに優先度0。
@@ -660,16 +660,16 @@ public partial class BattleTestScene : Node2D
                  + $"(物理 A100/B40→{p0}, C/D変更後{p1}, A/B下げ後{p2} / 特殊 C30/D100→{q0}, C/D変更後{q1}, A/B変更後{q2} / {physMv.Name}・{specMv.Name} 威力{physMv.Power})");
 
         // 2. ベンチマーク。(a) DamageCalculator に実数値 攻75/防75 を直接渡して威力35 → 13（式は不変）。
-        //    (b) 001 モコロン(71/71/71/29/68/75)同士 Lv50・突破0、STAB・相性・補正なし、威力35 → 物理13・特殊3。
+        //    (b) 001 モコロン(58/69/75/30/41/74)同士 Lv50・突破0、STAB・相性・補正なし、威力35 → 物理12・特殊5。
         int direct = DamageCalculator.Calculate(new DamageContext { BaseAtk = 75, BaseDef = 75, BasePower = 35 });
         var moko = _sched.Roster.First(e => e.SpeciesId == "001").Stats;
         int physBench = DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.Attack, BaseDef = moko.Defense, BasePower = 35 });
         int specBench = DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.SpAttack, BaseDef = moko.SpDefense, BasePower = 35 });
-        GD.Print($"[検証] ベンチマーク(直接70/70/70→13、モコロン同士 物理13・特殊3): "
-                 + $"{(direct == 13 && physBench == 13 && specBench == 3 ? "OK" : "NG")} "
+        GD.Print($"[検証] ベンチマーク(直接70/70/70→13、モコロン同士 物理12・特殊5): "
+                 + $"{(direct == 13 && physBench == 12 && specBench == 5 ? "OK" : "NG")} "
                  + $"(直接{direct} / モコロン 物理{physBench}[攻{moko.Attack}防{moko.Defense}] 特殊{specBench}[魔{moko.SpAttack}精{moko.SpDefense}])");
 
-        // 3. 同優先度なら俊敏が高いほうが先: ブシガエル(S74) とタマコッコ(S47)。
+        // 3. 同優先度なら俊敏が高いほうが先: ブシガエル(S73) とタマコッコ(S50)。
         var slow = _sched.Roster.First(e => e.SpeciesId == "003");
         var fast = _sched.Roster.First(e => e.SpeciesId == "009");
         var ord = _sched.Order(new BattleScheduler.Commitment(slow, null, 0),
@@ -678,10 +678,10 @@ public partial class BattleTestScene : Node2D
                  + $"({ord[0].Actor.ActorName}(S{ord[0].Actor.Stats.BaseSpeed}) が先 / 相手S{ord[1].Actor.Stats.BaseSpeed}。"
                  + $"BST6は先攻{BattleScheduler.Bst(ord[0].Actor)}・後攻{BattleScheduler.Bst(ord[1].Actor)}で、低い側が後でも俊敏が優先)");
 
-        // 4. BST は6能力合計: タマコッコ 360・ブシガエル 432。
+        // 4. BST は6能力合計: タマコッコ 320・ブシガエル 397。
         int bstSlow = BattleScheduler.Bst(slow), bstFast = BattleScheduler.Bst(fast);
         bool sumOk = slow.Stats.BaseMaxHp + slow.Stats.BaseAtk + slow.Stats.BaseDef + slow.Stats.BaseSpAtk + slow.Stats.BaseSpDef + slow.Stats.BaseSpeed == bstSlow;
-        GD.Print($"[検証] BSTが6能力合計(BST6): {(bstSlow == 360 && bstFast == 432 && sumOk ? "OK" : "NG")} "
+        GD.Print($"[検証] BSTが6能力合計(BST6): {(bstSlow == 320 && bstFast == 397 && sumOk ? "OK" : "NG")} "
                  + $"(タマコッコ{bstSlow} ブシガエル{bstFast})");
 
         // 5. 種族値%の平坦加算が分類に応じた能力を見る。ニュートラルのきずな持ちが、
@@ -798,61 +798,132 @@ public partial class BattleTestScene : Node2D
                  + $"({voidMoves.Count}件 不一致{mismatch.Count})");
     }
 
-    // HABCDS データ（Phase 3）。species.json の6能力・役割・俊敏が仕様どおりに載っていること。
+    // HABCDS データ（Phase 3 / 能力値再設計 S1）。species.json の6能力・攻撃区分・耐久区分・俊敏が仕様どおりに載っていること。
     // 配線（ダメージ計算・行動順）は Phase 4 なので、ここは読み込んだ値だけを見る。
     private void VerifyHabcdsData()
     {
         var all = SpeciesDatabase.Instance.All.Values.ToList();
         SpeciesData Sp(string id) => SpeciesDatabase.Instance.Get(id);
 
-        // 1. 287種すべてが6能力を持ち（全て10以上）、合計が360〜630。代表3種の合計。
+        // 1. 287種すべてが6能力を持ち（全て10以上）、合計が320〜610。代表3種の合計。
         var bad1 = all.Where(sp => new[] { sp.BaseHP, sp.BaseAtk, sp.BaseDef, sp.BaseSpAtk, sp.BaseSpDef, sp.BaseSpeed }.Min() < 10
-                                   || sp.Bst < 360 || sp.Bst > 630).Select(sp => sp.SpeciesId).ToList();
-        bool ref1 = Sp("003").Bst == 360 && Sp("186").Bst == 503 && Sp("203").Bst == 630;
-        GD.Print($"[検証] 287種がHABCDSを持ち全て10以上・合計360〜630(003=360/186=503/203=630): "
+                                   || sp.Bst < 320 || sp.Bst > 610).Select(sp => sp.SpeciesId).ToList();
+        bool ref1 = Sp("003").Bst == 320 && Sp("186").Bst == 474 && Sp("203").Bst == 610;
+        GD.Print($"[検証] 287種がHABCDSを持ち全て10以上・合計320〜610(003=320/186=474/203=610): "
                  + $"{(all.Count == 287 && bad1.Count == 0 && ref1 ? "OK" : "NG")} "
                  + $"({all.Count}種 違反{bad1.Count} 003={Sp("003").Bst} 186={Sp("186").Bst} 203={Sp("203").Bst})");
 
-        // 2. 打ち分け79種: |(B+D)-0.8H|<=1.0、B/(B+D) in [0.35,0.65]、A/(A+C) in [0.40,0.60]。
-        var mixed = all.Where(sp => sp.Role == "Mixed").ToList();
-        var bad2 = mixed.Where(sp =>
-        {
-            double bd = sp.BaseDef + sp.BaseSpDef, ac = sp.BaseAtk + sp.BaseSpAtk;
-            return System.Math.Abs(bd - 0.8 * sp.BaseHP) > 1.0
-                || sp.BaseDef / bd < 0.35 || sp.BaseDef / bd > 0.65
-                || sp.BaseAtk / ac < 0.40 || sp.BaseAtk / ac > 0.60;
-        }).Select(sp => sp.SpeciesId).ToList();
-        GD.Print($"[検証] 打ち分け79種の耐久配分(B+D=0.8H±1, B:D 35〜65%, A:C 40〜60%): "
-                 + $"{(mixed.Count == 79 && bad2.Count == 0 ? "OK" : "NG")} ({mixed.Count}種 違反{bad2.Count} {string.Join(",", bad2.Take(5))})");
-
-        // 3. 物理/特殊型208種の役割と能力の整合（攻撃型 <=> 主側の攻撃 > max(H, 主側の防御)）と内訳。
-        int Count(string role) => all.Count(sp => sp.Role == role);
-        var bad3 = new List<string>();
+        // 2. 配分比率が区分どおり: 全287種で |B/(B+D)-β| <= 0.5/(B+D)（物理耐久 0.65・特殊耐久 0.35・両面耐久 0.5）。
+        //    物理攻撃・特殊攻撃は |A/(A+C)-α| <= 0.5/(A+C)（0.7 / 0.3）。
+        //    両刀攻撃は 10*max(A,C) >= 11*min(A,C) かつ 5*max(A,C) <= 3*(A+C)。
+        var bad2 = new List<string>();
         foreach (var sp in all)
         {
-            switch (sp.Role)
+            double g = sp.BaseDef + sp.BaseSpDef, off = sp.BaseAtk + sp.BaseSpAtk;
+            double beta = sp.Defense switch { "Physical" => 0.65, "Special" => 0.35, "Both" => 0.5, _ => -1 };
+            if (beta < 0 || System.Math.Abs(sp.BaseDef / g - beta) > 0.5 / g + 1e-9) { bad2.Add(sp.SpeciesId); continue; }
+            if (sp.Offense == "Mixed")
             {
-                case "PhysicalAttacker": if (!(sp.BaseAtk > System.Math.Max(sp.BaseHP, sp.BaseDef))) bad3.Add(sp.SpeciesId); break;
-                case "PhysicalWall": if (sp.BaseAtk > System.Math.Max(sp.BaseHP, sp.BaseDef)) bad3.Add(sp.SpeciesId); break;
-                case "SpecialAttacker": if (!(sp.BaseSpAtk > System.Math.Max(sp.BaseHP, sp.BaseSpDef))) bad3.Add(sp.SpeciesId); break;
-                case "SpecialWall": if (sp.BaseSpAtk > System.Math.Max(sp.BaseHP, sp.BaseSpDef)) bad3.Add(sp.SpeciesId); break;
-                case "Mixed": break;
-                default: bad3.Add(sp.SpeciesId + ":role=" + sp.Role); break;
+                int mx = System.Math.Max(sp.BaseAtk, sp.BaseSpAtk), mn = System.Math.Min(sp.BaseAtk, sp.BaseSpAtk);
+                if (!(10 * mx >= 11 * mn && 5 * mx <= 3 * (sp.BaseAtk + sp.BaseSpAtk))) bad2.Add(sp.SpeciesId);
+            }
+            else
+            {
+                double alpha = sp.Offense switch { "Physical" => 0.7, "Special" => 0.3, _ => -1 };
+                if (alpha < 0 || System.Math.Abs(sp.BaseAtk / off - alpha) > 0.5 / off + 1e-9) bad2.Add(sp.SpeciesId);
             }
         }
-        bool counts3 = Count("PhysicalWall") == 76 && Count("PhysicalAttacker") == 48
-                    && Count("SpecialWall") == 53 && Count("SpecialAttacker") == 31;
-        GD.Print($"[検証] 役割と能力が整合(物理耐久76・物理攻撃48・特殊耐久53・特殊攻撃31): "
-                 + $"{(bad3.Count == 0 && counts3 ? "OK" : "NG")} "
-                 + $"(物耐{Count("PhysicalWall")} 物攻{Count("PhysicalAttacker")} 特耐{Count("SpecialWall")} 特攻{Count("SpecialAttacker")} 違反{bad3.Count})");
+        GD.Print($"[検証] 配分比率が区分どおり(B:D 65:35/35:65/50:50・A:C 70:30/30:70・両刀攻撃は開き10%以上〜60%以下): "
+                 + $"{(bad2.Count == 0 ? "OK" : "NG")} (287種 違反{bad2.Count} {string.Join(",", bad2.Take(5))})");
 
-        // 4. 俊敏: 全種35〜130で最小35・最大130。基準点 199=104、130B・196・201=130。
+        // 3. 9役割が全て実在し内訳が表どおり、かつ全種で Role == Offense + "-" + Defense。
+        int Count(string o, string d) => all.Count(sp => sp.Offense == o && sp.Defense == d);
+        var expect3 = new (string o, string d, int n)[]
+        {
+            ("Physical", "Physical", 51), ("Physical", "Special", 43), ("Physical", "Both", 43),
+            ("Special", "Physical", 34), ("Special", "Special", 42), ("Special", "Both", 36),
+            ("Mixed", "Physical", 13), ("Mixed", "Special", 14), ("Mixed", "Both", 11),
+        };
+        bool counts3 = expect3.All(e => Count(e.o, e.d) == e.n);
+        var bad3 = all.Where(sp => sp.Role != sp.Offense + "-" + sp.Defense).Select(sp => sp.SpeciesId).ToList();
+        GD.Print($"[検証] 9役割が全て実在し内訳が表どおり(物理攻撃51/43/43・特殊攻撃34/42/36・両刀攻撃13/14/11): "
+                 + $"{(counts3 && bad3.Count == 0 ? "OK" : "NG")} "
+                 + $"(物理攻撃{Count("Physical", "Physical")}/{Count("Physical", "Special")}/{Count("Physical", "Both")} "
+                 + $"特殊攻撃{Count("Special", "Physical")}/{Count("Special", "Special")}/{Count("Special", "Both")} "
+                 + $"両刀攻撃{Count("Mixed", "Physical")}/{Count("Mixed", "Special")}/{Count("Mixed", "Both")} Role不一致{bad3.Count})");
+
+        // 4. 俊敏: 全種35〜130で最小35・最大130。基準点 199=104、130B・196・201=130。三峰（階級は中心±2）。
         int minS = all.Min(sp => sp.BaseSpeed), maxS = all.Max(sp => sp.BaseSpeed);
         bool refs4 = Sp("199").BaseSpeed == 104 && Sp("130B").BaseSpeed == 130
                   && Sp("196").BaseSpeed == 130 && Sp("201").BaseSpeed == 130;
-        GD.Print($"[検証] 俊敏35〜130(最小35・最大130)と基準点(199=104/130B・196・201=130): "
-                 + $"{(minS == 35 && maxS == 130 && refs4 ? "OK" : "NG")} "
-                 + $"(最小{minS} 最大{maxS} 199={Sp("199").BaseSpeed} 130B={Sp("130B").BaseSpeed} 196={Sp("196").BaseSpeed} 201={Sp("201").BaseSpeed})");
+        var cls = new Dictionary<int, int>();
+        for (int c = 35; c <= 130; c += 5) cls[c] = all.Count(sp => sp.BaseSpeed >= c - 2 && sp.BaseSpeed <= c + 2);
+        int Mx(int lo, int hi) { int m = 0; for (int c = lo; c <= hi; c += 5) m = System.Math.Max(m, cls[c]); return m; }
+        bool peaks = cls[50] == Mx(35, 65) && cls[75] == Mx(70, 90) && cls[100] == Mx(95, 130);
+        bool v1 = false, v2 = false;
+        for (int c = 55; c <= 70; c += 5) if (cls[c] * 2 <= System.Math.Min(cls[50], cls[75])) v1 = true;
+        for (int c = 80; c <= 95; c += 5) if (cls[c] * 2 <= System.Math.Min(cls[75], cls[100])) v2 = true;
+        bool peaksOk = peaks && v1 && v2 && cls[50] == 23 && cls[75] == 62 && cls[100] == 68;
+        GD.Print($"[検証] 俊敏35〜130(最小35・最大130)・基準点(199=104/130B・196・201=130)・三峰(50/75/100): "
+                 + $"{(minS == 35 && maxS == 130 && refs4 && peaksOk ? "OK" : "NG")} "
+                 + $"(最小{minS} 最大{maxS} 199={Sp("199").BaseSpeed} 130B={Sp("130B").BaseSpeed} 196={Sp("196").BaseSpeed} 201={Sp("201").BaseSpeed} "
+                 + $"c(50)={cls[50]} c(75)={cls[75]} c(100)={cls[100]} 谷 c(65)={cls[65]} c(70)={cls[70]} c(90)={cls[90]})");
+
+        // 5. 俊敏95以上は優先度+1以上の攻撃技を習得しない（変化技は対象外）。
+        var fastAll = all.Where(sp => sp.BaseSpeed >= 95).ToList();
+        int blocked = 0;
+        foreach (var sp in fastAll)
+            foreach (var e in sp.Learnset)
+            {
+                var m = MoveDatabase.Get(e.MoveId);
+                if (m != null && m.Power > 0 && m.Priority >= 1) blocked++;
+            }
+        bool yakumo = Sp("127").Learnset.Any(e => e.MoveId == "MV_141");
+        GD.Print($"[検証] 俊敏95以上は優先度+1以上の攻撃技を習得しない: {(fastAll.Count == 111 && blocked == 0 && yakumo ? "OK" : "NG")} "
+                 + $"(S>=95 {fastAll.Count}種 該当{blocked}件 127ヤクモマルはMV_141を習得={yakumo})");
+
+        // 6. 俊敏が低いほど総合耐久指数 H*(B+D) が高い: 相関 r<=-0.40 かつ帯別平均（<=62 / 63-87 / >=88）が単調減少。
+        double Pearson(IList<double> xs, IList<double> ys)
+        {
+            double mx = xs.Average(), my = ys.Average(), sxy = 0, sxx = 0, syy = 0;
+            for (int i = 0; i < xs.Count; i++) { sxy += (xs[i] - mx) * (ys[i] - my); sxx += (xs[i] - mx) * (xs[i] - mx); syy += (ys[i] - my) * (ys[i] - my); }
+            return sxy / System.Math.Sqrt(sxx * syy);
+        }
+        var sv = all.Select(sp => (double)sp.BaseSpeed).ToList();
+        var ti = all.Select(sp => (double)sp.BaseHP * (sp.BaseDef + sp.BaseSpDef)).ToList();
+        double r6 = Pearson(sv, ti);
+        double Band(int lo, int hi) => all.Where(sp => sp.BaseSpeed >= lo && sp.BaseSpeed <= hi).Average(sp => (double)sp.BaseHP * (sp.BaseDef + sp.BaseSpDef));
+        double b1 = Band(0, 62), b2 = Band(63, 87), b3 = Band(88, 999);
+        GD.Print($"[検証] 俊敏が低いほど総合耐久指数が高い(r<=-0.40・帯別平均が単調減少): {(r6 <= -0.40 && b1 > b2 && b2 > b3 ? "OK" : "NG")} "
+                 + $"(r={r6:F3} 帯別平均 <=62:{b1:F0} > 63-87:{b2:F0} > >=88:{b3:F0})");
+
+        // 7. 両刀攻撃は同じ帯のBST6より速い: Offense==Mixed が38種で全種 S > 俊敏ゾーン(BST6 ±4%・自分を除く・10種未満は近い順に10種)
+        //    の S の中央値。OffenseSource==speed が41種で全種 S <= 中央値・Offense は Physical/Special。
+        bool Fast(SpeciesData sp, out double gap)
+        {
+            var others = all.Where(o => o.SpeciesId != sp.SpeciesId).ToList();
+            var zone = others.Where(o => 25 * System.Math.Abs(o.Bst - sp.Bst) <= sp.Bst).ToList();
+            if (zone.Count < 10)
+            {
+                var near = others.Select(o => (d: System.Math.Abs(o.Bst - sp.Bst), o)).OrderBy(t => t.d).ToList();
+                int lim = near[9].d;
+                zone = near.Where(t => t.d <= lim).Select(t => t.o).ToList();
+            }
+            var ss = zone.Select(o => o.BaseSpeed).OrderBy(x => x).ToList();
+            int k = ss.Count;
+            double med = k % 2 == 1 ? ss[k / 2] : (ss[k / 2 - 1] + ss[k / 2]) / 2.0;
+            gap = sp.BaseSpeed - med;
+            return gap > 0;   // 中央値と等しいときは満たさない
+        }
+        var mixedSp = all.Where(sp => sp.Offense == "Mixed").ToList();
+        var speedSp = all.Where(sp => sp.OffenseSource == "speed").ToList();
+        double minGap = double.MaxValue;
+        int badMixed = 0, badSpeed = 0;
+        foreach (var sp in mixedSp) { if (!Fast(sp, out var gp)) badMixed++; minGap = System.Math.Min(minGap, gp); }
+        foreach (var sp in speedSp) { if (Fast(sp, out _) || sp.Offense == "Mixed") badSpeed++; }
+        GD.Print($"[検証] 両刀攻撃は同じ帯のBST6より速い(38種が S>中央値、再分類41種が S<=中央値): "
+                 + $"{(mixedSp.Count == 38 && badMixed == 0 && speedSp.Count == 41 && badSpeed == 0 ? "OK" : "NG")} "
+                 + $"(両刀攻撃{mixedSp.Count}種 違反{badMixed} 最小のS-中央値={minGap} / 再分類{speedSp.Count}種 違反{badSpeed})");
     }
 
     // 虚脱(Hollow): 蓄積で発症し、一致補正が消え、自分の2回目の行動終了時に解除される。
@@ -1615,15 +1686,17 @@ public partial class BattleTestScene : Node2D
     // 状態は検証の最後に元へ戻す。
     private void VerifyRestrictions()
     {
-        var atk = _sched.Roster.First(e => e.Faction == Faction.Enemy);
-        var mate = _sched.Roster.Where(e => e.Faction == Faction.Enemy).Skip(1).First();
+        // 先行の検証で倒れた個体（Entity.IsAlive は戻せない）を選ぶと追加効果が乗らず、R1〜R11 が
+        // ランダムに NG になる（基準 5018f33 でも R11 が約3割で NG）。生きている個体から選ぶ。
+        var atk = _sched.Roster.First(e => e.Faction == Faction.Enemy && e.IsAlive);
+        var mate = _sched.Roster.Where(e => e.Faction == Faction.Enemy && e.IsAlive).Skip(1).First();
 
         // 実際の技枠を使う項目のために、天候・設置技を含まない枠が3つ以上ある対象を選ぶ。
         static List<int> SafeSlots(Entity e) => Enumerable.Range(0, e.Moves.Slots.Count)
             .Where(i => e.Moves.Slots[i].Data.WeatherEffect == WeatherType.None
                         && e.Moves.Slots[i].Data.FieldPlacement == FieldPlacement.None
                         && !e.Moves.Slots[i].Data.SelfGuaranteedDeath).ToList();
-        var def = _sched.Roster.First(e => e.Faction == Faction.Player && SafeSlots(e).Count >= 3);
+        var def = _sched.Roster.First(e => e.Faction == Faction.Player && e.IsAlive && SafeSlots(e).Count >= 3);
         var safe = SafeSlots(def);
         int s0 = safe[0], s1 = safe[1];
 
@@ -1936,6 +2009,7 @@ public partial class BattleTestScene : Node2D
         {
             Fresh(); Place(far, near2);
             bool first = Used(Real(s0));                  // 直前の技 = s0
+            atk.StatusEffects.Reset();                    // s0 の技が atk の命中ランクを下げると、次の Hit が外れて NG になる（乱数）
             Hit(Mv("rs_nag_jab"));
             bool repeatBlocked = !Used(Real(s0));          // 1行動目: 同じ技は出せない
             bool otherOk = Used(Real(s1));                 // 2行動目: 別の技(直前=s1になる)

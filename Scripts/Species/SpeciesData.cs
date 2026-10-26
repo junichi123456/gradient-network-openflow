@@ -33,9 +33,25 @@ public class SpeciesData
     public int BaseSpDef { get; set; }
     public int BaseSpeed { get; set; }
 
-    // PhysicalWall / PhysicalAttacker / SpecialWall / SpecialAttacker / Mixed
-    // （仕様書 §3-b。JSON の文字列そのまま）
+    // 攻撃区分 Physical(物理攻撃) / Special(特殊攻撃) / Mixed(両刀攻撃)、その根拠
+    // trait(特性) / cycle(周期) / speed(両刀候補を俊敏条件で再分類)、
+    // 耐久区分 Physical(物理耐久) / Special(特殊耐久) / Both(両面耐久)。
+    // Role は "<Offense>-<Defense>"（例 "Physical-Special"）。JSON の文字列そのまま。
+    public string Offense { get; set; } = "";
+    public string OffenseSource { get; set; } = "";
+    public string Defense { get; set; } = "";
     public string Role { get; set; } = "";
+
+    // 「物理攻撃/特殊耐久」のような表示用の役割名。未設定なら ""。
+    public string RoleLabel
+    {
+        get
+        {
+            string o = Offense switch { "Physical" => "物理攻撃", "Special" => "特殊攻撃", "Mixed" => "両刀攻撃", _ => "" };
+            string d = Defense switch { "Physical" => "物理耐久", "Special" => "特殊耐久", "Both" => "両面耐久", _ => "" };
+            return o == "" || d == "" ? "" : o + "/" + d;
+        }
+    }
 
     // 6能力の合計（BST6）。species.json 側で BST3 から式で固定した値。
     public int Bst => BaseHP + BaseAtk + BaseDef + BaseSpAtk + BaseSpDef + BaseSpeed;

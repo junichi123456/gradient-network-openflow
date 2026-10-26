@@ -15,7 +15,7 @@ import collections
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'Tools', 'artifacts')
 sys.path.insert(0, os.path.join(ROOT, 'Tools'))
-from learnset_rules import TRAIT_TAG, TRAIT_NAMED, profile_of
+from learnset_rules import TRAIT_TAG, TRAIT_NAMED, base_offense_of, offense_from_species
 
 sp = json.load(open(f'{ROOT}/Data/species.json', encoding='utf-8'))
 mv = json.load(open(f'{ROOT}/Data/moves.json', encoding='utf-8'))
@@ -56,7 +56,8 @@ for s in order:
     ms = [M[e['move_id']] for e in s['learnset']]
     ad = adapted(s)
     atk = [m for m in ms if m['power'] > 0]
-    pf, why = profile_of(s['trait'], idx[s['species_id']])
+    pf = offense_from_species(s, idx[s['species_id']])
+    why = base_offense_of(s['trait'], idx[s['species_id']])[1]
     t = tr.get(s['trait'], {})
     out.append({
         'id': s['species_id'], 'n': s['display_name'],

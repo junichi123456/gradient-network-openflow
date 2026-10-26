@@ -7,8 +7,8 @@ import json, math, collections, os, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from learnset_rules import (SIGNATURE, TRAIT_TAG, TRAIT_NAMED, NO_ATTACK_TRAITS,
-                            TRAIT_PHYSICAL, TRAIT_SPECIAL, PROFILE_CYCLE, CEIL,
-                            profile_of)
+                            TRAIT_PHYSICAL, TRAIT_SPECIAL, OFFENSE_CYCLE, CEIL,
+                            offense_from_species, mixed_side_of, fast_blocks)
 
 SPECIES = 'Data/species.json'
 MOVES   = 'Data/moves.json'
@@ -69,11 +69,11 @@ def adapted_moves(sp):
         return [m for m in moves if m['id'] in TRAIT_NAMED[tid]]
     if tid in TRAIT_TAG:
         tags = TRAIT_TAG[tid]
-        return [m for m in ATTACK if m.get('weapon_tag') in tags]
+        return [m for m in attack_for(sp) if m.get('weapon_tag') in tags]
     t = traits_by_id.get(tid, {})
     if t.get('element') and t.get('template_kind') in ('power', 'stab', 'oshie'):
-        return [m for m in ATTACK if m['type'] == t['element']]
-    return [m for m in ATTACK if m['type'] in sp['types']]
+        return [m for m in attack_for(sp) if m['type'] == t['element']]
+    return [m for m in attack_for(sp) if m['type'] in sp['types']]
 
 NO_ATTACK_STATUS_MAX = 23   # 攻撃技を持てない種族の変化技上限
 NEU_MIN = 2              # 無属性攻撃技の下限（全個体）
@@ -86,6 +86,12 @@ HIGH_PER_SPECIES = 2
 HIGH_SHARE = 0.20
 
 ATTACK = [m for m in moves if m['power'] > 0 and m['id'] not in SIGNATURE]
+
+
+def attack_for(sp):
+    """種族 sp の攻撃技の候補プール。種族値 S>=95 の個体には優先度+1以上の攻撃技を置かない
+    （learnset_rules.fast_blocks。仕様書 2026-10-26-stat-rework.md S1-f）。"""
+    return [m for m in ATTACK if not fast_blocks(sp, m)]
 STATUS = [m for m in moves if m['power'] == 0]
 FIELD_MOVES = [m for m in moves if m.get('field_placement', 'None') != 'None']
 
@@ -193,7 +199,7 @@ WEATHER_CAP = int(len(species) * WEATHER_SHARE)      # 70%まで
 HIGH_CAP = int(len(species) * HIGH_SHARE)
 share = collections.Counter()   # move_id -> 配布済み種族数
 share_load = {}                 # 規則5の差し替えを1種族に集中させないための負荷
-prof_of = {}                    # species_id -> 型（規則5の差し替えで参照）
+prof_of = {}                    # species_id -> 攻撃区分（規則5の差し替えで参照）
 major_of = {}                   # species_id -> 多数側の分類
 
 def share_ok(m):
@@ -220,13 +226,13 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     span = (tot - 180) / 320.0
 
     # 種族ごとの攻撃型。威力天井にも効くので、天井を決める前に確定させる。
-    profile, reason = profile_of(s['trait'], species_index)
+    profile = offense_from_species(s, species_index)   # 確定した攻撃区分（再実行時。無ければ候補）
+    ATTACK_S = attack_for(s)
 
     # プール構築が major を参照するので、ここで確定させる。後段で決めていた
     # ため、無属性プールの選定が「直前の種族の major」を見ていた。
     major = 'Special' if profile == 'Special' else (
-        'Physical' if profile == 'Physical' else
-        ('Physical' if species_index % 2 == 0 else 'Special'))
+        'Physical' if profile == 'Physical' else mixed_side_of(species_index))
 
     C = CEIL[('dual' if dual else 'single', profile)]
     lerp = lambda lo, hi: round_half_up(lo + (hi - lo) * span)
@@ -246,7 +252,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     major_of[s['species_id']] = major
 
     minus = 30 if defensive else 0                          # §3-b: -30
-    minus += 20 if profile == 'Versatile' else 0            # 器用型は威力天井-20
+    minus += 20 if profile == 'Mixed' else 0                 # 両刀攻撃は威力天井-20
     if tot < 310:
         own_pow, own_band_floor, own_band_max = 125 - minus, 115 - minus, 2
         cmp_pow, cmp_band_floor, cmp_band_max = 90 - minus, 80 - minus, 2
@@ -264,7 +270,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     comp_types = sorted({c for t in own_types for c in COMP[t]} - set(own_types), key=TYPES.index)
     weak_types = sorted({w for t in own_types for w in WEAK[t]}, key=TYPES.index)
 
-    own_pool = band_filtered([m for m in ATTACK if m['type'] in own_types],
+    own_pool = band_filtered([m for m in ATTACK_S if m['type'] in own_types],
                              own_pow, own_band_floor, own_band_max)
 
     # 規則4: 特性が特定のウェポンタグを強化する種族には、そのタグの技を
@@ -274,7 +280,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     # 効かなくなる。必ず `in` で判定する。
     want_tag = TRAIT_TAG.get(s['trait'])
     if want_tag:
-        tagged = [m for m in ATTACK if m.get('weapon_tag') in want_tag
+        tagged = [m for m in ATTACK_S if m.get('weapon_tag') in want_tag
                   and (own_pow is None or m['power'] <= own_pow)]
         own_pool = ([m for m in own_pool if m.get('weapon_tag') in want_tag]
                     + [m for m in tagged if m not in own_pool]
@@ -286,7 +292,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     off_pool = []
     for el in TYPES:
         if el in own_types or el == 'Neutral': continue
-        cands = sorted([m for m in ATTACK if m['type'] == el and m['power'] <= off_pow],
+        cands = sorted([m for m in ATTACK_S if m['type'] == el and m['power'] <= off_pow],
                        key=lambda m: (m['power'], m['id']))
         if not cands: continue
         offset = (species_index + TYPES.index(el)) % len(cands)
@@ -296,7 +302,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     # 無属性も他属性と同じ「1属性あたり2種まで」の枠に入る。除外条項が
     # 外れたことで、下限2と合わせて実質ちょうど2種になる。
     neu_all = [] if 'Neutral' in own_types else sorted(
-        [m for m in ATTACK if m['type'] == 'Neutral' and m['power'] <= off_pow],
+        [m for m in ATTACK_S if m['type'] == 'Neutral' and m['power'] <= off_pow],
         key=lambda m: (m['power'], m['id']))
     if neu_all:
         offset = species_index % len(neu_all)
@@ -315,7 +321,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     #
     #   Physical  物理で殴る型
     #   Special   特殊で削る型
-    #   Versatile 威力は伸びないが打ち分けが利く型（威力天井-20、少数側の
+    #   Mixed     威力は伸びないが物理・特殊の両方で攻める両刀攻撃（威力天井-20、少数側の
     #             枠を倍、変化技+1）
     # --- gather generously, then normalise ---
     # Own-element moves come first so the own-ceiling is spent on them;
@@ -323,7 +329,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     # still allows.
     seen_pool = set()
     pool_all = []
-    tag_extra = ([m for m in ATTACK if m.get('weapon_tag') == want_tag
+    tag_extra = ([m for m in ATTACK_S if m.get('weapon_tag') == want_tag
                   and m['power'] <= off_pow] if want_tag else [])
     for m in own_pool + tag_extra + off_pool + neu_pool:
         if m['id'] in seen_pool or not share_ok(m): continue
@@ -331,8 +337,8 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     is_own = lambda m: m['type'] in own_types
 
     # --- 選抜: 自属性を own_target まで、残りを他属性+無属性で atk_cap まで ----
-    # 型(major)の比率は選抜の中で保つ。打ち分け型は少数側を厚くする。
-    maj_share = 0.67 if profile == 'Versatile' else 0.8
+    # 型(major)の比率は選抜の中で保つ。両刀攻撃は少数側を厚くする。
+    maj_share = 0.67 if profile == 'Mixed' else 0.8
 
     def by_profile(pool, k):
         """pool から k 件を、多数側 maj_share の比率・威力は等間隔で採る。"""
@@ -353,7 +359,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
         out = spread_take(a_, na)
         # §3-a: 少数側は多数側の最高威力の60%まで。書き換えの際に落として
         # しまい、全287種で少数側が多数側と同じ威力帯に届いていた。
-        cap = max((m['power'] for m in out), default=0) * (0.9 if profile == 'Versatile' else 0.6)
+        cap = max((m['power'] for m in out), default=0) * (0.9 if profile == 'Mixed' else 0.6)
         b_ = [m for m in b_ if m['power'] <= cap + 1e-6]
         out += spread_take(b_, k - len(out))
         if len(out) < k:                       # 片側が足りなければもう片方で埋める
@@ -447,7 +453,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
         chosen = [m for m in chosen if m['power'] == 0 or m['id'] in keep]
 
     # --- 確定配布 -------------------------------------------------------
-    # 全個体に変化技を1つ、打ち分け型にはさらに物理・特殊を1つずつ。総枠を
+    # 全個体に変化技を1つ、両刀攻撃にはさらに物理・特殊を1つずつ。総枠を
     # 広げるだけでは攻撃技の予算が一緒に増えて吸収されてしまい、287種中149種
     # で変化技が増えなかった。トリムのあとに足して確実に配る。
     # プールも共有率の判定も通常の選抜と同じものを使うので、威力天井・設置技
@@ -467,7 +473,7 @@ for species_index, s in enumerate(sorted(species, key=lambda s: s['species_id'])
     grant([m for m in status_pool if m['id'] not in got and share_ok(m)]
           or [m for m in STATUS if m['id'] not in got and share_ok(m)], rotate=True)
 
-    # 打ち分け型への「物理・特殊を1つずつ追加」は、攻撃技の上限が入ったことで
+    # 両刀攻撃への「物理・特殊を1つずつ追加」は、攻撃技の上限が入ったことで
     # 上限の外側に足す形になり80種で超過した。上限が優先されるので、その意図は
     # 選抜の中の比率（少数側を厚くする maj_share=0.67）で表現している。
 
@@ -563,10 +569,11 @@ placed = 0
 for m in sorted(unused, key=lambda m: (m['power'], m['id'])):
     for sp_ in sorted(species, key=lambda x: (share_load.get(x['species_id'], 0), x['species_id'])):
         if sp_['trait'] in NO_ATTACK_TRAITS and m['power'] > 0: continue
+        if fast_blocks(sp_, m): continue
         ids = [e['move_id'] for e in sp_['learnset']]
         if m['id'] in ids: continue
         # 差し替えでも威力の上限は守る。守らないと他属性の威力上限と
-        # 「少数側は多数側の60%(打ち分け90%)まで」を20件前後で破った。
+        # 「少数側は多数側の60%(両刀攻撃90%)まで」を20件前後で破った。
         pr = prof_of[sp_['species_id']]
         cc = CEIL[('dual' if len(sp_['types']) > 1 else 'single', pr)]
         if m['type'] not in sp_['types'] and m['power'] > cc['off_pow']: continue
@@ -576,7 +583,7 @@ for m in sorted(unused, key=lambda m: (m['power'], m['id'])):
         cats = [by_id[e['move_id']] for e in sp_['learnset'] if by_id[e['move_id']]['power'] > 0]
         mj = max((x['power'] for x in cats if x['category'] == major_of[sp_['species_id']]), default=0)
         if (m['power'] > 0 and m['category'] != major_of[sp_['species_id']]
-                and m['power'] > mj * (0.9 if pr == 'Versatile' else 0.6) + 1e-6): continue
+                and m['power'] > mj * (0.9 if pr == 'Mixed' else 0.6) + 1e-6): continue
         # 差し替えで特性適応技を抜くと、直前に強制採用した下限 ADAPTED_MIN を
         # 割る。下限に達している種族からは適応技を抜かない（余裕がある種族は
         # 通常どおり候補になる）。

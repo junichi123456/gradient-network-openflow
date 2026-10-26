@@ -3,8 +3,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # 生成器と同じ表を参照する。ここに写しを置くと、特性を足したときに検証側だけ
 # 古い表を見て「特性適応技」を見落とし、属性上限違反として誤検出する。
 from learnset_rules import (SIGNATURE as SIG_MAP, TRAIT_TAG, TRAIT_NAMED,
-                            NO_ATTACK_TRAITS, CEIL as CEIL_D, profile_of, legacy_had,
-                            RESTRICTION_LEARNERS)
+                            NO_ATTACK_TRAITS, CEIL as CEIL_D, offense_from_species, legacy_had,
+                            RESTRICTION_LEARNERS, fast_blocks)
 def rhu(x): return int(math.floor(x+0.5))
 sp=json.load(open('Data/species.json')); mv=json.load(open('Data/moves.json'))
 M={m['id']:m for m in mv}
@@ -49,7 +49,7 @@ def adapted(x):
 CEIL={k:(d['own'],d['atk'],d['off_pow'],d['off_per']) for k,d in CEIL_D.items()}
 prof={}
 for i,x in enumerate(sorted(sp, key=lambda x: x['species_id'])):
-    prof[x['species_id']] = profile_of(x['trait'], i)[0]
+    prof[x['species_id']] = offense_from_species(x, i)   # 確定した攻撃区分（species.json の offense）
 
 # 上限体系は単属性/複合属性の2系列。自属性・攻撃技合計・他属性(1属性2種・
 # 威力上限)・変化技の下限をまとめて見る。
@@ -92,19 +92,18 @@ for s in sp:
     p=cats.count('Physical'); q=cats.count('Special')
     major,minor=('Physical',p) if p>=q else ('Special',q)
     majn=max(p,q); minn=min(p,q)
-    # 器用型（打ち分けが利く代わりに威力が伸びない型）は少数側の枠を倍に
+    # 両刀攻撃（両方で攻める代わりに威力が伸びない区分）は少数側の枠を倍に
     # しているので 7:3 には収まらない。物理/特殊の単一文化を避けるための
-    # 意図的な設計なので、下限を 60% に緩めて「多数側が過半を明確に上回る」
-    # ことだけを担保する。
-    # 打ち分け型は物理・特殊を1つずつ明示的に足しているため、比率は意図的に
-    # 五分へ寄る。多数側が過半を上回っていることだけを担保する。
+    # 意図的な設計なので、多数側が過半を明確に上回ることだけを担保する。
+    # 両刀攻撃は物理・特殊を1つずつ明示的に足しているため、比率は意図的に
+    # 五分へ寄る。
     if majn+minn>0 and majn/(majn+minn) < 0.55: ratio_bad.append((s['display_name'],p,q))
     mj=[M[e['move_id']]['power'] for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']==major and e['move_id'] not in SIGNATURE]
     mn=[M[e['move_id']]['power'] for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']!=major and e['move_id'] not in SIGNATURE]
-    r = 0.9 if prof[s['species_id']]=='Versatile' else 0.6
+    r = 0.9 if prof[s['species_id']]=='Mixed' else 0.6
     if mj and mn and max(mn) > max(mj)*r+1e-6: cap_bad.append((s['display_name'],max(mn),max(mj)))
 chk(5,"物理/特殊が多数側>=55%", not ratio_bad, f"違反{len(ratio_bad)}件 {ratio_bad[:3]}")
-chk(5,"少数側の最高威力<=多数側の60%(打ち分け90%)", not cap_bad, f"違反{len(cap_bad)}件 {cap_bad[:3]}")
+chk(5,"少数側の最高威力<=多数側の60%(両刀攻撃90%)", not cap_bad, f"違反{len(cap_bad)}件 {cap_bad[:3]}")
 
 # 6/7 防御特化種: 設置技>=1
 FIELD={m['id'] for m in mv if m.get('field_placement','None')!='None'}
@@ -116,9 +115,8 @@ sub=[(s['display_name'],s['types'][0],[e['move_id'] for e in s['learnset'] if e[
 chk(7,"炎/雷/無/闇の防御特化種は代用設置技", all(x[2] for x in sub), f"{sub if sub else '該当種なし'}")
 
 # 9/10 §2-0 の総数上限
-# 追加配分ぶんを枠に足す: 全個体に変化技+1、打ち分け型はさらに物理・特殊が
-# +1ずつ。打ち分け型かどうかは生成器と同じ規則（species_id 昇順の序数を
-# 10周期で 4:3:3）で引き直す。自属性の枠は、追加ぶんが自属性に寄る場合が
+# 追加配分ぶんを枠に足す: 全個体に変化技+1、両刀攻撃はさらに物理・特殊が
+# +1ずつ。攻撃区分は species.json の offense（確定値）を読む。自属性の枠は、追加ぶんが自属性に寄る場合が
 # あるので同じだけ広げる。
 v9=[];v10=[];v11=[];v12=[];v13=[]
 for s in sp:
@@ -151,9 +149,9 @@ for x in sp:
 chk(11,"全個体が変化技を2つ以上", not v11, f"違反{len(v11)}件 {v11[:3]}")
 chk(14,"全個体が無属性攻撃技を2種以上", not v14, f"違反{len(v14)}件 {v14[:3]}")
 chk(12,"他属性は1属性あたりの上限内", not v12, f"違反{len(v12)}件 {v12[:3]}")
-chk(13,"他属性の威力が型ごとの上限内", not v13, f"違反{len(v13)}件 {v13[:3]}")
-chk(9,"自属性攻撃技が型ごとの上限内", not v9, f"違反{len(v9)}件 {v9[:3]}")
-chk(10,"攻撃技合計が型ごとの上限内", not v10, f"違反{len(v10)}件 {v10[:3]}")
+chk(13,"他属性の威力が攻撃区分ごとの上限内", not v13, f"違反{len(v13)}件 {v13[:3]}")
+chk(9,"自属性攻撃技が攻撃区分ごとの上限内", not v9, f"違反{len(v9)}件 {v9[:3]}")
+chk(10,"攻撃技合計が攻撃区分ごとの上限内", not v10, f"違反{len(v10)}件 {v10[:3]}")
 
 # 15 特性適応技を6種以上。候補プールがそもそも6種未満の特性（あくむのひとみは
 # 2技しか参照しない）と、攻撃技を持てない特性は物理的に満たせないので除く。
@@ -176,5 +174,21 @@ v16=[mid for mid,ls in RESTRICTION_LEARNERS.items() if sorted(learn_rs.get(mid,[
 v16+=[s['display_name'] for s in sp if sum(1 for e in s['learnset'] if e['move_id'].startswith('rs_'))>1]
 v16+=[mid for mid in learn_rs if mid not in RESTRICTION_LEARNERS]
 chk(16,"制限技12種の習得者が各1〜2種で表どおり(1種1技)", not v16 and len(RESTRICTION_LEARNERS)==12, f"違反{len(v16)}件 {v16[:3]}")
+
+# 17 種族値 S>=95 の個体は優先度+1以上の攻撃技（威力>0）を習得しない
+v17=[(x['display_name'],e['move_id']) for x in sp for e in x['learnset'] if fast_blocks(x,M[e['move_id']])]
+chk(17,"S>=95の個体は優先度+1以上の攻撃技を持たない", not v17, f"対象{sum(1 for x in sp if x['base_speed']>=95)}種 違反{len(v17)}件 {v17[:3]}")
+
+# 18 物理攻撃/特殊攻撃の個体は、learnset の攻撃技（rs_・専用技を除く）の多数側の分類が攻撃区分と一致する（攻撃技0の個体は除く）
+v18=[]
+for x in sp:
+    o=prof[x['species_id']]
+    if o not in ('Physical','Special'): continue
+    cs=[M[e['move_id']]['category'] for e in x['learnset']
+        if M[e['move_id']]['power']>0 and e['move_id'] not in SIGNATURE]
+    if not cs: continue
+    p_=cs.count('Physical'); q_=cs.count('Special')
+    if (o=='Physical' and p_<q_) or (o=='Special' and q_<p_): v18.append((x['display_name'],o,p_,q_))
+chk(18,"物理攻撃/特殊攻撃の個体は多数側の分類が攻撃区分と一致", not v18, f"違反{len(v18)}件 {v18[:3]}")
 
 print("\n総合:", "ALL PASS" if ok else "FAILあり")

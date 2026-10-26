@@ -12,7 +12,7 @@
 import json, os, sys, collections
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from learnset_rules import SIGNATURE, profile_of, legacy_had
+from learnset_rules import SIGNATURE, offense_from_species, legacy_had
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 D = lambda n: os.path.join(ROOT, 'Data', n)
@@ -181,7 +181,7 @@ def main():
                 used.add(cand[0]['id'])
                 replaced.append((e, m))
         # 仕様書の規則どおりに差し替えると verify_learnset #5（少数側の最高威力 <= 多数側の
-        # 60%、打ち分け型は90%）を破る個体がある（047 リオリネ: 特殊の最高が 125→100 に落ち、
+        # 60%、両刀攻撃は90%）を破る個体がある（047 リオリネ: 特殊の最高が 125→100 に落ち、
         # 物理 75 が上限 60 を超える）。その場合に限り、少数側で上限を超えた差し替え先を
         # 「上限以下で最も近い」虚技へ選び直す（仕様書に無い補正。最終報告に記載）。
         atk = [M[e['move_id']] for e in x['learnset']
@@ -189,7 +189,7 @@ def main():
         pn = sum(1 for m in atk if m['category'] == 'Physical')
         sn = sum(1 for m in atk if m['category'] == 'Special')
         major = 'Physical' if pn >= sn else 'Special'
-        r = 0.9 if profile_of(x['trait'], order[x['species_id']])[0] == 'Versatile' else 0.6
+        r = 0.9 if offense_from_species(x, order[x['species_id']]) == 'Mixed' else 0.6
         mj = max((m['power'] for m in atk if m['category'] == major), default=0)
         limit = mj * r + 1e-6
         for e, orig in replaced:

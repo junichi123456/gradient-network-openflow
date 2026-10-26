@@ -21,8 +21,8 @@ namespace MysteryDungeon.Battle;
 // 見ないまま決めるので、伏せて同時に決める規則がそのまま成り立つ。
 public sealed class NpcOpponent
 {
-    // BST6 → 旧BST3 尺度の重み（BST6 = 360 + (BST3-180)*27/32 の傾きの逆数）。
-    private const float Bst6Weight = 32f / 27f;
+    // BST6 → 旧BST3 尺度の重み（BST6 = 320 + (BST3-180)*29/32 の傾きの逆数）。
+    private const float Bst6Weight = 32f / 29f;
 
     public NpcTeam Profile { get; }
     public Faction Faction { get; }
