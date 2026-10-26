@@ -71,7 +71,15 @@ public sealed class BattleScheduler
         TurnInCycle++;
         TotalTurns++;
 
-        foreach (var c in Order(a, b))
+        var ordered = Order(a, b);
+
+        // フロストラグ(PriorityDown): 「次の行動の実効優先度-1」は、いま行動順に使われた
+        // この優先度で使い切る（EffectivePriority が引いた分）。この後の行動で新しく付いた
+        // 分は次の手番に回る。行動を飛ばされる手番（凍結/気絶）でも、順序には効いたので消費する。
+        foreach (var c in ordered)
+            if (!c.IsEmpty) c.Actor.StatusEffects?.ConsumePriorityDown();
+
+        foreach (var c in ordered)
         {
             if (c.IsEmpty) continue;
 
@@ -91,7 +99,7 @@ public sealed class BattleScheduler
             }
             else
             {
-                var action = c.Actor.FilterActionForStatus(c.Action);
+                var action = ApplyEncore(c.Actor, c.Actor.FilterActionForStatus(c.Action));
                 c.Actor.NotifyOwnActionStarting();
                 action?.Execute(TotalTurns);
                 c.Actor.NotifyOwnActionEnded();
@@ -101,6 +109,54 @@ public sealed class BattleScheduler
                 ResolveTurnEndItems(c.Actor);
             }
         }
+    }
+
+    // リピートチャント(Encore): 次の行動を、かかった時点の「最後に使った技」へ強制的に
+    // 差し替える。提出された狙い（移動なら移動先）をそのまま使い、その技で狙えない
+    // マスなら不発（手番だけ消費）。移動を出していても差し替える。待機などはそのまま。
+    private IAction ApplyEncore(Entity actor, IAction action)
+    {
+        int slotIndex = actor.StatusEffects.EncoreSlot;
+        if (slotIndex < 0 || action == null) return action;
+
+        var slots = actor.Moves.Slots;
+        if (slotIndex >= slots.Count) return action;
+        var forced = slots[slotIndex];
+
+        Vector2I aim;
+        Dungeon.FloorController floor = actor.FloorController;
+        if (action is AttackAction attack)
+        {
+            if (ReferenceEquals(attack.Slot, forced)) return action;   // 既に同じ技
+            aim = attack.AimTile ?? attack.Defender?.GridPosition ?? actor.GridPosition;
+            floor = attack.Floor ?? floor;
+        }
+        else if (action is MoveAction move)
+        {
+            aim = move.TargetPos;
+        }
+        else
+        {
+            return action;
+        }
+
+        var tiles = BattleTargeting.SelectableTiles(actor, slotIndex, actor.Grid, floor, _roster);
+        if (tiles.Count > 0 && !tiles.Contains(aim))
+        {
+            GD.Print($"[Battle] {actor.ActorName}はアンコールで{forced.Data.Name}を強いられたが、狙えず不発");
+            UI.MessageLogger.Log($"{actor.ActorName}はアンコールで{forced.Data.Name}を強いられたが、狙えなかった!",
+                                 UI.MessageLogger.IneffectiveColor);
+            return new WaitAction(actor);
+        }
+
+        var dir = BattleTargeting.StepToward(actor.GridPosition, aim);
+        if (dir != Vector2I.Zero) actor.FaceDirection(dir);
+        var defender = _roster.FirstOrDefault(e => e.IsAlive && e != actor && e.GridPosition == aim);
+
+        GD.Print($"[Battle] {actor.ActorName}はアンコールで{forced.Data.Name}を強いられた");
+        UI.MessageLogger.Log($"{actor.ActorName}はアンコールで{forced.Data.Name}を出すことになった!",
+                             UI.MessageLogger.IneffectiveColor);
+        return new AttackAction(actor, defender, forced, floor, aim);
     }
 
     // リジェネバンド(持続): 自分のターン終了時にHPを10%回復。
@@ -140,9 +196,12 @@ public sealed class BattleScheduler
     // 水のちから: 天候があめの間、保持者の優先度+1。**技ではなく個体に付く**
     // ので、その個体が出す手すべてが速くなる（移動も含む——移動の優先度0に
     // 対しても同じように+1される）。
+    //
+    // フロストラグ(PriorityDown): 次の行動の実効優先度から1を引く。
     public static int EffectivePriority(Entity actor, Combat.MoveData move) =>
         (move?.Priority ?? 0) + Combat.PowerTraitWeather.PriorityBonus(
-            actor, actor?.FloorController?.Weather?.Current ?? Dungeon.WeatherType.None);
+            actor, actor?.FloorController?.Weather?.Current ?? Dungeon.WeatherType.None)
+        - (actor?.StatusEffects?.PriorityPenalty ?? 0);
 
     // 行動順。優先度 → 俊敏(S)が高い順 → 合計種族値(BST6)が低い順 → ランダム。
     // 俊敏は種族値そのものを見る（ランク変化・持ち物では動かない）。

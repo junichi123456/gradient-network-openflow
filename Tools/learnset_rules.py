@@ -11,6 +11,25 @@ generate_learnset.py と verify_learnset.py が同じ表をそれぞれ持って
 # 各種上限の検査からは除外する。move_id -> species_id
 SIGNATURE = {'megaton_self_destruct': '053'}
 
+# 制限技 (Phase 6): 攻撃技だが制限効果を追加効果に持つ12種。習得できるのは各1〜2種だけで、
+# generate_learnset.py の選抜には載せず add_restriction_moves.py が level 30 で直接足す。
+# SIGNATURE と同様に、属性ごとの種類数・威力上限の検査からは除外する。
+# move_id -> [species_id, ...]
+RESTRICTION_LEARNERS = {
+    'rs_seal_snap':     ['189', '145'],    # ゼノグリフ・ゼノベーダ
+    'rs_provoke':       ['080', '168'],    # ヘルガルダ・ウラミィ
+    'rs_repeat_chant':  ['082', '170'],    # ミステリア・ネモフィ
+    'rs_item_jam':      ['185', '161'],    # エレパンダ・オーマサンダ
+    'rs_tide_hook':     ['075', '128'],    # シーペント・オオタチウオ
+    'rs_frost_lag':     ['119', '095'],    # チルウィッチ・フブキツネ
+    'rs_sand_eater':    ['139', '140'],    # アヌビス・セクメト
+    'rs_scorch_smog':   ['104', '176'],    # イグニクス・ラピエール
+    'rs_dragon_anchor': ['160', '124'],    # アイギルガ・フェスキー
+    'rs_short_leash':   ['066', '152'],    # ヴィオレッタ・ラベロット
+    'rs_nag_jab':       ['074', '033'],    # ゴリレイジ・ガウルフ
+    'rs_hollow_touch':  ['157B', '150'],   # コスモディア・オーメン
+}
+
 # 規則4: 特性 → その特性が効果を及ぼすウェポンタグ。
 # 生成側は該当タグの技をプール先頭へ寄せ、さらに特性適応技の下限
 # (ADAPTED_MIN) を満たすまで採用範囲外からでも強制採用する。

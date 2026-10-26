@@ -42,6 +42,7 @@ public partial class StatusEffectManager : Node
 
     public void ArmTemporaryRankBuff(int atkBonus, int defBonus, int turns)
     {
+        if (BlocksRankUp && (atkBonus > 0 || defBonus > 0)) return;   // ドラゴンアンカー
         _tempAtkRankBonus = atkBonus;
         _tempDefRankBonus = defBonus;
         _tempRankTurnsRemaining = turns;
@@ -126,6 +127,9 @@ public partial class StatusEffectManager : Node
     // it's simply unused.
     public void ApplyRankDelta(RankStat stat, int delta, Element moveElement = default)
     {
+        // ドラゴンアンカー(RankUpBlock): 上昇だけを止める。下降は通る。
+        if (delta > 0 && BlocksRankUp) return;
+
         switch (stat)
         {
             case RankStat.Atk:
@@ -365,11 +369,22 @@ public partial class StatusEffectManager : Node
     // ログは呼び出し側(Entity)が持つので、通知だけ出す。
     public event System.Action HollowApplied;
 
-    public void NotifyOwnActionStarting() => _hollowAtActionStart = IsHollow;
+    public void NotifyOwnActionStarting()
+    {
+        _hollowAtActionStart = IsHollow;
+
+        // 行動の開始時点でかかっていた制限だけを、この行動の終了で数える
+        // （自分の行動中に付いた制限は、その行動の終了を数えない）。
+        _restrictionsAtActionStart.Clear();
+        foreach (var kind in _restrictions.Keys)
+            if (IsActionCounted(kind)) _restrictionsAtActionStart.Add(kind);
+    }
 
     // 行動が実行されて終わるたびに呼ぶ。2回目で虚脱を解除して true を返す。
     public bool NotifyOwnActionEnded()
     {
+        TickActionRestrictions();
+
         bool counted = _hollowAtActionStart && IsHollow;
         _hollowAtActionStart = false;
         if (!counted) return false;
@@ -379,6 +394,134 @@ public partial class StatusEffectManager : Node
 
         ClearAilment();
         return true;
+    }
+
+
+    // ---- 制限 (Phase 6: 制限技12種) ----
+    // 状態異常スロットとは独立。複数の種類が同時にかかり、同じ種類を重ねると
+    // 残り回数を上書きする（延長しない）。値は残り回数。
+    //  - 行動で減る: SealLastMove / NoStatusMoves / Encore / RankUpBlock / AdjacentOnly / NoRepeat
+    //    （対象自身の行動が実行されて終わるたびに -1。NotifyOwnActionEnded）
+    //  - サイクルで減る: ItemJam / HealBlock（AdvanceTurn。対戦はサイクル終了時）
+    //  - 次の優先度計算で使い切り: PriorityDown（BattleScheduler.ResolveTurn が消費）
+    //  - 即時効果の Pull / PpDrain は状態を持たない（AttackAction が直接処理する）
+    private readonly Dictionary<RestrictionKind, int> _restrictions = new();
+    private readonly HashSet<RestrictionKind> _restrictionsAtActionStart = new();
+    private int _sealedSlot = -1;
+    private int _encoreSlot = -1;
+
+    public static string RestrictionLabel(RestrictionKind kind) => kind switch
+    {
+        RestrictionKind.SealLastMove => "技封じ",
+        RestrictionKind.NoStatusMoves => "挑発",
+        RestrictionKind.Encore => "アンコール",
+        RestrictionKind.ItemJam => "持ち物無効",
+        RestrictionKind.PriorityDown => "優先度低下",
+        RestrictionKind.HealBlock => "回復封じ",
+        RestrictionKind.RankUpBlock => "ランク上昇封じ",
+        RestrictionKind.AdjacentOnly => "射程制限",
+        RestrictionKind.NoRepeat => "連続使用禁止",
+        _ => kind.ToString(),
+    };
+
+    // 制限が解けたとき（ログは呼び出し側 Entity が持つ）。
+    public event System.Action<RestrictionKind> RestrictionExpired;
+
+    private static bool IsActionCounted(RestrictionKind kind) => kind is
+        RestrictionKind.SealLastMove or RestrictionKind.NoStatusMoves or RestrictionKind.Encore
+        or RestrictionKind.RankUpBlock or RestrictionKind.AdjacentOnly or RestrictionKind.NoRepeat;
+
+    private static bool IsCycleCounted(RestrictionKind kind) =>
+        kind is RestrictionKind.ItemJam or RestrictionKind.HealBlock;
+
+    public bool HasRestriction(RestrictionKind kind) => _restrictions.ContainsKey(kind);
+    public int RestrictionRemaining(RestrictionKind kind) => _restrictions.GetValueOrDefault(kind);
+
+    public bool IsItemJammed => HasRestriction(RestrictionKind.ItemJam);
+    public bool IsHealBlocked => HasRestriction(RestrictionKind.HealBlock);
+    public bool BlocksRankUp => HasRestriction(RestrictionKind.RankUpBlock);
+
+    // 次の行動の実効優先度から引く値（フロストラグ）。
+    public int PriorityPenalty => HasRestriction(RestrictionKind.PriorityDown) ? 1 : 0;
+
+    // アンコールで強制される技枠。かかっていなければ -1。
+    public int EncoreSlot => HasRestriction(RestrictionKind.Encore) ? _encoreSlot : -1;
+
+    // 制限を付ける。付いたら true。SealLastMove / Encore は「最後に使った技」が
+    // 前提なので、未使用（lastUsedSlot < 0）なら効果なし。Pull / PpDrain は即時効果
+    // なので状態を持たず常に false。
+    public bool TryApplyRestriction(RestrictionKind kind, int turns, int lastUsedSlot)
+    {
+        switch (kind)
+        {
+            case RestrictionKind.None:
+            case RestrictionKind.Pull:
+            case RestrictionKind.PpDrain:
+                return false;
+            case RestrictionKind.SealLastMove:
+                if (lastUsedSlot < 0) return false;
+                _sealedSlot = lastUsedSlot;
+                break;
+            case RestrictionKind.Encore:
+                if (lastUsedSlot < 0) return false;
+                _encoreSlot = lastUsedSlot;
+                break;
+        }
+        _restrictions[kind] = System.Math.Max(1, turns);   // 重ねると上書き（延長しない）
+        return true;
+    }
+
+    // この技枠・この技をいま出せない理由。出せるなら null。
+    // エンジン(AttackAction)・NPC・対戦HUDの3か所が同じこの1箇所を見る。
+    public string RestrictionBlocks(Entity self, int slot, MoveData move)
+    {
+        if (move == null) return null;
+
+        if (HasRestriction(RestrictionKind.SealLastMove) && slot >= 0 && slot == _sealedSlot)
+            return "技封じ";
+        if (HasRestriction(RestrictionKind.NoStatusMoves) && move.Category == MoveCategory.Status)
+            return "挑発";
+        if (HasRestriction(RestrictionKind.AdjacentOnly) && move.Range != MoveRange.Adjacent)
+            return "射程制限";
+        if (HasRestriction(RestrictionKind.NoRepeat) && slot >= 0 && self != null && slot == self.LastUsedMoveSlot)
+            return "連続使用禁止";
+        return null;
+    }
+
+    // 次の行動の優先度に使われた分を消費する（BattleScheduler.ResolveTurn、
+    // 行動順を決めた直後に呼ぶ）。
+    public bool ConsumePriorityDown()
+    {
+        if (!_restrictions.Remove(RestrictionKind.PriorityDown)) return false;
+        RestrictionExpired?.Invoke(RestrictionKind.PriorityDown);
+        return true;
+    }
+
+    private void TickActionRestrictions()
+    {
+        if (_restrictionsAtActionStart.Count == 0) return;
+        foreach (var kind in new List<RestrictionKind>(_restrictionsAtActionStart))
+        {
+            if (!_restrictions.TryGetValue(kind, out int left)) continue;
+            left--;
+            if (left > 0) { _restrictions[kind] = left; continue; }
+            _restrictions.Remove(kind);
+            RestrictionExpired?.Invoke(kind);
+        }
+        _restrictionsAtActionStart.Clear();
+    }
+
+    private void TickCycleRestrictions()
+    {
+        if (_restrictions.Count == 0) return;
+        foreach (var kind in new List<RestrictionKind>(_restrictions.Keys))
+        {
+            if (!IsCycleCounted(kind)) continue;
+            int left = _restrictions[kind] - 1;
+            if (left > 0) { _restrictions[kind] = left; continue; }
+            _restrictions.Remove(kind);
+            RestrictionExpired?.Invoke(kind);
+        }
     }
 
     // ---- trait_catalog_v2 stage 1 traits ----
@@ -535,6 +678,10 @@ public partial class StatusEffectManager : Node
         _ailmentTurnsElapsed = 0;
         _hollowActionsElapsed = 0;
         _hollowAtActionStart = false;
+        _restrictions.Clear();
+        _restrictionsAtActionStart.Clear();
+        _sealedSlot = -1;
+        _encoreSlot = -1;
         _toxicStacks = 0;
         IsStunned = false;
         _accumulation.Clear();
@@ -656,6 +803,7 @@ public partial class StatusEffectManager : Node
             // ClearAilmentIfType on a landed Special-category hit (§4-6).
         }
 
+        TickCycleRestrictions();
         AdvanceRankDecay();
         return damage;
     }

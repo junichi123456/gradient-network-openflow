@@ -135,6 +135,25 @@ public enum AilmentType
     Hollow,
 }
 
+// 制限技(Phase 6): 命中してダメージが入ったときの追加効果として、対象の行動を
+// 制限する。状態異常スロットとは独立で、複数が同時にかかる
+// （StatusEffectManager.TryApplyRestriction）。
+public enum RestrictionKind
+{
+    None,
+    SealLastMove,   // 対象が最後に使った技を使えない
+    NoStatusMoves,  // 変化技を使えない
+    Encore,         // 次の行動を最後に使った技へ強制差し替え
+    ItemJam,        // 持ち物の効果なし（サイクルで減る）
+    Pull,           // 使用者へ向けて1マス引き寄せる（即時）
+    PriorityDown,   // 次の行動の実効優先度-1
+    PpDrain,        // 最後に使った技のPP-2（即時）
+    HealBlock,      // HP回復しない（サイクルで減る）
+    RankUpBlock,    // ランクが上がらない
+    AdjacentOnly,   // 射程がAdjacent以外の技を使えない
+    NoRepeat,       // 直前に使った技を続けて使えない
+}
+
 // One rank change a move applies. A move used to be able to declare
 // exactly one; the status-move expansion needs up to three on a single
 // move ("2つのランクを2段階上げ、防御ランクを2段階下げる"), so the single
@@ -293,4 +312,10 @@ public class MoveData
     // How many hits RepeatPerHit attempts. Unused by Variable2To5, which
     // rolls its own count.
     public int MultiHitCount { get; set; } = 0;
+
+    // ---- 制限技 (Phase 6) ----
+    // 命中してダメージが入ったときの追加効果。RestrictionTurns は「対象自身の
+    // 行動回数」（ItemJam/HealBlock だけサイクル数）。Pull/PpDrain は即時効果で 0。
+    public RestrictionKind Restriction { get; set; } = RestrictionKind.None;
+    public int RestrictionTurns { get; set; } = 0;
 }

@@ -49,6 +49,22 @@ public class AttackAction : IAction
         _aimTile = aimTile;
     }
 
+    // アンコール(BattleScheduler.ResolveTurn)が提出された狙いを引き継ぐために読む。
+    public Entity Defender => _defender;
+    public Vector2I? AimTile => _aimTile;
+    public MoveSlot Slot => _moveSlot;
+    public FloorController Floor => _floorController;
+
+    // この技枠が使用者の何番目か。Moves.Slots に載っていない仮の枠（検証用）は -1。
+    private int SlotIndex()
+    {
+        var slots = _attacker.Moves?.Slots;
+        if (slots == null) return -1;
+        for (int i = 0; i < slots.Count; i++)
+            if (ReferenceEquals(slots[i], _moveSlot)) return i;
+        return -1;
+    }
+
     // Floor-wide weather, or None when this action has no FloorController
     // (bare test entities, and any construction site that omits it). Every
     // weather branch below is a strict no-op at None, which is what keeps
@@ -65,6 +81,18 @@ public class AttackAction : IAction
     public void Execute(int turnNumber)
     {
         var move = ResolveMove(_moveSlot.Data);
+        int slotIndex = SlotIndex();
+
+        // 制限技(技封じ・挑発・射程制限・連続使用禁止): PP判定より前に弾く。
+        // PP は減らさず、手番だけを消費する。NPC・対戦HUDは同じ
+        // StatusEffectManager.RestrictionBlocks で事前に候補から外している。
+        string blockedBy = _attacker.StatusEffects.RestrictionBlocks(_attacker, slotIndex, move);
+        if (blockedBy != null)
+        {
+            MessageLogger.Log($"{_attacker.ActorName}は{blockedBy}で{move.Name}を出せない!", MessageLogger.IneffectiveColor);
+            GD.Print($"[Battle] {_attacker.ActorName}は{blockedBy}で{move.Name}を出せない");
+            return;
+        }
 
         // Out of PP = the move simply fails (turn still consumed).
         if (_moveSlot.CurrentPp <= 0)
@@ -88,6 +116,7 @@ public class AttackAction : IAction
         }
 
         _moveSlot.CurrentPp--;
+        if (slotIndex >= 0) _attacker.LastUsedMoveSlot = slotIndex;
 
         // Self-stun (大技の隙): applied at USE time, regardless of hit or
         // miss (§9-4). Reuses Phase 21's Stun (consumed at the start of
@@ -183,6 +212,7 @@ public class AttackAction : IAction
             ApplyRankEffectIfAny(move, alive);
             ApplyAilmentEffectIfAny(move, alive);
             if (alive) ApplyKnockback(move, _defender);
+            if (alive) ApplyRestrictionEffect(move, _defender);
             if (!alive) HandleFaint(_defender);
         }
 
@@ -265,6 +295,7 @@ public class AttackAction : IAction
                 ApplyAoeAilment(move, target);
                 ApplyEnemyRankToTarget(move, target);
                 ApplyKnockback(move, target);
+                ApplyRestrictionEffect(move, target);
             }
             else
             {
@@ -1609,6 +1640,79 @@ public class AttackAction : IAction
         _attacker.Stats.TakeDamage(_attacker.Stats.CurrentHp);
         MessageLogger.Log($"{_attacker.ActorName} self-destructed!", MessageLogger.FaintColor);
         _attacker.Die();
+    }
+
+    // ---- 制限技 (Phase 6) ----
+    // 命中してダメージが入った（まだ生きている）対象への追加効果。状態異常と同じく
+    // 泥まみれ・きょうじんなからだで止まる。範囲技（スコーチスモッグ）は味方の
+    // 巻き込みも既存の範囲仕様どおり。
+    private void ApplyRestrictionEffect(MoveData move, Entity target)
+    {
+        if (move.Restriction == RestrictionKind.None) return;
+        if (target == null || !GodotObject.IsInstanceValid(target) || !target.IsAlive) return;
+        if (BlocksSecondaryEffectsFor(target)) return;
+
+        switch (move.Restriction)
+        {
+            case RestrictionKind.Pull:
+                ApplyPull(target);
+                return;
+
+            case RestrictionKind.PpDrain:
+                ApplyPpDrain(target);
+                return;
+
+            case RestrictionKind.ItemJam when RestrictionStats.DisableItemJam:
+                return;   // 計測の対照群（--r4-test）: グリッチボルトを素の攻撃技にする
+        }
+
+        if (!target.StatusEffects.TryApplyRestriction(move.Restriction, move.RestrictionTurns, target.LastUsedMoveSlot))
+        {
+            MessageLogger.Log($"{target.ActorName}には効果がなかった(最後に使った技がない)", MessageLogger.NeutralColor);
+            return;
+        }
+
+        RestrictionStats.Applied[(int)move.Restriction]++;
+        MessageLogger.Log($"{target.ActorName}は{StatusEffectManager.RestrictionLabel(move.Restriction)}状態になった!",
+                          MessageLogger.IneffectiveColor);
+        GD.Print($"[Battle] {target.ActorName}は{StatusEffectManager.RestrictionLabel(move.Restriction)}状態になった");
+    }
+
+    // タイドフック: 対象を使用者へ向けて1マス引き寄せる。引き寄せ先が盤内・通行可・
+    // 空きのときだけ（隣接していれば引き寄せ先は使用者自身のマスなので不発）。
+    private void ApplyPull(Entity target)
+    {
+        if (target.Grid == null) return;
+
+        var delta = _attacker.GridPosition - target.GridPosition;
+        var step = new Vector2I(System.Math.Sign(delta.X), System.Math.Sign(delta.Y));
+        if (step == Vector2I.Zero) return;
+
+        var dest = target.GridPosition + step;
+        bool free = target.CanWalkTo(dest)
+                    && (_floorController == null || _floorController.GetEntityAt(dest) == null)
+                    && dest != _attacker.GridPosition;
+        if (!free) return;
+
+        target.MoveTo(dest);
+        RestrictionStats.Applied[(int)RestrictionKind.Pull]++;
+        MessageLogger.Log($"{target.ActorName}は引き寄せられた!", MessageLogger.IneffectiveColor);
+    }
+
+    // サンドイーター: 対象が最後に使った技のPPを2減らす（0未満にしない）。
+    private void ApplyPpDrain(Entity target)
+    {
+        int idx = target.LastUsedMoveSlot;
+        var slots = target.Moves?.Slots;
+        if (slots == null || idx < 0 || idx >= slots.Count) return;
+
+        var slot = slots[idx];
+        int before = slot.CurrentPp;
+        slot.CurrentPp = System.Math.Max(0, slot.CurrentPp - 2);
+        if (slot.CurrentPp == before) return;
+
+        RestrictionStats.Applied[(int)RestrictionKind.PpDrain]++;
+        MessageLogger.Log($"{target.ActorName}の{slot.Data.Name}のPPが減った!", MessageLogger.IneffectiveColor);
     }
 
     // ---- Single-target secondary-effect helpers ----

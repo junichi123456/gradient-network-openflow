@@ -16,6 +16,13 @@ RANGE_CAP={'Room':4,'Area':2,'Line':6,'TwoTile':3}   # Adjacent uncapped by desi
 atk=[m for m in ms if m['category'] in ('Physical','Special')]
 phy=[m for m in atk if m['category']=='Physical']
 spe=[m for m in atk if m['category']=='Special']
+# 制限技12種(id が rs_ で始まる, Phase 6)は習得者が各1〜2種の特別枠で、仕様書の威力・射程をそのまま使う。
+# 既存プールの 35〜95 帯は闇/水/地/草/無の物理が同威力2種で埋まり、射程枠(直線6・2マス3・範囲2)も
+# 無/電/水/氷/炎で満杯なので、これらの定員規則は「rs_ を除いた既存プール」に対して検査し続け、
+# rs_ 側は専用の検査（下の「制限技12種」）で見る。
+IS_RS=lambda m: m['id'].startswith('rs_')
+atk_core=[m for m in atk if not IS_RS(m)]
+spe_core=[m for m in spe if not IS_RS(m)]
 fails=[]
 def check(ok,label,detail=""):
     print(("[PASS] " if ok else "[FAIL] ")+label+(("  "+detail) if detail else ""))
@@ -24,7 +31,7 @@ def check(ok,label,detail=""):
 # 同威力の上限: 各属性・各分類で2種まで（全威力帯、連続技は最大回数で換算）
 bad={}
 for cat in ('Physical','Special'):
-    c=collections.Counter((m['type'],eff(m)) for m in atk if m['category']==cat)
+    c=collections.Counter((m['type'],eff(m)) for m in atk_core if m['category']==cat)
     for k,v in c.items():
         if v>2: bad[(cat,)+k]=v
 check(not bad, "同属性・同分類で同威力は2種まで（全威力帯）", f"違反 {len(bad)} {list(bad.items())[:3]}")
@@ -32,10 +39,10 @@ check(not bad, "同属性・同分類で同威力は2種まで（全威力帯）
 # 射程ごとの上限（属性単位、物理と特殊をまたぐ）
 viol={}
 for el in set(m['type'] for m in atk):
-    c=collections.Counter(m.get('range','Adjacent') for m in atk if m['type']==el)
+    c=collections.Counter(m.get('range','Adjacent') for m in atk_core if m['type']==el)
     for r,cap in RANGE_CAP.items():
         if c[r]>cap: viol[(el,r)]=f"{c[r]}>{cap}"
-check(not viol, "射程上限 Room<=4 / Area<=2 / Line<=6 / TwoTile<=3（属性ごと）", str(viol))
+check(not viol, "射程上限 Room<=4 / Area<=2 / Line<=6 / TwoTile<=3（属性ごと。rs_ 制限技を除く）", str(viol))
 
 # 連続技は削除対象外
 KEPT_MULTI={'mvh_water','mvh_electric','mvh_ground','mvh_ice','mvh_dark'}
@@ -91,10 +98,10 @@ check(all(m.get('range')=='TwoTile' for m in thrust) and not any(m.get('is_conta
 
 # 系統を離れた2マス射程技は名称とタグだけを変えており、射程と非接触は維持
 loose=[m for m in ms if m.get('range')=='TwoTile' and fam_of(m['name'])!='スラスト']
-check(len(loose)==19 and   # 虚の複製で闇の2件ぶん増える（17→19）
+check(len(loose)==21 and   # 虚の複製で闇の2件ぶん増え（17→19）、制限技 R4 グリッチボルト・R5 タイドフックが2マス射程で+2（→21）
        all(not m.get('is_contact') and m.get('weapon_tag','None')=='None'
                              for m in loose),
-      "系統外の2マス射程19件: 非接触のままタグなし", f"{len(loose)}件")
+      "系統外の2マス射程21件: 非接触のままタグなし", f"{len(loose)}件")
 
 flash=[m for m in ms if fam_of(m['name'])=='フラッシュ']
 check(all(m['power']==50 and not m.get('is_contact') and m.get('is_guaranteed_hit')
@@ -144,7 +151,7 @@ check(not any(m.get('is_contact') and m.get('range','Adjacent')!='Adjacent' for 
 # x 2分類を要求するのに対し、射程上限は Line6+Area2+Room4=12 しか許さない
 # ため、Adjacent（唯一の無制限射程）を使わないとグリッドを埋められない。
 # 射程持ちの特殊技が上限内に収まっていることだけ確認する。
-rc=collections.Counter(m.get('range','Adjacent') for m in spe)
+rc=collections.Counter(m.get('range','Adjacent') for m in spe_core)
 # 属性が10になったので上限の総和は 6/2/4 x 10 = 60/20/40。
 check(rc['Line']<=60 and rc['Area']<=20 and rc['Room']<=40,
       "射程持ちの特殊技が属性上限の総和内", str(dict(rc)))
@@ -157,6 +164,29 @@ check(rc['Line']<=60 and rc['Area']<=20 and rc['Room']<=40,
 COST={'Adjacent':0,'TwoTile':-5,'Line':-10,'Area':-15,'Room':-20,'FullFloor':-20}
 check(all(m['power']>0 for m in atk), "§4 威力が0以下になった技はない",
       f"min={min(m['power'] for m in atk)}")
+
+# 制限技12種（Phase 6）: 仕様書 6-b の表どおり。全て攻撃技・威力40〜55・命中100・非Adjacentは非接触。
+RS_SPEC={'rs_seal_snap':('Void','Special',40,'Adjacent',False,'SealLastMove',2),
+         'rs_provoke':('Dark','Physical',45,'Adjacent',True,'NoStatusMoves',2),
+         'rs_repeat_chant':('Neutral','Special',40,'Line',False,'Encore',1),
+         'rs_item_jam':('Electric','Special',45,'TwoTile',False,'ItemJam',3),
+         'rs_tide_hook':('Water','Physical',50,'TwoTile',False,'Pull',0),
+         'rs_frost_lag':('Ice','Special',45,'Line',False,'PriorityDown',1),
+         'rs_sand_eater':('Ground','Physical',50,'Adjacent',True,'PpDrain',0),
+         'rs_scorch_smog':('Fire','Special',40,'Area',False,'HealBlock',3),
+         'rs_dragon_anchor':('Dragon','Special',55,'Adjacent',False,'RankUpBlock',3),
+         'rs_short_leash':('Grass','Physical',45,'Adjacent',True,'AdjacentOnly',2),
+         'rs_nag_jab':('Neutral','Physical',40,'Adjacent',True,'NoRepeat',3),
+         'rs_hollow_touch':('Void','Special',50,'Adjacent',False,None,0)}
+rs={m['id']:m for m in ms if IS_RS(m)}
+rs_bad=[]
+for mid,(t,c,p,r,ct,rk,rt) in RS_SPEC.items():
+    m=rs.get(mid)
+    if m is None: rs_bad.append(mid+':なし'); continue
+    got=(m['type'],m['category'],m['power'],m.get('range','Adjacent'),bool(m.get('is_contact')),m.get('restriction'),m.get('restriction_turns',0))
+    if got!=(t,c,p,r,ct,rk,rt) or m['accuracy']!=100: rs_bad.append(f'{mid}:{got}')
+    if mid=='rs_hollow_touch' and (m.get('ailment_effect'),m.get('ailment_chance'))!=('Hollow',100): rs_bad.append(mid+':虚脱')
+check(len(rs)==12 and not rs_bad and set(rs)==set(RS_SPEC), "制限技12種が仕様書6-bの表どおり（属性・分類・威力・射程・接触・restriction）", str(rs_bad))
 
 # integrity
 check(len({m['id'] for m in ms})==len(ms), "技IDが一意")

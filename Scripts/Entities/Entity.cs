@@ -191,6 +191,8 @@ public partial class Entity : Node2D, ITurnActor
             AddChild(StatusEffects);
         }
         StatusEffects.HollowApplied += OnHollowApplied;
+        StatusEffects.RestrictionExpired += OnRestrictionExpired;
+        Stats.HealBlockedCheck = () => StatusEffects != null && StatusEffects.IsHealBlocked;
 
         // trait_catalog_v2 stage 1: バッテリー permanently occupies the
         // Ailment slot (帯電/Paralyze) via the mutual-exclusion rule, with
@@ -308,12 +310,34 @@ public partial class Entity : Node2D, ITurnActor
 
     public bool HeldItemConsumed { get; private set; }
 
-    public Combat.BattleItemEffect HeldEffect =>
+    // 持ち物そのものの効果（グリッチボルトで止められていても返る）。
+    private Combat.BattleItemEffect RawHeldEffect =>
         HeldItemConsumed || string.IsNullOrEmpty(HeldItemId)
             ? Combat.BattleItemEffect.None
             : Combat.ItemDatabase.Get(HeldItemId)?.BattleEffect ?? Combat.BattleItemEffect.None;
 
-    public bool Holds(Combat.BattleItemEffect effect) => HeldEffect == effect;
+    // グリッチボルト(ItemJam): かかっている間は持ち物の効果なし。HeldEffect が None を
+    // 返すので Holds() は false になり、使い切り型は発動も消費もしない
+    // （ConsumeHeldItem は効果が成立したときしか呼ばれない）。持続型も止まる。
+    public Combat.BattleItemEffect HeldEffect =>
+        StatusEffects != null && StatusEffects.IsItemJammed
+            ? Combat.BattleItemEffect.None
+            : RawHeldEffect;
+
+    public bool Holds(Combat.BattleItemEffect effect)
+    {
+        var held = HeldEffect;
+        if (held == effect) return true;
+        // 計測: 止められていなければ成立していた効果判定の回数。
+        if (effect != Combat.BattleItemEffect.None && held == Combat.BattleItemEffect.None
+            && RawHeldEffect == effect)
+            Combat.RestrictionStats.ItemChecksSuppressed++;
+        return false;
+    }
+
+    // 制限技(Phase 6): 最後に PP を消費して技を出した技枠。未使用は -1。
+    // シールスナップ・リピートチャント・サンドイーター・ナグジャブが参照する。
+    public int LastUsedMoveSlot { get; set; } = -1;
 
     // 使い切りの持ち物を消費する。持続効果には呼ばない。
     public void ConsumeHeldItem()
@@ -651,6 +675,13 @@ public partial class Entity : Node2D, ITurnActor
         if (!StatusEffects.NotifyOwnActionEnded()) return;
         GD.Print($"[Battle] {ActorName}の虚脱が解けた");
         UI.MessageLogger.Log($"{ActorName}の虚脱が解けた", UI.MessageLogger.ProgressionColor);
+    }
+
+    private void OnRestrictionExpired(Combat.RestrictionKind kind)
+    {
+        string label = StatusEffectManager.RestrictionLabel(kind);
+        GD.Print($"[Battle] {ActorName}の{label}が解けた");
+        UI.MessageLogger.Log($"{ActorName}の{label}が解けた", UI.MessageLogger.ProgressionColor);
     }
 
     private void OnHollowApplied()

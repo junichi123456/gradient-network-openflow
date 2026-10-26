@@ -138,6 +138,7 @@ public partial class BattleMatchScene : Node2D
             return;
         }
 
+        if (args.Contains("--r4-test")) { RunR4Test(); return; }
         if (tactics) { RunTactics(); return; }
         if (args.Contains("--meta-core")) { RunMetaCore(); return; }
         if (args.Contains("--meta-challengers")) { RunMetaChallengers(); return; }
@@ -268,8 +269,115 @@ public partial class BattleMatchScene : Node2D
         if (bstDecided > 0)
             GD.Print($"[結果] 選出4匹の合計種族値が高い側が勝った割合: "
                      + $"{100.0 * bstAgree / bstDecided:F1}% ({bstAgree}/{bstDecided}、種族値同点{bstTie}試合を除く)");
+        PrintRestrictionStats();
 
         GetTree().Quit();
+    }
+
+    // 制限技が実際にかかった回数（全試合の合計）。--random で制限技がどれだけ使われたかの目安。
+    private static void PrintRestrictionStats()
+    {
+        var parts = new List<string>();
+        foreach (var kind in System.Enum.GetValues<RestrictionKind>())
+            if (kind != RestrictionKind.None)
+                parts.Add($"{StatusEffectManager.RestrictionLabel(kind)}={RestrictionStats.Applied[(int)kind]}");
+        GD.Print($"[結果] 制限技がかかった回数: {string.Join(" / ", parts)}");
+        GD.Print($"[結果] 持ち物無効化で止められた効果判定: {RestrictionStats.ItemChecksSuppressed}回");
+    }
+
+    // グリッチボルト(R4)の強さの計測。自陣に R4 習得者(エレパンダ185/オーマサンダ161)を
+    // 必ず入れ、R4 を技構成に入れる。**同じ2チームを、持ち物無効化あり(ON)と、
+    // R4 をただの攻撃技にした対照群(OFF)の2回ずつ**対戦させて、自陣の勝率差を見る。
+    // 比較は「習得者が実際に選出された試合」だけ。
+    private void RunR4Test()
+    {
+        var rng = new RandomNumberGenerator();
+        rng.Randomize();
+        string[] carriers = { "185", "161" };
+
+        // [0]=ON(持ち物無効化あり) [1]=OFF(対照群)
+        var played = new int[2]; var homeWin = new int[2]; var awayWin = new int[2];
+        var draw = new int[2]; var unresolved = new int[2];
+        var landedMatches = new int[2]; var landedWin = new int[2];
+        var applied = new long[2]; var suppressed = new long[2];
+        // 習得者ごとの出場時勝率（ON）
+        var carrierPlayed = new Dictionary<string, int> { ["185"] = 0, ["161"] = 0 };
+        var carrierWin = new Dictionary<string, int> { ["185"] = 0, ["161"] = 0 };
+
+        GD.Print($"[R4計測] 自陣にグリッチボルト習得者(185/161)を必ず入れた完全ランダム構築 / {_matches}チーム組 x 2条件");
+
+        for (int i = 0; i < _matches; i++)
+        {
+            string carrier = carriers[i % 2];
+            var home = ForceCarrier(RandomTeam(rng), carrier, rng);
+            var away = RandomTeam(rng);
+            var awayProfile = new NpcTeam
+            {
+                Id = $"r4_{i}", Name = "ランダム構築の相手", MainType = "Neutral",
+                TotalBst = away.Entries.Sum(e => Bst(e)), Team = away,
+            };
+
+            for (int mode = 0; mode < 2; mode++)
+            {
+                RestrictionStats.DisableItemJam = mode == 1;
+                RestrictionStats.Reset();
+                var r = RunMatch(home, awayProfile, verbose: false);
+                RestrictionStats.DisableItemJam = false;
+
+                if (!r.HomeSel.Split('|').Contains(carrier)) continue;
+                played[mode]++;
+                bool win = r.Outcome == BattleOutcome.PlayerWin;
+                if (win) homeWin[mode]++;
+                else if (r.Outcome == BattleOutcome.EnemyWin) awayWin[mode]++;
+                else if (r.Outcome == BattleOutcome.Draw) draw[mode]++;
+                else unresolved[mode]++;
+
+                long hits = RestrictionStats.Applied[(int)RestrictionKind.ItemJam];
+                applied[mode] += hits;
+                suppressed[mode] += RestrictionStats.ItemChecksSuppressed;
+                if (mode == 0)
+                {
+                    carrierPlayed[carrier]++;
+                    if (win) carrierWin[carrier]++;
+                    if (hits > 0) { landedMatches[0]++; if (win) landedWin[0]++; }
+                }
+            }
+        }
+
+        static string Rate(int w, int n) => n == 0 ? "-" : $"{100.0 * w / n:F1}%±{100.0 * System.Math.Sqrt(0.25 / n):F1}";
+        GD.Print($"[R4計測] 持ち物無効化ON : 習得者選出{played[0]}試合 自陣{homeWin[0]}勝 敵陣{awayWin[0]}勝 引分{draw[0]} 未決着{unresolved[0]} 自陣勝率 {Rate(homeWin[0], played[0])}");
+        GD.Print($"[R4計測] 持ち物無効化OFF(対照群): 習得者選出{played[1]}試合 自陣{homeWin[1]}勝 敵陣{awayWin[1]}勝 引分{draw[1]} 未決着{unresolved[1]} 自陣勝率 {Rate(homeWin[1], played[1])}");
+        if (played[0] > 0 && played[1] > 0)
+        {
+            double d = 100.0 * homeWin[0] / played[0] - 100.0 * homeWin[1] / played[1];
+            double se = 100.0 * System.Math.Sqrt(0.25 / played[0] + 0.25 / played[1]);
+            GD.Print($"[R4計測] 勝率差(ON-OFF) {d:+0.0;-0.0}pt (標準誤差±{se:F1}pt)");
+        }
+        GD.Print($"[R4計測] R4が命中した回数(ON): {applied[0]}回 / R4が1回以上命中した試合 {landedMatches[0]}試合"
+                 + $"(その自陣勝率 {Rate(landedWin[0], landedMatches[0])})");
+        GD.Print($"[R4計測] R4命中後に持ち物の効果が止められた判定の回数(ON): {suppressed[0]}回");
+        GD.Print($"[R4計測] 習得者別の出場時勝率(ON): エレパンダ185 {Rate(carrierWin["185"], carrierPlayed["185"])}(n={carrierPlayed["185"]}) / "
+                 + $"オーマサンダ161 {Rate(carrierWin["161"], carrierPlayed["161"])}(n={carrierPlayed["161"]})");
+
+        GetTree().Quit();
+    }
+
+    // 6匹の構築に習得者を入れ、技構成にグリッチボルトを加える。
+    private static BattleTeam ForceCarrier(BattleTeam team, string carrier, RandomNumberGenerator rng)
+    {
+        var entries = team.Entries.ToList();
+        int idx = entries.FindIndex(e => e.SpeciesId == carrier);
+        if (idx < 0)
+        {
+            idx = 0;
+            entries[0] = new BattleEntry { SpeciesId = carrier, ItemId = entries[0].ItemId };
+        }
+        var entry = entries[idx];
+        var others = entry.Learnable().Where(m => m.Id != "rs_item_jam").ToList();
+        Shuffle(others, rng);
+        entry.MoveIds = new List<string> { "rs_item_jam" }
+            .Concat(others.Take(MoveManager.MaxMoves - 1).Select(m => m.Id)).ToList();
+        return new BattleTeam(entries);
     }
 
     // 「最も強い構築」N通りを組み、全組み合わせを --repeat 回ずつ対戦させる。

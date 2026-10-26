@@ -229,6 +229,8 @@ public sealed class NpcOpponent
                 var data = actor.Moves.Slots[slot].Data;
                 if (data == null || actor.Moves.Slots[slot].CurrentPp <= 0) continue;
                 if (data.Power <= 0) continue;              // 変化技は評価しない
+                // 制限技(技封じ・挑発・射程制限・連続使用禁止)で出せない技は候補から外す。
+                if (actor.StatusEffects.RestrictionBlocks(actor, slot, data) != null) continue;
 
                 var aims = BattleTargeting.SelectableTiles(actor, slot, grid, floor, sched.Roster);
 

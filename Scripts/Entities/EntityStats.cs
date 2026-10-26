@@ -203,8 +203,14 @@ public partial class EntityStats : Node
         CurrentHp = Mathf.Max(0, CurrentHp - amount);
     }
 
+    // スコーチスモッグ(HealBlock): かかっている間は HP が回復しない。ドレイン・リジェネ・
+    // 天候・はなばたけ・トニック・闇のちから・道具の回復は全て Heal() を通るので、
+    // ここ1箇所で止まる。HealToFull（全回復）は対象外。Entity が StatusEffects を結ぶ。
+    public System.Func<bool> HealBlockedCheck { get; set; }
+
     public void Heal(int amount)
     {
+        if (HealBlockedCheck != null && HealBlockedCheck()) return;
         CurrentHp = Mathf.Min(MaxHp, CurrentHp + amount);
     }
 

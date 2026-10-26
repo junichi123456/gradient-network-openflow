@@ -3,7 +3,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # 生成器と同じ表を参照する。ここに写しを置くと、特性を足したときに検証側だけ
 # 古い表を見て「特性適応技」を見落とし、属性上限違反として誤検出する。
 from learnset_rules import (SIGNATURE as SIG_MAP, TRAIT_TAG, TRAIT_NAMED,
-                            NO_ATTACK_TRAITS, CEIL as CEIL_D, profile_of, legacy_had)
+                            NO_ATTACK_TRAITS, CEIL as CEIL_D, profile_of, legacy_had,
+                            RESTRICTION_LEARNERS)
 def rhu(x): return int(math.floor(x+0.5))
 sp=json.load(open('Data/species.json')); mv=json.load(open('Data/moves.json'))
 M={m['id']:m for m in mv}
@@ -26,7 +27,12 @@ chk(1,"全287種にlearnset・moveId実在", not bad and not unknown,
 # 専用技は選抜も上限も通さずに1種へ直接渡すもので、威力の天井を破ることが
 # 存在意義そのもの（メガデストラクト180をクルットリ BST205 が持つ）。
 # 各種上限の検査から除外する。
-SIGNATURE=set(SIG_MAP)
+# 制限技(rs_, Phase 6)は習得者が各1〜2種の特別枠で、add_restriction_moves.py が level 30 で直接足す。
+# 専用技と同じく、属性ごとの種類数・威力上限・攻撃技合計・無属性攻撃技の下限の検査からは除外する
+# （除外しないと、上限いっぱいの習得者24種のうち22種が攻撃技合計の上限を1つ超える）。
+# 習得者が表どおりであることは下の #16 で別に検査する。
+RS=set(RESTRICTION_LEARNERS)
+SIGNATURE=set(SIG_MAP)|RS
 
 # 特性適応技は「採用範囲外からでも強制的に採用する」規則なので、属性ごとの
 # 種類数・威力上限・自属性の天井の検査からは外す。専用技と同じ扱い。
@@ -121,7 +127,7 @@ for s in sp:
     (o_lo,o_hi),(a_lo,a_hi),lim,per = CEIL[('dual' if dual else 'single', prof[s['species_id']])]
     ot=rhu(o_lo+(o_hi-o_lo)*span); ac=rhu(a_lo+(a_hi-a_lo)*span)
     ms=[M[e['move_id']] for e in s['learnset']]
-    atk=[m for m in ms if m['power']>0]
+    atk=[m for m in ms if m['power']>0 and m['id'] not in RS]
     sta=[m for m in ms if m['power']==0]
     ex=adapted(s)|SIGNATURE
     o=[m for m in atk if m['type'] in own and m['id'] not in ex]
@@ -140,7 +146,7 @@ for x in sp:
     # 攻撃技を持てない特性の持ち主には無属性攻撃技の下限を課せない。
     if x.get('trait') in NO_ATTACK_TRAITS: continue
     n=sum(1 for e in x['learnset']
-          if M[e['move_id']]['type']=='Neutral' and M[e['move_id']]['power']>0)
+          if M[e['move_id']]['type']=='Neutral' and M[e['move_id']]['power']>0 and e['move_id'] not in RS)
     if n<2: v14.append((x['display_name'],n))
 chk(11,"全個体が変化技を2つ以上", not v11, f"違反{len(v11)}件 {v11[:3]}")
 chk(14,"全個体が無属性攻撃技を2種以上", not v14, f"違反{len(v14)}件 {v14[:3]}")
@@ -160,5 +166,15 @@ for s in sp:
     n=sum(1 for e in s['learnset'] if e['move_id'] in a)
     if n<ADAPTED_MIN: v15.append((s['display_name'],s['trait'],n))
 chk(15,f"特性適応技を{ADAPTED_MIN}種以上(候補が足りる種)", not v15, f"違反{len(v15)}件 {v15[:3]}")
+
+# 16 制限技12種: 習得者が各1〜2種で RESTRICTION_LEARNERS（仕様書の表）どおり、1種が持つ制限技は1つだけ
+learn_rs=collections.defaultdict(list)
+for s in sp:
+    for e in s['learnset']:
+        if e['move_id'].startswith('rs_'): learn_rs[e['move_id']].append(s['species_id'])
+v16=[mid for mid,ls in RESTRICTION_LEARNERS.items() if sorted(learn_rs.get(mid,[]))!=sorted(ls) or not 1<=len(ls)<=2]
+v16+=[s['display_name'] for s in sp if sum(1 for e in s['learnset'] if e['move_id'].startswith('rs_'))>1]
+v16+=[mid for mid in learn_rs if mid not in RESTRICTION_LEARNERS]
+chk(16,"制限技12種の習得者が各1〜2種で表どおり(1種1技)", not v16 and len(RESTRICTION_LEARNERS)==12, f"違反{len(v16)}件 {v16[:3]}")
 
 print("\n総合:", "ALL PASS" if ok else "FAILあり")

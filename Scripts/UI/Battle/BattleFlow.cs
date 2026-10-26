@@ -324,6 +324,11 @@ public partial class BattleFlow : Control
     {
         if (_hud == null || _actor == null) return;
 
+        // 制限技で出せない技は選ばせない（HUD側でも押せなくしてあるが、盤面操作など別経路の保険）。
+        if (slot >= 0 && slot < _actor.Moves.Slots.Count
+            && _actor.StatusEffects.RestrictionBlocks(_actor, slot, _actor.Moves.Slots[slot].Data) != null)
+            return;
+
         _slot = slot;
         _aim = null;
         _selectable = SelectableTiles(_actor, slot);

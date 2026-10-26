@@ -440,11 +440,16 @@ public partial class BattleHud : Control
             int index = i;
             btn.Pressed += () => ChooseCommand(index, actor);
 
+            // 制限技(技封じ・挑発・射程制限・連続使用禁止)で出せない技は押せなくする。
+            string blockedBy = actor.StatusEffects?.RestrictionBlocks(actor, i, slot.Data);
+            if (blockedBy != null) btn.Disabled = true;
+
             var row = new HBoxContainer { MouseFilter = MouseFilterEnum.Ignore };
             row.AddThemeConstantOverride("separation", 6);
             row.AddChild(Text(BattleTheme.ElementLabel(slot.Data.Type),
                               BattleTheme.Element(slot.Data.Type), BattleTheme.FontLabel));
-            row.AddChild(Text(slot.Data.Name, BattleTheme.Ink, BattleTheme.FontSmall));
+            row.AddChild(Text(blockedBy == null ? slot.Data.Name : $"{slot.Data.Name}（{blockedBy}）",
+                              blockedBy == null ? BattleTheme.Ink : BattleTheme.Muted, BattleTheme.FontSmall));
             row.AddChild(new Control { SizeFlagsHorizontal = SizeFlags.ExpandFill });
             row.AddChild(Text(slot.Data.Power > 0 ? slot.Data.Power.ToString() : "—",
                               BattleTheme.Muted, BattleTheme.FontSmall));

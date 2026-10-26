@@ -6399,6 +6399,10 @@
       {
         "level": 24,
         "move_id": "gap_neutral_s_120"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_nag_jab"
       }
     ],
     "evolution": null,
@@ -12905,6 +12909,10 @@
       {
         "level": 24,
         "move_id": "MVP_120"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_short_leash"
       }
     ],
     "evolution": null,
@@ -14290,6 +14298,10 @@
       {
         "level": 23,
         "move_id": "MVP_019"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_nag_jab"
       }
     ],
     "evolution": null,
@@ -14562,6 +14574,10 @@
       {
         "level": 23,
         "move_id": "gap_water_p_115"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_tide_hook"
       }
     ],
     "evolution": null,
@@ -15813,6 +15829,10 @@
       {
         "level": 23,
         "move_id": "MVP_179"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_provoke"
       }
     ],
     "evolution": null,
@@ -16324,6 +16344,10 @@
       {
         "level": 24,
         "move_id": "gap_neutral_s_120"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_repeat_chant"
       }
     ],
     "evolution": null,
@@ -19549,6 +19573,10 @@
       {
         "level": 19,
         "move_id": "MVP_136"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_frost_lag"
       }
     ],
     "evolution": null,
@@ -21781,6 +21809,10 @@
       {
         "level": 24,
         "move_id": "MV_244"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_scorch_smog"
       }
     ],
     "evolution": null,
@@ -24939,6 +24971,10 @@
       {
         "level": 27,
         "move_id": "MV_210"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_frost_lag"
       }
     ],
     "evolution": null,
@@ -25870,6 +25906,10 @@
       {
         "level": 22,
         "move_id": "gap_dragon_s_110"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_dragon_anchor"
       }
     ],
     "evolution": null,
@@ -26589,6 +26629,10 @@
       {
         "level": 21,
         "move_id": "gap_water_s_105"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_tide_hook"
       }
     ],
     "evolution": null,
@@ -29137,6 +29181,10 @@
       {
         "level": 23,
         "move_id": "MVP_099"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_sand_eater"
       }
     ],
     "evolution": null,
@@ -29277,6 +29325,10 @@
       {
         "level": 24,
         "move_id": "MV_279"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_sand_eater"
       }
     ],
     "evolution": null,
@@ -30211,6 +30263,10 @@
       {
         "level": 24,
         "move_id": "void_gap_dark_s_120"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_seal_snap"
       }
     ],
     "evolution": null,
@@ -31181,6 +31237,10 @@
       {
         "level": 23,
         "move_id": "void_MVP_179"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_hollow_touch"
       }
     ],
     "evolution": null,
@@ -31557,6 +31617,10 @@
       {
         "level": 25,
         "move_id": "MV_292"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_short_leash"
       }
     ],
     "evolution": null,
@@ -32370,6 +32434,10 @@
       {
         "level": 23,
         "move_id": "void_MVP_179"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_hollow_touch"
       }
     ],
     "evolution": null,
@@ -32865,6 +32933,10 @@
       {
         "level": 21,
         "move_id": "gap_dragon_s_105"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_dragon_anchor"
       }
     ],
     "evolution": null,
@@ -33001,6 +33073,10 @@
       {
         "level": 24,
         "move_id": "gap_electric_s_120"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_item_jam"
       }
     ],
     "evolution": null,
@@ -34143,6 +34219,10 @@
       {
         "level": 24,
         "move_id": "gap_dark_s_120"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_provoke"
       }
     ],
     "evolution": null,
@@ -34570,6 +34650,10 @@
       {
         "level": 19,
         "move_id": "MVP_016"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_repeat_chant"
       }
     ],
     "evolution": null,
@@ -35502,6 +35586,10 @@
       {
         "level": 24,
         "move_id": "MV_244"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_scorch_smog"
       }
     ],
     "evolution": null,
@@ -36733,6 +36821,10 @@
       {
         "level": 24,
         "move_id": "gap_electric_s_120"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_item_jam"
       }
     ],
     "evolution": null,
@@ -37516,6 +37608,10 @@
       {
         "level": 23,
         "move_id": "void_MVP_179"
+      },
+      {
+        "level": 30,
+        "move_id": "rs_seal_snap"
       }
     ],
     "evolution": null,

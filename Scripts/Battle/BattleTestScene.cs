@@ -75,6 +75,7 @@ public partial class BattleTestScene : Node2D
         VerifyHollow();
         VerifyHabcdsData();
         VerifyHabcdsWiring();
+        VerifyRestrictions();
         RunBattle();
 
         // 終了時クラッシュ対策: 試合が長引くと未処理の Tween の C# ラッパーが
@@ -782,7 +783,7 @@ public partial class BattleTestScene : Node2D
 
         // 6. 虚の攻撃技57件が、元の闇技と威力・分類・射程・命中・PP・接触で一致。
         var voidMoves = MoveDatabase.AllIds().Select(MoveDatabase.Get)
-                                    .Where(m => m.Type == "Void" && m.Power > 0).ToList();
+                                    .Where(m => m.Type == "Void" && m.Power > 0 && !m.Id.StartsWith("rs_")).ToList();
         var mismatch = new List<string>();
         foreach (var v in voidMoves)
         {
@@ -1606,6 +1607,397 @@ public partial class BattleTestScene : Node2D
             acc.AddRange(CollectButtons(child));
         }
         return acc;
+    }
+
+    // ---- 制限技12種 (Phase 6) ----
+    // 各技について「効く条件で効く」と「効かない条件で効かない」を1項目内で対にして見る。
+    // 使うのは盤上の実体（Enemy先頭=使用者 / Player=対象）。位置・特性・持ち物・PP・
+    // 状態は検証の最後に元へ戻す。
+    private void VerifyRestrictions()
+    {
+        var atk = _sched.Roster.First(e => e.Faction == Faction.Enemy);
+        var mate = _sched.Roster.Where(e => e.Faction == Faction.Enemy).Skip(1).First();
+
+        // 実際の技枠を使う項目のために、天候・設置技を含まない枠が3つ以上ある対象を選ぶ。
+        static List<int> SafeSlots(Entity e) => Enumerable.Range(0, e.Moves.Slots.Count)
+            .Where(i => e.Moves.Slots[i].Data.WeatherEffect == WeatherType.None
+                        && e.Moves.Slots[i].Data.FieldPlacement == FieldPlacement.None
+                        && !e.Moves.Slots[i].Data.SelfGuaranteedDeath).ToList();
+        var def = _sched.Roster.First(e => e.Faction == Faction.Player && SafeSlots(e).Count >= 3);
+        var safe = SafeSlots(def);
+        int s0 = safe[0], s1 = safe[1];
+
+        var savedPos = _sched.Roster.ToDictionary(e => e, e => e.GridPosition);
+        var savedTrait = (atk: atk.Stats.Trait, def: def.Stats.Trait, mate: mate.Stats.Trait);
+        var savedTypes = (def.Stats.Type1, def.Stats.Type2);
+        atk.Stats.Trait = ""; def.Stats.Trait = ""; mate.Stats.Trait = "";
+
+        MoveData Mv(string id) => MoveDatabase.Get(id);
+        void Fresh()
+        {
+            foreach (var x in _sched.Roster)
+            {
+                x.StatusEffects.Reset(); x.Stats.HealToFull(); x.LastUsedMoveSlot = -1; x.HeldItemId = null;
+                foreach (var s in x.Moves.Slots) s.CurrentPp = s.Data.MaxPp;
+            }
+            def.Stats.Type1 = savedTypes.Type1; def.Stats.Type2 = savedTypes.Type2;
+        }
+        void Place(Vector2I a, Vector2I d)
+        {
+            atk.PlaceAt(a); def.PlaceAt(d);
+            atk.FaceDirection(BattleTargeting.StepToward(a, d));
+            def.FaceDirection(BattleTargeting.StepToward(d, a));
+        }
+        // atk が move を def へ撃つ（命中すれば追加効果が乗る）。
+        void Hit(MoveData m)
+        {
+            def.Stats.HealToFull();
+            new AttackAction(atk, def, MakeSlot(atk, m), _floor).Execute(0);
+            def.Stats.HealToFull();
+        }
+        // def が自分の行動として slot を出す（行動の開始/終了通知つき）。PP の増減で出せたか分かる。
+        void Act(MoveSlot slot)
+        {
+            def.NotifyOwnActionStarting();
+            new AttackAction(def, atk, slot, _floor).Execute(0);
+            def.NotifyOwnActionEnded();
+            atk.Stats.HealToFull();
+        }
+        bool Used(MoveSlot slot)   // 出せたか（PP が減ったか）
+        {
+            int before = slot.CurrentPp;
+            Act(slot);
+            return slot.CurrentPp < before;
+        }
+        MoveSlot Real(int i) => def.Moves.Slots[i];
+
+        var phys = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+            .First(m => m.Category == MoveCategory.Physical && m.Range == MoveRange.Adjacent
+                        && m.Accuracy >= 100 && m.Power >= 40 && m.RankEffects.Count == 0
+                        && m.AilmentEffect == AilmentType.None && m.Restriction == RestrictionKind.None
+                        && m.RecoilHpPercent == 0 && !m.SelfStunNextTurn && !m.SelfGuaranteedDeath
+                        && m.WeaponTag == WeaponTag.None);
+        var far = new Vector2I(0, 0); var near2 = new Vector2I(0, 2);
+
+        // R1 シールスナップ
+        {
+            Fresh(); Place(far, near2);
+            def.LastUsedMoveSlot = s0;
+            Hit(Mv("rs_seal_snap"));
+            int rem = def.StatusEffects.RestrictionRemaining(RestrictionKind.SealLastMove);
+            bool sealed0 = !Used(Real(s0));          // 封じた技は出せない（1行動目）
+            bool other = Used(Real(s1));              // 別の技は出せる（2行動目）。ここで2行動が経過
+            bool freed = Used(Real(s0));              // 2行動後は解除
+            Fresh(); Place(far, near2);               // 未使用なら効果なし
+            Hit(Mv("rs_seal_snap"));
+            bool noEffect = !def.StatusEffects.HasRestriction(RestrictionKind.SealLastMove) && Used(Real(s0));
+            GD.Print($"[検証] R1 シールスナップ: 最後に使った技だけ2行動封じ・未使用なら効果なし: "
+                     + $"{(rem == 2 && sealed0 && other && freed && noEffect ? "OK" : "NG")} "
+                     + $"(残{rem} 封印中出せず={sealed0} 別技={other} 解除後={freed} 未使用時の効果なし={noEffect})");
+        }
+
+        // R2 プロヴォーク
+        {
+            Fresh(); Place(far, near2);
+            var status = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+                .First(m => m.Category == MoveCategory.Status && m.FieldPlacement == FieldPlacement.None
+                            && m.WeatherEffect == WeatherType.None);
+            bool beforeOk = Used(MakeSlot(def, status));        // かかる前は変化技を出せる
+            Fresh(); Place(far, near2);
+            Hit(Mv("rs_provoke"));
+            bool statusBlocked = !Used(MakeSlot(def, status));   // 1行動目: 変化技は出せない
+            bool attackOk = Used(MakeSlot(def, phys));           // 2行動目: 攻撃技は出せる
+            bool freed = Used(MakeSlot(def, status));            // 2行動後は解除
+            GD.Print($"[検証] R2 プロヴォーク: 2行動のあいだ変化技だけ出せない: "
+                     + $"{(beforeOk && statusBlocked && attackOk && freed ? "OK" : "NG")} "
+                     + $"(前={beforeOk} 変化技封じ={statusBlocked} 攻撃技={attackOk} 解除後={freed})");
+        }
+
+        // R3 リピートチャント（アンコール）
+        {
+            Fresh(); Place(new Vector2I(0, 1), near2);
+            def.LastUsedMoveSlot = s0;
+            Hit(Mv("rs_repeat_chant"));
+            bool applied = def.StatusEffects.EncoreSlot == s0;
+            // 別の技(s1)を出したつもりでも、最後に使った技(s0)へ差し替わる。
+            int p0 = Real(s0).CurrentPp, p1 = Real(s1).CurrentPp;
+            _sched.ResolveTurn(new BattleScheduler.Commitment(def, new AttackAction(def, atk, Real(s1), _floor), 0), default);
+            bool forced = Real(s0).CurrentPp == p0 - 1 && Real(s1).CurrentPp == p1;
+            // 1行動で解除: 次は提出どおり s1。
+            _sched.ResolveTurn(new BattleScheduler.Commitment(def, new AttackAction(def, atk, Real(s1), _floor), 0), default);
+            bool freed = Real(s1).CurrentPp == p1 - 1 && !def.StatusEffects.HasRestriction(RestrictionKind.Encore);
+
+            // 移動を出しても差し替わる。狙えない先なら不発（枠もPPも使わない）。
+            Fresh(); Place(new Vector2I(0, 1), near2);
+            int adj = safe.FirstOrDefault(i => Real(i).Data.Range == MoveRange.Adjacent, -1);
+            bool moveReplaced = false, fizzled = false;
+            if (adj >= 0)
+            {
+                def.LastUsedMoveSlot = adj;
+                Hit(Mv("rs_repeat_chant"));
+                int pa = Real(adj).CurrentPp;
+                _sched.ResolveTurn(new BattleScheduler.Commitment(def, new MoveAction(def, new Vector2I(1, 2)), 0), default);
+                moveReplaced = Real(adj).CurrentPp == pa - 1 && def.GridPosition == near2;
+
+                Fresh(); Place(new Vector2I(0, 1), near2);
+                def.LastUsedMoveSlot = adj;
+                Hit(Mv("rs_repeat_chant"));
+                int pa2 = Real(adj).CurrentPp, pb = Real(s0 == adj ? s1 : s0).CurrentPp;
+                _sched.ResolveTurn(new BattleScheduler.Commitment(def,
+                    new AttackAction(def, null, Real(s0 == adj ? s1 : s0), _floor, new Vector2I(6, 7)), 0), default);
+                fizzled = Real(adj).CurrentPp == pa2 && Real(s0 == adj ? s1 : s0).CurrentPp == pb
+                          && !def.StatusEffects.HasRestriction(RestrictionKind.Encore);
+            }
+            // 未使用なら効果なし。
+            Fresh(); Place(new Vector2I(0, 1), near2);
+            Hit(Mv("rs_repeat_chant"));
+            bool noEffect = def.StatusEffects.EncoreSlot < 0;
+            GD.Print($"[検証] R3 リピートチャント: 次の1行動を最後に使った技へ強制(移動も差し替え・狙えなければ不発)・未使用なら効果なし: "
+                     + $"{(applied && forced && freed && moveReplaced && fizzled && noEffect ? "OK" : "NG")} "
+                     + $"(付与={applied} 差し替え={forced} 解除後={freed} 移動→差し替え={moveReplaced} 不発={fizzled} 未使用={noEffect})");
+        }
+
+        // R4 グリッチボルト（持ち物無効化。3サイクル）
+        {
+            string ItemWith(BattleItemEffect fx) => ItemDatabase.AllIds()
+                .First(id => ItemDatabase.Get(id)?.BattleEffect == fx);
+            string plate = ItemWith(BattleItemEffect.PhysDefUp30), shell = ItemWith(BattleItemEffect.WeaknessCut75);
+
+            Fresh(); Place(far, near2);
+            int dNone = MeasureHit(atk, def, phys, null);
+            int dItem = MeasureHit(atk, def, phys, plate);
+            Hit(Mv("rs_item_jam"));
+            int rem = def.StatusEffects.RestrictionRemaining(RestrictionKind.ItemJam);
+            int dJam = MeasureHit(atk, def, phys, plate);                       // 持続型が止まる
+            _sched.EndCycle(); bool c1 = def.StatusEffects.IsItemJammed;
+            _sched.EndCycle(); bool c2 = def.StatusEffects.IsItemJammed;
+            _sched.EndCycle(); bool c3 = def.StatusEffects.IsItemJammed;        // 3サイクル目の終了で解除
+            int dFree = MeasureHit(atk, def, phys, plate);
+
+            // 使い切り型: 止められている間は発動も消費もしない。
+            var water = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+                .First(m => m.Type == "Water" && m.Range == MoveRange.Adjacent && m.Accuracy >= 100
+                            && m.Power >= 40 && m.RankEffects.Count == 0 && m.AilmentEffect == AilmentType.None
+                            && m.Restriction == RestrictionKind.None);
+            Fresh(); Place(far, near2);
+            def.Stats.Type1 = "Fire"; def.Stats.Type2 = "";   // 水技が弱点になる（Fresh は型を戻すので後に置く）
+            def.HeldItemId = shell;
+            Hit(Mv("rs_item_jam"));
+            Hit(water);
+            bool keptWhileJam = !def.HeldItemConsumed;
+            Fresh(); Place(far, near2);
+            def.Stats.Type1 = "Fire"; def.Stats.Type2 = "";
+            def.HeldItemId = shell;
+            Hit(water);
+            bool consumedFree = def.HeldItemConsumed;
+            GD.Print($"[検証] R4 グリッチボルト: 3サイクル持ち物の効果なし(使い切り型は消費もしない)・解除後は戻る: "
+                     + $"{(dItem < dNone && rem == 3 && dJam == dNone && c1 && c2 && !c3 && dFree == dItem && keptWhileJam && consumedFree ? "OK" : "NG")} "
+                     + $"(素{dNone} 持ち物{dItem} 無効化中{dJam} 解除後{dFree} / 残{rem} 経過後={c1},{c2},{c3} / 使い切り: 無効化中は未消費={keptWhileJam} 解除後は消費={consumedFree})");
+        }
+
+        // R5 タイドフック（引き寄せ）
+        {
+            Fresh(); Place(far, near2);
+            Hit(Mv("rs_tide_hook"));
+            bool pulled = def.GridPosition == new Vector2I(0, 1);
+            // 引き寄せ先が使用者のマス（隣接）なら動かない。
+            Fresh(); Place(new Vector2I(0, 1), near2);
+            Hit(Mv("rs_tide_hook"));
+            bool adjacentStays = def.GridPosition == near2;
+            // 引き寄せ先に他の個体が居れば動かない。
+            Fresh(); Place(far, near2);
+            mate.PlaceAt(new Vector2I(0, 1));
+            Hit(Mv("rs_tide_hook"));
+            bool occupiedStays = def.GridPosition == near2;
+            mate.PlaceAt(savedPos[mate]);
+            GD.Print($"[検証] R5 タイドフック: 使用者へ向けて1マス引き寄せる(先が埋まっている/隣接なら動かない): "
+                     + $"{(pulled && adjacentStays && occupiedStays ? "OK" : "NG")} "
+                     + $"(引き寄せ={pulled} 隣接時={adjacentStays} 先が埋まる時={occupiedStays})");
+        }
+
+        // R6 フロストラグ（優先度-1）
+        {
+            Fresh(); Place(far, near2);
+            int before = BattleScheduler.EffectivePriority(def, null);
+            Hit(Mv("rs_frost_lag"));
+            int during = BattleScheduler.EffectivePriority(def, null);
+            // 実効優先度が下がった側は、同じ優先度0の相手より必ず後に動く（引数の順に依らない）。
+            var low = new BattleScheduler.Commitment(def, new WaitAction(def), during);
+            var normal = new BattleScheduler.Commitment(atk, new WaitAction(atk), 0);
+            bool later = _sched.Order(low, normal)[0].Actor == atk && _sched.Order(normal, low)[0].Actor == atk;
+            // 次の行動の優先度に使われたら使い切り（1行動分）。
+            _sched.ResolveTurn(low, default);
+            int after = BattleScheduler.EffectivePriority(def, null);
+            GD.Print($"[検証] R6 フロストラグ: 次の1行動だけ実効優先度-1(優先度0の相手より後)・使い切り: "
+                     + $"{(before == 0 && during == -1 && later && after == 0 ? "OK" : "NG")} "
+                     + $"(前{before} 中{during} 後{after} 相手より後={later})");
+        }
+
+        // R7 サンドイーター（PP-2）
+        {
+            Fresh(); Place(far, near2);
+            def.LastUsedMoveSlot = s0;
+            Real(s0).CurrentPp = 5;
+            int other = Real(s1).CurrentPp;
+            Hit(Mv("rs_sand_eater"));
+            bool minus2 = Real(s0).CurrentPp == 3 && Real(s1).CurrentPp == other;
+            Real(s0).CurrentPp = 1;
+            Hit(Mv("rs_sand_eater"));
+            bool floor0 = Real(s0).CurrentPp == 0;
+            Fresh(); Place(far, near2);
+            int total = def.Moves.Slots.Sum(s => s.CurrentPp);
+            Hit(Mv("rs_sand_eater"));
+            bool unused = def.Moves.Slots.Sum(s => s.CurrentPp) == total;
+            GD.Print($"[検証] R7 サンドイーター: 最後に使った技のPP-2(0未満にならない)・未使用なら何も起きない: "
+                     + $"{(minus2 && floor0 && unused ? "OK" : "NG")} (-2={minus2} 下限0={floor0} 未使用={unused})");
+        }
+
+        // R8 スコーチスモッグ（回復封じ。範囲技で味方も巻き込む）
+        {
+            Fresh(); Place(far, near2);
+            mate.PlaceAt(new Vector2I(1, 2));
+            Hit(Mv("rs_scorch_smog"));
+            int rem = def.StatusEffects.RestrictionRemaining(RestrictionKind.HealBlock);
+            bool mateHit = mate.StatusEffects.IsHealBlocked;
+            def.Stats.TakeDamage(20);
+            int hp = def.Stats.CurrentHp;
+            def.Stats.Heal(10);
+            bool blocked = def.Stats.CurrentHp == hp;
+            // ドレインも止まる。
+            var drain = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+                .FirstOrDefault(m => m.DrainHpPercent > 0 && m.Range == MoveRange.Adjacent && m.Power > 0
+                                     && m.Accuracy >= 100 && m.RecoilHpPercent == 0 && m.AilmentEffect == AilmentType.None);
+            bool drainBlocked = drain != null;
+            if (drain != null)
+            {
+                atk.StatusEffects.TryApplyRestriction(RestrictionKind.HealBlock, 3, -1);
+                atk.Stats.TakeDamage(atk.Stats.MaxHp / 2);
+                int ahp = atk.Stats.CurrentHp;
+                Hit(drain);
+                drainBlocked = atk.Stats.CurrentHp == ahp;
+                atk.StatusEffects.Reset();
+            }
+            _sched.EndCycle(); _sched.EndCycle();
+            bool stillBlocked = def.StatusEffects.IsHealBlocked;
+            _sched.EndCycle();
+            def.Stats.TakeDamage(20); hp = def.Stats.CurrentHp;
+            def.Stats.Heal(10);
+            bool freed = def.Stats.CurrentHp == hp + 10;
+            // 全回復(HealToFull)は対象外。
+            def.StatusEffects.TryApplyRestriction(RestrictionKind.HealBlock, 3, -1);
+            def.Stats.TakeDamage(20); def.Stats.HealToFull();
+            bool fullOk = def.Stats.CurrentHp == def.Stats.MaxHp;
+            mate.PlaceAt(savedPos[mate]);
+            GD.Print($"[検証] R8 スコーチスモッグ: 3サイクル回復しない(範囲で味方も巻き込む・ドレインも止まる・全回復は対象外)・解除後は回復: "
+                     + $"{(rem == 3 && mateHit && blocked && drainBlocked && stillBlocked && freed && fullOk ? "OK" : "NG")} "
+                     + $"(残{rem} 味方={mateHit} 回復封じ={blocked} ドレイン={drainBlocked} 2サイクル後も={stillBlocked} 解除後={freed} 全回復={fullOk})");
+        }
+
+        // R9 ドラゴンアンカー（ランク上昇封じ）
+        {
+            Fresh(); Place(far, near2);
+            def.StatusEffects.ApplyRankDelta(RankStat.Atk, 2);
+            bool upBefore = def.StatusEffects.AtkRank == 2;
+            def.StatusEffects.Reset();
+            Hit(Mv("rs_dragon_anchor"));
+            def.StatusEffects.ApplyRankDelta(RankStat.Atk, 2);
+            float mulBefore = def.StatusEffects.GetAtkMultiplier();
+            def.StatusEffects.ArmTemporaryRankBuff(1, 1, 2);
+            bool noUp = def.StatusEffects.AtkRank == 0 && def.StatusEffects.GetAtkMultiplier() == mulBefore;
+            def.StatusEffects.ApplyRankDelta(RankStat.Def, -1);
+            bool downOk = def.StatusEffects.DefRank == -1;
+            Act(MakeSlot(def, phys)); Act(MakeSlot(def, phys)); Act(MakeSlot(def, phys));   // 3行動で解除
+            def.StatusEffects.ApplyRankDelta(RankStat.Atk, 2);
+            bool freed = def.StatusEffects.AtkRank == 2;
+            GD.Print($"[検証] R9 ドラゴンアンカー: 3行動のあいだランクが上がらない(下降は通る)・解除後は上がる: "
+                     + $"{(upBefore && noUp && downOk && freed ? "OK" : "NG")} "
+                     + $"(前={upBefore} 上昇封じ={noUp} 下降={downOk} 解除後={freed})");
+        }
+
+        // R10 ショートリーシュ（Adjacent以外の射程を封じる）
+        {
+            Fresh(); Place(far, near2);
+            var ranged = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+                .First(m => m.Category != MoveCategory.Status && m.Range == MoveRange.Line && m.Accuracy >= 100
+                            && m.Power >= 40 && m.RankEffects.Count == 0 && m.AilmentEffect == AilmentType.None
+                            && m.RecoilHpPercent == 0 && !m.SelfStunNextTurn);
+            bool rangedBefore = Used(MakeSlot(def, ranged));
+            Fresh(); Place(far, near2);
+            Hit(Mv("rs_short_leash"));
+            bool rangedBlocked = !Used(MakeSlot(def, ranged));
+            bool adjacentOk = Used(MakeSlot(def, phys));
+            bool freed = Used(MakeSlot(def, ranged));
+            GD.Print($"[検証] R10 ショートリーシュ: 2行動のあいだ射程Adjacent以外の技を出せない: "
+                     + $"{(rangedBefore && rangedBlocked && adjacentOk && freed ? "OK" : "NG")} "
+                     + $"(前={rangedBefore} 射程技封じ={rangedBlocked} 隣接技={adjacentOk} 解除後={freed})");
+        }
+
+        // R11 ナグジャブ（同じ技の連続を封じる）
+        {
+            Fresh(); Place(far, near2);
+            bool first = Used(Real(s0));                  // 直前の技 = s0
+            Hit(Mv("rs_nag_jab"));
+            bool repeatBlocked = !Used(Real(s0));          // 1行動目: 同じ技は出せない
+            bool otherOk = Used(Real(s1));                 // 2行動目: 別の技(直前=s1になる)
+            bool repeat2Blocked = !Used(Real(s1));         // 3行動目: また同じ技は出せない(ここで解除)
+            bool freed = Used(Real(s1));                   // 解除後は連続して出せる
+            GD.Print($"[検証] R11 ナグジャブ: 3行動のあいだ直前と同じ技を続けて出せない(別の技は可)・解除後は出せる: "
+                     + $"{(first && repeatBlocked && otherOk && repeat2Blocked && freed ? "OK" : "NG")} "
+                     + $"(初回={first} 連続封じ={repeatBlocked} 別技={otherOk} 再連続封じ={repeat2Blocked} 解除後={freed})");
+        }
+
+        // R12 ホロウタッチ（虚脱を確定付与）
+        {
+            Fresh(); Place(far, near2);
+            Hit(Mv("rs_hollow_touch"));
+            bool hollow = def.StatusEffects.IsHollow;
+            // 他の状態異常中は付かない(主スロット排他)・きょうじんなからだは追加効果を通さない。
+            Fresh(); Place(far, near2);
+            def.StatusEffects.TryApplyAilment(AilmentType.Burn);
+            Hit(Mv("rs_hollow_touch"));
+            bool exclusive = def.StatusEffects.Ailment == AilmentType.Burn;
+            Fresh(); Place(far, near2);
+            def.Stats.Trait = "kyoujin_na_karada";
+            Hit(Mv("rs_hollow_touch"));
+            bool tough = !def.StatusEffects.IsHollow;
+            def.Stats.Trait = "";
+            GD.Print($"[検証] R12 ホロウタッチ: 1発で虚脱を確定付与(他の状態異常中・きょうじんなからだには付かない): "
+                     + $"{(hollow && exclusive && tough ? "OK" : "NG")} (付与={hollow} 排他={exclusive} 強靭={tough})");
+        }
+
+        // 各制限技の習得者が1〜2種で表どおり。1種が持つ制限技は1つだけ。
+        {
+            var expected = new Dictionary<string, string[]>
+            {
+                ["rs_seal_snap"] = new[] { "189", "145" }, ["rs_provoke"] = new[] { "080", "168" },
+                ["rs_repeat_chant"] = new[] { "082", "170" }, ["rs_item_jam"] = new[] { "185", "161" },
+                ["rs_tide_hook"] = new[] { "075", "128" }, ["rs_frost_lag"] = new[] { "119", "095" },
+                ["rs_sand_eater"] = new[] { "139", "140" }, ["rs_scorch_smog"] = new[] { "104", "176" },
+                ["rs_dragon_anchor"] = new[] { "160", "124" }, ["rs_short_leash"] = new[] { "066", "152" },
+                ["rs_nag_jab"] = new[] { "074", "033" }, ["rs_hollow_touch"] = new[] { "157B", "150" },
+            };
+            var all = SpeciesDatabase.Instance.All.Values.ToList();
+            var bad = new List<string>();
+            foreach (var (mid, want) in expected)
+            {
+                var got = all.Where(sp => sp.Learnset.Any(l => l.MoveId == mid)).Select(sp => sp.SpeciesId)
+                             .OrderBy(x => x).ToArray();
+                if (!got.SequenceEqual(want.OrderBy(x => x)) || got.Length is < 1 or > 2) bad.Add(mid);
+                if (MoveDatabase.Get(mid) is not { Power: > 0 }) bad.Add(mid + ":威力なし");
+            }
+            int multi = all.Count(sp => sp.Learnset.Select(l => l.MoveId).Count(id => id.StartsWith("rs_")) > 1);
+            int total = MoveDatabase.AllIds().Count(id => id.StartsWith("rs_"));
+            GD.Print($"[検証] 制限技12種の習得者が各1〜2種で表どおり(1種が持つのは1つだけ): "
+                     + $"{(bad.Count == 0 && multi == 0 && total == 12 ? "OK" : "NG " + string.Join(",", bad))} "
+                     + $"(技{total}種 複数習得{multi}種)");
+        }
+
+        // 後始末。
+        Fresh();
+        foreach (var (e, p) in savedPos) e.PlaceAt(p);
+        atk.Stats.Trait = savedTrait.atk; def.Stats.Trait = savedTrait.def; mate.Stats.Trait = savedTrait.mate;
+        atk.FaceDirection(BattleBoard.Facing(Faction.Enemy));
+        def.FaceDirection(BattleBoard.Facing(Faction.Player));
     }
 
     private void RunBattle()

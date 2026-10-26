@@ -69,6 +69,10 @@ internal class MoveJson
     // Multi-hit kit (optional; only the multi-hit moves set these).
     [JsonPropertyName("multi_hit")] public string MultiHit { get; set; } = "None";
     [JsonPropertyName("multi_hit_count")] public int MultiHitCount { get; set; }
+
+    // 制限技 (optional; only the rs_ moves set these).
+    [JsonPropertyName("restriction")] public string Restriction { get; set; } = "None";
+    [JsonPropertyName("restriction_turns")] public int RestrictionTurns { get; set; }
 }
 
 // JSON-driven move definitions. DungeonScene._Ready() calls Load()
@@ -146,6 +150,8 @@ public static class MoveDatabase
                 WeatherTurns = entry.WeatherTurns,
                 MultiHit = Enum.TryParse<MultiHitMode>(entry.MultiHit, out var multiHit) ? multiHit : MultiHitMode.None,
                 MultiHitCount = entry.MultiHitCount,
+                Restriction = Enum.TryParse<RestrictionKind>(entry.Restriction, out var restriction) ? restriction : RestrictionKind.None,
+                RestrictionTurns = entry.RestrictionTurns,
             };
 
             // Normalise both authored shapes into one list. "rank_effects"
