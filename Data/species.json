@@ -1154,6 +1154,10 @@
         "move_id": "gap_water_s_65"
       },
       {
+        "level": 14,
+        "move_id": "MV_231"
+      },
+      {
         "level": 16,
         "move_id": "MVP_050"
       },
@@ -2301,6 +2305,10 @@
       },
       {
         "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
+        "level": 11,
         "move_id": "mvn_099"
       },
       {
@@ -2400,6 +2408,10 @@
         "move_id": "mvs_dragon_def_accuracy"
       },
       {
+        "level": 5,
+        "move_id": "MV_285"
+      },
+      {
         "level": 6,
         "move_id": "mvn_059"
       },
@@ -2430,6 +2442,10 @@
       {
         "level": 11,
         "move_id": "mvn_041"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_055"
       },
       {
         "level": 12,
@@ -2539,6 +2555,10 @@
         "move_id": "mvs_electric_evasion_crit"
       },
       {
+        "level": 5,
+        "move_id": "MV_185"
+      },
+      {
         "level": 6,
         "move_id": "shockwave"
       },
@@ -2581,6 +2601,10 @@
       {
         "level": 11,
         "move_id": "mvn_041"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_055"
       },
       {
         "level": 12,
@@ -2712,6 +2736,10 @@
       {
         "level": 10,
         "move_id": "gap_ice_s_50"
+      },
+      {
+        "level": 12,
+        "move_id": "MV_191"
       },
       {
         "level": 13,
@@ -2855,6 +2883,10 @@
       {
         "level": 11,
         "move_id": "gap_neutral_s_55"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 11,
@@ -4133,6 +4165,10 @@
       },
       {
         "level": 14,
+        "move_id": "MV_231"
+      },
+      {
+        "level": 14,
         "move_id": "gap_grass_s_70"
       },
       {
@@ -4223,6 +4259,10 @@
         "move_id": "mvs_fire_atk_evasion"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 6,
         "move_id": "mvn_059"
       },
@@ -4269,6 +4309,10 @@
       {
         "level": 14,
         "move_id": "MVP_027"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 14,
@@ -5072,6 +5116,10 @@
         "move_id": "gap_ice_s_25"
       },
       {
+        "level": 6,
+        "move_id": "MV_205"
+      },
+      {
         "level": 7,
         "move_id": "mvw_snow"
       },
@@ -5090,6 +5138,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_ice"
+      },
+      {
+        "level": 12,
+        "move_id": "MV_191"
       },
       {
         "level": 13,
@@ -5207,6 +5259,10 @@
         "move_id": "mvs_ep_ground"
       },
       {
+        "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
         "level": 13,
         "move_id": "MV_268"
       },
@@ -5311,6 +5367,10 @@
       },
       {
         "level": 4,
+        "move_id": "mvn_092"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_fire_atk_crit"
       },
       {
@@ -5352,6 +5412,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_fire"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 12,
@@ -5444,6 +5508,10 @@
       {
         "level": 4,
         "move_id": "gap_dark_p_20"
+      },
+      {
+        "level": 4,
+        "move_id": "mvn_092"
       },
       {
         "level": 4,
@@ -5660,6 +5728,10 @@
       {
         "level": 13,
         "move_id": "void_gap_dark_s_65"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 14,
@@ -6468,6 +6540,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_280"
+      },
+      {
+        "level": 4,
         "move_id": "bloom_garden"
       },
       {
@@ -6484,7 +6560,15 @@
       },
       {
         "level": 5,
+        "move_id": "MV_285"
+      },
+      {
+        "level": 5,
         "move_id": "gap_dragon_s_25"
+      },
+      {
+        "level": 5,
+        "move_id": "mvn_060"
       },
       {
         "level": 7,
@@ -6595,11 +6679,19 @@
       },
       {
         "level": 4,
+        "move_id": "MV_280"
+      },
+      {
+        "level": 4,
         "move_id": "gap_ice_s_20"
       },
       {
         "level": 5,
         "move_id": "void_MV_127"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_185"
       },
       {
         "level": 6,
@@ -6743,6 +6835,10 @@
       {
         "level": 5,
         "move_id": "gap_ice_s_25"
+      },
+      {
+        "level": 5,
+        "move_id": "mvn_060"
       },
       {
         "level": 6,
@@ -6956,6 +7052,10 @@
         "move_id": "MVP_133"
       },
       {
+        "level": 17,
+        "move_id": "MV_196"
+      },
+      {
         "level": 19,
         "move_id": "MVP_136"
       }
@@ -7049,6 +7149,10 @@
       {
         "level": 6,
         "move_id": "mvn_059"
+      },
+      {
+        "level": 7,
+        "move_id": "MV_215"
       },
       {
         "level": 7,
@@ -7475,6 +7579,10 @@
       },
       {
         "level": 6,
+        "move_id": "MV_205"
+      },
+      {
+        "level": 6,
         "move_id": "gap_dark_p_30"
       },
       {
@@ -7667,6 +7775,10 @@
       },
       {
         "level": 10,
+        "move_id": "MV_153"
+      },
+      {
+        "level": 10,
         "move_id": "mvs_ep_neutral"
       },
       {
@@ -7750,6 +7862,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_280"
+      },
+      {
+        "level": 4,
         "move_id": "jiware"
       },
       {
@@ -7815,6 +7931,10 @@
       {
         "level": 11,
         "move_id": "MV_258"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_055"
       },
       {
         "level": 12,
@@ -8028,8 +8148,16 @@
         "move_id": "MV_129"
       },
       {
+        "level": 4,
+        "move_id": "void_mvn_092"
+      },
+      {
         "level": 6,
         "move_id": "void_dark_shot"
+      },
+      {
+        "level": 7,
+        "move_id": "MV_215"
       },
       {
         "level": 7,
@@ -8066,6 +8194,10 @@
       {
         "level": 12,
         "move_id": "gap_water_s_60"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 15,
@@ -8153,6 +8285,10 @@
         "move_id": "gap_ice_s_20"
       },
       {
+        "level": 6,
+        "move_id": "MV_205"
+      },
+      {
         "level": 7,
         "move_id": "gap_ice_s_35"
       },
@@ -8199,6 +8335,10 @@
       {
         "level": 11,
         "move_id": "gap_ice_s_55"
+      },
+      {
+        "level": 12,
+        "move_id": "MV_191"
       },
       {
         "level": 14,
@@ -8337,6 +8477,10 @@
         "move_id": "mvn_028"
       },
       {
+        "level": 9,
+        "move_id": "mvn_040"
+      },
+      {
         "level": 10,
         "move_id": "MVP_059"
       },
@@ -8383,6 +8527,10 @@
       {
         "level": 17,
         "move_id": "MVP_073"
+      },
+      {
+        "level": 17,
+        "move_id": "MV_186"
       },
       {
         "level": 19,
@@ -8514,6 +8662,10 @@
       {
         "level": 13,
         "move_id": "gap_water_s_65"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 16,
@@ -9158,6 +9310,10 @@
       },
       {
         "level": 4,
+        "move_id": "mvn_092"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_water_def_accuracy"
       },
       {
@@ -9199,6 +9355,14 @@
       {
         "level": 11,
         "move_id": "gap_neutral_s_55"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
+      },
+      {
+        "level": 12,
+        "move_id": "MV_191"
       },
       {
         "level": 12,
@@ -9332,6 +9496,10 @@
         "move_id": "void_mvn_098"
       },
       {
+        "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
         "level": 12,
         "move_id": "mvn_098"
       },
@@ -9366,6 +9534,10 @@
       {
         "level": 21,
         "move_id": "void_gap_dark_s_100"
+      },
+      {
+        "level": 25,
+        "move_id": "void_mvn_092"
       }
     ],
     "evolution": null,
@@ -9410,6 +9582,10 @@
       {
         "level": 3,
         "move_id": "mvn_023"
+      },
+      {
+        "level": 4,
+        "move_id": "mvn_092"
       },
       {
         "level": 4,
@@ -9466,6 +9642,10 @@
       {
         "level": 13,
         "move_id": "gap_water_s_65"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 14,
@@ -9634,6 +9814,10 @@
       {
         "level": 14,
         "move_id": "MVP_027"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 15,
@@ -11943,12 +12127,20 @@
         "move_id": "mvs_ice_atk_crit"
       },
       {
+        "level": 5,
+        "move_id": "MV_185"
+      },
+      {
         "level": 7,
         "move_id": "gap_electric_s_35"
       },
       {
         "level": 9,
         "move_id": "MVP_063"
+      },
+      {
+        "level": 9,
+        "move_id": "mvn_040"
       },
       {
         "level": 11,
@@ -12001,6 +12193,10 @@
       {
         "level": 19,
         "move_id": "gap_electric_s_95"
+      },
+      {
+        "level": 20,
+        "move_id": "MV_101"
       },
       {
         "level": 21,
@@ -12197,6 +12393,10 @@
       {
         "level": 6,
         "move_id": "dark_shot"
+      },
+      {
+        "level": 6,
+        "move_id": "mvn_082"
       },
       {
         "level": 7,
@@ -12626,6 +12826,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_247"
+      },
+      {
+        "level": 4,
         "move_id": "gap_fire_p_20"
       },
       {
@@ -12639,6 +12843,10 @@
       {
         "level": 5,
         "move_id": "MV_127"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_285"
       },
       {
         "level": 7,
@@ -13301,6 +13509,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_280"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_neutral_atk_accuracy"
       },
       {
@@ -13312,8 +13524,16 @@
         "move_id": "MV_160"
       },
       {
+        "level": 5,
+        "move_id": "MV_185"
+      },
+      {
         "level": 6,
         "move_id": "mvn_004"
+      },
+      {
+        "level": 6,
+        "move_id": "mvn_082"
       },
       {
         "level": 7,
@@ -13419,8 +13639,16 @@
         "move_id": "MV_122"
       },
       {
+        "level": 4,
+        "move_id": "MV_280"
+      },
+      {
         "level": 5,
         "move_id": "MV_127"
+      },
+      {
+        "level": 6,
+        "move_id": "mvn_082"
       },
       {
         "level": 7,
@@ -13572,6 +13800,10 @@
         "move_id": "mvn_028"
       },
       {
+        "level": 9,
+        "move_id": "mvn_040"
+      },
+      {
         "level": 10,
         "move_id": "MVP_124"
       },
@@ -13582,6 +13814,10 @@
       {
         "level": 11,
         "move_id": "mvn_086"
+      },
+      {
+        "level": 12,
+        "move_id": "MV_191"
       },
       {
         "level": 14,
@@ -13669,6 +13905,10 @@
         "move_id": "mvn_067"
       },
       {
+        "level": 4,
+        "move_id": "MV_280"
+      },
+      {
         "level": 6,
         "move_id": "mvn_048"
       },
@@ -13707,6 +13947,18 @@
       {
         "level": 10,
         "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
+        "level": 12,
+        "move_id": "MV_191"
       },
       {
         "level": 13,
@@ -14013,6 +14265,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_fire"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 12,
@@ -14672,6 +14928,10 @@
         "move_id": "MV_160"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 6,
         "move_id": "gap_fire_p_30"
       },
@@ -14935,6 +15195,10 @@
         "move_id": "mvs_grass_def_crit"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 6,
         "move_id": "mvn_003"
       },
@@ -14945,6 +15209,10 @@
       {
         "level": 6,
         "move_id": "mvn_059"
+      },
+      {
+        "level": 7,
+        "move_id": "MV_215"
       },
       {
         "level": 7,
@@ -15102,6 +15370,10 @@
         "move_id": "mvs_ep_fire"
       },
       {
+        "level": 11,
+        "move_id": "mvn_022"
+      },
+      {
         "level": 12,
         "move_id": "gap_fire_s_60"
       },
@@ -15208,6 +15480,10 @@
       },
       {
         "level": 5,
+        "move_id": "MV_185"
+      },
+      {
+        "level": 5,
         "move_id": "void_mvh_dark"
       },
       {
@@ -15229,6 +15505,10 @@
       {
         "level": 10,
         "move_id": "MV_250"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 12,
@@ -16047,6 +16327,10 @@
         "move_id": "gap_ice_s_55"
       },
       {
+        "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
         "level": 12,
         "move_id": "gap_electric_s_60"
       },
@@ -16160,6 +16444,10 @@
       {
         "level": 10,
         "move_id": "mvn_018"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_055"
       },
       {
         "level": 12,
@@ -16392,6 +16680,10 @@
         "move_id": "mvs_electric_evasion_crit"
       },
       {
+        "level": 5,
+        "move_id": "MV_185"
+      },
+      {
         "level": 7,
         "move_id": "gap_electric_s_35"
       },
@@ -16426,6 +16718,10 @@
       {
         "level": 13,
         "move_id": "MV_151"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 14,
@@ -16522,6 +16818,10 @@
       {
         "level": 4,
         "move_id": "mvs_grass_def_crit"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_285"
       },
       {
         "level": 5,
@@ -16682,6 +16982,10 @@
       {
         "level": 4,
         "move_id": "MV_129"
+      },
+      {
+        "level": 4,
+        "move_id": "void_mvn_092"
       },
       {
         "level": 5,
@@ -17429,6 +17733,10 @@
         "move_id": "MV_211"
       },
       {
+        "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
         "level": 13,
         "move_id": "gap_ice_s_65"
       },
@@ -17525,6 +17833,10 @@
       },
       {
         "level": 7,
+        "move_id": "MV_215"
+      },
+      {
+        "level": 7,
         "move_id": "mvw_rain"
       },
       {
@@ -17562,6 +17874,10 @@
       {
         "level": 14,
         "move_id": "MV_193"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 15,
@@ -17641,6 +17957,14 @@
       },
       {
         "level": 4,
+        "move_id": "MV_247"
+      },
+      {
+        "level": 4,
+        "move_id": "mvn_092"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_water_def_accuracy"
       },
       {
@@ -17654,6 +17978,10 @@
       {
         "level": 6,
         "move_id": "mvn_080"
+      },
+      {
+        "level": 7,
+        "move_id": "MV_215"
       },
       {
         "level": 8,
@@ -17800,6 +18128,10 @@
         "move_id": "gap_electric_p_25"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 6,
         "move_id": "mvn_059"
       },
@@ -17914,6 +18246,10 @@
       {
         "level": 4,
         "move_id": "mvs_ground_atk_def"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_285"
       },
       {
         "level": 5,
@@ -18066,6 +18402,10 @@
       {
         "level": 4,
         "move_id": "mvs_ice_atk_evasion"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_285"
       },
       {
         "level": 6,
@@ -18790,6 +19130,10 @@
         "move_id": "MV_250"
       },
       {
+        "level": 11,
+        "move_id": "mvn_022"
+      },
+      {
         "level": 13,
         "move_id": "MV_248"
       },
@@ -18888,6 +19232,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_247"
+      },
+      {
+        "level": 4,
         "move_id": "gap_grass_s_20"
       },
       {
@@ -18933,6 +19281,10 @@
       {
         "level": 11,
         "move_id": "MV_245"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 12,
@@ -19032,6 +19384,10 @@
         "move_id": "MV_160"
       },
       {
+        "level": 5,
+        "move_id": "MV_285"
+      },
+      {
         "level": 6,
         "move_id": "gap_water_s_30"
       },
@@ -19066,6 +19422,10 @@
       {
         "level": 12,
         "move_id": "gap_water_s_60"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 15,
@@ -19147,6 +19507,10 @@
       {
         "level": 4,
         "move_id": "mvs_electric_evasion_crit"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_185"
       },
       {
         "level": 6,
@@ -19300,6 +19664,10 @@
         "move_id": "MVP_002"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 6,
         "move_id": "MVP_001"
       },
@@ -19443,6 +19811,10 @@
         "move_id": "MV_160"
       },
       {
+        "level": 5,
+        "move_id": "MV_185"
+      },
+      {
         "level": 6,
         "move_id": "gap_grass_p_30"
       },
@@ -19477,6 +19849,10 @@
       {
         "level": 9,
         "move_id": "MVP_161"
+      },
+      {
+        "level": 9,
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -20121,6 +20497,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_280"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_ice_atk_crit"
       },
       {
@@ -20154,6 +20534,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_ice"
+      },
+      {
+        "level": 12,
+        "move_id": "MV_191"
       },
       {
         "level": 14,
@@ -20250,6 +20634,10 @@
       {
         "level": 3,
         "move_id": "void_mvn_089"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_280"
       },
       {
         "level": 4,
@@ -20431,6 +20819,10 @@
         "move_id": "poison_fog"
       },
       {
+        "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
         "level": 14,
         "move_id": "MVP_087"
       },
@@ -20520,6 +20912,10 @@
       {
         "level": 4,
         "move_id": "mvs_grass_def_crit"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_285"
       },
       {
         "level": 6,
@@ -20668,6 +21064,10 @@
       {
         "level": 4,
         "move_id": "mvs_grass_def_crit"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_285"
       },
       {
         "level": 5,
@@ -20849,6 +21249,10 @@
         "move_id": "gap_ice_s_25"
       },
       {
+        "level": 6,
+        "move_id": "MV_205"
+      },
+      {
         "level": 7,
         "move_id": "gap_ice_s_35"
       },
@@ -20907,6 +21311,10 @@
       {
         "level": 11,
         "move_id": "gap_ice_s_55"
+      },
+      {
+        "level": 12,
+        "move_id": "MV_191"
       },
       {
         "level": 13,
@@ -21259,6 +21667,10 @@
         "move_id": "gap_dragon_p_25"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 6,
         "move_id": "ice_cutter"
       },
@@ -21440,6 +21852,10 @@
         "move_id": "MVP_144"
       },
       {
+        "level": 11,
+        "move_id": "mvn_022"
+      },
+      {
         "level": 12,
         "move_id": "MVP_025"
       },
@@ -21561,6 +21977,10 @@
       },
       {
         "level": 7,
+        "move_id": "MV_215"
+      },
+      {
+        "level": 7,
         "move_id": "gap_fire_s_35"
       },
       {
@@ -21578,6 +21998,10 @@
       {
         "level": 10,
         "move_id": "MV_246"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 11,
@@ -21662,6 +22086,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_247"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_fire_atk_crit"
       },
       {
@@ -21691,6 +22119,10 @@
       {
         "level": 11,
         "move_id": "gap_neutral_s_55"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 11,
@@ -21796,6 +22228,10 @@
       {
         "level": 4,
         "move_id": "mvs_ground_atk_def"
+      },
+      {
+        "level": 6,
+        "move_id": "MV_205"
       },
       {
         "level": 7,
@@ -21923,6 +22359,10 @@
       {
         "level": 4,
         "move_id": "mvs_grass_def_crit"
+      },
+      {
+        "level": 5,
+        "move_id": "mvn_060"
       },
       {
         "level": 7,
@@ -22205,6 +22645,10 @@
       {
         "level": 4,
         "move_id": "mvs_grass_def_crit"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_285"
       },
       {
         "level": 7,
@@ -22975,6 +23419,10 @@
         "move_id": "mvs_ep_fire"
       },
       {
+        "level": 11,
+        "move_id": "mvn_022"
+      },
+      {
         "level": 12,
         "move_id": "mvn_098"
       },
@@ -23321,6 +23769,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_247"
+      },
+      {
+        "level": 4,
         "move_id": "mvs_dark_accuracy_evasion"
       },
       {
@@ -23374,6 +23826,10 @@
       {
         "level": 10,
         "move_id": "poison_fog"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 12,
@@ -23801,6 +24257,10 @@
       {
         "level": 14,
         "move_id": "MVP_126"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_193"
       },
       {
         "level": 16,
@@ -24400,6 +24860,10 @@
         "move_id": "mvn_056"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 6,
         "move_id": "mvn_059"
       },
@@ -24438,6 +24902,10 @@
       {
         "level": 14,
         "move_id": "MV_193"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 14,
@@ -24522,6 +24990,14 @@
       {
         "level": 3,
         "move_id": "mvn_056"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_247"
+      },
+      {
+        "level": 4,
+        "move_id": "mvn_092"
       },
       {
         "level": 4,
@@ -24823,6 +25299,10 @@
         "move_id": "MV_258"
       },
       {
+        "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
         "level": 12,
         "move_id": "MV_272"
       },
@@ -24933,6 +25413,10 @@
       {
         "level": 4,
         "move_id": "mvs_dragon_def_accuracy"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_185"
       },
       {
         "level": 5,
@@ -25756,8 +26240,16 @@
         "move_id": "MV_160"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 6,
         "move_id": "mvn_003"
+      },
+      {
+        "level": 6,
+        "move_id": "mvn_082"
       },
       {
         "level": 7,
@@ -25885,6 +26377,10 @@
       },
       {
         "level": 5,
+        "move_id": "MV_285"
+      },
+      {
+        "level": 5,
         "move_id": "gap_dragon_s_25"
       },
       {
@@ -26008,6 +26504,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_280"
+      },
+      {
+        "level": 4,
         "move_id": "jiware"
       },
       {
@@ -26081,6 +26581,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_055"
       },
       {
         "level": 12,
@@ -26363,6 +26867,10 @@
       {
         "level": 13,
         "move_id": "gap_water_s_65"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 14,
@@ -27156,6 +27664,10 @@
         "move_id": "poison_fog"
       },
       {
+        "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
         "level": 14,
         "move_id": "MV_274"
       },
@@ -27248,6 +27760,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_247"
+      },
+      {
+        "level": 4,
         "move_id": "gap_water_s_20"
       },
       {
@@ -27257,6 +27773,10 @@
       {
         "level": 5,
         "move_id": "gap_ice_s_25"
+      },
+      {
+        "level": 6,
+        "move_id": "MV_205"
       },
       {
         "level": 8,
@@ -27368,6 +27888,10 @@
       {
         "level": 5,
         "move_id": "gap_ice_s_25"
+      },
+      {
+        "level": 6,
+        "move_id": "MV_205"
       },
       {
         "level": 7,
@@ -27530,6 +28054,10 @@
       },
       {
         "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
+        "level": 11,
         "move_id": "mvn_064"
       },
       {
@@ -27677,6 +28205,10 @@
       },
       {
         "level": 12,
+        "move_id": "MV_191"
+      },
+      {
+        "level": 12,
         "move_id": "gap_water_s_60"
       },
       {
@@ -27809,6 +28341,10 @@
       {
         "level": 14,
         "move_id": "MVP_126"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_193"
       },
       {
         "level": 16,
@@ -28338,6 +28874,10 @@
       },
       {
         "level": 7,
+        "move_id": "MV_215"
+      },
+      {
+        "level": 7,
         "move_id": "gap_fire_s_35"
       },
       {
@@ -28355,6 +28895,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_fire"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 12,
@@ -28565,6 +29109,10 @@
       {
         "level": 3,
         "move_id": "mvn_045"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_280"
       },
       {
         "level": 4,
@@ -28882,6 +29430,10 @@
         "move_id": "MVP_084"
       },
       {
+        "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
         "level": 13,
         "move_id": "MVP_005"
       },
@@ -29015,6 +29567,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_055"
       },
       {
         "level": 13,
@@ -29976,6 +30532,10 @@
         "move_id": "gap_ice_s_55"
       },
       {
+        "level": 11,
+        "move_id": "mvn_022"
+      },
+      {
         "level": 12,
         "move_id": "void_mvn_098"
       },
@@ -30205,6 +30765,10 @@
       {
         "level": 4,
         "move_id": "mvs_grass_def_crit"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_285"
       },
       {
         "level": 5,
@@ -30760,6 +31324,10 @@
         "move_id": "mvh_dark"
       },
       {
+        "level": 6,
+        "move_id": "MV_205"
+      },
+      {
         "level": 7,
         "move_id": "MV_121"
       },
@@ -31052,6 +31620,10 @@
       },
       {
         "level": 7,
+        "move_id": "MV_215"
+      },
+      {
+        "level": 7,
         "move_id": "gap_ice_s_35"
       },
       {
@@ -31161,11 +31733,19 @@
       },
       {
         "level": 4,
+        "move_id": "MV_247"
+      },
+      {
+        "level": 4,
         "move_id": "gap_neutral_s_20"
       },
       {
         "level": 4,
         "move_id": "mvs_fire_atk_crit"
+      },
+      {
+        "level": 6,
+        "move_id": "MV_205"
       },
       {
         "level": 6,
@@ -31194,6 +31774,10 @@
       {
         "level": 11,
         "move_id": "MV_245"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 12,
@@ -31280,6 +31864,10 @@
         "move_id": "mvs_grass_def_crit"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 7,
         "move_id": "gap_grass_s_35"
       },
@@ -31334,6 +31922,10 @@
       {
         "level": 18,
         "move_id": "gap_grass_s_90"
+      },
+      {
+        "level": 20,
+        "move_id": "MV_101"
       },
       {
         "level": 21,
@@ -31542,6 +32134,10 @@
         "move_id": "MVP_002"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 6,
         "move_id": "MVP_001"
       },
@@ -31580,6 +32176,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_ground"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_055"
       },
       {
         "level": 12,
@@ -32371,6 +32971,10 @@
         "move_id": "gap_ground_s_45"
       },
       {
+        "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
         "level": 14,
         "move_id": "MV_274"
       },
@@ -32463,7 +33067,15 @@
       },
       {
         "level": 5,
+        "move_id": "MV_185"
+      },
+      {
+        "level": 5,
         "move_id": "gap_fire_s_25"
+      },
+      {
+        "level": 6,
+        "move_id": "mvn_082"
       },
       {
         "level": 7,
@@ -32480,6 +33092,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_fire"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 14,
@@ -32588,6 +33204,10 @@
       {
         "level": 6,
         "move_id": "gap_electric_p_30"
+      },
+      {
+        "level": 6,
+        "move_id": "mvn_082"
       },
       {
         "level": 8,
@@ -32707,6 +33327,10 @@
       {
         "level": 3,
         "move_id": "mvn_034"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_185"
       },
       {
         "level": 7,
@@ -32996,6 +33620,10 @@
         "move_id": "mvs_electric_accuracy_crit"
       },
       {
+        "level": 5,
+        "move_id": "MV_185"
+      },
+      {
         "level": 6,
         "move_id": "shockwave"
       },
@@ -33030,6 +33658,10 @@
       {
         "level": 11,
         "move_id": "MV_245"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 11,
@@ -33708,6 +34340,10 @@
         "move_id": "mvn_067"
       },
       {
+        "level": 5,
+        "move_id": "MV_185"
+      },
+      {
         "level": 6,
         "move_id": "dark_shot"
       },
@@ -33718,6 +34354,10 @@
       {
         "level": 9,
         "move_id": "MVP_063"
+      },
+      {
+        "level": 9,
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -33829,6 +34469,10 @@
       {
         "level": 4,
         "move_id": "MV_122"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_247"
       },
       {
         "level": 4,
@@ -33971,6 +34615,10 @@
       },
       {
         "level": 4,
+        "move_id": "MV_247"
+      },
+      {
+        "level": 4,
         "move_id": "gap_ice_s_20"
       },
       {
@@ -33979,11 +34627,19 @@
       },
       {
         "level": 7,
+        "move_id": "MV_215"
+      },
+      {
+        "level": 7,
         "move_id": "mvs_big_water"
       },
       {
         "level": 9,
         "move_id": "mvn_028"
+      },
+      {
+        "level": 9,
+        "move_id": "mvn_040"
       },
       {
         "level": 10,
@@ -34391,6 +35047,10 @@
         "move_id": "mvn_004"
       },
       {
+        "level": 6,
+        "move_id": "mvn_082"
+      },
+      {
         "level": 7,
         "move_id": "gap_neutral_s_35"
       },
@@ -34429,6 +35089,10 @@
       {
         "level": 11,
         "move_id": "MVP_164"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 11,
@@ -35072,12 +35736,20 @@
         "move_id": "mvn_023"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 6,
         "move_id": "gap_water_s_30"
       },
       {
         "level": 6,
         "move_id": "shockwave"
+      },
+      {
+        "level": 7,
+        "move_id": "MV_215"
       },
       {
         "level": 7,
@@ -35234,6 +35906,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_fire"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 12,
@@ -35729,6 +36405,10 @@
       {
         "level": 3,
         "move_id": "mvn_012"
+      },
+      {
+        "level": 4,
+        "move_id": "MV_247"
       },
       {
         "level": 4,
@@ -36426,6 +37106,10 @@
         "move_id": "mvs_electric_evasion_crit"
       },
       {
+        "level": 5,
+        "move_id": "MV_185"
+      },
+      {
         "level": 7,
         "move_id": "gap_electric_s_35"
       },
@@ -36553,6 +37237,10 @@
         "move_id": "mvs_electric_evasion_crit"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 7,
         "move_id": "gap_grass_s_35"
       },
@@ -36575,6 +37263,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_grass"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 12,
@@ -36694,6 +37386,10 @@
       {
         "level": 10,
         "move_id": "mvs_ep_dragon"
+      },
+      {
+        "level": 11,
+        "move_id": "mvn_022"
       },
       {
         "level": 12,
@@ -36963,6 +37659,10 @@
         "move_id": "mvs_ep_fire"
       },
       {
+        "level": 11,
+        "move_id": "mvn_022"
+      },
+      {
         "level": 12,
         "move_id": "MVP_065"
       },
@@ -37080,6 +37780,10 @@
       },
       {
         "level": 7,
+        "move_id": "MV_215"
+      },
+      {
+        "level": 7,
         "move_id": "mvs_big_water"
       },
       {
@@ -37113,6 +37817,10 @@
       {
         "level": 13,
         "move_id": "MV_230"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 16,
@@ -37508,6 +38216,10 @@
         "move_id": "MV_200"
       },
       {
+        "level": 14,
+        "move_id": "MV_193"
+      },
+      {
         "level": 15,
         "move_id": "MVP_129"
       },
@@ -37708,6 +38420,10 @@
         "move_id": "mvs_grass_def_crit"
       },
       {
+        "level": 5,
+        "move_id": "mvn_060"
+      },
+      {
         "level": 7,
         "move_id": "gap_grass_s_35"
       },
@@ -37738,6 +38454,10 @@
       {
         "level": 13,
         "move_id": "gap_grass_s_65"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 15,
@@ -37822,6 +38542,10 @@
       {
         "level": 5,
         "move_id": "MV_160"
+      },
+      {
+        "level": 5,
+        "move_id": "MV_285"
       },
       {
         "level": 6,
@@ -38390,6 +39114,10 @@
         "move_id": "MV_153"
       },
       {
+        "level": 11,
+        "move_id": "mvn_055"
+      },
+      {
         "level": 12,
         "move_id": "MV_146"
       },
@@ -38773,6 +39501,10 @@
         "move_id": "MV_192"
       },
       {
+        "level": 14,
+        "move_id": "MV_193"
+      },
+      {
         "level": 15,
         "move_id": "MVP_128"
       },
@@ -38980,6 +39712,10 @@
       },
       {
         "level": 7,
+        "move_id": "MV_215"
+      },
+      {
+        "level": 7,
         "move_id": "gap_dragon_s_35"
       },
       {
@@ -38993,6 +39729,10 @@
       {
         "level": 12,
         "move_id": "gap_water_s_60"
+      },
+      {
+        "level": 14,
+        "move_id": "MV_231"
       },
       {
         "level": 15,

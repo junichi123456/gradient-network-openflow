@@ -89,7 +89,7 @@
           "MV_224",
           "gap_dark_s_110",
           "comet",
-          "gap_water_s_60"
+          "MV_191"
         ],
         "item_id": "mind_plate"
       },
@@ -265,7 +265,7 @@
           "gap_electric_s_120",
           "gap_dragon_s_90",
           "gap_ice_s_75",
-          "all_range_thunder"
+          "MV_231"
         ],
         "item_id": "regen_band"
       }
@@ -439,7 +439,7 @@
           "gap_dark_s_120",
           "gap_dragon_s_85",
           "gap_electric_s_80",
-          "mvn_098"
+          "mvn_022"
         ],
         "item_id": "focus_lens"
       },
@@ -448,7 +448,7 @@
         "move_ids": [
           "gap_dark_s_120",
           "gap_dragon_p_105",
-          "mvn_099",
+          "mvn_022",
           "gap_neutral_s_35"
         ],
         "item_id": "cure_bell"
