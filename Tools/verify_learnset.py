@@ -197,4 +197,33 @@ v19=[(x['display_name'],e['move_id']) for x in sp for e in x['learnset']
      if e['move_id'] in AOE_DELETED or (x['species_id'],e['move_id']) in set(ROW_REMOVALS)]
 chk(19,"削除した特殊の範囲技24件と除去8行が learnset に無い", not v19, f"違反{len(v19)}件 {v19[:3]}")
 
+# 20 2つめの特性 trait2（両刀攻撃の調査用。仕様書 docs/design/drafts/2026-10-28-mixed-traits.md §3-4・§4-2）
+import assign_mixed_traits as AMT
+TR={t['id']:t for t in json.load(open('Data/traits.json',encoding='utf-8'))}
+t2=[x for x in sp if x.get('trait2')]
+v20=[]
+if len(t2)!=16: v20.append(('件数',len(t2)))
+for x in t2:
+    sid=x['species_id']
+    if x.get('offense')!='Mixed': v20.append((sid,'両刀でない'))
+    a=TR.get(x['trait2']); b=TR.get(x['trait'])
+    if not a or not a.get('secondary'): v20.append((sid,'trait2がsecondaryでない'))
+    if b and b.get('secondary'): v20.append((sid,'traitがsecondary'))
+    if x['trait2']==x['trait']: v20.append((sid,'trait2==trait'))
+    if 'リーダー' in TR[x['trait']]['name']: v20.append((sid,'リーダー持ちがtrait2'))
+want={'wide_burst':4,'kowaza_jouzu':5,'shimikomi':4,'entry_puddle':1,'entry_flowerbed':1,'entry_thin_ice':1}
+cnt=collections.Counter(x['trait2'] for x in t2)
+if dict(cnt)!=want: v20.append(('特性別件数',dict(cnt)))
+FELEM={'FlowerBed':'Grass','Puddle':'Water','ThinIce':'Ice'}
+for x in t2:
+    f=TR[x['trait2']].get('field_on_entry')
+    if f and FELEM[f] not in x['types']: v20.append((x['species_id'],'地形の属性が合わない'))
+    if x['trait2']=='wide_burst' and AMT.room_attack_count(x,M)<1: v20.append((x['species_id'],'部屋技を持たない'))
+mixed20=[x for x in sp if x.get('offense')=='Mixed']
+pri=[x for x in mixed20 if AMT.classify(x,TR)=='priority']
+oth_t2=[x for x in mixed20 if AMT.classify(x,TR)=='other' and x.get('trait2')]
+if not (all(x.get('trait2') for x in pri) or not oth_t2): v20.append(('優先候補が余っているのに一般へ配っている',))
+if AMT.assign(sp,TR,M)!={x['species_id']:x['trait2'] for x in t2}: v20.append(('assign の再計算と不一致',))
+chk(20,"2つめの特性: 両刀16体のみ・件数4/5/4/1/1/1・リーダー除外・優先候補・再計算一致", not v20, f"違反{len(v20)}件 {v20[:3]}")
+
 print("\n総合:", "ALL PASS" if ok else "FAILあり")

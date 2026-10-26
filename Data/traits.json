@@ -974,5 +974,62 @@
     "element": null,
     "template_kind": null,
     "description": "ウェポンタグ Straight・Flash の技を使うとき、技の威力1.5倍。"
+  },
+  {
+    "id": "wide_burst",
+    "name": "ワイドバースト",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "部屋全体が対象の攻撃技を使うとき、技の威力+10。",
+    "secondary": true
+  },
+  {
+    "id": "kowaza_jouzu",
+    "name": "こわざじょうず",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "威力50以下の特殊技の威力+20。",
+    "secondary": true
+  },
+  {
+    "id": "shimikomi",
+    "name": "しみこみ",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "自分の技で相手に与える状態異常の蓄積値が2倍になる（特性による蓄積は対象外）。",
+    "secondary": true
+  },
+  {
+    "id": "entry_puddle",
+    "name": "みずたまりのぬし",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "場に出たとき、自分のいるマスと隣接するマスをみずたまりにする。",
+    "secondary": true,
+    "field_on_entry": "Puddle"
+  },
+  {
+    "id": "entry_flowerbed",
+    "name": "はなばたけのぬし",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "場に出たとき、自分のいるマスと隣接するマスをはなばたけにする。",
+    "secondary": true,
+    "field_on_entry": "FlowerBed"
+  },
+  {
+    "id": "entry_thin_ice",
+    "name": "うすらひのぬし",
+    "category": "unique",
+    "element": null,
+    "template_kind": null,
+    "description": "場に出たとき、自分のいるマスと隣接するマスをうすらひにする。",
+    "secondary": true,
+    "field_on_entry": "ThinIce"
   }
 ]

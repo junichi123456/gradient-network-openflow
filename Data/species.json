@@ -16185,7 +16185,8 @@
       }
     ],
     "evolution": null,
-    "trait": "electric_bond"
+    "trait": "electric_bond",
+    "trait2": "kowaza_jouzu"
   },
   {
     "species_id": "084",
@@ -16341,7 +16342,8 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_power"
+    "trait": "grass_power",
+    "trait2": "entry_flowerbed"
   },
   {
     "species_id": "084B",
@@ -16497,7 +16499,8 @@
       }
     ],
     "evolution": null,
-    "trait": "electric_power"
+    "trait": "electric_power",
+    "trait2": "wide_burst"
   },
   {
     "species_id": "085",
@@ -19197,6 +19200,7 @@
     ],
     "evolution": null,
     "trait": "electric_oshie",
+    "trait2": "kowaza_jouzu",
     "ecology": "flight"
   },
   {
@@ -20283,7 +20287,8 @@
       }
     ],
     "evolution": null,
-    "trait": "let_us_hug"
+    "trait": "let_us_hug",
+    "trait2": "shimikomi"
   },
   {
     "species_id": "100B",
@@ -20594,7 +20599,8 @@
       }
     ],
     "evolution": null,
-    "trait": "ice_guard"
+    "trait": "ice_guard",
+    "trait2": "entry_thin_ice"
   },
   {
     "species_id": "102",
@@ -21940,7 +21946,8 @@
       }
     ],
     "evolution": null,
-    "trait": "grass_power"
+    "trait": "grass_power",
+    "trait2": "wide_burst"
   },
   {
     "species_id": "108B",
@@ -25855,7 +25862,8 @@
       }
     ],
     "evolution": null,
-    "trait": "neutral_power"
+    "trait": "neutral_power",
+    "trait2": "wide_burst"
   },
   {
     "species_id": "128",
@@ -27317,7 +27325,8 @@
       }
     ],
     "evolution": null,
-    "trait": "ice_power"
+    "trait": "ice_power",
+    "trait2": "wide_burst"
   },
   {
     "species_id": "134",
@@ -29708,7 +29717,8 @@
       }
     ],
     "evolution": null,
-    "trait": "dragon_power"
+    "trait": "dragon_power",
+    "trait2": "shimikomi"
   },
   {
     "species_id": "147",
@@ -31155,7 +31165,8 @@
       }
     ],
     "evolution": null,
-    "trait": "ground_oshie"
+    "trait": "ground_oshie",
+    "trait2": "kowaza_jouzu"
   },
   {
     "species_id": "155",
@@ -32315,7 +32326,8 @@
     ],
     "evolution": null,
     "ecology": "stairs_sense",
-    "trait": "electric_weakness"
+    "trait": "electric_weakness",
+    "trait2": "kowaza_jouzu"
   },
   {
     "species_id": "162",
@@ -33709,6 +33721,7 @@
     ],
     "evolution": null,
     "trait": "water_oshie",
+    "trait2": "entry_puddle",
     "ecology": "submerge"
   },
   {
@@ -35037,7 +35050,8 @@
       }
     ],
     "evolution": null,
-    "trait": "dark_power"
+    "trait": "dark_power",
+    "trait2": "kowaza_jouzu"
   },
   {
     "species_id": "179",
@@ -36465,7 +36479,8 @@
     ],
     "evolution": null,
     "ecology": "flight",
-    "trait": "fire_power"
+    "trait": "fire_power",
+    "trait2": "shimikomi"
   },
   {
     "species_id": "188B",
@@ -36597,7 +36612,8 @@
     ],
     "evolution": null,
     "ecology": "flight",
-    "trait": "water_power"
+    "trait": "water_power",
+    "trait2": "shimikomi"
   },
   {
     "species_id": "189",
