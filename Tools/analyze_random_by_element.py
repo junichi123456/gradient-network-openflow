@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """--random --out の CSV を属性別に集計する。
 
-usage: analyze_random_by_element.py <csv>... [--species Data/species.json] [--by element|offense|defense|role|speed] [--bootstrap B]
+usage: analyze_random_by_element.py <csv>... [--species Data/species.json] [--by element|offense|defense|role|speed|trait2|species] [--only-mixed] [--bootstrap B]
 
 --by: 集計の区分（既定 element）。offense/defense/role は species.json の同名キー、
 speed は種族値 S の帯 (<=62 / 63-87 / 88-99 / >=100)。element 以外は1個体につき1区分（二重計上なし）。
+trait2 は2つめの特性の id（持たない個体は 'なし:' + 攻撃区分。両刀で持たない個体は 'なし:Mixed' = 対照群）。
+species は species_id + 表示名（個体別）。--only-mixed を付けると両刀38種の行だけ表示（species 用）。
 
 CSV 列（ヘッダ無し）: match,outcome,home_sel,away_sel,home_bst,away_bst,cycles
  - 属性 X の勝率: 選出に X を持つ個体（二重属性は両方に計上）の出場1回ごと。
@@ -24,18 +26,25 @@ def main():
     by = 'element'
     if '--by' in args:
         i = args.index('--by'); by = args[i + 1]; del args[i:i + 2]
+    only_mixed = '--only-mixed' in args
+    if only_mixed: args.remove('--only-mixed')
     boot = 0
     if '--bootstrap' in args:
         i = args.index('--bootstrap'); boot = int(args[i + 1]); del args[i:i + 2]
-    if by not in ('element', 'offense', 'defense', 'role', 'speed'):
-        sys.exit('--by は element|offense|defense|role|speed')
+    if by not in ('element', 'offense', 'defense', 'role', 'speed', 'trait2', 'species'):
+        sys.exit('--by は element|offense|defense|role|speed|trait2|species')
     def speed_band(v):
         return '<=62' if v <= 62 else '63-87' if v <= 87 else '88-99' if v <= 99 else '>=100'
     def keys_of(s):
         if by == 'element': return s['types']
         if by == 'speed': return [speed_band(s['base_speed'])]
+        if by == 'trait2': return [s.get('trait2') or 'なし:' + s['offense']]
+        if by == 'species': return [s['species_id'] + ' ' + s['display_name']]
         return [s[by]]
-    types = {s['species_id']: keys_of(s) for s in json.load(open(sp_path, encoding='utf-8'))}
+    sp_all = json.load(open(sp_path, encoding='utf-8'))
+    types = {s['species_id']: keys_of(s) for s in sp_all}
+    mixed_keys = {k for s in sp_all if s['offense'] == 'Mixed' for k in keys_of(s)}
+    trait2_of = {s['species_id'] + ' ' + s['display_name']: (s.get('trait2') or '—') for s in sp_all}
     rows = []
     for p in args:
         for line in open(p, encoding='utf-8'):
@@ -93,14 +102,21 @@ def main():
         order = ['Neutral', 'Fire', 'Water', 'Grass', 'Electric', 'Ground', 'Ice', 'Dragon', 'Dark', 'Void']
     elif by == 'speed':
         order = ['<=62', '63-87', '88-99', '>=100']
+    elif by == 'trait2':
+        order = ['wide_burst', 'kowaza_jouzu', 'shimikomi', 'entry_puddle', 'entry_flowerbed', 'entry_thin_ice',
+                 'なし:Mixed', 'なし:Physical', 'なし:Special']
+    elif by == 'species':
+        order = sorted(stat)
     else:
         O = ['Physical', 'Special', 'Mixed']; D = ['Physical', 'Special', 'Both']
         order = {'offense': O, 'defense': D, 'role': [f'{o}-{d}' for o in O for d in D]}[by]
-    label = {'element': '属性', 'offense': '攻撃区分', 'defense': '耐久区分', 'role': '役割', 'speed': '俊敏帯'}[by]
+    label = {'element': '属性', 'offense': '攻撃区分', 'defense': '耐久区分', 'role': '役割', 'speed': '俊敏帯', 'trait2': '2つめの特性', 'species': '個体'}[by]
     print(f'{label:<17}{"出場数":>8}{"勝率%":>8}{"期待%":>8}{"補正後pt":>9}' + (f'{"SE":>7}' if boot > 0 else ''))
     for t in order + [t for t in stat if t not in order]:
         if t not in stat: continue
+        if by == 'species' and only_mixed and t not in mixed_keys: continue
         n, w, e = stat[t]
-        print(f'{t:<17}{n:>8}{100*w/n:>8.1f}{100*e/n:>8.1f}{100*(w-e)/n:>+9.1f}' + (f'{se.get(t, 0.0):>7.2f}' if boot > 0 else ''))
+        extra = f'  trait2={trait2_of[t]}' if by == 'species' else ''
+        print(f'{t:<17}{n:>8}{100*w/n:>8.1f}{100*e/n:>8.1f}{100*(w-e)/n:>+9.1f}' + (f'{se.get(t, 0.0):>7.2f}' if boot > 0 else '') + extra)
 
 main()

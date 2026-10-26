@@ -58,6 +58,7 @@ for s in order:
     atk = [m for m in ms if m['power'] > 0]
     OB = {'trait': '特性', 'cycle': '周期', 'speed': '俊敏'}
     t = tr.get(s['trait'], {})
+    t2 = tr.get(s.get('trait2', ''), {})
     out.append({
         'id': s['species_id'], 'n': s['display_name'],
         'ty': [EL[x] for x in s['types']],
@@ -70,6 +71,8 @@ for s in order:
         'bst': (s['base_hp'] + s['base_atk'] + s['base_def']
                 + s['base_spatk'] + s['base_spdef'] + s['base_speed']),
         'tr': t.get('name', s['trait']), 'td': t.get('description', ''),
+        # 2つめの特性（両刀攻撃の調査用。持たない個体は空文字）
+        'tr2': t2.get('name', ''), 'td2': t2.get('description', ''),
         'p': sum(1 for m in atk if m['category'] == 'Physical'),
         's': sum(1 for m in atk if m['category'] == 'Special'),
         'st': sum(1 for m in ms if m['power'] == 0),

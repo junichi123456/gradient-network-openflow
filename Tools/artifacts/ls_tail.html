@@ -51,7 +51,7 @@ document.getElementById('ofs').innerHTML =
 // 特性は99種と多いので、実際に使われているものだけをドロップダウンで絞る
 // （名前の五十音順——頻度順だと同じ特性が探すたびに違う位置に来て使いにくい）。
 const traitCount = new Map();
-SP.forEach(s => traitCount.set(s.tr, (traitCount.get(s.tr) || 0) + 1));
+SP.forEach(s => { [s.tr, s.tr2].forEach(t => { if (t) traitCount.set(t, (traitCount.get(t) || 0) + 1); }); });
 const traitList = [...traitCount.keys()].sort((a, b) => a.localeCompare(b, 'ja'));
 document.getElementById('dfs').innerHTML =
   Object.entries(DFJA).map(([k, v]) => `<button class="chip" data-df="${k}" aria-pressed="false">${v}</button>`).join('');
@@ -85,8 +85,8 @@ function matches(s) {
   if (fEl && !s.ty.includes(fEl)) return false;
   if (fOf && s.of !== fOf) return false;
   if (fDf && s.df !== fDf) return false;
-  if (fTrait && s.tr !== fTrait) return false;
-  if (fQ && !(s.n.includes(fQ) || s.tr.includes(fQ) || s.mv.some(m => m[1].includes(fQ)))) return false;
+  if (fTrait && s.tr !== fTrait && s.tr2 !== fTrait) return false;
+  if (fQ && !(s.n.includes(fQ) || s.tr.includes(fQ) || (s.tr2 || '').includes(fQ) || s.mv.some(m => m[1].includes(fQ)))) return false;
   return true;
 }
 
@@ -162,6 +162,7 @@ function detail(s) {
         <div><dt>特性適応技</dt><dd>${s.ad}</dd></div>
       </dl>
       <p class="trait"><b>${esc(s.tr)}</b> — ${esc(s.td || '（説明なし）')}</p>
+      ${s.tr2 ? `<p class="trait"><b>特性2: ${esc(s.tr2)}</b> — ${esc(s.td2 || '（説明なし）')}</p>` : ''}
     </div>
     <div class="tblwrap">
       <table>
