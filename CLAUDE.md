@@ -39,7 +39,7 @@ Sonnet の報告を信用せず、必ず自分で確かめる。
 
 ```sh
 dotnet build MysteryDungeonRoguelike.csproj      # コンパイルエラーを先に出す
-godot --headless --path . Scenes/BattleTestScene.tscn  # 回帰スイート（現在112項目）
+godot --headless --path . Scenes/BattleTestScene.tscn  # 回帰スイート（現在132項目）
 git diff                                          # 仕様書と差分を突き合わせる
 ```
 
@@ -92,9 +92,23 @@ headless 実行ではスプライトの import エラーが大量に出る（`.g
 
 ### 行動順と天候の向きは逆
 
-- 行動順: 優先度 → **種族値合計の低い側が先** → 乱数
-- 入場時の天候: **種族値合計の高い側から順に発動** するので、低い側が
+- 行動順: 優先度 → **俊敏(S)の高い側が先** → **BST6 の低い側が先** → 乱数。
+  S は種族値そのもの（ランク変化・持ち物では動かない）。BST6 は同速のときだけ効く
+- 入場時の天候: **BST6 の高い側から順に発動** するので、低い側が
   最後に上書きして勝つ（`BattleArena.ApplyEntryWeather`）
+
+### 能力値は HABCDS の6つ
+
+HP・攻撃(A)・防御(B)・魔力(C)・精神(D)・俊敏(S)。物理技は A 対 B、特殊技は
+C 対 D。合計種族値は **BST6**（旧 BST3 から `BST6 = round(360 + (BST3-180)*270/320)`
+で一意に決まる固定値）。旧 H/A/B は `species.json` の `legacy_had` に残してあり、
+`Tools/learnset_rules.py` の `legacy_had(s)` で読む。配分は `Tools/build_habcds.py`
+が生成する（仕様書 `docs/design/drafts/2026-10-25-void-type-and-habcds.md`）。
+
+### 属性は10種（虚を含む）
+
+無/炎/水/草/電/地/氷/竜/闇/虚。相性表は `Data/type_chart.json`（10×10）。
+虚脱状態は虚技の命中で蓄積し、一致属性補正が消え、自分の2回目の行動終了で解除。
 
 ### Artifact の同期
 
