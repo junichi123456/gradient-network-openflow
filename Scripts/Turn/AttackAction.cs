@@ -147,6 +147,10 @@ public class AttackAction : IAction
         // moves above: resolved at use time, no target, fully consumed here.
         if (ApplyWeatherEffect(move)) return;
 
+        // プロテクション: 正面3マスの味方に守りの状態を付ける。天候技と同じく使用時に
+        // 解決して手番を終える（攻撃ではない。チェイサーも起きない）。
+        if (ApplyProtectionEffect(move)) return;
+
         // Past every gate above, so this really is an attack being made.
         PerformedAttack = move.Category != MoveCategory.Status;
 
@@ -199,13 +203,18 @@ public class AttackAction : IAction
         // Pure Status move: no damage, only rank/ailment effects.
         if (move.Category == MoveCategory.Status)
         {
+            // プロテクション: 自分だけに効く変化技は対象に何も及ばないので消費しない。
+            // それ以外は、命中判定より前に1回ぶんを無効にして何も適用しない。
+            if (!move.IsSelfContained && BlockedByProtection(move, _defender)) return;
+
             MessageLogger.Log($"{_attacker.ActorName} used {move.Name}!");
             ApplyRankEffectIfAny(move, defenderAlive: true);
             ApplyAilmentEffectIfAny(move, defenderAlive: true);
             return;
         }
 
-        int damage = Strike(move, _defender);
+        // プロテクション中の相手なら、命中判定より前に1回ぶんを丸ごと無効にする（多段技も全段）。
+        int damage = BlockedByProtection(move, _defender) ? 0 : Strike(move, _defender);
         if (damage > 0)
         {
             bool alive = _defender.Stats.IsAlive;
@@ -278,6 +287,9 @@ public class AttackAction : IAction
             // 庇われた側は完全に対象外（ダメージも追加効果も乗らない）。
             if (aegisHolder != null && target != aegisHolder
                 && target.Faction == aegisHolder.Faction) continue;
+
+            // プロテクション中の対象は、この使用ぶんを丸ごと無効にして状態を消費する。
+            if (BlockedByProtection(move, target)) continue;
 
             if (move.Category == MoveCategory.Status)
             {
@@ -1264,6 +1276,73 @@ public class AttackAction : IAction
         MessageLogger.Log(
             $"{_attacker.ActorName} used {move.Name}! The weather is now {Dungeon.WeatherTypeNames.Japanese(move.WeatherEffect)}.",
             MessageLogger.ProgressionColor);
+        return true;
+    }
+
+    // プロテクション（仕様書 docs/design/drafts/2026-10-29-protection.md §3-3・§3-4 の 9）。
+    // 向きを決め、正面3マスに立つ生存中の味方（使用者を除く）へ状態を付ける。
+    private bool ApplyProtectionEffect(MoveData move)
+    {
+        if (!move.GrantsProtection) return false;
+
+        ProtectionStats.Used++;
+
+        if (_aimTile.HasValue && _aimTile.Value != _attacker.GridPosition)
+        {
+            var d = new Vector2I(Math.Sign(_aimTile.Value.X - _attacker.GridPosition.X),
+                                 Math.Sign(_aimTile.Value.Y - _attacker.GridPosition.Y));
+            if (d != Vector2I.Zero) _attacker.FaceDirection(d);
+        }
+
+        if (_floorController == null || _attacker.Grid == null)
+        {
+            MessageLogger.Log($"{_attacker.ActorName}のプロテクション! しかし正面に味方がいない", MessageLogger.IneffectiveColor);
+            GD.Print($"[Battle] {_attacker.ActorName}のプロテクション! しかし正面に味方がいない");
+            return true;
+        }
+
+        var tiles = new HashSet<Vector2I>(TargetResolver.ResolveTiles(
+            MoveRange.FrontArc, _attacker.GridPosition, _attacker.FacingDirection,
+            _attacker.GridPosition, _attacker.Grid, _floorController));
+        var allies = _floorController.AllActors()
+            .Where(e => e != _attacker && GodotObject.IsInstanceValid(e) && e.IsAlive
+                        && e.Faction == _attacker.Faction && tiles.Contains(e.GridPosition))
+            .ToList();
+
+        if (allies.Count == 0)
+        {
+            MessageLogger.Log($"{_attacker.ActorName}のプロテクション! しかし正面に味方がいない", MessageLogger.IneffectiveColor);
+            GD.Print($"[Battle] {_attacker.ActorName}のプロテクション! しかし正面に味方がいない");
+            return true;
+        }
+
+        foreach (var ally in allies)
+        {
+            if (ally.StatusEffects.GrantProtection())
+            {
+                ProtectionStats.Granted++;
+                MessageLogger.Log($"{ally.ActorName}はプロテクションで守られた!", MessageLogger.EffectiveColor);
+                GD.Print($"[Battle] {ally.ActorName}はプロテクションで守られた!");
+            }
+            else
+            {
+                MessageLogger.Log($"{ally.ActorName}は既に守られている", MessageLogger.IneffectiveColor);
+                GD.Print($"[Battle] {ally.ActorName}は既に守られている");
+            }
+        }
+        return true;
+    }
+
+    // 対象がプロテクション中なら、この技の1回の使用ぶんを無効にして状態を消費する。
+    // StrikeTarget ではなく対象単位の入口で判定する（多段技の段ごとに消費しないため）。
+    private bool BlockedByProtection(MoveData move, Entity target)
+    {
+        if (target == null || target == _attacker || move.GrantsProtection) return false;
+        if (!target.StatusEffects.ConsumeProtection()) return false;
+
+        ProtectionStats.Blocked++;
+        MessageLogger.Log($"{target.ActorName}のプロテクションが{move.Name}を防いだ!", MessageLogger.IneffectiveColor);
+        GD.Print($"[Battle] {target.ActorName}のプロテクションが{move.Name}を防いだ!");
         return true;
     }
 

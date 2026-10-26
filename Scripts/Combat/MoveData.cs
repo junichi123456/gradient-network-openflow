@@ -25,6 +25,10 @@ public enum MoveRange
     // tile, which is what Area does. Added for メガデストラクト - a blast
     // that goes off where the user stands, so it needs no aim and no room.
     Surrounding,
+
+    // 正面3マス: 向きとその両隣45°の3方向へ1マス。プロテクションの射程。
+    // 技を出すときに隣接8マスのどれかを指し、その方向を向いて張る。
+    FrontArc,
 }
 
 // Phase 21: which rank track a move's RankEffect touches. ElementPower
@@ -187,6 +191,9 @@ public class MoveData
     // 迷宮側のエネルギー式スケジューラは参照しない（対戦専用の概念）。
     // 既定は0で、値を持つのは現時点でヘッドバット(+1)だけ。
     public int Priority { get; set; }
+
+    // プロテクション: 正面3マスの味方にプロテクション状態（次に及ぶ他者の技1回ぶんを無効）を付ける。
+    public bool GrantsProtection { get; set; } = false;
     public MoveRange Range { get; set; }
 
     // Phase 21: rank-change effect (buff/debuff of Atk/Def/Accuracy/

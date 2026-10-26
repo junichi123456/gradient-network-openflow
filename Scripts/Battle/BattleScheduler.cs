@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
 using MysteryDungeon.Turn;
 
@@ -250,7 +251,11 @@ public sealed class BattleScheduler
     public void EndCycle()
     {
         foreach (var e in _roster.Where(x => x.IsAlive))
+        {
             e.ResolveStatusTick();
+            // プロテクションは使われなければサイクルの終わりで消える。
+            if (e.StatusEffects.ConsumeProtection()) ProtectionStats.Expired++;
+        }
     }
 
     public bool AnyAlive(Faction faction) =>

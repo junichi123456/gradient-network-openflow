@@ -281,6 +281,7 @@ public partial class DeployScreen : Control
         MoveRange.Room => "部屋",
         MoveRange.FullFloor => "全体",
         MoveRange.Surrounding => "周囲",
+        MoveRange.FrontArc => "正面3",
         _ => "—",
     };
 

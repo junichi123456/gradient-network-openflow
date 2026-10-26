@@ -395,7 +395,9 @@ public partial class BattleFlow : Control
 
         switch (data.Range)
         {
+            // 正面3マスも「向き」を選ぶ技。隣接8マスのどれかを指して向きを決める。
             case MoveRange.Adjacent:
+            case MoveRange.FrontArc:
                 foreach (var d in Neighbours)
                 {
                     var t = actor.GridPosition + d;
@@ -440,6 +442,10 @@ public partial class BattleFlow : Control
             MoveRange.Adjacent => new List<Vector2I> { aim },
             MoveRange.Line or MoveRange.TwoTile => TargetResolver.ResolveTiles(
                 data.Range, actor.GridPosition, StepToward(actor.GridPosition, aim),
+                aim, grid, Floor),
+            MoveRange.FrontArc => TargetResolver.ResolveTiles(
+                data.Range, actor.GridPosition,
+                StepToward(actor.GridPosition, aim) is var fd && fd != Vector2I.Zero ? fd : actor.FacingDirection,
                 aim, grid, Floor),
             _ => TargetResolver.ResolveTiles(data.Range, actor.GridPosition,
                                              actor.FacingDirection, aim, grid, Floor),

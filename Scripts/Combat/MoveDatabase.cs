@@ -24,6 +24,7 @@ internal class MoveJson
     [JsonPropertyName("accuracy")] public int Accuracy { get; set; }
     [JsonPropertyName("max_pp")] public int MaxPp { get; set; }
     [JsonPropertyName("priority")] public int Priority { get; set; }
+    [JsonPropertyName("grants_protection")] public bool GrantsProtection { get; set; }
     [JsonPropertyName("range")] public string Range { get; set; }
 
     // Phase 21: all optional - a missing key leaves these C# defaults in
@@ -126,6 +127,7 @@ public static class MoveDatabase
                 Accuracy = entry.Accuracy,
                 MaxPp = entry.MaxPp,
                 Priority = entry.Priority,
+                GrantsProtection = entry.GrantsProtection,
                 Range = Enum.TryParse<MoveRange>(entry.Range, out var range) ? range : MoveRange.Adjacent,
                 RankEffectStat = Enum.TryParse<RankStat>(entry.RankEffectStat, out var rankStat) ? rankStat : RankStat.None,
                 RankEffectDelta = entry.RankEffectDelta,

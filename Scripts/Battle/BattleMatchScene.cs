@@ -192,6 +192,7 @@ public partial class BattleMatchScene : Node2D
     {
         var rng = new RandomNumberGenerator();
         rng.Randomize();
+        ProtectionStats.Reset();
 
         GD.Print($"[試合] 完全ランダム構築（種族・技・持ち物すべて無作為、"
                  + $"持ち物は必ず全員に付与）/ {_matches}試合");
@@ -270,6 +271,8 @@ public partial class BattleMatchScene : Node2D
             GD.Print($"[結果] 選出4匹の合計種族値が高い側が勝った割合: "
                      + $"{100.0 * bstAgree / bstDecided:F1}% ({bstAgree}/{bstDecided}、種族値同点{bstTie}試合を除く)");
         PrintRestrictionStats();
+        GD.Print($"[結果] プロテクション: 使用{ProtectionStats.Used}回 / 付与{ProtectionStats.Granted}体 "
+                 + $"/ 無効化{ProtectionStats.Blocked}回 / 未使用で消滅{ProtectionStats.Expired}体");
 
         GetTree().Quit();
     }

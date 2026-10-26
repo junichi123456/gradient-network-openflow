@@ -566,6 +566,12 @@ public partial class StatusEffectManager : Node
     // single charge rather than stacking.
     private bool _deepDiveCharged;
 
+    // プロテクション: 次に自分に及ぶ他者の技1回ぶんを完全に無効にする（1回きり、重ねない）。
+    // 対戦ではサイクル終了で消える（BattleScheduler.EndCycle）。
+    public bool IsProtected { get; private set; }
+    public bool GrantProtection() { if (IsProtected) return false; IsProtected = true; return true; }   // 新しく付いたら true
+    public bool ConsumeProtection() { if (!IsProtected) return false; IsProtected = false; return true; }
+
     // ブリッツビート's evasion-drop immunity, and オーバーヒール's heal
     // top-up rate. Both are set once from the species trait at spawn
     // (Entity._Ready) rather than looked up per event - the same posture
@@ -690,6 +696,7 @@ public partial class StatusEffectManager : Node
         _accumulation.Clear();
         _damageReductionArmed = false;
         _deepDiveCharged = false;
+        IsProtected = false;
 
         // バッテリー's permanent occupation must survive a floor-transition
         // Reset() (the player is the one entity that persists across

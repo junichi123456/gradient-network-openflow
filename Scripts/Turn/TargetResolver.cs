@@ -79,6 +79,13 @@ public static class TargetResolver
         return candidates.Where(e => tileSet.Contains(e.GridPosition)).ToList();
     }
 
+    // 8方向の並び（時計回り）。BattleTargeting.Directions と同じ順。FrontArc の両隣を求めるのに使う。
+    private static readonly Vector2I[] EightDirections =
+    {
+        new(0, -1), new(1, -1), new(1, 0), new(1, 1),
+        new(0, 1), new(-1, 1), new(-1, 0), new(-1, -1),
+    };
+
     // The tile set a shape covers. Pure geometry - exposed for testing.
     public static List<Vector2I> ResolveTiles(MoveRange range, Vector2I userPos, Vector2I facing, Vector2I aimTile, GridManager grid, FloorController floor)
     {
@@ -111,6 +118,18 @@ public static class TargetResolver
                         if (grid.InBounds(t)) tiles.Add(t);
                     }
                 break;
+
+            case MoveRange.FrontArc: // 正面3マス: 向きとその両隣45°の3方向へ1マス
+            {
+                int fi = System.Array.IndexOf(EightDirections, facing);
+                if (fi < 0) break; // 向きが無い（0,0）なら空
+                foreach (int k in new[] { 0, 1, -1 })
+                {
+                    var t = userPos + EightDirections[(fi + k + 8) % 8];
+                    if (grid.InBounds(t) && grid.GetTile(t).Terrain != TerrainType.Wall) tiles.Add(t);
+                }
+                break;
+            }
 
             case MoveRange.Room:
                 var bounds = floor.GetRoomBoundsAt(userPos);
