@@ -1,6 +1,6 @@
 import json, math, collections, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from aoe_power_rules import base_power   # 範囲技は基準威力で比べる（#5）
+from aoe_power_rules import eval_power, AOE_DELETED, ROW_REMOVALS   # 威力規則は評価威力（範囲技は実威力＋射程の加算）で比べる
 # 生成器と同じ表を参照する。ここに写しを置くと、特性を足したときに検証側だけ
 # 古い表を見て「特性適応技」を見落とし、属性上限違反として誤検出する。
 from learnset_rules import (SIGNATURE as SIG_MAP, TRAIT_TAG, TRAIT_NAMED,
@@ -63,7 +63,7 @@ for s in sp:
     for e in s['learnset']:
         m=M[e['move_id']]
         if m['id'] in SIGNATURE or m['id'] in adapted(s): continue
-        if m['type'] in s['types'] and m['power']>125: v.append((s['display_name'],m['id'],m['power']))
+        if m['type'] in s['types'] and eval_power(m)>125: v.append((s['display_name'],m['id'],eval_power(m)))
 chk(2,"<310種の自属性技威力<=125", not v, f"違反{len(v)}件 {v[:3]}")
 
 # 3 >=310 の自属性技(110以上)が1属性あたり<=3
@@ -73,7 +73,7 @@ for s in sp:
     c=collections.Counter()
     for e in s['learnset']:
         m=M[e['move_id']]
-        if m['type'] in s['types'] and m['power']>=110: c[m['type']]+=1
+        if m['type'] in s['types'] and eval_power(m)>=110: c[m['type']]+=1
     for el,n in c.items():
         if n>3: v.append((s['display_name'],el,n))
 chk(3,">=310種の自属性110以上が<=3/属性", not v, f"違反{len(v)}件 {v[:3]}")
@@ -99,12 +99,12 @@ for s in sp:
     # 両刀攻撃は物理・特殊を1つずつ明示的に足しているため、比率は意図的に
     # 五分へ寄る。
     if majn+minn>0 and majn/(majn+minn) < 0.55: ratio_bad.append((s['display_name'],p,q))
-    mj=[base_power(M[e['move_id']]) for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']==major and e['move_id'] not in SIGNATURE]
-    mn=[base_power(M[e['move_id']]) for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']!=major and e['move_id'] not in SIGNATURE]
+    mj=[eval_power(M[e['move_id']]) for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']==major and e['move_id'] not in SIGNATURE]
+    mn=[eval_power(M[e['move_id']]) for e in s['learnset'] if M[e['move_id']]['power']>0 and M[e['move_id']]['category']!=major and e['move_id'] not in SIGNATURE]
     r = 0.9 if prof[s['species_id']]=='Mixed' else 0.6
     if mj and mn and max(mn) > max(mj)*r+1e-6: cap_bad.append((s['display_name'],max(mn),max(mj)))
 chk(5,"物理/特殊が多数側>=55%", not ratio_bad, f"違反{len(ratio_bad)}件 {ratio_bad[:3]}")
-chk(5,"少数側の最高威力<=多数側の60%(両刀攻撃90%)（範囲技は基準威力）", not cap_bad, f"違反{len(cap_bad)}件 {cap_bad[:3]}")
+chk(5,"少数側の最高威力<=多数側の60%(両刀攻撃90%)（評価威力）", not cap_bad, f"違反{len(cap_bad)}件 {cap_bad[:3]}")
 
 # 6/7 防御特化種: 設置技>=1
 FIELD={m['id'] for m in mv if m.get('field_placement','None')!='None'}
@@ -137,7 +137,7 @@ for s in sp:
     cc={}
     for m in off: cc[m['type']]=cc.get(m['type'],0)+1
     if any(v>per for v in cc.values()): v12.append((s['display_name'],cc,per))
-    if off and max(m['power'] for m in off)>lim: v13.append((s['display_name'],max(m['power'] for m in off),lim))
+    if off and max(eval_power(m) for m in off)>lim: v13.append((s['display_name'],max(eval_power(m) for m in off),lim))
 v14=[m for m in [] ]
 for x in sp:
     ownx=set(x['types'])
@@ -191,5 +191,10 @@ for x in sp:
     p_=cs.count('Physical'); q_=cs.count('Special')
     if (o=='Physical' and p_<q_) or (o=='Special' and q_<p_): v18.append((x['display_name'],o,p_,q_))
 chk(18,"物理攻撃/特殊攻撃の個体は多数側の分類が攻撃区分と一致", not v18, f"違反{len(v18)}件 {v18[:3]}")
+
+# 19 削除した特殊の範囲技15件と ROW_REMOVALS の9行が learnset に無い
+v19=[(x['display_name'],e['move_id']) for x in sp for e in x['learnset']
+     if e['move_id'] in AOE_DELETED or (x['species_id'],e['move_id']) in set(ROW_REMOVALS)]
+chk(19,"削除した特殊の範囲技15件と除去9行が learnset に無い", not v19, f"違反{len(v19)}件 {v19[:3]}")
 
 print("\n総合:", "ALL PASS" if ok else "FAILあり")

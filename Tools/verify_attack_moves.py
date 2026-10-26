@@ -60,10 +60,10 @@ GRID=list(range(15,121,5))
 gaps=[]
 for cat in ('Physical','Special'):
     for el in sorted({m['type'] for m in atk}):
-        have={AOE.base_power(m) for m in atk if m['type']==el and m['category']==cat
+        have={AOE.eval_power(m) for m in atk if m['type']==el and m['category']==cat
               and m.get('multi_hit','None') in (None,'None')}
-        gaps += [(el,cat,p) for p in GRID if p not in have]
-check(not gaps, "威力15..120の5刻みが各属性・各分類で最低1技（範囲技は基準威力で数える）", f"空き{len(gaps)} {gaps[:4]}")
+        gaps += [(el,cat,p) for p in GRID if p not in have and (el,cat,p) not in AOE.GRID_EXEMPT]
+check(not gaps, "威力15..120の5刻みが各属性・各分類で最低1技（範囲技は評価威力、範囲技だけが埋めていた40点は免除）", f"空き{len(gaps)} {gaps[:4]}")
 
 # 技系統ごとの規定
 def fam_of(n):
@@ -132,19 +132,19 @@ for el in set(m['type'] for m in atk):
     if v: viol[el]=v
 check(not viol, "§B 部屋技は同属性内で威力差10以上", str(viol))
 
-# 範囲技（Room/Area/Surrounding の攻撃技）の威力引き下げ。威力グリッドは基準威力で数えるので、
-# 代わりに「対象53件が機械列挙と一致し、威力・命中が採用案どおり」を固定する。
+# 特殊の範囲技（Room/Area/Surrounding の攻撃技）の整理。対象38件が機械列挙と一致し、威力・命中が採用案どおり。
 _D, _ACC = AOE.ADOPTED
-_aoe_enum = {m['id'] for m in atk if m.get('range') in AOE.AOE_RANGES and m['power'] > 0
-             and m['id'] not in AOE.AOE_EXCLUDED}
 _M = {m['id']: m for m in ms}
-_red = AOE.solve(_D, ms) if _aoe_enum == set(AOE.AOE_BASE) else {}
-_pw_bad = [i for i in AOE.AOE_BASE if i in _M and i in _red and _M[i]['power'] != AOE.AOE_BASE[i][0] - _red[i]]
+_aoe_enum = {m['id'] for m in atk if m.get('range') in AOE.AOE_RANGES and m['category']=='Special'
+             and m['power'] > 0 and m['id'] not in AOE.AOE_EXCLUDED}
+_pw_bad = [i for i in AOE.AOE_BASE if i in _M and _M[i]['power'] != AOE.AOE_BASE[i][0] - AOE.CUT_TABLE[_D][i]]
 _void_bad = [i for i in AOE.AOE_BASE if i.startswith('void_') and i[5:] in _M and i in _M
              and _M[i]['power'] != _M[i[5:]]['power']]
-check(_aoe_enum == set(AOE.AOE_BASE) and len(AOE.AOE_BASE) == 53 and not _pw_bad and not _void_bad,
-      "範囲技の対象53件が機械列挙と一致し、威力が solve(採用案)どおり",
-      f"採用案{AOE.ADOPTED} 列挙差{sorted(_aoe_enum ^ set(AOE.AOE_BASE))[:3]} 威力違反{_pw_bad[:3]} 虚と闇の不一致{_void_bad[:3]}")
+_del_bad = [i for i in AOE.AOE_DELETED if i in _M]
+check(_aoe_enum == set(AOE.AOE_BASE) and len(AOE.AOE_BASE) == 38 and len(AOE.AOE_DELETED) == 15
+      and not _pw_bad and not _void_bad and not _del_bad,
+      "特殊の範囲技38件が機械列挙と一致し、威力が CUT_TABLE[採用案]どおり・虚と闇が一致・削除15件が無い",
+      f"採用案{AOE.ADOPTED} 列挙差{sorted(_aoe_enum ^ set(AOE.AOE_BASE))[:3]} 威力違反{_pw_bad[:3]} 虚と闇の不一致{_void_bad[:3]} 削除残り{_del_bad[:3]}")
 _acc_bad = [i for i in AOE.AOE_BASE if i in _M and _M[i]['accuracy'] != AOE.AOE_BASE[i][1] - AOE.acc_cut(i, _ACC)]
 _mv = _M.get('MV_170')
 _ex_bad = [i for i in AOE.AOE_EXCLUDED if i not in _M]
