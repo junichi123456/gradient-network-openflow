@@ -74,6 +74,7 @@ public partial class BattleTestScene : Node2D
         VerifyVoidType();
         VerifyHollow();
         VerifySecondaryTraits();
+        VerifyLetUsHug();
         VerifyHabcdsData();
         VerifyHabcdsWiring();
         VerifySpread();
@@ -1298,6 +1299,80 @@ public partial class BattleTestScene : Node2D
                   && leaders && errors.Count == 0,
                   $"{holders.Count}体 {string.Join(",", counts.Select(kv => kv.Key + "=" + kv.Value))} 全員両刀={allMixed} リーダー除外={leaders} Validate誤り{errors.Count}");
         }
+    }
+
+    // レッツハギング／ひょうてんまの確定した挙動（仕様書 §9 案A）を固定する検査。
+    // 物理技の命中ごとに相手の蓄積 +500・2回で発症・特殊技と状態異常中の相手には入らない。
+    private void VerifyLetUsHug()
+    {
+        void Check(string label, bool ok, string detail)
+            => GD.Print($"[検証] {label}: {(ok ? "OK" : "NG")} ({detail})");
+
+        var atk = _sched.Roster.First(e => e.Faction == Faction.Enemy);
+        var def = _sched.Roster.First(e => e.Faction == Faction.Player);
+        foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); }
+        string savedT = atk.Stats.Trait, savedT2 = atk.Stats.Trait2;
+        atk.Stats.Trait = "let_us_hug"; atk.Stats.Trait2 = "";
+
+        var all = MoveDatabase.AllIds().Select(MoveDatabase.Get).Where(m => m != null).ToList();
+        var phys = all.First(m => m.Type == "Neutral" && m.Category == MoveCategory.Physical
+                                  && m.Range == MoveRange.Adjacent && m.Power >= 40 && m.Accuracy >= 100
+                                  && m.AilmentEffect == AilmentType.None && m.RankEffects.Count == 0
+                                  && m.MultiHit == MultiHitMode.None);
+        var spec = all.First(m => m.Type != "Grass" && m.Category == MoveCategory.Special
+                                  && m.Range == MoveRange.Adjacent && m.Power >= 40 && m.Accuracy >= 100
+                                  && m.AilmentEffect == AilmentType.None && m.RankEffects.Count == 0
+                                  && m.MultiHit == MultiHitMode.None);
+
+        void Hit(MoveData mv)
+        {
+            def.Stats.HealToFull();
+            new AttackAction(atk, def, MakeSlot(atk, mv), _floor).Execute(0);
+        }
+        // 当たるまで(蓄積または状態異常が変わるまで)最大16回撃つ。
+        int HitUntil(MoveData mv, System.Func<bool> changed)
+        {
+            for (int i = 0; i < 16 && !changed(); i++) Hit(mv);
+            return def.StatusEffects.GetAccumulation(AilmentType.VineBound);
+        }
+
+        // 1. 物理技1回で +500
+        def.StatusEffects.Reset();
+        int one = HitUntil(phys, () => def.StatusEffects.GetAccumulation(AilmentType.VineBound) > 0);
+        Check("レッツハギング 物理技1回の命中でツタまみれの蓄積+500", one == 500 && def.StatusEffects.Ailment == AilmentType.None,
+              $"{phys.Name} 蓄積{one}");
+
+        // 2. もう1回命中 → ツタまみれになり、蓄積は全て0
+        HitUntil(phys, () => def.StatusEffects.Ailment != AilmentType.None);
+        bool vine = def.StatusEffects.Ailment == AilmentType.VineBound;
+        int left = def.StatusEffects.GetAccumulation(AilmentType.VineBound);
+        Check("レッツハギング 2回目の命中でツタまみれ・蓄積は0に戻る", vine && left == 0,
+              $"状態={def.StatusEffects.Ailment} 蓄積{left}");
+
+        // 3. 特殊技では入らない
+        def.StatusEffects.Reset();
+        for (int i = 0; i < 4; i++) Hit(spec);
+        int specAcc = def.StatusEffects.GetAccumulation(AilmentType.VineBound);
+        Check("レッツハギング 特殊技では蓄積が入らない", specAcc == 0 && def.StatusEffects.Ailment == AilmentType.None,
+              $"{spec.Name}({spec.Type}) 蓄積{specAcc}");
+
+        // 4. すでに状態異常の相手には入らない
+        def.StatusEffects.Reset();
+        def.StatusEffects.TryApplyAilment(AilmentType.Burn);
+        for (int i = 0; i < 4; i++) Hit(phys);
+        int sick = def.StatusEffects.GetAccumulation(AilmentType.VineBound);
+        Check("レッツハギング 状態異常中の相手には入らない", sick == 0 && def.StatusEffects.Ailment == AilmentType.Burn,
+              $"状態={def.StatusEffects.Ailment} 蓄積{sick}");
+
+        // 5. ひょうてんまも同じ規則(物理技1回でこおりの蓄積+500)
+        def.StatusEffects.Reset();
+        atk.Stats.Trait = "hyouten_ma";
+        int freeze = 0;
+        for (int i = 0; i < 16 && freeze == 0; i++) { Hit(phys); freeze = def.StatusEffects.GetAccumulation(AilmentType.Freeze); }
+        Check("ひょうてんま 物理技1回の命中でこおりの蓄積+500", freeze == 500, $"{phys.Name} 蓄積{freeze}");
+
+        atk.Stats.Trait = savedT; atk.Stats.Trait2 = savedT2;
+        foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); }
     }
 
     // 虚脱(Hollow): 蓄積で発症し、一致補正が消え、自分の2回目の行動終了時に解除される。

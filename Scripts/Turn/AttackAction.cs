@@ -1803,6 +1803,14 @@ public class AttackAction : IAction
     // trait and the move used is Physical-category, regardless of what
     // (if anything) the move itself declares. 500 = the same chance*10
     // conversion (50%) used everywhere else in the accumulation system.
+    //
+    // 確定した規則（仕様書 2026-10-28-mixed-traits.md §9 案A。挙動は変えていない）:
+    //  - 物理技が当たるたびに、当たった相手の対応する蓄積(ツタまみれ/こおり)に確定で +500
+    //    （2回当てると発症）。接触かどうかは見ない。変化技・特殊技では入らない。
+    //  - 多段技は1回の技につき1回（ApplyAilmentEffectIfAny は技ごと・相手ごとに1回）、
+    //    範囲技は当たった相手ごと（ApplyAoeAilment）。
+    //  - 倒れた相手・すでに状態異常の相手には入らない（AccumulateFlat の先頭の判定）。
+    //  - しみこみ(2つめの特性)でも2倍にしない（AccumulateFlat には倍率を渡さない）。
     private void ApplyTraitDrivenAccumulation(MoveData move, Entity target)
     {
         if (target == null || !target.IsAlive) return;
