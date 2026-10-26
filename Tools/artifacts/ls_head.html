@@ -158,8 +158,8 @@ tbody tr:hover{background:var(--surface-2)}
     <div class="panel-h filters">
       <input type="search" id="q" placeholder="種族名・技名で検索" aria-label="検索">
       <div class="chipset" id="els"></div>
-      <div class="chipset" id="pfs"></div>
-      <div class="chipset" id="roles"></div>
+      <div class="chipset" id="ofs" aria-label="攻撃区分"></div>
+      <div class="chipset" id="dfs" aria-label="耐久区分"></div>
       <select id="traitf" aria-label="特性で絞り込み"><option value="">特性: 指定なし</option></select>
       <span class="count" id="count"></span>
     </div>
@@ -171,7 +171,8 @@ tbody tr:hover{background:var(--surface-2)}
         <select id="sort" aria-label="並び順">
           <option value="id">図鑑番号順</option>
           <option value="bst">種族値合計(BST6)が高い順</option>
-          <option value="sp">俊敏が高い順</option>
+          <option value="sp">俊敏(S)が高い順</option>
+          <option value="ti">総合耐久指数が高い順</option>
           <option value="mx">最大威力が高い順</option>
           <option value="st">変化技が多い順</option>
           <option value="nt">攻撃属性が多い順</option>

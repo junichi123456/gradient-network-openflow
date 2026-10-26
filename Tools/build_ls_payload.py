@@ -15,7 +15,7 @@ import collections
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'Tools', 'artifacts')
 sys.path.insert(0, os.path.join(ROOT, 'Tools'))
-from learnset_rules import TRAIT_TAG, TRAIT_NAMED, base_offense_of, offense_from_species
+from learnset_rules import TRAIT_TAG, TRAIT_NAMED
 
 sp = json.load(open(f'{ROOT}/Data/species.json', encoding='utf-8'))
 mv = json.load(open(f'{ROOT}/Data/moves.json', encoding='utf-8'))
@@ -56,8 +56,7 @@ for s in order:
     ms = [M[e['move_id']] for e in s['learnset']]
     ad = adapted(s)
     atk = [m for m in ms if m['power'] > 0]
-    pf = offense_from_species(s, idx[s['species_id']])
-    why = base_offense_of(s['trait'], idx[s['species_id']])[1]
+    OB = {'trait': '特性', 'cycle': '周期', 'speed': '俊敏'}
     t = tr.get(s['trait'], {})
     out.append({
         'id': s['species_id'], 'n': s['display_name'],
@@ -65,10 +64,11 @@ for s in order:
         # HABCDS（H/A/B/C/D/S）。bst は6能力の合計 BST6。dd = D(精神)、d は使わない。
         'hp': s['base_hp'], 'a': s['base_atk'], 'b': s['base_def'],
         'c': s['base_spatk'], 'dd': s['base_spdef'], 'sp': s['base_speed'],
-        'role': s['role'],
+        'role': s['role'], 'of': s['offense'], 'df': s['defense'],
+        'ob': OB[s['offense_source']],
+        'ti': s['base_hp'] * (s['base_def'] + s['base_spdef']),
         'bst': (s['base_hp'] + s['base_atk'] + s['base_def']
                 + s['base_spatk'] + s['base_spdef'] + s['base_speed']),
-        'pf': pf, 'pb': '特性' if why == 'trait' else '型',
         'tr': t.get('name', s['trait']), 'td': t.get('description', ''),
         'p': sum(1 for m in atk if m['category'] == 'Physical'),
         's': sum(1 for m in atk if m['category'] == 'Special'),

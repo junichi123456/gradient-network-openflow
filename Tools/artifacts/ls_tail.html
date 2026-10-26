@@ -4,8 +4,8 @@
 const SP = JSON.parse(document.getElementById('payload').textContent);
 const ELS = ['無','炎','水','草','電','地','氷','竜','闇','虚'];
 const ELK = {'無':'mu','炎':'hi','水':'mi','草':'ku','電':'de','地':'ti','氷':'ko','竜':'ry','闇':'ya','虚':'vo'};
-const PFJA = {Physical:'物理型', Special:'特殊型', Versatile:'打ち分け型'};
-const ROLEJA = {PhysicalWall:'物理耐久', PhysicalAttacker:'物理攻撃', SpecialWall:'特殊耐久', SpecialAttacker:'特殊攻撃', Mixed:'打ち分け'};
+const OFJA = {Physical:'物理攻撃', Special:'特殊攻撃', Mixed:'両刀攻撃'};
+const DFJA = {Physical:'物理耐久', Special:'特殊耐久', Both:'両面耐久'};
 const CATJA = {P:'物理', S:'特殊', T:'変化'};
 const SIG = 'メガデストラクト';
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -41,20 +41,20 @@ document.getElementById('bands').innerHTML = BANDS.map(([lo, hi]) => {
 }).join('');
 
 // ---- filters ----------------------------------------------------------
-let fEl = null, fPf = null, fRole = null, fQ = '', fSort = 'id', fTrait = '', sel = SP[0].id;
+let fEl = null, fOf = null, fDf = null, fQ = '', fSort = 'id', fTrait = '', sel = SP[0].id;
 
 document.getElementById('els').innerHTML =
   ELS.map(t => `<button class="chip" data-el="${t}" aria-pressed="false">${t}</button>`).join('');
-document.getElementById('pfs').innerHTML =
-  Object.entries(PFJA).map(([k, v]) => `<button class="chip" data-pf="${k}" aria-pressed="false">${v}</button>`).join('');
+document.getElementById('ofs').innerHTML =
+  Object.entries(OFJA).map(([k, v]) => `<button class="chip" data-of="${k}" aria-pressed="false">${v}</button>`).join('');
 
 // 特性は99種と多いので、実際に使われているものだけをドロップダウンで絞る
 // （名前の五十音順——頻度順だと同じ特性が探すたびに違う位置に来て使いにくい）。
 const traitCount = new Map();
 SP.forEach(s => traitCount.set(s.tr, (traitCount.get(s.tr) || 0) + 1));
 const traitList = [...traitCount.keys()].sort((a, b) => a.localeCompare(b, 'ja'));
-document.getElementById('roles').innerHTML =
-  Object.entries(ROLEJA).map(([k, v]) => `<button class="chip" data-role="${k}" aria-pressed="false">${v}</button>`).join('');
+document.getElementById('dfs').innerHTML =
+  Object.entries(DFJA).map(([k, v]) => `<button class="chip" data-df="${k}" aria-pressed="false">${v}</button>`).join('');
 document.getElementById('traitf').insertAdjacentHTML('beforeend',
   traitList.map(t => `<option value="${esc(t)}">${esc(t)} (${traitCount.get(t)})</option>`).join(''));
 document.getElementById('traitf').addEventListener('change', e => { fTrait = e.target.value; render(); });
@@ -70,21 +70,21 @@ document.getElementById('els').addEventListener('click', e => {
   const b = e.target.closest('.chip'); if (!b) return;
   toggle(e.currentTarget, 'el', fEl, b.dataset.el, v => fEl = v); render();
 });
-document.getElementById('pfs').addEventListener('click', e => {
+document.getElementById('ofs').addEventListener('click', e => {
   const b = e.target.closest('.chip'); if (!b) return;
-  toggle(e.currentTarget, 'pf', fPf, b.dataset.pf, v => fPf = v); render();
+  toggle(e.currentTarget, 'of', fOf, b.dataset.of, v => fOf = v); render();
 });
-document.getElementById('roles').addEventListener('click', e => {
+document.getElementById('dfs').addEventListener('click', e => {
   const b = e.target.closest('.chip'); if (!b) return;
-  toggle(e.currentTarget, 'role', fRole, b.dataset.role, v => fRole = v); render();
+  toggle(e.currentTarget, 'df', fDf, b.dataset.df, v => fDf = v); render();
 });
 document.getElementById('q').addEventListener('input', e => { fQ = e.target.value.trim(); render(); });
 document.getElementById('sort').addEventListener('change', e => { fSort = e.target.value; render(); });
 
 function matches(s) {
   if (fEl && !s.ty.includes(fEl)) return false;
-  if (fPf && s.pf !== fPf) return false;
-  if (fRole && s.role !== fRole) return false;
+  if (fOf && s.of !== fOf) return false;
+  if (fDf && s.df !== fDf) return false;
   if (fTrait && s.tr !== fTrait) return false;
   if (fQ && !(s.n.includes(fQ) || s.tr.includes(fQ) || s.mv.some(m => m[1].includes(fQ)))) return false;
   return true;
@@ -93,7 +93,7 @@ function matches(s) {
 // ---- render -----------------------------------------------------------
 function render() {
   let rows = SP.filter(matches);
-  const key = {id: s => s.id, bst: s => -s.bst, sp: s => -s.sp, mx: s => -s.mx, st: s => -s.st,
+  const key = {id: s => s.id, bst: s => -s.bst, sp: s => -s.sp, ti: s => -s.ti, mx: s => -s.mx, st: s => -s.st,
                nt: s => -s.nt, ad: s => s.ad}[fSort];
   rows = rows.slice().sort((a, b) => {
     const ka = key(a), kb = key(b);
@@ -106,9 +106,9 @@ function render() {
       <span class="row-id">${s.id}</span>
       <span class="row-n"><span>${esc(s.n)}</span>${s.ty.map(elChip).join('')}</span>
       <span class="row-r">
-        <span class="pf">${PFJA[s.pf]}・${ROLEJA[s.role]}</span>
+        <span class="pf">${OFJA[s.of]}/${DFJA[s.df]}</span>
         <span class="bst">${s.bst}</span>
-        <span class="bstbar"><i style="width:${Math.round((s.bst - 360) / 270 * 100)}%"></i></span>
+        <span class="bstbar"><i style="width:${Math.round((s.bst - 320) / 290 * 100)}%"></i></span>
       </span>
     </button>`).join('') : `<p class="empty">該当なし</p>`;
 
@@ -138,7 +138,7 @@ function detail(s) {
     <div class="dh">
       <div>
         <div class="dh-name">${esc(s.n)} ${s.ty.map(elChip).join('')}
-          <span class="pf">${PFJA[s.pf]}<span style="color:var(--muted)">・${s.pb}で決定</span></span></div>
+          <span class="pf">${OFJA[s.of]}/${DFJA[s.df]}</span></div>
         <div class="note">図鑑 ${s.id}</div>
       </div>
       <dl class="stats">
@@ -147,9 +147,11 @@ function detail(s) {
         <div><dt>B 防御</dt><dd>${s.b}</dd></div>
         <div><dt>C 魔力</dt><dd>${s.c}</dd></div>
         <div><dt>D 精神</dt><dd>${s.dd}</dd></div>
-        <div><dt>S 俊敏</dt><dd>${s.sp}</dd></div>
+        <div><dt>S 俊敏(種族値)</dt><dd>${s.sp}</dd></div>
         <div><dt>BST6</dt><dd>${s.bst}</dd></div>
-        <div><dt>役割</dt><dd>${ROLEJA[s.role]}</dd></div>
+        <div><dt>役割</dt><dd>${OFJA[s.of]}/${DFJA[s.df]}</dd></div>
+        <div><dt>総合耐久指数</dt><dd>${s.ti.toLocaleString()}</dd></div>
+        <div><dt>攻撃区分の根拠</dt><dd>${s.ob}</dd></div>
       </dl>
       <dl class="stats">
         <div><dt>物理</dt><dd>${s.p}</dd></div>

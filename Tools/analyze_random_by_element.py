@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """--random --out の CSV を属性別に集計する。
 
-usage: analyze_random_by_element.py <csv>... [--species Data/species.json]
+usage: analyze_random_by_element.py <csv>... [--species Data/species.json] [--by element|offense|defense|role|speed]
+
+--by: 集計の区分（既定 element）。offense/defense/role は species.json の同名キー、
+speed は種族値 S の帯 (<=62 / 63-87 / 88-99 / >=100)。element 以外は1個体につき1区分（二重計上なし）。
 
 CSV 列（ヘッダ無し）: match,outcome,home_sel,away_sel,home_bst,away_bst,cycles
  - 属性 X の勝率: 選出に X を持つ個体（二重属性は両方に計上）の出場1回ごと。
@@ -16,7 +19,18 @@ def main():
     sp_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'Data', 'species.json')
     if '--species' in args:
         i = args.index('--species'); sp_path = args[i + 1]; del args[i:i + 2]
-    types = {s['species_id']: s['types'] for s in json.load(open(sp_path, encoding='utf-8'))}
+    by = 'element'
+    if '--by' in args:
+        i = args.index('--by'); by = args[i + 1]; del args[i:i + 2]
+    if by not in ('element', 'offense', 'defense', 'role', 'speed'):
+        sys.exit('--by は element|offense|defense|role|speed')
+    def speed_band(v):
+        return '<=62' if v <= 62 else '63-87' if v <= 87 else '88-99' if v <= 99 else '>=100'
+    def keys_of(s):
+        if by == 'element': return s['types']
+        if by == 'speed': return [speed_band(s['base_speed'])]
+        return [s[by]]
+    types = {s['species_id']: keys_of(s) for s in json.load(open(sp_path, encoding='utf-8'))}
     rows = []
     for p in args:
         for line in open(p, encoding='utf-8'):
@@ -42,6 +56,9 @@ def main():
         else: hi = mid
     k = (lo + hi) / 2
     print(f'BST差ロジスティック k = {k:.6f}')
+    neq = [r for r in dec if r[3] != r[4]]
+    hw = sum((r[0] == 'H') == (r[3] > r[4]) for r in neq)
+    print(f'BST6が高い側の勝ち: {hw}/{len(neq)} = {100*hw/len(neq):.1f}%（同値 {len(dec)-len(neq)} 試合を除く）')
     stat = {}
     for oc, hs, as_, hb, ab in dec:
         ph = 1 / (1 + math.exp(-k * (hb - ab)))
@@ -52,11 +69,18 @@ def main():
                 for t in types[sid]:
                     s = stat.setdefault(t, [0, 0, 0.0])
                     s[0] += 1; s[1] += won; s[2] += exp
-    order = ['Neutral', 'Fire', 'Water', 'Grass', 'Electric', 'Ground', 'Ice', 'Dragon', 'Dark', 'Void']
-    print(f'{"属性":<9}{"出場数":>8}{"勝率%":>8}{"期待%":>8}{"補正後pt":>9}')
+    if by == 'element':
+        order = ['Neutral', 'Fire', 'Water', 'Grass', 'Electric', 'Ground', 'Ice', 'Dragon', 'Dark', 'Void']
+    elif by == 'speed':
+        order = ['<=62', '63-87', '88-99', '>=100']
+    else:
+        O = ['Physical', 'Special', 'Mixed']; D = ['Physical', 'Special', 'Both']
+        order = {'offense': O, 'defense': D, 'role': [f'{o}-{d}' for o in O for d in D]}[by]
+    label = {'element': '属性', 'offense': '攻撃区分', 'defense': '耐久区分', 'role': '役割', 'speed': '俊敏帯'}[by]
+    print(f'{label:<17}{"出場数":>8}{"勝率%":>8}{"期待%":>8}{"補正後pt":>9}')
     for t in order + [t for t in stat if t not in order]:
         if t not in stat: continue
         n, w, e = stat[t]
-        print(f'{t:<9}{n:>8}{100*w/n:>8.1f}{100*e/n:>8.1f}{100*(w-e)/n:>+9.1f}')
+        print(f'{t:<17}{n:>8}{100*w/n:>8.1f}{100*e/n:>8.1f}{100*(w-e)/n:>+9.1f}')
 
 main()
