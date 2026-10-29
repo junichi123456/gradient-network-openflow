@@ -2751,3 +2751,25 @@ BST6 が高い側の勝ち 1729/2932 = 59.0%（同値 21 試合を除く）。
 
 - `Tools/verify_sprites.py`: 全287種で10ファイルの存在・サイズ・RGBA・四隅透明・セル縁に触れない・足元位置を確認（全件PASS）。
 - `godot --headless --import` で `.png.import` を生成してコミット。
+
+### 34-5. v2: パーツ式モデル（参照画像を見て組む）
+
+箱組みの自動生成（34-2 の生成法）をやめ、種ごとに参照画像（palworld.gg アイコン、wiki.gg・game8 等の
+別アングル・ゲーム内画像）を見て、`Data/sprite_models/{species_id}.json` を手で作る。規格（ファイル名・192px セル・
+8方向＋walk/attack・足元アンカー）は不変。モデル JSON が無い種は `gen_pal_sprites.py` がエラーで止まる。
+
+手順: `Tools/fetch_pal_refs.py`（対応表 `Tools/pal_ref_map.json` とアイコンを `Tools/.refcache/{id}/icon.png` に保存。
+参照画像は gitignore でコミットしない。追加の参照は同じ dir に手で置く）→ モデル JSON を作る →
+`gen_pal_sprites.py {id}`（または `--sheet {id…}` で SHEET_DIR にコンタクトシート）→ 参照と見比べて直す。
+
+スキーマ（座標系: 単位は 1 単位 = 最終 4px、足元が y=0、y が上、前方が +z、x は画面右が +）:
+- `name`, `gait`（biped|quad|hover|slither|none）, `palette`（名前→#RRGGBB）, `hover`（任意、浮遊の高さ）,
+  `pivots`（任意、グループ名→[x,y,z] の回転軸。既定: 脚・腕は上端中央、翼は内縁、尾は前端、頭・耳は下端中央）, `refs`（[{url, note}]）
+- `parts`: `{name, shape, center:[x,y,z], size:[sx,sy,sz], color, group, rot?:[rx,ry,rz度], mirror_x?}`。
+  shape は ellipsoid|box|cylinder(軸y)|cone(頂点+y)|wedge(高い側が -z)。`size` は全幅。`color` は palette 名か #RRGGBB。
+  `mirror_x: true` は x を反転した複製を作り、group の `_l/_r`・`fl/fr`・`bl/br` を入れ替える。
+- `group`: body（既定）/head/arm_l,arm_r/leg_fl,leg_fr,leg_bl,leg_br/tail/wing_l,wing_r/ear。名前の前置で動きが決まる
+  （leg*, arm*, wing*, tail*, head*, ear*）。biped は leg_fl/leg_fr を2脚として交互に、quad は fl+br と fr+bl を対にスイング。
+- 描画: 部品の表面をサンプリングした点群（間隔 ≤0.9 単位）を Y 回転→斜め見下ろし正射影→深度順に塗る。
+  陰影は法線×光の連続値。はみ出す種は全フレーム共通で自動縮小。決定的。
+- 試作: 001 モコロン（二足）、009 ブシガエル（二足）、160 アイギルガ（四足竜）。160 は全身の参照画像が取得できず、胴・脚・尾は推定。

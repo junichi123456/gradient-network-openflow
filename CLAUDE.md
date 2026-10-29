@@ -152,7 +152,10 @@ URL を保つ。
 
 ### スプライトは自動生成
 
-`Assets/Sprites/{id}/` は `/usr/bin/python3 Tools/gen_pal_sprites.py` で再生成する（numpy/PIL が要る。`/usr/bin/python3` に入っている）。検証は `Tools/verify_sprites.py`、規格は `docs/design/pvp_spec.md` §34。
+スプライトはパーツ式モデル（v2）。`Tools/fetch_pal_refs.py`（参照アイコンを `Tools/.refcache/` へ。コミットしない）→
+種ごとに参照画像を見て `Data/sprite_models/{id}.json` を作る → `/usr/bin/python3 Tools/gen_pal_sprites.py {id…}`
+（`--sheet` で目視用シート。モデルが無い種はエラー）で `Assets/Sprites/{id}/` を再生成。numpy/PIL は `/usr/bin/python3` に入っている。
+検証は `Tools/verify_sprites.py`、規格とスキーマは `docs/design/pvp_spec.md` §34（34-5）。
 
 ### 設計記録
 
