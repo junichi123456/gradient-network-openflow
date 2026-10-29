@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """--random --out の CSV を属性別に集計する。
 
-usage: analyze_random_by_element.py <csv>... [--species Data/species.json] [--by element|offense|defense|role|speed|trait2|species] [--only-mixed] [--bootstrap B]
+usage: analyze_random_by_element.py <csv>... [--species Data/species.json] [--by element|offense|defense|role|speed|trait2|species|protection] [--only-mixed] [--bootstrap B]
 
 --by: 集計の区分（既定 element）。offense/defense/role は species.json の同名キー、
 speed は種族値 S の帯 (<=62 / 63-87 / 88-99 / >=100)。element 以外は1個体につき1区分（二重計上なし）。
 trait2 は2つめの特性の id（持たない個体は 'なし:' + 攻撃区分。両刀で持たない個体は 'なし:Mixed' = 対照群）。
+protection はプロテクション（仕様書 docs/design/drafts/2026-10-29-protection.md §3-5 の 8）の群別:
+learnset に mvs_ice_protection を持つ個体は '習得:trait2あり' / '習得:trait2なし'、持たない個体は 'なし:' + 攻撃区分。
+そのあとに合算行 '習得:計'（2群を合わせた出場単位の勝率・期待・補正後pt。--bootstrap 時は同じリサンプルで SE も出す）。
 species は species_id + 表示名（個体別）。--only-mixed を付けると両刀38種の行だけ表示（species 用）。
 
 CSV 列（ヘッダ無し）: match,outcome,home_sel,away_sel,home_bst,away_bst,cycles
@@ -31,8 +34,8 @@ def main():
     boot = 0
     if '--bootstrap' in args:
         i = args.index('--bootstrap'); boot = int(args[i + 1]); del args[i:i + 2]
-    if by not in ('element', 'offense', 'defense', 'role', 'speed', 'trait2', 'species'):
-        sys.exit('--by は element|offense|defense|role|speed|trait2|species')
+    if by not in ('element', 'offense', 'defense', 'role', 'speed', 'trait2', 'species', 'protection'):
+        sys.exit('--by は element|offense|defense|role|speed|trait2|species|protection')
     def speed_band(v):
         return '<=62' if v <= 62 else '63-87' if v <= 87 else '88-99' if v <= 99 else '>=100'
     def keys_of(s):
@@ -40,6 +43,10 @@ def main():
         if by == 'speed': return [speed_band(s['base_speed'])]
         if by == 'trait2': return [s.get('trait2') or 'なし:' + s['offense']]
         if by == 'species': return [s['species_id'] + ' ' + s['display_name']]
+        if by == 'protection':
+            if any(e['move_id'] == 'mvs_ice_protection' for e in s['learnset']):
+                return ['習得:trait2あり' if s.get('trait2') else '習得:trait2なし', '習得:計']
+            return ['なし:' + s['offense']]
         return [s[by]]
     sp_all = json.load(open(sp_path, encoding='utf-8'))
     types = {s['species_id']: keys_of(s) for s in sp_all}
@@ -105,12 +112,14 @@ def main():
     elif by == 'trait2':
         order = ['wide_burst', 'kowaza_jouzu', 'shimikomi', 'entry_puddle', 'entry_flowerbed', 'entry_thin_ice',
                  'なし:Mixed', 'なし:Physical', 'なし:Special']
+    elif by == 'protection':
+        order = ['習得:trait2あり', '習得:trait2なし', 'なし:Mixed', 'なし:Physical', 'なし:Special', '習得:計']
     elif by == 'species':
         order = sorted(stat)
     else:
         O = ['Physical', 'Special', 'Mixed']; D = ['Physical', 'Special', 'Both']
         order = {'offense': O, 'defense': D, 'role': [f'{o}-{d}' for o in O for d in D]}[by]
-    label = {'element': '属性', 'offense': '攻撃区分', 'defense': '耐久区分', 'role': '役割', 'speed': '俊敏帯', 'trait2': '2つめの特性', 'species': '個体'}[by]
+    label = {'element': '属性', 'offense': '攻撃区分', 'defense': '耐久区分', 'role': '役割', 'speed': '俊敏帯', 'trait2': '2つめの特性', 'species': '個体', 'protection': 'プロテクション'}[by]
     print(f'{label:<17}{"出場数":>8}{"勝率%":>8}{"期待%":>8}{"補正後pt":>9}' + (f'{"SE":>7}' if boot > 0 else ''))
     for t in order + [t for t in stat if t not in order]:
         if t not in stat: continue

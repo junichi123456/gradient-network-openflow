@@ -27,7 +27,7 @@ EL = {'Neutral': '無', 'Fire': '炎', 'Water': '水', 'Grass': '草', 'Electric
       'Ground': '地', 'Ice': '氷', 'Dragon': '竜', 'Dark': '闇', 'Void': '虚'}
 CAT = {'Physical': 'P', 'Special': 'S', 'Status': 'T'}
 RG = {'Adjacent': '単体', 'Line': '直線', 'TwoTile': '2マス', 'Area': '範囲',
-      'Room': '部屋', 'FullFloor': '全体', 'Surrounding': '周囲'}
+      'Room': '部屋', 'FullFloor': '全体', 'Surrounding': '周囲', 'FrontArc': '正面3'}
 
 
 def adapted(x):
