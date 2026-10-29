@@ -1,36 +1,36 @@
-# スプライト v2: 参照画像からの生成（全個体を見分けられる品質）
+# スプライト v2（改訂）: 複数参照画像を見て組む「パーツ式モデル」
 
 ## 目的
-現行スプライト（`Tools/gen_pal_sprites.py`、箱組みの自動生成。pvp_spec §34）は全種が似通っていて不評。パル名で調べた参照画像（色・形）を元に、**287種すべてが見た目で区別できる**品質のスプライトを作る。規格（ファイル名・192x192セル・8方向静止＋walk/attack 4コマ×8行シート・足元アンカー）は変えず、中身だけ差し替える。ゲームコード・Data は変更しない。
+現行スプライト（`Tools/gen_pal_sprites.py`、箱組みの自動生成。pvp_spec §34）は全種が似通っていて不評。ユーザー指示: palworld.gg のアイコン1枚では全身が分からないので、**web上のあらゆるシーン（複数アングル・ゲーム内スクショ・wiki等）を確認**し、**全287種が見た目で区別できる品質**にする。「アイコンを押し出すだけ」では同程度の品質に留まる恐れがあるため、**種ごとに参照画像を見て、パーツ構成・色・特徴を明示したモデル定義 JSON を作り、共通レンダラで描く**方式にする。規格（ファイル名・192x192セル・8方向静止＋walk/attack 4コマ×8行・足元アンカー）は §34 のまま。ゲームコード・Data は変更しない。
 
-## 事実（調査済み・再調査不要）
-- `Data/species.json` の `display_name`（287件）は **全件**、`https://palworld.gg/ja/pals` の一覧に同名で存在する（B付き変種も別名で存在）。一覧HTML内の各 `<a href="/ja/pal/{URLエンコード名}">…` ブロックに `full_palicon/T_{内部名}_icon_normal.png` が含まれる（`&amp;` に注意）。
-- アイコン実体: `https://palworld.gg/images/full_palicon/T_{内部名}_icon_normal.png`（128x128 RGBA、curl で 200）。fandom は 403。
-- Python は `/usr/bin/python3`（numpy/PIL あり）。回帰・Data には触れない。
+## 事実（調査済み）
+- `Data/species.json` の `display_name`（287件）は全件 `https://palworld.gg/ja/pals` に同名で存在。各 `<a href="/ja/pal/{URLエンコード名}">` ブロック内に `full_palicon/T_{内部名}_icon_normal.png` があり、実体は `https://palworld.gg/images/full_palicon/T_{内部名}_icon_normal.png`（128px, 取得可）。
+- 到達可: palworld.gg、paldb.cc（`/ja/{英名}`、CDN `cdn.paldb.cc`）、palworld.wiki.gg（`/wiki/{英名}`）、game8.jp（`/pal-world/{id}`、`img.game8.jp`/`assets.game8.jp` に画像）、gamepedia.jp、i.ytimg.com サムネ。fandom は 403、palworld.th.gg は 502。WebSearch（標準/extended）も使える。
+- 取得は curl（プロキシ設定済み）、画像の閲覧は Read ツール。Python は `/usr/bin/python3`（numpy/PIL あり）。
 
-## 変更内容
-1. `Tools/fetch_pal_refs.py`（新規）: 一覧HTMLを取得→名前→アイコン名の対応を作り、全287枚を `Tools/.refcache/{species_id}.png` にダウンロード（既存ならスキップ、礼儀として 0.2 秒間隔）。`Tools/.refcache/` は `.gitignore` に追加（参照画像は**コミットしない**）。対応表 `Tools/pal_ref_map.json`（species_id→内部名）はコミットする。
-2. `Tools/gen_pal_sprites.py` を参照画像ベースに改修:
-   - アイコンの不透明部を前面シルエット+配色として使い、前面を元の色のままボクセル化（1ボクセル=アイコン上の数px、全種共通の解像度。パルの大小は元アイコンの占有率でなく既存の BST6 四分位スケールではなく**元アイコン内の占有率**を既定とし、極端に小さい/大きい種だけ上限・下限で丸める）。
-   - 奥行きは距離変換（シルエット縁ほど薄い）で丸みを付けた厚みとし、背面は前面色を暗くして流用（顔・目の位置が前面にだけ見える）。
-   - 8方向は Y軸回転のボクセルレンダ（既存レンダラ流用可）。方向名と向きの対応・足元アンカー・セルサイズ・はみ出し無しは §34 のまま。
-   - walk: 下部（シルエット下 25%）を左右交互に前後スイング、胴は上下に弾む。浮遊系（足元が細い/空中）は上下動のみ。attack: 溜め→前傾突進→命中→戻り。いずれも全体変形で良い。
-   - 決定的（同入力→同バイト）。参照画像が無い種は旧ロジックにフォールバックせず**エラーで止める**。
-   - 周囲の透過・縁のジャギは軽く整える程度（アンチエイリアスは有効）。
-3. 全287種を再生成し `Assets/Sprites/` を差し替え、`Tools/verify_sprites.py` を通す。`godot --headless --import` を実行して `.import` を更新（未追跡の `docs/export/*.translation` 等が生成されたら削除）。
-4. `Tools/build_ls_payload.py` を再実行して `Tools/artifacts/learnset_viewer.html` を再生成（公開は私がやる）。
-5. `docs/design/pvp_spec.md` の §34 末尾に「v2: 参照画像方式」を追記、CLAUDE.md の「スプライトは自動生成」節を `fetch_pal_refs.py` → `gen_pal_sprites.py` の手順に直す。
+## 変更内容（段階1: 基盤）
+1. `Tools/fetch_pal_refs.py`: 名前→アイコン名の対応表 `Tools/pal_ref_map.json`（species_id→内部名/英名）を作り、アイコンを `Tools/.refcache/{species_id}/icon.png` に保存。追加の参照画像は各種ごとに `Tools/.refcache/{species_id}/` に集める（wiki.gg / paldb / game8 / 検索で見つけた別アングル・ゲーム内シーン）。`Tools/.refcache/` は `.gitignore`（参照画像はコミットしない）。
+2. モデル定義スキーマ `Data/sprite_models/{species_id}.json`（コミットする）:
+   - `palette`: 名前→#RRGGBB（参照画像から読んだ実色）。
+   - `parts`: 配列。各 `{name, shape: ellipsoid|box|cylinder|cone|wedge, center:[x,y,z], size:[sx,sy,sz], color, group, rot?, mirror_x?}`。単位は 1/16 タイル程度のグリッド（スキーマ仕様は実装者が決めて `docs/design/pvp_spec.md` §34 に書く）。足元が y=0、前方が +z。
+   - `group`: body/head/arm_l/arm_r/leg_fl/leg_fr/leg_bl/leg_br/tail/wing_l/wing_r/ear/… アニメ用。`gait`: biped|quad|hover|slither|none。
+   - `features`: 目・口・模様（顔面上の色パッチ）を小パーツとして明示。
+   - `refs`: 見た参照画像のURL/ファイル名と、確認した点のメモ1〜2行。
+3. `Tools/gen_pal_sprites.py` を「モデルJSON → ボクセル化 → 8方向レンダ（既存のレンダラ・陰影・足元アンカー・はみ出し防止を流用）→ walk/attack をグループ変形（脚の前後スイング・胴の上下・腕振り・翼羽ばたき・尾振り、攻撃は溜め→突進→命中→戻り）」に作り替える。モデルJSONが無い種はエラーで止める（旧ロジックへフォールバックしない）。決定的。
+4. 試作3種（形の異なる 001 モコロン / 009 ブシガエル / 竜型1種）を**参照画像を実際に見て**作り、コンタクトシート（8方向＋walk＋attack）で確認。ここで段階1は完了とし、**実装者は止まって報告する**（Opus がレビューしてから段階2へ）。
+
+## 変更内容（段階2: 全種制作）
+段階1の合格後、Opus が残り284種を分割して別エージェントに配る。各担当は担当種ごとに:
+① 参照画像を**最低3枚**集めて見る（アイコン＋wiki/ゲーム内の別アングルを可能な限り。背面・側面が見えるものを優先）、② モデルJSONを作る、③ 生成して自分の出力と参照を見比べ、色・形・特徴パーツ（角・耳・尾・翼・模様・持ち物）が一致するまで直す。B付き変種は元種と別個体として、色・特徴の違いを必ず反映する。
 
 ## 判断が必要だった点
-- 参照画像は著作物。リポジトリには**生成物のみ**を置き、参照画像は gitignore のキャッシュに限定。
-- 前面1枚からの立体化なので、背面・側面は推定（簡素）。区別可能性を優先。
+- 完全自動（アイコン押し出し）は低コストだが同程度の品質に留まる→パーツ式の手作りモデルを採用（トークン消費は増える。ユーザーは品質を優先）。
+- 参照画像は著作物のため、コミットは生成物とモデルJSON（数値・色・URLメモ）のみ。
 
 ## 検証方法
-- 287種すべてに画像が生成され `verify_sprites.py` が全PASS、再実行でバイト一致。
-- 区別可能性の自動検査: 各種 front の（縮小色ヒストグラム＋シルエット）の特徴ベクトルが全ペアで十分離れていること（同一視される近似ペアが無いか、閾値を実測して報告）。
-- 目視: 12種（形が異なる種を選ぶ）のコンタクトシートを1〜2回だけ確認し、参照アイコンと見比べて色・形が一致、向きが方向名と合うこと。
-- `dotnet build` 0エラー、回帰スイート NG 0 を6回、既存 verify_*.py PASS。
-- Playwright で learnset ビューアの画像287件読込・方向切替が従来どおり。
+- 段階1: 試作3種のシートを目視し、参照と形・色が合い、8方向の向きが方向名と合うこと。`verify_sprites.py` PASS。
+- 段階2完了後: 287種すべて `Data/sprite_models/` あり、`verify_sprites.py` 全PASS、再生成でバイト一致、**全ペアの front 特徴量（色ヒストグラム＋シルエット）距離の下位ペアを列挙し**近似ペアを手直し、目視は各担当が参照との照合を報告。
+- `dotnet build` 0エラー、回帰スイート NG 0（6回）、既存 verify_*.py PASS、`godot --headless --import` の生成物整理、learnset ビューア再生成＋Playwright で287件読込。
 
 ## やらないこと
-- 参照画像のコミット、背面/側面の手描き忠実再現、ゲームコード・戦闘データの変更、被弾等の追加モーション。
+参照画像のコミット、ゲームコード・戦闘データの変更、被弾等の追加モーション。
