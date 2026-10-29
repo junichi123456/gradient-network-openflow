@@ -189,6 +189,52 @@ public static class SpriteTextureLibrary
         return true;
     }
 
+    // ---- 歩行・攻撃シート (2026-10-29-pal-sprites) ----
+    // res://Assets/Sprites/{id}/{walk|attack}.png は 4列x8行（行順は下の
+    // _sheetRows = front,back,left,right,fl,fr,bl,br）、1セル 192x192。
+    // 無ければ null（呼び出し側は静止画にフォールバックする）。
+    private const int SheetCellSize = 192;
+    private const int SheetColumns = 4;
+    private static readonly Dictionary<(string, string, int, int), AtlasTexture> _frameCache = new();
+
+    private static readonly Dictionary<Vector2I, int> _sheetRows = new()
+    {
+        [new Vector2I(0, 1)] = 0,
+        [new Vector2I(0, -1)] = 1,
+        [new Vector2I(-1, 0)] = 2,
+        [new Vector2I(1, 0)] = 3,
+        [new Vector2I(-1, 1)] = 4,
+        [new Vector2I(1, 1)] = 5,
+        [new Vector2I(-1, -1)] = 6,
+        [new Vector2I(1, -1)] = 7,
+    };
+
+    public static Texture2D GetSheet(string spriteId, string action)
+    {
+        if (string.IsNullOrEmpty(spriteId) || string.IsNullOrEmpty(action)) return null;
+        string path = string.Format(DirectionalFileFormat, spriteId, action);
+        return TryLoadImageTexture(path, out var texture) ? texture : null;
+    }
+
+    public static Texture2D GetFrame(string spriteId, string action, Vector2I direction, int frame)
+    {
+        if (frame < 0 || frame >= SheetColumns) return null;
+        int row = _sheetRows.GetValueOrDefault(direction, 0);
+        var key = (spriteId, action, row, frame);
+        if (_frameCache.TryGetValue(key, out var cached)) return cached;
+
+        var sheet = GetSheet(spriteId, action);
+        if (sheet == null) return null;
+
+        var atlas = new AtlasTexture
+        {
+            Atlas = sheet,
+            Region = new Rect2(frame * SheetCellSize, row * SheetCellSize, SheetCellSize, SheetCellSize),
+        };
+        _frameCache[key] = atlas;
+        return atlas;
+    }
+
     private static Texture2D GetFallbackTexture(Color color, int size)
     {
         var key = (color, size);

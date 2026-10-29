@@ -225,8 +225,8 @@ public partial class Entity : Node2D, ITurnActor
         {
             Texture = SpriteTextureLibrary.GetTexture(SpriteId, FacingDirection, DebugColor, (int)VisualSize),
             Centered = true,
-            Scale = new Vector2(VisualScale, VisualScale),
         };
+        ApplyVisualScale();
         _visual.Offset = ComputeFeetOffset(_visual.Texture);
         AddChild(_visual);
     }
@@ -267,7 +267,7 @@ public partial class Entity : Node2D, ITurnActor
     // are untouched.
     private Vector2 ComputeFeetOffset(Texture2D texture)
     {
-        float scale = Mathf.Max(VisualScale, 0.0001f); // guard against a stray 0 producing Infinity/NaN
+        float scale = Mathf.Max(EffectiveVisualScale(texture), 0.0001f); // guard against a stray 0 producing Infinity/NaN
         float halfTileInLocalSpace = (TileWorldSize / 2f) / scale;
         return new Vector2(0, -texture.GetHeight() / 2f + halfTileInLocalSpace);
     }
@@ -283,7 +283,58 @@ public partial class Entity : Node2D, ITurnActor
     {
         if (_visual == null) return;
         _visual.Texture = SpriteTextureLibrary.GetTexture(SpriteId, FacingDirection, DebugColor, (int)VisualSize);
+        ApplyVisualScale();
         _visual.Offset = ComputeFeetOffset(_visual.Texture);
+    }
+
+    // ---- 歩行・攻撃のコマ再生 (2026-10-29-pal-sprites / pvp_spec §34) ----
+    // 見た目だけの処理。戦闘ロジック・ターン処理・乱数には一切触れない。
+    // 192px セルの生成スプライトは、標準で CellTextureScale 倍して表示する
+    // （32px タイルに対して 192px のまま出すと大きすぎるため）。
+    // 旧規格(960x800 など)の画像はそのまま VisualScale 倍で表示する。
+    private const int SpriteCellSize = 192;
+    private const float CellTextureScale = 0.5f;
+    private const int SheetFrameCount = 4;
+    private Tween _frameTween;
+
+    private float EffectiveVisualScale(Texture2D texture)
+    {
+        return VisualScale * (texture != null && texture.GetWidth() == SpriteCellSize ? CellTextureScale : 1f);
+    }
+
+    private void ApplyVisualScale()
+    {
+        float s = EffectiveVisualScale(_visual.Texture);
+        _visual.Scale = new Vector2(s, s);
+    }
+
+    // action = "walk" | "attack"。シートの4コマを duration 秒で均等に再生し、
+    // 終わったら待機画像へ戻す。シートが無い種は何もしない（従来の静止表示）。
+    private void PlayFrameAnimation(string action, double duration)
+    {
+        _frameTween?.Kill();
+        _frameTween = null;
+        if (_visual == null || !IsInsideTree() || duration <= 0) return;
+        if (SpriteTextureLibrary.GetFrame(SpriteId, action, FacingDirection, 0) == null) return;
+
+        SetAnimFrame(action, 0);
+        var tween = CreateTween();
+        _frameTween = tween;
+        tween.TweenMethod(Callable.From<double>(v => SetAnimFrame(action, Math.Min(SheetFrameCount - 1, (int)v))),
+            0.0, (double)SheetFrameCount, duration);
+        tween.TweenCallback(Callable.From(() =>
+        {
+            if (!GodotObject.IsInstanceValid(this) || _frameTween != tween) return;
+            _frameTween = null;
+            UpdateSprite();
+        }));
+    }
+
+    private void SetAnimFrame(string action, int frame)
+    {
+        if (_visual == null || !GodotObject.IsInstanceValid(_visual)) return;
+        var tex = SpriteTextureLibrary.GetFrame(SpriteId, action, FacingDirection, frame);
+        if (tex != null) _visual.Texture = tex;
     }
 
     // Recomputes FacingDirection from a move/attack target, normalizing
@@ -448,6 +499,7 @@ public partial class Entity : Node2D, ITurnActor
     {
         GridPosition = gridPos;
         _visualMoveTween?.Kill(); // don't let a stale tween fight this snap
+        if (_frameTween != null) { _frameTween.Kill(); _frameTween = null; UpdateSprite(); }
         if (Grid != null) Position = Grid.GridToWorld(gridPos);
     }
 
@@ -470,6 +522,7 @@ public partial class Entity : Node2D, ITurnActor
         _visualMoveTween?.Kill();
         _visualMoveTween = CreateTween();
         _visualMoveTween.TweenProperty(this, "position", Grid.GridToWorld(gridPos), duration);
+        PlayFrameAnimation("walk", duration);
     }
 
     // "Body slam" bump animation for an adjacent attack: nudge partway
@@ -491,6 +544,7 @@ public partial class Entity : Node2D, ITurnActor
         _visualMoveTween = CreateTween();
         _visualMoveTween.TweenProperty(this, "position", nudge, BumpForwardDuration);
         _visualMoveTween.TweenProperty(this, "position", home, BumpReturnDuration);
+        PlayFrameAnimation("attack", BumpForwardDuration + BumpReturnDuration);
     }
 
     // Called by MoveAction right after a step lands. Resolves the field the
