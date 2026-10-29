@@ -79,6 +79,7 @@ public partial class BattleTestScene : Node2D
         VerifyHabcdsWiring();
         VerifySpread();
         VerifyRestrictions();
+        VerifyProtection();
         RunBattle();
 
         // 終了時クラッシュ対策: 試合が長引くと未処理の Tween の C# ラッパーが
@@ -2521,6 +2522,379 @@ public partial class BattleTestScene : Node2D
         atk.Stats.Trait = savedTrait.atk; def.Stats.Trait = savedTrait.def; mate.Stats.Trait = savedTrait.mate;
         atk.FaceDirection(BattleBoard.Facing(Faction.Enemy));
         def.FaceDirection(BattleBoard.Facing(Faction.Player));
+    }
+
+    // プロテクション（仕様書 docs/design/drafts/2026-10-29-protection.md §4-2 の P1〜P16）。
+    // 生きている個体から役を割り当て（陣営・位置・向き・特性・属性は最後に戻す）、AttackAction を直接撃つ。
+    private void VerifyProtection()
+    {
+        const string ProtId = "mvs_ice_protection";
+        void Rep(string id, string label, bool ok, string detail) =>
+            GD.Print($"[検証] {id} {label}: {(ok ? "OK" : "NG")} ({detail})");
+        MoveData Mv(string id) => MoveDatabase.Get(id);
+
+        // ---- P1 技データ ----
+        {
+            var m = Mv(ProtId);
+            bool fields = m != null && m.Type == "Ice" && m.Category == MoveCategory.Status && m.Power == 0
+                          && m.Accuracy == 100 && m.MaxPp == 10 && m.Priority == 3
+                          && m.Range == MoveRange.FrontArc && m.GrantsProtection;
+            var ids = MoveDatabase.AllIds().ToList();
+            int othersWithFlag = ids.Count(id => id != ProtId && MoveDatabase.Get(id).GrantsProtection);
+            int others = ids.Count(id => id != ProtId);
+            Rep("P1", "プロテクションの技データ(Ice/Status/威力0/命中100/PP10/優先度3/FrontArc/効果あり)・他の627技は効果なし",
+                fields && othersWithFlag == 0 && others == 627, $"定義={fields} 他の技{others}種 うち効果あり{othersWithFlag}");
+        }
+
+        // ---- P2 習得者 ----
+        {
+            var expected = new[] { "007", "007B", "016", "021B", "022", "023", "030", "036", "041B", "042", "048B",
+                                   "064B", "073", "073B", "083B", "084", "084B", "096", "100", "100B", "101", "108",
+                                   "112B", "127", "133", "138B", "154", "169B", "178", "188", "188B" };
+            var all = SpeciesDatabase.Instance.All.Values.ToList();
+            var got = all.Where(sp => sp.Learnset.Any(l => l.MoveId == ProtId)).Select(sp => sp.SpeciesId)
+                         .OrderBy(x => x, System.StringComparer.Ordinal).ToArray();
+            bool setOk = got.SequenceEqual(expected.OrderBy(x => x, System.StringComparer.Ordinal));
+            bool rowsOk = all.All(sp =>
+            {
+                var rows = sp.Learnset.Where(l => l.MoveId == ProtId).ToList();
+                return rows.Count == 0 || (rows.Count == 1 && rows[0].Level == 10);
+            });
+            Rep("P2", "習得者が両刀BST6<=470の31種ちょうど(各1行・level 10)", setOk && rowsOk && got.Length == 31,
+                $"習得{got.Length}種 集合一致={setOk} 各1行level10={rowsOk}");
+        }
+
+        // ---- P3 正面3マスの形 ----
+        {
+            HashSet<Vector2I> Tiles(Vector2I pos, Vector2I facing) => TargetResolver.ResolveTiles(
+                MoveRange.FrontArc, pos, facing, pos, _grid, _floor).ToHashSet();
+            var n = Tiles(new Vector2I(3, 4), new Vector2I(0, -1));
+            var ne = Tiles(new Vector2I(3, 4), new Vector2I(1, -1));
+            var north0 = Tiles(new Vector2I(0, 0), new Vector2I(0, -1));
+            var east0 = Tiles(new Vector2I(0, 0), new Vector2I(1, 0));
+            var none = Tiles(new Vector2I(3, 4), Vector2I.Zero);
+            bool ok = n.SetEquals(new[] { new Vector2I(3, 3), new Vector2I(4, 3), new Vector2I(2, 3) })
+                      && ne.SetEquals(new[] { new Vector2I(4, 3), new Vector2I(4, 4), new Vector2I(3, 3) })
+                      && north0.Count == 0
+                      && east0.SetEquals(new[] { new Vector2I(1, 0), new Vector2I(1, 1) })
+                      && none.Count == 0;
+            Rep("P3", "正面3マスの形(北・北東・盤外で欠ける・向き無しは空)", ok,
+                $"北={n.Count} 北東={ne.Count} 隅で北={north0.Count} 隅で東={east0.Count} 向き無し={none.Count}");
+        }
+
+        // ---- 準備: 生きている個体に役を割り当てる ----
+        // E は隣接の攻撃技を持つ個体（P16 で実際の技枠を使う）。
+        var alive = _sched.Roster.Where(e => e.IsAlive).ToList();
+        var E = alive.FirstOrDefault(e => Enumerable.Range(0, e.Moves.Slots.Count)
+            .Any(i => e.Moves.Slots[i].Data.Power > 0 && e.Moves.Slots[i].Data.Range == MoveRange.Adjacent));
+        var rest = alive.Where(e => e != E).ToList();
+        if (E == null || rest.Count < 4)
+        {
+            for (int i = 4; i <= 16; i++)
+                Rep($"P{i}", "準備", false, $"生きている個体が足りない(生存{alive.Count})");
+            return;
+        }
+        Entity U = rest[0], A = rest[1], B = rest[2], C = rest[3];
+        var roles = new[] { U, A, B, C, E };
+        var parked = _sched.Roster.Where(e => !roles.Contains(e)).ToList();
+
+        var saved = _sched.Roster.ToDictionary(e => e, e => (e.Faction, e.GridPosition, e.FacingDirection,
+                                                              e.Stats.Trait, e.Stats.Type1, e.Stats.Type2));
+        var savedWeather = _floor.Weather.Current;
+        foreach (var r in roles) { r.Stats.Trait = ""; r.Stats.Type1 = "Neutral"; r.Stats.Type2 = ""; }
+        U.Faction = Faction.Player; A.Faction = Faction.Player; B.Faction = Faction.Player;
+        C.Faction = Faction.Player; E.Faction = Faction.Enemy;
+
+        void Fresh()
+        {
+            foreach (var x in _sched.Roster)
+            {
+                x.StatusEffects.Reset(); x.Stats.HealToFull(); x.LastUsedMoveSlot = -1; x.HeldItemId = null;
+                foreach (var sl in x.Moves.Slots) sl.CurrentPp = sl.Data.MaxPp;
+            }
+            ProtectionStats.Reset();
+            // 役以外は盤の端へどけて、検査に混ざらないようにする。
+            for (int i = 0; i < parked.Count; i++) parked[i].PlaceAt(new Vector2I(i, 7));
+        }
+        void At(Entity e, int x, int y, int fx = 0, int fy = -1)
+        {
+            e.PlaceAt(new Vector2I(x, y));
+            e.FaceDirection(new Vector2I(fx, fy));
+        }
+        void Heal() { foreach (var x in roles) x.Stats.HealToFull(); }
+        MoveSlot Slot(MoveData m) => new(m);
+        // user が move を使う。defender（単体のとき）と aim（範囲・正面のとき）を渡す。
+        void Use(Entity user, Entity defender, MoveData m, Vector2I? aim = null)
+        {
+            new AttackAction(user, defender, Slot(m), _floor, aim).Execute(0);
+        }
+
+        var phys = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+            .First(m => m.Category == MoveCategory.Physical && m.Range == MoveRange.Adjacent
+                        && m.Accuracy >= 100 && m.Power >= 40 && m.RankEffects.Count == 0
+                        && m.AilmentEffect == AilmentType.None && m.Restriction == RestrictionKind.None
+                        && m.RecoilHpPercent == 0 && !m.SelfStunNextTurn && !m.SelfGuaranteedDeath
+                        && m.WeaponTag == WeaponTag.None);
+        var prot = Mv(ProtId);
+
+        // ---- P4 付与(味方だけ・自分は含まない・狙いで向く) ----
+        {
+            Fresh();
+            At(U, 3, 4, 0, 1);          // 南向き
+            At(A, 3, 3); At(B, 4, 3);   // 北隣・右前
+            At(E, 2, 3);                // 左前に敵
+            At(C, 3, 5);                // 真後ろの味方
+            var slot = Slot(prot);
+            new AttackAction(U, null, slot, _floor, new Vector2I(3, 3)).Execute(0);
+            bool facing = U.FacingDirection == new Vector2I(0, -1);
+            bool who = A.StatusEffects.IsProtected && B.StatusEffects.IsProtected
+                       && !C.StatusEffects.IsProtected && !E.StatusEffects.IsProtected && !U.StatusEffects.IsProtected;
+            bool pp = slot.CurrentPp == slot.Data.MaxPp - 1;
+            Rep("P4", "付与: 北隣を指すと北を向き、正面3マスの味方A・Bだけに付く(敵・真後ろ・自分は付かない)・PP-1",
+                facing && who && pp && ProtectionStats.Granted == 2 && ProtectionStats.Used == 1,
+                $"向き={U.FacingDirection} A={A.StatusEffects.IsProtected} B={B.StatusEffects.IsProtected} "
+                + $"C={C.StatusEffects.IsProtected} 敵={E.StatusEffects.IsProtected} 自分={U.StatusEffects.IsProtected} PP={slot.CurrentPp}");
+        }
+
+        // ---- P5 不発 ----
+        {
+            Fresh();
+            At(U, 3, 4);
+            At(A, 0, 0); At(B, 1, 0); At(C, 6, 0); At(E, 6, 1);
+            var slot = Slot(prot);
+            new AttackAction(U, null, slot, _floor, new Vector2I(3, 3)).Execute(0);
+            bool none = !A.StatusEffects.IsProtected && !B.StatusEffects.IsProtected && !C.StatusEffects.IsProtected
+                        && !E.StatusEffects.IsProtected && !U.StatusEffects.IsProtected;
+            Rep("P5", "不発: 正面に味方がいなければPPだけ減って誰にも付かない", none && slot.CurrentPp == slot.Data.MaxPp - 1
+                && ProtectionStats.Granted == 0, $"誰も保護されない={none} PP={slot.CurrentPp}");
+        }
+
+        // ---- P6 単体攻撃を無効化 ----
+        {
+            Fresh();
+            At(E, 3, 3, 0, 1); At(A, 3, 4); At(U, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            int full = A.Stats.CurrentHp;
+            A.StatusEffects.GrantProtection();
+            Use(E, A, phys);
+            bool blocked = A.Stats.CurrentHp == full && !A.StatusEffects.IsProtected;
+            Use(E, A, phys);
+            bool second = A.Stats.CurrentHp < full;
+            Rep("P6", "単体攻撃を無効化して消費し、2発目は当たる", blocked && second && ProtectionStats.Blocked == 1,
+                $"1発目HP{full}→{full}(消費={blocked}) 2発目HP={A.Stats.CurrentHp}");
+        }
+
+        // ---- P7 変化技も無効化 ----
+        {
+            Fresh();
+            At(E, 3, 3, 0, 1); At(A, 3, 4); At(U, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            A.StatusEffects.GrantProtection();
+            Use(E, A, Mv("MV_122"));
+            bool rankBlocked = A.StatusEffects.AtkRank == 0 && !A.StatusEffects.IsProtected;
+            Fresh(); At(E, 3, 3, 0, 1); At(A, 3, 4); At(U, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            Use(E, A, Mv("MV_122"));
+            bool rankControl = A.StatusEffects.AtkRank == -2;
+            Fresh(); At(E, 3, 3, 0, 1); At(A, 3, 4); At(U, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            A.StatusEffects.GrantProtection();
+            Use(E, A, Mv("mvs_toxic_dark"));
+            bool toxicBlocked = A.StatusEffects.Ailment == AilmentType.None && !A.StatusEffects.IsProtected;
+            Fresh(); At(E, 3, 3, 0, 1); At(A, 3, 4); At(U, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            Use(E, A, Mv("mvs_toxic_dark"));
+            bool toxicControl = A.StatusEffects.Ailment == AilmentType.Toxic;
+            Rep("P7", "変化技(ランク下げ・猛毒)も無効化して消費する(保護なしなら効く)",
+                rankBlocked && rankControl && toxicBlocked && toxicControl,
+                $"ランク:防ぐ={rankBlocked} 保護なし={rankControl}(Atk{A.StatusEffects.AtkRank}) 猛毒:防ぐ={toxicBlocked} 保護なし={toxicControl}");
+        }
+
+        // ---- P8 多段技は1回の使用ごと ----
+        {
+            Fresh();
+            At(E, 3, 3, 0, 1); At(A, 3, 4); At(U, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            var multi = Mv("mvh_water");
+            int full = A.Stats.CurrentHp;
+            A.StatusEffects.GrantProtection();
+            Use(E, A, multi);
+            bool blocked = A.Stats.CurrentHp == full && !A.StatusEffects.IsProtected && ProtectionStats.Blocked == 1;
+            bool hit = false; int tries = 0;
+            for (; tries < 16 && !hit; tries++)
+            {
+                A.Stats.HealToFull();
+                Use(E, A, multi);
+                hit = A.Stats.CurrentHp < full;
+            }
+            Rep("P8", "多段技は全段まとめて1回の使用ぶんだけ無効(消費は1回)・保護なしなら当たる",
+                blocked && hit && ProtectionStats.Blocked == 1, $"無効化={blocked} 保護なしで当たるまで{tries}回 当たった={hit}");
+        }
+
+        // ---- P9 範囲技は対象ごと(味方の技でも消費) ----
+        {
+            var area = MoveDatabase.AllIds().Select(MoveDatabase.Get)
+                .Where(m => m.Category != MoveCategory.Status && m.Range == MoveRange.Area && m.Accuracy >= 100 && m.Power > 0)
+                .OrderBy(m => m.Power).First();
+            Fresh();
+            At(E, 6, 6, 0, -1); At(A, 2, 2); At(B, 3, 3); At(C, 4, 4); At(U, 3, 5);
+            A.StatusEffects.GrantProtection(); B.StatusEffects.GrantProtection();
+            int fa = A.Stats.CurrentHp, fb = B.Stats.CurrentHp, fc = C.Stats.CurrentHp;
+            Use(E, null, area, new Vector2I(3, 3));
+            bool enemyCase = A.Stats.CurrentHp == fa && B.Stats.CurrentHp == fb && C.Stats.CurrentHp < fc
+                             && !A.StatusEffects.IsProtected && !B.StatusEffects.IsProtected && ProtectionStats.Blocked == 2;
+            Fresh();
+            At(E, 6, 6, 0, -1); At(A, 2, 2); At(B, 0, 0); At(C, 6, 0); At(U, 3, 5);
+            A.StatusEffects.GrantProtection();
+            fa = A.Stats.CurrentHp;
+            Use(U, null, area, new Vector2I(3, 3));
+            bool allyCase = A.Stats.CurrentHp == fa && !A.StatusEffects.IsProtected && ProtectionStats.Blocked == 1;
+            Rep("P9", "範囲技は対象ごとに判定(保護中A・Bは無傷で消費、保護なしCは被弾)・味方の範囲技でも消費",
+                enemyCase && allyCase, $"敵の範囲技={enemyCase} 味方の範囲技={allyCase}(技:{area.Name})");
+        }
+
+        // ---- P10 防がないもの ----
+        {
+            Fresh();
+            At(E, 3, 3, 0, 1); At(A, 3, 4); At(U, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            A.StatusEffects.TryApplyAilment(AilmentType.Poison);
+            A.StatusEffects.GrantProtection();
+            int before = A.Stats.CurrentHp;
+            A.ResolveStatusTick();
+            bool tick = A.Stats.CurrentHp < before && A.StatusEffects.IsProtected;
+            Fresh();
+            At(E, 3, 3, 0, 1); At(A, 3, 4); At(U, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            A.StatusEffects.GrantProtection();
+            var selfMove = Mv("mvs_ice_atk_crit");
+            Use(E, A, selfMove);
+            bool selfOnly = selfMove.IsSelfContained && A.StatusEffects.IsProtected && ProtectionStats.Blocked == 0;
+            Rep("P10", "防がないもの: 毒の継続ダメージでは消費されず、自分だけに効く変化技を向けられても消費されない",
+                tick && selfOnly, $"毒ダメージ後も保護={tick}(HP{before}→{A.Stats.CurrentHp}) 自己完結技で保護のまま={selfOnly}");
+        }
+
+        // ---- P11 重ねない ----
+        {
+            Fresh();
+            At(U, 3, 4); At(A, 3, 3); At(E, 3, 2, 0, 1); At(B, 0, 0); At(C, 6, 0);
+            A.StatusEffects.GrantProtection();
+            int grantedBefore = (int)ProtectionStats.Granted;
+            new AttackAction(U, null, Slot(prot), _floor, new Vector2I(3, 3)).Execute(0);
+            bool notStacked = ProtectionStats.Granted == grantedBefore && A.StatusEffects.IsProtected;
+            int full = A.Stats.CurrentHp;
+            Use(E, A, phys);
+            bool first = A.Stats.CurrentHp == full && !A.StatusEffects.IsProtected;
+            Use(E, A, phys);
+            bool second = A.Stats.CurrentHp < full;
+            Rep("P11", "重ねない: 保護中への2回目の付与は増えず、1発で消費され2発目は当たる",
+                notStacked && first && second, $"付与増えず={notStacked} 1発目で消費={first} 2発目で被弾={second}");
+        }
+
+        // ---- P12 持続はサイクルの終わりまで ----
+        {
+            Fresh();
+            At(U, 3, 4); At(A, 3, 3); At(E, 3, 2, 0, 1); At(B, 0, 0); At(C, 6, 0);
+            new AttackAction(U, null, Slot(prot), _floor, new Vector2I(3, 3)).Execute(0);
+            bool granted = A.StatusEffects.IsProtected;
+            long expiredBefore = ProtectionStats.Expired;
+            _sched.EndCycle();
+            bool expired = !A.StatusEffects.IsProtected && ProtectionStats.Expired == expiredBefore + 1;
+            Heal();
+            Fresh();
+            At(U, 3, 4); At(A, 3, 3); At(E, 3, 2, 0, 1); At(B, 0, 0); At(C, 6, 0);
+            new AttackAction(U, null, Slot(prot), _floor, new Vector2I(3, 3)).Execute(0);
+            int full = A.Stats.CurrentHp;
+            Use(E, A, phys);
+            bool sameCycle = A.Stats.CurrentHp == full && !A.StatusEffects.IsProtected;
+            Rep("P12", "持続はサイクルの終わりまで: 使われなければサイクル終了で消え(消滅+1)、同じサイクル内の攻撃は防ぐ",
+                granted && expired && sameCycle, $"付与={granted} サイクル終了で消滅={expired} 同サイクル内で防ぐ={sameCycle}");
+        }
+
+        // ---- P13 行動順 ----
+        {
+            Fresh();
+            var byS = _sched.Roster.Where(e => e.IsAlive).OrderBy(e => e.Stats.Speed).ToList();
+            var slow = byS.First(); var fast = byS.Last();
+            var savedTrait = fast.Stats.Trait;
+            fast.Stats.Trait = PowerTraitWeather.Water;
+            _floor.Weather.SetBaseline(WeatherType.Rain);
+            var head = Mv("MV_140");
+            int pProt = BattleScheduler.EffectivePriority(slow, prot);
+            int pHead = BattleScheduler.EffectivePriority(fast, head);
+            var order = _sched.Order(new BattleScheduler.Commitment(fast, null, pHead),
+                                     new BattleScheduler.Commitment(slow, null, pProt));
+            _floor.Weather.SetBaseline(savedWeather);
+            fast.Stats.Trait = savedTrait;
+            Rep("P13", "行動順: プロテクションは優先度3で、俊敏が高く優先度2(ヘッドバット+あめ+水のちから)の手より先",
+                pProt == 3 && pHead == 2 && slow.Stats.Speed < fast.Stats.Speed && order[0].Actor == slow,
+                $"優先度{pProt} 対 {pHead} 俊敏{slow.Stats.Speed} 対 {fast.Stats.Speed} 先={order[0].Actor.ActorName}");
+        }
+
+        // ---- P14 出せない条件 ----
+        {
+            Fresh();
+            At(E, 3, 3, 0, 1); At(U, 3, 4); At(A, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            bool free = U.StatusEffects.RestrictionBlocks(U, -1, prot) == null;
+            Use(E, U, Mv("rs_provoke"));
+            bool taunt = U.StatusEffects.RestrictionBlocks(U, -1, prot) != null;
+            var slotT = Slot(prot);
+            new AttackAction(U, null, slotT, _floor, new Vector2I(3, 3)).Execute(0);
+            bool ppT = slotT.CurrentPp == slotT.Data.MaxPp;
+            Fresh();
+            At(E, 3, 3, 0, 1); At(U, 3, 4); At(A, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            Use(E, U, Mv("rs_short_leash"));
+            bool leash = U.StatusEffects.RestrictionBlocks(U, -1, prot) != null;
+            Rep("P14", "出せない条件: 制限なしなら出せ、挑発・射程制限中は出せず(PP不変)", free && taunt && ppT && leash,
+                $"制限なし={free} 挑発中は不可={taunt}(PP不変={ppT}) 射程制限中は不可={leash}");
+        }
+
+        // ---- P15 NPC の得点 ----
+        {
+            Fresh();
+            At(A, 3, 4); At(E, 3, 3, 0, 1); At(U, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            // 相性1の属性を探す（Effectiveness は種族の属性を見る）。
+            var species = SpeciesDatabase.Instance.Get(A.SpeciesId);
+            string t1 = new[] { "Neutral", "Fire", "Water", "Grass", "Electric", "Ground", "Ice", "Dragon", "Dark", "Void" }
+                .First(t => Mathf.IsEqualApprox(TypeChartManager.GetMultiplier(t, species.Types.Select(x => x.ToString()).ToArray()), 1f));
+            var threat = new MoveData { Id = "t", Name = "t", Type = t1, Category = MoveCategory.Physical, Power = 100, Accuracy = 100 };
+            var threats = new List<(Entity Foe, MoveData Data, HashSet<Vector2I> Reach)> { (E, threat, null) };
+            var empty = new List<(Entity Foe, MoveData Data, HashSet<Vector2I> Reach)>();
+            A.Stats.CurrentHp = 200;
+            float hp200 = NpcOpponent.ScoreProtection(new List<Entity> { A }, threats);
+            A.Stats.CurrentHp = 80;
+            float hp80 = NpcOpponent.ScoreProtection(new List<Entity> { A }, threats);
+            float noThreat = NpcOpponent.ScoreProtection(new List<Entity> { A }, empty);
+            float noAllies = NpcOpponent.ScoreProtection(new List<Entity>(), threats);
+            float again = NpcOpponent.ScoreProtection(new List<Entity> { A }, threats);
+            Rep("P15", "NPCの得点: 脅威100・HP200→50、HP80→110、脅威なし→0、味方なし→0、同じ入力で同じ値",
+                Mathf.IsEqualApprox(hp200, 50f) && Mathf.IsEqualApprox(hp80, 110f) && noThreat == 0f && noAllies == 0f && again == hp80,
+                $"HP200={hp200} HP80={hp80} 脅威なし={noThreat} 味方なし={noAllies} 再計算={again}");
+            A.Stats.HealToFull();
+        }
+
+        // ---- P16 NPC は保護中の相手を撃たない ----
+        {
+            Fresh();
+            At(E, 3, 3, 0, 1); At(A, 3, 4); At(U, 0, 0); At(B, 1, 0); At(C, 6, 0);
+            int slotIdx = -1; float open = 0f;
+            for (int i = 0; i < E.Moves.Slots.Count && slotIdx < 0; i++)
+            {
+                var d = E.Moves.Slots[i].Data;
+                if (d.Power <= 0 || d.Range != MoveRange.Adjacent) continue;
+                float sc = NpcOpponent.ScoreAttack(E, i, A.GridPosition, _grid, _floor, _sched.Roster);
+                if (sc > 0f) { slotIdx = i; open = sc; }
+            }
+            A.StatusEffects.GrantProtection();
+            float guarded = slotIdx < 0 ? -1f : NpcOpponent.ScoreAttack(E, slotIdx, A.GridPosition, _grid, _floor, _sched.Roster);
+            A.StatusEffects.ConsumeProtection();
+            float reopened = slotIdx < 0 ? -1f : NpcOpponent.ScoreAttack(E, slotIdx, A.GridPosition, _grid, _floor, _sched.Roster);
+            Rep("P16", "NPCは保護中の相手への攻撃を得点0で避ける(保護を外すと正)",
+                slotIdx >= 0 && open > 0f && guarded == 0f && reopened > 0f,
+                $"技枠{slotIdx} 保護なし={open} 保護中={guarded} 外した後={reopened}");
+        }
+
+        // ---- 後始末 ----
+        Fresh();
+        ProtectionStats.Reset();
+        _floor.Weather.SetBaseline(savedWeather);
+        foreach (var (e, v) in saved)
+        {
+            e.Faction = v.Faction; e.PlaceAt(v.GridPosition); e.FaceDirection(v.FacingDirection);
+            e.Stats.Trait = v.Trait; e.Stats.Type1 = v.Type1; e.Stats.Type2 = v.Type2;
+        }
     }
 
     private void RunBattle()
