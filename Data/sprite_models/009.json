@@ -1,0 +1,327 @@
+{
+ "name": "ブシガエル (Croajiro)",
+ "gait": "biped",
+ "palette": {
+  "green": "#8cc63e",
+  "green2": "#a6d648",
+  "belly": "#f1e57c",
+  "robe": "#b9b8a0",
+  "robesh": "#9d9c85",
+  "belt": "#3b3b36",
+  "white": "#f4f4ee",
+  "lid": "#6f9a2e",
+  "mush": "#e08a3a",
+  "mush2": "#f0a860",
+  "mouth": "#4a3a2a",
+  "stem": "#d7c79a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    33,
+    24,
+    29
+   ],
+   "color": "green",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    10.5
+   ],
+   "size": [
+    21,
+    15,
+    10
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "robe",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    1
+   ],
+   "size": [
+    36.6,
+    15,
+    32.2
+   ],
+   "color": "robe",
+   "group": "body"
+  },
+  {
+   "name": "robe_v",
+   "shape": "wedge",
+   "center": [
+    8,
+    15,
+    12.5
+   ],
+   "size": [
+    10,
+    12,
+    4
+   ],
+   "color": "robesh",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "belt",
+   "shape": "cylinder",
+   "center": [
+    0,
+    7,
+    0
+   ],
+   "size": [
+    37.2,
+    2.6,
+    33
+   ],
+   "color": "belt",
+   "group": "body"
+  },
+  {
+   "name": "belt_knot",
+   "shape": "box",
+   "center": [
+    0,
+    7,
+    14.8
+   ],
+   "size": [
+    4,
+    3,
+    1.5
+   ],
+   "color": "belt",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    3
+   ],
+   "size": [
+    29,
+    14,
+    23
+   ],
+   "color": "green2",
+   "group": "head"
+  },
+  {
+   "name": "eye_w",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    26.5,
+    12
+   ],
+   "size": [
+    7,
+    5.5,
+    3.5
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "lid",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    27.6,
+    13.2
+   ],
+   "size": [
+    7.4,
+    3,
+    3.4
+   ],
+   "color": "lid",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "box",
+   "center": [
+    8.5,
+    26,
+    14
+   ],
+   "size": [
+    3,
+    0.6,
+    0.8
+   ],
+   "color": "belt",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    19.5,
+    13.5
+   ],
+   "size": [
+    14,
+    0.8,
+    1.2
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "mush_stem",
+   "shape": "cylinder",
+   "center": [
+    6,
+    28.5,
+    -5
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "stem",
+   "group": "head"
+  },
+  {
+   "name": "mush",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    31,
+    -5
+   ],
+   "size": [
+    15,
+    5,
+    11
+   ],
+   "color": "mush",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -18
+   ]
+  },
+  {
+   "name": "mush_top",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    32.2,
+    -5
+   ],
+   "size": [
+    9,
+    3,
+    6
+   ],
+   "color": "mush2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -18
+   ]
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    17,
+    15,
+    3
+   ],
+   "size": [
+    6.5,
+    11,
+    6.5
+   ],
+   "color": "robe",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -12
+   ]
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    9,
+    5
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "green",
+   "group": "arm_r"
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    2.2,
+    4
+   ],
+   "size": [
+    10.5,
+    4.5,
+    12
+   ],
+   "color": "green",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_KendoFrog_icon_normal.png",
+   "note": "正面: 緑の丸い頭に半目の白い目、黄色い腹、灰ベージュの合わせ襟、黒い帯"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Croajiro_bis.png",
+   "note": "ゲーム内側面: 太った緑の体、黄色い腹、灰の道着、黒帯、頭〜背に橙のキノコ、右手を前に出す"
+  }
+ ]
+}

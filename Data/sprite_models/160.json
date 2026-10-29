@@ -1,0 +1,435 @@
+{
+ "name": "アイギルガ (Silvegis)",
+ "gait": "quad",
+ "palette": {
+  "white": "#f2f5f9",
+  "white2": "#d6dde8",
+  "navy": "#272f52",
+  "navy2": "#3b4676",
+  "cyan": "#8aeaf4",
+  "cyan2": "#43cfe6",
+  "gold": "#d9a43a",
+  "eye": "#3de0f0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    18,
+    16,
+    28
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12.5,
+    0
+   ],
+   "size": [
+    16,
+    9,
+    24
+   ],
+   "color": "white2",
+   "group": "body"
+  },
+  {
+   "name": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    6
+   ],
+   "size": [
+    15,
+    7,
+    11
+   ],
+   "color": "navy",
+   "group": "body"
+  },
+  {
+   "name": "back_plate",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -5
+   ],
+   "size": [
+    12,
+    4,
+    13
+   ],
+   "color": "navy2",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    12
+   ],
+   "size": [
+    12,
+    13,
+    9
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "spike",
+   "shape": "cone",
+   "center": [
+    0,
+    13,
+    14
+   ],
+   "size": [
+    2.4,
+    4,
+    2.4
+   ],
+   "color": "gold",
+   "group": "body",
+   "rot": [
+    -70,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    14
+   ],
+   "size": [
+    10,
+    16,
+    10
+   ],
+   "color": "white",
+   "group": "head",
+   "rot": [
+    -18,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "neck_mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    10
+   ],
+   "size": [
+    14,
+    15,
+    8
+   ],
+   "color": "white",
+   "group": "head",
+   "rot": [
+    -18,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    18
+   ],
+   "size": [
+    11,
+    9,
+    14
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "helm",
+   "shape": "wedge",
+   "center": [
+    0,
+    35.5,
+    17.5
+   ],
+   "size": [
+    11.5,
+    8,
+    15
+   ],
+   "color": "navy",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest",
+   "shape": "cone",
+   "center": [
+    0,
+    41,
+    14
+   ],
+   "size": [
+    6,
+    10,
+    6
+   ],
+   "color": "navy",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest_gem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36.5,
+    24.2
+   ],
+   "size": [
+    1.6,
+    2.2,
+    0.9
+   ],
+   "color": "cyan2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    34,
+    24.4
+   ],
+   "size": [
+    2.2,
+    3,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "fin",
+   "shape": "wedge",
+   "center": [
+    12,
+    32,
+    8
+   ],
+   "size": [
+    14,
+    2.4,
+    14
+   ],
+   "color": "cyan",
+   "group": "wing_l",
+   "rot": [
+    0,
+    -20,
+    -28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fin2",
+   "shape": "wedge",
+   "center": [
+    19,
+    35,
+    6
+   ],
+   "size": [
+    10,
+    2,
+    10
+   ],
+   "color": "cyan2",
+   "group": "wing_l",
+   "rot": [
+    0,
+    -20,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tuft",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    30,
+    8
+   ],
+   "size": [
+    7,
+    9,
+    8
+   ],
+   "color": "white",
+   "group": "wing_l",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_f",
+   "shape": "cylinder",
+   "center": [
+    6,
+    7,
+    9
+   ],
+   "size": [
+    6,
+    14,
+    6.5
+   ],
+   "color": "white",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "paw_f",
+   "shape": "box",
+   "center": [
+    6,
+    1,
+    10.5
+   ],
+   "size": [
+    6.5,
+    2.4,
+    8
+   ],
+   "color": "navy",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_b",
+   "shape": "cylinder",
+   "center": [
+    6.5,
+    7,
+    -9
+   ],
+   "size": [
+    6.5,
+    14,
+    7
+   ],
+   "color": "white",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "paw_b",
+   "shape": "box",
+   "center": [
+    6.5,
+    1,
+    -8
+   ],
+   "size": [
+    7,
+    2.4,
+    8
+   ],
+   "color": "navy",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    14.5,
+    -19
+   ],
+   "size": [
+    5.5,
+    15,
+    5.5
+   ],
+   "color": "white",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_tip",
+   "shape": "cone",
+   "center": [
+    0,
+    13.5,
+    -27.5
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "cyan2",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_WhiteShieldDragon_icon_normal.png",
+   "note": "頭部アップ: 濃紺の兜型の頭と冠、水色の目、白い体毛、水色に光る翼状のたてがみ"
+  },
+  {
+   "url": "https://img.game8.jp/12768736/61a0b0acde27107116ef0a49ed75a52a.webp",
+   "note": "同アングル。胸元に金のトゲ、紺の肩当て"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799127",
+   "note": "乗用（四足）。全身の画像は取得できず、胴・脚・尾は四足竜として推定"
+  }
+ ]
+}
