@@ -148,7 +148,11 @@ URL を保つ。
 `--meta-core` / `--meta-challengers` / `--tactics` は構築の変更が次の試合に
 引き継がれるため、**単一プロセスで逐次実行**するしかない。
 
+### スプライトは自動生成
+
+`Assets/Sprites/{id}/` は `/usr/bin/python3 Tools/gen_pal_sprites.py` で再生成する（numpy/PIL が要る。`/usr/bin/python3` に入っている）。検証は `Tools/verify_sprites.py`、規格は `docs/design/pvp_spec.md` §34。
+
 ### 設計記録
 
 実験の設計と結果は `docs/design/pvp_spec.md` に節を足して記録する
-（現在 §27 まで）。仕様書の草案は `docs/design/drafts/` に置く。
+（現在 §34 まで）。仕様書の草案は `docs/design/drafts/` に置く。

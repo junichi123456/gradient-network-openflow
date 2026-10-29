@@ -2719,3 +2719,35 @@ BST6 が高い側の勝ち 1729/2932 = 59.0%（同値 21 試合を除く）。
 ### 33-8. 注意（実装で分かった事実）
 
 - 技データベース エディタ（`move_editor.html`）は `priority`・`grants_protection` を保存・書き出しの対象キー（`KEY_ORDER`）に持たないため、エディタから moves.json を書き出すとこれらのキーが落ちる（`priority`・`restriction` は元からの挙動。直していない）。
+
+## 34. パルのスプライト自動生成（8方向・歩行・攻撃）
+
+仕様書: `docs/design/drafts/2026-10-29-pal-sprites.md`。
+
+### 34-1. 方式
+
+- `Tools/gen_pal_sprites.py` が `Data/species.json` の全287種から画像を作る。外部API・追加費用なし（Python + numpy + PIL のみ）。種族ごとに `species_id` の CRC32 をシードにした乱数で箱（ボクセル風）モデルを組む。決定的で、同じ入力なら同じバイト列になる。
+- 体型は丸型・四足・二足・竜型・浮遊・蛇の6種。タイプで重みづけ（竜→竜型、虚→浮遊、水/草→蛇、速い→四足/二足、高耐久・鈍足→丸型）。主タイプ色が体、2タイプ目（無ければ主色から作った色）がアクセント。攻撃が高いと角・爪・切れ長の目、耐久が高いと甲羅、素早さで脚の長さと太さが変わる。
+- 体の大きさは BST6 の四分位で4段階（0.80/0.95/1.10/1.25）。はみ出す種だけ 0.92 倍ずつ縮める（全フレームがセルの縁に触れなくなるまで）。
+- 描画は斜め見下ろし（28°）の正射影。面ごとに明暗3段、半透明の足元の影つき。2倍で描いて縮小。
+- 8方向はモデルを Y 軸まわりに回して描く。向きは `SpriteTextureLibrary` の方向名と同じ（front=手前向き、`(-1,0)`=left、`(1,1)`=fr、…）。
+
+### 34-2. 規格
+
+`Assets/Sprites/{id}/` に10ファイル（旧規格の画像と別名ファイルは消す）。
+
+- `front,back,left,right,fl,fr,bl,br.png` … 待機1コマ、192x192 RGBA
+- `walk.png` / `attack.png` … 4列x8行（768x1536）。行順 front,back,left,right,fl,fr,bl,br
+- 足元はセル水平中央・下端から12px上。四隅は透明
+- 歩行4コマ = 脚の前後スイング＋体の上下動（浮遊型は上下動、蛇は体のうねり）。攻撃4コマ = 溜め→突進→命中→戻り
+
+### 34-3. ゲーム側
+
+- `SpriteTextureLibrary.GetSheet(id, action)` / `GetFrame(id, action, direction, frame)`（`AtlasTexture`、無ければ null）。
+- `Entity`: `AnimateVisualTo`（移動時間、0.12秒）で walk、`PlayBumpAttack`（0.1秒）で attack の4コマを均等再生し、終わったら待機画像へ戻す。シートの無い種は従来の静止表示。見た目のみで、戦闘ロジック・ターン処理・乱数には触れない。
+- 192px セルは `Entity.CellTextureScale = 0.5` で表示する（32pxタイルに192pxのままでは大きすぎるため。旧960x800の画像はこの係数なしの原寸だった）。
+
+### 34-4. 検証
+
+- `Tools/verify_sprites.py`: 全287種で10ファイルの存在・サイズ・RGBA・四隅透明・セル縁に触れない・足元位置を確認（全件PASS）。
+- `godot --headless --import` で `.png.import` を生成してコミット。
