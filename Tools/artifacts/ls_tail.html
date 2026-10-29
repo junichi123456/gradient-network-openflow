@@ -41,6 +41,11 @@ document.getElementById('bands').innerHTML = BANDS.map(([lo, hi]) => {
 }).join('');
 
 // ---- filters ----------------------------------------------------------
+const DIRJA = ['前','後','左','右','左前','右前','左後','右後'];
+let dir = 0;
+const sprImg = (id, k, cls) => (typeof SPR !== 'undefined' && SPR[id])
+  ? `<img class="spr ${cls||''}" src="${SPR[id][k]}" alt="" width="40" height="40">`
+  : `<span class="spr ${cls||''}"></span>`;
 let fEl = null, fOf = null, fDf = null, fQ = '', fSort = 'id', fTrait = '', sel = SP[0].id;
 
 document.getElementById('els').innerHTML =
@@ -103,6 +108,7 @@ function render() {
 
   document.getElementById('list').innerHTML = rows.length ? rows.map(s => `
     <button class="row" data-id="${s.id}" aria-current="${s.id === sel}">
+      ${sprImg(s.id, 0)}
       <span class="row-id">${s.id}</span>
       <span class="row-n"><span>${esc(s.n)}</span>${s.ty.map(elChip).join('')}</span>
       <span class="row-r">
@@ -136,6 +142,11 @@ function detail(s) {
 
   document.getElementById('detail').innerHTML = `
     <div class="dh">
+      <div class="sprbox">
+        ${sprImg(s.id, dir, 'spr-big')}
+        ${(typeof SPR !== 'undefined' && SPR[s.id]) ? `<div class="dirs">${DIRJA.map((n, k) =>
+          `<button class="chip" data-dir="${k}" aria-pressed="${k === dir}">${n}</button>`).join('')}</div>` : ''}
+      </div>
       <div>
         <div class="dh-name">${esc(s.n)} ${s.ty.map(elChip).join('')}
           <span class="pf">${OFJA[s.of]}/${DFJA[s.df]}</span></div>
@@ -181,8 +192,13 @@ function detail(s) {
 
 document.getElementById('list').addEventListener('click', e => {
   const b = e.target.closest('.row'); if (!b) return;
-  sel = b.dataset.id; render();
+  sel = b.dataset.id; dir = 0; render();
   document.getElementById('detail').scrollIntoView({block:'nearest', behavior:'smooth'});
+});
+
+document.getElementById('detail').addEventListener('click', e => {
+  const b = e.target.closest('[data-dir]'); if (!b) return;
+  dir = +b.dataset.dir; detail(SP.find(s => s.id === sel));
 });
 
 render();

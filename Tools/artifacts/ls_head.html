@@ -73,7 +73,7 @@ input:focus-visible,select:focus-visible,button:focus-visible,.row:focus-visible
 @media (max-width:900px){.pane{grid-template-columns:1fr}}
 
 .list{max-height:70vh;overflow-y:auto;overflow-x:hidden}
-.row{display:grid;grid-template-columns:38px 1fr auto;gap:9px;align-items:center;
+.row{display:grid;grid-template-columns:40px 38px 1fr auto;gap:9px;align-items:center;
      padding:7px 12px;border-bottom:1px solid var(--line);cursor:pointer;width:100%;
      text-align:left;background:none;border-left:0;border-right:0;border-top:0;
      font:inherit;color:inherit}
@@ -90,7 +90,7 @@ input:focus-visible,select:focus-visible,button:focus-visible,.row:focus-visible
 /* 狭い画面では一覧の右側を落として、本文が横スクロールしないようにする */
 @media (max-width:520px){
   .bstbar{display:none}
-  .row{grid-template-columns:32px minmax(0,1fr) auto;gap:6px;padding:7px 9px}
+  .row{grid-template-columns:40px 32px minmax(0,1fr) auto;gap:6px;padding:7px 9px}
   .row-r{gap:5px}
   .pf{font-size:9.5px;padding:1px 4px}
   .wrap{padding:16px 12px 48px}
@@ -104,6 +104,13 @@ input:focus-visible,select:focus-visible,button:focus-visible,.row:focus-visible
 
 .pf{font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:2px;
     background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
+
+.spr{width:40px;height:40px;border-radius:4px;background:var(--sunk);object-fit:contain;display:block}
+span.spr{border:1px dashed var(--line-2)}
+.spr-big{width:96px;height:96px}
+.sprbox{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.dirs{display:flex;flex-wrap:wrap;gap:3px;max-width:200px}
+.dirs .chip{padding:2px 7px;font-size:11px}
 
 /* ---- detail ---- */
 .dh{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;min-width:0;

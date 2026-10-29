@@ -127,6 +127,8 @@ python3 Tools/refresh_move_editor.py # 技データベース エディタ
 `Tools/artifacts/move_editor.html` を、**同じ `file_path` で再公開**して
 URL を保つ。
 
+スプライトは `Assets/Sprites` から自動で取り込まれる。スプライトを再生成したら build_ls_payload.py を再実行。
+
 - learnset インスペクタ: `188eb9b1-d49d-4c39-bf77-895a30185e99`
 - 技データベース エディタ: `975b54fe-5c46-4597-ae30-26d694ac3eb2`
 

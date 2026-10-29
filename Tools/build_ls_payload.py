@@ -11,6 +11,8 @@ import json
 import os
 import sys
 import collections
+import base64
+import io
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'Tools', 'artifacts')
@@ -120,7 +122,32 @@ tail = tail.replace(
     "const REACH  = " + tail.split("const REACH  = ")[1].split(";\n")[0],
     "const REACH  = " + json.dumps({str(b): rch[b] for b in BANDS}))
 open(f'{OUT}/ls_tail.html', 'w', encoding='utf-8').write(tail)
-page = head + payload + tail
+
+# ---- スプライト（species_id だけで引く。種族値には依存しない） ----
+DIRS = ['front', 'back', 'left', 'right', 'fl', 'fr', 'bl', 'br']
+SPR_PX, SPR_COL = 72, 64
+
+
+def sprite_uri(path):
+    from PIL import Image
+    im = Image.open(path).convert('RGBA').resize((SPR_PX, SPR_PX), Image.LANCZOS)
+    try:
+        # 透過を保ったまま減色（FASTOCTREE は RGBA 対応）
+        im = im.quantize(SPR_COL, method=Image.FASTOCTREE, dither=Image.NONE)
+    except Exception:
+        pass
+    buf = io.BytesIO()
+    im.save(buf, 'PNG', optimize=True)
+    return 'data:image/png;base64,' + base64.b64encode(buf.getvalue()).decode()
+
+
+SPR = {}
+for s in order:
+    d = f"{ROOT}/Assets/Sprites/{s['species_id']}"
+    if all(os.path.exists(f'{d}/{n}.png') for n in DIRS):
+        SPR[s['species_id']] = [sprite_uri(f'{d}/{n}.png') for n in DIRS]
+spr_js = "const SPR = " + json.dumps(SPR, separators=(',', ':')) + ";\n"
+page = head + payload + tail.replace("const SP = JSON.parse", spr_js + "const SP = JSON.parse", 1)
 open(f'{OUT}/learnset_viewer.html', 'w', encoding='utf-8').write(page)
-print(f"種族 {len(out)} / 行 {sum(len(x['mv']) for x in out)} / ページ {len(page):,} 文字")
+print(f"種族 {len(out)} / 行 {sum(len(x['mv']) for x in out)} / ページ {len(page):,} 文字 ({len(page.encode('utf-8'))/1e6:.2f} MB) / スプライト {len(SPR)} 種×8")
 print("到達性:", {b: f"{rch[b]}/{tot[b]}" for b in BANDS})
