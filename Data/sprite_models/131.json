@@ -1,0 +1,423 @@
+{
+ "name": "ジオルドン (Pierdon)",
+ "gait": "quad",
+ "palette": {
+  "tan": "#a8987e",
+  "tan2": "#c0b496",
+  "rock": "#a8664a",
+  "rock2": "#c88060",
+  "eye": "#e03030"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -1
+   ],
+   "size": [
+    20,
+    13,
+    22
+   ],
+   "color": "tan",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    1
+   ],
+   "size": [
+    16,
+    8,
+    18
+   ],
+   "color": "tan2",
+   "group": "body"
+  },
+  {
+   "name": "rock0",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    -5
+   ],
+   "size": [
+    6.5,
+    11,
+    6
+   ],
+   "color": "rock",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "rock1",
+   "shape": "cone",
+   "center": [
+    6,
+    17,
+    -8
+   ],
+   "size": [
+    6.5,
+    9,
+    6
+   ],
+   "color": "rock2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "rock2",
+   "shape": "cone",
+   "center": [
+    -6,
+    17,
+    -3
+   ],
+   "size": [
+    6.5,
+    9,
+    6
+   ],
+   "color": "rock",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    30
+   ]
+  },
+  {
+   "name": "rock3",
+   "shape": "cone",
+   "center": [
+    5,
+    18,
+    3
+   ],
+   "size": [
+    6.5,
+    8,
+    6
+   ],
+   "color": "rock2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -25
+   ]
+  },
+  {
+   "name": "rock4",
+   "shape": "cone",
+   "center": [
+    -5,
+    17,
+    5
+   ],
+   "size": [
+    6.5,
+    8,
+    6
+   ],
+   "color": "rock",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    25
+   ]
+  },
+  {
+   "name": "rock5",
+   "shape": "cone",
+   "center": [
+    0,
+    18,
+    -12
+   ],
+   "size": [
+    6.5,
+    8,
+    6
+   ],
+   "color": "rock2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "rock6",
+   "shape": "cone",
+   "center": [
+    9,
+    14,
+    -2
+   ],
+   "size": [
+    6.5,
+    8,
+    6
+   ],
+   "color": "rock",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -55
+   ]
+  },
+  {
+   "name": "rock7",
+   "shape": "cone",
+   "center": [
+    -9,
+    14,
+    -4
+   ],
+   "size": [
+    6.5,
+    8,
+    6
+   ],
+   "color": "rock2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    55
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    11
+   ],
+   "size": [
+    11,
+    9,
+    10
+   ],
+   "color": "rock",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    8.5,
+    17
+   ],
+   "size": [
+    6,
+    8,
+    5
+   ],
+   "color": "rock2",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "brow",
+   "shape": "cone",
+   "center": [
+    0,
+    15,
+    11
+   ],
+   "size": [
+    8,
+    6,
+    7
+   ],
+   "color": "rock2",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    11,
+    14
+   ],
+   "size": [
+    2,
+    2.2,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hcrest",
+   "shape": "cone",
+   "center": [
+    5,
+    15,
+    9
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "rock",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    3,
+    6
+   ],
+   "size": [
+    6,
+    7,
+    8
+   ],
+   "color": "rock",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "clawf",
+   "shape": "cone",
+   "center": [
+    8,
+    1.5,
+    11
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "tan2",
+   "group": "leg_fr",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    3,
+    -8
+   ],
+   "size": [
+    7,
+    7,
+    9
+   ],
+   "color": "rock",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "clawb",
+   "shape": "cone",
+   "center": [
+    8,
+    1.5,
+    -3
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "tan2",
+   "group": "leg_br",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    6,
+    -15
+   ],
+   "size": [
+    5,
+    9,
+    5
+   ],
+   "color": "rock2",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_RockBeast_icon_normal.png",
+   "note": "正面: 銅色の岩の鎧に覆われた頭、尖った嘴、赤い目、体は灰褐色"
+  },
+  {
+   "url": "https://i.ytimg.com/vi/2FpmTNKwLKE/hqdefault.jpg",
+   "note": "ゲーム内(ボス討伐動画サムネ): 低い四足、背に銅色の尖った岩片が多数"
+  },
+  {
+   "url": "https://i.ytimg.com/vi/pWOSpMJazmw/hqdefault.jpg",
+   "note": "側面: 背の岩は三角の板が重なる、頭は低く尖る"
+  }
+ ]
+}

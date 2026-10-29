@@ -1,0 +1,372 @@
+{
+ "name": "レイバーン (Eidrolon)",
+ "gait": "quad",
+ "palette": {
+  "body": "#eeeef2",
+  "belly": "#cfd2dc",
+  "dark": "#2a2a32",
+  "acc": "#3aa8a8",
+  "eye": "#52e8e0",
+  "wing": "#2c2c36",
+  "accw": "#3aa8a8"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    0
+   ],
+   "size": [
+    15,
+    14,
+    24
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    2
+   ],
+   "size": [
+    10,
+    8,
+    20
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    9
+   ],
+   "size": [
+    11,
+    12,
+    8
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    12
+   ],
+   "size": [
+    7,
+    13,
+    7
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    17
+   ],
+   "size": [
+    8,
+    7,
+    12
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    23
+   ],
+   "size": [
+    5,
+    4,
+    6
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "stripe",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30.2,
+    18
+   ],
+   "size": [
+    2,
+    1.2,
+    9
+   ],
+   "color": "acc",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    28.5,
+    19
+   ],
+   "size": [
+    2,
+    2.2,
+    1.5
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    3.5,
+    31,
+    13
+   ],
+   "size": [
+    3.4,
+    18,
+    3.4
+   ],
+   "color": "dark",
+   "group": "head",
+   "rot": [
+    -65,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hornacc",
+   "shape": "cone",
+   "center": [
+    3.2,
+    31,
+    14
+   ],
+   "size": [
+    1.6,
+    10,
+    1.6
+   ],
+   "color": "acc",
+   "group": "head",
+   "rot": [
+    -65,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "wedge",
+   "center": [
+    14,
+    22,
+    -4
+   ],
+   "size": [
+    18,
+    1.6,
+    18
+   ],
+   "color": "wing",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing2",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    22.6,
+    3
+   ],
+   "size": [
+    16,
+    2,
+    3
+   ],
+   "color": "accw",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -14
+   ],
+   "size": [
+    7,
+    7,
+    12
+   ],
+   "color": "body",
+   "group": "tail"
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    -22
+   ],
+   "size": [
+    5,
+    5,
+    10
+   ],
+   "color": "body",
+   "group": "tail"
+  },
+  {
+   "name": "tail3",
+   "shape": "cone",
+   "center": [
+    0,
+    10,
+    -30
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "dark",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leg_f",
+   "shape": "cylinder",
+   "center": [
+    5,
+    6,
+    8
+   ],
+   "size": [
+    4.5,
+    12,
+    5
+   ],
+   "color": "body",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_b",
+   "shape": "cylinder",
+   "center": [
+    5,
+    6,
+    -8
+   ],
+   "size": [
+    5,
+    12,
+    6
+   ],
+   "color": "body",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "foot_f",
+   "shape": "box",
+   "center": [
+    5,
+    0.8,
+    9.5
+   ],
+   "size": [
+    5,
+    1.6,
+    6
+   ],
+   "color": "dark",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "foot_b",
+   "shape": "box",
+   "center": [
+    5,
+    0.8,
+    -6.5
+   ],
+   "size": [
+    5,
+    1.6,
+    6
+   ],
+   "color": "dark",
+   "group": "leg_bl",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_GhostDragon_icon_normal.png",
+   "note": "頭部: 黒い細長い頭、後ろへ流れる長い2本の角、緑青の筋、白い首と体"
+  },
+  {
+   "url": "https://paldb.cc/ja/Eidrolon",
+   "note": "細身の竜。四足＋翼（推定）"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Eidrolon",
+   "note": "全身画像なし。胴・脚・尾は竜型として推定"
+  }
+ ]
+}

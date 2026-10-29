@@ -1,0 +1,423 @@
+{
+ "name": "クインビーナ (Elizabee)",
+ "gait": "hover",
+ "palette": {
+  "robe": "#3a2616",
+  "robe2": "#4c3320",
+  "trim": "#f0902a",
+  "ruff": "#f6f0e6",
+  "ruff2": "#e2d8c6",
+  "helm": "#f09a2c",
+  "mask": "#2a1c14",
+  "ant": "#2e2018",
+  "wing": "#d6ece8",
+  "tail": "#d8402c",
+  "tail2": "#f4efe4",
+  "gold": "#d8a840",
+  "eye": "#e8d040"
+ },
+ "parts": [
+  {
+   "name": "robe",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    26,
+    30,
+    22
+   ],
+   "color": "robe",
+   "group": "body"
+  },
+  {
+   "name": "robe2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    1
+   ],
+   "size": [
+    26,
+    10,
+    22
+   ],
+   "color": "robe2",
+   "group": "body"
+  },
+  {
+   "name": "trim",
+   "shape": "cylinder",
+   "center": [
+    0,
+    3.5,
+    0
+   ],
+   "size": [
+    26.4,
+    2,
+    22.4
+   ],
+   "color": "trim",
+   "group": "body"
+  },
+  {
+   "name": "trim2",
+   "shape": "box",
+   "center": [
+    0,
+    17,
+    11
+   ],
+   "size": [
+    1.6,
+    26,
+    1
+   ],
+   "color": "trim",
+   "group": "body"
+  },
+  {
+   "name": "ruff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    1
+   ],
+   "size": [
+    24,
+    10,
+    19
+   ],
+   "color": "ruff",
+   "group": "body"
+  },
+  {
+   "name": "ruff2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29.5,
+    1
+   ],
+   "size": [
+    22,
+    6,
+    17
+   ],
+   "color": "ruff2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39,
+    3
+   ],
+   "size": [
+    14,
+    11,
+    12
+   ],
+   "color": "helm",
+   "group": "head"
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37.6,
+    8
+   ],
+   "size": [
+    11,
+    5,
+    4
+   ],
+   "color": "mask",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    37.8,
+    10
+   ],
+   "size": [
+    2.6,
+    1.6,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    44,
+    0
+   ],
+   "size": [
+    15,
+    6,
+    12
+   ],
+   "color": "ruff",
+   "group": "head"
+  },
+  {
+   "name": "ant",
+   "shape": "cone",
+   "center": [
+    3,
+    47,
+    -1
+   ],
+   "size": [
+    2.4,
+    16,
+    2.4
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    34,
+    -6
+   ],
+   "size": [
+    22,
+    2,
+    8
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing2",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    28,
+    -6
+   ],
+   "size": [
+    16,
+    2,
+    6
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    28,
+    5
+   ],
+   "size": [
+    4,
+    9,
+    4
+   ],
+   "color": "mask",
+   "group": "arm_r",
+   "rot": [
+    -30,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "staff",
+   "shape": "cylinder",
+   "center": [
+    13,
+    22,
+    11
+   ],
+   "size": [
+    1.4,
+    40,
+    1.4
+   ],
+   "color": "gold",
+   "group": "arm_r"
+  },
+  {
+   "name": "pr",
+   "shape": "cone",
+   "center": [
+    13,
+    44,
+    11
+   ],
+   "size": [
+    3,
+    7,
+    2
+   ],
+   "color": "gold",
+   "group": "arm_r"
+  },
+  {
+   "name": "prl",
+   "shape": "cone",
+   "center": [
+    10.5,
+    42,
+    11
+   ],
+   "size": [
+    2,
+    6,
+    2
+   ],
+   "color": "gold",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    12
+   ]
+  },
+  {
+   "name": "prr",
+   "shape": "cone",
+   "center": [
+    15.5,
+    42,
+    11
+   ],
+   "size": [
+    2,
+    6,
+    2
+   ],
+   "color": "gold",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -12
+   ]
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    -9
+   ],
+   "size": [
+    11,
+    12,
+    11
+   ],
+   "color": "tail",
+   "group": "tail"
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -12
+   ],
+   "size": [
+    10,
+    10,
+    9
+   ],
+   "color": "tail2",
+   "group": "tail"
+  },
+  {
+   "name": "tail3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    -12
+   ],
+   "size": [
+    9,
+    10,
+    8
+   ],
+   "color": "tail",
+   "group": "tail"
+  },
+  {
+   "name": "tail4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    -10
+   ],
+   "size": [
+    7,
+    8,
+    6
+   ],
+   "color": "tail2",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Elizabee.png",
+   "note": "全身: 黒褐色の大きな釣鐘形のドレスにオレンジの縁取り・白い襟と髪・橙の兜状の顔に黒い仮面・長い触角・透明な翅・金の三叉槍"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Elizabee2.png",
+   "note": "ゲーム内: 槍を持って立つ、背後に赤白の縞の尾が曲がって上へ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Elizabee_bis.png",
+   "note": "背面: 赤と白の縞の太い尾が背から立ち上がる"
+  }
+ ],
+ "hover": 3
+}

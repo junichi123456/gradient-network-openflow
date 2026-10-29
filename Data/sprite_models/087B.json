@@ -1,0 +1,449 @@
+{
+ "name": "ブリザモス (Mammorest Cryst)",
+ "gait": "quad",
+ "palette": {
+  "skin": "#7c6c66",
+  "fur": "#c6cbea",
+  "fur2": "#eef0ff",
+  "belly": "#9a8a84",
+  "rock": "#a8d8f0",
+  "horn": "#a8d8f0",
+  "trunk": "#9a8a84",
+  "mouth": "#4a2a2a",
+  "eye": "#d83030",
+  "toe": "#6a5a56",
+  "tail": "#9a8a84",
+  "tailtip": "#c8c0b8"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    32,
+    24,
+    34
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "fur",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -1
+   ],
+   "size": [
+    38,
+    22,
+    38
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "fur_top",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    -3
+   ],
+   "size": [
+    30,
+    10,
+    30
+   ],
+   "color": "fur2",
+   "group": "body"
+  },
+  {
+   "name": "fur_side",
+   "shape": "ellipsoid",
+   "center": [
+    17,
+    17,
+    -2
+   ],
+   "size": [
+    9,
+    20,
+    30
+   ],
+   "color": "fur",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "fur_drip",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    9,
+    4
+   ],
+   "size": [
+    7,
+    10,
+    14
+   ],
+   "color": "fur2",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "fur_back",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -19
+   ],
+   "size": [
+    26,
+    22,
+    8
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    3
+   ],
+   "size": [
+    22,
+    10,
+    26
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "rock",
+   "shape": "cone",
+   "center": [
+    11,
+    32,
+    -4
+   ],
+   "size": [
+    10,
+    14,
+    9
+   ],
+   "color": "rock",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    19
+   ],
+   "size": [
+    19,
+    18,
+    16
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "head_fur",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    18
+   ],
+   "size": [
+    23,
+    9,
+    17
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "head_fur2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    16
+   ],
+   "size": [
+    18,
+    5,
+    12
+   ],
+   "color": "fur2",
+   "group": "head"
+  },
+  {
+   "name": "trunk",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10.5,
+    27
+   ],
+   "size": [
+    6,
+    13,
+    6
+   ],
+   "color": "trunk",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    12,
+    24.8
+   ],
+   "size": [
+    10,
+    1,
+    1.2
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    26
+   ],
+   "size": [
+    4,
+    12,
+    4
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -72,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    6.8,
+    19.5,
+    25
+   ],
+   "size": [
+    2.6,
+    2.2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "earrock",
+   "shape": "cone",
+   "center": [
+    10,
+    26,
+    15
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "rock",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    9,
+    6,
+    10
+   ],
+   "size": [
+    10,
+    12,
+    10
+   ],
+   "color": "skin",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "cuff",
+   "shape": "cylinder",
+   "center": [
+    9,
+    3.5,
+    10
+   ],
+   "size": [
+    11.5,
+    3.4,
+    11.5
+   ],
+   "color": "rock",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "toe",
+   "shape": "box",
+   "center": [
+    9,
+    1,
+    12.5
+   ],
+   "size": [
+    10,
+    2,
+    3
+   ],
+   "color": "toe",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    9,
+    6,
+    -11
+   ],
+   "size": [
+    10,
+    12,
+    10
+   ],
+   "color": "skin",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "cuffb",
+   "shape": "cylinder",
+   "center": [
+    9,
+    3.5,
+    -11
+   ],
+   "size": [
+    11.5,
+    3.4,
+    11.5
+   ],
+   "color": "rock",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "toeb",
+   "shape": "box",
+   "center": [
+    9,
+    1,
+    -8.5
+   ],
+   "size": [
+    10,
+    2,
+    3
+   ],
+   "color": "toe",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    13,
+    -24
+   ],
+   "size": [
+    6,
+    16,
+    6
+   ],
+   "color": "tail",
+   "group": "tail",
+   "rot": [
+    -105,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_tip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -31
+   ],
+   "size": [
+    6,
+    7,
+    6
+   ],
+   "color": "tailtip",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Mammorest_Cryst.png",
+   "note": "正面: 白紫の氷毛皮、灰茶の肌、氷色の角・耳石・足首輪"
+  },
+  {
+   "url": "Tools/.refcache/087B/icon.png",
+   "note": "頭部: 氷の角と赤目"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Mammorest.png",
+   "note": "元種との差: 緑毛が白、岩が氷結晶"
+  }
+ ]
+}

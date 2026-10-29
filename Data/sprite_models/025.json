@@ -1,0 +1,308 @@
+{
+ "name": "ラヴィ (Flambelle)",
+ "gait": "biped",
+ "palette": {
+  "o": "#f2561e",
+  "o2": "#ff8a2a",
+  "fl": "#ffb43a",
+  "fl2": "#ffe05a",
+  "brown": "#6a4332",
+  "lava": "#ff7a2a",
+  "white": "#f6f1ea",
+  "dark": "#2a1c24",
+  "skin": "#f3ddc8"
+ },
+ "parts": [
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5.5,
+    2
+   ],
+   "size": [
+    12,
+    9,
+    10
+   ],
+   "color": "brown",
+   "group": "body"
+  },
+  {
+   "name": "crack",
+   "shape": "box",
+   "center": [
+    0,
+    4,
+    7.3
+   ],
+   "size": [
+    8,
+    0.9,
+    0.8
+   ],
+   "color": "lava",
+   "group": "body"
+  },
+  {
+   "name": "crack2",
+   "shape": "box",
+   "center": [
+    0,
+    6.5,
+    7.5
+   ],
+   "size": [
+    6,
+    0.9,
+    0.8
+   ],
+   "color": "lava",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    12
+   ]
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14.5,
+    0
+   ],
+   "size": [
+    26,
+    19,
+    21
+   ],
+   "color": "o",
+   "group": "head"
+  },
+  {
+   "name": "hairl",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    10,
+    1
+   ],
+   "size": [
+    8,
+    15,
+    11
+   ],
+   "color": "o",
+   "group": "head"
+  },
+  {
+   "name": "hairl2",
+   "shape": "ellipsoid",
+   "center": [
+    -10.5,
+    10,
+    1
+   ],
+   "size": [
+    8,
+    15,
+    11
+   ],
+   "color": "o",
+   "group": "head"
+  },
+  {
+   "name": "hairb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -7
+   ],
+   "size": [
+    20,
+    12,
+    9
+   ],
+   "color": "o",
+   "group": "head"
+  },
+  {
+   "name": "bang",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    13,
+    6.5
+   ],
+   "size": [
+    9,
+    15,
+    5
+   ],
+   "color": "o2",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    -3,
+    12,
+    8.4
+   ],
+   "size": [
+    10,
+    11,
+    4
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "eyew",
+   "shape": "ellipsoid",
+   "center": [
+    -3.2,
+    13,
+    10.2
+   ],
+   "size": [
+    5.6,
+    7.2,
+    2
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "eyep",
+   "shape": "ellipsoid",
+   "center": [
+    -3.2,
+    12.6,
+    11.3
+   ],
+   "size": [
+    3.2,
+    4.2,
+    1.4
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "ball",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26.5,
+    0
+   ],
+   "size": [
+    9,
+    8,
+    8
+   ],
+   "color": "o2",
+   "group": "head"
+  },
+  {
+   "name": "flame",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    29.5,
+    0
+   ],
+   "size": [
+    8,
+    9,
+    4
+   ],
+   "color": "fl",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -35
+   ]
+  },
+  {
+   "name": "flame2",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    31,
+    0
+   ],
+   "size": [
+    5,
+    6,
+    3
+   ],
+   "color": "fl2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -55
+   ]
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    1.6,
+    4
+   ],
+   "size": [
+    5.4,
+    3.6,
+    6.4
+   ],
+   "color": "white",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    6,
+    5
+   ],
+   "size": [
+    3.4,
+    5,
+    3.4
+   ],
+   "color": "white",
+   "group": "arm_r",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Flambelle.png",
+   "note": "モデル画: 橙のマグマ状の髪が体を覆い、片目だけ見える、頭頂に火の玉と炎"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Flambelle1.webp",
+   "note": "ゲーム内正面: 茶色の溶岩ひび模様の胴、白い足"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/FlambelleGroupInWaterScreenshotFromPerfectParadox.webp",
+   "note": "水面の群れ: 小さな炎の頭が浮く"
+  },
+  {
+   "url": "Tools/.refcache/025/icon.png",
+   "note": "頭部アップ: 白目に黒い瞳、右側に前髪"
+  }
+ ]
+}

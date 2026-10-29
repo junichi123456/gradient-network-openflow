@@ -1,0 +1,392 @@
+{
+ "name": "ボルトラ (Sparkit)",
+ "gait": "biped",
+ "palette": {
+  "yel": "#f2c830",
+  "yel2": "#f8dc50",
+  "blk": "#3a3020",
+  "white": "#f6f2e6",
+  "cream": "#f2eed0",
+  "eye": "#7a3a20",
+  "pupil": "#2a1a10",
+  "paw": "#4a3a2a",
+  "bolt": "#f4eecc"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    0
+   ],
+   "size": [
+    16,
+    16,
+    15
+   ],
+   "color": "yel",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    6
+   ],
+   "size": [
+    11,
+    11,
+    6
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    2
+   ],
+   "size": [
+    22,
+    16,
+    18
+   ],
+   "color": "yel",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    10
+   ],
+   "size": [
+    10,
+    6,
+    5
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0,
+    22,
+    12.2
+   ],
+   "size": [
+    2,
+    1.4,
+    1
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "stripe",
+   "shape": "box",
+   "center": [
+    0,
+    28.5,
+    5
+   ],
+   "size": [
+    3,
+    1.2,
+    9
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    23.5,
+    9.6
+   ],
+   "size": [
+    4.8,
+    5,
+    2.2
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    23.2,
+    10.8
+   ],
+   "size": [
+    2.4,
+    3,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "brow",
+   "shape": "box",
+   "center": [
+    5.8,
+    26.4,
+    10.8
+   ],
+   "size": [
+    5.6,
+    1,
+    0.8
+   ],
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    8.5,
+    31,
+    0
+   ],
+   "size": [
+    8,
+    12,
+    5
+   ],
+   "color": "yel",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_s",
+   "shape": "box",
+   "center": [
+    10.5,
+    31.5,
+    0.5
+   ],
+   "size": [
+    5,
+    2,
+    5.2
+   ],
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_tip",
+   "shape": "cone",
+   "center": [
+    12.8,
+    37,
+    0
+   ],
+   "size": [
+    3,
+    5,
+    3
+   ],
+   "color": "yel2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bolt",
+   "shape": "wedge",
+   "center": [
+    12.5,
+    22,
+    0
+   ],
+   "size": [
+    10,
+    2,
+    8
+   ],
+   "color": "bolt",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -60
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    13,
+    3
+   ],
+   "size": [
+    5,
+    9,
+    5
+   ],
+   "color": "yel",
+   "group": "arm_r"
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    8.5,
+    4
+   ],
+   "size": [
+    5.4,
+    4.4,
+    5.4
+   ],
+   "color": "paw",
+   "group": "arm_r"
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    3,
+    2
+   ],
+   "size": [
+    6,
+    6,
+    10
+   ],
+   "color": "yel",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    1.4,
+    4
+   ],
+   "size": [
+    6,
+    3,
+    9
+   ],
+   "color": "paw",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -12
+   ],
+   "size": [
+    5,
+    5,
+    12
+   ],
+   "color": "yel",
+   "group": "tail",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_b",
+   "shape": "box",
+   "center": [
+    0,
+    17,
+    -15
+   ],
+   "size": [
+    5,
+    2,
+    3
+   ],
+   "color": "blk",
+   "group": "tail",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_tip",
+   "shape": "cone",
+   "center": [
+    0,
+    22,
+    -19
+   ],
+   "size": [
+    6,
+    9,
+    3
+   ],
+   "color": "yel2",
+   "group": "tail",
+   "rot": [
+    -120,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_ElecCat_icon_normal.png",
+   "note": "正面: 黄色い猫、黒縞のギザギザの耳、怒った目、白い胸毛、頬の稲妻形の飾り、焦げ茶の手"
+  }
+ ]
+}

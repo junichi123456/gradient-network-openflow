@@ -1,0 +1,317 @@
+{
+ "name": "ナイトメアリ (Nitemary)",
+ "gait": "biped",
+ "palette": {
+  "blk": "#26262e",
+  "blk2": "#3a3a46",
+  "face": "#dfeef2",
+  "hair": "#58b4d8",
+  "hair2": "#8cd4ee",
+  "eye": "#f0a030",
+  "flame": "#4cc8f0",
+  "flame2": "#b8f0ff",
+  "mouth": "#4a3a3a",
+  "nose": "#303040"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    0
+   ],
+   "size": [
+    22,
+    18,
+    18
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "fluff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    4
+   ],
+   "size": [
+    19,
+    9,
+    12
+   ],
+   "color": "blk2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    2
+   ],
+   "size": [
+    19,
+    16,
+    16
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "hairL",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    26,
+    0
+   ],
+   "size": [
+    12,
+    12,
+    12
+   ],
+   "color": "hair",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hairL2",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    28,
+    2
+   ],
+   "size": [
+    7,
+    7,
+    7
+   ],
+   "color": "hair2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hairtop",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    -1
+   ],
+   "size": [
+    10,
+    5,
+    8
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    40,
+    -2
+   ],
+   "size": [
+    5,
+    21,
+    3.5
+   ],
+   "color": "blk",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    24,
+    9.5
+   ],
+   "size": [
+    4,
+    4.5,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "box",
+   "center": [
+    5,
+    24,
+    10.6
+   ],
+   "size": [
+    1.4,
+    2.8,
+    0.5
+   ],
+   "color": "nose",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0,
+    21.5,
+    10
+   ],
+   "size": [
+    1.6,
+    1.2,
+    0.8
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    19.8,
+    9.6
+   ],
+   "size": [
+    3,
+    0.5,
+    0.6
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "flameA",
+   "shape": "cone",
+   "center": [
+    17,
+    12,
+    -3
+   ],
+   "size": [
+    6,
+    13,
+    6
+   ],
+   "color": "flame",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "flameB",
+   "shape": "cone",
+   "center": [
+    17,
+    10,
+    -3
+   ],
+   "size": [
+    3.5,
+    9,
+    3.5
+   ],
+   "color": "flame2",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    12,
+    3
+   ],
+   "size": [
+    5,
+    10,
+    5
+   ],
+   "color": "blk",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -18
+   ]
+  },
+  {
+   "name": "arml",
+   "shape": "ellipsoid",
+   "center": [
+    -11,
+    12,
+    3
+   ],
+   "size": [
+    5,
+    10,
+    5
+   ],
+   "color": "blk",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    18
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    2.5,
+    3
+   ],
+   "size": [
+    6,
+    5,
+    8
+   ],
+   "color": "blk",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_GhostRabbit_icon_normal.png",
+   "note": "アイコン: 黒く長い耳、髪の房(渦巻き)、淡い顔、橙の目、黒いふわふわの胸、脇に浮く炎"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_GhostRabbit_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  }
+ ]
+}

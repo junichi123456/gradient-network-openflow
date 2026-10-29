@@ -1,0 +1,451 @@
+{
+ "name": "ベイントール (Necromus)",
+ "gait": "quad",
+ "palette": {
+  "cloth": "#26252e",
+  "armor": "#3c3b46",
+  "trim": "#8a8a96",
+  "hoof": "#55535f",
+  "eye": "#58d8d0",
+  "plume": "#e03a48",
+  "blue": "#e03a48",
+  "shield": "#666",
+  "tailc": "#3a2f48"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -3
+   ],
+   "size": [
+    14,
+    14,
+    26
+   ],
+   "color": "cloth",
+   "group": "body"
+  },
+  {
+   "name": "barding",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -2
+   ],
+   "size": [
+    15,
+    10,
+    17
+   ],
+   "color": "armor",
+   "group": "body"
+  },
+  {
+   "name": "rear",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -12
+   ],
+   "size": [
+    13,
+    13,
+    11
+   ],
+   "color": "cloth",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    8
+   ],
+   "size": [
+    11,
+    13,
+    9
+   ],
+   "color": "armor",
+   "group": "body"
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    9
+   ],
+   "size": [
+    10,
+    14,
+    8
+   ],
+   "color": "armor",
+   "group": "body"
+  },
+  {
+   "name": "pauldron",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    33,
+    9
+   ],
+   "size": [
+    6,
+    6,
+    7
+   ],
+   "color": "trim",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    9
+   ],
+   "size": [
+    8,
+    9,
+    9
+   ],
+   "color": "armor",
+   "group": "head"
+  },
+  {
+   "name": "visor",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39.5,
+    12.5
+   ],
+   "size": [
+    6.4,
+    2.2,
+    2
+   ],
+   "color": "eye",
+   "group": "head"
+  },
+  {
+   "name": "helm_crest",
+   "shape": "cone",
+   "center": [
+    0,
+    45,
+    7
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "trim",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "plume",
+   "shape": "cone",
+   "center": [
+    0,
+    48,
+    4
+   ],
+   "size": [
+    4,
+    11,
+    2.4
+   ],
+   "color": "plume",
+   "group": "head",
+   "rot": [
+    -65,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "plume2",
+   "shape": "cone",
+   "center": [
+    3,
+    47,
+    5
+   ],
+   "size": [
+    3,
+    12,
+    2
+   ],
+   "color": "plume",
+   "group": "head",
+   "rot": [
+    -50,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    28,
+    9
+   ],
+   "size": [
+    4,
+    11,
+    4
+   ],
+   "color": "armor",
+   "group": "arm_r",
+   "rot": [
+    -35,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    23,
+    13
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "trim",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "blade",
+   "shape": "wedge",
+   "center": [
+    11,
+    24,
+    20
+   ],
+   "size": [
+    2.4,
+    16,
+    5
+   ],
+   "color": "plume",
+   "group": "arm_r",
+   "rot": [
+    -80,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingblade",
+   "shape": "wedge",
+   "center": [
+    8,
+    34,
+    -4
+   ],
+   "size": [
+    2.4,
+    14,
+    7
+   ],
+   "color": "plume",
+   "group": "wing_r",
+   "rot": [
+    30,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    7,
+    8
+   ],
+   "size": [
+    4.2,
+    14,
+    4.6
+   ],
+   "color": "cloth",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "greavef",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    5,
+    8
+   ],
+   "size": [
+    5,
+    8,
+    5.4
+   ],
+   "color": "trim",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "hooff",
+   "shape": "box",
+   "center": [
+    4.5,
+    0.9,
+    8.5
+   ],
+   "size": [
+    4.8,
+    1.8,
+    5
+   ],
+   "color": "hoof",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    7,
+    -13
+   ],
+   "size": [
+    4.2,
+    14,
+    4.6
+   ],
+   "color": "cloth",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "greaveb",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    5,
+    -13
+   ],
+   "size": [
+    5,
+    8,
+    5.4
+   ],
+   "color": "trim",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofb",
+   "shape": "box",
+   "center": [
+    4.5,
+    0.9,
+    -12.5
+   ],
+   "size": [
+    4.8,
+    1.8,
+    5
+   ],
+   "color": "hoof",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    -20
+   ],
+   "size": [
+    5,
+    10,
+    6
+   ],
+   "color": "tailc",
+   "group": "tail",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cone",
+   "center": [
+    0,
+    15,
+    -24
+   ],
+   "size": [
+    4.5,
+    12,
+    4.5
+   ],
+   "color": "tailc",
+   "group": "tail",
+   "rot": [
+    -140,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Necromus.png",
+   "note": "全身: 黒鋼の鎧の半人半馬、赤い羽飾りと赤い双刃、暗紫の尾"
+  },
+  {
+   "url": "Tools/.refcache/199/icon.png",
+   "note": "頭部: 黒い兜、赤い角飾り、緑の目"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Paladius.png",
+   "note": "対となる姿(白青→黒赤)"
+  }
+ ]
+}

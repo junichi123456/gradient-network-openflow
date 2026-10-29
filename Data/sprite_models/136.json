@@ -1,0 +1,275 @@
+{
+ "name": "カプリリス (Carnibora)",
+ "gait": "biped",
+ "palette": {
+  "red": "#d8506a",
+  "red2": "#f08aa0",
+  "grn": "#6eb85a",
+  "grn2": "#3f8f46",
+  "skin": "#f4ead8",
+  "eye": "#e8c040",
+  "dk": "#2a4a2a",
+  "tooth": "#fff8e8"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    0
+   ],
+   "size": [
+    10,
+    14,
+    8
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "cone",
+   "center": [
+    0,
+    8,
+    0
+   ],
+   "size": [
+    18,
+    12,
+    14
+   ],
+   "color": "grn2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "skirt2",
+   "shape": "cone",
+   "center": [
+    0,
+    8.5,
+    0
+   ],
+   "size": [
+    14,
+    10,
+    10
+   ],
+   "color": "grn",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "hood_b",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    0
+   ],
+   "size": [
+    20,
+    12,
+    16
+   ],
+   "color": "red",
+   "group": "head"
+  },
+  {
+   "name": "hood_g",
+   "shape": "ellipsoid",
+   "center": [
+    -7,
+    27.5,
+    2
+   ],
+   "size": [
+    8,
+    10,
+    12
+   ],
+   "color": "grn",
+   "group": "head"
+  },
+  {
+   "name": "lobe",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    23,
+    1
+   ],
+   "size": [
+    4,
+    12,
+    10
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "teeth",
+   "shape": "cone",
+   "center": [
+    8.5,
+    17,
+    3
+   ],
+   "size": [
+    2,
+    3.5,
+    2
+   ],
+   "color": "tooth",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    4
+   ],
+   "size": [
+    11,
+    10,
+    10
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    2.6,
+    23.5,
+    7.6
+   ],
+   "size": [
+    2.4,
+    2.6,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tendril",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    16,
+    0
+   ],
+   "size": [
+    3,
+    13,
+    3
+   ],
+   "color": "grn",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tendh",
+   "shape": "cone",
+   "center": [
+    10,
+    9,
+    1
+   ],
+   "size": [
+    5,
+    6,
+    3
+   ],
+   "color": "red",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    2.8,
+    2.5,
+    0
+   ],
+   "size": [
+    3.4,
+    5,
+    3.4
+   ],
+   "color": "skin",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "leaf",
+   "shape": "cone",
+   "center": [
+    0,
+    18,
+    -6
+   ],
+   "size": [
+    5,
+    12,
+    2
+   ],
+   "color": "grn",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_VenusFlytrap_icon_normal.png",
+   "note": "正面: 桃赤のハエトリソウの頭巾、緑の縁、淡い肌の顔、黄色い目"
+  },
+  {
+   "url": "https://images.gamepedia.jp/palworld/monster/v2/VenusFlytrap.png",
+   "note": "同アイコン(別CDN)。全身参照未取得: 人型の体にハエトリソウの葉の頭巾と葉のスカートと推定"
+  }
+ ]
+}

@@ -1,0 +1,361 @@
+{
+ "name": "スプラドン (Sakura Saurus Water)",
+ "gait": "quad",
+ "palette": {
+  "body": "#d4e6f0",
+  "belly": "#f6fbfe",
+  "eye": "#4a6ad8",
+  "mark": "#2a5ac0",
+  "petal": "#f2d23a",
+  "petal2": "#f8e47a",
+  "leaf": "#3a86d8"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    16,
+    15,
+    28
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    14,
+    9,
+    24
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "rump",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -9
+   ],
+   "size": [
+    15,
+    14,
+    12
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    13
+   ],
+   "size": [
+    8,
+    22,
+    9
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -22,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "neckb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    14.5
+   ],
+   "size": [
+    6,
+    18,
+    6
+   ],
+   "color": "belly",
+   "group": "head",
+   "rot": [
+    -22,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    18
+   ],
+   "size": [
+    9,
+    8,
+    12
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38.5,
+    23
+   ],
+   "size": [
+    6,
+    5,
+    6
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    41,
+    21
+   ],
+   "size": [
+    2.2,
+    2.8,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mark",
+   "shape": "ellipsoid",
+   "center": [
+    4.2,
+    43.5,
+    19
+   ],
+   "size": [
+    2,
+    3,
+    5
+   ],
+   "color": "mark",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "petal",
+   "shape": "wedge",
+   "center": [
+    7,
+    43,
+    12
+   ],
+   "size": [
+    5,
+    4,
+    22
+   ],
+   "color": "petal",
+   "group": "ear",
+   "rot": [
+    -25,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "petal2",
+   "shape": "wedge",
+   "center": [
+    8,
+    45,
+    10
+   ],
+   "size": [
+    4,
+    3,
+    16
+   ],
+   "color": "petal2",
+   "group": "ear",
+   "rot": [
+    -30,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "petal3",
+   "shape": "wedge",
+   "center": [
+    6,
+    40,
+    12
+   ],
+   "size": [
+    3,
+    2.4,
+    12
+   ],
+   "color": "leaf",
+   "group": "ear",
+   "rot": [
+    -10,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    6,
+    6.5,
+    9
+   ],
+   "size": [
+    5.6,
+    13,
+    5.6
+   ],
+   "color": "body",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "footf",
+   "shape": "box",
+   "center": [
+    6,
+    1,
+    10
+   ],
+   "size": [
+    6,
+    2.4,
+    7
+   ],
+   "color": "belly",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    6.5,
+    6.5,
+    -10
+   ],
+   "size": [
+    6.4,
+    13,
+    6.4
+   ],
+   "color": "body",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "footb",
+   "shape": "box",
+   "center": [
+    6.5,
+    1,
+    -9
+   ],
+   "size": [
+    7,
+    2.4,
+    7.5
+   ],
+   "color": "belly",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    13,
+    -22
+   ],
+   "size": [
+    8,
+    20,
+    8
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    -95,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "wedge",
+   "center": [
+    0,
+    12,
+    -33
+   ],
+   "size": [
+    3,
+    6,
+    10
+   ],
+   "color": "petal",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_SakuraSaurus_Water_icon_normal.png",
+   "note": "青白い体、青の隈取り、花弁状の耳は黄色。元種(赤褐色の耳)と色違い"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_SakuraSaurus_Water_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799203",
+   "note": "game8 乗用サドル画像のみ。長い首の竜脚類体型として推定"
+  }
+ ]
+}

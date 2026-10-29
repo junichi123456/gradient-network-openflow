@@ -1,0 +1,343 @@
+{
+ "name": "トコナッツ (Plesiosaur)",
+ "gait": "quad",
+ "palette": {
+  "body": "#9aa04a",
+  "body2": "#7a8a3a",
+  "belly": "#f4e6b8",
+  "neck": "#f4e2b4",
+  "leaf": "#5f9a3a",
+  "leaf2": "#4a8030",
+  "tuft": "#f08a2a",
+  "eye": "#e8602a",
+  "eyew": "#fdf6e0",
+  "flip": "#7a8a3a",
+  "nose": "#d8a070"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8.3,
+    -2
+   ],
+   "size": [
+    20,
+    14,
+    26
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    4.8,
+    0
+   ],
+   "size": [
+    17,
+    8,
+    22
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "shell",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12.3,
+    -5
+   ],
+   "size": [
+    16,
+    6,
+    16
+   ],
+   "color": "body2",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.3,
+    11
+   ],
+   "size": [
+    7,
+    22,
+    7
+   ],
+   "color": "neck",
+   "group": "head",
+   "rot": [
+    -22,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32.3,
+    16
+   ],
+   "size": [
+    8,
+    7,
+    10
+   ],
+   "color": "neck",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31.3,
+    20.5
+   ],
+   "size": [
+    5,
+    4.4,
+    5
+   ],
+   "color": "neck",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    33.3,
+    18
+   ],
+   "size": [
+    2.2,
+    2.6,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "leaf0",
+   "shape": "wedge",
+   "center": [
+    0,
+    37.3,
+    12
+   ],
+   "size": [
+    4,
+    3,
+    14
+   ],
+   "color": "leaf",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leaf1",
+   "shape": "wedge",
+   "center": [
+    5,
+    36.3,
+    12
+   ],
+   "size": [
+    4,
+    3,
+    12
+   ],
+   "color": "leaf2",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    -35
+   ]
+  },
+  {
+   "name": "leaf2",
+   "shape": "wedge",
+   "center": [
+    -5,
+    36.3,
+    12
+   ],
+   "size": [
+    4,
+    3,
+    12
+   ],
+   "color": "leaf",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    35
+   ]
+  },
+  {
+   "name": "leaf3",
+   "shape": "wedge",
+   "center": [
+    8,
+    34.3,
+    13
+   ],
+   "size": [
+    4,
+    3,
+    10
+   ],
+   "color": "leaf2",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    -60
+   ]
+  },
+  {
+   "name": "tuft",
+   "shape": "cone",
+   "center": [
+    0,
+    25.3,
+    7
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "tuft",
+   "group": "head",
+   "rot": [
+    -120,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tuft2",
+   "shape": "cone",
+   "center": [
+    4,
+    23.3,
+    8
+   ],
+   "size": [
+    2.4,
+    7,
+    2.4
+   ],
+   "color": "tuft",
+   "group": "head",
+   "rot": [
+    -120,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "flipf",
+   "shape": "wedge",
+   "center": [
+    11,
+    1.2999999999999998,
+    8
+   ],
+   "size": [
+    4,
+    3,
+    12
+   ],
+   "color": "flip",
+   "group": "leg_fl",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "flipb",
+   "shape": "wedge",
+   "center": [
+    11,
+    1.2999999999999998,
+    -10
+   ],
+   "size": [
+    4,
+    3,
+    12
+   ],
+   "color": "flip",
+   "group": "leg_bl",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    4.3,
+    -18
+   ],
+   "size": [
+    7,
+    14,
+    7
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Plesiosaur_icon_normal.png",
+   "note": "頭部アップ: クリーム色の長い首、橙の目、緑のヤシ葉状の冠と橙の房"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_Plesiosaur_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799201",
+   "note": "game8 乗用サドル画像のみ。胴・ひれは首長竜体型として推定。胴の色は緑褐色と推定"
+  }
+ ]
+}

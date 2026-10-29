@@ -1,0 +1,563 @@
+{
+ "name": "ゼノルーダ (Xenogard)",
+ "gait": "quad",
+ "palette": {
+  "wh": "#ecedf2",
+  "wh2": "#d0d2dc",
+  "dk": "#4a3e42",
+  "pur": "#5a4488",
+  "ice": "#bfe4f4",
+  "ice2": "#e4f4fc",
+  "eye": "#c8305a",
+  "claw": "#46404a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    -1
+   ],
+   "size": [
+    16,
+    15,
+    22
+   ],
+   "color": "dk",
+   "group": "body"
+  },
+  {
+   "name": "plate",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    1
+   ],
+   "size": [
+    14,
+    9,
+    18
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "stripe",
+   "shape": "box",
+   "center": [
+    0,
+    12.8,
+    -1
+   ],
+   "size": [
+    16.4,
+    1.4,
+    21
+   ],
+   "color": "pur",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    8
+   ],
+   "size": [
+    8,
+    10,
+    9
+   ],
+   "color": "wh2",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    11
+   ],
+   "size": [
+    9,
+    8,
+    12
+   ],
+   "color": "wh",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    25.5,
+    15
+   ],
+   "size": [
+    2,
+    1.4,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23.4,
+    15.2
+   ],
+   "size": [
+    4,
+    3,
+    3
+   ],
+   "color": "dk",
+   "group": "head"
+  },
+  {
+   "name": "horn1",
+   "shape": "cone",
+   "center": [
+    1.5,
+    30,
+    7
+   ],
+   "size": [
+    2.6,
+    16,
+    2.6
+   ],
+   "color": "wh",
+   "group": "head",
+   "rot": [
+    -70,
+    0,
+    15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    4,
+    27.5,
+    8
+   ],
+   "size": [
+    2,
+    11,
+    2
+   ],
+   "color": "wh2",
+   "group": "head",
+   "rot": [
+    -60,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crys0",
+   "shape": "cone",
+   "center": [
+    5,
+    25.0,
+    -5
+   ],
+   "size": [
+    5,
+    22,
+    2.4
+   ],
+   "color": "ice",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crysi0",
+   "shape": "cone",
+   "center": [
+    4.75,
+    24.8,
+    -4
+   ],
+   "size": [
+    2,
+    13.2,
+    1.2
+   ],
+   "color": "ice2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crys1",
+   "shape": "cone",
+   "center": [
+    9,
+    25.5,
+    -5
+   ],
+   "size": [
+    5,
+    19,
+    2.4
+   ],
+   "color": "ice",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crysi1",
+   "shape": "cone",
+   "center": [
+    8.549999999999999,
+    25.3,
+    -4
+   ],
+   "size": [
+    2,
+    11.4,
+    1.2
+   ],
+   "color": "ice2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crys2",
+   "shape": "cone",
+   "center": [
+    12,
+    26.0,
+    -5
+   ],
+   "size": [
+    5,
+    15,
+    2.4
+   ],
+   "color": "ice",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -68
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crysi2",
+   "shape": "cone",
+   "center": [
+    11.399999999999999,
+    25.8,
+    -4
+   ],
+   "size": [
+    2,
+    9.0,
+    1.2
+   ],
+   "color": "ice2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -68
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "cylinder",
+   "center": [
+    8,
+    12,
+    6
+   ],
+   "size": [
+    4.6,
+    13,
+    4.6
+   ],
+   "color": "dk",
+   "group": "leg_fr",
+   "rot": [
+    -15,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "armplate",
+   "shape": "cylinder",
+   "center": [
+    8.5,
+    12,
+    6.5
+   ],
+   "size": [
+    5.6,
+    6,
+    5.6
+   ],
+   "color": "wh2",
+   "group": "leg_fr",
+   "rot": [
+    -15,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    3,
+    9
+   ],
+   "size": [
+    6,
+    5,
+    9
+   ],
+   "color": "dk",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "claw0",
+   "shape": "cone",
+   "center": [
+    8.4,
+    2.5,
+    14
+   ],
+   "size": [
+    1.8,
+    7,
+    1.8
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw1",
+   "shape": "cone",
+   "center": [
+    10.200000000000001,
+    2.5,
+    14
+   ],
+   "size": [
+    1.8,
+    7,
+    1.8
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw2",
+   "shape": "cone",
+   "center": [
+    12.0,
+    2.5,
+    14
+   ],
+   "size": [
+    1.8,
+    7,
+    1.8
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    9,
+    -8
+   ],
+   "size": [
+    7,
+    13,
+    10
+   ],
+   "color": "wh2",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    2,
+    -5
+   ],
+   "size": [
+    6,
+    4,
+    10
+   ],
+   "color": "dk",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "hclaw0",
+   "shape": "cone",
+   "center": [
+    7.6,
+    1.5,
+    0
+   ],
+   "size": [
+    1.8,
+    6,
+    1.8
+   ],
+   "color": "claw",
+   "group": "leg_br",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hclaw1",
+   "shape": "cone",
+   "center": [
+    9.4,
+    1.5,
+    0
+   ],
+   "size": [
+    1.8,
+    6,
+    1.8
+   ],
+   "color": "claw",
+   "group": "leg_br",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hclaw2",
+   "shape": "cone",
+   "center": [
+    11.2,
+    1.5,
+    0
+   ],
+   "size": [
+    1.8,
+    6,
+    1.8
+   ],
+   "color": "claw",
+   "group": "leg_br",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    10,
+    -17
+   ],
+   "size": [
+    5,
+    14,
+    5
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_WhiteAlienDragon_icon_normal.png",
+   "note": "正面: 白銀の頭に後方へ流れる長い角、赤紫の目"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Xenogard.png",
+   "note": "全身: 低く構えた四足、白い装甲と暗褐色の体、紫の縞、背に氷色の結晶の翼、爪は暗灰"
+  }
+ ]
+}

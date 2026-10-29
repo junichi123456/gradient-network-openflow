@@ -1,0 +1,369 @@
+{
+ "name": "シルティア (Elphidran Aqua)",
+ "gait": "biped",
+ "palette": {
+  "body": "#38489a",
+  "body2": "#2c3a80",
+  "belly": "#6aaee6",
+  "cream": "#6aaee6",
+  "band": "#2a2a3a",
+  "eye": "#e6c040",
+  "gem": "#40e0f4",
+  "gold": "#d8b64a",
+  "wing": "#38d0ee"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    18,
+    20,
+    16
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    4.5
+   ],
+   "size": [
+    13,
+    16,
+    9
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    3
+   ],
+   "size": [
+    8,
+    12,
+    8
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "collar",
+   "shape": "cylinder",
+   "center": [
+    0,
+    22.5,
+    3
+   ],
+   "size": [
+    9.5,
+    2,
+    9.5
+   ],
+   "color": "band",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    5
+   ],
+   "size": [
+    9,
+    9,
+    13
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    10
+   ],
+   "size": [
+    6,
+    5,
+    7
+   ],
+   "color": "body2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    31,
+    8.5
+   ],
+   "size": [
+    2,
+    2.6,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "gem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    5
+   ],
+   "size": [
+    6,
+    2.4,
+    5
+   ],
+   "color": "gem",
+   "group": "head"
+  },
+  {
+   "name": "antler",
+   "shape": "cone",
+   "center": [
+    4,
+    38,
+    2
+   ],
+   "size": [
+    4.5,
+    17,
+    4.5
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    -26
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "antlertip",
+   "shape": "cone",
+   "center": [
+    9,
+    45.5,
+    0.4
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    -26
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "antler2",
+   "shape": "cone",
+   "center": [
+    2.2,
+    35.5,
+    0
+   ],
+   "size": [
+    2.4,
+    8,
+    2.4
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -45,
+    0,
+    -5
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingm",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    22,
+    -5
+   ],
+   "size": [
+    22,
+    16,
+    1.6
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingr",
+   "shape": "ellipsoid",
+   "center": [
+    14.5,
+    22,
+    -5.3
+   ],
+   "size": [
+    25,
+    17,
+    0.6
+   ],
+   "color": "gold",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    13,
+    5
+   ],
+   "size": [
+    4,
+    8,
+    4
+   ],
+   "color": "body",
+   "group": "arm_r",
+   "rot": [
+    -20,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    3,
+    1
+   ],
+   "size": [
+    7,
+    8,
+    9
+   ],
+   "color": "body",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "box",
+   "center": [
+    5,
+    0.8,
+    6
+   ],
+   "size": [
+    5,
+    1.6,
+    3
+   ],
+   "color": "cream",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    6,
+    -10
+   ],
+   "size": [
+    8,
+    18,
+    8
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "cone",
+   "center": [
+    0,
+    4,
+    -22
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "body2",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Elphidran_Aqua.png",
+   "note": "Aqua版: 紺色の体・水色の腹・額に青く光る宝石・翅は水色に光り金の縁・首の輪は暗色"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_FairyDragon_Water_icon_normal.png",
+   "note": "正面アップ: 紺の顔、額の水色の宝石、金の目"
+  }
+ ]
+}

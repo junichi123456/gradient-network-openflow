@@ -1,0 +1,285 @@
+{
+ "name": "ハナミズチ (Ophydia)",
+ "gait": "slither",
+ "hover": 0,
+ "palette": {
+  "bd": "#e6dcee",
+  "bd2": "#cfc0de",
+  "pink": "#f08aae",
+  "pink2": "#f8b6cc",
+  "pink3": "#e8648e",
+  "gold": "#e8b848",
+  "eye": "#4a3a6a",
+  "white": "#f8f4fa"
+ },
+ "parts": [
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    9
+   ],
+   "size": [
+    11,
+    10,
+    13
+   ],
+   "color": "bd",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    14
+   ],
+   "size": [
+    8,
+    6,
+    5
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    25,
+    15
+   ],
+   "size": [
+    2.6,
+    2.2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crown",
+   "shape": "cone",
+   "center": [
+    0,
+    31,
+    7
+   ],
+   "size": [
+    2,
+    6,
+    2
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "crown2",
+   "shape": "cone",
+   "center": [
+    3,
+    30,
+    7
+   ],
+   "size": [
+    2,
+    5,
+    2
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "seg1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    4
+   ],
+   "size": [
+    10,
+    11,
+    12
+   ],
+   "color": "bd",
+   "group": "body"
+  },
+  {
+   "name": "seg2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    11,
+    9,
+    11
+   ],
+   "color": "bd2",
+   "group": "body"
+  },
+  {
+   "name": "seg3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -4
+   ],
+   "size": [
+    10,
+    8,
+    12
+   ],
+   "color": "bd",
+   "group": "body"
+  },
+  {
+   "name": "seg4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    3,
+    -11
+   ],
+   "size": [
+    8,
+    6,
+    10
+   ],
+   "color": "bd2",
+   "group": "body"
+  },
+  {
+   "name": "seg5",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    2,
+    -18
+   ],
+   "size": [
+    5,
+    4,
+    10
+   ],
+   "color": "bd",
+   "group": "tail"
+  },
+  {
+   "name": "pet1",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    25,
+    2
+   ],
+   "size": [
+    12,
+    14,
+    3
+   ],
+   "color": "pink",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "pet2",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    21,
+    1
+   ],
+   "size": [
+    10,
+    12,
+    3
+   ],
+   "color": "pink2",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -65
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "pet3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    0
+   ],
+   "size": [
+    14,
+    12,
+    3
+   ],
+   "color": "pink3",
+   "group": "head",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "pet4",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    16,
+    0
+   ],
+   "size": [
+    9,
+    10,
+    3
+   ],
+   "color": "pink",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -80
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_LotusDragon_icon_normal.png",
+   "note": "頭部: 淡い藤白の細い顔、金の冠、頭の後ろにピンクの花びらが広がる"
+  },
+  {
+   "url": "https://paldb.cc/ja/Ophydia",
+   "note": "蓮の竜。蛇状の長い体（推定）"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Ophydia",
+   "note": "全身画像なし。体の曲がりは推定"
+  }
+ ]
+}

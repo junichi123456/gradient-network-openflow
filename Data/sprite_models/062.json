@@ -1,0 +1,279 @@
+{
+ "name": "パチマル (Puffolt)",
+ "gait": "quad",
+ "palette": {
+  "fur": "#e8d24c",
+  "fur2": "#d4bd3a",
+  "muz": "#4a4a56",
+  "tear": "#6cb8e2",
+  "tooth": "#f4f4f4",
+  "ear": "#8a7a30",
+  "nose": "#2a2a30",
+  "paw": "#6a6a74"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -1
+   ],
+   "size": [
+    17,
+    14,
+    17
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    6
+   ],
+   "size": [
+    12,
+    10,
+    8
+   ],
+   "color": "fur2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    6
+   ],
+   "size": [
+    19,
+    16,
+    15
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    23,
+    3
+   ],
+   "size": [
+    7,
+    6,
+    5
+   ],
+   "color": "fur2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "earin",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    22.5,
+    5.2
+   ],
+   "size": [
+    4,
+    3.4,
+    2
+   ],
+   "color": "ear",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "muz",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    13
+   ],
+   "size": [
+    9,
+    6,
+    5
+   ],
+   "color": "muz",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14.5,
+    15.2
+   ],
+   "size": [
+    3,
+    2,
+    1.6
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "tooth",
+   "shape": "box",
+   "center": [
+    2.2,
+    10,
+    15.6
+   ],
+   "size": [
+    1.2,
+    1.4,
+    0.8
+   ],
+   "color": "tooth",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tear",
+   "shape": "ellipsoid",
+   "center": [
+    5.4,
+    12.5,
+    12.5
+   ],
+   "size": [
+    3.6,
+    5,
+    2.4
+   ],
+   "color": "tear",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    4.6,
+    17.5,
+    13
+   ],
+   "size": [
+    2.2,
+    0.8,
+    0.8
+   ],
+   "color": "nose",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    3,
+    6
+   ],
+   "size": [
+    5,
+    6,
+    6
+   ],
+   "color": "fur",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "pawf",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    1,
+    7.5
+   ],
+   "size": [
+    5,
+    2,
+    6
+   ],
+   "color": "paw",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    3,
+    -8
+   ],
+   "size": [
+    5.5,
+    6,
+    7
+   ],
+   "color": "fur",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "pawb",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    1,
+    -7
+   ],
+   "size": [
+    5,
+    2,
+    6
+   ],
+   "color": "paw",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -11
+   ],
+   "size": [
+    8,
+    8,
+    8
+   ],
+   "color": "fur",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Puffolt_Transporting.png",
+   "note": "ゲーム内: 黄色いふわふわの体に大きな丸い頭・灰色の口元と涙のような水色の模様・小さな丸い耳"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Puffolt_slep.png",
+   "note": "側面: 丸い胴・短い脚・巻いた尾"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_ElecPomeranian_icon_normal.png",
+   "note": "正面アップ: ふさふさの毛、牙が2本"
+  }
+ ]
+}

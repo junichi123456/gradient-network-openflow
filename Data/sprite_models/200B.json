@@ -1,0 +1,527 @@
+{
+ "name": "グレイシャドウ (Frostallion Noct)",
+ "gait": "quad",
+ "palette": {
+  "coat": "#26302e",
+  "coat2": "#1c2422",
+  "tuft": "#2e3a38",
+  "mask": "#c8aa4a",
+  "eye": "#d83040",
+  "mane": "#8a54e0",
+  "mane2": "#6a3cc0",
+  "wing": "#1f2a28",
+  "wing2": "#34423e",
+  "crys": "#c8b050",
+  "hoof": "#c8b050"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    0
+   ],
+   "size": [
+    14,
+    15,
+    26
+   ],
+   "color": "coat",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    10
+   ],
+   "size": [
+    12,
+    14,
+    9
+   ],
+   "color": "coat2",
+   "group": "body"
+  },
+  {
+   "name": "tuft",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    12
+   ],
+   "size": [
+    7,
+    6,
+    5
+   ],
+   "color": "tuft",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    13
+   ],
+   "size": [
+    8,
+    16,
+    9
+   ],
+   "color": "coat",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38,
+    18
+   ],
+   "size": [
+    8,
+    9,
+    13
+   ],
+   "color": "coat",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35.5,
+    23
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "coat2",
+   "group": "head"
+  },
+  {
+   "name": "mask",
+   "shape": "wedge",
+   "center": [
+    0,
+    41,
+    19
+   ],
+   "size": [
+    9,
+    7,
+    12
+   ],
+   "color": "mask",
+   "group": "head"
+  },
+  {
+   "name": "mask2",
+   "shape": "cone",
+   "center": [
+    0,
+    45,
+    16
+   ],
+   "size": [
+    5,
+    8,
+    4
+   ],
+   "color": "mask",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    38,
+    22
+   ],
+   "size": [
+    1.8,
+    2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41,
+    10
+   ],
+   "size": [
+    13,
+    12,
+    10
+   ],
+   "color": "mane",
+   "group": "head"
+  },
+  {
+   "name": "mane_b",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    6
+   ],
+   "size": [
+    11,
+    10,
+    9
+   ],
+   "color": "mane2",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    3.5,
+    45,
+    14
+   ],
+   "size": [
+    3,
+    6,
+    2.4
+   ],
+   "color": "coat",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_a",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    32,
+    -3
+   ],
+   "size": [
+    18,
+    3.4,
+    13
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_b",
+   "shape": "ellipsoid",
+   "center": [
+    22,
+    40,
+    -5
+   ],
+   "size": [
+    16,
+    2.6,
+    10
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    45
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_c",
+   "shape": "ellipsoid",
+   "center": [
+    29,
+    46,
+    -5
+   ],
+   "size": [
+    8,
+    2.4,
+    6
+   ],
+   "color": "wing2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    9,
+    9
+   ],
+   "size": [
+    4,
+    18,
+    4.4
+   ],
+   "color": "coat",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "crysf",
+   "shape": "cone",
+   "center": [
+    5.5,
+    4,
+    9.5
+   ],
+   "size": [
+    3.2,
+    7,
+    3
+   ],
+   "color": "crys",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crys2f",
+   "shape": "cone",
+   "center": [
+    3.5,
+    3,
+    9.5
+   ],
+   "size": [
+    2.6,
+    6,
+    2.6
+   ],
+   "color": "crys",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    0,
+    18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hooff",
+   "shape": "box",
+   "center": [
+    4.5,
+    0.9,
+    9.5
+   ],
+   "size": [
+    4.6,
+    1.8,
+    5
+   ],
+   "color": "hoof",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    9,
+    -9
+   ],
+   "size": [
+    4,
+    18,
+    4.4
+   ],
+   "color": "coat",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "crysb",
+   "shape": "cone",
+   "center": [
+    5.5,
+    4,
+    -8.5
+   ],
+   "size": [
+    3.2,
+    7,
+    3
+   ],
+   "color": "crys",
+   "group": "leg_br",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crys2b",
+   "shape": "cone",
+   "center": [
+    3.5,
+    3,
+    -8.5
+   ],
+   "size": [
+    2.6,
+    6,
+    2.6
+   ],
+   "color": "crys",
+   "group": "leg_br",
+   "rot": [
+    0,
+    0,
+    18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hoofb",
+   "shape": "box",
+   "center": [
+    4.5,
+    0.9,
+    -8.5
+   ],
+   "size": [
+    4.6,
+    1.8,
+    5
+   ],
+   "color": "hoof",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -15
+   ],
+   "size": [
+    8,
+    10,
+    11
+   ],
+   "color": "mane",
+   "group": "tail",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    -21
+   ],
+   "size": [
+    7,
+    12,
+    8
+   ],
+   "color": "mane2",
+   "group": "tail",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail3",
+   "shape": "cone",
+   "center": [
+    0,
+    8,
+    -24
+   ],
+   "size": [
+    5,
+    12,
+    5
+   ],
+   "color": "mane2",
+   "group": "tail",
+   "rot": [
+    -160,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Frostallion_Noct.png",
+   "note": "全身: 黒緑の天馬、金の仮面と蹄の結晶、紫のたてがみと尾、黒緑の翼"
+  },
+  {
+   "url": "Tools/.refcache/200B/icon.png",
+   "note": "頭部: 金の兜状の仮面、紫のたてがみ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Frostallion.png",
+   "note": "元種との差分: 白青→黒緑+金+紫"
+  }
+ ]
+}

@@ -1,0 +1,394 @@
+{
+ "name": "シェルガドラ (Aegidron)",
+ "gait": "quad",
+ "palette": {
+  "gr": "#3e434c",
+  "gr2": "#2a2e36",
+  "rust": "#a85a2e",
+  "rust2": "#7e4020",
+  "eye": "#58c8f0",
+  "glow": "#f07a20",
+  "belly": "#555a64"
+ },
+ "parts": [
+  {
+   "name": "shell",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -1
+   ],
+   "size": [
+    21,
+    17,
+    24
+   ],
+   "color": "gr",
+   "group": "body"
+  },
+  {
+   "name": "plate1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    -1
+   ],
+   "size": [
+    14,
+    6,
+    16
+   ],
+   "color": "rust",
+   "group": "body"
+  },
+  {
+   "name": "plate2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    -1
+   ],
+   "size": [
+    8,
+    3,
+    10
+   ],
+   "color": "rust2",
+   "group": "body"
+  },
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    2
+   ],
+   "size": [
+    18,
+    12,
+    24
+   ],
+   "color": "gr2",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    3
+   ],
+   "size": [
+    12,
+    6,
+    18
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "glow",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    8
+   ],
+   "size": [
+    5,
+    3,
+    6
+   ],
+   "color": "glow",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    13
+   ],
+   "size": [
+    9,
+    10,
+    8
+   ],
+   "color": "gr2",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    18
+   ],
+   "size": [
+    11,
+    9,
+    11
+   ],
+   "color": "gr",
+   "group": "head"
+  },
+  {
+   "name": "brow",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    19
+   ],
+   "size": [
+    11,
+    3,
+    9
+   ],
+   "color": "rust",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.2,
+    20,
+    23
+   ],
+   "size": [
+    2.4,
+    2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    4,
+    24,
+    16
+   ],
+   "size": [
+    3,
+    7,
+    3
+   ],
+   "color": "rust2",
+   "group": "head",
+   "rot": [
+    -40,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    18,
+    8
+   ],
+   "size": [
+    7,
+    7,
+    8
+   ],
+   "color": "rust",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "spk",
+   "shape": "cone",
+   "center": [
+    5,
+    26,
+    -4
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "rust",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "spk2",
+   "shape": "cone",
+   "center": [
+    4,
+    25,
+    -10
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "rust2",
+   "group": "body",
+   "rot": [
+    -20,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -14
+   ],
+   "size": [
+    9,
+    9,
+    12
+   ],
+   "color": "gr2",
+   "group": "tail"
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -22
+   ],
+   "size": [
+    7,
+    7,
+    10
+   ],
+   "color": "gr",
+   "group": "tail"
+  },
+  {
+   "name": "tailt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -28
+   ],
+   "size": [
+    8,
+    8,
+    6
+   ],
+   "color": "rust",
+   "group": "tail"
+  },
+  {
+   "name": "leg_f",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    6,
+    9
+   ],
+   "size": [
+    7,
+    12,
+    8
+   ],
+   "color": "gr",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_b",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    6,
+    -8
+   ],
+   "size": [
+    8,
+    12,
+    9
+   ],
+   "color": "gr",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "claw_f",
+   "shape": "box",
+   "center": [
+    7,
+    0.8,
+    11
+   ],
+   "size": [
+    7,
+    1.6,
+    5
+   ],
+   "color": "glow",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "claw_b",
+   "shape": "box",
+   "center": [
+    7,
+    0.8,
+    -6
+   ],
+   "size": [
+    7,
+    1.6,
+    5
+   ],
+   "color": "glow",
+   "group": "leg_bl",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_DomeArmorDragon_icon_normal.png",
+   "note": "頭部: 暗灰と錆橙の重装甲、青い目、橙に光る部位。ドーム状の甲羅"
+  },
+  {
+   "url": "https://paldb.cc/ja/Aegidron",
+   "note": "パルデータベース（アイコンのみ）"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Aegidron",
+   "note": "全身画像なし。胴・脚は推定"
+  }
+ ]
+}

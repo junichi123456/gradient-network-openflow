@@ -1,0 +1,286 @@
+{
+ "name": "ホウロック (Hoocrates)",
+ "gait": "biped",
+ "palette": {
+  "b": "#2a3448",
+  "b2": "#344058",
+  "hat": "#1e2638",
+  "pale": "#a8d8e0",
+  "pale2": "#d0ecf0",
+  "eye": "#f2d020",
+  "pup": "#101418",
+  "beak": "#f0a030",
+  "foot": "#f0a030"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    24,
+    24,
+    20
+   ],
+   "color": "b",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    6
+   ],
+   "size": [
+    15,
+    17,
+    9
+   ],
+   "color": "pale",
+   "group": "body"
+  },
+  {
+   "name": "bolt",
+   "shape": "wedge",
+   "center": [
+    0,
+    11,
+    10.6
+   ],
+   "size": [
+    5,
+    12,
+    1.6
+   ],
+   "color": "b",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    25
+   ]
+  },
+  {
+   "name": "bolt2",
+   "shape": "wedge",
+   "center": [
+    0,
+    7,
+    10.6
+   ],
+   "size": [
+    8,
+    5,
+    1.6
+   ],
+   "color": "b",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    3
+   ],
+   "size": [
+    20,
+    12,
+    16
+   ],
+   "color": "b2",
+   "group": "head"
+  },
+  {
+   "name": "hat",
+   "shape": "cone",
+   "center": [
+    0,
+    32,
+    0
+   ],
+   "size": [
+    16,
+    13,
+    14
+   ],
+   "color": "hat",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "brim",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26.6,
+    1
+   ],
+   "size": [
+    31,
+    5.5,
+    25
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "brow",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    25,
+    10
+   ],
+   "size": [
+    11,
+    3,
+    3
+   ],
+   "color": "pale2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    22.5,
+    10
+   ],
+   "size": [
+    4.6,
+    3.6,
+    2.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    22.4,
+    11.2
+   ],
+   "size": [
+    1.8,
+    2.4,
+    0.8
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    19.5,
+    12.6
+   ],
+   "size": [
+    4,
+    5,
+    3.4
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    13.5,
+    14,
+    -1
+   ],
+   "size": [
+    4,
+    15,
+    11
+   ],
+   "color": "hat",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    5,
+    0.8,
+    4
+   ],
+   "size": [
+    5,
+    1.6,
+    8
+   ],
+   "color": "foot",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -11
+   ],
+   "size": [
+    10,
+    8,
+    5
+   ],
+   "color": "hat",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_WizardOwl_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Hoocrates_bis.png",
+   "note": "全身: 濃紺の丸い体、つば広の魔法使い帽、水色の羽毛の眉、黄色い目、胸に水色の稲妻模様"
+  }
+ ]
+}

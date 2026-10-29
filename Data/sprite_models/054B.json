@@ -1,0 +1,492 @@
+{
+ "name": "レイコーン (Univolt Cryst)",
+ "gait": "quad",
+ "palette": {
+  "ice": "#79a9d6",
+  "ice2": "#5e8fc2",
+  "white": "#e6f0f9",
+  "cry": "#a9d0ee",
+  "cry2": "#d8ecf8",
+  "eye": "#4aa8e0",
+  "dark": "#2c4468",
+  "hoof": "#4a6a90"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    0
+   ],
+   "size": [
+    15,
+    15,
+    30
+   ],
+   "color": "ice",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    1
+   ],
+   "size": [
+    13,
+    10,
+    26
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    12
+   ],
+   "size": [
+    13,
+    15,
+    10
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    13
+   ],
+   "size": [
+    8,
+    16,
+    8
+   ],
+   "color": "ice",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mane",
+   "shape": "cone",
+   "center": [
+    0,
+    33,
+    9
+   ],
+   "size": [
+    5,
+    10,
+    5
+   ],
+   "color": "cry",
+   "group": "head",
+   "rot": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38,
+    19
+   ],
+   "size": [
+    9,
+    9,
+    16
+   ],
+   "color": "ice",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    25
+   ],
+   "size": [
+    7,
+    6,
+    9
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.2,
+    39.5,
+    22
+   ],
+   "size": [
+    1.6,
+    2.4,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    3.5,
+    44,
+    15
+   ],
+   "size": [
+    3,
+    5,
+    2.4
+   ],
+   "color": "ice2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "antler",
+   "shape": "cone",
+   "center": [
+    5,
+    50,
+    12
+   ],
+   "size": [
+    4.5,
+    18,
+    4.5
+   ],
+   "color": "cry",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    -28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "antler2",
+   "shape": "cone",
+   "center": [
+    8,
+    50,
+    9
+   ],
+   "size": [
+    4,
+    13,
+    4
+   ],
+   "color": "cry2",
+   "group": "head",
+   "rot": [
+    -45,
+    0,
+    -55
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "antler3",
+   "shape": "cone",
+   "center": [
+    3,
+    49,
+    8
+   ],
+   "size": [
+    3.5,
+    12,
+    3.5
+   ],
+   "color": "cry2",
+   "group": "head",
+   "rot": [
+    -50,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0,
+    44,
+    22
+   ],
+   "size": [
+    2.4,
+    8,
+    2.4
+   ],
+   "color": "cry2",
+   "group": "head",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest1",
+   "shape": "cone",
+   "center": [
+    0,
+    33,
+    -6
+   ],
+   "size": [
+    5,
+    9,
+    5
+   ],
+   "color": "cry",
+   "group": "body",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest2",
+   "shape": "cone",
+   "center": [
+    0,
+    30,
+    -12
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "cry2",
+   "group": "body",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    5,
+    10,
+    10
+   ],
+   "size": [
+    5,
+    20,
+    5
+   ],
+   "color": "ice",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "kneef",
+   "shape": "cone",
+   "center": [
+    5,
+    13,
+    8
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "cry",
+   "group": "leg_fl",
+   "rot": [
+    -90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hoofF",
+   "shape": "box",
+   "center": [
+    5,
+    1,
+    10
+   ],
+   "size": [
+    5,
+    2,
+    5.5
+   ],
+   "color": "hoof",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    5,
+    10,
+    -10
+   ],
+   "size": [
+    5.5,
+    20,
+    5.5
+   ],
+   "color": "ice",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "kneeb",
+   "shape": "cone",
+   "center": [
+    5,
+    12,
+    -13
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "cry",
+   "group": "leg_bl",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hoofB",
+   "shape": "box",
+   "center": [
+    5,
+    1,
+    -10
+   ],
+   "size": [
+    5,
+    2,
+    5.5
+   ],
+   "color": "hoof",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    25,
+    -18
+   ],
+   "size": [
+    6,
+    14,
+    6
+   ],
+   "color": "white",
+   "group": "tail",
+   "rot": [
+    -120,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cone",
+   "center": [
+    0,
+    22,
+    -27
+   ],
+   "size": [
+    5,
+    10,
+    5
+   ],
+   "color": "cry",
+   "group": "tail",
+   "rot": [
+    -130,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail3",
+   "shape": "cone",
+   "center": [
+    3,
+    26,
+    -22
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "cry2",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Kirin_Ice_icon_normal.png",
+   "note": "氷の結晶体: 青い体・白い胸と尾・ギザギザの結晶の角とたてがみ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Univolt.png",
+   "note": "元種Univolt: 馬型四足・稲妻形のたてがみ/尾・細長い一本角 (結晶化の色差を反映)"
+  }
+ ]
+}

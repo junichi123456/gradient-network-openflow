@@ -1,0 +1,403 @@
+{
+ "name": "ダリザード (Leezpunk)",
+ "gait": "biped",
+ "palette": {
+  "hood": "#4a4a50",
+  "hoodsh": "#3a3a40",
+  "crest": "#f2c830",
+  "skin": "#7a4fa0",
+  "skin2": "#9468b8",
+  "orange": "#f08030",
+  "eye": "#f6ea60",
+  "blk": "#1a1a20",
+  "yel": "#f2c830"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    0
+   ],
+   "size": [
+    20,
+    20,
+    17
+   ],
+   "color": "hood",
+   "group": "body"
+  },
+  {
+   "name": "hoodsh",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    5
+   ],
+   "size": [
+    15,
+    10,
+    10
+   ],
+   "color": "hoodsh",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    8
+   ],
+   "size": [
+    11,
+    14,
+    7
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "hood",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -3
+   ],
+   "size": [
+    21,
+    17,
+    16
+   ],
+   "color": "hood",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    5
+   ],
+   "size": [
+    15,
+    13,
+    15
+   ],
+   "color": "skin2",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    12
+   ],
+   "size": [
+    10,
+    8,
+    8
+   ],
+   "color": "skin2",
+   "group": "head"
+  },
+  {
+   "name": "eye_w",
+   "shape": "ellipsoid",
+   "center": [
+    5.2,
+    25,
+    10
+   ],
+   "size": [
+    5.5,
+    6,
+    3.5
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    5.4,
+    25,
+    12
+   ],
+   "size": [
+    2,
+    2.4,
+    1
+   ],
+   "color": "blk",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest0",
+   "shape": "cone",
+   "center": [
+    0,
+    33,
+    -2
+   ],
+   "size": [
+    5,
+    9,
+    4
+   ],
+   "color": "crest",
+   "group": "head",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest1",
+   "shape": "cone",
+   "center": [
+    0,
+    31,
+    -7
+   ],
+   "size": [
+    5,
+    7,
+    4
+   ],
+   "color": "crest",
+   "group": "head",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest2",
+   "shape": "cone",
+   "center": [
+    0,
+    30,
+    3
+   ],
+   "size": [
+    5,
+    6,
+    4
+   ],
+   "color": "crest",
+   "group": "head",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    14,
+    4
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "skin",
+   "group": "arm_r",
+   "rot": [
+    -40,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    17,
+    8
+   ],
+   "size": [
+    4.5,
+    4.5,
+    4.5
+   ],
+   "color": "skin2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "cone",
+   "center": [
+    9.5,
+    17,
+    10.5
+   ],
+   "size": [
+    2,
+    2.5,
+    2
+   ],
+   "color": "orange",
+   "group": "arm_r",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    3,
+    2
+   ],
+   "size": [
+    7,
+    6,
+    9
+   ],
+   "color": "skin",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "toe",
+   "shape": "box",
+   "center": [
+    5,
+    0.8,
+    6.5
+   ],
+   "size": [
+    6,
+    1.6,
+    3
+   ],
+   "color": "orange",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    5,
+    -12
+   ],
+   "size": [
+    7,
+    20,
+    7
+   ],
+   "color": "skin",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailband",
+   "shape": "cone",
+   "center": [
+    0,
+    4.2,
+    -18
+   ],
+   "size": [
+    5.5,
+    10,
+    5.5
+   ],
+   "color": "orange",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tspike",
+   "shape": "cone",
+   "center": [
+    0,
+    8,
+    -14
+   ],
+   "size": [
+    2.5,
+    5,
+    2.5
+   ],
+   "color": "yel",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tspike2",
+   "shape": "cone",
+   "center": [
+    0,
+    7,
+    -20
+   ],
+   "size": [
+    2.5,
+    4,
+    2.5
+   ],
+   "color": "yel",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_LizardMan_icon_normal.png",
+   "note": "正面: フード付きパーカーの爬虫類。紫の肌、黄色い丸目、フード頭頂の黄色(または橙)のトサカ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Leezpunk",
+   "note": "全身: 立ち姿、尾は紫に橙帯と黄色い棘、足指は橙"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799265",
+   "note": "ゲーム内側面: フードの腹は紫の下着、尾が長い"
+  }
+ ]
+}

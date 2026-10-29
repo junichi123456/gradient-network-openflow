@@ -1,0 +1,334 @@
+{
+ "name": "メリポップ (Woolipop)",
+ "gait": "quad",
+ "palette": {
+  "wool": "#f4a0b8",
+  "wool2": "#fbd8e2",
+  "face": "#f2c6a0",
+  "face2": "#e8b088",
+  "nose": "#6a3a4a",
+  "eye": "#2a1a24",
+  "curl": "#f8c0d0",
+  "curl2": "#fff0f4",
+  "horn": "#ee6a7e",
+  "horn2": "#f89aa8"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    30,
+    26,
+    32
+   ],
+   "color": "wool",
+   "group": "body"
+  },
+  {
+   "name": "stripe1",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    18,
+    2
+   ],
+   "size": [
+    14,
+    26,
+    30
+   ],
+   "color": "wool2",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "stripe2",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    15,
+    -4
+   ],
+   "size": [
+    8,
+    22,
+    22
+   ],
+   "color": "wool",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "rump",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    -14
+   ],
+   "size": [
+    24,
+    22,
+    14
+   ],
+   "color": "wool2",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    14
+   ],
+   "size": [
+    22,
+    22,
+    12
+   ],
+   "color": "wool",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    15
+   ],
+   "size": [
+    14,
+    12,
+    10
+   ],
+   "color": "face",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    14
+   ],
+   "size": [
+    22,
+    14,
+    14
+   ],
+   "color": "wool",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    21
+   ],
+   "size": [
+    12,
+    12,
+    14
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23.5,
+    27
+   ],
+   "size": [
+    7,
+    5,
+    5
+   ],
+   "color": "face2",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0,
+    24,
+    29.8
+   ],
+   "size": [
+    2.4,
+    1.6,
+    0.8
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.3,
+    27.5,
+    26
+   ],
+   "size": [
+    2.6,
+    3.2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "curl",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    18
+   ],
+   "size": [
+    13,
+    9,
+    12
+   ],
+   "color": "curl",
+   "group": "head"
+  },
+  {
+   "name": "curl2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    19
+   ],
+   "size": [
+    8,
+    5,
+    8
+   ],
+   "color": "curl2",
+   "group": "head"
+  },
+  {
+   "name": "horn_o",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    29,
+    15
+   ],
+   "size": [
+    8,
+    14,
+    14
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn_i",
+   "shape": "ellipsoid",
+   "center": [
+    12.5,
+    29,
+    16
+   ],
+   "size": [
+    4,
+    8,
+    8
+   ],
+   "color": "horn2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg_f",
+   "shape": "cylinder",
+   "center": [
+    7,
+    4,
+    10
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "face",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_b",
+   "shape": "cylinder",
+   "center": [
+    7,
+    4,
+    -10
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "face",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -20
+   ],
+   "size": [
+    8,
+    8,
+    6
+   ],
+   "color": "wool2",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_SweetsSheep_icon_normal.png",
+   "note": "正面: ピンクと白の綿あめ状の縞の毛、頭上の渦巻き、赤ピンクの巻き角、肌色の顔、黒い目"
+  }
+ ]
+}

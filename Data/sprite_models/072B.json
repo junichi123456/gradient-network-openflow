@@ -1,0 +1,261 @@
+{
+ "name": "チョコザラシ (Polapup Terra)",
+ "gait": "quad",
+ "palette": {
+  "body": "#9a6434",
+  "under": "#6e4222",
+  "face": "#c28c56",
+  "nose": "#2a1a12",
+  "eye": "#22180e",
+  "mouth": "#3a1a14",
+  "tongue": "#e07a7a",
+  "horn": "#d9a560",
+  "hornb": "#8a5a2a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -1
+   ],
+   "size": [
+    19,
+    16,
+    22
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "under",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5.5,
+    2
+   ],
+   "size": [
+    17,
+    8,
+    18
+   ],
+   "color": "under",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    9
+   ],
+   "size": [
+    18,
+    15,
+    14
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13.5,
+    16
+   ],
+   "size": [
+    11,
+    8,
+    5
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16.5,
+    18.4
+   ],
+   "size": [
+    3.4,
+    2.4,
+    1.8
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    19,
+    14.2
+   ],
+   "size": [
+    2,
+    2.6,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "spot",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    19.5,
+    16
+   ],
+   "size": [
+    1.2,
+    1.2,
+    0.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11.2,
+    17.6
+   ],
+   "size": [
+    7,
+    2,
+    2
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "tongue",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9.8,
+    18.6
+   ],
+   "size": [
+    4,
+    1.6,
+    3
+   ],
+   "color": "tongue",
+   "group": "head"
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0,
+    25.5,
+    9
+   ],
+   "size": [
+    6,
+    10,
+    6
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -8,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hornb",
+   "shape": "cylinder",
+   "center": [
+    0,
+    22.4,
+    9
+   ],
+   "size": [
+    8,
+    2,
+    8
+   ],
+   "color": "hornb",
+   "group": "head"
+  },
+  {
+   "name": "flip",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    5,
+    6
+   ],
+   "size": [
+    4,
+    3,
+    8
+   ],
+   "color": "under",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "flipb",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    2,
+    -9
+   ],
+   "size": [
+    6,
+    3,
+    9
+   ],
+   "color": "under",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    4,
+    -13
+   ],
+   "size": [
+    8,
+    3,
+    6
+   ],
+   "color": "under",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_IceSeal_Ground_icon_normal.png",
+   "note": "アイコンのみ(全身画像は取得できず): 茶色の毛・濃い茶の下半身・頭にワッフルコーン状の角・黒い鼻・ピンクの舌"
+  }
+ ]
+}

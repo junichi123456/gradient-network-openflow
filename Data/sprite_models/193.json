@@ -1,0 +1,312 @@
+{
+ "name": "モスローン (Silvance)",
+ "gait": "hover",
+ "palette": {
+  "fur": "#d9bfd8",
+  "fur2": "#efe2ee",
+  "wing": "#cfa9cc",
+  "wing2": "#b78ab8",
+  "pat": "#8e6a9e",
+  "eye": "#7c6cc8",
+  "ant": "#b890b8",
+  "dk": "#9a7ca0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -1
+   ],
+   "size": [
+    11,
+    17,
+    14
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    4.5
+   ],
+   "size": [
+    10,
+    13,
+    6
+   ],
+   "color": "fur2",
+   "group": "body"
+  },
+  {
+   "name": "ruff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    3
+   ],
+   "size": [
+    14,
+    6,
+    10
+   ],
+   "color": "fur2",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    5
+   ],
+   "size": [
+    10,
+    9,
+    9
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    28.5,
+    9
+   ],
+   "size": [
+    2.8,
+    2.2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ant",
+   "shape": "cone",
+   "center": [
+    2.8,
+    36,
+    4
+   ],
+   "size": [
+    2.4,
+    12,
+    2.4
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant2",
+   "shape": "cone",
+   "center": [
+    4,
+    35,
+    3
+   ],
+   "size": [
+    2,
+    9,
+    2
+   ],
+   "color": "dk",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -45
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant3",
+   "shape": "cone",
+   "center": [
+    1.6,
+    34,
+    6
+   ],
+   "size": [
+    1.6,
+    8,
+    1.6
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    -5
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_a",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    26,
+    -5
+   ],
+   "size": [
+    20,
+    3.4,
+    18
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    32
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_b",
+   "shape": "ellipsoid",
+   "center": [
+    24,
+    20,
+    -5
+   ],
+   "size": [
+    16,
+    3,
+    15
+   ],
+   "color": "wing2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_pat",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    24,
+    -4
+   ],
+   "size": [
+    6,
+    3.6,
+    6
+   ],
+   "color": "pat",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_pat2",
+   "shape": "ellipsoid",
+   "center": [
+    26,
+    21,
+    -4
+   ],
+   "size": [
+    4,
+    3.4,
+    4
+   ],
+   "color": "pat",
+   "group": "wing_r",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    16,
+    4
+   ],
+   "size": [
+    2.4,
+    8,
+    2.4
+   ],
+   "color": "dk",
+   "group": "arm_r",
+   "rot": [
+    -20,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    3,
+    5,
+    -1
+   ],
+   "size": [
+    2.4,
+    10,
+    2.4
+   ],
+   "color": "dk",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "abd",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -11
+   ],
+   "size": [
+    8,
+    8,
+    10
+   ],
+   "color": "fur2",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/193/icon.png",
+   "note": "頭部: 薄桃紫の毛並み、紫の目、大きな羽毛状の触角、ふさふさの首"
+  },
+  {
+   "url": "Tools/.refcache/193/icon.png",
+   "note": "(全身参照なし) 蛾として推定: 淡桃紫の大きな翼、白い胸毛、細い脚"
+  }
+ ],
+ "hover": 10
+}

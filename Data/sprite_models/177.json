@@ -1,0 +1,284 @@
+{
+ "name": "アルセーヴ (Roujay)",
+ "gait": "biped",
+ "palette": {
+  "blk": "#1c1c22",
+  "blk2": "#34343c",
+  "wh": "#eeeef0",
+  "red": "#d03038",
+  "beak": "#8a8a92",
+  "eye": "#e04048",
+  "leg": "#8a8a92"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    13,
+    17,
+    14
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    5
+   ],
+   "size": [
+    8,
+    13,
+    6
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    3
+   ],
+   "size": [
+    11,
+    10,
+    11
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    20,
+    10
+   ],
+   "size": [
+    4,
+    8,
+    3.4
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    22,
+    7.6
+   ],
+   "size": [
+    2.6,
+    2.6,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "cone",
+   "center": [
+    0,
+    27,
+    0
+   ],
+   "size": [
+    5,
+    12,
+    5
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    -45,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest2",
+   "shape": "cone",
+   "center": [
+    3,
+    26,
+    1
+   ],
+   "size": [
+    3.4,
+    9,
+    3.4
+   ],
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    -40,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    13,
+    -1
+   ],
+   "size": [
+    4,
+    15,
+    12
+   ],
+   "color": "blk2",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wtip",
+   "shape": "cone",
+   "center": [
+    9,
+    5,
+    -2
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "blk",
+   "group": "wing_l",
+   "rot": [
+    180,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wtip2",
+   "shape": "cone",
+   "center": [
+    7,
+    6,
+    -4
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "red",
+   "group": "wing_l",
+   "rot": [
+    180,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "cone",
+   "center": [
+    0,
+    8,
+    -9
+   ],
+   "size": [
+    4,
+    12,
+    3
+   ],
+   "color": "blk",
+   "group": "tail",
+   "rot": [
+    -70,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cone",
+   "center": [
+    3,
+    8,
+    -9
+   ],
+   "size": [
+    4,
+    10,
+    3
+   ],
+   "color": "blk2",
+   "group": "tail",
+   "rot": [
+    -70,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    3,
+    3,
+    2
+   ],
+   "size": [
+    2.2,
+    6,
+    2.2
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_ThiefBird_icon_normal.png",
+   "note": "頭部: 黒い体と白い胸、後ろへ流れる赤と黒のとさか、灰色のくちばし、赤い目"
+  },
+  {
+   "url": "https://paldb.cc/ja/Roujay",
+   "note": "パルデータベース（アイコンのみ）"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Roujay",
+   "note": "全身画像なし。胴・脚は推定"
+  }
+ ]
+}

@@ -1,0 +1,277 @@
+{
+ "name": "ヴィオレッタ (Vaelet)",
+ "gait": "hover",
+ "palette": {
+  "hat": "#5cb23a",
+  "hat2": "#7ccc48",
+  "moon": "#e8d848",
+  "skin": "#5a4030",
+  "ruff": "#e8e4dc",
+  "wing": "#3d34a8",
+  "wing2": "#6a4cc0",
+  "eye": "#4ad8d8",
+  "leaf": "#3a8a34"
+ },
+ "parts": [
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    6,
+    10,
+    5
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "ruff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    1.5
+   ],
+   "size": [
+    13,
+    6,
+    10
+   ],
+   "color": "ruff",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    2
+   ],
+   "size": [
+    9,
+    8,
+    8
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    2.4,
+    22,
+    5.6
+   ],
+   "size": [
+    2.4,
+    2.4,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hat",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    0
+   ],
+   "size": [
+    13,
+    11,
+    12
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "hatp",
+   "shape": "cone",
+   "center": [
+    0,
+    33,
+    -2
+   ],
+   "size": [
+    8,
+    12,
+    8
+   ],
+   "color": "hat2",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "moon",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    24.5,
+    4
+   ],
+   "size": [
+    2,
+    7,
+    2.4
+   ],
+   "color": "moon",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    18,
+    -3
+   ],
+   "size": [
+    22,
+    22,
+    1.8
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing2",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    15,
+    -2.4
+   ],
+   "size": [
+    15,
+    15,
+    1.4
+   ],
+   "color": "wing2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wlow",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    6,
+    -3
+   ],
+   "size": [
+    14,
+    18,
+    1.8
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    13,
+    2
+   ],
+   "size": [
+    2.4,
+    8,
+    2.4
+   ],
+   "color": "skin",
+   "group": "arm_r",
+   "rot": [
+    -15,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    2,
+    4,
+    0
+   ],
+   "size": [
+    2.2,
+    8,
+    2.2
+   ],
+   "color": "skin",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -1
+   ],
+   "size": [
+    12,
+    5,
+    9
+   ],
+   "color": "leaf",
+   "group": "body"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Vaelet.png",
+   "note": "全身: 紫青のすみれ形の4枚の翅・緑の尖り帽子に黄色い三日月・灰白の襟・細い褐色の手足"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Vaelet_bis.png",
+   "note": "ゲーム内: 濃い青の花弁の翅、緑の帽子が顔を覆う"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Vaelet_slep.png",
+   "note": "側面: 紫の花弁状の翅、黄緑の帽子、褐色の肌"
+  }
+ ],
+ "hover": 6
+}

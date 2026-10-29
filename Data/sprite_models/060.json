@@ -1,0 +1,354 @@
+{
+ "name": "イバラヒメ (Bristla)",
+ "gait": "none",
+ "palette": {
+  "skin": "#a9c860",
+  "skin2": "#8fb04a",
+  "bulb": "#3e9640",
+  "bulb2": "#8dc459",
+  "bulb3": "#2d7a34",
+  "hair": "#c9222c",
+  "hair2": "#a4161f",
+  "horn": "#e7c13a",
+  "eye": "#d83a3a",
+  "mouth": "#7a2a2a"
+ },
+ "parts": [
+  {
+   "name": "bulb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    0
+   ],
+   "size": [
+    26,
+    16,
+    24
+   ],
+   "color": "bulb",
+   "group": "body"
+  },
+  {
+   "name": "bulb2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    5
+   ],
+   "size": [
+    18,
+    11,
+    15
+   ],
+   "color": "bulb3",
+   "group": "body"
+  },
+  {
+   "name": "petal",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    10,
+    6
+   ],
+   "size": [
+    8,
+    16,
+    7
+   ],
+   "color": "bulb2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "petalf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    12
+   ],
+   "size": [
+    10,
+    14,
+    5
+   ],
+   "color": "bulb2",
+   "group": "body",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "petalb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -11
+   ],
+   "size": [
+    12,
+    16,
+    5
+   ],
+   "color": "bulb2",
+   "group": "body",
+   "rot": [
+    15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    2
+   ],
+   "size": [
+    10,
+    10,
+    8
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    8
+   ],
+   "size": [
+    5,
+    4,
+    3
+   ],
+   "color": "skin2",
+   "group": "arm_r"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    3
+   ],
+   "size": [
+    14,
+    13,
+    12
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    25.5,
+    8.6
+   ],
+   "size": [
+    3,
+    2.2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    21.6,
+    9
+   ],
+   "size": [
+    1.8,
+    0.6,
+    0.6
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "hairtop",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    -2
+   ],
+   "size": [
+    19,
+    9,
+    14
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "hairbk",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    -5
+   ],
+   "size": [
+    20,
+    24,
+    9
+   ],
+   "color": "hair2",
+   "group": "head"
+  },
+  {
+   "name": "lock",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    22,
+    0
+   ],
+   "size": [
+    7,
+    22,
+    8
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lockf",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    25,
+    8
+   ],
+   "size": [
+    4,
+    14,
+    4
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "spike",
+   "shape": "cone",
+   "center": [
+    11,
+    31,
+    -2
+   ],
+   "size": [
+    5,
+    10,
+    5
+   ],
+   "color": "hair2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -70
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "spikeb",
+   "shape": "cone",
+   "center": [
+    0,
+    30,
+    -9
+   ],
+   "size": [
+    6,
+    12,
+    6
+   ],
+   "color": "hair2",
+   "group": "head",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0,
+    35.5,
+    3
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    15,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Bristla.png",
+   "note": "全身: 緑の球根の花弁の上に座る・赤い長い髪・黄色の角・祈るように手を組む"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Bristla_bis.png",
+   "note": "ゲーム内: 赤い髪が花のように広がる、緑の肌と赤い目"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_LittleBriarRose_icon_normal.png",
+   "note": "正面アップ: 手を合わせる、髪の房が肩に垂れる"
+  }
+ ]
+}

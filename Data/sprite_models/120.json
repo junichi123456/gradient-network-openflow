@@ -1,0 +1,336 @@
+{
+ "name": "ヨミーラ (Gildra)",
+ "gait": "biped",
+ "palette": {
+  "gold": "#e0a82a",
+  "gold2": "#f6cf5a",
+  "goldsh": "#a8741a",
+  "teal": "#1f5a6e",
+  "teal2": "#2d7a8c",
+  "horn": "#143c52",
+  "dk": "#10141c",
+  "eye": "#7ab648",
+  "red": "#c0392b"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    0
+   ],
+   "size": [
+    20,
+    19,
+    14
+   ],
+   "color": "teal",
+   "group": "body"
+  },
+  {
+   "name": "belt1",
+   "shape": "box",
+   "center": [
+    0,
+    17,
+    6.5
+   ],
+   "size": [
+    24,
+    3.5,
+    2.5
+   ],
+   "color": "gold",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    35
+   ]
+  },
+  {
+   "name": "belt2",
+   "shape": "box",
+   "center": [
+    0,
+    17,
+    6.5
+   ],
+   "size": [
+    24,
+    3.5,
+    2.5
+   ],
+   "color": "gold",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -35
+   ]
+  },
+  {
+   "name": "buckle",
+   "shape": "box",
+   "center": [
+    0,
+    17,
+    8
+   ],
+   "size": [
+    5,
+    5,
+    2
+   ],
+   "color": "gold2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    45
+   ]
+  },
+  {
+   "name": "waist",
+   "shape": "cylinder",
+   "center": [
+    0,
+    8,
+    0
+   ],
+   "size": [
+    15,
+    3,
+    12
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    2
+   ],
+   "size": [
+    15,
+    13,
+    13
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    6
+   ],
+   "size": [
+    10,
+    8,
+    6
+   ],
+   "color": "dk",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    2.8,
+    26.5,
+    9
+   ],
+   "size": [
+    2,
+    1.6,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    0
+   ],
+   "size": [
+    8,
+    5,
+    14
+   ],
+   "color": "gold2",
+   "group": "head"
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    6.5,
+    37,
+    -1
+   ],
+   "size": [
+    5,
+    17,
+    5
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    8,
+    0,
+    -16
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "band",
+   "shape": "cylinder",
+   "center": [
+    0,
+    27,
+    2
+   ],
+   "size": [
+    16,
+    2,
+    14
+   ],
+   "color": "goldsh",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    15,
+    1
+   ],
+   "size": [
+    7,
+    15,
+    7
+   ],
+   "color": "teal2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "armband",
+   "shape": "cylinder",
+   "center": [
+    13.5,
+    17,
+    1
+   ],
+   "size": [
+    8,
+    3,
+    8
+   ],
+   "color": "gold",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    14.5,
+    7,
+    2
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "gold",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    5,
+    5,
+    1
+   ],
+   "size": [
+    7,
+    10,
+    7
+   ],
+   "color": "teal",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legband",
+   "shape": "cylinder",
+   "center": [
+    5,
+    3,
+    1
+   ],
+   "size": [
+    8,
+    2.5,
+    8
+   ],
+   "color": "gold",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    1.2,
+    3
+   ],
+   "size": [
+    8,
+    2.4,
+    10
+   ],
+   "color": "goldsh",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_MummyPal_icon_normal.png",
+   "note": "上半身アップのみ: 金の兜と顔を隠す暗い顔、濃い青緑の長い2本角、金の包帯が胸でX字に交差、青緑の体に金の腕輪"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Gildra_icon.png",
+   "note": "wikiもアイコンのみ。下半身は青緑の脚に金の足輪で推定"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799185",
+   "note": "図鑑(画像取得不可): ミイラ型"
+  }
+ ]
+}

@@ -1,0 +1,335 @@
+{
+ "name": "フードール (Hoodle)",
+ "gait": "hover",
+ "hover": 3,
+ "palette": {
+  "navy": "#2b2e57",
+  "navy2": "#3d4175",
+  "black": "#101018",
+  "cy": "#39e0e8",
+  "yel": "#e6e060",
+  "grn": "#4cb36a",
+  "pur": "#7a54b0",
+  "red": "#a8283a",
+  "white": "#f2f2f2"
+ },
+ "parts": [
+  {
+   "name": "cloak",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    0
+   ],
+   "size": [
+    17,
+    17,
+    14
+   ],
+   "color": "navy",
+   "group": "body"
+  },
+  {
+   "name": "hem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    3,
+    0
+   ],
+   "size": [
+    19,
+    6,
+    16
+   ],
+   "color": "navy2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    1
+   ],
+   "size": [
+    18,
+    15,
+    16
+   ],
+   "color": "navy",
+   "group": "head"
+  },
+  {
+   "name": "hood_tail",
+   "shape": "cone",
+   "center": [
+    0,
+    20,
+    -9
+   ],
+   "size": [
+    8,
+    10,
+    8
+   ],
+   "color": "navy",
+   "group": "head",
+   "rot": [
+    75,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    7
+   ],
+   "size": [
+    13,
+    10,
+    5
+   ],
+   "color": "black",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    19.5,
+    9.4
+   ],
+   "size": [
+    3.6,
+    4.6,
+    1.6
+   ],
+   "color": "cy",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyecore",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    19.5,
+    10.2
+   ],
+   "size": [
+    1.4,
+    2.6,
+    0.8
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tooth_u",
+   "shape": "cone",
+   "center": [
+    2.5,
+    16.2,
+    9.6
+   ],
+   "size": [
+    1.6,
+    2.6,
+    1.2
+   ],
+   "color": "yel",
+   "group": "head",
+   "rot": [
+    180,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tooth_l",
+   "shape": "cone",
+   "center": [
+    1,
+    13.6,
+    9.6
+   ],
+   "size": [
+    1.6,
+    2.6,
+    1.2
+   ],
+   "color": "yel",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    5.5,
+    27,
+    1
+   ],
+   "size": [
+    3,
+    5,
+    3
+   ],
+   "color": "yel",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hood_ring",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    25.8,
+    -1
+   ],
+   "size": [
+    6,
+    2,
+    6
+   ],
+   "color": "pur",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ]
+  },
+  {
+   "name": "hood_dot",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    26.3,
+    -1
+   ],
+   "size": [
+    3.6,
+    1.4,
+    3.6
+   ],
+   "color": "grn",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ]
+  },
+  {
+   "name": "bib",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    6.8
+   ],
+   "size": [
+    4,
+    8,
+    3
+   ],
+   "color": "red",
+   "group": "body"
+  },
+  {
+   "name": "drip",
+   "shape": "cone",
+   "center": [
+    0,
+    6,
+    7.4
+   ],
+   "size": [
+    2.4,
+    4,
+    1.6
+   ],
+   "color": "red",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    10,
+    3
+   ],
+   "size": [
+    4.5,
+    8,
+    5
+   ],
+   "color": "navy2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tuft",
+   "shape": "cone",
+   "center": [
+    9.5,
+    10,
+    -1
+   ],
+   "size": [
+    3,
+    5,
+    3
+   ],
+   "color": "navy",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -70
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_HoodGhost_icon_normal.png",
+   "note": "頭部アップ: 紺のフード、黄の角2本、緑と紫の丸模様、黒い顔に水色の目と黄色い牙、赤い垂れ布"
+  },
+  {
+   "url": "https://paldb.cc/ja/Hoodle",
+   "note": "フード付きマント型の幽霊。体は紺のマントで足なし（推定）"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Hoodle",
+   "note": "全身画像なし。マント形・サイズは推定"
+  }
+ ]
+}

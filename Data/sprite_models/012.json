@@ -1,0 +1,201 @@
+{
+ "name": "ナエモチ (Gumoss)",
+ "gait": "biped",
+ "palette": {
+  "tan": "#e8b068",
+  "tan2": "#f2c488",
+  "cheek": "#f6cd8a",
+  "cap": "#6a4028",
+  "cap2": "#5a3420",
+  "lf": "#6cb43c",
+  "lf2": "#4a9a30",
+  "tg": "#e8908a",
+  "pup": "#2a2018"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    28,
+    20,
+    24
+   ],
+   "color": "tan",
+   "group": "body"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    6
+   ],
+   "size": [
+    22,
+    13,
+    14
+   ],
+   "color": "tan2",
+   "group": "head"
+  },
+  {
+   "name": "cap",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19.5,
+    0
+   ],
+   "size": [
+    29,
+    12,
+    26
+   ],
+   "color": "cap",
+   "group": "head"
+  },
+  {
+   "name": "brim",
+   "shape": "cylinder",
+   "center": [
+    0,
+    16.5,
+    0
+   ],
+   "size": [
+    30,
+    2.4,
+    27
+   ],
+   "color": "cap2",
+   "group": "head"
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    29,
+    -1
+   ],
+   "size": [
+    11,
+    3,
+    6
+   ],
+   "color": "lf",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    8.5,
+    10
+   ],
+   "size": [
+    8,
+    7,
+    6
+   ],
+   "color": "cheek",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    13.5,
+    11.8
+   ],
+   "size": [
+    2.2,
+    2.6,
+    1.4
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tongue",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    13.5
+   ],
+   "size": [
+    7,
+    3.4,
+    4
+   ],
+   "color": "tg",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    8,
+    3
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "cheek",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    1.4,
+    6
+   ],
+   "size": [
+    7,
+    3,
+    7
+   ],
+   "color": "tan",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_PlantSlime_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Gumoss_Sleeping.png",
+   "note": "草地: 薄茶の丸い体にどんぐり型の茶色い帽子、頭頂に緑の葉2枚、頬が丸く出る"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Gumossflower.webp",
+   "note": "舌を出した顔、帽子の上に葉と赤い花"
+  }
+ ]
+}

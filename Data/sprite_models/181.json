@@ -1,0 +1,293 @@
+{
+ "name": "ホシノコ (Wistella)",
+ "gait": "hover",
+ "hover": 3,
+ "palette": {
+  "hat": "#c4bc3c",
+  "hat2": "#a8a02c",
+  "hair": "#a898dc",
+  "face": "#f4f0f8",
+  "eye": "#8a78c8",
+  "dress": "#b8a8e8",
+  "wh": "#f2eef8",
+  "star": "#f8e040",
+  "star2": "#e8c020"
+ },
+ "parts": [
+  {
+   "name": "hat",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    -4
+   ],
+   "size": [
+    28,
+    9,
+    26
+   ],
+   "color": "hat",
+   "group": "head",
+   "rot": [
+    -14,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crown",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    -5
+   ],
+   "size": [
+    15,
+    8,
+    14
+   ],
+   "color": "hat2",
+   "group": "head",
+   "rot": [
+    -14,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -3
+   ],
+   "size": [
+    18,
+    17,
+    13
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    4
+   ],
+   "size": [
+    12,
+    10,
+    6
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    3.6,
+    20.5,
+    7.4
+   ],
+   "size": [
+    3,
+    0.8,
+    0.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    0
+   ],
+   "size": [
+    13,
+    15,
+    10
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    3,
+    0
+   ],
+   "size": [
+    16,
+    7,
+    13
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "star",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    7
+   ],
+   "size": [
+    7,
+    7,
+    3
+   ],
+   "color": "star",
+   "group": "body"
+  },
+  {
+   "name": "s1",
+   "shape": "cone",
+   "center": [
+    0,
+    15.5,
+    7
+   ],
+   "size": [
+    3,
+    4,
+    2
+   ],
+   "color": "star2",
+   "group": "body"
+  },
+  {
+   "name": "s2",
+   "shape": "cone",
+   "center": [
+    4,
+    12,
+    7
+   ],
+   "size": [
+    3,
+    4,
+    2
+   ],
+   "color": "star2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -72
+   ]
+  },
+  {
+   "name": "s3",
+   "shape": "cone",
+   "center": [
+    -4,
+    12,
+    7
+   ],
+   "size": [
+    3,
+    4,
+    2
+   ],
+   "color": "star2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    72
+   ]
+  },
+  {
+   "name": "s4",
+   "shape": "cone",
+   "center": [
+    2.6,
+    7,
+    7
+   ],
+   "size": [
+    3,
+    4,
+    2
+   ],
+   "color": "star2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -144
+   ]
+  },
+  {
+   "name": "s5",
+   "shape": "cone",
+   "center": [
+    -2.6,
+    7,
+    7
+   ],
+   "size": [
+    3,
+    4,
+    2
+   ],
+   "color": "star2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    144
+   ]
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    10,
+    3
+   ],
+   "size": [
+    4,
+    8,
+    5
+   ],
+   "color": "wh",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_MoonChild_icon_normal.png",
+   "note": "頭部: 大きな黄緑〜オリーブの帽子、藤色の髪、白い顔、胸に黄色い星を抱える"
+  },
+  {
+   "url": "https://paldb.cc/ja/Wistella",
+   "note": "パルデータベース（アイコンのみ）"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Wistella",
+   "note": "全身画像なし。胴・脚は推定"
+  }
+ ]
+}

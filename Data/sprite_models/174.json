@@ -1,0 +1,257 @@
+{
+ "name": "センコ (Flaracle)",
+ "gait": "biped",
+ "palette": {
+  "blk": "#1e1e26",
+  "blk2": "#34343e",
+  "gold": "#eaa232",
+  "gold2": "#c8801c",
+  "white": "#f4f4f6",
+  "eye": "#f04828",
+  "org": "#f07828"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    0
+   ],
+   "size": [
+    12,
+    14,
+    10
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    4
+   ],
+   "size": [
+    7,
+    9,
+    3
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    1
+   ],
+   "size": [
+    14,
+    12,
+    12
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    6
+   ],
+   "size": [
+    10,
+    6,
+    4
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    20,
+    7.5
+   ],
+   "size": [
+    3,
+    3.6,
+    1.5
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    5.5,
+    29,
+    -1
+   ],
+   "size": [
+    6,
+    12,
+    4
+   ],
+   "color": "blk",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "mask",
+   "shape": "cone",
+   "center": [
+    0,
+    29,
+    4
+   ],
+   "size": [
+    10,
+    10,
+    3
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "mask2",
+   "shape": "cone",
+   "center": [
+    0,
+    27,
+    5.5
+   ],
+   "size": [
+    5,
+    7,
+    2
+   ],
+   "color": "gold2",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    9,
+    2
+   ],
+   "size": [
+    4.5,
+    10,
+    5
+   ],
+   "color": "blk2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    4,
+    4
+   ],
+   "size": [
+    5,
+    4,
+    5
+   ],
+   "color": "white",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    2.5,
+    2
+   ],
+   "size": [
+    5,
+    5,
+    8
+   ],
+   "color": "white",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -8
+   ],
+   "size": [
+    6,
+    6,
+    10
+   ],
+   "color": "blk",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cone",
+   "center": [
+    0,
+    9,
+    -14
+   ],
+   "size": [
+    5,
+    10,
+    5
+   ],
+   "color": "org",
+   "group": "tail",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_FoxExorcist_icon_normal.png",
+   "note": "頭部: 黒い体と尖った耳、額に大きな橙金の面（逆V字）、橙赤の目、白い口元と手"
+  },
+  {
+   "url": "https://paldb.cc/ja/Flaracle",
+   "note": "狐の祓い師。黒い体"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Flaracle",
+   "note": "全身画像なし。尾・脚は推定"
+  }
+ ]
+}

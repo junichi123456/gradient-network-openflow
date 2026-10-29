@@ -1,0 +1,338 @@
+{
+ "name": "ネモフィ (Lapure)",
+ "gait": "biped",
+ "palette": {
+  "teal": "#3aa8c8",
+  "teal2": "#6cc8de",
+  "white": "#f6f6f8",
+  "white2": "#dfe3ea",
+  "red": "#d8484e",
+  "flower": "#fafafa",
+  "fl2": "#e0e4ee",
+  "eye": "#c03038",
+  "sh": "#2a8aaa"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    0
+   ],
+   "size": [
+    14,
+    13,
+    12
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "sleeve_cape",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -3
+   ],
+   "size": [
+    18,
+    14,
+    10
+   ],
+   "color": "teal2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    1
+   ],
+   "size": [
+    16,
+    13,
+    14
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -1
+   ],
+   "size": [
+    20,
+    13,
+    15
+   ],
+   "color": "teal",
+   "group": "head"
+  },
+  {
+   "name": "fringe",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    5
+   ],
+   "size": [
+    14,
+    5,
+    7
+   ],
+   "color": "teal2",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    7
+   ],
+   "size": [
+    11,
+    8,
+    4
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    18.5,
+    9
+   ],
+   "size": [
+    3,
+    3.8,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    29,
+    -1
+   ],
+   "size": [
+    6,
+    15,
+    4
+   ],
+   "color": "teal",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earin",
+   "shape": "ellipsoid",
+   "center": [
+    7.4,
+    29,
+    0.6
+   ],
+   "size": [
+    3,
+    11,
+    1.5
+   ],
+   "color": "teal2",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fl_c",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    3
+   ],
+   "size": [
+    6,
+    6,
+    3
+   ],
+   "color": "white2",
+   "group": "head"
+  },
+  {
+   "name": "fl1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    3
+   ],
+   "size": [
+    5,
+    7,
+    2
+   ],
+   "color": "flower",
+   "group": "head"
+  },
+  {
+   "name": "fl2",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    32,
+    3
+   ],
+   "size": [
+    7,
+    5,
+    2
+   ],
+   "color": "flower",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    30
+   ]
+  },
+  {
+   "name": "fl3",
+   "shape": "ellipsoid",
+   "center": [
+    -5,
+    32,
+    3
+   ],
+   "size": [
+    7,
+    5,
+    2
+   ],
+   "color": "flower",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "fl4",
+   "shape": "ellipsoid",
+   "center": [
+    -3,
+    28,
+    3
+   ],
+   "size": [
+    6,
+    5,
+    2
+   ],
+   "color": "flower",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    50
+   ]
+  },
+  {
+   "name": "fl5",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    28,
+    3
+   ],
+   "size": [
+    6,
+    5,
+    2
+   ],
+   "color": "flower",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -50
+   ]
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    9,
+    2
+   ],
+   "size": [
+    4.5,
+    9,
+    5
+   ],
+   "color": "teal2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    2,
+    1
+   ],
+   "size": [
+    5,
+    4,
+    8
+   ],
+   "color": "white",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_SleeveRabbit_icon_normal.png",
+   "note": "頭部: 水色の髪と垂れ耳、頭に白い花、赤い目、白い体"
+  },
+  {
+   "url": "https://paldb.cc/ja/Lapure",
+   "note": "ウサギ。長い袖状の水色のケープ（推定）"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Lapure",
+   "note": "全身画像なし"
+  }
+ ]
+}

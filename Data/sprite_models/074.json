@@ -1,0 +1,339 @@
+{
+ "name": "ゴリレイジ (Gorirat)",
+ "gait": "biped",
+ "palette": {
+  "fur": "#4a4a50",
+  "fur2": "#33333a",
+  "face": "#e8e4e0",
+  "belly": "#eeeae6",
+  "ear": "#e07070",
+  "eye": "#d83030",
+  "blk": "#1a1a1a",
+  "nose": "#202020"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    0
+   ],
+   "size": [
+    24,
+    22,
+    18
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    6
+   ],
+   "size": [
+    14,
+    15,
+    9
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    3
+   ],
+   "size": [
+    18,
+    15,
+    16
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    11
+   ],
+   "size": [
+    10,
+    7,
+    7
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0,
+    26.5,
+    14.5
+   ],
+   "size": [
+    3,
+    1.6,
+    1
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    29,
+    11
+   ],
+   "size": [
+    3.2,
+    2.4,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hair0",
+   "shape": "cone",
+   "center": [
+    0,
+    38,
+    0
+   ],
+   "size": [
+    7,
+    13,
+    6
+   ],
+   "color": "fur",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hair1",
+   "shape": "cone",
+   "center": [
+    6,
+    36,
+    -1
+   ],
+   "size": [
+    7,
+    11,
+    6
+   ],
+   "color": "fur",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    10
+   ]
+  },
+  {
+   "name": "hair2",
+   "shape": "cone",
+   "center": [
+    -6,
+    36,
+    -1
+   ],
+   "size": [
+    7,
+    11,
+    6
+   ],
+   "color": "fur",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    -10
+   ]
+  },
+  {
+   "name": "hair3",
+   "shape": "cone",
+   "center": [
+    9,
+    33,
+    -2
+   ],
+   "size": [
+    7,
+    9,
+    6
+   ],
+   "color": "fur",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    10
+   ]
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    29,
+    1
+   ],
+   "size": [
+    3,
+    9,
+    9
+   ],
+   "color": "fur2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "ellipsoid",
+   "center": [
+    11.7,
+    29,
+    1.5
+   ],
+   "size": [
+    1.5,
+    6,
+    6.5
+   ],
+   "color": "ear",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    20,
+    0
+   ],
+   "size": [
+    9,
+    10,
+    10
+   ],
+   "color": "fur",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    12,
+    3
+   ],
+   "size": [
+    8,
+    14,
+    8
+   ],
+   "color": "fur",
+   "group": "arm_r",
+   "rot": [
+    -10,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fist",
+   "shape": "ellipsoid",
+   "center": [
+    14.5,
+    5,
+    5
+   ],
+   "size": [
+    8,
+    7,
+    8
+   ],
+   "color": "face",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    3.5,
+    2
+   ],
+   "size": [
+    9,
+    7,
+    12
+   ],
+   "color": "fur",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -12
+   ],
+   "size": [
+    5,
+    5,
+    7
+   ],
+   "color": "fur2",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Gorilla_icon_normal.png",
+   "note": "正面: 逆立つ大きな毛束、赤い目、丸い耳(内側は桃色)、鼻口は白(通常)/灰(Terra)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Gorirat",
+   "note": "ゲーム内: 丸い大きな耳、毛束が後ろに流れる、胸に白い房"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799263",
+   "note": "毛色確認(側面)"
+  }
+ ]
+}

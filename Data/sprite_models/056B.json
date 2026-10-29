@@ -1,0 +1,357 @@
+{
+ "name": "ユキカゲ (Loupmoon Cryst)",
+ "gait": "biped",
+ "palette": {
+  "fur": "#e9eef6",
+  "chest": "#ffffff",
+  "face": "#6fa6b8",
+  "face2": "#5d93a8",
+  "eye": "#d83a3a",
+  "ear": "#4a6ea8",
+  "earin": "#eef2f8",
+  "horn": "#3d5f9a",
+  "dark": "#5a7aa8",
+  "spike": "#cfe3f3",
+  "limb": "#8fa9cc",
+  "claw": "#a8d4ee"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    14,
+    18,
+    10
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    3.5
+   ],
+   "size": [
+    12,
+    14,
+    6
+   ],
+   "color": "chest",
+   "group": "body"
+  },
+  {
+   "name": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -1
+   ],
+   "size": [
+    11,
+    8,
+    9
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    2
+   ],
+   "size": [
+    16,
+    13,
+    13
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28.5,
+    7
+   ],
+   "size": [
+    7,
+    5,
+    5
+   ],
+   "color": "face2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    32,
+    7.4
+   ],
+   "size": [
+    3.4,
+    2.4,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    36,
+    0
+   ],
+   "size": [
+    17,
+    3.4,
+    10
+   ],
+   "color": "ear",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    32
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "ellipsoid",
+   "center": [
+    11.4,
+    35.6,
+    1
+   ],
+   "size": [
+    11,
+    2,
+    7
+   ],
+   "color": "earin",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    32
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    4.5,
+    38,
+    -2
+   ],
+   "size": [
+    4,
+    18,
+    4
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -8,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "antenna",
+   "shape": "cone",
+   "center": [
+    0,
+    38,
+    -1
+   ],
+   "size": [
+    1.5,
+    15,
+    1.5
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "shoulder",
+   "shape": "cone",
+   "center": [
+    7,
+    24,
+    -1
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -60
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "shoulder2",
+   "shape": "cone",
+   "center": [
+    4,
+    25,
+    -4
+   ],
+   "size": [
+    3.5,
+    5,
+    3.5
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    -30,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "cylinder",
+   "center": [
+    9,
+    14,
+    0
+   ],
+   "size": [
+    4,
+    17,
+    4
+   ],
+   "color": "limb",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "cone",
+   "center": [
+    8.8,
+    4.5,
+    1
+   ],
+   "size": [
+    2.6,
+    4,
+    2.6
+   ],
+   "color": "claw",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    6,
+    0
+   ],
+   "size": [
+    4.6,
+    12,
+    4.6
+   ],
+   "color": "limb",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    1.2,
+    3
+   ],
+   "size": [
+    4,
+    2.4,
+    8
+   ],
+   "color": "dark",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -10
+   ],
+   "size": [
+    6,
+    6,
+    12
+   ],
+   "color": "chest",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Werewolf_Ice_icon_normal.png",
+   "note": "氷版: 白い毛・青緑の顔・赤い目・青い耳(内側は白)・青い角と触角・白い氷のトゲ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Loupmoon.png",
+   "note": "元種の体型: 細身の二足、大きな耳、外向きの角"
+  }
+ ]
+}

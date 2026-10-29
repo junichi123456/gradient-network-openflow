@@ -1,0 +1,397 @@
+{
+ "name": "レジェンディア (Hartalis)",
+ "gait": "quad",
+ "palette": {
+  "wh": "#f2f2ec",
+  "wh2": "#dcdcd4",
+  "mane": "#9ee0c8",
+  "mane2": "#6cc4b0",
+  "ant": "#a8844a",
+  "ant2": "#8cb04c",
+  "eye": "#4aa0b8",
+  "hoof": "#6a5a40",
+  "gem": "#58d0e0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    0
+   ],
+   "size": [
+    13,
+    14,
+    26
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    1
+   ],
+   "size": [
+    11,
+    9,
+    22
+   ],
+   "color": "wh2",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    10
+   ],
+   "size": [
+    11,
+    13,
+    9
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    12
+   ],
+   "size": [
+    7,
+    16,
+    8
+   ],
+   "color": "wh",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    9
+   ],
+   "size": [
+    10,
+    16,
+    9
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mane2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    10
+   ],
+   "size": [
+    8,
+    10,
+    6
+   ],
+   "color": "mane2",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38,
+    17
+   ],
+   "size": [
+    7,
+    8,
+    12
+   ],
+   "color": "wh",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    22
+   ],
+   "size": [
+    5,
+    5,
+    6
+   ],
+   "color": "wh2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    38.5,
+    19
+   ],
+   "size": [
+    1.6,
+    2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "gem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41,
+    19
+   ],
+   "size": [
+    2,
+    2.6,
+    1.2
+   ],
+   "color": "gem",
+   "group": "head"
+  },
+  {
+   "name": "antA",
+   "shape": "cone",
+   "center": [
+    3.5,
+    45,
+    13
+   ],
+   "size": [
+    4.2,
+    15,
+    4.2
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    -22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "antB",
+   "shape": "cone",
+   "center": [
+    8,
+    51,
+    12
+   ],
+   "size": [
+    3.6,
+    11,
+    3.6
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    -50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "antC",
+   "shape": "cone",
+   "center": [
+    5,
+    53,
+    12
+   ],
+   "size": [
+    3.4,
+    10,
+    3.4
+   ],
+   "color": "ant2",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "antD",
+   "shape": "cone",
+   "center": [
+    11,
+    48,
+    13
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "ant2",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    -75
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    41,
+    13
+   ],
+   "size": [
+    2.4,
+    5,
+    3
+   ],
+   "color": "wh2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    9,
+    9
+   ],
+   "size": [
+    5,
+    18,
+    5.4
+   ],
+   "color": "wh",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "hooff",
+   "shape": "box",
+   "center": [
+    4.5,
+    1,
+    9.5
+   ],
+   "size": [
+    4.6,
+    2.2,
+    5
+   ],
+   "color": "hoof",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    9,
+    -9
+   ],
+   "size": [
+    5,
+    18,
+    5.4
+   ],
+   "color": "wh",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofb",
+   "shape": "box",
+   "center": [
+    4.5,
+    1,
+    -8.5
+   ],
+   "size": [
+    4.6,
+    2.2,
+    5
+   ],
+   "color": "hoof",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -15
+   ],
+   "size": [
+    5,
+    5,
+    8
+   ],
+   "color": "mane",
+   "group": "tail",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/197/icon.png",
+   "note": "頭部: 白い顔、金茶の枝分かれした大きな角に緑の若葉、青緑のたてがみ"
+  },
+  {
+   "url": "Tools/.refcache/197/icon.png",
+   "note": "(全身参照なし) 鹿として推定: 白い胴、細長い脚、蹄、青緑の長いたてがみ"
+  }
+ ]
+}

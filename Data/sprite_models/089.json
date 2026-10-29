@@ -1,0 +1,373 @@
+{
+ "name": "フラリーナ (Petallia)",
+ "gait": "biped",
+ "palette": {
+  "skin": "#f2f0ea",
+  "leaf": "#7fcf6a",
+  "leaf2": "#a6e08a",
+  "hat": "#5fc070",
+  "white": "#ffffff",
+  "flowerp": "#f6aab4",
+  "flowerc": "#7fcf6a",
+  "eye": "#e03a4a",
+  "leg": "#58b868"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    12,
+    14,
+    10
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    3.5
+   ],
+   "size": [
+    9,
+    6,
+    5
+   ],
+   "color": "flowerc",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "cone",
+   "center": [
+    0,
+    8,
+    -1
+   ],
+   "size": [
+    18,
+    13,
+    16
+   ],
+   "color": "leaf",
+   "group": "body"
+  },
+  {
+   "name": "skirt2",
+   "shape": "cone",
+   "center": [
+    0,
+    8,
+    -1
+   ],
+   "size": [
+    13,
+    10,
+    12
+   ],
+   "color": "leaf2",
+   "group": "body"
+  },
+  {
+   "name": "cape",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    -7
+   ],
+   "size": [
+    18,
+    18,
+    5
+   ],
+   "color": "leaf",
+   "group": "body",
+   "rot": [
+    12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "cape_l",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    12,
+    -4
+   ],
+   "size": [
+    8,
+    18,
+    5
+   ],
+   "color": "leaf2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    1.5
+   ],
+   "size": [
+    16,
+    14,
+    14
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "hat",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31.5,
+    -1.5
+   ],
+   "size": [
+    19,
+    12,
+    15
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "hat_pt",
+   "shape": "cone",
+   "center": [
+    0,
+    38,
+    -2
+   ],
+   "size": [
+    9,
+    8,
+    8
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "hatgem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    8.4
+   ],
+   "size": [
+    2.6,
+    5,
+    1
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "hat_side",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    24,
+    -3
+   ],
+   "size": [
+    6,
+    16,
+    9
+   ],
+   "color": "hat",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "flower",
+   "shape": "ellipsoid",
+   "center": [
+    11.5,
+    26,
+    5
+   ],
+   "size": [
+    9,
+    9,
+    4
+   ],
+   "color": "flowerp",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "flower_c",
+   "shape": "ellipsoid",
+   "center": [
+    11.5,
+    26,
+    7.2
+   ],
+   "size": [
+    3.6,
+    3.6,
+    1.6
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    20,
+    2
+   ],
+   "size": [
+    5,
+    9,
+    4
+   ],
+   "color": "skin",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    24,
+    7
+   ],
+   "size": [
+    2.8,
+    3.4,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    15,
+    3
+   ],
+   "size": [
+    3.5,
+    8,
+    3.5
+   ],
+   "color": "skin",
+   "group": "arm_r",
+   "rot": [
+    -20,
+    0,
+    -8
+   ]
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    -5.5,
+    15,
+    3
+   ],
+   "size": [
+    3.5,
+    8,
+    3.5
+   ],
+   "color": "skin",
+   "group": "arm_l",
+   "rot": [
+    -20,
+    0,
+    8
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    2.8,
+    3.2,
+    0
+   ],
+   "size": [
+    3.2,
+    6.4,
+    3.2
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    2.8,
+    1,
+    1.5
+   ],
+   "size": [
+    4,
+    2,
+    6
+   ],
+   "color": "leaf2",
+   "group": "leg_fl",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Petallia.png",
+   "note": "正面: 緑の大きな花びら帽子（白い菱形飾り）、左右に桃色の花、赤目、白い顔と垂れ耳、緑の葉のマント"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Petallia_bis.png",
+   "note": "ゲーム内: 脚は緑、葉のスカートとマントが長く後ろに流れる"
+  },
+  {
+   "url": "Tools/.refcache/089/icon.png",
+   "note": "頭部アップ"
+  }
+ ]
+}

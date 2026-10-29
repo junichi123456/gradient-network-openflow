@@ -1,0 +1,384 @@
+{
+ "name": "メラドーン (Ghangler Ignis)",
+ "gait": "hover",
+ "palette": {
+  "dark": "#3a2028",
+  "head": "#d8dcda",
+  "chin": "#c4a8c8",
+  "mouth": "#2a1018",
+  "teeth": "#f4ecd8",
+  "eye": "#e8409a",
+  "rod": "#a02020",
+  "lure": "#ff8a50",
+  "fin": "#a02828",
+  "fin2": "#d84030"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -9
+   ],
+   "size": [
+    14,
+    13,
+    18
+   ],
+   "color": "dark",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -8
+   ],
+   "size": [
+    10,
+    6,
+    14
+   ],
+   "color": "chin",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    6
+   ],
+   "size": [
+    15,
+    13,
+    18
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "jaw",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    8
+   ],
+   "size": [
+    13,
+    6,
+    15
+   ],
+   "color": "chin",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13.5,
+    13.5
+   ],
+   "size": [
+    11,
+    6,
+    6
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "teeth_u",
+   "shape": "box",
+   "center": [
+    0,
+    15.5,
+    15.8
+   ],
+   "size": [
+    10,
+    2.2,
+    1.6
+   ],
+   "color": "teeth",
+   "group": "head"
+  },
+  {
+   "name": "teeth_l",
+   "shape": "box",
+   "center": [
+    0,
+    11.5,
+    15.2
+   ],
+   "size": [
+    9,
+    2,
+    1.6
+   ],
+   "color": "teeth",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    6.6,
+    20,
+    9
+   ],
+   "size": [
+    2.6,
+    3.4,
+    3
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "box",
+   "center": [
+    7.8,
+    20,
+    10
+   ],
+   "size": [
+    0.8,
+    2.4,
+    0.8
+   ],
+   "color": "dark",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hfin",
+   "shape": "cone",
+   "center": [
+    7.5,
+    19,
+    2
+   ],
+   "size": [
+    3.5,
+    8,
+    3.5
+   ],
+   "color": "head",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -100
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fore",
+   "shape": "cone",
+   "center": [
+    0,
+    23,
+    2
+   ],
+   "size": [
+    5,
+    7,
+    6
+   ],
+   "color": "head",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "rod",
+   "shape": "cylinder",
+   "center": [
+    0,
+    31,
+    1
+   ],
+   "size": [
+    0.9,
+    17,
+    0.9
+   ],
+   "color": "rod",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "lure",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    -3
+   ],
+   "size": [
+    4.6,
+    4.6,
+    4.6
+   ],
+   "color": "lure",
+   "group": "head"
+  },
+  {
+   "name": "wing",
+   "shape": "wedge",
+   "center": [
+    10,
+    16,
+    -8
+   ],
+   "size": [
+    12,
+    14,
+    3
+   ],
+   "color": "fin",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -60
+   ]
+  },
+  {
+   "name": "wing_l",
+   "shape": "wedge",
+   "center": [
+    -10,
+    16,
+    -8
+   ],
+   "size": [
+    12,
+    14,
+    3
+   ],
+   "color": "fin",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    60
+   ]
+  },
+  {
+   "name": "wing_e",
+   "shape": "wedge",
+   "center": [
+    14,
+    13,
+    -8
+   ],
+   "size": [
+    9,
+    9,
+    2.4
+   ],
+   "color": "fin2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -70
+   ]
+  },
+  {
+   "name": "wing_el",
+   "shape": "wedge",
+   "center": [
+    -14,
+    13,
+    -8
+   ],
+   "size": [
+    9,
+    9,
+    2.4
+   ],
+   "color": "fin2",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    70
+   ]
+  },
+  {
+   "name": "tail",
+   "shape": "wedge",
+   "center": [
+    0,
+    16,
+    -23
+   ],
+   "size": [
+    3,
+    14,
+    9
+   ],
+   "color": "fin",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cone",
+   "center": [
+    0,
+    17,
+    -20
+   ],
+   "size": [
+    5,
+    10,
+    5
+   ],
+   "color": "dark",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/097B/icon.png",
+   "note": "頭部: 灰白の頭、桃赤の目、赤い触角と赤い鰭"
+  },
+  {
+   "url": "Tools/.refcache/097/icon.png",
+   "note": "元種との差: 黄目→桃目、紫鰭→赤鰭、触角が赤"
+  },
+  {
+   "url": "https://paldb.cc/en/Ghangler_Ignis",
+   "note": "種名確認"
+  }
+ ]
+}

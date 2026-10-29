@@ -1,0 +1,269 @@
+{
+ "name": "オバケナワ (Hangyu Cryst)",
+ "gait": "hover",
+ "palette": {
+  "body": "#8a90e0",
+  "cheek": "#f07880",
+  "eye": "#e8d840",
+  "mouth": "#4a4a8a",
+  "s1": "#c0c8f2",
+  "s2": "#5a62c8",
+  "t1": "#3a46a8",
+  "t2": "#5a6ac8"
+ },
+ "hover": 0,
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    16,
+    15,
+    14
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    1
+   ],
+   "size": [
+    17,
+    15,
+    15
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    5.8,
+    28,
+    7
+   ],
+   "size": [
+    4,
+    4,
+    2
+   ],
+   "color": "cheek",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    30.5,
+    8
+   ],
+   "size": [
+    2,
+    2.4,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    27.2,
+    8.3
+   ],
+   "size": [
+    3,
+    0.6,
+    0.6
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "a1",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    26,
+    0
+   ],
+   "size": [
+    6,
+    10,
+    6
+   ],
+   "color": "s1",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -8
+   ]
+  },
+  {
+   "name": "a2",
+   "shape": "ellipsoid",
+   "center": [
+    16,
+    18,
+    0
+   ],
+   "size": [
+    6,
+    10,
+    6
+   ],
+   "color": "s2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -4
+   ]
+  },
+  {
+   "name": "a3",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    10,
+    0
+   ],
+   "size": [
+    6,
+    10,
+    6
+   ],
+   "color": "s1",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    8
+   ]
+  },
+  {
+   "name": "a4",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    4,
+    0
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "s2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    50
+   ]
+  },
+  {
+   "name": "hand_link",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    3,
+    2
+   ],
+   "size": [
+    12,
+    4,
+    6
+   ],
+   "color": "s1",
+   "group": "body"
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    3,
+    2
+   ],
+   "size": [
+    5,
+    3,
+    6
+   ],
+   "color": "body",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "wedge",
+   "center": [
+    0,
+    36,
+    -8
+   ],
+   "size": [
+    6,
+    10,
+    12
+   ],
+   "color": "t1",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "wedge",
+   "center": [
+    7,
+    39,
+    -9
+   ],
+   "size": [
+    5,
+    8,
+    9
+   ],
+   "color": "t2",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_WindChimes_Ice_icon_normal.png",
+   "note": "正面: 青紫の頭と体、サーモンの頬、青白縞の腕"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Hangyu_bis.png",
+   "note": "ゲーム内: 濃青と淡青の縞の長い体が輪になり、上に頭と青い尾びれ状の尻尾"
+  }
+ ]
+}

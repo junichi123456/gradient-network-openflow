@@ -1,0 +1,364 @@
+{
+ "name": "クジャンナ (Frostplume)",
+ "gait": "biped",
+ "palette": {
+  "white": "#f6f8fa",
+  "white2": "#dfe8f0",
+  "blue": "#4aa3e8",
+  "lblue": "#8fd0ff",
+  "beak": "#c8c46a",
+  "eye": "#6a5fb0",
+  "leg": "#b9b27a",
+  "dk": "#2a2f45"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    0
+   ],
+   "size": [
+    14,
+    13,
+    20
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "breast",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    6
+   ],
+   "size": [
+    11,
+    11,
+    9
+   ],
+   "color": "white2",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "cylinder",
+   "center": [
+    0,
+    25,
+    6
+   ],
+   "size": [
+    4.5,
+    14,
+    4.5
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    7
+   ],
+   "size": [
+    8,
+    7,
+    10
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    32,
+    13.5
+   ],
+   "size": [
+    3.4,
+    6,
+    3.4
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "patch",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    34,
+    9.5
+   ],
+   "size": [
+    1.8,
+    3,
+    3.5
+   ],
+   "color": "blue",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    33.8,
+    10
+   ],
+   "size": [
+    1.2,
+    2,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "box",
+   "center": [
+    0,
+    40,
+    5
+   ],
+   "size": [
+    1.6,
+    8,
+    3
+   ],
+   "color": "blue",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest_s",
+   "shape": "box",
+   "center": [
+    3,
+    39,
+    4
+   ],
+   "size": [
+    1.6,
+    7,
+    3
+   ],
+   "color": "lblue",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "train0",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    23.5,
+    -13
+   ],
+   "size": [
+    4,
+    18,
+    2
+   ],
+   "color": "blue",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "train1",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    23.0,
+    -13
+   ],
+   "size": [
+    4,
+    16,
+    2
+   ],
+   "color": "lblue",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    -18
+   ]
+  },
+  {
+   "name": "train2",
+   "shape": "ellipsoid",
+   "center": [
+    -4.5,
+    23.0,
+    -13
+   ],
+   "size": [
+    4,
+    16,
+    2
+   ],
+   "color": "blue",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    18
+   ]
+  },
+  {
+   "name": "train3",
+   "shape": "ellipsoid",
+   "center": [
+    9.0,
+    22.25,
+    -13
+   ],
+   "size": [
+    4,
+    13,
+    2
+   ],
+   "color": "lblue",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    -36
+   ]
+  },
+  {
+   "name": "train4",
+   "shape": "ellipsoid",
+   "center": [
+    -9.0,
+    22.25,
+    -13
+   ],
+   "size": [
+    4,
+    13,
+    2
+   ],
+   "color": "blue",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    36
+   ]
+  },
+  {
+   "name": "train_base",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    -10
+   ],
+   "size": [
+    8,
+    6,
+    8
+   ],
+   "color": "white2",
+   "group": "tail"
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    16,
+    -1
+   ],
+   "size": [
+    3,
+    10,
+    15
+   ],
+   "color": "white2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    3.5,
+    5,
+    1
+   ],
+   "size": [
+    2,
+    10,
+    2
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    3.5,
+    0.8,
+    3
+   ],
+   "size": [
+    3.5,
+    1.6,
+    5
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_SnowPeafowl_icon_normal.png",
+   "note": "上半身アップのみ(全身参照なし): 白い孔雀、黄緑のくちばし、紫の目と青い目の縁、頭上に3本の青い氷の冠羽、長い首"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Frostplume_icon.png",
+   "note": "wikiもアイコンのみ。体と尾羽は孔雀型(氷の尾羽扇)として推定"
+  },
+  {
+   "url": "https://paldb.cc/ja/Frostplume",
+   "note": "特徴: 氷の尾羽扇(推定)、パートナースキル=孔雀の飛びかかり"
+  }
+ ]
+}

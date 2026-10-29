@@ -1,0 +1,368 @@
+{
+ "name": "グランジーラ (Panthalus)",
+ "gait": "hover",
+ "palette": {
+  "cy": "#2fc0c4",
+  "cy2": "#1fa0b0",
+  "lt": "#8ae8e0",
+  "white": "#e8faf6",
+  "ant": "#8a5a30",
+  "ant2": "#a87a44",
+  "eye": "#e8c030",
+  "glow": "#c8f8f0",
+  "fin": "#5ad8d4"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    -2
+   ],
+   "size": [
+    24,
+    20,
+    36
+   ],
+   "color": "cy",
+   "group": "body"
+  },
+  {
+   "name": "top",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    0
+   ],
+   "size": [
+    20,
+    14,
+    30
+   ],
+   "color": "cy2",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    2
+   ],
+   "size": [
+    18,
+    9,
+    28
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    14
+   ],
+   "size": [
+    20,
+    17,
+    12
+   ],
+   "color": "cy",
+   "group": "head"
+  },
+  {
+   "name": "brow",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    17
+   ],
+   "size": [
+    14,
+    5,
+    6
+   ],
+   "color": "lt",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    8.2,
+    21,
+    20
+   ],
+   "size": [
+    3.4,
+    3.2,
+    1.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pup",
+   "shape": "ellipsoid",
+   "center": [
+    8.6,
+    21,
+    21
+   ],
+   "size": [
+    1.6,
+    2.4,
+    0.8
+   ],
+   "color": "cy2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    14,
+    21
+   ],
+   "size": [
+    10,
+    0.8,
+    1
+   ],
+   "color": "cy2",
+   "group": "head"
+  },
+  {
+   "name": "ring_t",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    9
+   ],
+   "size": [
+    20,
+    4.6,
+    4.6
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ring_l",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    26,
+    9
+   ],
+   "size": [
+    4.6,
+    13,
+    4.6
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ring_b",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    17,
+    6
+   ],
+   "size": [
+    4.6,
+    10,
+    4.6
+   ],
+   "color": "ant2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant",
+   "shape": "cone",
+   "center": [
+    6,
+    33,
+    10
+   ],
+   "size": [
+    4,
+    11,
+    4
+   ],
+   "color": "ant2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant2",
+   "shape": "cone",
+   "center": [
+    2,
+    34,
+    10
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "ant",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "gem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31.5,
+    12
+   ],
+   "size": [
+    3,
+    2.4,
+    2.4
+   ],
+   "color": "glow",
+   "group": "head"
+  },
+  {
+   "name": "flipper",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    12,
+    8
+   ],
+   "size": [
+    14,
+    2.8,
+    9
+   ],
+   "color": "fin",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -20
+   ],
+   "size": [
+    14,
+    12,
+    14
+   ],
+   "color": "cy",
+   "group": "tail"
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -29
+   ],
+   "size": [
+    8,
+    7,
+    10
+   ],
+   "color": "cy2",
+   "group": "tail"
+  },
+  {
+   "name": "fluke",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -35
+   ],
+   "size": [
+    22,
+    2.6,
+    9
+   ],
+   "color": "fin",
+   "group": "tail"
+  },
+  {
+   "name": "mark",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    -8
+   ],
+   "size": [
+    6,
+    2,
+    8
+   ],
+   "color": "eye",
+   "group": "body"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/203/icon.png",
+   "note": "頭部: 青緑の丸い鯨の顔、黄色い目、頭の上から胴を囲む茶色の枝角の輪"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Collossal_Whale_Backside.webp",
+   "note": "飛行シーン: 水色に発光する鯨、背に橙の角状の飾り、黄色の光の紋"
+  },
+  {
+   "url": "Tools/.refcache/203/icon.png",
+   "note": "(正面のみ) 白っぽい腹、青緑の鰭"
+  }
+ ],
+ "hover": 10
+}

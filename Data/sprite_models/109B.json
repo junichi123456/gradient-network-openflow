@@ -1,0 +1,321 @@
+{
+ "name": "ゴルドドン (Lazy Catfish Gold)",
+ "gait": "quad",
+ "palette": {
+  "body": "#2c2622",
+  "belly": "#e8c43a",
+  "lip": "#f2d24a",
+  "inner": "#e8821a",
+  "fang": "#f4eee0",
+  "white": "#fbfbfb",
+  "pup": "#222222",
+  "fin": "#f2d23a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -1
+   ],
+   "size": [
+    26,
+    20,
+    30
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    0
+   ],
+   "size": [
+    22,
+    12,
+    26
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "mouth",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9.5,
+    13
+   ],
+   "size": [
+    22,
+    12,
+    9
+   ],
+   "color": "lip",
+   "group": "body"
+  },
+  {
+   "name": "gape",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8.5,
+    16.8
+   ],
+   "size": [
+    17,
+    7,
+    3
+   ],
+   "color": "inner",
+   "group": "body"
+  },
+  {
+   "name": "fang0",
+   "shape": "cone",
+   "center": [
+    -6,
+    11.5,
+    17.5
+   ],
+   "size": [
+    2,
+    3.6,
+    2
+   ],
+   "color": "fang",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fang1",
+   "shape": "cone",
+   "center": [
+    -2.5,
+    11.5,
+    17.5
+   ],
+   "size": [
+    2,
+    3.6,
+    2
+   ],
+   "color": "fang",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fang2",
+   "shape": "cone",
+   "center": [
+    2.5,
+    11.5,
+    17.5
+   ],
+   "size": [
+    2,
+    3.6,
+    2
+   ],
+   "color": "fang",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fang3",
+   "shape": "cone",
+   "center": [
+    6,
+    11.5,
+    17.5
+   ],
+   "size": [
+    2,
+    3.6,
+    2
+   ],
+   "color": "fang",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eyew",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    20,
+    10
+   ],
+   "size": [
+    7,
+    7,
+    6
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    6.8,
+    20.4,
+    13
+   ],
+   "size": [
+    3,
+    3,
+    1.6
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "whisk",
+   "shape": "cone",
+   "center": [
+    11,
+    10,
+    14
+   ],
+   "size": [
+    1.4,
+    7,
+    1.4
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -80
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "dfin",
+   "shape": "cone",
+   "center": [
+    0,
+    24,
+    -4
+   ],
+   "size": [
+    3,
+    9,
+    14
+   ],
+   "color": "fin",
+   "group": "body"
+  },
+  {
+   "name": "hfin",
+   "shape": "cone",
+   "center": [
+    0,
+    23,
+    6
+   ],
+   "size": [
+    3,
+    8,
+    6
+   ],
+   "color": "fin",
+   "group": "head"
+  },
+  {
+   "name": "legf",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    3.5,
+    8
+   ],
+   "size": [
+    7,
+    7,
+    9
+   ],
+   "color": "body",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    3.5,
+    -10
+   ],
+   "size": [
+    7,
+    7,
+    9
+   ],
+   "color": "body",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tailfin",
+   "shape": "wedge",
+   "center": [
+    0,
+    10,
+    -18
+   ],
+   "size": [
+    3,
+    12,
+    10
+   ],
+   "color": "fin",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_LazyCatfish_Gold_icon_normal.png",
+   "note": "黄金色の光沢ある口・腹、背は黒、口の中は橙、頭上のヒレが黄色。元種と配色違い"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_LazyCatfish_Gold_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799200",
+   "note": "game8 ページ（地図のみ）。陸上のナマズ体型として推定"
+  }
+ ]
+}

@@ -1,0 +1,309 @@
+{
+ "name": "クレメーオ (Katress)",
+ "gait": "biped",
+ "palette": {
+  "hat": "#5a2a8a",
+  "hat2": "#4a2478",
+  "robe": "#4a2a7a",
+  "robe2": "#3a2068",
+  "ear": "#7ec8c8",
+  "earin": "#e04a8a",
+  "eye": "#e8407a",
+  "mask": "#6a3a98",
+  "face": "#e8e0e8",
+  "blk": "#201828"
+ },
+ "parts": [
+  {
+   "name": "robe",
+   "shape": "cone",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    19,
+    25,
+    16
+   ],
+   "color": "robe",
+   "group": "body"
+  },
+  {
+   "name": "robe2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    2
+   ],
+   "size": [
+    21,
+    9,
+    17
+   ],
+   "color": "robe2",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    4
+   ],
+   "size": [
+    9,
+    8,
+    6
+   ],
+   "color": "mask",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    3
+   ],
+   "size": [
+    12,
+    10,
+    10
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "maskf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    6
+   ],
+   "size": [
+    10,
+    6,
+    6
+   ],
+   "color": "mask",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.7,
+    26,
+    8
+   ],
+   "size": [
+    3.2,
+    2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "brim",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    1
+   ],
+   "size": [
+    26,
+    4.5,
+    24
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "crown",
+   "shape": "cone",
+   "center": [
+    0,
+    42,
+    -1
+   ],
+   "size": [
+    14,
+    14,
+    12
+   ],
+   "color": "hat",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hatear",
+   "shape": "cone",
+   "center": [
+    8,
+    38,
+    0
+   ],
+   "size": [
+    6,
+    8,
+    3
+   ],
+   "color": "hat2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hatear_in",
+   "shape": "cone",
+   "center": [
+    8,
+    37,
+    1
+   ],
+   "size": [
+    3.5,
+    5.5,
+    1.5
+   ],
+   "color": "earin",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lear",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    21,
+    1
+   ],
+   "size": [
+    4.5,
+    21,
+    4
+   ],
+   "color": "ear",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    5
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sleeve",
+   "shape": "cone",
+   "center": [
+    9,
+    16,
+    3
+   ],
+   "size": [
+    6,
+    12,
+    6
+   ],
+   "color": "robe",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    9,
+    5
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "face",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    1.5,
+    3
+   ],
+   "size": [
+    5,
+    3,
+    8
+   ],
+   "color": "ear",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -11
+   ],
+   "size": [
+    4,
+    4,
+    10
+   ],
+   "color": "robe",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_CatMage_icon_normal.png",
+   "note": "正面: 魔女帽子とその上の猫耳、鋭い目、下半分の覆面、長い垂れ耳"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Katress",
+   "note": "全身: ローブが裾に向け広がりぎざぎざ。両脇に長い垂れ耳"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799253",
+   "note": "紫の帽子・水色の長い耳"
+  }
+ ]
+}

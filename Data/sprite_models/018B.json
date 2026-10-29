@@ -1,0 +1,342 @@
+{
+ "name": "ペンキッド (Penking Lux)",
+ "gait": "biped",
+ "palette": {
+  "b": "#2c3240",
+  "belly": "#d8d8e0",
+  "hat": "#38404e",
+  "hat2": "#4a5260",
+  "trim": "#a88c30",
+  "fl": "#e6e4f2",
+  "beak": "#f0a82c",
+  "beak2": "#f8c048",
+  "brow": "#b8902c",
+  "eye": "#1a2038",
+  "wht": "#f4f6fc",
+  "foot": "#e86a28",
+  "red": "#e03030"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    26,
+    26,
+    22
+   ],
+   "color": "b",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    5
+   ],
+   "size": [
+    17,
+    17,
+    12
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    2
+   ],
+   "size": [
+    22,
+    14,
+    18
+   ],
+   "color": "b",
+   "group": "head"
+  },
+  {
+   "name": "hat",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    0
+   ],
+   "size": [
+    26,
+    6,
+    22
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "hat_pk",
+   "shape": "cone",
+   "center": [
+    9,
+    34.5,
+    0
+   ],
+   "size": [
+    11,
+    11,
+    16
+   ],
+   "color": "hat2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hat_mid",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    0
+   ],
+   "size": [
+    14,
+    5,
+    16
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "hat_trim",
+   "shape": "box",
+   "center": [
+    0,
+    28.6,
+    9
+   ],
+   "size": [
+    21,
+    2,
+    3
+   ],
+   "color": "trim",
+   "group": "head"
+  },
+  {
+   "name": "eyew",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    24,
+    9
+   ],
+   "size": [
+    6,
+    5,
+    2.6
+   ],
+   "color": "wht",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    24,
+    10
+   ],
+   "size": [
+    3,
+    3.6,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "brow",
+   "shape": "box",
+   "center": [
+    6,
+    27,
+    10.4
+   ],
+   "size": [
+    7,
+    1.6,
+    1.4
+   ],
+   "color": "brow",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -16
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "beak",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19.5,
+    12
+   ],
+   "size": [
+    11,
+    4,
+    9
+   ],
+   "color": "beak",
+   "group": "head"
+  },
+  {
+   "name": "beak_t",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.6,
+    12.4
+   ],
+   "size": [
+    9,
+    2.4,
+    7
+   ],
+   "color": "beak2",
+   "group": "head"
+  },
+  {
+   "name": "puff1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14.5,
+    10.5
+   ],
+   "size": [
+    8,
+    7,
+    7
+   ],
+   "color": "fl",
+   "group": "head"
+  },
+  {
+   "name": "puff2",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    15.5,
+    9
+   ],
+   "size": [
+    8,
+    7,
+    7
+   ],
+   "color": "fl",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "puff3",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    17,
+    6
+   ],
+   "size": [
+    8,
+    7,
+    7
+   ],
+   "color": "fl",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "puff4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11.5,
+    11
+   ],
+   "size": [
+    8,
+    6,
+    6
+   ],
+   "color": "fl",
+   "group": "body"
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    14.5,
+    14,
+    0
+   ],
+   "size": [
+    3.4,
+    14,
+    9
+   ],
+   "color": "b",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    5,
+    0.8,
+    4
+   ],
+   "size": [
+    6,
+    1.6,
+    9
+   ],
+   "color": "foot",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_CaptainPenguin_Black_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "",
+   "note": "基本種 Penking と同形。体と帽子は暗い灰紺、帽子の縁は金茶、ひげは薄紫がかった白(アイコンのみ)"
+  }
+ ]
+}

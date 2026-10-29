@@ -1,0 +1,211 @@
+{
+ "name": "コモップ (Swee)",
+ "gait": "slither",
+ "palette": {
+  "c": "#efe3cc",
+  "c2": "#ddcdb0",
+  "ear": "#6a80ac",
+  "ear2": "#38486a",
+  "dot": "#2a2428",
+  "mus": "#fffaf0"
+ },
+ "parts": [
+  {
+   "name": "dome",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    0
+   ],
+   "size": [
+    24,
+    18,
+    22
+   ],
+   "color": "c",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    2.6,
+    0
+   ],
+   "size": [
+    29,
+    5,
+    27
+   ],
+   "color": "c2",
+   "group": "body"
+  },
+  {
+   "name": "fr1",
+   "shape": "ellipsoid",
+   "center": [
+    -11,
+    1.8,
+    9
+   ],
+   "size": [
+    8,
+    3.6,
+    7
+   ],
+   "color": "c2",
+   "group": "body"
+  },
+  {
+   "name": "fr2",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    1.8,
+    9
+   ],
+   "size": [
+    8,
+    3.6,
+    7
+   ],
+   "color": "c2",
+   "group": "body"
+  },
+  {
+   "name": "fr3",
+   "shape": "ellipsoid",
+   "center": [
+    -9,
+    1.8,
+    -10
+   ],
+   "size": [
+    8,
+    3.6,
+    7
+   ],
+   "color": "c2",
+   "group": "body"
+  },
+  {
+   "name": "fr4",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    1.8,
+    -10
+   ],
+   "size": [
+    8,
+    3.6,
+    7
+   ],
+   "color": "c2",
+   "group": "body"
+  },
+  {
+   "name": "tuft",
+   "shape": "cone",
+   "center": [
+    12.5,
+    10,
+    0
+   ],
+   "size": [
+    3,
+    4.4,
+    3
+   ],
+   "color": "c",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    6.4,
+    19.5,
+    0
+   ],
+   "size": [
+    5.2,
+    8,
+    3.4
+   ],
+   "color": "ear",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earin",
+   "shape": "cone",
+   "center": [
+    6.4,
+    19,
+    1
+   ],
+   "size": [
+    2.8,
+    5.4,
+    1.6
+   ],
+   "color": "ear2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    10,
+    10.4
+   ],
+   "size": [
+    2,
+    2.2,
+    1.2
+   ],
+   "color": "dot",
+   "group": "body",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Swee.png",
+   "note": "モデル画: クリーム色の丸いモップ状の体、点の目2つ、青灰の猫耳、側面に小さな房"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Swee_wild.png",
+   "note": "雪原の野生: 裾が地面に広がる"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Sweepa.png",
+   "note": "進化先との比較用: 大型で髭がある"
+  },
+  {
+   "url": "Tools/.refcache/035/icon.png",
+   "note": "顔"
+  }
+ ]
+}

@@ -1,0 +1,318 @@
+{
+ "name": "リオリネ (Amione)",
+ "gait": "hover",
+ "palette": {
+  "w": "#f4f6fa",
+  "b": "#9ac8ea",
+  "b2": "#4a90c0",
+  "eye": "#3aa8c8",
+  "o": "#f4c8a0",
+  "o2": "#e8884a",
+  "eye2": "#e0782a",
+  "horn": "#f4ead4",
+  "flower": "#f0a060",
+  "ball": "#7ac0d8"
+ },
+ "hover": 0,
+ "parts": [
+  {
+   "name": "l_head",
+   "shape": "ellipsoid",
+   "center": [
+    -12,
+    27,
+    0
+   ],
+   "size": [
+    14,
+    15,
+    13
+   ],
+   "color": "w",
+   "group": "head"
+  },
+  {
+   "name": "l_cap",
+   "shape": "ellipsoid",
+   "center": [
+    -12,
+    31,
+    0
+   ],
+   "size": [
+    16,
+    8,
+    14
+   ],
+   "color": "b",
+   "group": "head"
+  },
+  {
+   "name": "l_eye",
+   "shape": "ellipsoid",
+   "center": [
+    -15.2,
+    27,
+    6
+   ],
+   "size": [
+    2.6,
+    3.4,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head"
+  },
+  {
+   "name": "l_eye2",
+   "shape": "ellipsoid",
+   "center": [
+    -8.8,
+    27,
+    6
+   ],
+   "size": [
+    2.6,
+    3.4,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head"
+  },
+  {
+   "name": "l_ball",
+   "shape": "ellipsoid",
+   "center": [
+    -20,
+    34,
+    0
+   ],
+   "size": [
+    9,
+    9,
+    9
+   ],
+   "color": "ball",
+   "group": "head"
+  },
+  {
+   "name": "l_ring",
+   "shape": "ellipsoid",
+   "center": [
+    -20,
+    34,
+    3.6
+   ],
+   "size": [
+    5,
+    5,
+    1.4
+   ],
+   "color": "b2",
+   "group": "head"
+  },
+  {
+   "name": "l_skirt",
+   "shape": "cone",
+   "center": [
+    -12,
+    11,
+    0
+   ],
+   "size": [
+    16,
+    22,
+    14
+   ],
+   "color": "w",
+   "group": "body"
+  },
+  {
+   "name": "l_hem",
+   "shape": "ellipsoid",
+   "center": [
+    -12,
+    2.5,
+    0
+   ],
+   "size": [
+    18,
+    3,
+    16
+   ],
+   "color": "b2",
+   "group": "body"
+  },
+  {
+   "name": "r_head",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    27,
+    0
+   ],
+   "size": [
+    14,
+    15,
+    13
+   ],
+   "color": "w",
+   "group": "head"
+  },
+  {
+   "name": "r_cap",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    31,
+    0
+   ],
+   "size": [
+    16,
+    8,
+    14
+   ],
+   "color": "o",
+   "group": "head"
+  },
+  {
+   "name": "r_eye",
+   "shape": "ellipsoid",
+   "center": [
+    8.8,
+    27,
+    6
+   ],
+   "size": [
+    2.6,
+    3.4,
+    1.2
+   ],
+   "color": "eye2",
+   "group": "head"
+  },
+  {
+   "name": "r_eye2",
+   "shape": "ellipsoid",
+   "center": [
+    15.2,
+    27,
+    6
+   ],
+   "size": [
+    2.6,
+    3.4,
+    1.2
+   ],
+   "color": "eye2",
+   "group": "head"
+  },
+  {
+   "name": "r_horn",
+   "shape": "ellipsoid",
+   "center": [
+    19,
+    28,
+    -1
+   ],
+   "size": [
+    5,
+    14,
+    6
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -10
+   ]
+  },
+  {
+   "name": "r_ball",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    36,
+    -2
+   ],
+   "size": [
+    9,
+    9,
+    9
+   ],
+   "color": "o",
+   "group": "head"
+  },
+  {
+   "name": "r_flower",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    36,
+    2.6
+   ],
+   "size": [
+    5,
+    5,
+    1.4
+   ],
+   "color": "flower",
+   "group": "head"
+  },
+  {
+   "name": "r_skirt",
+   "shape": "cone",
+   "center": [
+    12,
+    11,
+    0
+   ],
+   "size": [
+    16,
+    22,
+    14
+   ],
+   "color": "o",
+   "group": "body"
+  },
+  {
+   "name": "r_hem",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    2.5,
+    0
+   ],
+   "size": [
+    18,
+    3,
+    16
+   ],
+   "color": "o2",
+   "group": "body"
+  },
+  {
+   "name": "link",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    2
+   ],
+   "size": [
+    10,
+    5,
+    6
+   ],
+   "color": "w",
+   "group": "body"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_ClioneTwins_icon_normal.png",
+   "note": "正面: 二体。左は白と水色（波形の裾、水色の目、丸い飾り）、右は白と橙（橙の目、ねじれ角、花模様の丸い飾り）"
+  }
+ ]
+}

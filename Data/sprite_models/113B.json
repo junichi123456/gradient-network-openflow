@@ -1,0 +1,335 @@
+{
+ "name": "ゴルクレス (Hercules Beetle Ground)",
+ "gait": "biped",
+ "palette": {
+  "arm": "#c8a43a",
+  "arm2": "#8a6a22",
+  "abd": "#5a4a28",
+  "gold": "#f0d878",
+  "eye": "#38b8f0",
+  "horn": "#b08a2a"
+ },
+ "parts": [
+  {
+   "name": "abd",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -8
+   ],
+   "size": [
+    16,
+    15,
+    14
+   ],
+   "color": "abd",
+   "group": "body"
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    0
+   ],
+   "size": [
+    18,
+    17,
+    15
+   ],
+   "color": "arm",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    5
+   ],
+   "size": [
+    13,
+    10,
+    7
+   ],
+   "color": "arm2",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    3
+   ],
+   "size": [
+    8,
+    5,
+    7
+   ],
+   "color": "arm2",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    6
+   ],
+   "size": [
+    14,
+    11,
+    12
+   ],
+   "color": "arm",
+   "group": "head"
+  },
+  {
+   "name": "ring",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37.5,
+    12.3
+   ],
+   "size": [
+    6.6,
+    6.6,
+    1.4
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "ringin",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37.5,
+    13
+   ],
+   "size": [
+    3.6,
+    3.6,
+    1
+   ],
+   "color": "arm",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    35,
+    12
+   ],
+   "size": [
+    2.6,
+    2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    7,
+    46,
+    6
+   ],
+   "size": [
+    9,
+    22,
+    9
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    15,
+    58,
+    6
+   ],
+   "size": [
+    6,
+    15,
+    6
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -55
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn3",
+   "shape": "cone",
+   "center": [
+    10,
+    38,
+    13
+   ],
+   "size": [
+    5,
+    12,
+    5
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -70,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "armu",
+   "shape": "ellipsoid",
+   "center": [
+    12.5,
+    25,
+    1
+   ],
+   "size": [
+    8,
+    13,
+    9
+   ],
+   "color": "arm",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "armd",
+   "shape": "ellipsoid",
+   "center": [
+    14.5,
+    16,
+    3
+   ],
+   "size": [
+    7,
+    12,
+    8
+   ],
+   "color": "arm2",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "cone",
+   "center": [
+    15,
+    9,
+    6
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "horn",
+   "group": "arm_l",
+   "rot": [
+    70,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    13,
+    -1
+   ],
+   "size": [
+    9,
+    11,
+    10
+   ],
+   "color": "arm",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    5,
+    0
+   ],
+   "size": [
+    7,
+    10,
+    8
+   ],
+   "color": "arm2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    6,
+    1,
+    3
+   ],
+   "size": [
+    8,
+    2.4,
+    10
+   ],
+   "color": "arm",
+   "group": "leg_fl",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_HerculesBeetle_Ground_icon_normal.png",
+   "note": "金色の甲殻と角、紋は明るい金。元種(黒+灰)との色違い"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_HerculesBeetle_Ground_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799194",
+   "note": "game8 ページ（地図のみ）。二足の大型甲虫として推定"
+  }
+ ]
+}

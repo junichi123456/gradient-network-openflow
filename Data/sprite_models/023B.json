@@ -1,0 +1,317 @@
+{
+ "name": "カレッパ (Tanzee 火)",
+ "gait": "biped",
+ "palette": {
+  "skin": "#e88a28",
+  "cream": "#f6e3b6",
+  "scarf": "#c8321e",
+  "white": "#ffffff",
+  "dark": "#2a1c1c",
+  "mouth": "#b83a2a",
+  "earin": "#f5d058",
+  "leaf": "#e8462a",
+  "leaf2": "#f08a2a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    0
+   ],
+   "size": [
+    16,
+    16,
+    13
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    5
+   ],
+   "size": [
+    10,
+    10,
+    8
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "scarf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15.5,
+    4
+   ],
+   "size": [
+    12,
+    4,
+    9
+   ],
+   "color": "scarf",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    2
+   ],
+   "size": [
+    22,
+    17,
+    17
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18.5,
+    9
+   ],
+   "size": [
+    14,
+    9,
+    8
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "eyew",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    22.5,
+    9
+   ],
+   "size": [
+    6.4,
+    6.4,
+    3
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyep",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    22.5,
+    10.6
+   ],
+   "size": [
+    3.4,
+    3.8,
+    1.6
+   ],
+   "color": "dark",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    16,
+    12.6
+   ],
+   "size": [
+    5,
+    1.2,
+    0.8
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    22,
+    1
+   ],
+   "size": [
+    4,
+    9,
+    8
+   ],
+   "color": "skin",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "earin",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    22,
+    2
+   ],
+   "size": [
+    2,
+    6,
+    5.5
+   ],
+   "color": "earin",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "leafc",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    0
+   ],
+   "size": [
+    3.4,
+    11,
+    2.4
+   ],
+   "color": "leaf",
+   "group": "head"
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    4.2,
+    31,
+    0
+   ],
+   "size": [
+    3.2,
+    10,
+    2.2
+   ],
+   "color": "leaf2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -45
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leafb",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    28.5,
+    0
+   ],
+   "size": [
+    3,
+    9,
+    2.2
+   ],
+   "color": "leaf",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -80
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    10,
+    3
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "skin",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    1.8,
+    3
+   ],
+   "size": [
+    5.5,
+    3.6,
+    8
+   ],
+   "color": "cream",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    -10
+   ],
+   "size": [
+    4,
+    4,
+    10
+   ],
+   "color": "skin",
+   "group": "tail"
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -14
+   ],
+   "size": [
+    4.4,
+    5,
+    4
+   ],
+   "color": "skin",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/023B/icon.png",
+   "note": "頭部: 橙の体、赤橙の葉冠、黄の耳内側、赤いスカーフ、クリーム色の口元"
+  },
+  {
+   "url": "Tools/.refcache/023/icon.png",
+   "note": "基種との差: 体色緑→橙、葉青緑→赤橙"
+  }
+ ]
+}

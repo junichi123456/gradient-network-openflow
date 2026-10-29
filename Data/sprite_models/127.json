@@ -1,0 +1,486 @@
+{
+ "name": "ヤクモマル (Yakumo)",
+ "gait": "quad",
+ "palette": {
+  "fur": "#e4ece8",
+  "fur2": "#cdd9d6",
+  "navy": "#3a4a98",
+  "navy2": "#2c3a7a",
+  "peach": "#f0b070",
+  "nose": "#1c1c20",
+  "gold": "#e8c030",
+  "claw": "#efe0b8",
+  "red": "#d84a4a",
+  "white": "#ffffff",
+  "eye": "#d8384a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    17.55,
+    0.0
+   ],
+   "size": [
+    18.9,
+    16.2,
+    27.0
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    17.55,
+    9.45
+   ],
+   "size": [
+    17.55,
+    16.2,
+    12.15
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "swirl",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    20.93,
+    6.75
+   ],
+   "size": [
+    20.25,
+    6.75,
+    9.45
+   ],
+   "color": "fur2",
+   "group": "body"
+  },
+  {
+   "name": "swirl_r",
+   "shape": "ellipsoid",
+   "center": [
+    8.78,
+    20.25,
+    -8.1
+   ],
+   "size": [
+    6.75,
+    10.8,
+    10.8
+   ],
+   "color": "fur2",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "stripe",
+   "shape": "box",
+   "center": [
+    0.0,
+    26.06,
+    -1.35
+   ],
+   "size": [
+    4.05,
+    1.08,
+    16.2
+   ],
+   "color": "navy",
+   "group": "body"
+  },
+  {
+   "name": "stripe2",
+   "shape": "box",
+   "center": [
+    6.75,
+    23.62,
+    -4.05
+   ],
+   "size": [
+    2.03,
+    1.08,
+    9.45
+   ],
+   "color": "navy",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    24.3,
+    16.2
+   ],
+   "size": [
+    16.2,
+    13.5,
+    13.5
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    21.6,
+    22.95
+   ],
+   "size": [
+    9.45,
+    6.75,
+    8.1
+   ],
+   "color": "peach",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    22.95,
+    27.0
+   ],
+   "size": [
+    4.05,
+    3.24,
+    2.7
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "brow",
+   "shape": "ellipsoid",
+   "center": [
+    5.4,
+    28.35,
+    20.93
+   ],
+   "size": [
+    6.75,
+    3.24,
+    3.24
+   ],
+   "color": "navy",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5.27,
+    25.65,
+    21.87
+   ],
+   "size": [
+    2.7,
+    2.97,
+    1.35
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0.0,
+    32.4,
+    20.25
+   ],
+   "size": [
+    4.05,
+    6.75,
+    4.05
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    6.08,
+    32.4,
+    13.5
+   ],
+   "size": [
+    6.75,
+    10.8,
+    4.05
+   ],
+   "color": "fur",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_i",
+   "shape": "cone",
+   "center": [
+    6.08,
+    31.73,
+    14.58
+   ],
+   "size": [
+    4.05,
+    8.1,
+    2.16
+   ],
+   "color": "peach",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_t",
+   "shape": "cone",
+   "center": [
+    7.43,
+    39.15,
+    13.5
+   ],
+   "size": [
+    4.05,
+    4.05,
+    4.05
+   ],
+   "color": "navy",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "mane",
+   "shape": "cone",
+   "center": [
+    7.43,
+    21.6,
+    12.15
+   ],
+   "size": [
+    5.4,
+    8.1,
+    5.4
+   ],
+   "color": "navy",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg0",
+   "shape": "cylinder",
+   "center": [
+    6.75,
+    6.08,
+    9.45
+   ],
+   "size": [
+    5.4,
+    12.15,
+    5.4
+   ],
+   "color": "fur",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "band0",
+   "shape": "cylinder",
+   "center": [
+    6.75,
+    4.05,
+    9.45
+   ],
+   "size": [
+    5.94,
+    1.62,
+    5.94
+   ],
+   "color": "red",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "claw0",
+   "shape": "cone",
+   "center": [
+    10.53,
+    6.75,
+    8.1
+   ],
+   "size": [
+    2.7,
+    6.75,
+    2.7
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg1",
+   "shape": "cylinder",
+   "center": [
+    6.75,
+    6.08,
+    -10.8
+   ],
+   "size": [
+    5.4,
+    12.15,
+    5.4
+   ],
+   "color": "fur",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "band1",
+   "shape": "cylinder",
+   "center": [
+    6.75,
+    4.05,
+    -10.8
+   ],
+   "size": [
+    5.94,
+    1.62,
+    5.94
+   ],
+   "color": "red",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "claw1",
+   "shape": "cone",
+   "center": [
+    10.53,
+    6.75,
+    -12.15
+   ],
+   "size": [
+    2.7,
+    6.75,
+    2.7
+   ],
+   "color": "claw",
+   "group": "leg_br",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    22.95,
+    -17.55
+   ],
+   "size": [
+    6.75,
+    6.75,
+    16.2
+   ],
+   "color": "navy",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_t",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    28.35,
+    -24.3
+   ],
+   "size": [
+    5.4,
+    5.4,
+    8.1
+   ],
+   "color": "navy2",
+   "group": "tail",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Yakumo_bis.png",
+   "note": "全身(側面): 白灰の毛、紺の眉・たてがみの房・縞、額の金の角、橙の耳の内側と鼻先、肩と腰に白い渦巻の毛、脚に赤白の輪と湾曲したクリーム色の爪、紺の巻いた尾"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Yakumo.png",
+   "note": "ゲーム内正面(桜): 水色がかった体、金の角、紺の房"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_GuardianDog_icon_normal.png",
+   "note": "顔アップ: 赤い目に紺の太い眉、黒い鼻、牙"
+  }
+ ]
+}

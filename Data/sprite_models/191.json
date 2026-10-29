@@ -1,0 +1,389 @@
+{
+ "name": "ヒョウガオー (Bastigor)",
+ "gait": "biped",
+ "palette": {
+  "fur": "#a9c7c4",
+  "fur2": "#8fb0b0",
+  "mane": "#bcd8d3",
+  "blue": "#2f7fd0",
+  "blue2": "#1f5fb0",
+  "white": "#eef4f2",
+  "horn": "#7a5238",
+  "eye": "#f0c020",
+  "nose": "#2a4a8a",
+  "claw": "#f0ece0",
+  "dk": "#30486a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    19,
+    22,
+    15
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    5.5
+   ],
+   "size": [
+    12,
+    15,
+    6
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "patch",
+   "shape": "wedge",
+   "center": [
+    8,
+    22,
+    5
+   ],
+   "size": [
+    5,
+    9,
+    3
+   ],
+   "color": "blue",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    -1
+   ],
+   "size": [
+    27,
+    20,
+    15
+   ],
+   "color": "mane",
+   "group": "head"
+  },
+  {
+   "name": "mane_b",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -4
+   ],
+   "size": [
+    24,
+    18,
+    12
+   ],
+   "color": "mane",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    8
+   ],
+   "size": [
+    13,
+    11,
+    11
+   ],
+   "color": "fur2",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    11.5
+   ],
+   "size": [
+    7,
+    5,
+    5
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29.5,
+    14
+   ],
+   "size": [
+    3.4,
+    2,
+    2
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31.5,
+    10
+   ],
+   "size": [
+    11,
+    4,
+    3
+   ],
+   "color": "blue",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    31.5,
+    11.4
+   ],
+   "size": [
+    2.4,
+    1.8,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "fang",
+   "shape": "cone",
+   "center": [
+    2,
+    26,
+    13
+   ],
+   "size": [
+    1.4,
+    3,
+    1.4
+   ],
+   "color": "white",
+   "group": "head",
+   "rot": [
+    180,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    6.5,
+    37,
+    5
+   ],
+   "size": [
+    3.2,
+    6,
+    3.2
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    25,
+    0
+   ],
+   "size": [
+    8,
+    8,
+    8
+   ],
+   "color": "mane",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    13.5,
+    18,
+    2
+   ],
+   "size": [
+    7,
+    14,
+    7
+   ],
+   "color": "fur",
+   "group": "arm_r",
+   "rot": [
+    -10,
+    0,
+    -6
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fist",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    10.5,
+    4
+   ],
+   "size": [
+    7.5,
+    6,
+    7.5
+   ],
+   "color": "blue",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "cone",
+   "center": [
+    14,
+    7.5,
+    7
+   ],
+   "size": [
+    1.6,
+    3.5,
+    1.6
+   ],
+   "color": "claw",
+   "group": "arm_r",
+   "rot": [
+    -90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    9,
+    0
+   ],
+   "size": [
+    9,
+    11,
+    10
+   ],
+   "color": "fur",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    6,
+    1.5,
+    3
+   ],
+   "size": [
+    8,
+    3,
+    10
+   ],
+   "color": "blue2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -11
+   ],
+   "size": [
+    5,
+    5,
+    10
+   ],
+   "color": "blue",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_tip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -17
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "white",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/191/icon.png",
+   "note": "頭部: 淡い青緑の巨大なたてがみ、青い鼻口、黄色い目、茶色の小さな角、白い牙、胸は白に青い毛"
+  },
+  {
+   "url": "Tools/.refcache/191/icon.png",
+   "note": "(全身参照なし) 雪豹/獅子獣人として推定: 二足、青い毛模様、太い腕"
+  }
+ ]
+}

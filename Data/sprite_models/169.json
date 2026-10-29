@@ -1,0 +1,289 @@
+{
+ "name": "オーマンボ (Solmora)",
+ "gait": "hover",
+ "hover": 4,
+ "palette": {
+  "b": "#6fb4dc",
+  "b2": "#a4d4ee",
+  "fin": "#2b5aa8",
+  "fin2": "#3b78c8",
+  "white": "#f4f4f6",
+  "white2": "#d8dce6",
+  "gold": "#8a7a40",
+  "eye": "#202030"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    18,
+    23,
+    24
+   ],
+   "color": "b",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    3
+   ],
+   "size": [
+    15,
+    13,
+    22
+   ],
+   "color": "b2",
+   "group": "body"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    12
+   ],
+   "size": [
+    17,
+    16,
+    10
+   ],
+   "color": "b",
+   "group": "body"
+  },
+  {
+   "name": "mus_l",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    9,
+    13
+   ],
+   "size": [
+    9,
+    6,
+    5
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "mus_l2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    7.6,
+    13.5
+   ],
+   "size": [
+    6,
+    4.6,
+    4
+   ],
+   "color": "white2",
+   "group": "head"
+  },
+  {
+   "name": "mus_r",
+   "shape": "ellipsoid",
+   "center": [
+    -5.5,
+    9,
+    13
+   ],
+   "size": [
+    9,
+    6,
+    5
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "mus_r2",
+   "shape": "ellipsoid",
+   "center": [
+    -8,
+    7.6,
+    13.5
+   ],
+   "size": [
+    6,
+    4.6,
+    4
+   ],
+   "color": "white2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    15,
+    16
+   ],
+   "size": [
+    4,
+    4,
+    1.5
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pup",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    15,
+    16.8
+   ],
+   "size": [
+    1.6,
+    1.6,
+    0.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "top",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    3
+   ],
+   "size": [
+    11,
+    10,
+    12
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "top2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    1
+   ],
+   "size": [
+    8,
+    7,
+    8
+   ],
+   "color": "white2",
+   "group": "body"
+  },
+  {
+   "name": "crown",
+   "shape": "cone",
+   "center": [
+    0,
+    31,
+    6
+   ],
+   "size": [
+    6,
+    8,
+    5
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fin_l",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    8,
+    0
+   ],
+   "size": [
+    11,
+    3,
+    11
+   ],
+   "color": "fin",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fin_t",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -10
+   ],
+   "size": [
+    3,
+    12,
+    12
+   ],
+   "color": "fin2",
+   "group": "tail"
+  },
+  {
+   "name": "tail",
+   "shape": "wedge",
+   "center": [
+    0,
+    12,
+    -16
+   ],
+   "size": [
+    3,
+    16,
+    12
+   ],
+   "color": "fin",
+   "group": "tail",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_KingSunfish_icon_normal.png",
+   "note": "頭部: 丸い体、白い雲のような口ひげと頭頂の綿、金の王冠状のとげ、ひれ"
+  },
+  {
+   "url": "https://paldb.cc/ja/Solmora",
+   "note": "マンボウ型の浮遊パル。水色の体、濃青のひれ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Solmora",
+   "note": "全身画像なし。扁平な丸いマンボウ体は推定"
+  }
+ ]
+}

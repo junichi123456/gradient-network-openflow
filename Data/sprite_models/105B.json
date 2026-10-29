@@ -1,0 +1,455 @@
+{
+ "name": "ブリザンダー (Volcano Dragon Ice)",
+ "gait": "quad",
+ "palette": {
+  "body": "#8fb3d4",
+  "belly": "#cfe0ee",
+  "dk": "#5a7ea0",
+  "vol": "#7a9cc0",
+  "lava": "#8fe0f4",
+  "flame": "#f2fbff",
+  "flame2": "#cfe9f6",
+  "spike": "#a8dcf4",
+  "eye": "#2ad0f0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    0
+   ],
+   "size": [
+    22,
+    20,
+    30
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    2
+   ],
+   "size": [
+    18,
+    10,
+    26
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "vol",
+   "shape": "cone",
+   "center": [
+    0,
+    28,
+    -3
+   ],
+   "size": [
+    17,
+    13,
+    17
+   ],
+   "color": "vol",
+   "group": "body"
+  },
+  {
+   "name": "lava",
+   "shape": "cone",
+   "center": [
+    0,
+    35,
+    -3
+   ],
+   "size": [
+    8,
+    6,
+    8
+   ],
+   "color": "lava",
+   "group": "body"
+  },
+  {
+   "name": "flame",
+   "shape": "cone",
+   "center": [
+    0,
+    40,
+    -3
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "flame",
+   "group": "body"
+  },
+  {
+   "name": "flame2",
+   "shape": "cone",
+   "center": [
+    3,
+    39,
+    -1
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "flame2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ]
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    14
+   ],
+   "size": [
+    10,
+    18,
+    10
+   ],
+   "color": "belly",
+   "group": "head",
+   "rot": [
+    -28,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    20
+   ],
+   "size": [
+    11,
+    10,
+    14
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "jaw",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29.5,
+    23
+   ],
+   "size": [
+    8,
+    4,
+    10
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    33,
+    25
+   ],
+   "size": [
+    2,
+    2.4,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nostril",
+   "shape": "ellipsoid",
+   "center": [
+    1.6,
+    32.5,
+    27.4
+   ],
+   "size": [
+    1.4,
+    1.4,
+    1
+   ],
+   "color": "dk",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "spk0",
+   "shape": "cone",
+   "center": [
+    0,
+    38,
+    14
+   ],
+   "size": [
+    3.4,
+    10,
+    3.4
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "spk1",
+   "shape": "cone",
+   "center": [
+    4,
+    37,
+    15
+   ],
+   "size": [
+    3.4,
+    10,
+    3.4
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    -25
+   ]
+  },
+  {
+   "name": "spk2",
+   "shape": "cone",
+   "center": [
+    -4,
+    37,
+    15
+   ],
+   "size": [
+    3.4,
+    10,
+    3.4
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    25
+   ]
+  },
+  {
+   "name": "spk3",
+   "shape": "cone",
+   "center": [
+    7,
+    35,
+    16
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    -50
+   ]
+  },
+  {
+   "name": "spk4",
+   "shape": "cone",
+   "center": [
+    -7,
+    35,
+    16
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    50
+   ]
+  },
+  {
+   "name": "spk5",
+   "shape": "cone",
+   "center": [
+    2,
+    36,
+    24
+   ],
+   "size": [
+    3.4,
+    4,
+    3.4
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    60,
+    0,
+    -10
+   ]
+  },
+  {
+   "name": "legf",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    6,
+    10
+   ],
+   "size": [
+    8,
+    13,
+    9
+   ],
+   "color": "body",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "footf",
+   "shape": "box",
+   "center": [
+    10,
+    1,
+    12
+   ],
+   "size": [
+    8,
+    2.4,
+    9
+   ],
+   "color": "dk",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    7,
+    -10
+   ],
+   "size": [
+    9,
+    14,
+    10
+   ],
+   "color": "body",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "footb",
+   "shape": "box",
+   "center": [
+    10,
+    1,
+    -8
+   ],
+   "size": [
+    9,
+    2.4,
+    9
+   ],
+   "color": "dk",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    10,
+    -24
+   ],
+   "size": [
+    10,
+    22,
+    10
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    -105,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "cone",
+   "center": [
+    0,
+    8,
+    -37
+   ],
+   "size": [
+    4,
+    9,
+    4
+   ],
+   "color": "spike",
+   "group": "tail",
+   "rot": [
+    -105,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_VolcanoDragon_Ice_icon_normal.png",
+   "note": "氷色の体、水色に光る結晶のトゲ、背の山から白い蒸気/冷気。元種との差は配色と火→氷"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_VolcanoDragon_Ice_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799207",
+   "note": "game8 乗用サドル画像のみ。背に火山、長い首と太い四足として推定"
+  }
+ ]
+}

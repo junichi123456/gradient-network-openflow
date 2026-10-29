@@ -1,0 +1,306 @@
+{
+ "name": "オモシガメ (Tetroise)",
+ "gait": "quad",
+ "palette": {
+  "sh": "#8c6c34",
+  "sh2": "#a88444",
+  "tr": "#d8b048",
+  "skin": "#5a4a34",
+  "hd": "#c8a040",
+  "eye": "#e83a28"
+ },
+ "parts": [
+  {
+   "name": "shell",
+   "shape": "box",
+   "center": [
+    0,
+    15,
+    -3
+   ],
+   "size": [
+    22,
+    16,
+    20
+   ],
+   "color": "sh",
+   "group": "body"
+  },
+  {
+   "name": "shelltop",
+   "shape": "box",
+   "center": [
+    0,
+    24,
+    -3
+   ],
+   "size": [
+    18,
+    3,
+    16
+   ],
+   "color": "sh2",
+   "group": "body"
+  },
+  {
+   "name": "pl0",
+   "shape": "box",
+   "center": [
+    0,
+    15,
+    -10
+   ],
+   "size": [
+    22.8,
+    16.8,
+    1.4
+   ],
+   "color": "tr",
+   "group": "body"
+  },
+  {
+   "name": "pl1",
+   "shape": "box",
+   "center": [
+    0,
+    15,
+    -3
+   ],
+   "size": [
+    22.8,
+    16.8,
+    1.4
+   ],
+   "color": "tr",
+   "group": "body"
+  },
+  {
+   "name": "pl2",
+   "shape": "box",
+   "center": [
+    0,
+    15,
+    4
+   ],
+   "size": [
+    22.8,
+    16.8,
+    1.4
+   ],
+   "color": "tr",
+   "group": "body"
+  },
+  {
+   "name": "plv",
+   "shape": "box",
+   "center": [
+    0,
+    15,
+    -3
+   ],
+   "size": [
+    1.4,
+    16.8,
+    20.8
+   ],
+   "color": "tr",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    8
+   ],
+   "size": [
+    8,
+    8,
+    8
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "box",
+   "center": [
+    0,
+    12.5,
+    13
+   ],
+   "size": [
+    10,
+    9,
+    9
+   ],
+   "color": "hd",
+   "group": "head"
+  },
+  {
+   "name": "hdtop",
+   "shape": "box",
+   "center": [
+    0,
+    17.3,
+    13
+   ],
+   "size": [
+    10.4,
+    1.6,
+    9.4
+   ],
+   "color": "tr",
+   "group": "head"
+  },
+  {
+   "name": "hdcrest",
+   "shape": "box",
+   "center": [
+    0,
+    19,
+    13
+   ],
+   "size": [
+    3,
+    2,
+    9
+   ],
+   "color": "sh2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5.2,
+    12.8,
+    15
+   ],
+   "size": [
+    1.6,
+    3,
+    3
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "jaw",
+   "shape": "box",
+   "center": [
+    0,
+    9.5,
+    14.5
+   ],
+   "size": [
+    8,
+    2,
+    6
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    8.5,
+    3.5,
+    5
+   ],
+   "size": [
+    6,
+    7,
+    6
+   ],
+   "color": "skin",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "footf",
+   "shape": "box",
+   "center": [
+    8.5,
+    1,
+    6.5
+   ],
+   "size": [
+    6.4,
+    2,
+    7.4
+   ],
+   "color": "sh",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    8.5,
+    3.5,
+    -10
+   ],
+   "size": [
+    6,
+    7,
+    6
+   ],
+   "color": "skin",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "footb",
+   "shape": "box",
+   "center": [
+    8.5,
+    1,
+    -8.5
+   ],
+   "size": [
+    6.4,
+    2,
+    7.4
+   ],
+   "color": "sh",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    6,
+    -16
+   ],
+   "size": [
+    4,
+    7,
+    4
+   ],
+   "color": "skin",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_CubeTurtle_icon_normal.png",
+   "note": "正面: 金色の四角い兜状の頭、赤い目、茶の岩肌の甲羅"
+  },
+  {
+   "url": "https://images.gamepedia.jp/palworld/monster/v2/CubeTurtle.png",
+   "note": "同アイコン(別CDN)。全身参照未取得: 角ばった立方体の甲羅と金の枠、四角い頭と推定"
+  }
+ ]
+}

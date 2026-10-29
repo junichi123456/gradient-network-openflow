@@ -1,0 +1,299 @@
+{
+ "name": "チルウィッチ (Icelyn)",
+ "gait": "biped",
+ "palette": {
+  "skin": "#e8f4f8",
+  "hair": "#bfe2ee",
+  "hair2": "#a5d3e4",
+  "hat": "#2f7fa8",
+  "hat2": "#7fc3dc",
+  "collar": "#4fd0e8",
+  "white": "#f4f9fb",
+  "eye": "#f0c040",
+  "eye2": "#4a8ccc",
+  "dk": "#1d3a4f"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    12,
+    14,
+    10
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "dress",
+   "shape": "cone",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    17,
+    14,
+    15
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "collar",
+   "shape": "cylinder",
+   "center": [
+    0,
+    19,
+    1
+   ],
+   "size": [
+    10,
+    2.4,
+    9
+   ],
+   "color": "collar",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    2
+   ],
+   "size": [
+    15,
+    13,
+    13
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "hair_l",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    20,
+    2
+   ],
+   "size": [
+    6,
+    17,
+    8
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    6
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hair_in",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    19,
+    4
+   ],
+   "size": [
+    3.5,
+    12,
+    4
+   ],
+   "color": "hair2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "brim",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    0
+   ],
+   "size": [
+    36,
+    3.5,
+    32
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "brim_u",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31.5,
+    0
+   ],
+   "size": [
+    30,
+    2,
+    26
+   ],
+   "color": "hat2",
+   "group": "head"
+  },
+  {
+   "name": "cone",
+   "shape": "cone",
+   "center": [
+    0,
+    38,
+    -2
+   ],
+   "size": [
+    13,
+    13,
+    13
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "tip",
+   "shape": "cone",
+   "center": [
+    1,
+    46,
+    -3
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "hat2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ]
+  },
+  {
+   "name": "eye_w",
+   "shape": "ellipsoid",
+   "center": [
+    3.7,
+    25.5,
+    7.7
+   ],
+   "size": [
+    3.8,
+    4,
+    1.2
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    25.5,
+    8.3
+   ],
+   "size": [
+    2.6,
+    3,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    25.5,
+    8.8
+   ],
+   "size": [
+    1.4,
+    2.2,
+    0.8
+   ],
+   "color": "eye2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    14,
+    2
+   ],
+   "size": [
+    4,
+    9,
+    4
+   ],
+   "color": "white",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    2,
+    2
+   ],
+   "size": [
+    5,
+    4,
+    7
+   ],
+   "color": "hair",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_IceWitch_icon_normal.png",
+   "note": "顔アップ: 青い大きな魔女帽子、薄水色の長い耳状の髪、青と金の目、シアンの首輪、白い服"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Icelyn_icon.png",
+   "note": "wikiもアイコンのみ(Icelyn Hat iconあり)。体は白いワンピースの小柄な魔女として推定"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799186",
+   "note": "図鑑(画像取得不可): 氷の魔女"
+  }
+ ]
+}

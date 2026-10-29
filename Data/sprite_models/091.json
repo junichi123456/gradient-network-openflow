@@ -1,0 +1,455 @@
+{
+ "name": "ヘルゴート (Incineram)",
+ "gait": "biped",
+ "palette": {
+  "dark": "#2c2830",
+  "fur": "#f2eee2",
+  "mark": "#d82a2a",
+  "black": "#14121a",
+  "horn": "#d9c9a0",
+  "eye": "#b060e0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    0
+   ],
+   "size": [
+    15,
+    18,
+    13
+   ],
+   "color": "dark",
+   "group": "body"
+  },
+  {
+   "name": "fur",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    4.5
+   ],
+   "size": [
+    16,
+    11,
+    10
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "fur2",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    30,
+    1
+   ],
+   "size": [
+    7,
+    9,
+    9
+   ],
+   "color": "fur",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "fur3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    5
+   ],
+   "size": [
+    14,
+    10,
+    8
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    4
+   ],
+   "size": [
+    8,
+    10,
+    8
+   ],
+   "color": "dark",
+   "group": "head",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38,
+    7
+   ],
+   "size": [
+    11,
+    12,
+    13
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    13.5
+   ],
+   "size": [
+    7,
+    7,
+    11
+   ],
+   "color": "dark",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mark",
+   "shape": "box",
+   "center": [
+    0,
+    38.5,
+    13.5
+   ],
+   "size": [
+    3,
+    2,
+    12
+   ],
+   "color": "mark",
+   "group": "head",
+   "rot": [
+    -8,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mark2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    16
+   ],
+   "size": [
+    4.6,
+    3,
+    6
+   ],
+   "color": "mark",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35.5,
+    18.4
+   ],
+   "size": [
+    3,
+    2.4,
+    2
+   ],
+   "color": "black",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    39,
+    11
+   ],
+   "size": [
+    2,
+    2.2,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "wedge",
+   "center": [
+    7,
+    42,
+    4
+   ],
+   "size": [
+    9,
+    10,
+    2
+   ],
+   "color": "dark",
+   "group": "ear",
+   "rot": [
+    -10,
+    0,
+    -55
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_i",
+   "shape": "wedge",
+   "center": [
+    7,
+    41.5,
+    4.5
+   ],
+   "size": [
+    5.5,
+    7,
+    1.5
+   ],
+   "color": "mark",
+   "group": "ear",
+   "rot": [
+    -10,
+    0,
+    -55
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    2.8,
+    44,
+    4
+   ],
+   "size": [
+    5.4,
+    20,
+    5.4
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -70,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    5.8,
+    47,
+    -3
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -110,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    24,
+    2
+   ],
+   "size": [
+    4,
+    13,
+    5
+   ],
+   "color": "dark",
+   "group": "arm_r",
+   "rot": [
+    -15,
+    0,
+    -10
+   ]
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    -9.5,
+    24,
+    2
+   ],
+   "size": [
+    4,
+    13,
+    5
+   ],
+   "color": "dark",
+   "group": "arm_l",
+   "rot": [
+    -15,
+    0,
+    10
+   ]
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    17,
+    3
+   ],
+   "size": [
+    4.6,
+    4,
+    5
+   ],
+   "color": "fur",
+   "group": "arm_r"
+  },
+  {
+   "name": "hand_l",
+   "shape": "ellipsoid",
+   "center": [
+    -9.5,
+    17,
+    3
+   ],
+   "size": [
+    4.6,
+    4,
+    5
+   ],
+   "color": "fur",
+   "group": "arm_l"
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    10,
+    1
+   ],
+   "size": [
+    6,
+    20,
+    7
+   ],
+   "color": "dark",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    8,
+    3.5
+   ],
+   "size": [
+    5.4,
+    6,
+    3
+   ],
+   "color": "fur",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof",
+   "shape": "box",
+   "center": [
+    4.5,
+    1.2,
+    2.5
+   ],
+   "size": [
+    6.4,
+    2.4,
+    8
+   ],
+   "color": "horn",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    -8
+   ],
+   "size": [
+    5,
+    9,
+    5
+   ],
+   "color": "fur",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/091/icon.png",
+   "note": "頭部: 黒灰の面長、赤い顔の隈取り、クリーム色の曲がった長い角、赤内側の尖った耳、白いふわふわの毛"
+  },
+  {
+   "url": "https://paldb.cc/en/Incineram",
+   "note": "種名確認(炎/闇)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Incineram",
+   "note": "全身画像無し: 二足のヤギ悪魔として推定"
+  }
+ ]
+}

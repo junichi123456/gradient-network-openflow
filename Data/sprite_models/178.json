@@ -1,0 +1,254 @@
+{
+ "name": "メドゥーナ (Venusa)",
+ "gait": "slither",
+ "palette": {
+  "sl": "#4e6ea0",
+  "sl2": "#3a5482",
+  "pale": "#d4e0ec",
+  "pale2": "#b4c6da",
+  "face": "#8aa6c8",
+  "red": "#d83a3a",
+  "dk": "#18182a",
+  "wh": "#f4f4f6"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    11,
+    14,
+    9
+   ],
+   "color": "sl",
+   "group": "body"
+  },
+  {
+   "name": "coil",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    4,
+    -3
+   ],
+   "size": [
+    14,
+    8,
+    16
+   ],
+   "color": "sl2",
+   "group": "body"
+  },
+  {
+   "name": "coil2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    2.5,
+    -12
+   ],
+   "size": [
+    8,
+    5,
+    12
+   ],
+   "color": "pale2",
+   "group": "tail"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    1
+   ],
+   "size": [
+    12,
+    11,
+    11
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    22.5,
+    6.4
+   ],
+   "size": [
+    3.2,
+    3.8,
+    1.5
+   ],
+   "color": "red",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "fang",
+   "shape": "box",
+   "center": [
+    1.2,
+    19.2,
+    6.6
+   ],
+   "size": [
+    0.9,
+    1.6,
+    0.6
+   ],
+   "color": "wh",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    5.5,
+    28,
+    0
+   ],
+   "size": [
+    2.4,
+    4,
+    2.4
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -3
+   ],
+   "size": [
+    16,
+    12,
+    9
+   ],
+   "color": "pale",
+   "group": "head"
+  },
+  {
+   "name": "t1",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    25,
+    -1
+   ],
+   "size": [
+    6,
+    12,
+    6
+   ],
+   "color": "pale",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "t1b",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    30,
+    -1
+   ],
+   "size": [
+    5,
+    7,
+    5
+   ],
+   "color": "pale2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -60
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "t2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    11,
+    2
+   ],
+   "size": [
+    5,
+    13,
+    5
+   ],
+   "color": "pale",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "t2b",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    3,
+    5
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "pale2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_SnakeGirl_icon_normal.png",
+   "note": "頭部: 青灰の顔に赤い目と小さな牙、淡い水色の太い触手状の髪が左右に垂れる"
+  },
+  {
+   "url": "https://paldb.cc/ja/Venusa",
+   "note": "パルデータベース（アイコンのみ）"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Venusa",
+   "note": "全身画像なし。胴・脚は推定"
+  }
+ ]
+}

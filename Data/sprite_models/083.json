@@ -1,0 +1,391 @@
+{
+ "name": "ムラクモ (Fenglope)",
+ "gait": "quad",
+ "palette": {
+  "body": "#6a5cb4",
+  "body2": "#8a80c8",
+  "cloud": "#f4f4f8",
+  "horn": "#c6cef2",
+  "eye": "#c03030",
+  "hoof": "#f0ecf0",
+  "earin": "#e8a040",
+  "blk": "#1a1a22"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    13,
+    14,
+    20
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    8
+   ],
+   "size": [
+    13,
+    14,
+    8
+   ],
+   "color": "cloud",
+   "group": "body"
+  },
+  {
+   "name": "rump",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    -9
+   ],
+   "size": [
+    12,
+    12,
+    9
+   ],
+   "color": "cloud",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    9
+   ],
+   "size": [
+    7,
+    15,
+    8
+   ],
+   "color": "body2",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    13
+   ],
+   "size": [
+    8,
+    8,
+    13
+   ],
+   "color": "body2",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    19
+   ],
+   "size": [
+    5.5,
+    5,
+    6
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33.5,
+    22
+   ],
+   "size": [
+    2.4,
+    2,
+    2
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    36,
+    15
+   ],
+   "size": [
+    2,
+    2.2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    38,
+    9
+   ],
+   "size": [
+    2.6,
+    8,
+    5
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -45
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earin",
+   "shape": "ellipsoid",
+   "center": [
+    5.4,
+    38,
+    10
+   ],
+   "size": [
+    1.6,
+    6,
+    3.4
+   ],
+   "color": "earin",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -45
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    2.6,
+    41,
+    9
+   ],
+   "size": [
+    4,
+    12,
+    4
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -40,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    1.5,
+    42,
+    5
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -55,
+    0,
+    -5
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    5
+   ],
+   "size": [
+    10,
+    10,
+    9
+   ],
+   "color": "cloud",
+   "group": "head"
+  },
+  {
+   "name": "legleg_fl",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    8,
+    6
+   ],
+   "size": [
+    3.4,
+    16,
+    3.8
+   ],
+   "color": "body2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "puffleg_fl",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    3,
+    6
+   ],
+   "size": [
+    6,
+    5,
+    7
+   ],
+   "color": "cloud",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofleg_fl",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    0.8,
+    6.5
+   ],
+   "size": [
+    3.8,
+    1.8,
+    4.2
+   ],
+   "color": "hoof",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legleg_bl",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    8,
+    -7
+   ],
+   "size": [
+    3.4,
+    16,
+    3.8
+   ],
+   "color": "body2",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "puffleg_bl",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    3,
+    -7
+   ],
+   "size": [
+    6,
+    5,
+    7
+   ],
+   "color": "cloud",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofleg_bl",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    0.8,
+    -6.5
+   ],
+   "size": [
+    3.8,
+    1.8,
+    4.2
+   ],
+   "color": "hoof",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -14
+   ],
+   "size": [
+    7,
+    8,
+    10
+   ],
+   "color": "cloud",
+   "group": "tail",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_FengyunDeeper_icon_normal.png",
+   "note": "正面: 長く後方へ湾曲した角、橙の耳内側、細い鼻先"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Fenglope",
+   "note": "全身(ゲーム内): 鹿型の四足、胸・脚・尾に白い雲の房、蹄は白と橙"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799247",
+   "note": "紫青の体、白い雲の房、淡い藤色の角"
+  }
+ ]
+}

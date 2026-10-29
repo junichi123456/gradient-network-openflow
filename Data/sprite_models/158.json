@@ -1,0 +1,475 @@
+{
+ "name": "ジオラーヴァ (Astegon)",
+ "gait": "biped",
+ "palette": {
+  "blk": "#1c1c20",
+  "blk2": "#34343c",
+  "blk3": "#0e0e12",
+  "horn": "#8a50b8",
+  "pink": "#e0206a",
+  "eye": "#d8e040",
+  "mouth": "#6a1a2a",
+  "steel": "#505060"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    0
+   ],
+   "size": [
+    22,
+    22,
+    17
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    6
+   ],
+   "size": [
+    16,
+    15,
+    9
+   ],
+   "color": "blk2",
+   "group": "body"
+  },
+  {
+   "name": "vent",
+   "shape": "box",
+   "center": [
+    0,
+    17,
+    10.8
+   ],
+   "size": [
+    8,
+    2,
+    0.8
+   ],
+   "color": "pink",
+   "group": "body"
+  },
+  {
+   "name": "pelvis",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    0
+   ],
+   "size": [
+    18,
+    8,
+    14
+   ],
+   "color": "blk3",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    4
+   ],
+   "size": [
+    14,
+    11,
+    13
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "jaw",
+   "shape": "wedge",
+   "center": [
+    0,
+    26,
+    8
+   ],
+   "size": [
+    8,
+    4,
+    6
+   ],
+   "color": "blk3",
+   "group": "head"
+  },
+  {
+   "name": "mouthg",
+   "shape": "box",
+   "center": [
+    0,
+    26.4,
+    10.4
+   ],
+   "size": [
+    6,
+    0.8,
+    0.8
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    3.6,
+    31,
+    10.2
+   ],
+   "size": [
+    3,
+    1.4,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hornA",
+   "shape": "cone",
+   "center": [
+    5,
+    37,
+    3
+   ],
+   "size": [
+    3.4,
+    12,
+    3.4
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "spikeH",
+   "shape": "cone",
+   "center": [
+    0,
+    36,
+    -1
+   ],
+   "size": [
+    3,
+    7,
+    3
+   ],
+   "color": "blk2",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "spikeH2",
+   "shape": "cone",
+   "center": [
+    4,
+    34,
+    -1
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "blk2",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    23,
+    0
+   ],
+   "size": [
+    9,
+    8,
+    10
+   ],
+   "color": "blk2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "shspike",
+   "shape": "cone",
+   "center": [
+    16,
+    28,
+    0
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "blk",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    14,
+    2
+   ],
+   "size": [
+    6,
+    13,
+    6
+   ],
+   "color": "blk",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "cone",
+   "center": [
+    14.5,
+    6,
+    4
+   ],
+   "size": [
+    5,
+    6,
+    5
+   ],
+   "color": "blk3",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingspar",
+   "shape": "cone",
+   "center": [
+    12,
+    29,
+    -8
+   ],
+   "size": [
+    3,
+    22,
+    3
+   ],
+   "color": "blk2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -55
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingmem",
+   "shape": "wedge",
+   "center": [
+    17,
+    25,
+    -8
+   ],
+   "size": [
+    18,
+    12,
+    3
+   ],
+   "color": "blk",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingedge",
+   "shape": "box",
+   "center": [
+    16,
+    18,
+    -8
+   ],
+   "size": [
+    10,
+    1.4,
+    3.2
+   ],
+   "color": "pink",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "dorsal",
+   "shape": "cone",
+   "center": [
+    0,
+    26,
+    -9
+   ],
+   "size": [
+    3,
+    10,
+    3
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -12
+   ],
+   "size": [
+    7,
+    7,
+    16
+   ],
+   "color": "blk",
+   "group": "tail",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailsp",
+   "shape": "cone",
+   "center": [
+    0,
+    6,
+    -22
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "pink",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    6,
+    0
+   ],
+   "size": [
+    8,
+    12,
+    10
+   ],
+   "color": "blk",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    6,
+    1.2,
+    4
+   ],
+   "size": [
+    7,
+    2.4,
+    10
+   ],
+   "color": "blk3",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_BlackMetalDragon_icon_normal.png",
+   "note": "アイコン: 黒い金属質の兜状の頭、紫の角、黄緑の目、赤桃の発光。wikiのアルファ個体でも黒い角ばった装甲に桃色の発光"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_BlackMetalDragon_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/AstegonAlpha.webp",
+   "note": "wikiアルファ画像(後半に参照)"
+  }
+ ]
+}

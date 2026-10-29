@@ -1,0 +1,328 @@
+{
+ "name": "ヘルガルダ (Helzephyr)",
+ "gait": "biped",
+ "palette": {
+  "blk": "#24242c",
+  "blk2": "#3a3a44",
+  "grey": "#5a5a64",
+  "head": "#2a8ab8",
+  "crest": "#e870d8",
+  "horn": "#2a8ab8",
+  "eye": "#f2c020",
+  "beak": "#2a2a34"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    20,
+    19,
+    24
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    6
+   ],
+   "size": [
+    13,
+    14,
+    12
+   ],
+   "color": "blk2",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    7
+   ],
+   "size": [
+    9,
+    10,
+    8
+   ],
+   "color": "blk2",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    9
+   ],
+   "size": [
+    12,
+    11,
+    13
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    27,
+    16
+   ],
+   "size": [
+    6,
+    8,
+    5
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    30,
+    13
+   ],
+   "size": [
+    2.6,
+    2.6,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    7
+   ],
+   "size": [
+    11,
+    9,
+    8
+   ],
+   "color": "crest",
+   "group": "head"
+  },
+  {
+   "name": "crest2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    6
+   ],
+   "size": [
+    6,
+    6,
+    5
+   ],
+   "color": "crest",
+   "group": "head"
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    5,
+    35,
+    8
+   ],
+   "size": [
+    3.5,
+    11,
+    3.5
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -40,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    21,
+    -2
+   ],
+   "size": [
+    9,
+    3,
+    15
+   ],
+   "color": "blk",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing2",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    18,
+    -5
+   ],
+   "size": [
+    8,
+    2.4,
+    11
+   ],
+   "color": "blk2",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingtip",
+   "shape": "cone",
+   "center": [
+    20,
+    16,
+    -7
+   ],
+   "size": [
+    3.4,
+    6,
+    3
+   ],
+   "color": "grey",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -100
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "wedge",
+   "center": [
+    0,
+    12,
+    -17
+   ],
+   "size": [
+    10,
+    2.4,
+    15
+   ],
+   "color": "blk",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cone",
+   "center": [
+    0,
+    11,
+    -25
+   ],
+   "size": [
+    5,
+    10,
+    3
+   ],
+   "color": "grey",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    4,
+    4,
+    1
+   ],
+   "size": [
+    3.2,
+    8,
+    3.2
+   ],
+   "color": "beak",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    1,
+    3.5
+   ],
+   "size": [
+    4.5,
+    2,
+    6
+   ],
+   "color": "beak",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_HadesBird_icon_normal.png",
+   "note": "正面: 黒い羽毛の体、青(Lux: 金)の頭と角、頭頂の半透明の桃(橙)の炎"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Helzephyr",
+   "note": "全身: 大きな黒い翼、尖った尾羽"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799252",
+   "note": "青い頭、桃の炎"
+  }
+ ]
+}

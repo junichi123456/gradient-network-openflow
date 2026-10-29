@@ -1,0 +1,295 @@
+{
+ "name": "ヒメンダコ (Gloopie)",
+ "gait": "biped",
+ "palette": {
+  "hair": "#2a2440",
+  "hair2": "#4a3070",
+  "cloth": "#1a1624",
+  "collar": "#14101e",
+  "skin": "#d8d4e8",
+  "eye": "#2ab8c0",
+  "eye2": "#e8a030",
+  "spot": "#f0f0f4",
+  "claw": "#f0f0f0"
+ },
+ "parts": [
+  {
+   "name": "mantle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -3
+   ],
+   "size": [
+    32,
+    32,
+    26
+   ],
+   "color": "hair",
+   "group": "body"
+  },
+  {
+   "name": "mantle_f",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    8
+   ],
+   "size": [
+    24,
+    20,
+    12
+   ],
+   "color": "hair2",
+   "group": "body"
+  },
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    3
+   ],
+   "size": [
+    14,
+    16,
+    12
+   ],
+   "color": "cloth",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    6
+   ],
+   "size": [
+    12,
+    3,
+    9
+   ],
+   "color": "collar",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    6
+   ],
+   "size": [
+    15,
+    14,
+    13
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "lid",
+   "shape": "box",
+   "center": [
+    0,
+    24.6,
+    12.4
+   ],
+   "size": [
+    11,
+    2.4,
+    0.6
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    23.2,
+    12
+   ],
+   "size": [
+    3.4,
+    3,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye_in",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    23,
+    12.6
+   ],
+   "size": [
+    1.6,
+    2,
+    0.6
+   ],
+   "color": "eye2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "fringe",
+   "shape": "box",
+   "center": [
+    7.6,
+    22,
+    11
+   ],
+   "size": [
+    1.4,
+    12,
+    2
+   ],
+   "color": "hair",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "earstalk",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    34,
+    -2
+   ],
+   "size": [
+    7,
+    12,
+    8
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earcurl",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    38,
+    -2
+   ],
+   "size": [
+    7,
+    5,
+    7
+   ],
+   "color": "hair2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "spot",
+   "shape": "ellipsoid",
+   "center": [
+    -4,
+    35,
+    -2
+   ],
+   "size": [
+    4,
+    3,
+    4
+   ],
+   "color": "spot",
+   "group": "head"
+  },
+  {
+   "name": "spot2",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    32,
+    -8
+   ],
+   "size": [
+    3,
+    3,
+    3
+   ],
+   "color": "spot",
+   "group": "head"
+  },
+  {
+   "name": "claw",
+   "shape": "cone",
+   "center": [
+    5,
+    6,
+    10
+   ],
+   "size": [
+    2.4,
+    10,
+    2.4
+   ],
+   "color": "claw",
+   "group": "arm_r",
+   "rot": [
+    -30,
+    0,
+    -10
+   ]
+  },
+  {
+   "name": "curl_f",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    5,
+    9
+   ],
+   "size": [
+    9,
+    9,
+    9
+   ],
+   "color": "hair2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "curl_c",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    3,
+    12
+   ],
+   "size": [
+    7,
+    6,
+    6
+   ],
+   "color": "hair2",
+   "group": "leg_fl"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_OctopusGirl_icon_normal.png",
+   "note": "正面: 濃紺の長い髪状の外套、紫の渦巻き、白い水玉、紫の曲がった耳、半目のシアンの瞳、白い爪"
+  }
+ ]
+}
