@@ -15,6 +15,7 @@ import json, math, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from learnset_rules import (SIGNATURE, TRAIT_TAG, TRAIT_NAMED, CEIL, legacy_had)
+from aoe_power_rules import eval_power   # verify_learnset.py と同じ評価威力（範囲技は射程の加算込み）
 
 SPECIES = os.path.join(ROOT, 'Data', 'species.json')
 MOVES = os.path.join(ROOT, 'Data', 'moves.json')
@@ -53,7 +54,7 @@ def main():
     errors = []
 
     for x in species:
-        if x.get('offense_source') != 'speed':
+        if x.get('offense_source') not in ('speed', 'mixed_demoted', 'mixed12'):
             continue
         sid = x['species_id']
         new = x['offense']
@@ -106,13 +107,28 @@ def main():
                 out.append(i)
             return out
 
+        if new == 'Mixed':
+            # 両刀は他属性の威力上限（Mixed 表の off_pow）だけを合わせる。他の枠は P/S 化していないので触らない。
+            while True:
+                bad = [i for i in attacks(True) if M[i]['type'] not in own and eval_power(M[i]) > C['off_pow']]
+                cand = sorted([i for i in bad if deletable(i)], key=key)
+                if not bad:
+                    break
+                if not cand:
+                    errors.append(f'{sid}: 他属性の威力が {C["off_pow"]} を超え、削れる技が無い')
+                    break
+                drop(cand[0], 'w')
+            if log:
+                deleted[sid] = (x['display_name'], log, 0, 0)
+            continue
+
         # 1. 少数側の威力
-        mj = max((M[i]['power'] for i in attacks(False) if M[i]['category'] == new), default=0)
+        mj = max((eval_power(M[i]) for i in attacks(False) if M[i]['category'] == new), default=0)
         for mid in [i for i in ids()]:
             m = M[mid]
             if m['power'] <= 0 or is_rs(mid) or mid in SIGNATURE:
                 continue
-            if m['category'] != new and m['power'] > 0.6 * mj + 1e-6 and deletable(mid):
+            if m['category'] != new and eval_power(m) > 0.6 * mj + 1e-6 and deletable(mid):
                 drop(mid, '')
 
         # 2. 自属性の数
@@ -168,7 +184,7 @@ def main():
         for m in ff:
             ccx[m['type']] = ccx.get(m['type'], 0) + 1
         if any(v > per for v in ccx.values()): errors.append(f'{sid}: #12 他属性1属性あたり {ccx}')
-        if ff and max(m['power'] for m in ff) > C['off_pow']:
+        if ff and max(eval_power(m) for m in ff) > C['off_pow']:
             errors.append(f'{sid}: #13 他属性の威力 > {C["off_pow"]}')
         cats = [m for m in atk_all if m['id'] not in SIGNATURE]
         p = sum(1 for m in cats if m['category'] == 'Physical')
@@ -176,8 +192,8 @@ def main():
         major = 'Physical' if p >= q else 'Special'
         if major != new:
             errors.append(f'{sid}: #18 多数側 {major} が攻撃区分 {new} と不一致 ({p}:{q})')
-        mjx = [m['power'] for m in cats if m['category'] == major]
-        mnx = [m['power'] for m in cats if m['category'] != major]
+        mjx = [eval_power(m) for m in cats if m['category'] == major]
+        mnx = [eval_power(m) for m in cats if m['category'] != major]
         if mjx and mnx and max(mnx) > max(mjx) * 0.6 + 1e-6:
             errors.append(f'{sid}: #5 少数側の最高威力 {max(mnx)} > 多数側 {max(mjx)} の60%')
         if 'Neutral' not in own:

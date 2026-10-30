@@ -6,7 +6,8 @@
   python3 Tools/build_habcds.py
 
 入力: Data/species.json（旧HAD。legacy_had があればそれを優先）、
-      Data/moves.json、Data/source/paldb_speed.json（Tools/fetch_paldb_speed.py の出力）。
+      Data/source/speed_fixed.json（Tools/plan_speed.py --fixed）、Data/source/offense_prev.json（改修前の攻撃区分。初回に凍結）。
+      両刀12種の選定は Tools/assign_mixed_traits.py の select_mixed12（仕様書 2026-10-30-speed-and-stat-redo.md）。
 出力: Data/species.json を書き換える。何度実行しても結果は同じ（冪等）。
       旧HAD は初回に legacy_had へ退避する。
 
@@ -19,27 +20,18 @@ from statistics import median
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from learnset_rules import (offense_of, defense_of, mixed_side_of, speed_zone, fast_blocks,
-                            MIXED_MAIN_MIN, MIXED_MAIN_MAX, OFFENSE_JA, DEFENSE_JA, SIGNATURE)
+from learnset_rules import (defense_of, mixed_side_of, OFFENSE_JA, DEFENSE_JA)
 
 SPECIES = os.path.join(ROOT, 'Data', 'species.json')
 MOVES = os.path.join(ROOT, 'Data', 'moves.json')
-SPEED = os.path.join(ROOT, 'Data', 'source', 'paldb_speed.json')
-
-# S1-b: 区分線形（端点の外は端点の値で一定）
-P_R = [(F(375), F(90)), (F(1000), F(98)), (F(1400), F(102)), (F(2280), F(104)), (F(2500), F(130))]
-P_N = [(F(0), F(35)), (F(1, 8), F(47)), (F(3, 8), F(51)), (F(7, 8), F(56)), (F(1), F(60)),
-       (F(9, 8), F(73)), (F(3, 2), F(75)), (F(5, 2), F(77)), (F(3), F(80)), (F(8), F(94))]
-S_MIN, S_MAX = 35, 130
-
+SPEED = os.path.join(ROOT, 'Data', 'source', 'speed_fixed.json')      # 確定表（Tools/plan_speed.py --fixed）
+PREV = os.path.join(ROOT, 'Data', 'source', 'offense_prev.json')      # 2026-10-30 改修前の攻撃区分（初回に凍結）
+S_MIN, S_MAX = 20, 130
 
 # S1-d: 配分の比
 BETA = {'Physical': F(13, 20), 'Special': F(7, 20), 'Both': F(1, 2)}    # B/(B+D)
 ALPHA = {'Physical': F(7, 10), 'Special': F(3, 10)}                      # A/(A+C)
 ROLES = [(o, d) for o in ('Physical', 'Special', 'Mixed') for d in ('Physical', 'Special', 'Both')]
-ROLE_COUNT = {('Physical', 'Physical'): 51, ('Physical', 'Special'): 43, ('Physical', 'Both'): 43,
-              ('Special', 'Physical'): 34, ('Special', 'Special'): 42, ('Special', 'Both'): 36,
-              ('Mixed', 'Physical'): 13, ('Mixed', 'Special'): 14, ('Mixed', 'Both'): 11}
 
 
 def rnd(x):
@@ -52,78 +44,97 @@ def bst6_of(bst3):
     return 320 + floor((F(bst3 - 180) * 58 + 32) / 64)
 
 
-def interp(points, x):
-    if x <= points[0][0]:
-        return points[0][1]
-    if x >= points[-1][0]:
-        return points[-1][1]
-    for (x0, y0), (x1, y1) in zip(points, points[1:]):
-        if x0 <= x <= x1:
-            return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
-    raise AssertionError
+MIXED_AC_MIN = 160           # 両刀: A+C の下限
+MIXED_H_MIN = 55             # 両刀: H の下限
+MIXED_SHARE = F(11, 20)      # 両刀: 主側の目標割合（|A-C|>=10 と 4:6〜6:4 の範囲に丸める）
+FLOOR_EACH, FLOOR_PAIR = 20, 49   # 全員: 各能力>=20、最小2能力の和>=49
 
 
-def v_eff_of(rec):
-    k = rec['kind']
-    if k == 'none':
-        return None
-    if k == 'water':
-        return F(rec['swim_dash']) * (1 + F(rec['swim_bonus'] or 0) / 100)
-    return (F(rec['ride_sprint']) * (1 + F(rec['ride_bonus'] or 0) / 100)
-            * (1 + 4 * F(rec['pair_pct'] or 0) / 100))
+def floor_fix(st, valid=None):
+    """st = {'H','A','B','C','D','S'}。下限規則（各>=20・最小2つの和>=49）を満たすまで、最大の非S能力から
+    最小の非S能力へ1点ずつ移す（同値は H,A,B,C,D の順で先）。S は動かさない。戻り値 移した点数。
+    valid（両面耐久の H=0.8(B+D) 等）が与えられたときは、移した後も valid を満たす中で最大の能力を移し元にする。"""
+    moved = 0
+    keys = ['H', 'A', 'B', 'C', 'D']
+    for _ in range(1000):
+        v = sorted(st.values())
+        if v[0] >= FLOOR_EACH and v[0] + v[1] >= FLOOR_PAIR:
+            return moved
+        dst = min(keys, key=lambda k: (st[k], keys.index(k)))
+        srcs = sorted(keys, key=lambda k: (-st[k], keys.index(k)))
+        src = srcs[0]
+        if valid:
+            for k in srcs:
+                if k == dst or st[k] <= st[dst]:
+                    continue
+                t = dict(st)
+                t[k] -= 1
+                t[dst] += 1
+                if valid(t):
+                    src = k
+                    break
+        if src == dst or st[src] <= st[dst]:
+            return -1
+        st[src] -= 1
+        st[dst] += 1
+        moved += 1
+    return -1
 
 
-def speed_of(rec):
-    T = rec['transport']
-    if rec['kind'] != 'none':
-        v = v_eff_of(rec)
-        return min(S_MAX, rnd(interp(P_R, v) + T)), v
-    f = min(F(1), max(F(0), (F(rec['run']) - 250) / 400))
-    return rnd(interp(P_N, T + f)), None
+def mixed_ok(H, A, B, C, D, defense):
+    return (A + C >= MIXED_AC_MIN and 10 * (A + C) > 13 * (B + D) and abs(A - C) >= 10
+            and 5 * min(A, C) >= 2 * (A + C) and H >= MIXED_H_MIN and defense != 'Both')
 
 
-def attack_counts(learnset, cat):
-    """learnset の攻撃技（power>0）の Physical / Special の数。rs_ と SIGNATURE は数えない。"""
-    p = q = 0
-    for e in learnset:
-        mid = e['move_id']
-        if mid.startswith('rs_') or mid in SIGNATURE:
-            continue
-        c = cat.get(mid)
-        if c is None:
-            continue
-        if c[1] <= 0:
-            continue
-        if c[0] == 'Physical':
-            p += 1
-        elif c[0] == 'Special':
-            q += 1
-    return p, q
+def both_ok(H, B, D):
+    return abs(H - rnd(F(4, 5) * (B + D))) <= 1 and 100 * min(B, D) >= 41 * (B + D)
 
 
-def compute(h, a, d, offense, defense, S, index, p, q):
-    """S1-d の配分。戻り値 (H, A, B, C, D, S)。p, q は両刀攻撃でだけ使う。"""
+def compute(h, a, d, offense, defense, S, index, b6):
+    """配分。h,a,d は旧HAD、b6 は BST6、S は確定表の値。
+    戻り値 (H, A, B, C, D, S, w, moved)。moved は下限規則で移した点数（-1 は直せなかった）。"""
     b3 = h + a + d
-    b6 = bst6_of(b3)
     T = b6 - S
     W = F(76, 100) - F(30, 100) * (F(S) - 35) / 95
     w = min(F(80, 100), max(F(45, 100), W + (F(h + d, b3) - F(2, 3))))
     Bulk = rnd(T * w)
     Off = T - Bulk
-    H = rnd(Bulk * F(h, h + 2 * d))
-    G = Bulk - H
-    B = rnd(G * BETA[defense])
-    D = G - B
+    if defense == 'Both':
+        # H = 0.8(B+D) を目指す: B+D = Bulk/1.8、B = D（B:D = 1:1。41:59〜59:41 に収める）
+        G = rnd(Bulk * F(5, 9))
+        H = Bulk - G
+        B = min(floor(F(59, 100) * G), max(ceil(F(41, 100) * G), rnd(G * F(1, 2))))
+        D = G - B
+    else:
+        H = rnd(Bulk * F(h, h + 2 * d))
+        G = Bulk - H
+        if offense == 'Mixed':
+            if H < MIXED_H_MIN:
+                G -= MIXED_H_MIN - H
+                H = MIXED_H_MIN
+            # A+C>=160 かつ A+C>1.3(B+D) になるまで Bulk から削って Off へ回す（H は 55 未満にしない）
+            while Off < MIXED_AC_MIN or 10 * Off <= 13 * G:
+                if H > MIXED_H_MIN and (H - MIXED_H_MIN >= G - 2 * FLOOR_EACH or G <= 2 * FLOOR_EACH):
+                    H -= 1
+                elif G > 2 * FLOOR_EACH:
+                    G -= 1
+                else:
+                    break
+                Off += 1
+        B = rnd(G * BETA[defense])
+        D = G - B
     if offense == 'Mixed':
         main = mixed_side_of(index)
-        share = F(1, 2) if p + q == 0 else F(p if main == 'Physical' else q, p + q)
-        X = rnd(Off * min(MIXED_MAIN_MAX, max(MIXED_MAIN_MIN, share)))
-        X = max(ceil(MIXED_MAIN_MIN * Off), min(floor(MIXED_MAIN_MAX * Off), X))
+        X = rnd(Off * MIXED_SHARE)
+        X = max(ceil(F(Off + 10, 2)), min(floor(F(3, 5) * Off), X))
         A, C = (X, Off - X) if main == 'Physical' else (Off - X, X)
     else:
         A = rnd(Off * ALPHA[offense])
         C = Off - A
-    return H, A, B, C, D, S, w
+    st = dict(H=H, A=A, B=B, C=C, D=D, S=S)
+    valid = (lambda t: both_ok(t['H'], t['B'], t['D'])) if defense == 'Both' else None
+    moved = floor_fix(st, valid)
+    return st['H'], st['A'], st['B'], st['C'], st['D'], S, w, moved
 
 
 def had_of(s):
@@ -144,24 +155,32 @@ def partial(xs, ys, zs):
     return (rxy - rxz * ryz) / sqrt((1 - rxz ** 2) * (1 - ryz ** 2))
 
 
+def load_prev(species):
+    """改修前の攻撃区分。無ければ現在の species.json から作って凍結する（以後は再実行しても変わらない）。"""
+    if not os.path.exists(PREV):
+        prev = {s['species_id']: {'offense': s['offense'], 'offense_source': s['offense_source'],
+                                  'a_ge_c': s['base_atk'] >= s['base_spatk']} for s in species}
+        with open(PREV, 'w', encoding='utf-8') as f:
+            json.dump(prev, f, ensure_ascii=False, indent=1)
+            f.write('\n')
+    return json.load(open(PREV, encoding='utf-8'))
+
+
 def main():
     species = json.load(open(SPECIES, encoding='utf-8'))
-    moves = json.load(open(MOVES, encoding='utf-8'))
-    cat = {m['id']: (m['category'], m['power']) for m in moves}
     speed = json.load(open(SPEED, encoding='utf-8'))
+    prev = load_prev(species)
     order = {s['species_id']: i for i, s in enumerate(sorted(species, key=lambda s: s['species_id']))}
+    import assign_mixed_traits as AMT
+    mixed12 = AMT.select_mixed12(species)
 
-    # (1) 全287種の BST6 と S を先に求めて table を作る
     table = {}
-    speed_info = {}
     for s in species:
         sid = s['species_id']
         if sid not in speed:
-            sys.exit(f'paldb_speed.json に無い: {sid}')
+            sys.exit(f'speed_fixed.json に無い: {sid}')
         had = had_of(s)
-        S, v = speed_of(speed[sid])
-        table[sid] = (bst6_of(had['hp'] + had['atk'] + had['def']), S)
-        speed_info[sid] = v
+        table[sid] = (bst6_of(had['hp'] + had['atk'] + had['def']), speed[sid])
 
     infos = {}
     out = []
@@ -170,16 +189,18 @@ def main():
         idx = order[sid]
         had = had_of(s)
         h, a, d = had['hp'], had['atk'], had['def']
-        # (2) 攻撃区分・耐久区分
-        offense, osrc = offense_of(sid, s['trait'], idx, table)
+        pv = prev[sid]
+        if sid in mixed12:
+            offense, osrc = 'Mixed', 'mixed12'
+        elif pv['offense'] == 'Mixed':
+            offense, osrc = ('Physical' if pv['a_ge_c'] else 'Special'), 'mixed_demoted'
+        else:
+            offense, osrc = pv['offense'], pv['offense_source']
         defense = defense_of(s['trait'], idx)
-        # (3) 配分
-        p, q = attack_counts(s['learnset'], cat)
         S = table[sid][1]
-        H, A, B, C, D, S, w = compute(h, a, d, offense, defense, S, idx, p, q)
-        v = speed_info[sid]
+        H, A, B, C, D, S, w, moved = compute(h, a, d, offense, defense, S, idx, table[sid][0])
         infos[sid] = dict(had=had, bst3=h + a + d, bst6=table[sid][0], offense=offense, osrc=osrc,
-                          defense=defense, idx=idx, p=p, q=q, w=w, v=v)
+                          defense=defense, idx=idx, w=w, moved=moved, was_mixed=pv['offense'] == 'Mixed')
         new = {}
         for k, val in s.items():
             if k in ('base_spatk', 'base_spdef', 'base_speed', 'offense', 'offense_source',
@@ -195,17 +216,13 @@ def main():
                 new['defense'] = defense
                 new['role'] = f'{offense}-{defense}'
                 new['legacy_had'] = had
-                new['speed_source'] = {'kind': speed[sid]['kind'],
-                                       'v_eff': (None if v is None else (int(v) if v.denominator == 1 else float(v))),
-                                       'transport': speed[sid]['transport'], 'run': speed[sid]['run']}
+                new['speed_source'] = {'kind': 'table'}
         new['base_hp'] = H
         new['base_atk'] = A
         new['base_def'] = B
         out.append(new)
 
-    errors, warns = self_check(out, infos, table, moves)
-    for w_ in warns:
-        print('警告:', w_)
+    errors = self_check(out, infos, speed, len(mixed12))
     if errors:
         print('自己検査 NG:')
         for e in errors:
@@ -219,111 +236,62 @@ def main():
     print('自己検査 OK')
 
 
+def win(out, c, w=4):
+    return sum(1 for s in out if c - w <= s['base_speed'] <= c + w)
+
+
 def peaks_ok(out):
-    """S1-b の三峰の判定。戻り値 (エラー一覧, {中心: 度数})。"""
+    """山45/75/105 の ±4 の頭数が、谷60/90 の同幅より多い。戻り値 (エラー一覧, {位置: 頭数})。"""
     err = []
-    c = {}
-    for ctr in range(35, 131, 5):
-        c[ctr] = sum(1 for s in out if ctr - 2 <= s['base_speed'] <= ctr + 2)
-    mx = lambda lo, hi: max(c[k] for k in range(lo, hi + 1, 5))
-    if c[50] != mx(35, 65): err.append('c(50) が 35〜65 の最大でない')
-    if c[75] != mx(70, 90): err.append('c(75) が 70〜90 の最大でない')
-    if c[100] != mx(95, 130): err.append('c(100) が 95〜130 の最大でない')
-    if not any(c[k] <= min(c[50], c[75]) / 2 for k in range(55, 71, 5)): err.append('50 と 75 の間に谷が無い')
-    if not any(c[k] <= min(c[75], c[100]) / 2 for k in range(80, 96, 5)): err.append('75 と 100 の間に谷が無い')
+    c = {k: win(out, k) for k in (45, 60, 75, 90, 105)}
+    if not (c[45] > c[60] and c[75] > c[60] and c[75] > c[90] and c[105] > c[90]):
+        err.append(f'山が谷より多くない {c}')
     return err, c
 
 
-def self_check(out, infos, table, moves):
+def self_check(out, infos, speed, n_mixed):
     err = []
-    warns = []
-    by = {s['species_id']: s for s in out}
-    mv = {m['id']: m for m in moves}
     for s in out:
         sid = s['species_id']
         inf = infos[sid]
         H, A, B, C, D, S = (s['base_hp'], s['base_atk'], s['base_def'], s['base_spatk'],
                             s['base_spdef'], s['base_speed'])
-        vals = [H, A, B, C, D, S]
+        vals = sorted([H, A, B, C, D, S])
         if sum(vals) != inf['bst6']:
             err.append(f'{sid}: 合計 {sum(vals)} != BST6 {inf["bst6"]}')
-        if min(vals) < 10:
-            err.append(f'{sid}: 能力が10未満 {vals}')
-        if not (S_MIN <= S <= S_MAX):
-            err.append(f'{sid}: S={S} が範囲外')
+        if S != speed[sid]:
+            err.append(f'{sid}: S={S} が確定表 {speed[sid]} と不一致')
+        if vals[0] < FLOOR_EACH or vals[0] + vals[1] < FLOOR_PAIR or inf['moved'] < 0:
+            err.append(f'{sid}: 下限規則を満たさない {vals}')
         if s['role'] != s['offense'] + '-' + s['defense']:
             err.append(f'{sid}: role が offense-defense でない')
-        # 配分の再計算
-        G = B + D
-        if B != rnd(G * BETA[s['defense']]):
-            err.append(f'{sid}: B が round(G×β) と不一致')
-        Off = A + C
         if s['offense'] == 'Mixed':
-            if not (10 * max(A, C) >= 11 * min(A, C) and 5 * max(A, C) <= 3 * (A + C)):
-                err.append(f'{sid}: 両刀攻撃の A:C が範囲外 {A}:{C}')
-            main = mixed_side_of(inf['idx'])
-            p, q = inf['p'], inf['q']
-            share = F(1, 2) if p + q == 0 else F(p if main == 'Physical' else q, p + q)
-            X = rnd(Off * min(MIXED_MAIN_MAX, max(MIXED_MAIN_MIN, share)))
-            X = max(ceil(MIXED_MAIN_MIN * Off), min(floor(MIXED_MAIN_MAX * Off), X))
-            if (A if main == 'Physical' else C) != X:
-                err.append(f'{sid}: 両刀攻撃の主側が再計算と不一致')
-        else:
-            if A != rnd(Off * ALPHA[s['offense']]):
-                err.append(f'{sid}: A が round(Off×α) と不一致')
-        # 俊敏条件
-        zs = [table[t][1] for t in speed_zone(sid, table)]
-        fast = F(S) > F(median(zs))
-        if s['offense'] == 'Mixed' and not fast:
-            err.append(f'{sid}: 両刀攻撃だが俊敏条件を満たさない')
-        if s['offense_source'] == 'speed' and fast:
-            err.append(f'{sid}: speed 再分類だが俊敏条件を満たす')
-        # 優先技（警告のみ）
-        for e in s['learnset']:
-            m = mv.get(e['move_id'])
-            if m and fast_blocks(s, m):
-                warns.append(f'{sid} {s["display_name"]}: S={S} で優先度+1以上の攻撃技 {e["move_id"]}')
-    ref = {'199': 104, '130B': 130, '196': 130, '201': 130}
-    for sid, sv in ref.items():
-        if by[sid]['base_speed'] != sv:
-            err.append(f'基準点 {sid}: S={by[sid]["base_speed"]} (期待 {sv})')
+            if not mixed_ok(H, A, B, C, D, s['defense']):
+                err.append(f'{sid}: 両刀の条件を満たさない H{H} A{A} B{B} C{C} D{D}')
+        if s['defense'] == 'Both':
+            if not both_ok(H, B, D):
+                err.append(f'{sid}: 両面耐久の条件を満たさない H{H} B{B} D{D}')
+    if sum(1 for s in out if s['offense'] == 'Mixed') != n_mixed or not 9 <= n_mixed <= 14:
+        err.append(f'両刀攻撃が {n_mixed} 種でない/9〜14 の範囲外')
+    if any(s['offense'] == 'Mixed' and s['defense'] == 'Both' for s in out):
+        err.append('両刀かつ両面耐久がいる')
     ss = [s['base_speed'] for s in out]
     if min(ss) != S_MIN or max(ss) != S_MAX:
-        err.append(f'S の最小/最大が {min(ss)}/{max(ss)}（期待 35/130）')
+        err.append(f'S の最小/最大が {min(ss)}/{max(ss)}（期待 {S_MIN}/{S_MAX}）')
     for sid, b6 in {'003': 320, '186': 474, '203': 610}.items():
-        if sum(by[sid][k] for k in ('base_hp', 'base_atk', 'base_def', 'base_spatk', 'base_spdef', 'base_speed')) != b6:
+        s = next(x for x in out if x['species_id'] == sid)
+        if sum(s[k] for k in ('base_hp', 'base_atk', 'base_def', 'base_spatk', 'base_spdef', 'base_speed')) != b6:
             err.append(f'BST6 基準 {sid} != {b6}')
-    cnt = {}
-    for s in out:
-        cnt[(s['offense'], s['defense'])] = cnt.get((s['offense'], s['defense']), 0) + 1
-    for k in ROLES:
-        if cnt.get(k, 0) < 10:
-            err.append(f'役割 {k} が {cnt.get(k, 0)} 種（10種以上必要）')
     src = {}
     for s in out:
         src[s['offense_source']] = src.get(s['offense_source'], 0) + 1
-    if sum(src.values()) != 287 or set(src) - {'trait', 'cycle', 'speed'}:
+    if sum(src.values()) != 287 or set(src) - {'trait', 'cycle', 'speed', 'mixed12', 'mixed_demoted'}:
         err.append(f'offense_source の内訳が不正 {src}')
-    sp = [s for s in out if s['offense_source'] == 'speed']
-    if len(sp) != 41 or sum(1 for s in sp if s['offense'] == 'Physical') != 13 \
-            or sum(1 for s in sp if s['offense'] == 'Special') != 28:
-        err.append(f'speed 再分類が 41種（物理13・特殊28）でない: {len(sp)}')
-    if sum(1 for s in out if s['offense'] == 'Mixed') != 38:
-        err.append('両刀攻撃が38種でない')
     perr, _ = peaks_ok(out)
     err += perr
-    xs = [s['base_speed'] for s in out]
-    ys = [s['base_hp'] * (s['base_def'] + s['base_spdef']) for s in out]
-    zs_ = [infos[s['species_id']]['bst6'] for s in out]
-    r = pearson(xs, ys)
-    pr = partial(xs, ys, zs_)
-    if not r <= -0.40:
-        err.append(f'r(S, H(B+D)) = {r:.3f} > -0.40')
-    if not pr <= -0.80:
-        err.append(f'偏相関 = {pr:.3f} > -0.80')
     if len(out) != 287:
         err.append(f'種数 {len(out)} != 287')
-    return err, warns
+    return err
 
 
 def report(out, infos):
@@ -331,13 +299,7 @@ def report(out, infos):
     print('種数', n)
     bst6s = [infos[s['species_id']]['bst6'] for s in out]
     print(f'BST6 最小 {min(bst6s)} 最大 {max(bst6s)} 平均 {sum(bst6s) / n:.1f}')
-    ride = {s['species_id'] for s in out if s['speed_source']['kind'] != 'none'}
-    print('S ヒストグラム（中心値±2）')
-    for c in range(35, 131, 5):
-        lo, hi = c - 2, c + 2
-        n_r = sum(1 for s in out if lo <= s['base_speed'] <= hi and s['species_id'] in ride)
-        n_n = sum(1 for s in out if lo <= s['base_speed'] <= hi and s['species_id'] not in ride)
-        print(f'{lo:3d}-{hi:3d} {n_r + n_n:3d} (非ライド {n_n:3d} ライド {n_r:3d}) ' + '#' * n_n + '=' * n_r)
+    print('S 山の評価（±4 の頭数）', {k: win(out, k) for k in (45, 60, 75, 90, 105)})
     ss = sorted(s['base_speed'] for s in out)
     print(f'S 最小 {ss[0]} 最大 {ss[-1]} 平均 {sum(ss) / n:.1f} 中央値 {median(ss)}')
     print('役割の内訳（行 攻撃区分 × 列 耐久区分: 物理耐久 / 特殊耐久 / 両面耐久）')
@@ -351,15 +313,22 @@ def report(out, infos):
     print('両刀攻撃:')
     for s in out:
         if s['offense'] == 'Mixed':
-            print(f'  {s["species_id"]} {s["display_name"]} BST6 {infos[s["species_id"]]["bst6"]} S{s["base_speed"]}'
-                  f' A{s["base_atk"]} C{s["base_spatk"]}')
-    print('再分類（speed）:')
+            print(f'  {s["species_id"]} {s["display_name"]} {"/".join(s["types"])} BST6 {infos[s["species_id"]]["bst6"]}'
+                  f' H{s["base_hp"]} A{s["base_atk"]} B{s["base_def"]} C{s["base_spatk"]} D{s["base_spdef"]} S{s["base_speed"]}')
+    print('両刀 旧→新: 旧両刀', sum(1 for i in infos.values() if i['was_mixed']),
+          '種のうち降格', sum(1 for i in infos.values() if i['osrc'] == 'mixed_demoted'),
+          '種 / 新規に両刀', sum(1 for i in infos.values() if i['osrc'] == 'mixed12' and not i['was_mixed']), '種')
+    print('下限規則で直した種:')
     for s in out:
-        if s['offense_source'] == 'speed':
-            print(f'  {s["species_id"]} {s["display_name"]} → {OFFENSE_JA[s["offense"]]}')
+        m = infos[s['species_id']]['moved']
+        if m:
+            print(f'  {s["species_id"]} {s["display_name"]} {m}点 -> H{s["base_hp"]} A{s["base_atk"]} B{s["base_def"]}'
+                  f' C{s["base_spatk"]} D{s["base_spdef"]} S{s["base_speed"]}')
     print('役割別 平均 H A B C D S')
     for o, d in ROLES:
         g = [s for s in out if s['offense'] == o and s['defense'] == d]
+        if not g:
+            continue
         av = [sum(s[k] for s in g) / len(g) for k in
               ('base_hp', 'base_atk', 'base_def', 'base_spatk', 'base_spdef', 'base_speed')]
         print(f'  {OFFENSE_JA[o]}/{DEFENSE_JA[d]} {len(g):3d}種 ' + ' / '.join(f'{x:.1f}' for x in av))

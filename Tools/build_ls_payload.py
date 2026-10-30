@@ -58,7 +58,7 @@ for s in order:
     ms = [M[e['move_id']] for e in s['learnset']]
     ad = adapted(s)
     atk = [m for m in ms if m['power'] > 0]
-    OB = {'trait': '特性', 'cycle': '周期', 'speed': '俊敏'}
+    OB = {'trait': '特性', 'cycle': '周期', 'speed': '俊敏（再分類）', 'mixed12': '両刀12種に選定', 'mixed_demoted': '旧両刀から降格'}
     t = tr.get(s['trait'], {})
     t2 = tr.get(s.get('trait2', ''), {})
     out.append({

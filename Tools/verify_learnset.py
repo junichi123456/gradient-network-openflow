@@ -198,44 +198,48 @@ v19=[(x['display_name'],e['move_id']) for x in sp for e in x['learnset']
      if e['move_id'] in AOE_DELETED or (x['species_id'],e['move_id']) in set(ROW_REMOVALS)]
 chk(19,"削除した特殊の範囲技24件と除去8行が learnset に無い", not v19, f"違反{len(v19)}件 {v19[:3]}")
 
-# 20 2つめの特性 trait2（両刀攻撃の調査用。仕様書 docs/design/drafts/2026-10-28-mixed-traits.md §3-4・§4-2）
+# 20 両刀攻撃12種と2つめの特性 trait2（仕様書 docs/design/drafts/2026-10-30-speed-and-stat-redo.md §3-2・§3-5）
 import assign_mixed_traits as AMT
 TR={t['id']:t for t in json.load(open('Data/traits.json',encoding='utf-8'))}
 t2=[x for x in sp if x.get('trait2')]
+mixed20=[x for x in sp if x.get('offense')=='Mixed']
 v20=[]
-if len(t2)!=16: v20.append(('件数',len(t2)))
+if len(mixed20)!=12: v20.append(('両刀の件数',len(mixed20)))
+if sorted(x['species_id'] for x in mixed20)!=sorted(x['species_id'] for x in t2): v20.append(('trait2 の持ち主が両刀12種と一致しない',))
+FELEM={'FlowerBed':'Grass','Puddle':'Water','ThinIce':'Ice'}
+for x in mixed20:
+    A,C,B,D,H=x['base_atk'],x['base_spatk'],x['base_def'],x['base_spdef'],x['base_hp']
+    if not (A+C>=160 and 10*(A+C)>13*(B+D) and abs(A-C)>=10 and 5*min(A,C)>=2*(A+C) and H>=55 and x['defense']!='Both'):
+        v20.append((x['species_id'],'両刀の条件'))
+    if AMT.classify(x)!='priority': v20.append((x['species_id'],'特性が候補でない'))
+elems=collections.Counter(x['types'][0] for x in mixed20)
+if max(elems.values())>2: v20.append(('主属性が3種以上',dict(elems)))
 for x in t2:
     sid=x['species_id']
-    if x.get('offense')!='Mixed': v20.append((sid,'両刀でない'))
     a=TR.get(x['trait2']); b=TR.get(x['trait'])
     if not a or not a.get('secondary'): v20.append((sid,'trait2がsecondaryでない'))
     if b and b.get('secondary'): v20.append((sid,'traitがsecondary'))
     if x['trait2']==x['trait']: v20.append((sid,'trait2==trait'))
-    if 'リーダー' in TR[x['trait']]['name']: v20.append((sid,'リーダー持ちがtrait2'))
-want={'wide_burst':4,'kowaza_jouzu':5,'shimikomi':4,'entry_puddle':1,'entry_flowerbed':1,'entry_thin_ice':1}
+    f=a.get('field_on_entry') if a else None
+    if f and FELEM[f]!=x['types'][0]: v20.append((sid,'地形の主属性が合わない'))
+    if x['trait2']=='wide_burst' and AMT.room_attack_count(x,M)<1: v20.append((sid,'部屋技を持たない'))
 cnt=collections.Counter(x['trait2'] for x in t2)
-if dict(cnt)!=want: v20.append(('特性別件数',dict(cnt)))
-FELEM={'FlowerBed':'Grass','Puddle':'Water','ThinIce':'Ice'}
-for x in t2:
-    f=TR[x['trait2']].get('field_on_entry')
-    if f and FELEM[f] not in x['types']: v20.append((x['species_id'],'地形の属性が合わない'))
-    if x['trait2']=='wide_burst' and AMT.room_attack_count(x,M)<1: v20.append((x['species_id'],'部屋技を持たない'))
-mixed20=[x for x in sp if x.get('offense')=='Mixed']
-pri=[x for x in mixed20 if AMT.classify(x,TR)=='priority']
-oth_t2=[x for x in mixed20 if AMT.classify(x,TR)=='other' and x.get('trait2')]
-if not (all(x.get('trait2') for x in pri) or not oth_t2): v20.append(('優先候補が余っているのに一般へ配っている',))
+for tid in ('entry_puddle','entry_flowerbed','entry_thin_ice'):
+    if cnt.get(tid,0)>1: v20.append(('地形特性が2体以上',tid))
+r3=[cnt.get(k,0) for k in AMT.RANDOM3]
+if sum(r3)!=len(t2)-sum(cnt.get(t,0) for t in ('entry_puddle','entry_flowerbed','entry_thin_ice')): v20.append(('3特性の合計',r3))
 if AMT.assign(sp,TR,M)!={x['species_id']:x['trait2'] for x in t2}: v20.append(('assign の再計算と不一致',))
-chk(20,"2つめの特性: 両刀16体のみ・件数4/5/4/1/1/1・リーダー除外・優先候補・再計算一致", not v20, f"違反{len(v20)}件 {v20[:3]}")
+chk(20,"両刀12種の条件・trait2は両刀12種のみ・地形は主属性一致・再計算一致", not v20, f"違反{len(v20)}件 {v20[:3]}")
 
 # 21 プロテクション（仕様書 docs/design/drafts/2026-10-29-protection.md §3-5）
 want21=sorted(x['species_id'] for x in sp if protection_learner(x))
 have21=sorted(x['species_id'] for x in sp if any(e['move_id']==PROTECTION_ID for e in x['learnset']))
 v21=[]
 if want21!=have21: v21.append(('習得者の集合が不一致',sorted(set(want21)^set(have21))))
-if len(have21)!=31: v21.append(('件数',len(have21)))
+if len(have21)!=len(want21): v21.append(('件数',len(have21)))
 for x in sp:
     rows=[e for e in x['learnset'] if e['move_id']==PROTECTION_ID]
     if rows and (len(rows)!=1 or rows[0]['level']!=PROTECTION_LEVEL): v21.append((x['species_id'],'1行・level10でない'))
-chk(21,"プロテクション: 習得者が両刀攻撃かつBST6<=470の31種ちょうど・各1行・level 10・他の種は持たない", not v21, f"違反{len(v21)}件 {v21[:3]}")
+chk(21,"プロテクション: 習得者が両刀攻撃かつBST6<=470の種ちょうど・各1行・level 10・他の種は持たない", not v21, f"違反{len(v21)}件 {v21[:3]}")
 
 print("\n総合:", "ALL PASS" if ok else "FAILあり")

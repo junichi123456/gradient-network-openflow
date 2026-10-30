@@ -57,7 +57,7 @@ def load(path):
     return rows, anch
 
 
-def main(path, out):
+def solve(path):
     rows, anch = load(path)
     A = sorted(anch.items())
 
@@ -87,6 +87,34 @@ def main(path, out):
     extra = [n for n in value if n not in sp]
     assert not miss and not extra, (miss, extra)
     S = {n: round(v) for n, v in value.items()}
+    return rows, anch, S
+
+
+def write_fixed(path, md, out='Data/source/speed_fixed.json'):
+    """確定表(md)と完全一致することを確かめて {species_id: S} を出力する。"""
+    rows, anch, S = solve(path)
+    want = {}
+    for l in open(md, encoding='utf-8'):
+        m = re.match(r'- +(\d+): (.*?)( ← 指定\d+)?$', l.rstrip('\n'))
+        if m and ':' in l[:8]:
+            for n in m.group(2).split():
+                want[n] = int(m.group(1))
+    assert want == S, [(n, want.get(n), S.get(n)) for n in set(want) | set(S) if want.get(n) != S.get(n)][:10]
+    sp = json.load(open('Data/species.json', encoding='utf-8'))
+    byname = {}
+    for s in sp:
+        assert s['display_name'] not in byname, s['display_name']
+        byname[s['display_name']] = s['species_id']
+    fixed = {byname[n]: S[n] for n in sorted(S, key=lambda n: byname[n])}
+    assert len(fixed) == 287
+    with open(out, 'w', encoding='utf-8') as f:
+        json.dump(fixed, f, ensure_ascii=False, indent=1)
+        f.write('\n')
+    print('speed_fixed.json', len(fixed), '件 / 表と一致 / 最小', min(fixed.values()), '最大', max(fixed.values()))
+
+
+def main(path, out):
+    rows, anch, S = solve(path)
     # 山の評価: ±4 内の数 / 谷（山の中間）の同幅の数
     cnt = collections.Counter(S.values())
     def win(c, w=4): return sum(cnt[v] for v in range(c - w, c + w + 1))
@@ -109,4 +137,8 @@ def main(path, out):
 
 
 if __name__ == '__main__':
+    if len(sys.argv) > 1 and sys.argv[1] == '--fixed':
+        write_fixed(sys.argv[2] if len(sys.argv) > 2 else 'Tools/speed_list.txt',
+                    sys.argv[3] if len(sys.argv) > 3 else 'docs/design/drafts/2026-10-30-speed-table.md')
+        sys.exit(0)
     main(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else 'docs/design/drafts/2026-10-30-speed-table.md')

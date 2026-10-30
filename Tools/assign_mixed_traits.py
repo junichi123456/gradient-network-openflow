@@ -1,29 +1,35 @@
 # -*- coding: utf-8 -*-
-"""両刀攻撃(offense == "Mixed")の一部の個体へ「2つめの特性 trait2」を与える。
+"""両刀攻撃(offense == "Mixed")12種の選定と、その2つめの特性 trait2 の付与。
 
-固定シード(20261028)のデータ生成スクリプト。実行時の乱数は使わず、冪等。
-仕様: docs/design/drafts/2026-10-28-mixed-traits.md §3-4・付録A-2。
-`assign` は付録A-2 の参照実装そのまま。定数・乱数を引く順番を変えると付録A と一致しなくなる。
+固定シード(20261030)のデータ生成スクリプト。実行時の乱数は使わず、冪等。
+仕様: docs/design/drafts/2026-10-30-speed-and-stat-redo.md §3-5。
+  select_mixed12(species) : 両刀12種の species_id 集合（build_habcds.py が使う）
+  assign(species, traits_by_id, moves_by_id) : species_id -> trait2
 import しただけでは何も書き込まない。
 """
 import json
+import os
 import random
+import re
+import sys
 
-SEED = 20261028
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import build_habcds as BH
+from learnset_rules import defense_of
+
+SEED = 20261030
+MIXED_COUNT = 12
+PER_ELEMENT_MAX = 2
 RANDOM3 = ['wide_burst', 'kowaza_jouzu', 'shimikomi']
 TERRAIN = [('Water', 'entry_puddle'), ('Grass', 'entry_flowerbed'), ('Ice', 'entry_thin_ice')]
-PRIORITY_KEYS = ['きずな', 'ちから', 'おしえ', 'まもり', '式']
-EXCLUDE_KEY = 'リーダー'
-BASE_COUNT, EXTRA_COUNT = 4, 5
+CAND_TRAIT = re.compile(r'(_bond|_power|_guard|_oshie)$|^keikaikan$|^koufun$')
+MIN_T = 255      # BST6 - S の下限（予算）
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-def classify(s, traits_by_id):
-    name = traits_by_id[s['trait']]['name']
-    if EXCLUDE_KEY in name:
-        return 'excluded'
-    if any(k in name for k in PRIORITY_KEYS):
-        return 'priority'
-    return 'other'
+def classify(s, traits_by_id=None):
+    """'priority'（候補の特性）/ 'other'。リーダー系は CAND_TRAIT に含まれないので other。"""
+    return 'priority' if CAND_TRAIT.search(s['trait']) else 'other'
 
 
 def room_attack_count(s, moves_by_id):
@@ -32,58 +38,83 @@ def room_attack_count(s, moves_by_id):
                if moves_by_id[i]['range'] == 'Room' and moves_by_id[i]['power'] > 0)
 
 
-def assign(species, traits_by_id, moves_by_id):
-    """species_id -> trait2 の dict を返す（trait2 を持たない個体は含めない）。"""
-    mixed = sorted((s for s in species if s.get('offense') == 'Mixed'),
-                   key=lambda s: s['species_id'])
-    if len(mixed) != 38:
-        raise SystemExit(f'両刀攻撃が {len(mixed)} 種（38 種を前提にしている）')
-    cls = {s['species_id']: classify(s, traits_by_id) for s in mixed}
-    room = {s['species_id']: room_attack_count(s, moves_by_id) for s in mixed}
+def candidates(species):
+    """候補: 特性が CAND_TRAIT、defense != Both、BST6-S >= 255、両刀として配分して条件を満たせる種。"""
+    speed = json.load(open(os.path.join(ROOT, 'Data', 'source', 'speed_fixed.json'), encoding='utf-8'))
+    order = {s['species_id']: i for i, s in enumerate(sorted(species, key=lambda s: s['species_id']))}
+    out = []
+    for s in sorted(species, key=lambda s: s['species_id']):
+        sid = s['species_id']
+        if classify(s) != 'priority':
+            continue
+        idx = order[sid]
+        if defense_of(s['trait'], idx) == 'Both':
+            continue
+        had = BH.had_of(s)
+        b6 = BH.bst6_of(had['hp'] + had['atk'] + had['def'])
+        if b6 - speed[sid] < MIN_T:
+            continue
+        H, A, B, C, D, S, w, moved = BH.compute(had['hp'], had['atk'], had['def'], 'Mixed',
+                                               defense_of(s['trait'], idx), speed[sid], idx, b6)
+        if moved < 0 or not BH.mixed_ok(H, A, B, C, D, defense_of(s['trait'], idx)):
+            continue
+        if min(H, A, B, C, D, S) < BH.FLOOR_EACH:
+            continue
+        out.append(s)
+    return out
+
+
+def select_mixed12(species):
+    """両刀12種の species_id の集合。旧両刀（offense_prev.json）の候補を優先し、主属性ごと最大2種。"""
+    prev = BH.load_prev(species)
+    cands = candidates(species)
     rng = random.Random(SEED)
+    pri = [s for s in cands if prev[s['species_id']]['offense'] == 'Mixed']
+    rest = [s for s in cands if prev[s['species_id']]['offense'] != 'Mixed']
+    rng.shuffle(pri)
+    rng.shuffle(rest)
+    chosen, cnt = [], {}
+    for s in pri + rest:
+        e = s['types'][0]
+        if cnt.get(e, 0) >= PER_ELEMENT_MAX:
+            continue
+        chosen.append(s['species_id'])
+        cnt[e] = cnt.get(e, 0) + 1
+        if len(chosen) == MIXED_COUNT:
+            break
+    if len(chosen) < 9:
+        raise SystemExit(f'両刀が {len(chosen)} 種しか選べない（9未満）')
+    return set(chosen)
+
+
+def assign(species, traits_by_id, moves_by_id):
+    """species_id -> trait2 の dict（両刀12種すべて）。"""
+    mixed_ids = select_mixed12(species)
+    mixed = sorted((s for s in species if s['species_id'] in mixed_ids), key=lambda s: s['species_id'])
+    rng = random.Random(SEED + 1)
     out = {}
-
-    def free(kind):
-        return [s for s in mixed if cls[s['species_id']] == kind and s['species_id'] not in out]
-
-    # 手順4: 地形特性（優先候補から。いなければ優先外から）
+    # 地形特性: 主属性(types[0])が合う種に各1体まで
     for elem, tid in TERRAIN:
-        cands = [s for s in free('priority') if elem in s['types']]
-        if not cands:
-            cands = [s for s in free('other') if elem in s['types']]
-        if not cands:
-            raise SystemExit(f'{elem}: 地形特性の候補がいない')
-        out[rng.choice(cands)['species_id']] = tid
-
-    # 手順5: 5 体になる特性
-    five = rng.choice(RANDOM3)
-    counts = {t: (EXTRA_COUNT if t == five else BASE_COUNT) for t in RANDOM3}
-
-    # 手順6: ワイドバースト（部屋技を覚える個体。優先候補 → 優先外）
-    p = [s for s in free('priority') if room[s['species_id']] > 0]
-    rng.shuffle(p)
-    o = [s for s in free('other') if room[s['species_id']] > 0]
-    rng.shuffle(o)
-    wb = (p + o)[:counts['wide_burst']]
-    if len(wb) < counts['wide_burst']:
-        raise SystemExit('ワイドバーストの候補が足りない')
-    for s in wb:
+        c = [s for s in mixed if s['types'][0] == elem and s['species_id'] not in out]
+        if c:
+            out[rng.choice(c)['species_id']] = tid
+    rem = [s for s in mixed if s['species_id'] not in out]
+    n = len(rem)
+    order = RANDOM3[:]
+    rng.shuffle(order)
+    counts = {t: n // 3 + (1 if i < n % 3 else 0) for i, t in enumerate(order)}
+    room = {s['species_id']: room_attack_count(s, moves_by_id) for s in rem}
+    rng.shuffle(rem)
+    # wide_burst は部屋技を覚える種だけ（前回と同じ制約）。足りないときは、その分を kowaza_jouzu・shimikomi が引き受ける
+    elig = [s for s in rem if room[s['species_id']] > 0]
+    nwb = min(counts['wide_burst'], len(elig))
+    for s in elig[:nwb]:
         out[s['species_id']] = 'wide_burst'
-
-    # 手順7: こわざじょうず・しみこみ（優先候補 → 足りなければ優先外から補う）
-    need = counts['kowaza_jouzu'] + counts['shimikomi']
-    r = free('priority')
-    if len(r) < need:
-        o = free('other')
-        rng.shuffle(o)
-        r = r + o[:need - len(r)]
-    if len(r) < need:
-        raise SystemExit('こわざじょうず・しみこみの候補が足りない')
-    r.sort(key=lambda s: s['species_id'])
-    rng.shuffle(r)
-    r = r[:need]
-    for i, s in enumerate(r):
-        out[s['species_id']] = 'kowaza_jouzu' if i < counts['kowaza_jouzu'] else 'shimikomi'
+    others = [s for s in rem if s['species_id'] not in out]
+    rng.shuffle(others)
+    k = len(others) // 2 + (len(others) % 2 if order.index('kowaza_jouzu') < order.index('shimikomi') else 0)
+    for i, s in enumerate(others):
+        out[s['species_id']] = 'kowaza_jouzu' if i < k else 'shimikomi'
     return out
 
 
@@ -94,14 +125,9 @@ def main():
     for tid in RANDOM3 + [t for _, t in TERRAIN]:
         if tid not in traits_by_id:
             raise SystemExit(f'未定義の特性: {tid}')
-
-    # 手順1: 既存の trait2 を全種で消す（冪等にするため）
     for s in species:
         s.pop('trait2', None)
-
     result = assign(species, traits_by_id, moves_by_id)
-
-    # 手順8: trait2 を trait の直後に置く（dict の挿入順を組み直す）
     out = []
     for s in species:
         t2 = result.get(s['species_id'])
@@ -117,20 +143,12 @@ def main():
     with open('Data/species.json', 'w', encoding='utf-8') as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
         f.write('\n')
-
-    # 手順9: 一覧
     by_name = {s['species_id']: s for s in species}
-    order = RANDOM3 + [t for _, t in TERRAIN]
-    for tid in order:
+    for tid in RANDOM3 + [t for _, t in TERRAIN]:
         ids = sorted(k for k, v in result.items() if v == tid)
         print(f"{traits_by_id[tid]['name']} ({tid}): {len(ids)}体")
         for sid in ids:
-            print(f"    {sid} {by_name[sid]['display_name']}  (1つめ: {by_name[sid]['trait']})")
-    none = sorted(s['species_id'] for s in species
-                  if s.get('offense') == 'Mixed' and s['species_id'] not in result)
-    print(f"\ntrait2 を持たない両刀: {len(none)}体")
-    for sid in none:
-        print(f"    {sid} {by_name[sid]['display_name']}  (1つめ: {by_name[sid]['trait']})")
+            print(f"    {sid} {by_name[sid]['display_name']} {'/'.join(by_name[sid]['types'])} (1つめ: {by_name[sid]['trait']})")
     print(f"\n付与合計 {len(result)} 体 / 全 {len(species)} 種")
 
 

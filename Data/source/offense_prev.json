@@ -1,0 +1,1437 @@
+{
+ "001": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "002": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "003": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "004": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "005": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "005B": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "006": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "007": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "007B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "008": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "009": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "009B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "010": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "011": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "012": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "013": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "014": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "015": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "015B": {
+  "offense": "Special",
+  "offense_source": "trait",
+  "a_ge_c": false
+ },
+ "016": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "017": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "017B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "018": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "018B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "019": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "020": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "021": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "021B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "022": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "023": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "023B": {
+  "offense": "Special",
+  "offense_source": "trait",
+  "a_ge_c": false
+ },
+ "024": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "025": {
+  "offense": "Special",
+  "offense_source": "trait",
+  "a_ge_c": false
+ },
+ "026": {
+  "offense": "Special",
+  "offense_source": "trait",
+  "a_ge_c": false
+ },
+ "027": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "027B": {
+  "offense": "Special",
+  "offense_source": "trait",
+  "a_ge_c": false
+ },
+ "028": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "029": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "029B": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "030": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "030B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "031": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "032": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "032B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "033": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "034": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "034B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "035": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "036": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "037": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "037B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "038": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "038B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "039": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "039B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "040": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "041": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "041B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "042": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "043": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "043B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "044": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "044B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "045": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "046": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "047": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "048": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "048B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "049": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "050": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "051": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "052": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "053": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "054": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "054B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "055": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "055B": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "056": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "056B": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "057": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "058": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "059": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "060": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "061": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "062": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "063": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "063B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "064": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "064B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "065": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "066": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "067": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "068": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "069": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "070": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "071": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "072": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "072B": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "073": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "073B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "074": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "074B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "075": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "075B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "076": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "076B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "077": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "078": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "078B": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "079": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "079B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "080": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "080B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "081": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "081B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "082": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "083": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "083B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "084": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "084B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "085": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "085B": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "086": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "087": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "087B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "088": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "088B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "089": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "089B": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "090": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "091": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "091B": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "092": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "092B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "093": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "093B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "094": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "094B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "095": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "096": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "096B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "097": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "097B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "098": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "098B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "099": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "099B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "100": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "100B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "101": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "102": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "102B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "103": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "103B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "104": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "105": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "105B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "106": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "107": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "108": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "108B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "109": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "109B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "110": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "111": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "111B": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "112": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "112B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "113": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "113B": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "114": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "115": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "116": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "116B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "117": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "118": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "118B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "119": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "120": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "121": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "121B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "122": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "122B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "123": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "124": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "124B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "125": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "126": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "127": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "128": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "128B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "129": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "129B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "130": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "130B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "131": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "131B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "132": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "132B": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "133": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "134": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "134B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "135": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "136": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "137": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "137B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "138": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "138B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "139": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "140": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "141": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "141B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "142": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "142B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "143": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "144": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "145": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "146": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "147": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "148": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "148B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "149": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "149B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "150": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "151": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "151B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "152": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "153": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "154": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "155": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "156": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "157": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "157B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "158": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "159": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "159B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "160": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "161": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "162": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "163": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "163B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "164": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "165": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "166": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "167": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "168": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "169": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "169B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "170": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "171": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "171B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "172": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "173": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "174": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "175": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "176": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "177": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "178": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "179": {
+  "offense": "Physical",
+  "offense_source": "speed",
+  "a_ge_c": true
+ },
+ "180": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "181": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "182": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "183": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "184": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "185": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "186": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "186B": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "187": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "188": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "188B": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "189": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "190": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "191": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "192": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "193": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "194": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "195": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "195B": {
+  "offense": "Special",
+  "offense_source": "speed",
+  "a_ge_c": false
+ },
+ "196": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "197": {
+  "offense": "Mixed",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "198": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "199": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "200": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "200B": {
+  "offense": "Physical",
+  "offense_source": "cycle",
+  "a_ge_c": true
+ },
+ "201": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ },
+ "202": {
+  "offense": "Physical",
+  "offense_source": "trait",
+  "a_ge_c": true
+ },
+ "203": {
+  "offense": "Special",
+  "offense_source": "cycle",
+  "a_ge_c": false
+ }
+}

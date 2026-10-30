@@ -281,7 +281,7 @@
         "species_id": "064B",
         "move_ids": [
           "gap_dark_p_105",
-          "gap_ice_s_90",
+          "MVP_122",
           "MVP_147",
           "MVP_102"
         ],
@@ -447,7 +447,7 @@
         "species_id": "171",
         "move_ids": [
           "gap_dark_s_120",
-          "gap_dragon_p_105",
+          "gap_dragon_s_90",
           "mvn_099",
           "gap_neutral_s_35"
         ],
@@ -467,7 +467,7 @@
         "species_id": "196",
         "move_ids": [
           "MV_098",
-          "void_gap_dark_s_120",
+          "void_MVP_175",
           "MVP_011",
           "MVP_082"
         ],

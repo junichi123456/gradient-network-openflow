@@ -39,7 +39,7 @@ Sonnet の報告を信用せず、必ず自分で確かめる。
 
 ```sh
 dotnet build MysteryDungeonRoguelike.csproj      # コンパイルエラーを先に出す
-godot --headless --path . Scenes/BattleTestScene.tscn  # 回帰スイート（現在153項目）
+godot --headless --path . Scenes/BattleTestScene.tscn  # 回帰スイート（現在188項目）
 git diff                                          # 仕様書と差分を突き合わせる
 ```
 
@@ -132,6 +132,11 @@ URL を保つ。
 - learnset インスペクタ: `188eb9b1-d49d-4c39-bf77-895a30185e99`
 - 技データベース エディタ: `975b54fe-5c46-4597-ae30-26d694ac3eb2`
 
+俊敏 S は `Data/source/speed_fixed.json`（`Tools/plan_speed.py --fixed`、最小20・最大130・山45/75/105）に固定。両刀（12種）と
+両面耐久の配分式・下限（各20以上、下位2つの和49以上）は §35。BST6 は不変。
+
+特性は元（`trait`）と追加（`trait2`、両刀12種のみ）の**どちらか一方だけ**が有効（`ActiveTrait`）。構築で選び、NPC・自動構築は追加特性。
+
 ### 突破値と気質
 
 実数値 = floor(種族値から計算した値 × 気質) + 突破値。**気質が先、突破値は後**。
@@ -160,4 +165,4 @@ URL を保つ。
 ### 設計記録
 
 実験の設計と結果は `docs/design/pvp_spec.md` に節を足して記録する
-（現在 §34 まで）。仕様書の草案は `docs/design/drafts/` に置く。
+（現在 §35 まで）。仕様書の草案は `docs/design/drafts/` に置く。
