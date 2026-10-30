@@ -14,3 +14,4 @@ obj/
 Thumbs.db
 __pycache__/
 Tools/.refcache/
+Tools/.refshots/
