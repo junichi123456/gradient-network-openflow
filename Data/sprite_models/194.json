@@ -2,31 +2,143 @@
  "name": "ノクサージュ (Dandilord)",
  "gait": "biped",
  "palette": {
-  "bulb": "#7a4f9e",
-  "bulb2": "#9a72b8",
-  "spot": "#d8c0ea",
-  "petal": "#6fa8e0",
-  "petal2": "#4f86c8",
-  "dk": "#2b2630",
-  "spike": "#1c1a22",
-  "leaf": "#2f7a4a",
-  "leaf2": "#256038"
+  "blk": "#18141c",
+  "blk2": "#2a2430",
+  "green": "#1c5a48",
+  "green2": "#2a7a60",
+  "purple": "#5a2e7a",
+  "purple2": "#7a4a9a",
+  "blue": "#3a68b8",
+  "blue2": "#5a8ad0",
+  "crown": "#14121a"
  },
  "parts": [
+  {
+   "name": "bulb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    48,
+    0
+   ],
+   "size": [
+    17,
+    12,
+    17
+   ],
+   "color": "purple",
+   "group": "head"
+  },
+  {
+   "name": "bulb2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    50,
+    0
+   ],
+   "size": [
+    13,
+    8,
+    13
+   ],
+   "color": "purple2",
+   "group": "head"
+  },
+  {
+   "name": "petal",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    44,
+    0
+   ],
+   "size": [
+    22,
+    5,
+    22
+   ],
+   "color": "blue",
+   "group": "head"
+  },
+  {
+   "name": "petal2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    52,
+    0
+   ],
+   "size": [
+    10,
+    6,
+    10
+   ],
+   "color": "blue2",
+   "group": "head"
+  },
+  {
+   "name": "crown",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    55,
+    0
+   ],
+   "size": [
+    14,
+    5,
+    14
+   ],
+   "color": "crown",
+   "group": "head"
+  },
+  {
+   "name": "crown2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    58,
+    0
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "crown",
+   "group": "head"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    42,
+    0
+   ],
+   "size": [
+    12,
+    3,
+    12
+   ],
+   "color": "green2",
+   "group": "head"
+  },
   {
    "name": "torso",
    "shape": "ellipsoid",
    "center": [
     0,
-    14,
+    34,
     0
    ],
    "size": [
-    8,
-    12,
+    7,
+    16,
     6
    ],
-   "color": "dk",
+   "color": "blk",
    "group": "body"
   },
   {
@@ -34,628 +146,128 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    8.5,
+    24,
     0
+   ],
+   "size": [
+    10,
+    10,
+    8
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "blade",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    2
    ],
    "size": [
     8,
-    5,
-    6
-   ],
-   "color": "dk",
-   "group": "body"
-  },
-  {
-   "name": "collar",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    19,
-    0
-   ],
-   "size": [
-    14,
-    3,
-    12
-   ],
-   "color": "leaf",
-   "group": "body"
-  },
-  {
-   "name": "leaf0",
-   "shape": "ellipsoid",
-   "center": [
-    0.0,
-    18,
-    7.0
-   ],
-   "size": [
-    5,
-    2,
-    9
-   ],
-   "color": "leaf2",
-   "group": "body",
-   "rot": [
-    0,
-    0.0,
-    0
-   ]
-  },
-  {
-   "name": "leaf1",
-   "shape": "ellipsoid",
-   "center": [
-    6.06217782649107,
-    18,
-    3.500000000000001
-   ],
-   "size": [
-    5,
-    2,
-    9
-   ],
-   "color": "leaf2",
-   "group": "body",
-   "rot": [
-    0,
-    59.99999999999999,
-    0
-   ]
-  },
-  {
-   "name": "leaf2",
-   "shape": "ellipsoid",
-   "center": [
-    6.062177826491071,
-    18,
-    -3.4999999999999982
-   ],
-   "size": [
-    5,
-    2,
-    9
-   ],
-   "color": "leaf2",
-   "group": "body",
-   "rot": [
-    0,
-    119.99999999999999,
-    0
-   ]
-  },
-  {
-   "name": "leaf3",
-   "shape": "ellipsoid",
-   "center": [
-    8.572527594031472e-16,
-    18,
-    -7.0
-   ],
-   "size": [
-    5,
-    2,
-    9
-   ],
-   "color": "leaf2",
-   "group": "body",
-   "rot": [
-    0,
-    180.0,
-    0
-   ]
-  },
-  {
-   "name": "leaf4",
-   "shape": "ellipsoid",
-   "center": [
-    -6.062177826491069,
-    18,
-    -3.500000000000003
-   ],
-   "size": [
-    5,
-    2,
-    9
-   ],
-   "color": "leaf2",
-   "group": "body",
-   "rot": [
-    0,
-    239.99999999999997,
-    0
-   ]
-  },
-  {
-   "name": "leaf5",
-   "shape": "ellipsoid",
-   "center": [
-    -6.06217782649107,
-    18,
-    3.500000000000001
-   ],
-   "size": [
-    5,
-    2,
-    9
-   ],
-   "color": "leaf2",
-   "group": "body",
-   "rot": [
-    0,
-    300.0,
-    0
-   ]
-  },
-  {
-   "name": "bulb",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    29,
-    0
-   ],
-   "size": [
-    18,
-    15,
-    18
-   ],
-   "color": "bulb",
-   "group": "head"
-  },
-  {
-   "name": "bulb_t",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    33,
-    0
-   ],
-   "size": [
-    12,
-    7,
-    12
-   ],
-   "color": "bulb2",
-   "group": "head"
-  },
-  {
-   "name": "spot0",
-   "shape": "ellipsoid",
-   "center": [
-    5,
-    30,
-    8
-   ],
-   "size": [
-    3,
-    3,
-    2
-   ],
-   "color": "spot",
-   "group": "head"
-  },
-  {
-   "name": "spot1",
-   "shape": "ellipsoid",
-   "center": [
-    -5,
-    32,
-    8
-   ],
-   "size": [
-    3,
-    3,
-    2
-   ],
-   "color": "spot",
-   "group": "head"
-  },
-  {
-   "name": "spot2",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    35,
+    26,
     5
    ],
-   "size": [
-    3,
-    3,
-    2
-   ],
-   "color": "spot",
-   "group": "head"
+   "color": "blk2",
+   "group": "body"
   },
   {
-   "name": "spot3",
-   "shape": "ellipsoid",
-   "center": [
-    8,
-    27,
-    -4
-   ],
-   "size": [
-    3,
-    3,
-    2
-   ],
-   "color": "spot",
-   "group": "head"
-  },
-  {
-   "name": "spot4",
-   "shape": "ellipsoid",
-   "center": [
-    -8,
-    29,
-    -3
-   ],
-   "size": [
-    3,
-    3,
-    2
-   ],
-   "color": "spot",
-   "group": "head"
-  },
-  {
-   "name": "spot5",
+   "name": "bladeg",
    "shape": "ellipsoid",
    "center": [
     0,
-    29,
-    -9
+    7,
+    2.5
    ],
    "size": [
-    3,
-    3,
-    2
+    7.5,
+    14,
+    4.5
    ],
-   "color": "spot",
-   "group": "head"
+   "color": "green",
+   "group": "body"
   },
   {
-   "name": "spot6",
+   "name": "bladeL",
    "shape": "ellipsoid",
    "center": [
-    -3,
-    25,
-    9
-   ],
-   "size": [
-    3,
-    3,
-    2
-   ],
-   "color": "spot",
-   "group": "head"
-  },
-  {
-   "name": "spot7",
-   "shape": "ellipsoid",
-   "center": [
-    5,
-    34,
-    -5
-   ],
-   "size": [
-    3,
-    3,
-    2
-   ],
-   "color": "spot",
-   "group": "head"
-  },
-  {
-   "name": "petal0",
-   "shape": "ellipsoid",
-   "center": [
-    0.0,
-    22.5,
-    10.0
+    7,
+    16,
+    0
    ],
    "size": [
     5,
-    9,
-    3
+    30,
+    5
    ],
-   "color": "petal2",
-   "group": "head",
-   "rot": [
-    0,
-    0.0,
-    0
-   ]
-  },
-  {
-   "name": "petal1",
-   "shape": "ellipsoid",
-   "center": [
-    7.071067811865475,
-    22.5,
-    7.0710678118654755
-   ],
-   "size": [
-    5,
-    9,
-    3
-   ],
-   "color": "petal",
-   "group": "head",
-   "rot": [
-    0,
-    45.0,
-    0
-   ]
-  },
-  {
-   "name": "petal2",
-   "shape": "ellipsoid",
-   "center": [
-    10.0,
-    22.5,
-    6.123233995736766e-16
-   ],
-   "size": [
-    5,
-    9,
-    3
-   ],
-   "color": "petal2",
-   "group": "head",
-   "rot": [
-    0,
-    90.0,
-    0
-   ]
-  },
-  {
-   "name": "petal3",
-   "shape": "ellipsoid",
-   "center": [
-    7.0710678118654755,
-    22.5,
-    -7.071067811865475
-   ],
-   "size": [
-    5,
-    9,
-    3
-   ],
-   "color": "petal",
-   "group": "head",
-   "rot": [
-    0,
-    135.0,
-    0
-   ]
-  },
-  {
-   "name": "petal4",
-   "shape": "ellipsoid",
-   "center": [
-    1.2246467991473533e-15,
-    22.5,
-    -10.0
-   ],
-   "size": [
-    5,
-    9,
-    3
-   ],
-   "color": "petal2",
-   "group": "head",
-   "rot": [
-    0,
-    180.0,
-    0
-   ]
-  },
-  {
-   "name": "petal5",
-   "shape": "ellipsoid",
-   "center": [
-    -7.071067811865475,
-    22.5,
-    -7.071067811865477
-   ],
-   "size": [
-    5,
-    9,
-    3
-   ],
-   "color": "petal",
-   "group": "head",
-   "rot": [
-    0,
-    225.0,
-    0
-   ]
-  },
-  {
-   "name": "petal6",
-   "shape": "ellipsoid",
-   "center": [
-    -10.0,
-    22.5,
-    -1.8369701987210296e-15
-   ],
-   "size": [
-    5,
-    9,
-    3
-   ],
-   "color": "petal2",
-   "group": "head",
-   "rot": [
-    0,
-    270.0,
-    0
-   ]
-  },
-  {
-   "name": "petal7",
-   "shape": "ellipsoid",
-   "center": [
-    -7.071067811865477,
-    22.5,
-    7.071067811865474
-   ],
-   "size": [
-    5,
-    9,
-    3
-   ],
-   "color": "petal",
-   "group": "head",
-   "rot": [
-    0,
-    315.0,
-    0
-   ]
-  },
-  {
-   "name": "spike0",
-   "shape": "cone",
-   "center": [
-    0.0,
-    39,
-    4.0
-   ],
-   "size": [
-    3,
-    11,
-    3
-   ],
-   "color": "spike",
-   "group": "head",
+   "color": "blk",
+   "group": "body",
    "rot": [
     0,
     0,
-    0
-   ]
-  },
-  {
-   "name": "spike1",
-   "shape": "cone",
-   "center": [
-    3.804226065180614,
-    39,
-    1.2360679774997898
+    -14
    ],
-   "size": [
-    3,
-    11,
-    3
-   ],
-   "color": "spike",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    0
-   ]
-  },
-  {
-   "name": "spike2",
-   "shape": "cone",
-   "center": [
-    2.351141009169893,
-    39,
-    -3.2360679774997894
-   ],
-   "size": [
-    3,
-    11,
-    3
-   ],
-   "color": "spike",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    0
-   ]
-  },
-  {
-   "name": "spike3",
-   "shape": "cone",
-   "center": [
-    -2.351141009169892,
-    39,
-    -3.2360679774997902
-   ],
-   "size": [
-    3,
-    11,
-    3
-   ],
-   "color": "spike",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    0
-   ]
-  },
-  {
-   "name": "spike4",
-   "shape": "cone",
-   "center": [
-    -3.8042260651806146,
-    39,
-    1.236067977499789
-   ],
-   "size": [
-    3,
-    11,
-    3
-   ],
-   "color": "spike",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    0
-   ]
-  },
-  {
-   "name": "eye",
-   "shape": "ellipsoid",
-   "center": [
-    3,
-    27,
-    9
-   ],
-   "size": [
-    2,
-    2.4,
-    1
-   ],
-   "color": "spot",
-   "group": "head",
    "mirror_x": true
   },
   {
-   "name": "arm",
-   "shape": "cylinder",
+   "name": "bladeLg",
+   "shape": "ellipsoid",
    "center": [
-    5,
-    13,
+    11,
+    8,
+    0
+   ],
+   "size": [
+    4.5,
+    14,
+    4.5
+   ],
+   "color": "green2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bladeB",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -4
+   ],
+   "size": [
+    7,
+    30,
+    4
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    37,
     1
    ],
    "size": [
-    2,
+    4,
     12,
-    2
+    4
    ],
-   "color": "dk",
+   "color": "blk",
    "group": "arm_r",
    "rot": [
     0,
     0,
-    -12
+    -55
    ],
    "mirror_x": true
   },
@@ -663,34 +275,39 @@
    "name": "hand",
    "shape": "ellipsoid",
    "center": [
-    6.5,
-    6.5,
+    15,
+    33,
     2
    ],
    "size": [
-    3,
-    3,
-    3
+    9,
+    8,
+    8
    ],
-   "color": "leaf",
+   "color": "blk",
    "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
    "mirror_x": true
   },
   {
-   "name": "leg",
-   "shape": "cylinder",
+   "name": "leaf",
+   "shape": "ellipsoid",
    "center": [
-    3,
-    4,
-    0
+    18,
+    31,
+    2
    ],
    "size": [
-    2.6,
-    8,
-    2.6
+    7,
+    3,
+    3
    ],
-   "color": "dk",
-   "group": "leg_fr",
+   "color": "green2",
+   "group": "arm_r",
    "mirror_x": true
   },
   {
@@ -698,27 +315,23 @@
    "shape": "ellipsoid",
    "center": [
     3,
-    0.8,
+    2,
     2
    ],
    "size": [
+    5,
     4,
-    1.6,
     6
    ],
-   "color": "leaf",
+   "color": "blk",
    "group": "leg_fr",
    "mirror_x": true
   }
  ],
  "refs": [
   {
-   "url": "Tools/.refcache/194/icon.png",
-   "note": "正面: 紫に白斑の大きな球根の頭、下に水色の花弁が垂れる、頭上に黒い棘の冠、緑の葉の襟"
-  },
-  {
-   "url": "Tools/.refcache/194/icon.png",
-   "note": "(全身参照なし) 黒い細い胴と脚の貴公子として推定"
+   "url": "Tools/.refshots/194",
+   "note": "purple bulb head with blue petals and black crown, thin black body, green-black leaf blades, bulb hands"
   }
  ]
 }

@@ -1,108 +1,376 @@
 {
- "name": "ヴィランタン (Loomen)",
- "gait": "hover",
- "hover": 3,
+ "name": "ヴィランタン",
+ "gait": "none",
  "palette": {
-  "pu": "#4a3c66",
-  "pu2": "#33284a",
-  "pink": "#e888b8",
-  "lt": "#f0e060",
-  "eye": "#f06080",
-  "lilac": "#8a78b0"
+  "pur": "#46295e",
+  "pur2": "#5a3674",
+  "pur3": "#33194a",
+  "pink": "#e07080",
+  "pink2": "#a8507c",
+  "beak": "#ece2dc",
+  "ring": "#d8cce0",
+  "eye": "#f06050",
+  "lamp": "#b9a6f0",
+  "lampd": "#2c2036"
  },
  "parts": [
+  {
+   "name": "base",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    2.5,
+    0
+   ],
+   "size": [
+    12,
+    5,
+    12
+   ],
+   "color": "pur3",
+   "group": "body"
+  },
+  {
+   "name": "root0",
+   "shape": "ellipsoid",
+   "center": [
+    1.3891854213354426,
+    1.3,
+    7.878462024097664
+   ],
+   "size": [
+    6,
+    2.6,
+    6.5
+   ],
+   "color": "pur3",
+   "group": "body",
+   "rot": [
+    0,
+    10.0,
+    0
+   ]
+  },
+  {
+   "name": "root1",
+   "shape": "ellipsoid",
+   "center": [
+    7.023863803423844,
+    1.3,
+    3.829534863524855
+   ],
+   "size": [
+    6,
+    2.6,
+    6.5
+   ],
+   "color": "pur3",
+   "group": "body",
+   "rot": [
+    0,
+    61.4,
+    0
+   ]
+  },
+  {
+   "name": "root2",
+   "shape": "ellipsoid",
+   "center": [
+    7.374905212708005,
+    1.3,
+    -3.1001246916168226
+   ],
+   "size": [
+    6,
+    2.6,
+    6.5
+   ],
+   "color": "pur3",
+   "group": "body",
+   "rot": [
+    0,
+    112.8,
+    0
+   ]
+  },
+  {
+   "name": "root3",
+   "shape": "ellipsoid",
+   "center": [
+    2.178241976324597,
+    1.3,
+    -7.697743948234282
+   ],
+   "size": [
+    6,
+    2.6,
+    6.5
+   ],
+   "color": "pur3",
+   "group": "body",
+   "rot": [
+    0,
+    164.2,
+    0
+   ]
+  },
+  {
+   "name": "root4",
+   "shape": "ellipsoid",
+   "center": [
+    -4.6569837612583145,
+    1.3,
+    -6.504806088376222
+   ],
+   "size": [
+    6,
+    2.6,
+    6.5
+   ],
+   "color": "pur3",
+   "group": "body",
+   "rot": [
+    0,
+    215.6,
+    0
+   ]
+  },
+  {
+   "name": "root5",
+   "shape": "ellipsoid",
+   "center": [
+    -7.989036278036591,
+    1.3,
+    -0.41868764994355445
+   ],
+   "size": [
+    6,
+    2.6,
+    6.5
+   ],
+   "color": "pur3",
+   "group": "body",
+   "rot": [
+    0,
+    267.0,
+    0
+   ]
+  },
+  {
+   "name": "root6",
+   "shape": "ellipsoid",
+   "center": [
+    -5.311409701217935,
+    1.3,
+    5.982384723988253
+   ],
+   "size": [
+    6,
+    2.6,
+    6.5
+   ],
+   "color": "pur3",
+   "group": "body",
+   "rot": [
+    0,
+    318.4,
+    0
+   ]
+  },
+  {
+   "name": "trunk",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    9,
+    22,
+    9
+   ],
+   "color": "pur",
+   "group": "body"
+  },
+  {
+   "name": "trunk2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    0.5
+   ],
+   "size": [
+    8,
+    12,
+    8
+   ],
+   "color": "pur3",
+   "group": "body"
+  },
   {
    "name": "body",
    "shape": "ellipsoid",
    "center": [
     0,
-    12,
-    0
+    27,
+    -1
    ],
    "size": [
-    13,
-    24,
-    11
+    19,
+    19,
+    15
    ],
-   "color": "pu",
+   "color": "pur",
    "group": "body"
   },
   {
-   "name": "skirt",
+   "name": "chin",
    "shape": "ellipsoid",
    "center": [
     0,
-    4,
-    0
-   ],
-   "size": [
-    16,
-    9,
-    14
-   ],
-   "color": "pu2",
-   "group": "body"
-  },
-  {
-   "name": "head",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    24,
-    5
+    22,
+    3
    ],
    "size": [
     10,
-    9,
-    17
+    8,
+    9
    ],
-   "color": "pu",
-   "group": "head"
+   "color": "pur2",
+   "group": "body"
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    5.5
+   ],
+   "size": [
+    9,
+    12,
+    5
+   ],
+   "color": "pur3",
+   "group": "body"
+  },
+  {
+   "name": "stripe",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    8
+   ],
+   "size": [
+    2.6,
+    9,
+    2.5
+   ],
+   "color": "beak",
+   "group": "body"
   },
   {
    "name": "beak",
    "shape": "ellipsoid",
    "center": [
     0,
-    22.5,
-    13
+    24,
+    10
    ],
    "size": [
-    7,
-    5,
-    9
+    3,
+    15,
+    4
    ],
-   "color": "lilac",
-   "group": "head"
+   "color": "beak",
+   "group": "body",
+   "rot": [
+    18,
+    0,
+    0
+   ]
   },
   {
-   "name": "stripe",
-   "shape": "box",
+   "name": "eye_l",
+   "shape": "ellipsoid",
    "center": [
-    0,
-    26,
-    6
+    3.6,
+    34,
+    7.5
    ],
    "size": [
-    1.2,
-    1,
-    14
+    3,
+    1.6,
+    1.4
+   ],
+   "color": "eye",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cheek_l",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    26,
+    7
+   ],
+   "size": [
+    1.6,
+    6,
+    1.4
    ],
    "color": "pink",
-   "group": "head"
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
   },
   {
-   "name": "stripe2",
-   "shape": "box",
+   "name": "cr0",
+   "shape": "ellipsoid",
    "center": [
     0,
-    17,
-    3
+    40.666666666666664,
+    0
    ],
    "size": [
-    1.2,
-    1,
-    11
+    4.5,
+    11,
+    4.5
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crt0",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    45.25,
+    0
+   ],
+   "size": [
+    3.8,
+    5,
+    3.8
    ],
    "color": "pink",
    "group": "body",
@@ -113,111 +381,748 @@
    ]
   },
   {
-   "name": "eye",
+   "name": "cr1",
    "shape": "ellipsoid",
    "center": [
-    3.4,
-    24.5,
-    10
+    -5,
+    40.0,
+    -1
    ],
    "size": [
-    2.6,
-    2.6,
-    1.4
+    4.5,
+    9,
+    4.5
    ],
-   "color": "eye",
-   "group": "head",
-   "mirror_x": true
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -15
+   ]
   },
   {
-   "name": "ant",
-   "shape": "cylinder",
+   "name": "crt1",
+   "shape": "ellipsoid",
    "center": [
-    0,
-    31,
-    2
+    -6.75,
+    43.75,
+    -1
    ],
    "size": [
-    0.8,
-    10,
-    0.8
+    3.8,
+    5,
+    3.8
    ],
-   "color": "pu2",
-   "group": "head",
+   "color": "pink",
+   "group": "body",
    "rot": [
-    -20,
+    0,
+    0,
+    -25
+   ]
+  },
+  {
+   "name": "cr2",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    40.0,
+    -1
+   ],
+   "size": [
+    4.5,
+    9,
+    4.5
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    15
+   ]
+  },
+  {
+   "name": "crt2",
+   "shape": "ellipsoid",
+   "center": [
+    6.75,
+    43.75,
+    -1
+   ],
+   "size": [
+    3.8,
+    5,
+    3.8
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    25
+   ]
+  },
+  {
+   "name": "cr3",
+   "shape": "ellipsoid",
+   "center": [
+    -8,
+    39.333333333333336,
+    -3
+   ],
+   "size": [
+    4.5,
+    7,
+    4.5
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -24
+   ]
+  },
+  {
+   "name": "crt3",
+   "shape": "ellipsoid",
+   "center": [
+    -10.8,
+    42.25,
+    -3
+   ],
+   "size": [
+    3.8,
+    5,
+    3.8
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -40
+   ]
+  },
+  {
+   "name": "cr4",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    39.333333333333336,
+    -3
+   ],
+   "size": [
+    4.5,
+    7,
+    4.5
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    24
+   ]
+  },
+  {
+   "name": "crt4",
+   "shape": "ellipsoid",
+   "center": [
+    10.8,
+    42.25,
+    -3
+   ],
+   "size": [
+    3.8,
+    5,
+    3.8
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    40
+   ]
+  },
+  {
+   "name": "cr5",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39.666666666666664,
+    -5
+   ],
+   "size": [
+    4.5,
+    8,
+    4.5
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
     0,
     0
    ]
   },
   {
-   "name": "lamp",
+   "name": "crt5",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    43.0,
+    -5
+   ],
+   "size": [
+    3.8,
+    5,
+    3.8
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ten0",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    19,
+    2
+   ],
+   "size": [
+    3.6,
+    11,
+    3.6
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    13.5
+   ]
+  },
+  {
+   "name": "tent0",
+   "shape": "ellipsoid",
+   "center": [
+    9.9,
+    12.5,
+    2
+   ],
+   "size": [
+    2.6,
+    5,
+    2.6
+   ],
+   "color": "pink2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    18
+   ]
+  },
+  {
+   "name": "ring0",
+   "shape": "ellipsoid",
+   "center": [
+    8.549999999999999,
+    19.5,
+    4
+   ],
+   "size": [
+    2.4,
+    2.6,
+    1.6
+   ],
+   "color": "ring",
+   "group": "body"
+  },
+  {
+   "name": "ten1",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    19,
+    -4
+   ],
+   "size": [
+    3.6,
+    11,
+    3.6
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    15.0
+   ]
+  },
+  {
+   "name": "tent1",
+   "shape": "ellipsoid",
+   "center": [
+    11.0,
+    12.5,
+    -4
+   ],
+   "size": [
+    2.6,
+    5,
+    2.6
+   ],
+   "color": "pink2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    20
+   ]
+  },
+  {
+   "name": "ring1",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    19.5,
+    -2
+   ],
+   "size": [
+    2.4,
+    2.6,
+    1.6
+   ],
+   "color": "ring",
+   "group": "body"
+  },
+  {
+   "name": "ten2",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    19,
+    -9
+   ],
+   "size": [
+    3.6,
+    11,
+    3.6
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    10.5
+   ]
+  },
+  {
+   "name": "tent2",
+   "shape": "ellipsoid",
+   "center": [
+    7.700000000000001,
+    12.5,
+    -9
+   ],
+   "size": [
+    2.6,
+    5,
+    2.6
+   ],
+   "color": "pink2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    14
+   ]
+  },
+  {
+   "name": "ring2",
+   "shape": "ellipsoid",
+   "center": [
+    6.6499999999999995,
+    19.5,
+    -10.5
+   ],
+   "size": [
+    2.4,
+    2.6,
+    1.6
+   ],
+   "color": "ring",
+   "group": "body"
+  },
+  {
+   "name": "ten3",
    "shape": "ellipsoid",
    "center": [
     0,
-    37,
+    19,
+    -10
+   ],
+   "size": [
+    3.6,
+    11,
+    3.6
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0.0
+   ]
+  },
+  {
+   "name": "tent3",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    12.5,
+    -10
+   ],
+   "size": [
+    2.6,
+    5,
+    2.6
+   ],
+   "color": "pink2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
     0
+   ]
+  },
+  {
+   "name": "ring3",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    19.5,
+    -11.5
+   ],
+   "size": [
+    2.4,
+    2.6,
+    1.6
+   ],
+   "color": "ring",
+   "group": "body"
+  },
+  {
+   "name": "ten4",
+   "shape": "ellipsoid",
+   "center": [
+    -7,
+    19,
+    -9
+   ],
+   "size": [
+    3.6,
+    11,
+    3.6
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -10.5
+   ]
+  },
+  {
+   "name": "tent4",
+   "shape": "ellipsoid",
+   "center": [
+    -7.700000000000001,
+    12.5,
+    -9
+   ],
+   "size": [
+    2.6,
+    5,
+    2.6
+   ],
+   "color": "pink2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -14
+   ]
+  },
+  {
+   "name": "ring4",
+   "shape": "ellipsoid",
+   "center": [
+    -6.6499999999999995,
+    19.5,
+    -10.5
+   ],
+   "size": [
+    2.4,
+    2.6,
+    1.6
+   ],
+   "color": "ring",
+   "group": "body"
+  },
+  {
+   "name": "ten5",
+   "shape": "ellipsoid",
+   "center": [
+    -10,
+    19,
+    -4
+   ],
+   "size": [
+    3.6,
+    11,
+    3.6
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -15.0
+   ]
+  },
+  {
+   "name": "tent5",
+   "shape": "ellipsoid",
+   "center": [
+    -11.0,
+    12.5,
+    -4
+   ],
+   "size": [
+    2.6,
+    5,
+    2.6
+   ],
+   "color": "pink2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ]
+  },
+  {
+   "name": "ring5",
+   "shape": "ellipsoid",
+   "center": [
+    -9.5,
+    19.5,
+    -2
+   ],
+   "size": [
+    2.4,
+    2.6,
+    1.6
+   ],
+   "color": "ring",
+   "group": "body"
+  },
+  {
+   "name": "ten6",
+   "shape": "ellipsoid",
+   "center": [
+    -9,
+    19,
+    2
+   ],
+   "size": [
+    3.6,
+    11,
+    3.6
+   ],
+   "color": "pur2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -13.5
+   ]
+  },
+  {
+   "name": "tent6",
+   "shape": "ellipsoid",
+   "center": [
+    -9.9,
+    12.5,
+    2
+   ],
+   "size": [
+    2.6,
+    5,
+    2.6
+   ],
+   "color": "pink2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -18
+   ]
+  },
+  {
+   "name": "ring6",
+   "shape": "ellipsoid",
+   "center": [
+    -8.549999999999999,
+    19.5,
+    4
+   ],
+   "size": [
+    2.4,
+    2.6,
+    1.6
+   ],
+   "color": "ring",
+   "group": "body"
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    -10,
+    23,
+    3
+   ],
+   "size": [
+    3.4,
+    12,
+    3.4
+   ],
+   "color": "pur2",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    -18
+   ]
+  },
+  {
+   "name": "hand_l",
+   "shape": "ellipsoid",
+   "center": [
+    -13,
+    16.5,
+    5
    ],
    "size": [
     4,
     4,
     4
    ],
-   "color": "lt",
-   "group": "head"
+   "color": "pur2",
+   "group": "arm_l"
   },
   {
-   "name": "arm",
+   "name": "lampt",
+   "shape": "ellipsoid",
+   "center": [
+    -13,
+    14,
+    5.5
+   ],
+   "size": [
+    3.4,
+    2,
+    3.4
+   ],
+   "color": "lampd",
+   "group": "arm_l"
+  },
+  {
+   "name": "lamp",
+   "shape": "cylinder",
+   "center": [
+    -13,
+    11,
+    5.5
+   ],
+   "size": [
+    4.4,
+    5.4,
+    4.4
+   ],
+   "color": "lamp",
+   "group": "arm_l"
+  },
+  {
+   "name": "lampb",
+   "shape": "ellipsoid",
+   "center": [
+    -13,
+    8.2,
+    5.5
+   ],
+   "size": [
+    4,
+    2,
+    4
+   ],
+   "color": "lampd",
+   "group": "arm_l"
+  },
+  {
+   "name": "arm_r",
    "shape": "ellipsoid",
    "center": [
     10,
-    14,
-    -1
+    22,
+    2
    ],
    "size": [
-    8,
-    18,
-    6
+    3.4,
+    11,
+    3.4
    ],
-   "color": "pu2",
+   "color": "pur2",
    "group": "arm_r",
    "rot": [
     0,
     0,
-    -20
-   ],
-   "mirror_x": true
+    18
+   ]
   },
   {
-   "name": "hand",
+   "name": "hand_r",
    "shape": "ellipsoid",
    "center": [
-    14,
-    5,
-    0
+    13,
+    15,
+    3
    ],
    "size": [
-    6,
-    6,
-    6
+    3.6,
+    4,
+    3.6
    ],
-   "color": "lilac",
-   "group": "arm_r",
-   "mirror_x": true
+   "color": "pur2",
+   "group": "arm_r"
   }
  ],
  "refs": [
   {
-   "url": "https://palworld.gg/images/full_palicon/T_LanternButler_icon_normal.png",
-   "note": "頭部: 濃紫の細長い頭、ピンクの線、赤い目、触角と大きな腕布"
-  },
-  {
-   "url": "https://paldb.cc/ja/Loomen",
-   "note": "パルデータベース（アイコンのみ）"
-  },
-  {
-   "url": "https://palworld.wiki.gg/wiki/Loomen",
-   "note": "全身画像なし。胴・脚は推定"
+   "url": "Tools/.refshots/180",
+   "note": "ゲーム内スクショ: 濃紫のタコ型、白く長い嘴、頭上のピンク先端の触手、背に白い輪、左手にランタン、根のように広がる足"
   }
  ]
 }

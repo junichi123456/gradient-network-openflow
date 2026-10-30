@@ -2,30 +2,37 @@
  "name": "クジャンナ (Frostplume)",
  "gait": "biped",
  "palette": {
-  "white": "#f6f8fa",
-  "white2": "#dfe8f0",
-  "blue": "#4aa3e8",
-  "lblue": "#8fd0ff",
-  "beak": "#c8c46a",
-  "eye": "#6a5fb0",
-  "leg": "#b9b27a",
-  "dk": "#2a2f45"
+  "body": "#c2c6d6",
+  "body2": "#aeb4cc",
+  "blue": "#3c7ccc",
+  "mid": "#5a96e0",
+  "lt": "#8ac0f0",
+  "beak": "#c8b84a",
+  "eye": "#2a3a8a",
+  "leg": "#4a78b8",
+  "dk": "#2a56a8"
  },
+ "refs": [
+  {
+   "url": "Tools/.refshots/114 (in-game screenshots)",
+   "note": "in-game screenshots, all views"
+  }
+ ],
  "parts": [
   {
    "name": "body",
    "shape": "ellipsoid",
    "center": [
     0,
-    15,
+    17,
     0
    ],
    "size": [
     14,
     13,
-    20
+    18
    ],
-   "color": "white",
+   "color": "body",
    "group": "body"
   },
   {
@@ -33,47 +40,68 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    16,
-    6
+    17,
+    5
    ],
    "size": [
     11,
     11,
     9
    ],
-   "color": "white2",
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "bchev",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    8
+   ],
+   "size": [
+    9,
+    4,
+    5
+   ],
+   "color": "blue",
    "group": "body"
   },
   {
    "name": "neck",
-   "shape": "cylinder",
+   "shape": "ellipsoid",
    "center": [
     0,
-    25,
-    6
+    28,
+    5.5
    ],
    "size": [
-    4.5,
-    14,
-    4.5
+    5.5,
+    17,
+    5.5
    ],
-   "color": "white",
-   "group": "head"
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -8,
+    0,
+    0
+   ]
   },
   {
    "name": "head",
    "shape": "ellipsoid",
    "center": [
     0,
-    33,
+    37,
     7
    ],
    "size": [
-    8,
+    7.5,
     7,
-    10
+    9
    ],
-   "color": "white",
+   "color": "body",
    "group": "head"
   },
   {
@@ -81,13 +109,13 @@
    "shape": "cone",
    "center": [
     0,
-    32,
-    13.5
+    36,
+    12.5
    ],
    "size": [
-    3.4,
-    6,
-    3.4
+    3,
+    5,
+    3
    ],
    "color": "beak",
    "group": "head",
@@ -98,74 +126,52 @@
    ]
   },
   {
-   "name": "patch",
-   "shape": "ellipsoid",
-   "center": [
-    3.6,
-    34,
-    9.5
-   ],
-   "size": [
-    1.8,
-    3,
-    3.5
-   ],
-   "color": "blue",
-   "group": "head",
-   "mirror_x": true
-  },
-  {
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    3.8,
-    33.8,
-    10
+    3.4,
+    37.5,
+    9
    ],
    "size": [
-    1.2,
-    2,
-    2
+    1.6,
+    2.4,
+    1.4
    ],
    "color": "eye",
    "group": "head",
    "mirror_x": true
   },
   {
-   "name": "crest",
-   "shape": "box",
+   "name": "crest0",
+   "shape": "ellipsoid",
    "center": [
     0,
-    40,
-    5
+    42.5,
+    6
    ],
    "size": [
-    1.6,
-    8,
-    3
+    2.6,
+    6,
+    2.6
    ],
-   "color": "blue",
-   "group": "head",
-   "rot": [
-    -10,
-    0,
-    0
-   ]
+   "color": "mid",
+   "group": "head"
   },
   {
-   "name": "crest_s",
-   "shape": "box",
+   "name": "crest1",
+   "shape": "ellipsoid",
    "center": [
-    3,
-    39,
-    4
+    2.5,
+    41.5,
+    6
    ],
    "size": [
-    1.6,
-    7,
-    3
+    2.4,
+    5,
+    2.4
    ],
-   "color": "lblue",
+   "color": "lt",
    "group": "head",
    "rot": [
     0,
@@ -175,190 +181,335 @@
    "mirror_x": true
   },
   {
-   "name": "train0",
+   "name": "crest2",
    "shape": "ellipsoid",
    "center": [
-    0.0,
-    23.5,
-    -13
+    0,
+    45.5,
+    6
    ],
    "size": [
-    4,
-    18,
-    2
+    3,
+    3,
+    3
    ],
-   "color": "blue",
-   "group": "tail",
-   "rot": [
-    0,
-    0,
+   "color": "lt",
+   "group": "head"
+  },
+  {
+   "name": "legt",
+   "shape": "cylinder",
+   "center": [
+    3,
+    5,
     0
-   ]
-  },
-  {
-   "name": "train1",
-   "shape": "ellipsoid",
-   "center": [
-    4.5,
-    23.0,
-    -13
    ],
    "size": [
-    4,
-    16,
-    2
+    2.2,
+    10,
+    2.2
    ],
-   "color": "lblue",
-   "group": "tail",
-   "rot": [
-    0,
-    0,
-    -18
-   ]
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
   },
   {
-   "name": "train2",
+   "name": "legd",
    "shape": "ellipsoid",
    "center": [
-    -4.5,
-    23.0,
-    -13
-   ],
-   "size": [
-    4,
-    16,
-    2
-   ],
-   "color": "blue",
-   "group": "tail",
-   "rot": [
-    0,
-    0,
-    18
-   ]
-  },
-  {
-   "name": "train3",
-   "shape": "ellipsoid",
-   "center": [
-    9.0,
-    22.25,
-    -13
-   ],
-   "size": [
-    4,
+    3,
     13,
-    2
-   ],
-   "color": "lblue",
-   "group": "tail",
-   "rot": [
-    0,
-    0,
-    -36
-   ]
-  },
-  {
-   "name": "train4",
-   "shape": "ellipsoid",
-   "center": [
-    -9.0,
-    22.25,
-    -13
+    0
    ],
    "size": [
-    4,
-    13,
-    2
+    5,
+    5,
+    6
    ],
-   "color": "blue",
-   "group": "tail",
-   "rot": [
-    0,
-    0,
-    36
-   ]
+   "color": "body",
+   "group": "leg_fl",
+   "mirror_x": true
   },
   {
-   "name": "train_base",
+   "name": "foot",
    "shape": "ellipsoid",
    "center": [
-    0,
-    14,
-    -10
+    3,
+    0.8,
+    2.5
    ],
    "size": [
-    8,
-    6,
-    8
+    3,
+    2,
+    7
    ],
-   "color": "white2",
-   "group": "tail"
+   "color": "dk",
+   "group": "leg_fl",
+   "mirror_x": true
   },
   {
    "name": "wing",
    "shape": "ellipsoid",
    "center": [
     7.5,
-    16,
+    18,
     -1
    ],
    "size": [
     3,
-    10,
-    15
+    9,
+    13
    ],
-   "color": "white2",
-   "group": "arm_r",
+   "color": "body2",
+   "group": "wing_l",
    "mirror_x": true
   },
   {
-   "name": "leg",
-   "shape": "cylinder",
+   "name": "fth0",
+   "shape": "ellipsoid",
    "center": [
-    3.5,
-    5,
-    1
+    -7.1,
+    18.4,
+    -17.4
    ],
    "size": [
-    2,
-    10,
-    2
+    7,
+    1.8,
+    22
    ],
-   "color": "leg",
-   "group": "leg_fr",
-   "mirror_x": true
+   "color": "mid",
+   "group": "tail",
+   "rot": [
+    -40,
+    28,
+    0
+   ]
   },
   {
-   "name": "foot",
-   "shape": "box",
+   "name": "ftip0",
+   "shape": "ellipsoid",
    "center": [
-    3.5,
-    0.8,
+    -10.6,
+    10.0,
+    -23.0
+   ],
+   "size": [
+    4,
+    1.6,
+    10
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -40,
+    28,
+    0
+   ]
+  },
+  {
+   "name": "fth1",
+   "shape": "ellipsoid",
+   "center": [
+    -3.8,
+    19.2,
+    -19.3
+   ],
+   "size": [
+    7,
+    1.8,
+    22
+   ],
+   "color": "lt",
+   "group": "tail",
+   "rot": [
+    -40,
+    14,
+    0
+   ]
+  },
+  {
+   "name": "ftip1",
+   "shape": "ellipsoid",
+   "center": [
+    -5.6,
+    11.0,
+    -26.0
+   ],
+   "size": [
+    4,
+    1.6,
+    10
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -40,
+    14,
+    0
+   ]
+  },
+  {
+   "name": "fth2",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    20.0,
+    -20.0
+   ],
+   "size": [
+    7,
+    1.8,
+    22
+   ],
+   "color": "blue",
+   "group": "tail",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ftip2",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    12.0,
+    -27.0
+   ],
+   "size": [
+    4,
+    1.6,
+    10
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fth3",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    19.2,
+    -19.3
+   ],
+   "size": [
+    7,
+    1.8,
+    22
+   ],
+   "color": "lt",
+   "group": "tail",
+   "rot": [
+    -40,
+    -14,
+    0
+   ]
+  },
+  {
+   "name": "ftip3",
+   "shape": "ellipsoid",
+   "center": [
+    5.6,
+    11.0,
+    -26.0
+   ],
+   "size": [
+    4,
+    1.6,
+    10
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -40,
+    -14,
+    0
+   ]
+  },
+  {
+   "name": "fth4",
+   "shape": "ellipsoid",
+   "center": [
+    7.1,
+    18.4,
+    -17.4
+   ],
+   "size": [
+    7,
+    1.8,
+    22
+   ],
+   "color": "mid",
+   "group": "tail",
+   "rot": [
+    -40,
+    -28,
+    0
+   ]
+  },
+  {
+   "name": "ftip4",
+   "shape": "ellipsoid",
+   "center": [
+    10.6,
+    10.0,
+    -23.0
+   ],
+   "size": [
+    4,
+    1.6,
+    10
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -40,
+    -28,
+    0
+   ]
+  },
+  {
+   "name": "ridge",
+   "shape": "cone",
+   "center": [
+    0,
+    24.5,
+    -5
+   ],
+   "size": [
+    3,
+    3,
     3
    ],
-   "size": [
-    3.5,
-    1.6,
-    5
+   "color": "body2",
+   "group": "body",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ridge2",
+   "shape": "cone",
+   "center": [
+    0,
+    24,
+    0
    ],
-   "color": "leg",
-   "group": "leg_fr",
-   "mirror_x": true
-  }
- ],
- "refs": [
-  {
-   "url": "https://palworld.gg/images/full_palicon/T_SnowPeafowl_icon_normal.png",
-   "note": "上半身アップのみ(全身参照なし): 白い孔雀、黄緑のくちばし、紫の目と青い目の縁、頭上に3本の青い氷の冠羽、長い首"
-  },
-  {
-   "url": "https://palworld.wiki.gg/images/Frostplume_icon.png",
-   "note": "wikiもアイコンのみ。体と尾羽は孔雀型(氷の尾羽扇)として推定"
-  },
-  {
-   "url": "https://paldb.cc/ja/Frostplume",
-   "note": "特徴: 氷の尾羽扇(推定)、パートナースキル=孔雀の飛びかかり"
+   "size": [
+    3,
+    3,
+    3
+   ],
+   "color": "body2",
+   "group": "body"
   }
  ]
 }

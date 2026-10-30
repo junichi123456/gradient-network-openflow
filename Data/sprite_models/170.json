@@ -2,15 +2,17 @@
  "name": "ネモフィ (Lapure)",
  "gait": "biped",
  "palette": {
-  "teal": "#3aa8c8",
-  "teal2": "#6cc8de",
-  "white": "#f6f6f8",
-  "white2": "#dfe3ea",
-  "red": "#d8484e",
-  "flower": "#fafafa",
-  "fl2": "#e0e4ee",
-  "eye": "#c03038",
-  "sh": "#2a8aaa"
+  "teal": "#1a4060",
+  "blue": "#3d98c4",
+  "blue2": "#2c6eae",
+  "hat": "#3a9cc6",
+  "hair": "#4aa8d0",
+  "white": "#cfc6d8",
+  "skin": "#d8c4c8",
+  "gold": "#b8a048",
+  "red": "#c8283c",
+  "blk": "#101018",
+  "fl": "#e0dcea"
  },
  "parts": [
   {
@@ -18,79 +20,114 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    8,
+    15,
     0
    ],
    "size": [
-    14,
-    13,
-    12
+    8,
+    9,
+    6.5
+   ],
+   "color": "teal",
+   "group": "body"
+  },
+  {
+   "name": "bloomer",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10.5,
+    0
+   ],
+   "size": [
+    10,
+    7,
+    8
    ],
    "color": "white",
    "group": "body"
   },
   {
-   "name": "sleeve_cape",
+   "name": "bloomerL",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    10,
+    0
+   ],
+   "size": [
+    7,
+    7,
+    8
+   ],
+   "color": "white",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "collar",
    "shape": "ellipsoid",
    "center": [
     0,
-    10,
-    -3
+    19.5,
+    1
    ],
    "size": [
-    18,
-    14,
-    10
+    8,
+    3,
+    6
    ],
-   "color": "teal2",
+   "color": "skin",
    "group": "body"
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    2.4,
+    4,
+    0
+   ],
+   "size": [
+    2.8,
+    8,
+    2.8
+   ],
+   "color": "teal",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    2.4,
+    0.8,
+    1
+   ],
+   "size": [
+    3,
+    1.6,
+    4.5
+   ],
+   "color": "teal",
+   "group": "leg_fr",
+   "mirror_x": true
   },
   {
    "name": "head",
    "shape": "ellipsoid",
    "center": [
     0,
-    19,
-    1
+    25,
+    0
    ],
    "size": [
-    16,
     13,
-    14
+    11,
+    12
    ],
-   "color": "white",
-   "group": "head"
-  },
-  {
-   "name": "hair",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    22,
-    -1
-   ],
-   "size": [
-    20,
-    13,
-    15
-   ],
-   "color": "teal",
-   "group": "head"
-  },
-  {
-   "name": "fringe",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    24,
-    5
-   ],
-   "size": [
-    14,
-    5,
-    7
-   ],
-   "color": "teal2",
+   "color": "hair",
    "group": "head"
   },
   {
@@ -98,53 +135,85 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    18,
-    7
+    24,
+    4.2
    ],
    "size": [
-    11,
-    8,
-    4
+    9,
+    7,
+    5
    ],
-   "color": "white",
+   "color": "skin",
    "group": "head"
   },
   {
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    3.2,
-    18.5,
-    9
+    2.4,
+    24.2,
+    6.4
    ],
    "size": [
-    3,
-    3.8,
-    1.4
+    2,
+    2.4,
+    1
    ],
-   "color": "eye",
+   "color": "red",
    "group": "head",
    "mirror_x": true
+  },
+  {
+   "name": "hat",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    -1
+   ],
+   "size": [
+    17,
+    7,
+    15
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "hatbrim",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27.5,
+    2.5
+   ],
+   "size": [
+    16,
+    3,
+    9
+   ],
+   "color": "hat",
+   "group": "head"
   },
   {
    "name": "ear",
    "shape": "ellipsoid",
    "center": [
-    7,
-    29,
-    -1
+    4.2,
+    39,
+    -3
    ],
    "size": [
-    6,
-    15,
-    4
+    4.6,
+    18,
+    3
    ],
-   "color": "teal",
+   "color": "blue",
    "group": "ear",
    "rot": [
     0,
     0,
-    -25
+    -12
    ],
    "mirror_x": true
   },
@@ -152,187 +221,231 @@
    "name": "earin",
    "shape": "ellipsoid",
    "center": [
-    7.4,
-    29,
-    0.6
+    4.2,
+    39,
+    -1.6
    ],
    "size": [
-    3,
-    11,
-    1.5
+    2.2,
+    15,
+    1.6
    ],
-   "color": "teal2",
+   "color": "blue2",
    "group": "ear",
    "rot": [
     0,
     0,
-    -25
+    -12
    ],
    "mirror_x": true
   },
   {
-   "name": "fl_c",
+   "name": "earmin",
    "shape": "ellipsoid",
    "center": [
-    0,
-    31,
+    1.5,
+    33,
     3
    ],
    "size": [
-    6,
-    6,
-    3
-   ],
-   "color": "white2",
-   "group": "head"
-  },
-  {
-   "name": "fl1",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    35,
-    3
-   ],
-   "size": [
-    5,
-    7,
-    2
-   ],
-   "color": "flower",
-   "group": "head"
-  },
-  {
-   "name": "fl2",
-   "shape": "ellipsoid",
-   "center": [
-    5,
-    32,
-    3
-   ],
-   "size": [
-    7,
+    3.5,
     5,
     2
    ],
-   "color": "flower",
-   "group": "head",
+   "color": "blue",
+   "group": "ear",
    "rot": [
+    -25,
     0,
-    0,
-    30
-   ]
+    20
+   ],
+   "mirror_x": true
   },
   {
-   "name": "fl3",
-   "shape": "ellipsoid",
-   "center": [
-    -5,
-    32,
-    3
-   ],
-   "size": [
-    7,
-    5,
-    2
-   ],
-   "color": "flower",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -30
-   ]
-  },
-  {
-   "name": "fl4",
-   "shape": "ellipsoid",
-   "center": [
-    -3,
-    28,
-    3
-   ],
-   "size": [
-    6,
-    5,
-    2
-   ],
-   "color": "flower",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    50
-   ]
-  },
-  {
-   "name": "fl5",
-   "shape": "ellipsoid",
-   "center": [
-    3,
-    28,
-    3
-   ],
-   "size": [
-    6,
-    5,
-    2
-   ],
-   "color": "flower",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -50
-   ]
-  },
-  {
-   "name": "arm",
+   "name": "flower",
    "shape": "ellipsoid",
    "center": [
     8,
+    30,
+    3
+   ],
+   "size": [
+    7,
+    7,
+    2
+   ],
+   "color": "fl",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "flowerc",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    30,
+    4
+   ],
+   "size": [
+    2,
+    6,
+    1
+   ],
+   "color": "blue2",
+   "group": "head"
+  },
+  {
+   "name": "flowerc2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    30,
+    4
+   ],
+   "size": [
+    6,
+    2,
+    1
+   ],
+   "color": "blue2",
+   "group": "head"
+  },
+  {
+   "name": "sleeve",
+   "shape": "ellipsoid",
+   "center": [
     9,
+    14,
+    0
+   ],
+   "size": [
+    6,
+    15,
+    6
+   ],
+   "color": "white",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "feather",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    5.5,
+    0
+   ],
+   "size": [
+    6,
+    8,
+    5
+   ],
+   "color": "blue",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    18,
     2
    ],
    "size": [
-    4.5,
-    9,
-    5
+    3,
+    3,
+    3
    ],
-   "color": "teal2",
+   "color": "skin",
    "group": "arm_r",
    "mirror_x": true
   },
   {
-   "name": "leg",
+   "name": "ribbon1",
    "shape": "ellipsoid",
    "center": [
-    3.5,
-    2,
-    1
+    8,
+    12,
+    -6
    ],
    "size": [
-    5,
     4,
-    8
+    13,
+    4
    ],
-   "color": "white",
-   "group": "leg_fr",
+   "color": "blue",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ribbon2",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    5,
+    -9
+   ],
+   "size": [
+    4,
+    9,
+    4
+   ],
+   "color": "blue",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crescent",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    3,
+    -9
+   ],
+   "size": [
+    3,
+    9,
+    6
+   ],
+   "color": "gold",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    10
+   ],
    "mirror_x": true
   }
  ],
  "refs": [
   {
-   "url": "https://palworld.gg/images/full_palicon/T_SleeveRabbit_icon_normal.png",
-   "note": "頭部: 水色の髪と垂れ耳、頭に白い花、赤い目、白い体"
-  },
-  {
-   "url": "https://paldb.cc/ja/Lapure",
-   "note": "ウサギ。長い袖状の水色のケープ（推定）"
-  },
-  {
-   "url": "https://palworld.wiki.gg/wiki/Lapure",
-   "note": "全身画像なし"
+   "url": "Tools/.refshots/170",
+   "note": "ゲーム内SS: 青い帽子に長いウサ耳と白い花、赤目、濃紺のレオタード、白いふわふわのブルマ、白青の大きな袖と金の三日月の青いリボン"
   }
  ]
 }

@@ -1,84 +1,162 @@
 {
- "name": "セクメト (Sekhmet)",
+ "name": "セクメト",
  "gait": "biped",
  "palette": {
-  "hair": "#3c5ca8",
-  "hair2": "#5478c8",
-  "fur": "#f0d870",
-  "fur2": "#d8b850",
-  "gold": "#e0b838",
-  "eye": "#d83038",
-  "skin": "#f4e4c8",
-  "blk": "#2a2a34"
+  "bl": "#33397f",
+  "bl2": "#4a52a0",
+  "blk": "#1d1a26",
+  "gold": "#c9a132",
+  "gold2": "#e0bc48",
+  "face": "#d8b040",
+  "eye": "#d03050",
+  "sk": "#26222e"
  },
  "parts": [
   {
-   "name": "torso",
+   "name": "legu",
    "shape": "ellipsoid",
    "center": [
-    0,
-    16,
+    3.2,
+    12,
     0
    ],
    "size": [
-    10,
-    12,
-    8
+    6.5,
+    13,
+    7
    ],
-   "color": "fur",
+   "color": "bl",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "band",
+   "shape": "cylinder",
+   "center": [
+    3.2,
+    6.2,
+    0
+   ],
+   "size": [
+    5.2,
+    1.6,
+    5.2
+   ],
+   "color": "gold",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "boot",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    3,
+    1
+   ],
+   "size": [
+    5,
+    7,
+    6.5
+   ],
+   "color": "gold2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "hips",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    12,
+    7,
+    9
+   ],
+   "color": "bl",
    "group": "body"
   },
   {
-   "name": "collar",
-   "shape": "cylinder",
+   "name": "skirt",
+   "shape": "ellipsoid",
    "center": [
     0,
     21,
     0
    ],
    "size": [
-    11,
-    3,
-    9
+    18,
+    8,
+    15
+   ],
+   "color": "sk",
+   "group": "body"
+  },
+  {
+   "name": "skirt2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.5,
+    0
+   ],
+   "size": [
+    16,
+    5,
+    12
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    0
+   ],
+   "size": [
+    9,
+    9,
+    7
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "chestg",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    3
+   ],
+   "size": [
+    5,
+    6,
+    2.5
    ],
    "color": "gold",
    "group": "body"
   },
   {
-   "name": "skirt",
-   "shape": "cone",
+   "name": "collar",
+   "shape": "ellipsoid",
    "center": [
     0,
-    9,
+    29.5,
     0
    ],
    "size": [
-    13,
-    9,
-    11
+    8,
+    3.5,
+    6.5
    ],
-   "color": "blk",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    180
-   ]
-  },
-  {
-   "name": "trim",
-   "shape": "cylinder",
-   "center": [
-    0,
-    5.5,
-    0
-   ],
-   "size": [
-    13,
-    1.4,
-    11
-   ],
-   "color": "gold",
+   "color": "gold2",
    "group": "body"
   },
   {
@@ -86,47 +164,96 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    28,
+    34,
     1
    ],
    "size": [
-    15,
     12,
-    13
+    10,
+    10
    ],
-   "color": "fur",
+   "color": "face",
    "group": "head"
   },
   {
-   "name": "hairb",
+   "name": "hair",
    "shape": "ellipsoid",
    "center": [
     0,
-    28,
-    -2
+    35.5,
+    -1
    ],
    "size": [
-    18,
     15,
-    12
+    11,
+    11
    ],
-   "color": "hair",
+   "color": "bl",
    "group": "head"
   },
   {
-   "name": "fringe",
+   "name": "hairl",
+   "shape": "ellipsoid",
+   "center": [
+    6.8,
+    31.5,
+    0
+   ],
+   "size": [
+    3.2,
+    9,
+    8
+   ],
+   "color": "bl2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "fring",
    "shape": "ellipsoid",
    "center": [
     0,
-    32,
+    37.5,
     3
    ],
    "size": [
-    15,
-    5,
-    10
+    11,
+    3.5,
+    6
    ],
-   "color": "hair2",
+   "color": "bl",
+   "group": "head"
+  },
+  {
+   "name": "band2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36.8,
+    5.2
+   ],
+   "size": [
+    9,
+    2.5,
+    2.2
+   ],
+   "color": "gold2",
+   "group": "head"
+  },
+  {
+   "name": "dia",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35.4,
+    5.6
+   ],
+   "size": [
+    3.5,
+    3.5,
+    1.5
+   ],
+   "color": "gold",
    "group": "head"
   },
   {
@@ -134,61 +261,45 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    26.5,
-    6.5
+    32.5,
+    4.4
    ],
    "size": [
-    10,
-    7,
-    5
+    8.5,
+    6,
+    4.5
    ],
-   "color": "skin",
+   "color": "face",
    "group": "head"
   },
   {
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    3,
-    27,
-    8.8
+    2.8,
+    33,
+    6.4
    ],
    "size": [
+    2,
     2.2,
-    2.4,
-    1
+    1.1
    ],
    "color": "eye",
    "group": "head",
    "mirror_x": true
   },
   {
-   "name": "circlet",
-   "shape": "box",
-   "center": [
-    0,
-    31.5,
-    7
-   ],
-   "size": [
-    5,
-    1.6,
-    1.4
-   ],
-   "color": "gold",
-   "group": "head"
-  },
-  {
    "name": "ear",
-   "shape": "cone",
+   "shape": "ellipsoid",
    "center": [
-    6,
-    36,
+    4.3,
+    42,
     0
    ],
    "size": [
-    6,
-    10,
+    4.5,
+    9,
     3
    ],
    "color": "blk",
@@ -196,152 +307,118 @@
    "rot": [
     0,
     0,
-    -12
+    -15
    ],
    "mirror_x": true
   },
   {
-   "name": "earg",
-   "shape": "cone",
+   "name": "earx",
+   "shape": "ellipsoid",
    "center": [
-    6,
-    35,
+    4.5,
+    41.5,
     1
    ],
    "size": [
-    2.8,
-    5,
-    1.6
+    2.4,
+    6,
+    1.5
    ],
-   "color": "gold",
+   "color": "bl2",
    "group": "head",
    "rot": [
     0,
     0,
-    -12
+    -15
    ],
    "mirror_x": true
   },
   {
-   "name": "arm",
-   "shape": "cylinder",
+   "name": "armu",
+   "shape": "ellipsoid",
    "center": [
     7.5,
-    16,
-    0
-   ],
-   "size": [
-    3.6,
-    11,
-    3.6
-   ],
-   "color": "fur",
-   "group": "arm_r",
-   "rot": [
-    0,
-    0,
-    -10
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "brace",
-   "shape": "cylinder",
-   "center": [
-    8.3,
-    12,
-    0
-   ],
-   "size": [
-    4.4,
-    3,
-    4.4
-   ],
-   "color": "gold",
-   "group": "arm_r",
-   "mirror_x": true
-  },
-  {
-   "name": "paw",
-   "shape": "ellipsoid",
-   "center": [
-    9,
-    9.5,
-    0.5
-   ],
-   "size": [
-    4.4,
-    4,
-    4.4
-   ],
-   "color": "fur2",
-   "group": "arm_r",
-   "mirror_x": true
-  },
-  {
-   "name": "leg",
-   "shape": "cylinder",
-   "center": [
-    3,
-    2.5,
-    0
-   ],
-   "size": [
-    4,
-    5,
-    4
-   ],
-   "color": "fur2",
-   "group": "leg_fr",
-   "mirror_x": true
-  },
-  {
-   "name": "foot",
-   "shape": "ellipsoid",
-   "center": [
-    3,
-    1.2,
+    26,
     2
    ],
    "size": [
-    4.6,
-    2.4,
-    6
+    3.6,
+    9,
+    3.6
    ],
-   "color": "fur",
-   "group": "leg_fr",
+   "color": "blk",
+   "group": "arm_r",
+   "rot": [
+    -25,
+    0,
+    -25
+   ],
    "mirror_x": true
   },
   {
-   "name": "tail",
-   "shape": "cylinder",
+   "name": "armh",
+   "shape": "ellipsoid",
    "center": [
-    0,
-    8,
-    -7
+    10.5,
+    21,
+    5
    ],
    "size": [
-    2.6,
-    12,
-    2.6
+    5.5,
+    5,
+    5.5
    ],
-   "color": "fur",
-   "group": "tail",
-   "rot": [
-    -70,
-    0,
-    0
-   ]
-  }
- ],
- "refs": [
-  {
-   "url": "https://palworld.gg/images/full_palicon/T_Sekhmet_icon_normal.png",
-   "note": "正面: 青いボブの髪と青い猫耳、金のサークレット、赤い目、黄色い毛並み"
+   "color": "gold2",
+   "group": "arm_r",
+   "mirror_x": true
   },
   {
-   "url": "https://images.gamepedia.jp/palworld/monster/v2/Sekhmet.png",
-   "note": "同アイコン(別CDN)。全身参照未取得: 小柄な猫人間型、金の首飾りと腕輪、黄色の体と推定"
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -8
+   ],
+   "size": [
+    4,
+    4,
+    9
+   ],
+   "color": "blk",
+   "group": "tail"
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -14
+   ],
+   "size": [
+    4,
+    7,
+    4.5
+   ],
+   "color": "blk",
+   "group": "tail"
+  },
+  {
+   "name": "tailt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23.5,
+    -14
+   ],
+   "size": [
+    4.3,
+    3,
+    4.8
+   ],
+   "color": "gold",
+   "group": "tail"
   }
  ]
 }

@@ -2,47 +2,31 @@
  "name": "グランジーラ (Panthalus)",
  "gait": "hover",
  "palette": {
-  "cy": "#2fc0c4",
-  "cy2": "#1fa0b0",
-  "lt": "#8ae8e0",
-  "white": "#e8faf6",
-  "ant": "#8a5a30",
-  "ant2": "#a87a44",
-  "eye": "#e8c030",
-  "glow": "#c8f8f0",
-  "fin": "#5ad8d4"
+  "cy": "#3ab4b8",
+  "cy2": "#58ccc8",
+  "belly": "#c0e4de",
+  "bronze": "#a8683c",
+  "bronze2": "#c08050",
+  "eye": "#e0b030",
+  "dk": "#101820",
+  "stripe": "#d8f4ee"
  },
+ "hover": 14,
  "parts": [
   {
    "name": "body",
    "shape": "ellipsoid",
    "center": [
     0,
-    20,
+    12,
     -2
    ],
    "size": [
-    24,
-    20,
-    36
+    16,
+    15,
+    32
    ],
    "color": "cy",
-   "group": "body"
-  },
-  {
-   "name": "top",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    23,
-    0
-   ],
-   "size": [
-    20,
-    14,
-    30
-   ],
-   "color": "cy2",
    "group": "body"
   },
   {
@@ -50,253 +34,286 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    14,
+    8,
     2
    ],
    "size": [
-    18,
+    12,
     9,
-    28
+    26
    ],
-   "color": "white",
+   "color": "belly",
    "group": "body"
   },
   {
-   "name": "face",
+   "name": "head",
    "shape": "ellipsoid",
    "center": [
     0,
-    19,
+    12,
     14
    ],
    "size": [
-    20,
-    17,
-    12
+    14,
+    13,
+    14
    ],
    "color": "cy",
    "group": "head"
   },
   {
-   "name": "brow",
+   "name": "snout",
    "shape": "ellipsoid",
    "center": [
     0,
-    24,
-    17
+    10,
+    20
    ],
    "size": [
-    14,
-    5,
-    6
+    9,
+    8,
+    7
    ],
-   "color": "lt",
+   "color": "cy2",
+   "group": "head"
+  },
+  {
+   "name": "hbelly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    16
+   ],
+   "size": [
+    10,
+    6,
+    10
+   ],
+   "color": "belly",
    "group": "head"
   },
   {
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    8.2,
-    21,
-    20
+    6.2,
+    13,
+    17
    ],
    "size": [
-    3.4,
+    2,
     3.2,
-    1.8
+    3.2
    ],
    "color": "eye",
    "group": "head",
    "mirror_x": true
   },
   {
-   "name": "pup",
+   "name": "pupil",
    "shape": "ellipsoid",
    "center": [
-    8.6,
-    21,
-    21
+    6.8,
+    13,
+    17.6
    ],
    "size": [
-    1.6,
-    2.4,
-    0.8
+    1.4,
+    2.2,
+    2
    ],
-   "color": "cy2",
+   "color": "dk",
    "group": "head",
    "mirror_x": true
   },
   {
-   "name": "mouth",
-   "shape": "box",
+   "name": "collar",
+   "shape": "ellipsoid",
    "center": [
     0,
-    14,
-    21
+    13,
+    8
    ],
    "size": [
-    10,
-    0.8,
-    1
+    17,
+    16,
+    4
    ],
-   "color": "cy2",
+   "color": "bronze",
    "group": "head"
   },
   {
-   "name": "ring_t",
+   "name": "spk1",
    "shape": "ellipsoid",
    "center": [
     0,
-    31,
-    9
+    23,
+    8
    ],
    "size": [
-    20,
-    4.6,
-    4.6
+    3,
+    10,
+    3
    ],
-   "color": "ant",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    0
-   ]
+   "color": "bronze2",
+   "group": "head"
   },
   {
-   "name": "ring_l",
+   "name": "spk2",
    "shape": "ellipsoid",
    "center": [
-    10,
-    26,
-    9
+    7,
+    22,
+    8
    ],
    "size": [
-    4.6,
-    13,
-    4.6
+    3,
+    10,
+    3
    ],
-   "color": "ant",
+   "color": "bronze2",
    "group": "head",
    "rot": [
     0,
     0,
-    -18
+    -30
    ],
    "mirror_x": true
   },
   {
-   "name": "ring_b",
+   "name": "spk3",
    "shape": "ellipsoid",
    "center": [
     11,
     17,
-    6
-   ],
-   "size": [
-    4.6,
-    10,
-    4.6
-   ],
-   "color": "ant2",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    10
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "ant",
-   "shape": "cone",
-   "center": [
-    6,
-    33,
-    10
-   ],
-   "size": [
-    4,
-    11,
-    4
-   ],
-   "color": "ant2",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -30
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "ant2",
-   "shape": "cone",
-   "center": [
-    2,
-    34,
-    10
-   ],
-   "size": [
-    4,
-    10,
-    4
-   ],
-   "color": "ant",
-   "group": "head",
-   "mirror_x": true
-  },
-  {
-   "name": "gem",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    31.5,
-    12
-   ],
-   "size": [
-    3,
-    2.4,
-    2.4
-   ],
-   "color": "glow",
-   "group": "head"
-  },
-  {
-   "name": "flipper",
-   "shape": "ellipsoid",
-   "center": [
-    14,
-    12,
     8
    ],
    "size": [
-    14,
-    2.8,
-    9
+    3,
+    9,
+    3
    ],
-   "color": "fin",
-   "group": "wing_r",
+   "color": "bronze2",
+   "group": "head",
    "rot": [
     0,
     0,
-    -30
+    -65
    ],
    "mirror_x": true
   },
   {
-   "name": "tail1",
+   "name": "flip",
    "shape": "ellipsoid",
    "center": [
+    11,
+    10,
+    -4
+   ],
+   "size": [
+    5,
+    3,
+    26
+   ],
+   "color": "cy2",
+   "group": "arm_r",
+   "rot": [
     0,
-    18,
+    15,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "flip2",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    11,
     -20
    ],
    "size": [
-    14,
-    12,
-    14
+    4,
+    2.5,
+    16
+   ],
+   "color": "cy",
+   "group": "arm_r",
+   "rot": [
+    0,
+    20,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fin",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    5,
+    -6
+   ],
+   "size": [
+    4,
+    10,
+    8
+   ],
+   "color": "cy",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fin2",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    4,
+    -16
+   ],
+   "size": [
+    4,
+    9,
+    8
+   ],
+   "color": "cy",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "stripe",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    3,
+    2,
+    22
+   ],
+   "color": "stripe",
+   "group": "body"
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -22
+   ],
+   "size": [
+    7,
+    6,
+    16
    ],
    "color": "cy",
    "group": "tail"
@@ -306,63 +323,22 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    17,
-    -29
+    8,
+    -32
    ],
    "size": [
-    8,
-    7,
+    10,
+    3,
     10
    ],
    "color": "cy2",
    "group": "tail"
-  },
-  {
-   "name": "fluke",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    17,
-    -35
-   ],
-   "size": [
-    22,
-    2.6,
-    9
-   ],
-   "color": "fin",
-   "group": "tail"
-  },
-  {
-   "name": "mark",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    26,
-    -8
-   ],
-   "size": [
-    6,
-    2,
-    8
-   ],
-   "color": "eye",
-   "group": "body"
   }
  ],
  "refs": [
   {
-   "url": "Tools/.refcache/203/icon.png",
-   "note": "頭部: 青緑の丸い鯨の顔、黄色い目、頭の上から胴を囲む茶色の枝角の輪"
-  },
-  {
-   "url": "https://palworld.wiki.gg/images/Collossal_Whale_Backside.webp",
-   "note": "飛行シーン: 水色に発光する鯨、背に橙の角状の飾り、黄色の光の紋"
-  },
-  {
-   "url": "Tools/.refcache/203/icon.png",
-   "note": "(正面のみ) 白っぽい腹、青緑の鰭"
+   "url": "Tools/.refshots/203",
+   "note": "flying cyan dolphin-like pal, pale belly, bronze spiked collar behind head, long pointed flippers"
   }
- ],
- "hover": 10
+ ]
 }

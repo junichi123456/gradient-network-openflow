@@ -1,92 +1,269 @@
 {
- "name": "ラピエール (Dupin)",
+ "name": "ラピエール",
  "gait": "biped",
  "palette": {
-  "wh": "#f0eef0",
-  "wh2": "#d4d0d8",
-  "blk": "#222028",
-  "gold": "#e8c460",
-  "eye": "#f0c030",
-  "pink": "#e88aa0",
-  "nose": "#d8707e"
+  "white": "#e6e2ea",
+  "white2": "#c9c4d2",
+  "dk": "#33223c",
+  "dk2": "#4a3556",
+  "red": "#c22a34",
+  "red2": "#8f1c2a",
+  "gold": "#e8b83a",
+  "eye": "#f0a030"
  },
  "parts": [
   {
-   "name": "body",
-   "shape": "ellipsoid",
+   "name": "leg_l",
+   "shape": "cylinder",
    "center": [
-    0,
-    9,
+    3,
+    5,
     0
    ],
    "size": [
-    13,
-    14,
-    11
+    2.6,
+    10,
+    2.6
    ],
-   "color": "wh",
-   "group": "body"
+   "color": "dk",
+   "group": "leg_fl",
+   "mirror_x": true
   },
   {
-   "name": "belly",
+   "name": "foot_l",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    0.8,
+    1.2
+   ],
+   "size": [
+    3.4,
+    1.8,
+    5
+   ],
+   "color": "dk",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "bloom",
    "shape": "ellipsoid",
    "center": [
     0,
-    8,
-    4
+    14.5,
+    0
    ],
    "size": [
-    8,
-    9,
-    4
+    17,
+    11,
+    12.5
    ],
-   "color": "wh2",
+   "color": "dk",
    "group": "body"
   },
   {
    "name": "dia1",
-   "shape": "cone",
+   "shape": "ellipsoid",
    "center": [
-    0,
-    11,
-    6
+    3.6,
+    15,
+    5.2
    ],
    "size": [
-    3,
-    4,
-    1
+    4.2,
+    5,
+    2.5
    ],
-   "color": "gold",
+   "color": "red",
+   "group": "body",
+   "rot": [
+    0,
+    25,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "dia2",
+   "shape": "ellipsoid",
+   "center": [
+    7.4,
+    14,
+    0.5
+   ],
+   "size": [
+    2,
+    4.5,
+    4
+   ],
+   "color": "red",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "dia3",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    11.6,
+    5.4
+   ],
+   "size": [
+    3.4,
+    3,
+    2
+   ],
+   "color": "red",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "frill",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9.4,
+    0
+   ],
+   "size": [
+    14,
+    3,
+    10.5
+   ],
+   "color": "dk2",
    "group": "body"
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    0
+   ],
+   "size": [
+    8,
+    9,
+    6.5
+   ],
+   "color": "dk",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21.5,
+    2
+   ],
+   "size": [
+    5,
+    6,
+    4
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "ruff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    0.3
+   ],
+   "size": [
+    9,
+    3,
+    7.5
+   ],
+   "color": "dk2",
+   "group": "body"
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -7
+   ],
+   "size": [
+    4.5,
+    4.5,
+    4.5
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    19,
+    1.5
+   ],
+   "size": [
+    2.4,
+    10,
+    2.8
+   ],
+   "color": "white",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    18
+   ],
+   "mirror_x": true
   },
   {
    "name": "head",
    "shape": "ellipsoid",
    "center": [
     0,
-    20,
-    1
+    30.5,
+    0.5
    ],
    "size": [
-    16,
     12,
-    13
+    9,
+    9.5
    ],
-   "color": "wh",
+   "color": "white",
    "group": "head"
   },
   {
-   "name": "eye",
+   "name": "cheek",
    "shape": "ellipsoid",
    "center": [
-    4,
-    20.5,
-    7
+    0,
+    28.7,
+    3.5
    ],
    "size": [
-    3.2,
-    4,
-    1.6
+    8,
+    3.5,
+    4
+   ],
+   "color": "white2",
+   "group": "head"
+  },
+  {
+   "name": "eye_l",
+   "shape": "ellipsoid",
+   "center": [
+    2.6,
+    30.5,
+    4.9
+   ],
+   "size": [
+    2,
+    1.8,
+    1.2
    ],
    "color": "eye",
    "group": "head",
@@ -97,186 +274,154 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    17.5,
-    7.5
+    29,
+    5
    ],
    "size": [
-    2,
-    1.4,
-    1
+    1.6,
+    1.2,
+    1.2
    ],
-   "color": "nose",
+   "color": "dk",
    "group": "head"
   },
   {
-   "name": "earbig",
+   "name": "ear_dk",
    "shape": "ellipsoid",
    "center": [
-    5,
-    29,
-    -2
-   ],
-   "size": [
-    8,
-    16,
-    6
-   ],
-   "color": "blk",
-   "group": "ear",
-   "rot": [
-    0,
-    0,
-    -25
-   ]
-  },
-  {
-   "name": "earbigtip",
-   "shape": "cone",
-   "center": [
-    9,
-    35,
-    -2
+    2.5,
+    38,
+    -0.5
    ],
    "size": [
     5,
-    8,
-    4
-   ],
-   "color": "blk",
-   "group": "ear",
-   "rot": [
-    0,
-    0,
-    -55
-   ]
-  },
-  {
-   "name": "dia",
-   "shape": "box",
-   "center": [
-    7,
-    30,
-    1
-   ],
-   "size": [
-    3,
-    3,
-    0.8
-   ],
-   "color": "gold",
-   "group": "ear",
-   "rot": [
-    0,
-    0,
-    45
-   ]
-  },
-  {
-   "name": "earl",
-   "shape": "ellipsoid",
-   "center": [
-    -6,
-    26,
-    -1
-   ],
-   "size": [
-    5,
-    9,
-    4
-   ],
-   "color": "wh2",
-   "group": "ear",
-   "rot": [
-    0,
-    0,
-    20
-   ]
-  },
-  {
-   "name": "arm",
-   "shape": "ellipsoid",
-   "center": [
-    8,
-    10,
-    3
-   ],
-   "size": [
-    5,
-    9,
+    12,
     5
    ],
-   "color": "wh",
-   "group": "arm_r",
+   "color": "dk",
+   "group": "ear",
    "rot": [
     0,
     0,
     -10
-   ],
-   "mirror_x": true
+   ]
   },
   {
-   "name": "pad",
+   "name": "ear_dk2",
    "shape": "ellipsoid",
    "center": [
-    9,
-    6,
-    5.5
+    4.5,
+    41.5,
+    -1
+   ],
+   "size": [
+    4.2,
+    7,
+    4.2
+   ],
+   "color": "dk",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "mark",
+   "shape": "ellipsoid",
+   "center": [
+    1.6,
+    36,
+    2.2
+   ],
+   "size": [
+    1.6,
+    3,
+    1
+   ],
+   "color": "gold",
+   "group": "ear"
+  },
+  {
+   "name": "pom_r",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    39,
+    -1
+   ],
+   "size": [
+    4.6,
+    4.6,
+    4.6
+   ],
+   "color": "red",
+   "group": "ear"
+  },
+  {
+   "name": "ear_wh",
+   "shape": "ellipsoid",
+   "center": [
+    -6.5,
+    32,
+    -1
+   ],
+   "size": [
+    5.2,
+    11,
+    5
+   ],
+   "color": "white",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    38
+   ]
+  },
+  {
+   "name": "ear_wh2",
+   "shape": "ellipsoid",
+   "center": [
+    -10.5,
+    28.5,
+    -1
    ],
    "size": [
     4.4,
-    3.6,
-    3.4
+    7,
+    4.4
    ],
-   "color": "pink",
-   "group": "arm_r",
-   "mirror_x": true
-  },
-  {
-   "name": "leg",
-   "shape": "ellipsoid",
-   "center": [
-    4,
-    2.5,
-    2
-   ],
-   "size": [
-    5,
-    5,
-    8
-   ],
-   "color": "wh",
-   "group": "leg_fr",
-   "mirror_x": true
-  },
-  {
-   "name": "ruff",
-   "shape": "ellipsoid",
-   "center": [
+   "color": "white",
+   "group": "ear",
+   "rot": [
     0,
-    3,
+    0,
+    55
+   ]
+  },
+  {
+   "name": "pom_l",
+   "shape": "ellipsoid",
+   "center": [
+    -13.5,
+    26.5,
     0
    ],
    "size": [
-    15,
-    5,
-    13
+    4.6,
+    4.6,
+    4.6
    ],
-   "color": "blk",
-   "group": "body"
+   "color": "red",
+   "group": "ear"
   }
  ],
  "refs": [
   {
-   "url": "https://palworld.gg/images/full_palicon/T_ClownRabbit_icon_normal.png",
-   "note": "頭部: 白い体と黄の目、大きな黒い角状の耳に金のひし形、手にピンクの肉球、足元に黒い襟"
-  },
-  {
-   "url": "https://paldb.cc/ja/Dupin",
-   "note": "パルデータベース（アイコンのみ）"
-  },
-  {
-   "url": "https://palworld.wiki.gg/wiki/Dupin",
-   "note": "全身画像なし。胴・脚は推定"
+   "url": "Tools/.refshots/176",
+   "note": "ゲーム内スクショ: 白い顔、黒紫の帽子型耳＋赤ポンポン、赤黒ダイヤ柄ブルマ、細い暗紫の脚"
   }
  ]
 }

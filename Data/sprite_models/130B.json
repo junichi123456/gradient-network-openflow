@@ -1,13 +1,15 @@
 {
- "name": "ライトロット (Starryon Primo)",
+ "name": "ライトロット B",
  "gait": "quad",
  "palette": {
-  "wh": "#eef0f4",
-  "wh2": "#d6dae4",
-  "gold": "#d8b848",
-  "eye": "#40c060",
-  "hoof": "#8a8a96",
-  "mane": "#c8d0e4"
+  "b": "#9a97b4",
+  "b2": "#b2afc8",
+  "d": "#76739a",
+  "m": "#8d89aa",
+  "m2": "#a8a5c2",
+  "gold": "#c49a38",
+  "eye": "#6ab04a",
+  "hoof": "#6a6888"
  },
  "parts": [
   {
@@ -15,15 +17,15 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    17,
+    18,
     -1
    ],
    "size": [
-    11,
     12,
-    24
+    13,
+    26
    ],
-   "color": "wh",
+   "color": "b",
    "group": "body"
   },
   {
@@ -31,15 +33,31 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    18,
-    7
+    19,
+    8
+   ],
+   "size": [
+    11,
+    14,
+    10
+   ],
+   "color": "b",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13.5,
+    -1
    ],
    "size": [
     10,
-    13,
-    9
+    6,
+    20
    ],
-   "color": "wh",
+   "color": "d",
    "group": "body"
   },
   {
@@ -47,15 +65,15 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    24,
-    9
+    25,
+    10
    ],
    "size": [
     7,
     14,
     7
    ],
-   "color": "wh2",
+   "color": "b",
    "group": "head",
    "rot": [
     25,
@@ -68,15 +86,15 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    29,
-    13
+    30,
+    14
    ],
    "size": [
-    7,
     8,
+    9,
     13
    ],
-   "color": "wh",
+   "color": "b",
    "group": "head",
    "rot": [
     -25,
@@ -89,28 +107,28 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    26.5,
-    18
+    27.5,
+    19
    ],
    "size": [
+    5.5,
     5,
-    5,
-    5
+    5.5
    ],
-   "color": "wh2",
+   "color": "b2",
    "group": "head"
   },
   {
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    3.2,
-    30,
-    15
+    3.6,
+    31,
+    16
    ],
    "size": [
     1.6,
-    2,
+    2.2,
     2
    ],
    "color": "eye",
@@ -118,239 +136,300 @@
    "mirror_x": true
   },
   {
+   "name": "horn",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39,
+    17
+   ],
+   "size": [
+    3,
+    12,
+    3
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    35,
+    0,
+    0
+   ]
+  },
+  {
    "name": "ear",
    "shape": "cone",
    "center": [
-    2.8,
-    36,
-    10
-   ],
-   "size": [
-    3.4,
-    10,
-    2.4
-   ],
-   "color": "wh",
-   "group": "head",
-   "rot": [
-    -10,
-    0,
-    -12
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "earg",
-   "shape": "cone",
-   "center": [
-    2.8,
-    35,
+    3.2,
+    37,
     11
    ],
    "size": [
-    1.4,
+    3.6,
     8,
-    1
+    2.6
    ],
-   "color": "gold",
+   "color": "b",
    "group": "head",
    "rot": [
     -10,
     0,
-    -12
+    -14
    ],
    "mirror_x": true
   },
   {
-   "name": "mane",
+   "name": "mane1",
    "shape": "ellipsoid",
    "center": [
     0,
-    31,
-    9
-   ],
-   "size": [
-    4,
-    9,
-    8
-   ],
-   "color": "mane",
-   "group": "head"
-  },
-  {
-   "name": "fgold",
-   "shape": "box",
-   "center": [
-    0,
-    26,
+    32,
     10
    ],
    "size": [
-    0.8,
+    10,
     12,
-    1
+    9
    ],
-   "color": "gold",
-   "group": "head",
-   "rot": [
-    25,
-    0,
-    0
-   ]
+   "color": "m",
+   "group": "head"
   },
   {
-   "name": "flegu",
-   "shape": "cylinder",
+   "name": "mane2",
+   "shape": "ellipsoid",
    "center": [
-    4.5,
-    10,
-    7
+    5,
+    28,
+    12
    ],
    "size": [
     4,
     12,
-    4
+    9
    ],
-   "color": "wh",
-   "group": "leg_fr",
+   "color": "m2",
+   "group": "head",
    "mirror_x": true
   },
   {
-   "name": "flegl",
-   "shape": "cylinder",
-   "center": [
-    4.5,
-    3.5,
-    7.5
-   ],
-   "size": [
-    2.8,
-    8,
-    2.8
-   ],
-   "color": "wh2",
-   "group": "leg_fr",
-   "mirror_x": true
-  },
-  {
-   "name": "fhoof",
-   "shape": "cylinder",
-   "center": [
-    4.5,
-    0.9,
-    7.5
-   ],
-   "size": [
-    3.4,
-    1.8,
-    3.4
-   ],
-   "color": "hoof",
-   "group": "leg_fr",
-   "mirror_x": true
-  },
-  {
-   "name": "blegu",
+   "name": "mane3",
    "shape": "ellipsoid",
    "center": [
-    4.5,
-    11,
-    -9
-   ],
-   "size": [
-    5,
-    13,
-    8
-   ],
-   "color": "wh",
-   "group": "leg_br",
-   "mirror_x": true
-  },
-  {
-   "name": "blegl",
-   "shape": "cylinder",
-   "center": [
-    4.5,
-    3.5,
-    -9.5
-   ],
-   "size": [
-    2.8,
-    8,
-    2.8
-   ],
-   "color": "wh2",
-   "group": "leg_br",
-   "mirror_x": true
-  },
-  {
-   "name": "bhoof",
-   "shape": "cylinder",
-   "center": [
-    4.5,
-    0.9,
-    -9.5
-   ],
-   "size": [
-    3.4,
-    1.8,
-    3.4
-   ],
-   "color": "hoof",
-   "group": "leg_br",
-   "mirror_x": true
-  },
-  {
-   "name": "tail",
-   "shape": "cone",
-   "center": [
     0,
-    14,
-    -16
-   ],
-   "size": [
-    5,
-    14,
+    27,
     5
    ],
-   "color": "mane",
-   "group": "tail",
+   "size": [
+    8,
+    14,
+    8
+   ],
+   "color": "m",
+   "group": "head",
    "rot": [
-    -140,
+    20,
     0,
     0
    ]
   },
   {
-   "name": "tailg",
-   "shape": "cone",
+   "name": "fu",
+   "shape": "ellipsoid",
    "center": [
-    0,
-    13,
-    -17
+    4.8,
+    11,
+    8
    ],
    "size": [
-    1.6,
-    10,
-    1.6
+    4.5,
+    13,
+    5
    ],
-   "color": "gold",
-   "group": "tail",
-   "rot": [
-    -140,
-    0,
-    0
-   ]
-  }
- ],
- "refs": [
-  {
-   "url": "https://palworld.gg/images/full_palicon/T_NightBlueHorse_Neutral_icon_normal.png",
-   "note": "正面: 白銀の馬、長い尖った耳に金の縁取り、緑の目、金の細い線"
+   "color": "b",
+   "group": "leg_fr",
+   "mirror_x": true
   },
   {
-   "url": "https://images.gamepedia.jp/palworld/monster/v2/NightBlueHorse_Neutral.png",
-   "note": "同アイコン(別CDN): 銀白の体色、馬面で首が長い。全身参照は未取得のため体は馬型で推定"
+   "name": "fl",
+   "shape": "cylinder",
+   "center": [
+    4.8,
+    4,
+    8
+   ],
+   "size": [
+    2.6,
+    9,
+    2.6
+   ],
+   "color": "b2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "ff",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    1.6,
+    8
+   ],
+   "size": [
+    5.2,
+    3.2,
+    5.2
+   ],
+   "color": "m2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "bu",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    11,
+    -10
+   ],
+   "size": [
+    5.5,
+    14,
+    8
+   ],
+   "color": "b",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "bl",
+   "shape": "cylinder",
+   "center": [
+    4.8,
+    4,
+    -10
+   ],
+   "size": [
+    2.6,
+    9,
+    2.6
+   ],
+   "color": "b2",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "bf",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    1.6,
+    -10
+   ],
+   "size": [
+    5.2,
+    3.2,
+    5.2
+   ],
+   "color": "m2",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "t1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -15
+   ],
+   "size": [
+    8,
+    9,
+    9
+   ],
+   "color": "m",
+   "group": "tail"
+  },
+  {
+   "name": "t2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -21
+   ],
+   "size": [
+    7,
+    8,
+    10
+   ],
+   "color": "m2",
+   "group": "tail"
+  },
+  {
+   "name": "t3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -27
+   ],
+   "size": [
+    6,
+    7,
+    10
+   ],
+   "color": "m",
+   "group": "tail"
+  },
+  {
+   "name": "t4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -33
+   ],
+   "size": [
+    5,
+    6,
+    10
+   ],
+   "color": "m2",
+   "group": "tail"
+  },
+  {
+   "name": "t5",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    -38
+   ],
+   "size": [
+    4,
+    4,
+    8
+   ],
+   "color": "m",
+   "group": "tail"
+  },
+  {
+   "name": "t6",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    9,
+    -28
+   ],
+   "size": [
+    4,
+    6,
+    11
+   ],
+   "color": "d",
+   "group": "tail",
+   "mirror_x": true
   }
  ]
 }

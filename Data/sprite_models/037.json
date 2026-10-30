@@ -1,46 +1,33 @@
 {
- "name": "ヘルメッコ (Turtacle)",
- "gait": "biped",
+ "name": "ヘルメッコ",
+ "gait": "hover",
  "palette": {
-  "shell": "#2368c4",
-  "shell2": "#1a4f9e",
-  "rim": "#f2f2f0",
-  "rim2": "#f08aa0",
-  "red": "#e83a2c",
-  "cream": "#f0eab4",
-  "tent": "#4a5c54",
-  "eye": "#d83030",
-  "dark": "#1a1c24"
+  "shell": "#1c52b4",
+  "shell2": "#1e5cc2",
+  "rim": "#e2e2e8",
+  "pink": "#e8788c",
+  "red": "#d02e28",
+  "cream": "#e4dcb4",
+  "tent": "#2c3c4a",
+  "eye": "#c82a30",
+  "dark": "#2a3a60",
+  "horn": "#c8302a",
+  "horn2": "#c8302a",
+  "spike": "#cc3029"
  },
  "parts": [
-  {
-   "name": "torso",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    7,
-    1
-   ],
-   "size": [
-    11,
-    13,
-    9
-   ],
-   "color": "cream",
-   "group": "body"
-  },
   {
    "name": "shell",
    "shape": "ellipsoid",
    "center": [
     0,
-    18,
-    -3
+    21,
+    -1
    ],
    "size": [
-    26,
-    21,
-    22
+    31,
+    19,
+    32
    ],
    "color": "shell",
    "group": "body"
@@ -50,13 +37,13 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    22,
-    -4
+    24,
+    -2
    ],
    "size": [
-    18,
-    13,
-    14
+    22,
+    12,
+    22
    ],
    "color": "shell2",
    "group": "body"
@@ -66,43 +53,81 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    12.6,
+    15.2,
     0
    ],
    "size": [
-    26,
-    5,
-    18
+    32,
+    3.6,
+    33
    ],
    "color": "rim",
    "group": "body"
   },
   {
-   "name": "rimin",
+   "name": "under",
    "shape": "ellipsoid",
    "center": [
     0,
-    13,
-    3
+    14.2,
+    0
    ],
    "size": [
-    18,
-    5,
-    11
+    26,
+    3,
+    27
    ],
    "color": "dark",
    "group": "body"
   },
   {
-   "name": "head",
+   "name": "mark",
+   "shape": "box",
+   "center": [
+    10,
+    16,
+    13
+   ],
+   "size": [
+    3.5,
+    3.5,
+    1.4
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    45
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "zig",
+   "shape": "box",
+   "center": [
+    0,
+    17,
+    15
+   ],
+   "size": [
+    10,
+    1.2,
+    1.2
+   ],
+   "color": "rim",
+   "group": "body"
+  },
+  {
+   "name": "face",
    "shape": "ellipsoid",
    "center": [
     0,
-    14,
-    8
+    11,
+    10
    ],
    "size": [
-    12,
+    11,
     9,
     9
    ],
@@ -113,84 +138,73 @@
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    3.8,
-    14.6,
-    12
+    3.4,
+    11.6,
+    14.5
    ],
    "size": [
     3,
-    2.6,
-    1.2
+    2.8,
+    1.4
    ],
    "color": "eye",
    "group": "head",
-   "rot": [
-    0,
-    0,
-    -15
-   ],
    "mirror_x": true
   },
   {
-   "name": "ear",
-   "shape": "cone",
+   "name": "belly",
+   "shape": "ellipsoid",
    "center": [
-    11,
-    13.5,
-    6
+    0,
+    6.5,
+    8
    ],
    "size": [
-    4,
-    5,
-    2
+    4.5,
+    8,
+    4
    ],
-   "color": "rim2",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -90
-   ],
-   "mirror_x": true
+   "color": "cream",
+   "group": "body"
   },
   {
    "name": "horn",
    "shape": "cone",
    "center": [
     0,
-    30,
-    4
+    36,
+    3
    ],
    "size": [
-    5.4,
-    12,
-    5.4
+    8,
+    16,
+    8
    ],
-   "color": "red",
-   "group": "head",
+   "color": "horn",
+   "group": "body",
    "rot": [
-    -25,
+    -8,
     0,
     0
    ]
   },
   {
-   "name": "hornb",
+   "name": "horn2",
    "shape": "cone",
    "center": [
     0,
-    29,
+    33,
     -6
    ],
    "size": [
-    4.6,
-    9,
-    4.6
+    8,
+    13,
+    8
    ],
-   "color": "red",
-   "group": "head",
+   "color": "horn2",
+   "group": "body",
    "rot": [
-    25,
+    12,
     0,
     0
    ]
@@ -199,21 +213,21 @@
    "name": "sp",
    "shape": "cone",
    "center": [
-    11.5,
-    24,
+    18.5,
+    29,
     2
    ],
    "size": [
-    4,
-    8,
-    4
+    9,
+    15,
+    9
    ],
-   "color": "red",
-   "group": "head",
+   "color": "spike",
+   "group": "body",
    "rot": [
     0,
     0,
-    -55
+    -58
    ],
    "mirror_x": true
   },
@@ -221,84 +235,146 @@
    "name": "spb",
    "shape": "cone",
    "center": [
-    11,
-    19,
-    -6
+    16,
+    26,
+    -11
    ],
    "size": [
-    3.6,
-    7,
-    3.6
+    8,
+    13,
+    8
    ],
-   "color": "red",
-   "group": "head",
+   "color": "spike",
+   "group": "body",
    "rot": [
     0,
     0,
-    -85
+    -70
    ],
    "mirror_x": true
   },
   {
-   "name": "tent",
+   "name": "tent_a",
    "shape": "ellipsoid",
    "center": [
     9,
-    7,
-    -3
+    9,
+    2
    ],
    "size": [
-    4,
-    15,
-    4
+    5.5,
+    14,
+    5.5
    ],
    "color": "tent",
    "group": "arm_r",
    "mirror_x": true
   },
   {
-   "name": "arm",
+   "name": "tent_b",
    "shape": "ellipsoid",
    "center": [
-    4.6,
-    5,
+    12.0,
+    4,
     5
    ],
    "size": [
-    3.2,
-    7,
-    3.2
+    9.0,
+    5,
+    6
    ],
-   "color": "cream",
-   "group": "arm_l",
+   "color": "tent",
+   "group": "arm_r",
    "mirror_x": true
   },
   {
-   "name": "foot",
+   "name": "paw",
    "shape": "ellipsoid",
    "center": [
-    3.2,
-    1.6,
-    4
+    17.5,
+    5.5,
+    7
    ],
    "size": [
-    4.6,
-    3.2,
+    7,
+    6,
     6
    ],
-   "color": "cream",
-   "group": "leg_fr",
+   "color": "tent",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "claw1",
+   "shape": "cone",
+   "center": [
+    20.5,
+    8.5,
+    9
+   ],
+   "size": [
+    3.5,
+    7,
+    3.5
+   ],
+   "color": "red",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw2",
+   "shape": "cone",
+   "center": [
+    20.5,
+    4,
+    9
+   ],
+   "size": [
+    3.5,
+    7,
+    3.5
+   ],
+   "color": "red",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -80
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw3",
+   "shape": "cone",
+   "center": [
+    17.5,
+    6.5,
+    11.5
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "red",
+   "group": "arm_r",
+   "rot": [
+    90,
+    0,
+    0
+   ],
    "mirror_x": true
   }
  ],
  "refs": [
   {
-   "url": "Tools/.refcache/037/icon.png",
-   "note": "頭部: 青い兜状の甲羅、白い縁のギザギザ、赤い大角と側面の赤トゲ、赤い目、クリーム色の体、暗い緑灰の触手"
-  },
-  {
-   "url": "https://palworld.wiki.gg/images/Turtacle_icon.png",
-   "note": "wiki側アイコン（全身画像は取得できず、胴・脚は推定）"
+   "url": "Tools/.refshots",
+   "note": "game screenshots"
   }
  ]
 }

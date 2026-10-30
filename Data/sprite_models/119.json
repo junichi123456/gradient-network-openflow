@@ -1,124 +1,168 @@
 {
- "name": "チルウィッチ (Icelyn)",
- "gait": "biped",
+ "name": "チルウィッチ (Ice Witch)",
+ "gait": "hover",
  "palette": {
-  "skin": "#e8f4f8",
-  "hair": "#bfe2ee",
-  "hair2": "#a5d3e4",
-  "hat": "#2f7fa8",
-  "hat2": "#7fc3dc",
-  "collar": "#4fd0e8",
-  "white": "#f4f9fb",
-  "eye": "#f0c040",
-  "eye2": "#4a8ccc",
-  "dk": "#1d3a4f"
+  "hat": "#d8dce8",
+  "hatdk": "#242c40",
+  "body": "#7eb6e0",
+  "body2": "#5a9ad0",
+  "belly": "#a8d0ee",
+  "face": "#4a86c4",
+  "cry": "#58d8d0",
+  "cry2": "#a8f0e8",
+  "dk": "#1c2c6a",
+  "eye": "#e8f4ff"
  },
+ "hover": 6,
+ "refs": [
+  {
+   "url": "Tools/.refshots/119 (in-game screenshots)",
+   "note": "in-game screenshots, all views"
+  }
+ ],
  "parts": [
   {
    "name": "body",
    "shape": "ellipsoid",
    "center": [
     0,
-    12,
+    13,
     0
-   ],
-   "size": [
-    12,
-    14,
-    10
-   ],
-   "color": "white",
-   "group": "body"
-  },
-  {
-   "name": "dress",
-   "shape": "cone",
-   "center": [
-    0,
-    10,
-    0
-   ],
-   "size": [
-    17,
-    14,
-    15
-   ],
-   "color": "white",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    180
-   ]
-  },
-  {
-   "name": "collar",
-   "shape": "cylinder",
-   "center": [
-    0,
-    19,
-    1
-   ],
-   "size": [
-    10,
-    2.4,
-    9
-   ],
-   "color": "collar",
-   "group": "body"
-  },
-  {
-   "name": "head",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    25,
-    2
    ],
    "size": [
     15,
-    13,
-    13
+    15,
+    14
    ],
-   "color": "skin",
-   "group": "head"
+   "color": "body",
+   "group": "body"
   },
   {
-   "name": "hair_l",
+   "name": "belly",
    "shape": "ellipsoid",
    "center": [
-    8.5,
-    20,
-    2
+    0,
+    13,
+    3.5
    ],
    "size": [
-    6,
-    17,
-    8
+    11,
+    12,
+    9
    ],
-   "color": "hair",
-   "group": "head",
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "sk0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6.5,
+    0
+   ],
+   "size": [
+    17,
+    6,
+    16
+   ],
+   "color": "body2",
+   "group": "body"
+  },
+  {
+   "name": "sp0",
+   "shape": "cone",
+   "center": [
+    0,
+    3,
+    5
+   ],
+   "size": [
+    5,
+    7,
+    3
+   ],
+   "color": "belly",
+   "group": "body",
    "rot": [
+    180,
     0,
+    0
+   ]
+  },
+  {
+   "name": "sp1",
+   "shape": "cone",
+   "center": [
+    6,
+    3.5,
+    3
+   ],
+   "size": [
+    5,
+    7,
+    3
+   ],
+   "color": "body",
+   "group": "body",
+   "rot": [
+    180,
     0,
-    6
+    15
    ],
    "mirror_x": true
   },
   {
-   "name": "hair_in",
-   "shape": "ellipsoid",
+   "name": "sp2",
+   "shape": "cone",
    "center": [
-    8,
-    19,
-    4
+    3,
+    3,
+    -6
    ],
    "size": [
-    3.5,
-    12,
-    4
+    5,
+    7,
+    3
    ],
-   "color": "hair2",
+   "color": "belly",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.5,
+    5
+   ],
+   "size": [
+    11,
+    6,
+    7
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    2.6,
+    21,
+    8.5
+   ],
+   "size": [
+    2.2,
+    2.6,
+    1.2
+   ],
+   "color": "eye",
    "group": "head",
    "mirror_x": true
   },
@@ -127,19 +171,35 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    30,
-    0
+    26.5,
+    1
    ],
    "size": [
-    36,
-    3.5,
-    32
+    31,
+    3,
+    31
    ],
    "color": "hat",
    "group": "head"
   },
   {
-   "name": "brim_u",
+   "name": "brimdk",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25.6,
+    1
+   ],
+   "size": [
+    29,
+    1.5,
+    29
+   ],
+   "color": "hatdk",
+   "group": "head"
+  },
+  {
+   "name": "hat1",
    "shape": "ellipsoid",
    "center": [
     0,
@@ -147,98 +207,107 @@
     0
    ],
    "size": [
-    30,
-    2,
-    26
-   ],
-   "color": "hat2",
-   "group": "head"
-  },
-  {
-   "name": "cone",
-   "shape": "cone",
-   "center": [
-    0,
-    38,
-    -2
-   ],
-   "size": [
-    13,
-    13,
-    13
+    11,
+    10,
+    11
    ],
    "color": "hat",
    "group": "head"
   },
   {
-   "name": "tip",
-   "shape": "cone",
+   "name": "hat2",
+   "shape": "ellipsoid",
    "center": [
-    1,
-    46,
-    -3
+    0,
+    37,
+    -1.5
+   ],
+   "size": [
+    7,
+    9,
+    7
+   ],
+   "color": "hat",
+   "group": "head",
+   "rot": [
+    -14,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hat3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41.5,
+    -3.5
    ],
    "size": [
     4,
-    6,
+    7,
     4
    ],
-   "color": "hat2",
+   "color": "hat",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "cr1",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    28,
+    5
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "cry",
    "group": "head",
    "rot": [
     0,
     0,
     -20
-   ]
-  },
-  {
-   "name": "eye_w",
-   "shape": "ellipsoid",
-   "center": [
-    3.7,
-    25.5,
-    7.7
    ],
-   "size": [
-    3.8,
-    4,
-    1.2
-   ],
-   "color": "white",
-   "group": "head",
    "mirror_x": true
   },
   {
-   "name": "eye",
+   "name": "cr2",
    "shape": "ellipsoid",
    "center": [
-    3.8,
-    25.5,
-    8.3
+    0,
+    29,
+    6.5
    ],
    "size": [
-    2.6,
     3,
-    1
+    4,
+    3
    ],
-   "color": "eye",
-   "group": "head",
-   "mirror_x": true
+   "color": "cry2",
+   "group": "head"
   },
   {
-   "name": "pupil",
+   "name": "cr3",
    "shape": "ellipsoid",
    "center": [
-    3.8,
-    25.5,
-    8.8
+    6,
+    33,
+    -4
    ],
    "size": [
-    1.4,
-    2.2,
-    0.8
+    4,
+    4,
+    4
    ],
-   "color": "eye2",
+   "color": "cry",
    "group": "head",
    "mirror_x": true
   },
@@ -246,54 +315,82 @@
    "name": "arm",
    "shape": "ellipsoid",
    "center": [
-    7,
+    9,
     14,
     2
    ],
    "size": [
-    4,
-    9,
-    4
+    5,
+    12,
+    5
    ],
-   "color": "white",
-   "group": "arm_r",
+   "color": "body",
+   "group": "arm_l",
    "rot": [
     0,
     0,
-    -10
+    -14
    ],
    "mirror_x": true
   },
   {
-   "name": "leg",
+   "name": "hand",
    "shape": "ellipsoid",
    "center": [
-    3,
-    2,
-    2
+    11,
+    8,
+    3
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "belly",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "tend",
+   "shape": "ellipsoid",
+   "center": [
+    -9,
+    16,
+    -6
+   ],
+   "size": [
+    6,
+    5,
+    10
+   ],
+   "color": "body2",
+   "group": "tail",
+   "rot": [
+    0,
+    40,
+    0
+   ]
+  },
+  {
+   "name": "tend2",
+   "shape": "ellipsoid",
+   "center": [
+    -14,
+    18,
+    -11
    ],
    "size": [
     5,
     4,
-    7
+    8
    ],
-   "color": "hair",
-   "group": "leg_fr",
-   "mirror_x": true
-  }
- ],
- "refs": [
-  {
-   "url": "https://palworld.gg/images/full_palicon/T_IceWitch_icon_normal.png",
-   "note": "顔アップ: 青い大きな魔女帽子、薄水色の長い耳状の髪、青と金の目、シアンの首輪、白い服"
-  },
-  {
-   "url": "https://palworld.wiki.gg/images/Icelyn_icon.png",
-   "note": "wikiもアイコンのみ(Icelyn Hat iconあり)。体は白いワンピースの小柄な魔女として推定"
-  },
-  {
-   "url": "https://game8.jp/pal-world/799186",
-   "note": "図鑑(画像取得不可): 氷の魔女"
+   "color": "belly",
+   "group": "tail",
+   "rot": [
+    0,
+    40,
+    0
+   ]
   }
  ]
 }

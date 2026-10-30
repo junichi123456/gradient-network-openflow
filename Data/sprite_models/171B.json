@@ -1,46 +1,38 @@
 {
  "name": "ヘルバーン (Eidrolon Ignis)",
- "gait": "quad",
+ "gait": "hover",
+ "hover": 6,
  "palette": {
-  "body": "#34343c",
-  "belly": "#55555f",
-  "dark": "#16161a",
-  "acc": "#f0962a",
-  "eye": "#ff4030",
-  "wing": "#1e1e24",
-  "accw": "#e85a18"
+  "body": "#9a2226",
+  "chest": "#58444c",
+  "neck": "#58444c",
+  "head": "#52404c",
+  "eye": "#f0a020",
+  "streak": "#e07a20",
+  "horn": "#3e2a34",
+  "leg": "#a02428",
+  "claw": "#6a2028",
+  "edge": "#4a3844",
+  "mem": "#4a2e3a",
+  "glow": "#e08a18",
+  "tail": "#4a3844",
+  "tip": "#d86a18"
  },
  "parts": [
   {
-   "name": "body",
+   "name": "torso",
    "shape": "ellipsoid",
    "center": [
     0,
-    15,
+    25,
     0
    ],
    "size": [
-    15,
-    14,
-    24
+    11,
+    19,
+    9
    ],
    "color": "body",
-   "group": "body"
-  },
-  {
-   "name": "belly",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    12,
-    2
-   ],
-   "size": [
-    10,
-    8,
-    20
-   ],
-   "color": "belly",
    "group": "body"
   },
   {
@@ -48,15 +40,15 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    16,
-    9
+    26,
+    3.6
    ],
    "size": [
-    11,
-    12,
-    8
+    6.5,
+    14,
+    3.5
    ],
-   "color": "body",
+   "color": "chest",
    "group": "body"
   },
   {
@@ -64,36 +56,31 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    22,
-    12
+    35,
+    2.5
    ],
    "size": [
-    7,
-    13,
-    7
+    5.5,
+    8,
+    5.5
    ],
-   "color": "body",
-   "group": "head",
-   "rot": [
-    -25,
-    0,
-    0
-   ]
+   "color": "neck",
+   "group": "body"
   },
   {
    "name": "head",
    "shape": "ellipsoid",
    "center": [
     0,
-    28,
-    17
+    40.5,
+    4.5
    ],
    "size": [
     8,
     7,
-    12
+    10
    ],
-   "color": "dark",
+   "color": "head",
    "group": "head"
   },
   {
@@ -101,137 +88,425 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    27,
-    23
+    39.5,
+    9
    ],
    "size": [
     5,
     4,
-    6
+    5
    ],
-   "color": "dark",
-   "group": "head"
-  },
-  {
-   "name": "stripe",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    30.2,
-    18
-   ],
-   "size": [
-    2,
-    1.2,
-    9
-   ],
-   "color": "acc",
+   "color": "head",
    "group": "head"
   },
   {
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    3.4,
-    28.5,
-    19
+    2.8,
+    41.5,
+    7.5
    ],
    "size": [
     2,
-    2.2,
-    1.5
+    1.8,
+    2
    ],
    "color": "eye",
    "group": "head",
    "mirror_x": true
   },
   {
-   "name": "horn",
-   "shape": "cone",
+   "name": "streak",
+   "shape": "ellipsoid",
    "center": [
-    3.5,
-    31,
-    13
+    3.3,
+    43,
+    6
    ],
    "size": [
-    3.4,
-    18,
-    3.4
-   ],
-   "color": "dark",
-   "group": "head",
-   "rot": [
-    -65,
-    0,
-    -8
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "hornacc",
-   "shape": "cone",
-   "center": [
-    3.2,
-    31,
-    14
-   ],
-   "size": [
+    1.4,
     1.6,
-    10,
-    1.6
+    4.5
    ],
-   "color": "acc",
+   "color": "streak",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "ellipsoid",
+   "center": [
+    2.8,
+    47,
+    0
+   ],
+   "size": [
+    3,
+    11,
+    3
+   ],
+   "color": "horn",
    "group": "head",
    "rot": [
-    -65,
+    -35,
     0,
     -8
    ],
    "mirror_x": true
   },
   {
-   "name": "wing",
-   "shape": "wedge",
+   "name": "horn2",
+   "shape": "ellipsoid",
    "center": [
-    14,
-    22,
+    2.2,
+    44.5,
     -4
    ],
    "size": [
-    18,
-    1.6,
-    18
+    2.5,
+    9,
+    2.8
    ],
-   "color": "wing",
-   "group": "wing_l",
+   "color": "horn",
+   "group": "head",
    "rot": [
+    -55,
     0,
-    0,
-    -20
+    -15
    ],
    "mirror_x": true
   },
   {
-   "name": "wing2",
+   "name": "thigh",
    "shape": "ellipsoid",
    "center": [
+    5,
     15,
-    22.6,
-    3
+    0
    ],
    "size": [
-    16,
-    2,
-    3
+    5.5,
+    10,
+    6.5
    ],
-   "color": "accw",
-   "group": "wing_l",
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "shin",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    8,
+    -1
+   ],
+   "size": [
+    3.6,
+    9,
+    4
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    2.5,
+    1.5
+   ],
+   "size": [
+    4,
+    3,
+    6
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "wbone",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    33,
+    -1
+   ],
+   "size": [
+    30,
+    3.5,
+    4
+   ],
+   "color": "edge",
+   "group": "wing_r",
    "rot": [
     0,
     0,
-    -20
+    12
    ],
    "mirror_x": true
+  },
+  {
+   "name": "wbone2",
+   "shape": "ellipsoid",
+   "center": [
+    31,
+    38,
+    -1
+   ],
+   "size": [
+    14,
+    3.2,
+    3.5
+   ],
+   "color": "edge",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    32
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wtip",
+   "shape": "ellipsoid",
+   "center": [
+    37,
+    43,
+    -1
+   ],
+   "size": [
+    6,
+    3,
+    3
+   ],
+   "color": "edge",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    70
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wmem",
+   "shape": "ellipsoid",
+   "center": [
+    17,
+    27,
+    -2
+   ],
+   "size": [
+    27,
+    17,
+    2.6
+   ],
+   "color": "mem",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wmem2",
+   "shape": "ellipsoid",
+   "center": [
+    29,
+    31,
+    -2
+   ],
+   "size": [
+    14,
+    10,
+    2.6
+   ],
+   "color": "mem",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch0",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    28,
+    -0.3
+   ],
+   "size": [
+    6,
+    7,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch1",
+   "shape": "ellipsoid",
+   "center": [
+    16,
+    25,
+    -0.3
+   ],
+   "size": [
+    8,
+    6,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch2",
+   "shape": "ellipsoid",
+   "center": [
+    23,
+    29,
+    -0.3
+   ],
+   "size": [
+    6,
+    7,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch3",
+   "shape": "ellipsoid",
+   "center": [
+    29,
+    32,
+    -0.3
+   ],
+   "size": [
+    5,
+    6,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch4",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    31,
+    -0.3
+   ],
+   "size": [
+    5,
+    5,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch5",
+   "shape": "ellipsoid",
+   "center": [
+    21,
+    23.5,
+    -0.3
+   ],
+   "size": [
+    5,
+    5,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch6",
+   "shape": "ellipsoid",
+   "center": [
+    26,
+    26,
+    -0.3
+   ],
+   "size": [
+    5,
+    5,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -6
+   ],
+   "size": [
+    5,
+    5,
+    7.5
+   ],
+   "color": "tail",
+   "group": "tail"
   },
   {
    "name": "tail1",
@@ -239,14 +514,14 @@
    "center": [
     0,
     13,
-    -14
+    -12
    ],
    "size": [
-    7,
-    7,
-    12
+    4.5,
+    4.5,
+    7.5
    ],
-   "color": "body",
+   "color": "tail",
    "group": "tail"
   },
   {
@@ -254,119 +529,86 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    11,
-    -22
+    10,
+    -19
    ],
    "size": [
-    5,
-    5,
-    10
+    4,
+    4,
+    7.5
    ],
-   "color": "body",
+   "color": "tail",
    "group": "tail"
   },
   {
    "name": "tail3",
-   "shape": "cone",
+   "shape": "ellipsoid",
    "center": [
     0,
-    10,
-    -30
+    8,
+    -26
    ],
    "size": [
-    4,
-    10,
-    4
+    3.6,
+    3.6,
+    7.5
    ],
-   "color": "dark",
-   "group": "tail",
-   "rot": [
-    -90,
-    0,
-    0
-   ]
+   "color": "tail",
+   "group": "tail"
   },
   {
-   "name": "leg_f",
-   "shape": "cylinder",
+   "name": "tail4",
+   "shape": "ellipsoid",
    "center": [
-    5,
-    6,
+    0,
+    7.5,
+    -33
+   ],
+   "size": [
+    3.2,
+    3.2,
+    7.5
+   ],
+   "color": "tail",
+   "group": "tail"
+  },
+  {
+   "name": "tip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -39
+   ],
+   "size": [
+    7,
+    2.5,
     8
    ],
+   "color": "tip",
+   "group": "tail"
+  },
+  {
+   "name": "tip2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -37
+   ],
    "size": [
-    4.5,
-    12,
+    2.5,
+    6,
     5
    ],
-   "color": "body",
-   "group": "leg_fl",
-   "mirror_x": true
-  },
-  {
-   "name": "leg_b",
-   "shape": "cylinder",
-   "center": [
-    5,
-    6,
-    -8
-   ],
-   "size": [
-    5,
-    12,
-    6
-   ],
-   "color": "body",
-   "group": "leg_bl",
-   "mirror_x": true
-  },
-  {
-   "name": "foot_f",
-   "shape": "box",
-   "center": [
-    5,
-    0.8,
-    9.5
-   ],
-   "size": [
-    5,
-    1.6,
-    6
-   ],
-   "color": "dark",
-   "group": "leg_fl",
-   "mirror_x": true
-  },
-  {
-   "name": "foot_b",
-   "shape": "box",
-   "center": [
-    5,
-    0.8,
-    -6.5
-   ],
-   "size": [
-    5,
-    1.6,
-    6
-   ],
-   "color": "dark",
-   "group": "leg_bl",
-   "mirror_x": true
+   "color": "tip",
+   "group": "tail"
   }
  ],
  "refs": [
   {
-   "url": "https://palworld.gg/images/full_palicon/T_GhostDragon_Fire_icon_normal.png",
-   "note": "頭部: 黒い体、橙の筋と角先の炎、赤い目。元種の白→黒、緑青→橙の色違い"
-  },
-  {
-   "url": "https://paldb.cc/ja/Eidrolon_Ignis",
-   "note": "細身の竜。四足＋翼（推定）"
-  },
-  {
-   "url": "https://palworld.wiki.gg/wiki/Eidrolon_Ignis",
-   "note": "全身画像なし。胴・脚・尾は竜型として推定"
+   "url": "Tools/.refshots/171B",
+   "note": "ゲーム内SS: 細身の飛竜、大きく広げた翼(縁取りの太い腕+暗い膜+発光パッチ)、後ろに流れる角2本、長い尾と矢じり先端、脚は垂れ下がる"
   }
  ]
 }

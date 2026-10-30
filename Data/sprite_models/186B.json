@@ -2,15 +2,18 @@
  "name": "ルナクイン (Lyleen Noct)",
  "gait": "biped",
  "palette": {
-  "sk": "#cfd4ee",
-  "sk2": "#5a78c8",
-  "pt": "#2e8f9a",
-  "bd": "#3a5aa8",
-  "face": "#c8d4f0",
-  "eye": "#d83a3a",
-  "hair": "#5a80d0",
-  "fl": "#2ec0c0",
-  "flc": "#7af0e8"
+  "skirt": "#2a2a8a",
+  "skirt2": "#3a3aa8",
+  "front": "#6a9ad8",
+  "front2": "#8cb4e6",
+  "gold": "#a88a50",
+  "face": "#8aaee0",
+  "hair": "#a8c6ec",
+  "teal": "#1aa8a8",
+  "teal2": "#3ad0c0",
+  "eye": "#d84a3a",
+  "brown": "#6a4a2a",
+  "pale": "#c8d8f0"
  },
  "parts": [
   {
@@ -18,99 +21,234 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    7,
-    0
+    9,
+    -1
    ],
    "size": [
-    22,
-    14,
-    20
+    30,
+    18,
+    26
    ],
-   "color": "sk",
+   "color": "skirt",
    "group": "body"
   },
   {
-   "name": "skirt2",
+   "name": "skirtlow",
    "shape": "ellipsoid",
    "center": [
     0,
-    4,
-    0
+    5,
+    -1
    ],
    "size": [
-    26,
-    8,
-    23
+    34,
+    9,
+    28
    ],
-   "color": "sk2",
+   "color": "skirt2",
    "group": "body"
   },
   {
-   "name": "petal1",
+   "name": "front",
    "shape": "ellipsoid",
    "center": [
-    7,
+    0,
     9,
     6
    ],
    "size": [
-    10,
-    8,
+    12,
+    16,
+    12
+   ],
+   "color": "front",
+   "group": "body"
+  },
+  {
+   "name": "frontlow",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    3,
     8
    ],
-   "color": "pt",
+   "size": [
+    14,
+    6,
+    10
+   ],
+   "color": "front2",
+   "group": "body"
+  },
+  {
+   "name": "pt1",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    16,
+    5
+   ],
+   "size": [
+    9,
+    4,
+    9
+   ],
+   "color": "gold",
    "group": "body",
    "rot": [
     0,
     0,
-    -30
+    -25
    ],
    "mirror_x": true
   },
   {
-   "name": "petal2",
+   "name": "pt2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    8
+   ],
+   "size": [
+    9,
+    4,
+    8
+   ],
+   "color": "gold",
+   "group": "body",
+   "rot": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fin",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    6,
+    -2
+   ],
+   "size": [
+    14,
+    5,
+    14
+   ],
+   "color": "skirt",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "spike",
+   "shape": "cone",
+   "center": [
+    18,
+    3,
+    -2
+   ],
+   "size": [
+    8,
+    10,
+    8
+   ],
+   "color": "skirt2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -70
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tailtip",
    "shape": "ellipsoid",
    "center": [
     0,
     6,
-    9
+    -12
    ],
    "size": [
-    10,
-    8,
-    6
+    12,
+    6,
+    8
    ],
-   "color": "pt",
-   "group": "body",
-   "rot": [
-    30,
-    0,
-    0
-   ]
+   "color": "pale",
+   "group": "body"
   },
   {
    "name": "bodice",
    "shape": "ellipsoid",
    "center": [
     0,
-    15,
+    20,
     0
    ],
    "size": [
-    10,
     9,
-    8
+    8,
+    7
    ],
-   "color": "bd",
+   "color": "front",
    "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24.5,
+    3
+   ],
+   "size": [
+    15,
+    2.5,
+    5
+   ],
+   "color": "brown",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "collar2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    25.5,
+    3
+   ],
+   "size": [
+    7,
+    2.5,
+    4
+   ],
+   "color": "brown",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    20
+   ],
+   "mirror_x": true
   },
   {
    "name": "head",
    "shape": "ellipsoid",
    "center": [
     0,
-    23,
-    1
+    29,
+    0
    ],
    "size": [
     13,
@@ -124,13 +262,13 @@
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    3.4,
-    23.5,
-    6.4
+    3.2,
+    29.5,
+    5.6
    ],
    "size": [
-    3,
-    3.8,
+    2.8,
+    3.2,
     1.4
    ],
    "color": "eye",
@@ -138,40 +276,78 @@
    "mirror_x": true
   },
   {
-   "name": "hair",
+   "name": "hairtop",
    "shape": "ellipsoid",
    "center": [
     0,
-    26,
-    -3
+    33,
+    -1
    ],
    "size": [
-    15,
-    10,
-    10
+    13,
+    6,
+    11
    ],
    "color": "hair",
    "group": "head"
   },
   {
-   "name": "hairl",
+   "name": "hb",
    "shape": "ellipsoid",
    "center": [
-    8,
-    17,
-    -2
+    0,
+    29,
+    -5
    ],
    "size": [
-    5,
-    18,
+    14,
+    12,
     5
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "pony",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    31,
+    -1
+   ],
+   "size": [
+    14,
+    5,
+    6
    ],
    "color": "hair",
    "group": "head",
    "rot": [
     0,
     0,
-    -10
+    25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ponyt",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    27,
+    -1
+   ],
+   "size": [
+    8,
+    5,
+    5
+   ],
+   "color": "pale",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    50
    ],
    "mirror_x": true
   },
@@ -179,16 +355,16 @@
    "name": "fl1",
    "shape": "ellipsoid",
    "center": [
-    7,
-    31,
+    5,
+    37,
     0
    ],
    "size": [
     9,
-    3,
+    4,
     9
    ],
-   "color": "fl",
+   "color": "teal",
    "group": "head",
    "rot": [
     0,
@@ -201,139 +377,62 @@
    "name": "fl1c",
    "shape": "ellipsoid",
    "center": [
-    7,
-    32,
+    5,
+    38,
     0
    ],
    "size": [
-    4,
-    2,
-    4
+    5,
+    3,
+    5
    ],
-   "color": "flc",
+   "color": "teal2",
    "group": "head",
-   "rot": [
-    0,
-    0,
-    -20
-   ],
    "mirror_x": true
   },
   {
    "name": "fl2",
    "shape": "ellipsoid",
    "center": [
-    -2,
-    33,
-    -1
+    0,
+    35,
+    -3
    ],
    "size": [
-    9,
-    3,
-    9
-   ],
-   "color": "fl",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    10
-   ]
-  },
-  {
-   "name": "fl2c",
-   "shape": "ellipsoid",
-   "center": [
-    -2,
-    34,
-    -1
-   ],
-   "size": [
-    4,
-    2,
-    4
-   ],
-   "color": "flc",
-   "group": "head"
-  },
-  {
-   "name": "fl3",
-   "shape": "ellipsoid",
-   "center": [
-    10,
-    28,
-    -2
-   ],
-   "size": [
-    7,
-    3,
-    7
-   ],
-   "color": "fl",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -60
-   ]
-  },
-  {
-   "name": "leaf",
-   "shape": "ellipsoid",
-   "center": [
-    10,
-    18,
-    -2
-   ],
-   "size": [
-    5,
     8,
-    2
+    5,
+    6
    ],
-   "color": "hair",
-   "group": "arm_r",
-   "rot": [
-    0,
-    0,
-    -30
-   ],
-   "mirror_x": true
+   "color": "teal",
+   "group": "head"
   },
   {
    "name": "arm",
    "shape": "ellipsoid",
    "center": [
-    7,
-    14,
-    2
+    4,
+    22,
+    3
    ],
    "size": [
     3.5,
-    9,
+    7,
     4
    ],
    "color": "face",
    "group": "arm_r",
    "rot": [
+    30,
     0,
-    0,
-    -10
+    -20
    ],
    "mirror_x": true
   }
  ],
  "refs": [
   {
-   "url": "https://palworld.gg/images/full_palicon/T_LilyQueen_Dark_icon_normal.png",
-   "note": "頭部: 青い髪と青い顔、頭に青緑の百合、赤い目、茶色の襟（元種の緑→青、橙→青緑の色違い）"
-  },
-  {
-   "url": "https://paldb.cc/ja/Lyleen_Noct",
-   "note": "パルデータベース（アイコンのみ）"
-  },
-  {
-   "url": "https://palworld.wiki.gg/wiki/Lyleen_Noct",
-   "note": "元種(リリクイン)の緑→青の色違いとして構成"
+   "url": "Tools/.refshots/186B",
+   "note": "in-game screenshots: indigo starry bell skirt, pale blue face, long pony curls, teal flowers, brown collar"
   }
  ]
 }

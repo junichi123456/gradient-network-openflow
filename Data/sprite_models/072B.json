@@ -1,16 +1,17 @@
 {
- "name": "チョコザラシ (Polapup Terra)",
+ "name": "チョコザラシ",
  "gait": "quad",
  "palette": {
-  "body": "#9a6434",
-  "under": "#6e4222",
-  "face": "#c28c56",
-  "nose": "#2a1a12",
-  "eye": "#22180e",
-  "mouth": "#3a1a14",
-  "tongue": "#e07a7a",
-  "horn": "#d9a560",
-  "hornb": "#8a5a2a"
+  "body": "#4e2e16",
+  "belly": "#5e3a1e",
+  "cap": "#d98c52",
+  "spot": "#e8a888",
+  "muz": "#5e3820",
+  "nose": "#2a2060",
+  "mouth": "#7a2a30",
+  "tongue": "#d86a7a",
+  "horn": "#c4983a",
+  "flip": "#46281a"
  },
  "parts": [
   {
@@ -18,63 +19,128 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    10,
-    -1
+    9.5,
+    -2
    ],
    "size": [
-    19,
-    16,
-    22
+    23,
+    18,
+    32
    ],
    "color": "body",
    "group": "body"
   },
   {
-   "name": "under",
+   "name": "belly",
    "shape": "ellipsoid",
    "center": [
     0,
-    5.5,
+    7,
     2
    ],
    "size": [
     17,
-    8,
-    18
+    13,
+    24
    ],
-   "color": "under",
+   "color": "belly",
    "group": "body"
   },
   {
-   "name": "head",
+   "name": "tail",
    "shape": "ellipsoid",
    "center": [
     0,
-    16,
-    9
+    6,
+    -17
    ],
    "size": [
-    18,
-    15,
-    14
+    10,
+    8,
+    16
    ],
    "color": "body",
+   "group": "tail"
+  },
+  {
+   "name": "fluke",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    4.5,
+    -26
+   ],
+   "size": [
+    16,
+    3,
+    7
+   ],
+   "color": "body",
+   "group": "tail"
+  },
+  {
+   "name": "cap",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    5
+   ],
+   "size": [
+    25,
+    17,
+    23
+   ],
+   "color": "cap",
    "group": "head"
   },
   {
-   "name": "snout",
+   "name": "drip",
    "shape": "ellipsoid",
    "center": [
     0,
-    13.5,
-    16
+    14,
+    4.5
    ],
    "size": [
-    11,
-    8,
-    5
+    26,
+    6.5,
+    23
    ],
-   "color": "face",
+   "color": "cap",
+   "group": "head"
+  },
+  {
+   "name": "spot",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    13.2,
+    11
+   ],
+   "size": [
+    3,
+    2.2,
+    2
+   ],
+   "color": "spot",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    15.5
+   ],
+   "size": [
+    14,
+    9,
+    9
+   ],
+   "color": "muz",
    "group": "head"
   },
   {
@@ -82,63 +148,29 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    16.5,
-    18.4
+    19.5,
+    19.8
    ],
    "size": [
-    3.4,
-    2.4,
-    1.8
+    4.5,
+    2.8,
+    2.2
    ],
    "color": "nose",
    "group": "head"
-  },
-  {
-   "name": "eye",
-   "shape": "ellipsoid",
-   "center": [
-    5,
-    19,
-    14.2
-   ],
-   "size": [
-    2,
-    2.6,
-    1.2
-   ],
-   "color": "eye",
-   "group": "head",
-   "mirror_x": true
-  },
-  {
-   "name": "spot",
-   "shape": "ellipsoid",
-   "center": [
-    3,
-    19.5,
-    16
-   ],
-   "size": [
-    1.2,
-    1.2,
-    0.8
-   ],
-   "color": "eye",
-   "group": "head",
-   "mirror_x": true
   },
   {
    "name": "mouth",
    "shape": "ellipsoid",
    "center": [
     0,
-    11.2,
-    17.6
+    13.5,
+    17
    ],
    "size": [
-    7,
+    9,
     2,
-    2
+    6
    ],
    "color": "mouth",
    "group": "head"
@@ -148,114 +180,82 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    9.8,
-    18.6
+    12.2,
+    19.5
    ],
    "size": [
-    4,
-    1.6,
-    3
+    6.5,
+    2,
+    8
    ],
    "color": "tongue",
    "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    21.5,
+    14
+   ],
+   "size": [
+    2.4,
+    2.4,
+    2
+   ],
+   "color": "nose",
+   "group": "head",
+   "mirror_x": true
   },
   {
    "name": "horn",
    "shape": "cone",
    "center": [
     0,
-    25.5,
-    9
+    29,
+    3.5
    ],
    "size": [
-    6,
     10,
-    6
+    13,
+    10
    ],
    "color": "horn",
    "group": "head",
    "rot": [
-    -8,
+    -12,
     0,
     0
    ]
   },
   {
-   "name": "hornb",
-   "shape": "cylinder",
-   "center": [
-    0,
-    22.4,
-    9
-   ],
-   "size": [
-    8,
-    2,
-    8
-   ],
-   "color": "hornb",
-   "group": "head"
-  },
-  {
    "name": "flip",
    "shape": "ellipsoid",
    "center": [
-    9.5,
-    5,
-    6
+    12.5,
+    3.2,
+    7
    ],
    "size": [
-    4,
-    3,
-    8
+    9,
+    4.5,
+    10
    ],
-   "color": "under",
+   "color": "flip",
    "group": "leg_fr",
    "rot": [
     0,
-    0,
-    -20
+    25,
+    0
    ],
    "mirror_x": true
-  },
-  {
-   "name": "flipb",
-   "shape": "ellipsoid",
-   "center": [
-    6,
-    2,
-    -9
-   ],
-   "size": [
-    6,
-    3,
-    9
-   ],
-   "color": "under",
-   "group": "leg_bl",
-   "mirror_x": true
-  },
-  {
-   "name": "tail",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    4,
-    -13
-   ],
-   "size": [
-    8,
-    3,
-    6
-   ],
-   "color": "under",
-   "group": "tail"
   }
  ],
  "refs": [
   {
-   "url": "https://palworld.gg/images/full_palicon/T_IceSeal_Ground_icon_normal.png",
-   "note": "アイコンのみ(全身画像は取得できず): 茶色の毛・濃い茶の下半身・頭にワッフルコーン状の角・黒い鼻・ピンクの舌"
+   "url": "Tools/.refshots",
+   "note": "game screenshots"
   }
  ]
 }

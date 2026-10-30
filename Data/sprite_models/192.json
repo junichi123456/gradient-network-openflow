@@ -2,16 +2,18 @@
  "name": "シャオロン (Shaolong)",
  "gait": "slither",
  "palette": {
-  "body": "#b9dbe8",
-  "body2": "#dcecf2",
-  "dk": "#1c4a62",
-  "dk2": "#2a6e86",
-  "gold": "#cf9a3a",
-  "whisk": "#34b4dc",
-  "gem": "#7ae8e8",
-  "eye": "#e070c8",
-  "claw": "#f0ece0",
-  "fin": "#2f9cc4"
+  "body": "#2a74c0",
+  "body2": "#a8d0ea",
+  "dk": "#1a1f4a",
+  "dk2": "#2a3470",
+  "gold": "#c89030",
+  "whisk": "#2ab0b8",
+  "gem": "#5adcc8",
+  "eye": "#e04080",
+  "claw": "#e8e4d8",
+  "fin": "#8a88c8",
+  "white": "#dcdcf0",
+  "white2": "#b8bcd8"
  },
  "parts": [
   {
@@ -56,8 +58,8 @@
    ],
    "size": [
     3,
-    6,
-    3
+    7,
+    4
    ],
    "color": "fin",
    "group": "body",
@@ -109,8 +111,8 @@
    ],
    "size": [
     3,
-    6,
-    3
+    7,
+    4
    ],
    "color": "fin",
    "group": "body",
@@ -162,8 +164,8 @@
    ],
    "size": [
     3,
-    6,
-    3
+    7,
+    4
    ],
    "color": "fin",
    "group": "body",
@@ -215,8 +217,8 @@
    ],
    "size": [
     3,
-    6,
-    3
+    7,
+    4
    ],
    "color": "fin",
    "group": "body",
@@ -268,8 +270,8 @@
    ],
    "size": [
     3,
-    6,
-    3
+    7,
+    4
    ],
    "color": "fin",
    "group": "head",
@@ -305,8 +307,8 @@
    ],
    "size": [
     3,
-    5,
-    3
+    7,
+    4
    ],
    "color": "fin",
    "group": "tail",
@@ -342,8 +344,8 @@
    ],
    "size": [
     3,
-    5,
-    3
+    7,
+    4
    ],
    "color": "fin",
    "group": "tail",
@@ -379,8 +381,8 @@
    ],
    "size": [
     3,
-    5,
-    3
+    7,
+    4
    ],
    "color": "fin",
    "group": "tail",
@@ -392,21 +394,21 @@
   },
   {
    "name": "tailtip",
-   "shape": "cone",
+   "shape": "ellipsoid",
    "center": [
     0,
-    18,
-    -27
+    22,
+    -28
    ],
    "size": [
-    4,
-    10,
-    4
+    3,
+    16,
+    7
    ],
-   "color": "fin",
+   "color": "white",
    "group": "tail",
    "rot": [
-    -140,
+    20,
     0,
     0
    ]
@@ -477,34 +479,82 @@
    "mirror_x": true
   },
   {
-   "name": "horn",
-   "shape": "cone",
+   "name": "crest",
+   "shape": "ellipsoid",
    "center": [
-    3.5,
-    42,
-    6
+    0,
+    44,
+    2
    ],
    "size": [
-    3.6,
-    18,
-    3.6
+    30,
+    22,
+    20
    ],
-   "color": "gold",
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "crestb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    -4
+   ],
+   "size": [
+    32,
+    24,
+    14
+   ],
+   "color": "white2",
+   "group": "head"
+  },
+  {
+   "name": "crl",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    48,
+    0
+   ],
+   "size": [
+    9,
+    20,
+    9
+   ],
+   "color": "white",
    "group": "head",
    "rot": [
-    -55,
     0,
-    -25
+    0,
+    -20
    ],
    "mirror_x": true
   },
   {
-   "name": "horn2",
-   "shape": "cone",
+   "name": "crc",
+   "shape": "ellipsoid",
    "center": [
-    2.5,
-    40,
-    4
+    0,
+    52,
+    0
+   ],
+   "size": [
+    10,
+    18,
+    9
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "hy",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    45,
+    10
    ],
    "size": [
     3,
@@ -512,79 +562,67 @@
     3
    ],
    "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "hyl",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    50,
+    10
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "gold",
    "group": "head",
    "rot": [
-    -75,
     0,
-    -10
+    0,
+    -30
    ],
    "mirror_x": true
   },
   {
    "name": "whisk",
-   "shape": "cone",
+   "shape": "ellipsoid",
    "center": [
-    6,
-    32,
-    15
+    9,
+    30,
+    13
    ],
    "size": [
-    1,
-    18,
-    1
+    2,
+    2,
+    16
    ],
    "color": "whisk",
    "group": "head",
    "rot": [
-    -70,
     0,
-    -60
+    -30,
+    0
    ],
    "mirror_x": true
   },
   {
-   "name": "arm",
+   "name": "tl",
    "shape": "ellipsoid",
    "center": [
-    9,
-    15,
-    6
+    0,
+    20,
+    -30
    ],
    "size": [
-    4,
-    9,
-    4
-   ],
-   "color": "body",
-   "group": "arm_r",
-   "rot": [
-    0,
-    0,
-    -20
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "claw",
-   "shape": "cone",
-   "center": [
-    11,
+    3,
     10,
-    7
+    5
    ],
-   "size": [
-    2,
-    4,
-    2
-   ],
-   "color": "claw",
-   "group": "arm_r",
-   "rot": [
-    0,
-    0,
-    -20
-   ],
-   "mirror_x": true
+   "color": "white",
+   "group": "tail"
   }
  ],
  "refs": [

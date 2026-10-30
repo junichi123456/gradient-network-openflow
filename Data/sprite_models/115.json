@@ -1,71 +1,88 @@
 {
- "name": "マジョルナ (Majex)",
+ "name": "マジョルナ (Witch)",
  "gait": "biped",
  "palette": {
-  "skin": "#f1d9b8",
-  "hair": "#6b3a8c",
-  "hair2": "#4a2a63",
-  "pink": "#f04ec0",
-  "pink2": "#ff8de0",
-  "red": "#d8284a",
-  "dress": "#3a2748",
-  "dress2": "#7a4d9c",
-  "tail": "#4b2d66",
-  "white": "#ffffff",
-  "dk": "#241532"
+  "hair": "#3c1c5c",
+  "hair2": "#52287a",
+  "skin": "#b09a8c",
+  "skin2": "#8c766c",
+  "dress": "#2c1a24",
+  "dress2": "#442a38",
+  "pink": "#e84cc8",
+  "pink2": "#f08ae0",
+  "eye": "#e06aa0",
+  "leg": "#2a1820",
+  "blk": "#1c1018"
  },
+ "refs": [
+  {
+   "url": "Tools/.refshots/115 (in-game screenshots)",
+   "note": "in-game screenshots, all views"
+  }
+ ],
  "parts": [
   {
-   "name": "body",
+   "name": "torso",
    "shape": "ellipsoid",
    "center": [
     0,
-    13,
+    26,
     0
    ],
    "size": [
-    12,
-    15,
-    10
+    8,
+    8,
+    6
+   ],
+   "color": "dress2",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    1
+   ],
+   "size": [
+    9,
+    3.5,
+    7
+   ],
+   "color": "dress2",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    13,
+    11,
+    11
    ],
    "color": "dress",
    "group": "body"
   },
   {
-   "name": "skirt",
-   "shape": "cone",
-   "center": [
-    0,
-    11,
-    0
-   ],
-   "size": [
-    18,
-    15,
-    16
-   ],
-   "color": "dress2",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    180
-   ]
-  },
-  {
-   "name": "neck_fur",
+   "name": "frill",
    "shape": "ellipsoid",
    "center": [
     0,
-    21,
-    4
+    13.5,
+    0
    ],
    "size": [
-    14,
-    5,
-    8
+    16,
+    3.5,
+    14
    ],
-   "color": "dk",
+   "color": "dress2",
    "group": "body"
   },
   {
@@ -73,291 +90,288 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    25,
-    2
+    35,
+    1
    ],
    "size": [
-    15,
-    13,
-    13
+    12,
+    10,
+    10
    ],
    "color": "skin",
    "group": "head"
   },
   {
-   "name": "hair",
+   "name": "hairb",
    "shape": "ellipsoid",
    "center": [
     0,
-    28,
-    -2
+    37,
+    -1.5
    ],
    "size": [
-    19,
-    12,
-    15
+    14,
+    11,
+    9
    ],
    "color": "hair",
    "group": "head"
-  },
-  {
-   "name": "side_hair",
-   "shape": "ellipsoid",
-   "center": [
-    8.5,
-    22,
-    0
-   ],
-   "size": [
-    5,
-    12,
-    8
-   ],
-   "color": "hair2",
-   "group": "head",
-   "mirror_x": true
   },
   {
    "name": "bang",
    "shape": "ellipsoid",
    "center": [
     0,
-    29,
-    5
-   ],
-   "size": [
-    14,
-    4,
-    5
-   ],
-   "color": "hair",
-   "group": "head"
-  },
-  {
-   "name": "ear",
-   "shape": "cone",
-   "center": [
-    6,
-    34,
-    0
-   ],
-   "size": [
-    6,
-    10,
+    38.5,
     3
    ],
-   "color": "hair",
-   "group": "ear",
-   "rot": [
-    0,
-    0,
-    -15
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "ear_in",
-   "shape": "cone",
-   "center": [
-    6,
-    33,
-    0.8
-   ],
    "size": [
-    3.5,
-    7,
-    2
-   ],
-   "color": "dk",
-   "group": "ear",
-   "rot": [
-    0,
-    0,
-    -15
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "flame",
-   "shape": "cone",
-   "center": [
-    0,
-    38,
-    -3
-   ],
-   "size": [
-    8,
     13,
-    8
-   ],
-   "color": "pink",
-   "group": "head"
-  },
-  {
-   "name": "flame2",
-   "shape": "cone",
-   "center": [
-    -4,
-    36,
-    -4
-   ],
-   "size": [
     5,
-    9,
     5
    ],
-   "color": "pink2",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    20
-   ]
-  },
-  {
-   "name": "eye_w",
-   "shape": "ellipsoid",
-   "center": [
-    3.6,
-    25,
-    7.5
-   ],
-   "size": [
-    3.4,
-    3.8,
-    1.2
-   ],
-   "color": "white",
-   "group": "head",
-   "mirror_x": true
+   "color": "hair",
+   "group": "head"
   },
   {
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    3.7,
-    25,
-    8.2
+    3,
+    35,
+    6
    ],
    "size": [
-    2,
+    2.4,
     2.8,
-    1
+    1.2
    ],
-   "color": "red",
+   "color": "eye",
    "group": "head",
    "mirror_x": true
   },
   {
-   "name": "mouth",
-   "shape": "box",
+   "name": "ear",
+   "shape": "ellipsoid",
    "center": [
-    0,
-    21.5,
-    8
+    5.5,
+    43.5,
+    -1
    ],
    "size": [
-    1.5,
-    0.6,
-    0.6
-   ],
-   "color": "dk",
-   "group": "head"
-  },
-  {
-   "name": "arm",
-   "shape": "cylinder",
-   "center": [
+    4.5,
     8,
-    15,
-    1
+    4
    ],
-   "size": [
-    3,
-    10,
-    3
-   ],
-   "color": "skin",
-   "group": "arm_r",
+   "color": "hair",
+   "group": "head",
    "rot": [
     0,
     0,
-    -12
+    -14
    ],
    "mirror_x": true
   },
   {
-   "name": "leg",
-   "shape": "cylinder",
-   "center": [
-    3,
-    3,
-    0
-   ],
-   "size": [
-    3.4,
-    6,
-    3.4
-   ],
-   "color": "dress2",
-   "group": "leg_fr",
-   "mirror_x": true
-  },
-  {
-   "name": "tail",
+   "name": "hflame",
    "shape": "ellipsoid",
    "center": [
     0,
-    8,
-    -12
+    43,
+    -2
    ],
    "size": [
-    9,
-    9,
-    17
+    5,
+    5,
+    5
    ],
-   "color": "tail",
-   "group": "tail",
-   "rot": [
-    -20,
-    0,
-    0
-   ]
+   "color": "pink",
+   "group": "head"
   },
   {
-   "name": "tail_f",
-   "shape": "cone",
+   "name": "tw",
+   "shape": "ellipsoid",
    "center": [
-    0,
-    13,
-    -19
+    8,
+    33,
+    -3
    ],
    "size": [
-    7,
+    6,
+    13,
+    6
+   ],
+   "color": "hair2",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tw2",
+   "shape": "ellipsoid",
+   "center": [
     10,
+    23,
+    -3
+   ],
+   "size": [
+    6,
+    12,
+    6
+   ],
+   "color": "hair",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "twfl",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    14,
+    -3
+   ],
+   "size": [
+    8,
+    11,
     7
    ],
    "color": "pink",
    "group": "tail",
+   "mirror_x": true
+  },
+  {
+   "name": "twfl2",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    10,
+    -3
+   ],
+   "size": [
+    5,
+    6,
+    5
+   ],
+   "color": "pink2",
+   "group": "tail",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    26,
+    1
+   ],
+   "size": [
+    4.5,
+    8,
+    4.5
+   ],
+   "color": "skin",
+   "group": "arm_l",
    "rot": [
-    -40,
     0,
+    0,
+    12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "slv",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    21.5,
+    1.5
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "skin",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    17.5,
+    2
+   ],
+   "size": [
+    3.5,
+    4,
+    3.5
+   ],
+   "color": "dress",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "legU",
+   "shape": "cylinder",
+   "center": [
+    2.5,
+    6.5,
     0
-   ]
-  }
- ],
- "refs": [
-  {
-   "url": "https://palworld.gg/images/full_palicon/T_DarkFlameFox_icon_normal.png",
-   "note": "顔アップのみ: 紫の大きな髪とピンクの炎の頭飾り、紫の三角耳(内側は黒)、赤い目、クリーム色の肌、首に黒い毛皮の襟"
+   ],
+   "size": [
+    2.2,
+    13,
+    2.2
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
   },
   {
-   "url": "https://palworld.wiki.gg/images/Majex_icon.png",
-   "note": "wikiもアイコンのみ。体は魔女風のドレス＋炎の尾で推定"
+   "name": "flame",
+   "shape": "ellipsoid",
+   "center": [
+    2.5,
+    3,
+    1
+   ],
+   "size": [
+    5,
+    6,
+    6
+   ],
+   "color": "pink",
+   "group": "leg_fl",
+   "mirror_x": true
   },
   {
-   "url": "https://game8.jp/pal-world/799192",
-   "note": "図鑑ページ(画像取得不可): 闇炎の狐、魔女"
+   "name": "flame2",
+   "shape": "ellipsoid",
+   "center": [
+    2.5,
+    1,
+    2
+   ],
+   "size": [
+    3.5,
+    2.5,
+    4.5
+   ],
+   "color": "pink2",
+   "group": "leg_fl",
+   "mirror_x": true
   }
  ]
 }

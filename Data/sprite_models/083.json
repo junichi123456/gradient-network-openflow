@@ -1,82 +1,116 @@
 {
- "name": "ムラクモ (Fenglope)",
+ "name": "ムラクモ",
  "gait": "quad",
  "palette": {
-  "body": "#6a5cb4",
-  "body2": "#8a80c8",
-  "cloud": "#f4f4f8",
-  "horn": "#c6cef2",
-  "eye": "#c03030",
-  "hoof": "#f0ecf0",
-  "earin": "#e8a040",
-  "blk": "#1a1a22"
+  "ind": "#383a96",
+  "ind2": "#4a4aa6",
+  "cloud": "#a4a8dc",
+  "cloud2": "#c0c2ea",
+  "orange": "#b87828",
+  "eye": "#b02828",
+  "hoof": "#9a7840",
+  "pat": "#7a78c8",
+  "blk": "#1a1a28"
  },
  "parts": [
   {
    "name": "body",
    "shape": "ellipsoid",
    "center": [
-    0,
-    19,
-    0
+    0.0,
+    16.32,
+    0.0
    ],
    "size": [
-    13,
-    14,
-    20
+    14.3,
+    8.84,
+    19.5
    ],
-   "color": "body",
+   "color": "ind",
    "group": "body"
   },
   {
-   "name": "chest",
+   "name": "cloudb",
    "shape": "ellipsoid",
    "center": [
-    0,
-    19,
-    8
+    0.0,
+    20.4,
+    -0.75
    ],
    "size": [
-    13,
-    14,
-    8
+    22.1,
+    6.8,
+    17.25
    ],
    "color": "cloud",
    "group": "body"
   },
   {
-   "name": "rump",
+   "name": "cloudf",
    "shape": "ellipsoid",
    "center": [
-    0,
-    20,
-    -9
+    0.0,
+    20.06,
+    6.38
    ],
    "size": [
-    12,
-    12,
-    9
+    23.4,
+    8.16,
+    8.25
+   ],
+   "color": "cloud2",
+   "group": "body"
+  },
+  {
+   "name": "cloudr",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    19.38,
+    -7.5
+   ],
+   "size": [
+    19.5,
+    6.8,
+    7.5
    ],
    "color": "cloud",
    "group": "body"
+  },
+  {
+   "name": "pat",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    14.96,
+    -6.0
+   ],
+   "size": [
+    2.6,
+    4.76,
+    5.25
+   ],
+   "color": "pat",
+   "group": "body",
+   "mirror_x": true
   },
   {
    "name": "neck",
    "shape": "ellipsoid",
    "center": [
-    0,
-    28,
-    9
+    0.0,
+    23.8,
+    8.25
    ],
    "size": [
-    7,
-    15,
-    8
+    8.45,
+    10.2,
+    4.88
    ],
-   "color": "body2",
+   "color": "ind",
    "group": "head",
    "rot": [
-    -20,
+    -18,
     0,
     0
    ]
@@ -85,46 +119,46 @@
    "name": "head",
    "shape": "ellipsoid",
    "center": [
-    0,
-    35,
-    13
+    0.0,
+    28.9,
+    10.88
    ],
    "size": [
-    8,
-    8,
-    13
+    9.1,
+    5.1,
+    8.25
    ],
-   "color": "body2",
+   "color": "ind2",
    "group": "head"
   },
   {
    "name": "muzzle",
    "shape": "ellipsoid",
    "center": [
-    0,
-    33,
-    19
+    0.0,
+    27.88,
+    15.0
    ],
    "size": [
-    5.5,
-    5,
-    6
+    5.98,
+    3.13,
+    4.5
    ],
-   "color": "body",
+   "color": "ind",
    "group": "head"
   },
   {
    "name": "nose",
    "shape": "ellipsoid",
    "center": [
-    0,
-    33.5,
-    22
+    0.0,
+    28.22,
+    17.25
    ],
    "size": [
-    2.4,
-    2,
-    2
+    2.86,
+    1.36,
+    1.5
    ],
    "color": "blk",
    "group": "head"
@@ -133,13 +167,13 @@
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    3.6,
-    36,
-    15
+    4.42,
+    29.58,
+    12.38
    ],
    "size": [
-    2,
-    2.2,
+    2.34,
+    1.36,
     1.2
    ],
    "color": "eye",
@@ -147,24 +181,46 @@
    "mirror_x": true
   },
   {
-   "name": "ear",
+   "name": "tuft",
    "shape": "ellipsoid",
    "center": [
-    5,
-    38,
-    9
+    6.76,
+    28.22,
+    8.25
    ],
    "size": [
-    2.6,
-    8,
-    5
+    4.55,
+    3.4,
+    3.75
    ],
-   "color": "body",
+   "color": "ind2",
    "group": "head",
    "rot": [
     0,
     0,
-    -45
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5.85,
+    32.3,
+    8.25
+   ],
+   "size": [
+    5.2,
+    6.8,
+    3.0
+   ],
+   "color": "ind",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
    ],
    "mirror_x": true
   },
@@ -172,198 +228,80 @@
    "name": "earin",
    "shape": "ellipsoid",
    "center": [
-    5.4,
-    38,
-    10
+    6.24,
+    32.3,
+    9.15
    ],
    "size": [
-    1.6,
-    6,
-    3.4
+    3.12,
+    4.76,
+    1.8
    ],
-   "color": "earin",
+   "color": "orange",
    "group": "head",
    "rot": [
     0,
     0,
-    -45
+    -30
    ],
    "mirror_x": true
   },
   {
    "name": "horn",
-   "shape": "cone",
+   "shape": "ellipsoid",
    "center": [
-    2.6,
-    41,
-    9
+    3.9,
+    36.72,
+    7.5
    ],
    "size": [
-    4,
-    12,
-    4
+    5.2,
+    12.24,
+    3.0
    ],
-   "color": "horn",
+   "color": "cloud2",
    "group": "head",
    "rot": [
-    -40,
     0,
-    -10
+    0,
+    -8
    ],
    "mirror_x": true
   },
   {
    "name": "horn2",
-   "shape": "cone",
+   "shape": "ellipsoid",
    "center": [
-    1.5,
-    42,
-    5
+    8.45,
+    38.76,
+    7.5
    ],
    "size": [
-    3,
-    9,
-    3
+    3.9,
+    6.12,
+    2.25
    ],
-   "color": "horn",
+   "color": "cloud2",
    "group": "head",
    "rot": [
-    -55,
     0,
-    -5
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "mane",
-   "shape": "ellipsoid",
-   "center": [
     0,
-    29,
-    5
+    -35
    ],
-   "size": [
-    10,
-    10,
-    9
-   ],
-   "color": "cloud",
-   "group": "head"
-  },
-  {
-   "name": "legleg_fl",
-   "shape": "cylinder",
-   "center": [
-    4.5,
-    8,
-    6
-   ],
-   "size": [
-    3.4,
-    16,
-    3.8
-   ],
-   "color": "body2",
-   "group": "leg_fl",
-   "mirror_x": true
-  },
-  {
-   "name": "puffleg_fl",
-   "shape": "ellipsoid",
-   "center": [
-    4.5,
-    3,
-    6
-   ],
-   "size": [
-    6,
-    5,
-    7
-   ],
-   "color": "cloud",
-   "group": "leg_fl",
-   "mirror_x": true
-  },
-  {
-   "name": "hoofleg_fl",
-   "shape": "cylinder",
-   "center": [
-    4.5,
-    0.8,
-    6.5
-   ],
-   "size": [
-    3.8,
-    1.8,
-    4.2
-   ],
-   "color": "hoof",
-   "group": "leg_fl",
-   "mirror_x": true
-  },
-  {
-   "name": "legleg_bl",
-   "shape": "cylinder",
-   "center": [
-    4.5,
-    8,
-    -7
-   ],
-   "size": [
-    3.4,
-    16,
-    3.8
-   ],
-   "color": "body2",
-   "group": "leg_bl",
-   "mirror_x": true
-  },
-  {
-   "name": "puffleg_bl",
-   "shape": "ellipsoid",
-   "center": [
-    4.5,
-    3,
-    -7
-   ],
-   "size": [
-    6,
-    5,
-    7
-   ],
-   "color": "cloud",
-   "group": "leg_bl",
-   "mirror_x": true
-  },
-  {
-   "name": "hoofleg_bl",
-   "shape": "cylinder",
-   "center": [
-    4.5,
-    0.8,
-    -6.5
-   ],
-   "size": [
-    3.8,
-    1.8,
-    4.2
-   ],
-   "color": "hoof",
-   "group": "leg_bl",
    "mirror_x": true
   },
   {
    "name": "tail",
    "shape": "ellipsoid",
    "center": [
-    0,
-    22,
-    -14
+    0.0,
+    18.36,
+    -12.0
    ],
    "size": [
-    7,
-    8,
-    10
+    10.4,
+    6.12,
+    8.25
    ],
    "color": "cloud",
    "group": "tail",
@@ -372,20 +310,135 @@
     0,
     0
    ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    21.08,
+    -15.0
+   ],
+   "size": [
+    6.5,
+    5.44,
+    4.5
+   ],
+   "color": "cloud2",
+   "group": "tail",
+   "rot": [
+    40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    5.2,
+    7.48,
+    6.0
+   ],
+   "size": [
+    4.42,
+    14.96,
+    2.85
+   ],
+   "color": "ind",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "puff_f",
+   "shape": "ellipsoid",
+   "center": [
+    5.2,
+    2.72,
+    6.0
+   ],
+   "size": [
+    7.8,
+    3.4,
+    5.25
+   ],
+   "color": "cloud2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_f",
+   "shape": "cylinder",
+   "center": [
+    5.2,
+    0.54,
+    6.38
+   ],
+   "size": [
+    4.94,
+    1.22,
+    3.15
+   ],
+   "color": "hoof",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    5.2,
+    7.48,
+    -6.0
+   ],
+   "size": [
+    4.42,
+    14.96,
+    2.85
+   ],
+   "color": "ind",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "puff_b",
+   "shape": "ellipsoid",
+   "center": [
+    5.2,
+    2.72,
+    -6.0
+   ],
+   "size": [
+    7.8,
+    3.4,
+    5.25
+   ],
+   "color": "cloud2",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_b",
+   "shape": "cylinder",
+   "center": [
+    5.2,
+    0.54,
+    -5.62
+   ],
+   "size": [
+    4.94,
+    1.22,
+    3.15
+   ],
+   "color": "hoof",
+   "group": "leg_bl",
+   "mirror_x": true
   }
  ],
  "refs": [
   {
-   "url": "https://palworld.gg/images/full_palicon/T_FengyunDeeper_icon_normal.png",
-   "note": "正面: 長く後方へ湾曲した角、橙の耳内側、細い鼻先"
-  },
-  {
-   "url": "https://palworld.wiki.gg/wiki/Fenglope",
-   "note": "全身(ゲーム内): 鹿型の四足、胸・脚・尾に白い雲の房、蹄は白と橙"
-  },
-  {
-   "url": "https://game8.jp/pal-world/799247",
-   "note": "紫青の体、白い雲の房、淡い藤色の角"
+   "url": "Tools/.refshots/083",
+   "note": "game screenshots"
   }
  ]
 }

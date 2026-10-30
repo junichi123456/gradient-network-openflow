@@ -1,44 +1,44 @@
 {
- "name": "ウゴクゾー (Dualith)",
+ "name": "ウゴクゾー",
  "gait": "biped",
  "palette": {
-  "st": "#7e8188",
-  "st2": "#6a6d74",
-  "dk": "#26282e",
-  "sp": "#4ee8c8",
-  "face": "#10302c",
+  "st": "#666a73",
+  "st2": "#575b64",
+  "dk": "#20252a",
+  "sp": "#6ee8b8",
+  "glow": "#38e0e8",
   "stem": "#4a8a3a",
-  "glow": "#4ee8f0"
+  "moss": "#3f6a34"
  },
  "parts": [
   {
-   "name": "slab",
+   "name": "torso",
    "shape": "box",
    "center": [
     0,
-    14,
+    22,
     0
    ],
    "size": [
-    24,
-    26,
-    14
+    15,
+    15,
+    12
    ],
    "color": "st",
    "group": "body"
   },
   {
-   "name": "slabtop",
+   "name": "chest",
    "shape": "box",
    "center": [
     0,
-    28.5,
-    0
+    26,
+    0.5
    ],
    "size": [
-    24,
-    3,
-    14
+    13,
+    7,
+    12
    ],
    "color": "st2",
    "group": "body"
@@ -48,79 +48,15 @@
    "shape": "box",
    "center": [
     0,
-    13,
-    6.6
+    21.5,
+    5.8
    ],
    "size": [
-    15,
-    17,
-    2
-   ],
-   "color": "dk",
-   "group": "body"
-  },
-  {
-   "name": "holein",
-   "shape": "box",
-   "center": [
-    0,
-    13,
-    -6.5
-   ],
-   "size": [
-    15,
-    17,
+    6,
+    6,
     1
    ],
    "color": "dk",
-   "group": "body"
-  },
-  {
-   "name": "slabl",
-   "shape": "box",
-   "center": [
-    -11,
-    14,
-    7.3
-   ],
-   "size": [
-    2.4,
-    24,
-    1.4
-   ],
-   "color": "st2",
-   "group": "body"
-  },
-  {
-   "name": "slabr",
-   "shape": "box",
-   "center": [
-    11,
-    14,
-    7.3
-   ],
-   "size": [
-    2.4,
-    24,
-    1.4
-   ],
-   "color": "st2",
-   "group": "body"
-  },
-  {
-   "name": "crack",
-   "shape": "box",
-   "center": [
-    8,
-    22,
-    7.3
-   ],
-   "size": [
-    0.8,
-    8,
-    0.6
-   ],
-   "color": "glow",
    "group": "body"
   },
   {
@@ -128,62 +64,93 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    8,
-    4
+    21.5,
+    6.3
    ],
    "size": [
-    10,
-    9,
-    9
+    4.4,
+    4.4,
+    1.5
    ],
    "color": "sp",
-   "group": "head"
+   "group": "body"
   },
   {
-   "name": "spiritc",
-   "shape": "cone",
+   "name": "l1",
+   "shape": "box",
    "center": [
-    0,
-    13,
-    4
+    -4.5,
+    26.5,
+    6.2
    ],
    "size": [
+    5,
+    1.6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "body"
+  },
+  {
+   "name": "l2",
+   "shape": "box",
+   "center": [
+    -7,
+    24,
+    6.2
+   ],
+   "size": [
+    1.6,
+    5,
+    0.8
+   ],
+   "color": "glow",
+   "group": "body"
+  },
+  {
+   "name": "l3",
+   "shape": "box",
+   "center": [
+    4.5,
+    17.5,
+    6.2
+   ],
+   "size": [
+    5,
+    1.6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "body"
+  },
+  {
+   "name": "l4",
+   "shape": "box",
+   "center": [
     7,
-    8,
-    7
-   ],
-   "color": "sp",
-   "group": "head"
-  },
-  {
-   "name": "eyes",
-   "shape": "ellipsoid",
-   "center": [
-    2.4,
-    9,
-    8.5
+    20,
+    6.2
    ],
    "size": [
-    1.8,
-    2.2,
-    1
+    1.6,
+    5,
+    0.8
    ],
-   "color": "face",
-   "group": "head",
-   "mirror_x": true
+   "color": "glow",
+   "group": "body"
   },
   {
    "name": "stem",
    "shape": "cylinder",
    "center": [
-    -8,
-    32,
-    -1
+    0,
+    31,
+    0
    ],
    "size": [
-    1.2,
-    6,
-    1.2
+    1.6,
+    5,
+    1.6
    ],
    "color": "stem",
    "group": "body"
@@ -192,99 +159,201 @@
    "name": "leaf",
    "shape": "ellipsoid",
    "center": [
-    -6,
-    36,
-    -1
+    2,
+    33.5,
+    0
    ],
    "size": [
-    6,
-    1.5,
+    4.5,
+    1.8,
     3
    ],
    "color": "stem",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    25
-   ]
-  },
-  {
-   "name": "orb",
-   "shape": "ellipsoid",
-   "center": [
-    10,
-    31,
-    6
-   ],
-   "size": [
-    4,
-    4,
-    4
-   ],
-   "color": "glow",
    "group": "body"
   },
   {
-   "name": "arm",
-   "shape": "box",
+   "name": "leaf2",
+   "shape": "ellipsoid",
    "center": [
-    14,
-    16,
+    -2,
+    34,
     0
    ],
    "size": [
-    5,
-    12,
-    6
+    4.5,
+    1.8,
+    3
+   ],
+   "color": "stem",
+   "group": "body"
+  },
+  {
+   "name": "legu",
+   "shape": "box",
+   "center": [
+    4,
+    9.5,
+    0
+   ],
+   "size": [
+    6.5,
+    9,
+    7.5
    ],
    "color": "st2",
-   "group": "arm_r",
+   "group": "leg_fr",
    "mirror_x": true
   },
   {
-   "name": "hand",
+   "name": "legm",
    "shape": "box",
    "center": [
-    14,
-    8,
+    4,
+    3.5,
     0
    ],
    "size": [
-    6,
-    5,
-    7
+    6.5,
+    7,
+    7.5
+   ],
+   "color": "moss",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "ll",
+   "shape": "box",
+   "center": [
+    4,
+    8,
+    3.8
+   ],
+   "size": [
+    4,
+    1.4,
+    0.8
+   ],
+   "color": "glow",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "au",
+   "shape": "box",
+   "center": [
+    15,
+    22,
+    0
+   ],
+   "size": [
+    8,
+    13,
+    8.5
    ],
    "color": "st",
    "group": "arm_r",
    "mirror_x": true
   },
   {
-   "name": "leg",
+   "name": "al1",
    "shape": "box",
    "center": [
+    15,
+    22.5,
+    4.3
+   ],
+   "size": [
+    1.6,
     6,
-    2.5,
+    0.8
+   ],
+   "color": "glow",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "al2",
+   "shape": "box",
+   "center": [
+    15,
+    12.5,
+    0
+   ],
+   "size": [
+    6.5,
+    9,
+    7
+   ],
+   "color": "st2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "fist",
+   "shape": "box",
+   "center": [
+    15,
+    4.5,
     0
    ],
    "size": [
     8,
-    5,
-    9
+    9,
+    8.5
    ],
-   "color": "st2",
-   "group": "leg_fr",
+   "color": "st",
+   "group": "arm_r",
    "mirror_x": true
-  }
- ],
- "refs": [
-  {
-   "url": "https://palworld.gg/images/full_palicon/T_GrassGolem_icon_normal.png",
-   "note": "正面: 灰色の石板の体、胸の穴に青緑に光る幽霊のような小さな精、頭上に双葉"
   },
   {
-   "url": "https://images.gamepedia.jp/palworld/monster/v2/GrassGolem.png",
-   "note": "同アイコン(別CDN)。全身参照未取得: 直方体の石板ゴーレムと推定"
+   "name": "fl",
+   "shape": "box",
+   "center": [
+    15,
+    5,
+    4.3
+   ],
+   "size": [
+    5,
+    1.6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "back",
+   "shape": "box",
+   "center": [
+    0,
+    21,
+    -6.2
+   ],
+   "size": [
+    8,
+    1.6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "body"
+  },
+  {
+   "name": "back2",
+   "shape": "box",
+   "center": [
+    3,
+    25,
+    -6.2
+   ],
+   "size": [
+    1.6,
+    6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "body"
   }
  ]
 }

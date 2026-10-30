@@ -1,88 +1,104 @@
 {
- "name": "ブシガエル (Croajiro)",
+ "name": "ブシガエル",
  "gait": "biped",
  "palette": {
-  "green": "#8cc63e",
-  "green2": "#a6d648",
-  "belly": "#f1e57c",
-  "robe": "#b9b8a0",
-  "robesh": "#9d9c85",
-  "belt": "#3b3b36",
-  "white": "#f4f4ee",
-  "lid": "#6f9a2e",
-  "mush": "#e08a3a",
-  "mush2": "#f0a860",
-  "mouth": "#4a3a2a",
-  "stem": "#d7c79a"
+  "green": "#6fb534",
+  "belly": "#cfc25a",
+  "robe": "#a9a9a2",
+  "robesh": "#8d8d86",
+  "belt": "#1f1f1f",
+  "white": "#e8e8e4",
+  "lid": "#4f8a22",
+  "stick": "#5a3f2a",
+  "leaf": "#7ab83a",
+  "blade": "#6c7378",
+  "hilt": "#2a2a2a"
  },
  "parts": [
-  {
-   "name": "body",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    12,
-    0
-   ],
-   "size": [
-    33,
-    24,
-    29
-   ],
-   "color": "green",
-   "group": "body"
-  },
-  {
-   "name": "belly",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    16,
-    10.5
-   ],
-   "size": [
-    21,
-    15,
-    10
-   ],
-   "color": "belly",
-   "group": "body"
-  },
   {
    "name": "robe",
    "shape": "ellipsoid",
    "center": [
     0,
-    9,
-    1
+    13,
+    0
    ],
    "size": [
-    36.6,
-    15,
-    32.2
+    32.0,
+    26,
+    28.0
    ],
    "color": "robe",
    "group": "body"
   },
   {
-   "name": "robe_v",
-   "shape": "wedge",
+   "name": "head",
+   "shape": "ellipsoid",
    "center": [
-    8,
-    15,
-    12.5
+    0,
+    23,
+    0.5
    ],
    "size": [
-    10,
-    12,
-    4
+    28.5,
+    19,
+    25.0
+   ],
+   "color": "green",
+   "group": "head"
+  },
+  {
+   "name": "bump",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    31,
+    0
+   ],
+   "size": [
+    8,
+    4,
+    8
+   ],
+   "color": "green",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "throat",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    9.5
+   ],
+   "size": [
+    14.0,
+    9,
+    9
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "lapel",
+   "shape": "wedge",
+   "center": [
+    7.0,
+    15,
+    11.5
+   ],
+   "size": [
+    7,
+    11,
+    3
    ],
    "color": "robesh",
    "group": "body",
    "rot": [
     0,
     0,
-    28
+    24
    ],
    "mirror_x": true
   },
@@ -91,24 +107,24 @@
    "shape": "cylinder",
    "center": [
     0,
-    7,
+    5.5,
     0
    ],
    "size": [
-    37.2,
-    2.6,
-    33
+    28.0,
+    2.8,
+    24.5
    ],
    "color": "belt",
    "group": "body"
   },
   {
-   "name": "belt_knot",
+   "name": "knot",
    "shape": "box",
    "center": [
     0,
-    7,
-    14.8
+    5.5,
+    12.0
    ],
    "size": [
     4,
@@ -119,33 +135,17 @@
    "group": "body"
   },
   {
-   "name": "head",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    23,
-    3
-   ],
-   "size": [
-    29,
-    14,
-    23
-   ],
-   "color": "green2",
-   "group": "head"
-  },
-  {
    "name": "eye_w",
    "shape": "ellipsoid",
    "center": [
     8.5,
-    26.5,
-    12
+    24,
+    10.0
    ],
    "size": [
-    7,
-    5.5,
-    3.5
+    7.5,
+    6.5,
+    4
    ],
    "color": "white",
    "group": "head",
@@ -156,12 +156,12 @@
    "shape": "ellipsoid",
    "center": [
     8.5,
-    27.6,
-    13.2
+    25.2,
+    11.3
    ],
    "size": [
-    7.4,
-    3,
+    7.9,
+    3.2,
     3.4
    ],
    "color": "lid",
@@ -173,12 +173,12 @@
    "shape": "box",
    "center": [
     8.5,
-    26,
-    14
+    24.2,
+    12.9
    ],
    "size": [
-    3,
-    0.6,
+    3.2,
+    0.7,
     0.8
    ],
    "color": "belt",
@@ -186,142 +186,86 @@
    "mirror_x": true
   },
   {
-   "name": "mouth",
-   "shape": "box",
-   "center": [
-    0,
-    19.5,
-    13.5
-   ],
-   "size": [
-    14,
-    0.8,
-    1.2
-   ],
-   "color": "mouth",
-   "group": "head"
-  },
-  {
-   "name": "mush_stem",
-   "shape": "cylinder",
-   "center": [
-    6,
-    28.5,
-    -5
-   ],
-   "size": [
-    3,
-    4,
-    3
-   ],
-   "color": "stem",
-   "group": "head"
-  },
-  {
-   "name": "mush",
-   "shape": "ellipsoid",
-   "center": [
-    7,
-    31,
-    -5
-   ],
-   "size": [
-    15,
-    5,
-    11
-   ],
-   "color": "mush",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -18
-   ]
-  },
-  {
-   "name": "mush_top",
-   "shape": "ellipsoid",
-   "center": [
-    7,
-    32.2,
-    -5
-   ],
-   "size": [
-    9,
-    3,
-    6
-   ],
-   "color": "mush2",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -18
-   ]
-  },
-  {
    "name": "arm",
    "shape": "ellipsoid",
    "center": [
-    17,
-    15,
+    15.5,
+    14,
     3
    ],
    "size": [
     6.5,
     11,
-    6.5
+    7
    ],
-   "color": "robe",
+   "color": "green",
    "group": "arm_r",
    "rot": [
     0,
     0,
-    -12
-   ]
-  },
-  {
-   "name": "hand",
-   "shape": "ellipsoid",
-   "center": [
-    18,
-    9,
-    5
+    -10
    ],
-   "size": [
-    5,
-    5,
-    5
-   ],
-   "color": "green",
-   "group": "arm_r"
+   "mirror_x": true
   },
   {
    "name": "leg",
    "shape": "ellipsoid",
    "center": [
-    9,
-    2.2,
+    8,
+    2,
     4
    ],
    "size": [
     10.5,
-    4.5,
+    4,
     12
    ],
    "color": "green",
    "group": "leg_fr",
    "mirror_x": true
+  },
+  {
+   "name": "stick",
+   "shape": "cylinder",
+   "center": [
+    -19,
+    10,
+    6
+   ],
+   "size": [
+    2.2,
+    17,
+    2.2
+   ],
+   "color": "stick",
+   "group": "arm_l",
+   "rot": [
+    60,
+    0,
+    35
+   ]
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    -23,
+    17.5,
+    9
+   ],
+   "size": [
+    3,
+    4,
+    2
+   ],
+   "color": "leaf",
+   "group": "arm_l"
   }
  ],
  "refs": [
   {
-   "url": "https://palworld.gg/images/full_palicon/T_KendoFrog_icon_normal.png",
-   "note": "正面: 緑の丸い頭に半目の白い目、黄色い腹、灰ベージュの合わせ襟、黒い帯"
-  },
-  {
-   "url": "https://palworld.wiki.gg/images/Croajiro_bis.png",
-   "note": "ゲーム内側面: 太った緑の体、黄色い腹、灰の道着、黒帯、頭〜背に橙のキノコ、右手を前に出す"
+   "url": "Tools/.refshots/009",
+   "note": "game screenshots: egg body, grey robe, black belt low, green dome head, yellow throat, half-closed eyes"
   }
  ]
 }

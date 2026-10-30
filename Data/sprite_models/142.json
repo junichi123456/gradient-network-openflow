@@ -1,306 +1,454 @@
 {
- "name": "オモシガメ (Tetroise)",
+ "name": "オモシガメ",
  "gait": "quad",
  "palette": {
-  "sh": "#8c6c34",
-  "sh2": "#a88444",
-  "tr": "#d8b048",
-  "skin": "#5a4a34",
-  "hd": "#c8a040",
-  "eye": "#e83a28"
+  "st": "#b89e2e",
+  "seam": "#3a301e",
+  "rim": "#a9a595",
+  "leg": "#3a2a22",
+  "plate": "#a88a28",
+  "claw": "#d8d0e0",
+  "eye": "#b02030",
+  "hd": "#c4a82c"
  },
  "parts": [
   {
-   "name": "shell",
-   "shape": "box",
-   "center": [
-    0,
-    15,
-    -3
-   ],
-   "size": [
-    22,
-    16,
-    20
-   ],
-   "color": "sh",
-   "group": "body"
-  },
-  {
-   "name": "shelltop",
+   "name": "cube",
    "shape": "box",
    "center": [
     0,
     24,
-    -3
+    0
    ],
    "size": [
-    18,
+    27,
+    28,
+    27
+   ],
+   "color": "st",
+   "group": "body"
+  },
+  {
+   "name": "sh1",
+   "shape": "box",
+   "center": [
+    0,
+    19.5,
+    0
+   ],
+   "size": [
+    27.8,
+    0.9,
+    27.8
+   ],
+   "color": "seam",
+   "group": "body"
+  },
+  {
+   "name": "sh2",
+   "shape": "box",
+   "center": [
+    0,
+    29,
+    0
+   ],
+   "size": [
+    27.8,
+    0.9,
+    27.8
+   ],
+   "color": "seam",
+   "group": "body"
+  },
+  {
+   "name": "rim",
+   "shape": "box",
+   "center": [
+    0,
+    10.2,
+    0
+   ],
+   "size": [
+    30,
+    2.2,
+    30
+   ],
+   "color": "rim",
+   "group": "body"
+  },
+  {
+   "name": "v1",
+   "shape": "box",
+   "center": [
+    -5,
+    14.7,
+    13.6
+   ],
+   "size": [
+    0.9,
+    8,
+    1
+   ],
+   "color": "seam",
+   "group": "body"
+  },
+  {
+   "name": "v2",
+   "shape": "box",
+   "center": [
+    6,
+    14.7,
+    13.6
+   ],
+   "size": [
+    0.9,
+    8,
+    1
+   ],
+   "color": "seam",
+   "group": "body"
+  },
+  {
+   "name": "v3",
+   "shape": "box",
+   "center": [
+    -8,
+    24.2,
+    13.6
+   ],
+   "size": [
+    0.9,
+    8,
+    1
+   ],
+   "color": "seam",
+   "group": "body"
+  },
+  {
+   "name": "v4",
+   "shape": "box",
+   "center": [
     3,
-    16
-   ],
-   "color": "sh2",
-   "group": "body"
-  },
-  {
-   "name": "pl0",
-   "shape": "box",
-   "center": [
-    0,
-    15,
-    -10
+    24.2,
+    13.6
    ],
    "size": [
-    22.8,
-    16.8,
-    1.4
+    0.9,
+    8,
+    1
    ],
-   "color": "tr",
+   "color": "seam",
    "group": "body"
   },
   {
-   "name": "pl1",
+   "name": "v5",
    "shape": "box",
    "center": [
-    0,
-    15,
-    -3
+    -2,
+    33.7,
+    13.6
    ],
    "size": [
-    22.8,
-    16.8,
-    1.4
+    0.9,
+    8,
+    1
    ],
-   "color": "tr",
+   "color": "seam",
    "group": "body"
   },
   {
-   "name": "pl2",
+   "name": "v6",
    "shape": "box",
    "center": [
-    0,
-    15,
-    4
+    9,
+    33.7,
+    13.6
    ],
    "size": [
-    22.8,
-    16.8,
-    1.4
+    0.9,
+    8,
+    1
    ],
-   "color": "tr",
+   "color": "seam",
    "group": "body"
   },
   {
-   "name": "plv",
+   "name": "w1",
    "shape": "box",
    "center": [
-    0,
-    15,
-    -3
+    13.6,
+    14.7,
+    3
    ],
    "size": [
-    1.4,
-    16.8,
-    20.8
+    1,
+    8,
+    0.9
    ],
-   "color": "tr",
+   "color": "seam",
    "group": "body"
   },
   {
-   "name": "neck",
+   "name": "w2",
+   "shape": "box",
+   "center": [
+    13.6,
+    24.2,
+    -5
+   ],
+   "size": [
+    1,
+    8,
+    0.9
+   ],
+   "color": "seam",
+   "group": "body"
+  },
+  {
+   "name": "w3",
+   "shape": "box",
+   "center": [
+    13.6,
+    33.7,
+    6
+   ],
+   "size": [
+    1,
+    8,
+    0.9
+   ],
+   "color": "seam",
+   "group": "body"
+  },
+  {
+   "name": "b1",
+   "shape": "box",
+   "center": [
+    -13.6,
+    14.7,
+    0
+   ],
+   "size": [
+    1,
+    8,
+    0.9
+   ],
+   "color": "seam",
+   "group": "body"
+  },
+  {
+   "name": "b2",
+   "shape": "box",
+   "center": [
+    -13.6,
+    24.2,
+    6
+   ],
+   "size": [
+    1,
+    8,
+    0.9
+   ],
+   "color": "seam",
+   "group": "body"
+  },
+  {
+   "name": "b3",
+   "shape": "box",
+   "center": [
+    -13.6,
+    33.7,
+    -4
+   ],
+   "size": [
+    1,
+    8,
+    0.9
+   ],
+   "color": "seam",
+   "group": "body"
+  },
+  {
+   "name": "shell",
    "shape": "ellipsoid",
    "center": [
     0,
-    12,
-    8
+    8,
+    0
    ],
    "size": [
-    8,
-    8,
-    8
+    22,
+    5,
+    22
    ],
-   "color": "skin",
-   "group": "head"
+   "color": "leg",
+   "group": "body"
   },
   {
    "name": "head",
-   "shape": "box",
+   "shape": "ellipsoid",
    "center": [
     0,
-    12.5,
-    13
+    6,
+    16
    ],
    "size": [
-    10,
     9,
+    7,
     9
    ],
    "color": "hd",
    "group": "head"
   },
   {
-   "name": "hdtop",
-   "shape": "box",
+   "name": "beak",
+   "shape": "ellipsoid",
    "center": [
     0,
-    17.3,
-    13
+    4.8,
+    20
    ],
    "size": [
-    10.4,
-    1.6,
-    9.4
+    5,
+    3.5,
+    4
    ],
-   "color": "tr",
-   "group": "head"
-  },
-  {
-   "name": "hdcrest",
-   "shape": "box",
-   "center": [
-    0,
-    19,
-    13
-   ],
-   "size": [
-    3,
-    2,
-    9
-   ],
-   "color": "sh2",
+   "color": "plate",
    "group": "head"
   },
   {
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    5.2,
-    12.8,
-    15
+    2.8,
+    6.8,
+    19.5
    ],
    "size": [
+    2,
     1.6,
-    3,
-    3
+    1.2
    ],
    "color": "eye",
-   "group": "head",
-   "mirror_x": true
-  },
-  {
-   "name": "jaw",
-   "shape": "box",
-   "center": [
-    0,
-    9.5,
-    14.5
-   ],
-   "size": [
-    8,
-    2,
-    6
-   ],
-   "color": "skin",
    "group": "head"
   },
   {
-   "name": "legf",
-   "shape": "cylinder",
+   "name": "eye2",
+   "shape": "ellipsoid",
    "center": [
-    8.5,
-    3.5,
-    5
+    -2.8,
+    6.8,
+    19.5
    ],
    "size": [
-    6,
-    7,
-    6
-   ],
-   "color": "skin",
-   "group": "leg_fr",
-   "mirror_x": true
-  },
-  {
-   "name": "footf",
-   "shape": "box",
-   "center": [
-    8.5,
-    1,
-    6.5
-   ],
-   "size": [
-    6.4,
     2,
-    7.4
+    1.6,
+    1.2
    ],
-   "color": "sh",
-   "group": "leg_fr",
-   "mirror_x": true
+   "color": "eye",
+   "group": "head"
   },
   {
-   "name": "legb",
-   "shape": "cylinder",
+   "name": "fl",
+   "shape": "ellipsoid",
    "center": [
-    8.5,
-    3.5,
-    -10
-   ],
-   "size": [
-    6,
-    7,
-    6
-   ],
-   "color": "skin",
-   "group": "leg_br",
-   "mirror_x": true
-  },
-  {
-   "name": "footb",
-   "shape": "box",
-   "center": [
-    8.5,
-    1,
-    -8.5
-   ],
-   "size": [
-    6.4,
-    2,
-    7.4
-   ],
-   "color": "sh",
-   "group": "leg_br",
-   "mirror_x": true
-  },
-  {
-   "name": "tail",
-   "shape": "cone",
-   "center": [
-    0,
-    6,
-    -16
-   ],
-   "size": [
+    11,
     4,
-    7,
-    4
+    11
    ],
-   "color": "skin",
-   "group": "tail",
-   "rot": [
-    -90,
-    0,
-    0
-   ]
-  }
- ],
- "refs": [
-  {
-   "url": "https://palworld.gg/images/full_palicon/T_CubeTurtle_icon_normal.png",
-   "note": "正面: 金色の四角い兜状の頭、赤い目、茶の岩肌の甲羅"
+   "size": [
+    7,
+    7,
+    8
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
   },
   {
-   "url": "https://images.gamepedia.jp/palworld/monster/v2/CubeTurtle.png",
-   "note": "同アイコン(別CDN)。全身参照未取得: 角ばった立方体の甲羅と金の枠、四角い頭と推定"
+   "name": "flp",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    5.5,
+    11
+   ],
+   "size": [
+    5,
+    3.5,
+    6
+   ],
+   "color": "plate",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "flc",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    0.8,
+    14
+   ],
+   "size": [
+    4.5,
+    2.4,
+    3.5
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "bl",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    4,
+    -11
+   ],
+   "size": [
+    7,
+    7,
+    8
+   ],
+   "color": "leg",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "blp",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    5.5,
+    -11
+   ],
+   "size": [
+    5,
+    3.5,
+    6
+   ],
+   "color": "plate",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "blc",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    0.8,
+    -8
+   ],
+   "size": [
+    4.5,
+    2.4,
+    3.5
+   ],
+   "color": "claw",
+   "group": "leg_bl",
+   "mirror_x": true
   }
  ]
 }

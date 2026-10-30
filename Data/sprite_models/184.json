@@ -1,263 +1,655 @@
 {
- "name": "シェルガドラ (Aegidron)",
- "gait": "quad",
+ "name": "シェルガドラ",
+ "gait": "biped",
  "palette": {
-  "gr": "#3e434c",
-  "gr2": "#2a2e36",
-  "rust": "#a85a2e",
-  "rust2": "#7e4020",
-  "eye": "#58c8f0",
-  "glow": "#f07a20",
-  "belly": "#555a64"
+  "stone": "#9a9aa6",
+  "stone2": "#7c7c8c",
+  "navy": "#3c3e5a",
+  "navy2": "#2e3048",
+  "org": "#d8602c",
+  "glow": "#ffa028",
+  "crys": "#4a58b4",
+  "crys2": "#6a78d0",
+  "eye": "#8ad0f0",
+  "dk": "#5a5a68"
  },
  "parts": [
   {
-   "name": "shell",
+   "name": "leg_l",
    "shape": "ellipsoid",
    "center": [
-    0,
-    18,
-    -1
-   ],
-   "size": [
-    21,
-    17,
-    24
-   ],
-   "color": "gr",
-   "group": "body"
-  },
-  {
-   "name": "plate1",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    23,
-    -1
-   ],
-   "size": [
-    14,
-    6,
-    16
-   ],
-   "color": "rust",
-   "group": "body"
-  },
-  {
-   "name": "plate2",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    25,
-    -1
-   ],
-   "size": [
     8,
-    3,
-    10
+    8,
+    0
    ],
-   "color": "rust2",
-   "group": "body"
+   "size": [
+    11,
+    15,
+    13
+   ],
+   "color": "dk",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "kn_l",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    12,
+    4
+   ],
+   "size": [
+    9,
+    7,
+    6
+   ],
+   "color": "stone2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "foot_l",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    1.8,
+    4
+   ],
+   "size": [
+    9,
+    3.6,
+    11
+   ],
+   "color": "dk",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "toe0_l",
+   "shape": "ellipsoid",
+   "center": [
+    5.2,
+    1.5,
+    9.5
+   ],
+   "size": [
+    2.2,
+    2.4,
+    3
+   ],
+   "color": "org",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "toe1_l",
+   "shape": "ellipsoid",
+   "center": [
+    8.0,
+    1.5,
+    9.5
+   ],
+   "size": [
+    2.2,
+    2.4,
+    3
+   ],
+   "color": "org",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "toe2_l",
+   "shape": "ellipsoid",
+   "center": [
+    10.8,
+    1.5,
+    9.5
+   ],
+   "size": [
+    2.2,
+    2.4,
+    3
+   ],
+   "color": "org",
+   "group": "leg_fl",
+   "mirror_x": true
   },
   {
    "name": "body",
    "shape": "ellipsoid",
    "center": [
     0,
-    13,
-    2
+    22,
+    0
    ],
    "size": [
-    18,
-    12,
-    24
+    17,
+    19,
+    14
    ],
-   "color": "gr2",
+   "color": "navy",
    "group": "body"
   },
   {
-   "name": "belly",
+   "name": "chest",
    "shape": "ellipsoid",
    "center": [
     0,
-    10,
-    3
+    23,
+    5
    ],
    "size": [
-    12,
-    6,
-    18
-   ],
-   "color": "belly",
-   "group": "body"
-  },
-  {
-   "name": "glow",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    9,
-    8
-   ],
-   "size": [
-    5,
-    3,
+    11,
+    15,
     6
    ],
-   "color": "glow",
+   "color": "navy2",
    "group": "body"
+  },
+  {
+   "name": "chev0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28.0,
+    7.8
+   ],
+   "size": [
+    9.0,
+    2.2,
+    2
+   ],
+   "color": "org",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "chev1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23.8,
+    7.8
+   ],
+   "size": [
+    7.8,
+    2.2,
+    2
+   ],
+   "color": "org",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "chev2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19.6,
+    7.8
+   ],
+   "size": [
+    6.6,
+    2.2,
+    2
+   ],
+   "color": "org",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "shoulder_l",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    29,
+    0
+   ],
+   "size": [
+    8,
+    8,
+    9
+   ],
+   "color": "stone2",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    22,
+    4
+   ],
+   "size": [
+    4.5,
+    10,
+    5
+   ],
+   "color": "dk",
+   "group": "arm_l",
+   "rot": [
+    -20,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw0_l",
+   "shape": "ellipsoid",
+   "center": [
+    8.6,
+    17.5,
+    7.8
+   ],
+   "size": [
+    1.4,
+    3,
+    1.4
+   ],
+   "color": "org",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "claw1_l",
+   "shape": "ellipsoid",
+   "center": [
+    10.2,
+    17.5,
+    7.8
+   ],
+   "size": [
+    1.4,
+    3,
+    1.4
+   ],
+   "color": "org",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "claw2_l",
+   "shape": "ellipsoid",
+   "center": [
+    11.8,
+    17.5,
+    7.8
+   ],
+   "size": [
+    1.4,
+    3,
+    1.4
+   ],
+   "color": "org",
+   "group": "arm_l",
+   "mirror_x": true
   },
   {
    "name": "neck",
    "shape": "ellipsoid",
    "center": [
     0,
-    17,
-    13
+    33,
+    3
    ],
    "size": [
+    8,
     9,
-    10,
     8
    ],
-   "color": "gr2",
-   "group": "head",
-   "rot": [
-    -20,
-    0,
-    0
-   ]
+   "color": "stone2",
+   "group": "head"
   },
   {
    "name": "head",
    "shape": "ellipsoid",
    "center": [
     0,
-    19,
-    18
+    37,
+    6
    ],
    "size": [
-    11,
-    9,
-    11
+    10,
+    8,
+    12
    ],
-   "color": "gr",
+   "color": "stone",
    "group": "head"
   },
   {
-   "name": "brow",
+   "name": "snout",
    "shape": "ellipsoid",
    "center": [
     0,
-    22,
-    19
+    36,
+    11.5
    ],
    "size": [
-    11,
-    3,
-    9
+    7,
+    5,
+    7
    ],
-   "color": "rust",
+   "color": "stone2",
    "group": "head"
   },
   {
-   "name": "eye",
+   "name": "crest",
    "shape": "ellipsoid",
    "center": [
-    4.2,
-    20,
-    23
+    0,
+    41.5,
+    4
    ],
    "size": [
-    2.4,
+    9,
+    4,
+    10
+   ],
+   "color": "org",
+   "group": "head",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hornb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    42.5,
+    0
+   ],
+   "size": [
+    5,
+    5,
+    7
+   ],
+   "color": "stone",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye_l",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    37.5,
+    9
+   ],
+   "size": [
     2,
-    1.2
+    1.6,
+    3
    ],
    "color": "eye",
    "group": "head",
    "mirror_x": true
   },
   {
-   "name": "horn",
-   "shape": "cone",
-   "center": [
-    4,
-    24,
-    16
-   ],
-   "size": [
-    3,
-    7,
-    3
-   ],
-   "color": "rust2",
-   "group": "head",
-   "rot": [
-    -40,
-    0,
-    -15
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "shoulder",
+   "name": "wp0",
    "shape": "ellipsoid",
    "center": [
-    9,
+    11.5,
+    22.0,
+    -2.0
+   ],
+   "size": [
+    8.5,
+    40.607881008493905,
+    5.5
+   ],
+   "color": "stone",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    9.926245506651705
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wc0",
+   "shape": "ellipsoid",
+   "center": [
+    12.0,
+    26.87294572101927,
+    1.0
+   ],
+   "size": [
+    4.5,
+    7,
+    3.4
+   ],
+   "color": "crys",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    9.926245506651705
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wp1",
+   "shape": "ellipsoid",
+   "center": [
+    15.0,
+    21.5,
+    -1.0
+   ],
+   "size": [
+    8.5,
+    43.32435804486894,
+    5.5
+   ],
+   "color": "stone",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    18.85315876441911
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wc1",
+   "shape": "ellipsoid",
+   "center": [
+    15.5,
+    26.698922965384273,
+    2.0
+   ],
+   "size": [
+    4.5,
+    7,
+    3.4
+   ],
+   "color": "crys",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    18.85315876441911
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wp2",
+   "shape": "ellipsoid",
+   "center": [
+    18.0,
+    22.5,
+    0.0
+   ],
+   "size": [
+    8.5,
+    43.829214001622255,
+    5.5
+   ],
+   "color": "stone",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    27.14968169778317
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wc2",
+   "shape": "ellipsoid",
+   "center": [
+    18.5,
+    27.75950568019467,
+    3.0
+   ],
+   "size": [
+    4.5,
+    7,
+    3.4
+   ],
+   "color": "crys",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    27.14968169778317
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wp3",
+   "shape": "ellipsoid",
+   "center": [
+    20.5,
+    24.5,
+    1.0
+   ],
+   "size": [
+    8.5,
+    43.01162633521314,
+    5.5
+   ],
+   "color": "stone",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    35.53767779197438
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wc3",
+   "shape": "ellipsoid",
+   "center": [
+    21.0,
+    29.661395160225577,
+    4.0
+   ],
+   "size": [
+    4.5,
+    7,
+    3.4
+   ],
+   "color": "crys",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    35.53767779197438
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wglow",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    24,
+    -5.5
+   ],
+   "size": [
+    3,
+    3,
+    2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "mirror_x": true
+  },
+  {
+   "name": "wglow2",
+   "shape": "ellipsoid",
+   "center": [
+    19,
     18,
-    8
+    -5.5
    ],
    "size": [
-    7,
-    7,
-    8
+    3,
+    3,
+    2
    ],
-   "color": "rust",
-   "group": "arm_r",
+   "color": "glow",
+   "group": "wing_r",
    "mirror_x": true
   },
   {
-   "name": "spk",
-   "shape": "cone",
+   "name": "wglow3",
+   "shape": "ellipsoid",
    "center": [
+    22,
+    27,
+    -5.5
+   ],
+   "size": [
+    3,
+    3,
+    2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "mirror_x": true
+  },
+  {
+   "name": "wtip",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    36,
+    -2
+   ],
+   "size": [
     5,
-    26,
-    -4
-   ],
-   "size": [
-    3,
     6,
-    3
+    5
    ],
-   "color": "rust",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    -20
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "spk2",
-   "shape": "cone",
-   "center": [
-    4,
-    25,
-    -10
-   ],
-   "size": [
-    3,
-    6,
-    3
-   ],
-   "color": "rust2",
-   "group": "body",
-   "rot": [
-    -20,
-    0,
-    -20
-   ],
+   "color": "org",
+   "group": "wing_r",
    "mirror_x": true
   },
   {
@@ -265,15 +657,15 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    12,
-    -14
+    14,
+    -11
    ],
    "size": [
     9,
-    9,
-    12
+    8,
+    13
    ],
-   "color": "gr2",
+   "color": "stone2",
    "group": "tail"
   },
   {
@@ -282,113 +674,79 @@
    "center": [
     0,
     10,
-    -22
+    -20
    ],
    "size": [
-    7,
-    7,
-    10
+    6.5,
+    6,
+    13
    ],
-   "color": "gr",
-   "group": "tail"
+   "color": "stone",
+   "group": "tail",
+   "rot": [
+    15,
+    0,
+    0
+   ]
   },
   {
-   "name": "tailt",
+   "name": "tail3",
    "shape": "ellipsoid",
    "center": [
     0,
-    10,
+    7,
     -28
    ],
    "size": [
-    8,
-    8,
-    6
+    4.5,
+    4.5,
+    11
    ],
-   "color": "rust",
+   "color": "stone2",
+   "group": "tail",
+   "rot": [
+    15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tc1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -13
+   ],
+   "size": [
+    3.6,
+    5,
+    4
+   ],
+   "color": "crys",
    "group": "tail"
   },
   {
-   "name": "leg_f",
+   "name": "tc2",
    "shape": "ellipsoid",
    "center": [
-    7,
-    6,
-    9
+    0,
+    14.5,
+    -22
    ],
    "size": [
-    7,
-    12,
-    8
+    3,
+    4.5,
+    3.4
    ],
-   "color": "gr",
-   "group": "leg_fl",
-   "mirror_x": true
-  },
-  {
-   "name": "leg_b",
-   "shape": "ellipsoid",
-   "center": [
-    7,
-    6,
-    -8
-   ],
-   "size": [
-    8,
-    12,
-    9
-   ],
-   "color": "gr",
-   "group": "leg_bl",
-   "mirror_x": true
-  },
-  {
-   "name": "claw_f",
-   "shape": "box",
-   "center": [
-    7,
-    0.8,
-    11
-   ],
-   "size": [
-    7,
-    1.6,
-    5
-   ],
-   "color": "glow",
-   "group": "leg_fl",
-   "mirror_x": true
-  },
-  {
-   "name": "claw_b",
-   "shape": "box",
-   "center": [
-    7,
-    0.8,
-    -6
-   ],
-   "size": [
-    7,
-    1.6,
-    5
-   ],
-   "color": "glow",
-   "group": "leg_bl",
-   "mirror_x": true
+   "color": "crys",
+   "group": "tail"
   }
  ],
  "refs": [
   {
-   "url": "https://palworld.gg/images/full_palicon/T_DomeArmorDragon_icon_normal.png",
-   "note": "頭部: 暗灰と錆橙の重装甲、青い目、橙に光る部位。ドーム状の甲羅"
-  },
-  {
-   "url": "https://paldb.cc/ja/Aegidron",
-   "note": "パルデータベース（アイコンのみ）"
-  },
-  {
-   "url": "https://palworld.wiki.gg/wiki/Aegidron",
-   "note": "全身画像なし。胴・脚は推定"
+   "url": "Tools/.refshots/184",
+   "note": "ゲーム内スクショ: 灰色の岩の竜、前に垂れる巨大な灰の翼(青い結晶、橙の光る斑点)、紺の胸に橙のシェブロン、橙の爪"
   }
  ]
 }

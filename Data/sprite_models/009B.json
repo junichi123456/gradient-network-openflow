@@ -1,88 +1,104 @@
 {
- "name": "ドスガエル (Croajiro Noct)",
+ "name": "ドスガエル",
  "gait": "biped",
  "palette": {
-  "green": "#4a78b8",
-  "green2": "#5a8ac8",
-  "belly": "#f0e060",
-  "robe": "#aeb4a4",
-  "robesh": "#939a8a",
-  "belt": "#2c2c34",
-  "white": "#f4f4ee",
-  "lid": "#2e4e8c",
-  "mush": "#4a3a78",
-  "mush2": "#6a58a0",
-  "mouth": "#4a3a2a",
-  "stem": "#b8b0c8"
+  "green": "#4a86c8",
+  "belly": "#d8cc4a",
+  "robe": "#aab0ac",
+  "robesh": "#8e948f",
+  "belt": "#1f1f1f",
+  "white": "#e8e8e4",
+  "lid": "#2f5f9a",
+  "stick": "#5a3f2a",
+  "leaf": "#7ab83a",
+  "blade": "#6c7378",
+  "hilt": "#2a2a2a"
  },
  "parts": [
-  {
-   "name": "body",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    12,
-    0
-   ],
-   "size": [
-    33,
-    24,
-    29
-   ],
-   "color": "green",
-   "group": "body"
-  },
-  {
-   "name": "belly",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    16,
-    10.5
-   ],
-   "size": [
-    21,
-    15,
-    10
-   ],
-   "color": "belly",
-   "group": "body"
-  },
   {
    "name": "robe",
    "shape": "ellipsoid",
    "center": [
     0,
-    9,
-    1
+    13,
+    0
    ],
    "size": [
-    36.6,
-    15,
-    32.2
+    35.2,
+    26,
+    30.800000000000004
    ],
    "color": "robe",
    "group": "body"
   },
   {
-   "name": "robe_v",
-   "shape": "wedge",
+   "name": "head",
+   "shape": "ellipsoid",
    "center": [
-    8,
-    15,
-    12.5
+    0,
+    23,
+    0.5
    ],
    "size": [
-    10,
-    12,
-    4
+    31.35,
+    19,
+    27.500000000000004
+   ],
+   "color": "green",
+   "group": "head"
+  },
+  {
+   "name": "bump",
+   "shape": "ellipsoid",
+   "center": [
+    8.25,
+    31,
+    0
+   ],
+   "size": [
+    8,
+    4,
+    8
+   ],
+   "color": "green",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "throat",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    10.450000000000001
+   ],
+   "size": [
+    15.400000000000002,
+    9,
+    9
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "lapel",
+   "shape": "wedge",
+   "center": [
+    7.700000000000001,
+    15,
+    12.65
+   ],
+   "size": [
+    7,
+    11,
+    3
    ],
    "color": "robesh",
    "group": "body",
    "rot": [
     0,
     0,
-    28
+    24
    ],
    "mirror_x": true
   },
@@ -91,24 +107,24 @@
    "shape": "cylinder",
    "center": [
     0,
-    7,
+    5.5,
     0
    ],
    "size": [
-    37.2,
-    2.6,
-    33
+    30.800000000000004,
+    2.8,
+    26.950000000000003
    ],
    "color": "belt",
    "group": "body"
   },
   {
-   "name": "belt_knot",
+   "name": "knot",
    "shape": "box",
    "center": [
     0,
-    7,
-    14.8
+    5.5,
+    13.200000000000001
    ],
    "size": [
     4,
@@ -119,33 +135,17 @@
    "group": "body"
   },
   {
-   "name": "head",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    23,
-    3
-   ],
-   "size": [
-    29,
-    14,
-    23
-   ],
-   "color": "green2",
-   "group": "head"
-  },
-  {
    "name": "eye_w",
    "shape": "ellipsoid",
    "center": [
-    8.5,
-    26.5,
-    12
+    9.350000000000001,
+    24,
+    11.0
    ],
    "size": [
-    7,
-    5.5,
-    3.5
+    7.5,
+    6.5,
+    4
    ],
    "color": "white",
    "group": "head",
@@ -155,13 +155,13 @@
    "name": "lid",
    "shape": "ellipsoid",
    "center": [
-    8.5,
-    27.6,
-    13.2
+    9.350000000000001,
+    25.2,
+    12.430000000000001
    ],
    "size": [
-    7.4,
-    3,
+    7.9,
+    3.2,
     3.4
    ],
    "color": "lid",
@@ -172,13 +172,13 @@
    "name": "pupil",
    "shape": "box",
    "center": [
-    8.5,
-    26,
-    14
+    9.350000000000001,
+    24.2,
+    14.190000000000001
    ],
    "size": [
-    3,
-    0.6,
+    3.2,
+    0.7,
     0.8
    ],
    "color": "belt",
@@ -186,146 +186,86 @@
    "mirror_x": true
   },
   {
-   "name": "mouth",
-   "shape": "box",
-   "center": [
-    0,
-    19.5,
-    13.5
-   ],
-   "size": [
-    14,
-    0.8,
-    1.2
-   ],
-   "color": "mouth",
-   "group": "head"
-  },
-  {
-   "name": "mush_stem",
-   "shape": "cylinder",
-   "center": [
-    6,
-    28.5,
-    -5
-   ],
-   "size": [
-    3,
-    4,
-    3
-   ],
-   "color": "stem",
-   "group": "head"
-  },
-  {
-   "name": "mush",
-   "shape": "ellipsoid",
-   "center": [
-    7,
-    31,
-    -5
-   ],
-   "size": [
-    15,
-    5,
-    11
-   ],
-   "color": "mush",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -18
-   ]
-  },
-  {
-   "name": "mush_top",
-   "shape": "ellipsoid",
-   "center": [
-    7,
-    32.2,
-    -5
-   ],
-   "size": [
-    9,
-    3,
-    6
-   ],
-   "color": "mush2",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -18
-   ]
-  },
-  {
    "name": "arm",
    "shape": "ellipsoid",
    "center": [
-    17,
-    15,
+    17.05,
+    14,
     3
    ],
    "size": [
     6.5,
     11,
-    6.5
+    7
    ],
-   "color": "robe",
+   "color": "green",
    "group": "arm_r",
    "rot": [
     0,
     0,
-    -12
-   ]
-  },
-  {
-   "name": "hand",
-   "shape": "ellipsoid",
-   "center": [
-    18,
-    9,
-    5
+    -10
    ],
-   "size": [
-    5,
-    5,
-    5
-   ],
-   "color": "green",
-   "group": "arm_r"
+   "mirror_x": true
   },
   {
    "name": "leg",
    "shape": "ellipsoid",
    "center": [
-    9,
-    2.2,
+    8,
+    2,
     4
    ],
    "size": [
     10.5,
-    4.5,
+    4,
     12
    ],
    "color": "green",
    "group": "leg_fr",
    "mirror_x": true
+  },
+  {
+   "name": "blade",
+   "shape": "box",
+   "center": [
+    -17,
+    9,
+    10
+   ],
+   "size": [
+    2,
+    2.6,
+    17
+   ],
+   "color": "blade",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hilt",
+   "shape": "box",
+   "center": [
+    -17,
+    9,
+    0.5
+   ],
+   "size": [
+    3,
+    3.2,
+    5
+   ],
+   "color": "hilt",
+   "group": "arm_l"
   }
  ],
  "refs": [
   {
-   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_KendoFrog_Dark_icon_normal.webp",
-   "note": "アイコン: 青い頭と体、閉じ気味の目、黄色い腹、灰色の合わせ襟。他の参照はなし(基本種009と同形で色替え)"
-  },
-  {
-   "url": "https://palworld.gg/images/full_palicon/T_KendoFrog_icon_normal.png",
-   "note": "基本種の正面アイコン(形の参照)"
-  },
-  {
-   "url": "",
-   "note": "基本種モデル Data/sprite_models/009.json の形状を流用"
+   "url": "Tools/.refshots/009",
+   "note": "game screenshots: egg body, grey robe, black belt low, green dome head, yellow throat, half-closed eyes"
   }
  ]
 }

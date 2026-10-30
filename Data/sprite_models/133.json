@@ -1,14 +1,14 @@
 {
- "name": "ユキボウ (Snugloo)",
+ "name": "ユキボウ",
  "gait": "biped",
  "palette": {
-  "wh": "#ece6d6",
-  "wh2": "#d4ccba",
-  "blue": "#3f86c0",
-  "blue2": "#6ab0d8",
-  "face": "#3a3a48",
-  "foot": "#8a9ac8",
-  "cream": "#d8d2c8"
+  "f": "#aaa6bd",
+  "f2": "#c0bccf",
+  "fd": "#8a869f",
+  "ice": "#3f8cc0",
+  "ice2": "#6cb4dc",
+  "dk": "#48425a",
+  "eye": "#e8d878"
  },
  "parts": [
   {
@@ -16,31 +16,47 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    11,
+    10,
     0
    ],
    "size": [
-    24,
-    20,
+    22,
+    18,
     20
    ],
-   "color": "wh",
+   "color": "f",
    "group": "body"
   },
   {
-   "name": "fur",
+   "name": "belly",
    "shape": "ellipsoid",
    "center": [
     0,
-    17,
-    2
+    8,
+    4
    ],
    "size": [
-    26,
-    14,
-    20
+    15,
+    11,
+    12
    ],
-   "color": "wh",
+   "color": "f2",
+   "group": "body"
+  },
+  {
+   "name": "fur1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -5
+   ],
+   "size": [
+    20,
+    10,
+    12
+   ],
+   "color": "fd",
    "group": "body"
   },
   {
@@ -48,15 +64,15 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    22,
-    3
+    19,
+    4
    ],
    "size": [
-    20,
+    18,
     13,
-    16
+    14
    ],
-   "color": "wh",
+   "color": "f",
    "group": "head"
   },
   {
@@ -65,14 +81,14 @@
    "center": [
     0,
     18,
-    9.5
+    10
    ],
    "size": [
-    13,
-    6,
-    5
+    12,
+    8,
+    6
    ],
-   "color": "face",
+   "color": "dk",
    "group": "head"
   },
   {
@@ -80,179 +96,225 @@
    "shape": "ellipsoid",
    "center": [
     3,
-    20,
-    10
+    19.5,
+    12.5
    ],
    "size": [
-    2,
-    1,
-    0.8
+    2.4,
+    2.6,
+    1.6
    ],
-   "color": "wh",
+   "color": "eye",
    "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hornf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    7
+   ],
+   "size": [
+    4,
+    8,
+    4
+   ],
+   "color": "ice",
+   "group": "head",
+   "rot": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    19,
+    3
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "ice",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
    "mirror_x": true
   },
   {
    "name": "ear",
-   "shape": "cone",
-   "center": [
-    8,
-    27,
-    0
-   ],
-   "size": [
-    5,
-    7,
-    4
-   ],
-   "color": "wh2",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -20
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "eartip",
-   "shape": "cone",
-   "center": [
-    8.8,
-    28,
-    0
-   ],
-   "size": [
-    2.6,
-    4,
-    2
-   ],
-   "color": "blue",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -20
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "curl",
-   "shape": "cylinder",
-   "center": [
-    0,
-    29.5,
-    2
-   ],
-   "size": [
-    8,
-    3,
-    8
-   ],
-   "color": "blue",
-   "group": "head"
-  },
-  {
-   "name": "curl2",
-   "shape": "cylinder",
-   "center": [
-    0,
-    32.5,
-    2
-   ],
-   "size": [
-    6,
-    3,
-    6
-   ],
-   "color": "blue2",
-   "group": "head"
-  },
-  {
-   "name": "curl4",
-   "shape": "cone",
-   "center": [
-    2,
-    35.5,
-    2
-   ],
-   "size": [
-    3.5,
-    5,
-    3.5
-   ],
-   "color": "blue",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -30
-   ]
-  },
-  {
-   "name": "curl3",
    "shape": "ellipsoid",
    "center": [
-    3.5,
-    31,
-    4
+    6.5,
+    25,
+    2
    ],
    "size": [
-    3,
-    3,
-    3
+    5,
+    5,
+    4
    ],
-   "color": "blue",
+   "color": "f2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tuft",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    0
+   ],
+   "size": [
+    14,
+    7,
+    10
+   ],
+   "color": "f2",
    "group": "head"
   },
   {
    "name": "arm",
    "shape": "ellipsoid",
    "center": [
-    13,
-    13,
-    2
+    11.5,
+    10,
+    5
    ],
    "size": [
-    7,
+    5,
     10,
-    7
+    6
    ],
-   "color": "wh2",
+   "color": "f",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "ellipsoid",
+   "center": [
+    12.5,
+    5,
+    6
+   ],
+   "size": [
+    3.5,
+    5,
+    4
+   ],
+   "color": "ice",
    "group": "arm_r",
    "rot": [
     0,
     0,
-    -20
+    -15
    ],
+   "mirror_x": true
+  },
+  {
+   "name": "lg",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    3,
+    2
+   ],
+   "size": [
+    8,
+    6,
+    10
+   ],
+   "color": "f",
+   "group": "leg_fr",
    "mirror_x": true
   },
   {
    "name": "foot",
    "shape": "ellipsoid",
    "center": [
-    6,
-    2,
-    3
+    5,
+    1.2,
+    5
    ],
    "size": [
     7,
-    4,
-    9
+    3,
+    8
    ],
-   "color": "foot",
+   "color": "dk",
    "group": "leg_fr",
    "mirror_x": true
-  }
- ],
- "refs": [
-  {
-   "url": "https://palworld.gg/images/full_palicon/T_SmallYeti_icon_normal.png",
-   "note": "正面: 白い綿毛の丸い体、頭頂に青い渦巻きの飾り、ふかふかの腕"
   },
   {
-   "url": "https://images.gamepedia.jp/palworld/monster/v2/SmallYeti.png",
-   "note": "同アイコン(別CDN)。全身参照未取得: ヒエティの小型版として丸い毛玉の体と推定"
+   "name": "spk1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -12
+   ],
+   "size": [
+    4,
+    9,
+    4
+   ],
+   "color": "ice",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "spk2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    11,
+    -9
+   ],
+   "size": [
+    4,
+    8,
+    4
+   ],
+   "color": "ice2",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tl",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -12
+   ],
+   "size": [
+    10,
+    9,
+    8
+   ],
+   "color": "f2",
+   "group": "tail"
   }
  ]
 }

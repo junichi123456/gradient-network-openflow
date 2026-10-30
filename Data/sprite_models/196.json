@@ -2,13 +2,14 @@
  "name": "ゼノドラン (Xenolord)",
  "gait": "biped",
  "palette": {
-  "blk": "#2a2c34",
-  "blk2": "#434752",
-  "cy": "#5ccfe8",
-  "tan": "#8d7656",
-  "red": "#e0303a",
-  "glow": "#f2c440",
-  "claw": "#d8d4c8"
+  "blk": "#2a2838",
+  "blk2": "#3c3a4e",
+  "ice": "#7ab8d0",
+  "ice2": "#a8dcec",
+  "brown": "#4a342c",
+  "red": "#e03038",
+  "claw": "#8ac4dc",
+  "mouth": "#c8788a"
  },
  "parts": [
   {
@@ -16,52 +17,79 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    20,
-    -1
+    19,
+    0
    ],
    "size": [
+    20,
     18,
-    22,
-    17
+    18
    ],
    "color": "blk",
-   "group": "body",
-   "rot": [
-    -10,
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
     0,
-    0
-   ]
+    17,
+    5
+   ],
+   "size": [
+    12,
+    14,
+    10
+   ],
+   "color": "brown",
+   "group": "body"
   },
   {
    "name": "plate",
    "shape": "ellipsoid",
    "center": [
     0,
-    20,
-    6
+    22,
+    7
    ],
    "size": [
     13,
-    15,
+    12,
     6
    ],
-   "color": "blk2",
+   "color": "ice",
    "group": "body"
   },
   {
-   "name": "core",
+   "name": "plate2",
    "shape": "ellipsoid",
    "center": [
     0,
-    22,
-    9
+    24,
+    8
    ],
    "size": [
-    4,
-    5,
-    1.6
+    9,
+    6,
+    4
    ],
-   "color": "cy",
+   "color": "ice2",
+   "group": "body"
+  },
+  {
+   "name": "hips",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -2
+   ],
+   "size": [
+    20,
+    12,
+    16
+   ],
+   "color": "blk2",
    "group": "body"
   },
   {
@@ -69,66 +97,77 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    31,
-    3
+    28,
+    4
    ],
    "size": [
     8,
-    12,
+    10,
     8
    ],
-   "color": "tan",
-   "group": "head",
-   "rot": [
-    -15,
-    0,
-    0
-   ]
+   "color": "blk",
+   "group": "head"
   },
   {
    "name": "head",
    "shape": "ellipsoid",
    "center": [
     0,
-    38,
+    34,
     6
    ],
    "size": [
-    11,
+    12,
     9,
-    14
+    12
    ],
    "color": "blk",
    "group": "head"
   },
   {
-   "name": "visor",
-   "shape": "wedge",
+   "name": "snout",
+   "shape": "ellipsoid",
    "center": [
     0,
-    38.5,
-    9
+    32.5,
+    11.5
    ],
    "size": [
-    10,
-    7,
-    10
+    8,
+    5,
+    6
    ],
-   "color": "cy",
+   "color": "blk2",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    12
+   ],
+   "size": [
+    5,
+    2,
+    4
+   ],
+   "color": "mouth",
    "group": "head"
   },
   {
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    3.6,
-    38,
-    13
+    3.8,
+    35,
+    10.5
    ],
    "size": [
-    2,
-    1.8,
-    1.2
+    2.2,
+    1.6,
+    1.6
    ],
    "color": "red",
    "group": "head",
@@ -136,166 +175,132 @@
   },
   {
    "name": "horn",
-   "shape": "cone",
+   "shape": "ellipsoid",
    "center": [
-    4,
-    42,
-    0
+    5,
+    36,
+    2
    ],
    "size": [
-    3.4,
-    18,
-    3.4
+    3.5,
+    3.5,
+    12
    ],
    "color": "blk",
    "group": "head",
    "rot": [
-    -70,
+    -30,
     0,
-    -12
+    0
    ],
    "mirror_x": true
   },
   {
    "name": "horn2",
-   "shape": "cone",
-   "center": [
-    3,
-    40,
-    -3
-   ],
-   "size": [
-    2.6,
-    11,
-    2.6
-   ],
-   "color": "blk2",
-   "group": "head",
-   "rot": [
-    -85,
-    0,
-    -28
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "jaw",
    "shape": "ellipsoid",
    "center": [
     0,
-    34,
-    10
+    38,
+    3
    ],
    "size": [
-    7,
+    4,
+    4,
+    8
+   ],
+   "color": "ice",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    29,
+    -4
+   ],
+   "size": [
+    16,
     3,
     8
    ],
-   "color": "blk2",
-   "group": "head"
-  },
-  {
-   "name": "wing_a",
-   "shape": "ellipsoid",
-   "center": [
-    13,
-    31,
-    -7
-   ],
-   "size": [
-    18,
-    3,
-    12
-   ],
-   "color": "blk",
+   "color": "ice2",
    "group": "wing_r",
    "rot": [
     0,
-    0,
-    35
+    -20,
+    25
    ],
    "mirror_x": true
   },
   {
-   "name": "wing_b",
-   "shape": "ellipsoid",
-   "center": [
-    23,
-    38,
-    -8
-   ],
-   "size": [
-    14,
-    2.4,
-    10
-   ],
-   "color": "blk2",
-   "group": "wing_r",
-   "rot": [
-    0,
-    0,
-    45
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "wing_l",
-   "shape": "box",
-   "center": [
-    14,
-    32,
-    -6.5
-   ],
-   "size": [
-    14,
-    0.8,
-    2
-   ],
-   "color": "glow",
-   "group": "wing_r",
-   "rot": [
-    0,
-    0,
-    35
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "shoulder",
+   "name": "wing2",
    "shape": "ellipsoid",
    "center": [
     10,
-    27,
-    0
+    25,
+    -5
    ],
    "size": [
-    7,
-    7,
+    14,
+    3,
     7
    ],
-   "color": "blk2",
-   "group": "arm_r",
+   "color": "ice",
+   "group": "wing_r",
+   "rot": [
+    0,
+    -20,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing3",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    36,
+    -5
+   ],
+   "size": [
+    3,
+    12,
+    5
+   ],
+   "color": "ice2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
    "mirror_x": true
   },
   {
    "name": "arm",
    "shape": "ellipsoid",
    "center": [
-    12,
-    20,
-    3
+    11,
+    22,
+    4
    ],
    "size": [
     5,
-    12,
+    13,
     5
    ],
    "color": "blk",
    "group": "arm_r",
    "rot": [
-    -15,
+    -30,
     0,
-    -8
+    -30
    ],
    "mirror_x": true
   },
@@ -303,53 +308,48 @@
    "name": "hand",
    "shape": "ellipsoid",
    "center": [
-    13,
-    13.5,
-    6
+    15,
+    15,
+    9
    ],
    "size": [
-    5.5,
-    4.5,
-    5.5
+    6,
+    5,
+    6
    ],
    "color": "blk2",
    "group": "arm_r",
    "mirror_x": true
   },
   {
-   "name": "claw",
-   "shape": "cone",
+   "name": "aclaw",
+   "shape": "ellipsoid",
    "center": [
+    16,
     13,
-    11,
-    9
+    12
    ],
    "size": [
-    1.6,
-    4,
-    1.6
+    3,
+    3,
+    6
    ],
    "color": "claw",
    "group": "arm_r",
-   "rot": [
-    -90,
-    0,
-    0
-   ],
    "mirror_x": true
   },
   {
    "name": "thigh",
    "shape": "ellipsoid",
    "center": [
-    7,
-    10,
-    -1
+    8,
+    11,
+    0
    ],
    "size": [
     9,
-    12,
-    11
+    14,
+    13
    ],
    "color": "blk",
    "group": "leg_fr",
@@ -357,16 +357,16 @@
   },
   {
    "name": "foot",
-   "shape": "box",
+   "shape": "ellipsoid",
    "center": [
-    7,
-    1.5,
-    3
+    8,
+    2.5,
+    4
    ],
    "size": [
     8,
-    3,
-    10
+    5,
+    12
    ],
    "color": "blk2",
    "group": "leg_fr",
@@ -374,24 +374,19 @@
   },
   {
    "name": "toe",
-   "shape": "cone",
+   "shape": "ellipsoid",
    "center": [
-    7,
+    8,
     2,
-    9
+    10
    ],
    "size": [
-    2,
-    4,
-    2
+    7,
+    3,
+    5
    ],
    "color": "claw",
    "group": "leg_fr",
-   "rot": [
-    -90,
-    0,
-    0
-   ],
    "mirror_x": true
   },
   {
@@ -400,67 +395,53 @@
    "center": [
     0,
     12,
-    -14
-   ],
-   "size": [
-    9,
-    8,
-    14
-   ],
-   "color": "blk",
-   "group": "tail",
-   "rot": [
-    15,
-    0,
-    0
-   ]
-  },
-  {
-   "name": "tail2",
-   "shape": "cone",
-   "center": [
-    0,
-    9,
-    -24
-   ],
-   "size": [
-    7,
-    14,
-    7
-   ],
-   "color": "blk2",
-   "group": "tail",
-   "rot": [
-    -100,
-    0,
-    0
-   ]
-  },
-  {
-   "name": "tail_g",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    14,
     -12
    ],
    "size": [
-    2,
-    2,
+    10,
+    9,
+    16
+   ],
+   "color": "blk",
+   "group": "tail"
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -22
+   ],
+   "size": [
+    6,
+    5,
+    14
+   ],
+   "color": "blk2",
+   "group": "tail"
+  },
+  {
+   "name": "tail3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -30
+   ],
+   "size": [
+    4,
+    4,
     10
    ],
-   "color": "glow",
+   "color": "ice",
    "group": "tail"
   }
  ],
  "refs": [
   {
-   "url": "Tools/.refcache/196/icon.png",
-   "note": "頭部: 黒灰の頭に水色の面板、後ろへ流れる長い黒い角、赤い目、褐色の首"
-  },
-  {
-   "url": "Tools/.refcache/196/icon.png",
-   "note": "(全身参照なし) 機械竜として推定: 黒灰の装甲体、大きな翼、太い尾、水色と金のライン"
+   "url": "Tools/.refshots/196",
+   "note": "dark navy dragon, ice-blue chest plate, crystal wings, pale blue claws, red eyes"
   }
  ]
 }

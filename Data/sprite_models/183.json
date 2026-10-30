@@ -1,32 +1,160 @@
 {
- "name": "ゴウカブキ (Renjishi)",
+ "name": "ゴウカブキ",
  "gait": "biped",
  "palette": {
-  "mane": "#f0dce2",
-  "mane2": "#d8b8c4",
-  "red": "#c42830",
-  "red2": "#8a1c28",
-  "blk": "#24242c",
-  "mask": "#3a3a44",
-  "eye": "#e8d848",
-  "wh": "#f6f2f4",
-  "bl": "#2a2a32"
+  "navy": "#2e2a42",
+  "navy2": "#403a58",
+  "pink": "#d05068",
+  "pink2": "#e06a78",
+  "red": "#c02e2c",
+  "red2": "#e04838",
+  "wh": "#e0dce8",
+  "wh2": "#bdb8cc",
+  "org": "#e05a24",
+  "eye": "#d8d040",
+  "blk": "#1e1a28"
  },
  "parts": [
   {
-   "name": "body",
+   "name": "foot_l",
    "shape": "ellipsoid",
    "center": [
-    0,
+    9,
+    2,
+    3
+   ],
+   "size": [
+    8,
+    4,
+    12
+   ],
+   "color": "wh2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legm",
+   "shape": "ellipsoid",
+   "center": [
     10,
+    11,
     0
    ],
    "size": [
-    16,
-    16,
-    12
+    15,
+    18,
+    14
    ],
-   "color": "blk",
+   "color": "navy",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "hem",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    4.2,
+    0.5
+   ],
+   "size": [
+    20,
+    4,
+    17
+   ],
+   "color": "pink",
+   "group": "leg_fl",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hem2",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    6,
+    -1
+   ],
+   "size": [
+    17,
+    3,
+    14
+   ],
+   "color": "pink2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    17,
+    13,
+    13
+   ],
+   "color": "navy",
+   "group": "body"
+  },
+  {
+   "name": "cape",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -8
+   ],
+   "size": [
+    22,
+    18,
+    6
+   ],
+   "color": "navy2",
+   "group": "body"
+  },
+  {
+   "name": "apron",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    6
+   ],
+   "size": [
+    7,
+    15,
+    3
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    -6,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    0
+   ],
+   "size": [
+    12,
+    11,
+    9
+   ],
+   "color": "navy",
    "group": "body"
   },
   {
@@ -34,232 +162,340 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    15,
+    31,
+    1
+   ],
+   "size": [
+    14,
+    5,
+    10
+   ],
+   "color": "red2",
+   "group": "body"
+  },
+  {
+   "name": "collar2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28.5,
+    5
+   ],
+   "size": [
+    8,
+    6,
+    4
+   ],
+   "color": "red",
+   "group": "body"
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    30,
     3
    ],
    "size": [
     16,
-    8,
-    10
+    4.5,
+    4.5
    ],
-   "color": "red",
-   "group": "body"
+   "color": "blk",
+   "group": "arm_l",
+   "rot": [
+    0,
+    -15,
+    8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand_l",
+   "shape": "ellipsoid",
+   "center": [
+    22,
+    31,
+    7
+   ],
+   "size": [
+    8,
+    3,
+    8
+   ],
+   "color": "wh",
+   "group": "arm_l",
+   "rot": [
+    0,
+    -20,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "nail0_l",
+   "shape": "ellipsoid",
+   "center": [
+    26.5,
+    31,
+    5.0
+   ],
+   "size": [
+    3.5,
+    1.6,
+    1.6
+   ],
+   "color": "org",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "nail1_l",
+   "shape": "ellipsoid",
+   "center": [
+    26.5,
+    31,
+    7.2
+   ],
+   "size": [
+    3.5,
+    1.6,
+    1.6
+   ],
+   "color": "org",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "nail2_l",
+   "shape": "ellipsoid",
+   "center": [
+    26.5,
+    31,
+    9.4
+   ],
+   "size": [
+    3.5,
+    1.6,
+    1.6
+   ],
+   "color": "org",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "nail3_l",
+   "shape": "ellipsoid",
+   "center": [
+    26.5,
+    31,
+    11.600000000000001
+   ],
+   "size": [
+    3.5,
+    1.6,
+    1.6
+   ],
+   "color": "org",
+   "group": "arm_l",
+   "mirror_x": true
   },
   {
    "name": "mane",
    "shape": "ellipsoid",
    "center": [
     0,
-    26,
-    -8
+    38,
+    -2
    ],
    "size": [
-    30,
-    24,
-    12
-   ],
-   "color": "mane",
-   "group": "head"
-  },
-  {
-   "name": "mane2",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    26,
-    -11
-   ],
-   "size": [
-    34,
-    24,
-    9
-   ],
-   "color": "mane2",
-   "group": "head"
-  },
-  {
-   "name": "head",
-   "shape": "ellipsoid",
-   "center": [
-    0,
+    25,
     21,
-    3
-   ],
-   "size": [
-    14,
-    13,
-    11
+    16
    ],
    "color": "wh",
    "group": "head"
   },
   {
-   "name": "mask",
+   "name": "manebk",
    "shape": "ellipsoid",
    "center": [
     0,
-    22,
-    8
+    37,
+    -9
    ],
    "size": [
-    11,
-    9,
-    4
+    28,
+    24,
+    11
    ],
-   "color": "mask",
+   "color": "red2",
    "group": "head"
   },
   {
-   "name": "nose",
-   "shape": "cone",
-   "center": [
-    0,
-    19,
-    10
-   ],
-   "size": [
-    5,
-    5,
-    3
-   ],
-   "color": "blk",
-   "group": "head",
-   "rot": [
-    90,
-    0,
-    0
-   ]
-  },
-  {
-   "name": "eye",
+   "name": "mane_r",
    "shape": "ellipsoid",
    "center": [
-    3.2,
-    23,
-    10
+    0,
+    44,
+    -6
    ],
    "size": [
-    3.2,
-    2.4,
-    1.4
+    20,
+    11,
+    11
+   ],
+   "color": "red",
+   "group": "head"
+  },
+  {
+   "name": "tuft0",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    32,
+    -9
+   ],
+   "size": [
+    4,
+    12,
+    6
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tuft1",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    40,
+    -8
+   ],
+   "size": [
+    4,
+    12,
+    6
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -55
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tuft2",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    47,
+    -8
+   ],
+   "size": [
+    4,
+    12,
+    6
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sidew",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    33,
+    2
+   ],
+   "size": [
+    5,
+    14,
+    6
+   ],
+   "color": "wh",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    6
+   ],
+   "size": [
+    9,
+    8,
+    5
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "eye_l",
+   "shape": "ellipsoid",
+   "center": [
+    2.5,
+    36.5,
+    8.4
+   ],
+   "size": [
+    2.6,
+    1.5,
+    1.2
    ],
    "color": "eye",
    "group": "head",
    "mirror_x": true
   },
   {
-   "name": "rline",
-   "shape": "box",
-   "center": [
-    4.6,
-    21.5,
-    10.6
-   ],
-   "size": [
-    0.8,
-    4,
-    0.6
-   ],
-   "color": "red",
-   "group": "head",
-   "mirror_x": true
-  },
-  {
-   "name": "rline2",
-   "shape": "box",
+   "name": "crest",
+   "shape": "ellipsoid",
    "center": [
     0,
-    25.5,
-    10.2
-   ],
-   "size": [
-    1,
-    3,
-    0.6
-   ],
-   "color": "red",
-   "group": "head"
-  },
-  {
-   "name": "arm",
-   "shape": "ellipsoid",
-   "center": [
-    9.5,
-    12,
-    1
-   ],
-   "size": [
-    5.5,
-    12,
+    41.5,
     6
    ],
-   "color": "red",
-   "group": "arm_r",
-   "mirror_x": true
-  },
-  {
-   "name": "hand",
-   "shape": "ellipsoid",
-   "center": [
-    10,
+   "size": [
+    3,
     5,
     3
    ],
-   "size": [
-    6,
-    5,
-    6
-   ],
    "color": "blk",
-   "group": "arm_r",
-   "mirror_x": true
-  },
-  {
-   "name": "leg",
-   "shape": "ellipsoid",
-   "center": [
-    4.5,
-    3,
-    2
-   ],
-   "size": [
-    7,
-    6,
-    9
-   ],
-   "color": "red2",
-   "group": "leg_fr",
-   "mirror_x": true
-  },
-  {
-   "name": "tail",
-   "shape": "ellipsoid",
-   "center": [
+   "group": "head",
+   "rot": [
+    -20,
     0,
-    6,
-    -9
-   ],
-   "size": [
-    6,
-    6,
-    8
-   ],
-   "color": "red",
-   "group": "tail"
+    0
+   ]
   }
  ],
  "refs": [
   {
-   "url": "https://palworld.gg/images/full_palicon/T_KabukiMan_icon_normal.png",
-   "note": "頭部: 灰白の頭に黒い面と赤い隈取り、後ろに巨大なピンク白のたてがみ、赤い襟と毛"
-  },
-  {
-   "url": "https://paldb.cc/ja/Renjishi",
-   "note": "パルデータベース（アイコンのみ）"
-  },
-  {
-   "url": "https://palworld.wiki.gg/wiki/Renjishi",
-   "note": "全身画像なし。胴・脚は推定"
+   "url": "Tools/.refshots/183",
+   "note": "ゲーム内スクショ: 白と赤の巨大な鬣、紺のスカートに桃色の裾、横に広げた白い手(橙の爪)、白い足"
   }
  ]
 }

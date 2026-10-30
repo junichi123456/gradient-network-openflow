@@ -2,49 +2,54 @@
  "name": "ハグミー (Cactus)",
  "gait": "biped",
  "palette": {
-  "body": "#9aa23a",
-  "bodysh": "#7d8a2c",
-  "mask": "#1c1914",
-  "eye": "#d8c23a",
-  "knob": "#8a6a2a",
-  "bulb": "#6f8a3a",
-  "bulbtop": "#3b6b36",
-  "flower": "#c8322e",
-  "flower2": "#e4602e",
-  "spike": "#c89a3a",
-  "leg": "#6f7a2c"
+  "body": "#a9b232",
+  "bodysh": "#8c9a28",
+  "belly": "#b8be3a",
+  "mask": "#16130f",
+  "eye": "#f0ece0",
+  "tip": "#2a6a46",
+  "spike": "#d8a030",
+  "flower": "#c82a2a",
+  "flower2": "#e0503a",
+  "foot": "#6f7a2a"
  },
+ "refs": [
+  {
+   "url": "Tools/.refshots/100 (in-game screenshots)",
+   "note": "in-game screenshots, all views"
+  }
+ ],
  "parts": [
   {
    "name": "body",
    "shape": "ellipsoid",
    "center": [
     0,
-    13,
+    12,
     0
    ],
    "size": [
-    23,
     22,
-    21
+    22,
+    20
    ],
    "color": "body",
    "group": "body"
   },
   {
-   "name": "rib",
+   "name": "belly",
    "shape": "ellipsoid",
    "center": [
     0,
-    12,
-    -1
+    9,
+    2
    ],
    "size": [
-    21,
-    3,
-    19
+    18,
+    14,
+    17
    ],
-   "color": "bodysh",
+   "color": "belly",
    "group": "body"
   },
   {
@@ -52,13 +57,13 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    15,
-    8.2
+    14.5,
+    8.3
    ],
    "size": [
-    17,
-    9.5,
-    6
+    12,
+    7.5,
+    5
    ],
    "color": "mask",
    "group": "head"
@@ -67,13 +72,13 @@
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    4.2,
-    15.5,
-    11
+    3.2,
+    14.8,
+    10.4
    ],
    "size": [
+    2.6,
     3.2,
-    4,
     1.2
    ],
    "color": "eye",
@@ -81,64 +86,74 @@
    "mirror_x": true
   },
   {
-   "name": "knob",
+   "name": "nose",
+   "shape": "cone",
+   "center": [
+    0,
+    10,
+    10
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "top",
    "shape": "ellipsoid",
    "center": [
     0,
-    9.5,
-    10.2
+    26,
+    -3
    ],
    "size": [
-    6,
-    6,
-    3.5
-   ],
-   "color": "knob",
-   "group": "head"
-  },
-  {
-   "name": "bulb",
-   "shape": "ellipsoid",
-   "center": [
-    -3,
-    27,
-    -2
-   ],
-   "size": [
-    10,
     9,
+    11,
     9
    ],
-   "color": "bulb",
-   "group": "head"
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
   },
   {
-   "name": "bulbtop",
+   "name": "toptip",
    "shape": "ellipsoid",
    "center": [
-    -3,
-    29.5,
-    -2
+    0,
+    30,
+    -3.5
    ],
    "size": [
     8,
-    4,
-    7
+    6,
+    8
    ],
-   "color": "bulbtop",
+   "color": "tip",
    "group": "head"
   },
   {
-   "name": "petal",
+   "name": "petalA",
    "shape": "ellipsoid",
    "center": [
-    5,
+    3,
     24.5,
-    3
+    4
    ],
    "size": [
     6,
-    2.5,
+    2.6,
     4
    ],
    "color": "flower",
@@ -146,20 +161,20 @@
    "rot": [
     0,
     0,
-    -25
+    -20
    ]
   },
   {
-   "name": "petal2",
+   "name": "petalB",
    "shape": "ellipsoid",
    "center": [
-    1.5,
-    25.5,
-    3
+    -3,
+    24.5,
+    4
    ],
    "size": [
-    5,
-    2.5,
+    6,
+    2.6,
     4
    ],
    "color": "flower",
@@ -171,177 +186,158 @@
    ]
   },
   {
-   "name": "petal3",
+   "name": "petalC",
    "shape": "ellipsoid",
    "center": [
-    3.5,
-    26.5,
-    2
-   ],
-   "size": [
-    5,
-    3,
-    4
-   ],
-   "color": "flower",
-   "group": "head"
-  },
-  {
-   "name": "petal4",
-   "shape": "ellipsoid",
-   "center": [
-    3.5,
-    25,
-    5.5
+    0,
+    25.5,
+    4.5
    ],
    "size": [
     4,
-    2.5,
-    3
+    3,
+    4
    ],
    "color": "flower2",
    "group": "head"
   },
   {
-   "name": "spike0",
-   "shape": "cone",
+   "name": "arm",
+   "shape": "ellipsoid",
    "center": [
-    11.5,
+    14,
     16,
     2
    ],
    "size": [
-    3,
-    5,
-    3
-   ],
-   "color": "spike",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    -90
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "spike1",
-   "shape": "cone",
-   "center": [
-    10.5,
-    9,
-    3
-   ],
-   "size": [
-    3,
-    5,
-    3
-   ],
-   "color": "spike",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    -110
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "spike2",
-   "shape": "cone",
-   "center": [
-    10,
-    22,
-    -1
-   ],
-   "size": [
-    3,
-    5,
-    3
-   ],
-   "color": "spike",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    -60
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "spike3",
-   "shape": "cone",
-   "center": [
-    5,
-    23,
-    -5
-   ],
-   "size": [
-    3,
-    5,
-    3
-   ],
-   "color": "spike",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    -30
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "arm",
-   "shape": "ellipsoid",
-   "center": [
     12,
-    10,
-    5
+    7,
+    7
    ],
-   "size": [
-    5,
-    8,
-    5
-   ],
-   "color": "bodysh",
+   "color": "body",
    "group": "arm_l",
    "rot": [
     0,
     0,
-    -15
+    20
    ],
    "mirror_x": true
   },
   {
-   "name": "leg",
+   "name": "armtip",
+   "shape": "ellipsoid",
+   "center": [
+    19,
+    18.5,
+    2
+   ],
+   "size": [
+    7,
+    8,
+    8
+   ],
+   "color": "tip",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "armsp",
+   "shape": "cone",
+   "center": [
+    16,
+    21.5,
+    4
+   ],
+   "size": [
+    2.4,
+    4,
+    2.4
+   ],
+   "color": "spike",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
    "shape": "ellipsoid",
    "center": [
     5,
-    2.2,
-    3
+    2,
+    2
    ],
    "size": [
-    8,
-    4.5,
-    10
+    7,
+    4,
+    9
    ],
-   "color": "leg",
+   "color": "foot",
    "group": "leg_fl",
    "mirror_x": true
-  }
- ],
- "refs": [
-  {
-   "url": "https://palworld.gg/images/full_palicon/T_CactusDoll_icon_normal.png",
-   "note": "頭部アップ: オリーブ緑の丸い体、黒い面状の顔に黄の目、真鍮色の丸い鼻、頭に赤い花と緑の球、橙のトゲ"
   },
   {
-   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_CactusDoll_icon_normal.webp",
-   "note": "paldb icon（同アングル）。胴は丸いサボテン型で全身ref取得不可のため推定"
+   "name": "sp1",
+   "shape": "cone",
+   "center": [
+    9.5,
+    17,
+    -4
+   ],
+   "size": [
+    2.6,
+    4,
+    2.6
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -70
+   ],
+   "mirror_x": true
   },
   {
-   "url": "https://game8.jp/pal-world/799216",
-   "note": "game8 ページ（全身画像なし、地図のみ）"
+   "name": "sp2",
+   "shape": "cone",
+   "center": [
+    8,
+    21,
+    -6
+   ],
+   "size": [
+    2.6,
+    4,
+    2.6
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -45
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sp3",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    -11
+   ],
+   "size": [
+    2.6,
+    4,
+    2.6
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    -70,
+    0,
+    0
+   ]
   }
  ]
 }

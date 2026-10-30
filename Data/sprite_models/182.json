@@ -1,28 +1,298 @@
 {
- "name": "モノクローナ (Solenne)",
- "gait": "biped",
+ "name": "モノクローナ",
+ "gait": "hover",
  "palette": {
-  "li": "#ddd4e8",
-  "li2": "#c0b4d4",
-  "blk": "#1c1c22",
-  "eye": "#d83a48",
-  "wh": "#f4f0f8"
+  "wh": "#dcd8e4",
+  "wh2": "#b8b2c6",
+  "blk": "#1d1a24",
+  "blk2": "#34303e",
+  "eye": "#c83040",
+  "skin": "#e4dfea",
+  "pink": "#b88aa0"
  },
  "parts": [
+  {
+   "name": "leg_l",
+   "shape": "cylinder",
+   "center": [
+    2,
+    5,
+    0
+   ],
+   "size": [
+    2,
+    10,
+    2
+   ],
+   "color": "blk",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "skw",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    0
+   ],
+   "size": [
+    12,
+    6,
+    10
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "lf0",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    10.5,
+    5
+   ],
+   "size": [
+    3,
+    15,
+    3
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    -10,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lf1",
+   "shape": "ellipsoid",
+   "center": [
+    11.0,
+    10.5,
+    1
+   ],
+   "size": [
+    3,
+    15,
+    3
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -55
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lf2",
+   "shape": "ellipsoid",
+   "center": [
+    7.700000000000001,
+    10.5,
+    -5
+   ],
+   "size": [
+    3,
+    15,
+    3
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    12,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lf3",
+   "shape": "ellipsoid",
+   "center": [
+    2.2,
+    10.5,
+    -8
+   ],
+   "size": [
+    3,
+    15,
+    3
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    25,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lf4",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    10.5,
+    6
+   ],
+   "size": [
+    3,
+    15,
+    3
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    -18,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "lfw",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14.5,
+    5
+   ],
+   "size": [
+    8,
+    5,
+    4
+   ],
+   "color": "wh",
+   "group": "body",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "lfw2",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    14,
+    2
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "wh",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    0
+   ],
+   "size": [
+    8,
+    8,
+    7
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19.5,
+    2
+   ],
+   "size": [
+    6,
+    5,
+    4
+   ],
+   "color": "wh2",
+   "group": "body"
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    22,
+    3
+   ],
+   "size": [
+    4,
+    5,
+    4.4
+   ],
+   "color": "blk",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "hand_l",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    22,
+    5.5
+   ],
+   "size": [
+    11,
+    5,
+    5
+   ],
+   "color": "blk",
+   "group": "arm_l",
+   "rot": [
+    0,
+    -15,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "spot_l",
+   "shape": "ellipsoid",
+   "center": [
+    12.5,
+    23.5,
+    6.5
+   ],
+   "size": [
+    4.5,
+    1.6,
+    3
+   ],
+   "color": "wh2",
+   "group": "arm_l",
+   "mirror_x": true
+  },
   {
    "name": "head",
    "shape": "ellipsoid",
    "center": [
     0,
-    17,
+    29,
     0
    ],
    "size": [
-    24,
-    17,
-    19
+    14,
+    12.5,
+    12.5
    ],
-   "color": "li",
+   "color": "wh",
    "group": "head"
   },
   {
@@ -30,239 +300,177 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    15,
-    7
+    27.5,
+    4.2
    ],
    "size": [
-    18,
     10,
-    8
+    6,
+    5
    ],
-   "color": "wh",
+   "color": "skin",
    "group": "head"
   },
   {
-   "name": "eye",
+   "name": "eye_l",
    "shape": "ellipsoid",
    "center": [
-    5.5,
-    16,
-    11
+    3.3,
+    28,
+    7
    ],
    "size": [
-    3.4,
-    4,
-    1.5
+    2.6,
+    2,
+    1.2
    ],
    "color": "eye",
    "group": "head",
    "mirror_x": true
   },
   {
-   "name": "lid",
-   "shape": "box",
-   "center": [
-    5.5,
-    18.4,
-    11.8
-   ],
-   "size": [
-    4,
-    0.8,
-    0.8
-   ],
-   "color": "li2",
-   "group": "head",
-   "mirror_x": true
-  },
-  {
-   "name": "sp1",
-   "shape": "cone",
+   "name": "mouth",
+   "shape": "ellipsoid",
    "center": [
     0,
-    27,
-    -1
+    24.8,
+    6
    ],
    "size": [
-    5,
-    9,
-    5
+    3,
+    1,
+    1
    ],
-   "color": "blk",
+   "color": "blk2",
    "group": "head"
   },
   {
-   "name": "sp2",
-   "shape": "cone",
-   "center": [
-    6,
-    26,
-    -1
-   ],
-   "size": [
-    5,
-    8,
-    5
-   ],
-   "color": "blk",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -30
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "sp3",
-   "shape": "cone",
-   "center": [
-    10,
-    24,
-    -1
-   ],
-   "size": [
-    4.5,
-    7,
-    4.5
-   ],
-   "color": "blk",
-   "group": "head",
-   "rot": [
-    0,
-    0,
-    -60
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "body",
+   "name": "hood",
    "shape": "ellipsoid",
    "center": [
     0,
-    6,
-    0
+    31.5,
+    -2.5
    ],
    "size": [
-    16,
-    11,
-    13
+    14.5,
+    10,
+    10
    ],
-   "color": "blk",
-   "group": "body"
+   "color": "wh2",
+   "group": "head"
   },
   {
-   "name": "ks1",
-   "shape": "cone",
+   "name": "sp0",
+   "shape": "ellipsoid",
    "center": [
-    6,
-    2,
-    5
+    0,
+    37.666666666666664,
+    -2
    ],
    "size": [
-    4,
-    5,
-    4
+    3.6,
+    8,
+    3.4
    ],
    "color": "blk",
-   "group": "body",
+   "group": "head",
    "rot": [
     0,
     0,
-    150
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "ks2",
-   "shape": "cone",
-   "center": [
-    0,
-    2,
-    7
-   ],
-   "size": [
-    4,
-    5,
-    4
-   ],
-   "color": "blk",
-   "group": "body",
-   "rot": [
-    150,
-    0,
-    0
+    0.0
    ]
   },
   {
-   "name": "ks3",
-   "shape": "cone",
+   "name": "sp1",
+   "shape": "ellipsoid",
    "center": [
-    7,
-    3,
-    -5
+    4,
+    36.333333333333336,
+    -2
    ],
    "size": [
-    4,
-    5,
-    4
+    3.6,
+    7,
+    3.4
    ],
    "color": "blk",
-   "group": "body",
+   "group": "head",
    "rot": [
-    -150,
     0,
-    -30
-   ],
-   "mirror_x": true
+    0,
+    -14.0
+   ]
   },
   {
-   "name": "arm",
+   "name": "sp2",
    "shape": "ellipsoid",
    "center": [
-    9,
-    8,
-    2
+    -4,
+    36.333333333333336,
+    -2
    ],
    "size": [
-    5,
-    8,
-    5
+    3.6,
+    7,
+    3.4
    ],
-   "color": "li",
-   "group": "arm_r",
-   "mirror_x": true
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    14.0
+   ]
   },
   {
-   "name": "leg",
+   "name": "sp3",
    "shape": "ellipsoid",
    "center": [
-    4,
-    1.5,
-    2
+    7.5,
+    34.791666666666664,
+    -2
    ],
    "size": [
+    3.6,
     5,
-    3,
-    7
+    3.4
    ],
-   "color": "li2",
-   "group": "leg_fr",
-   "mirror_x": true
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -26.25
+   ]
+  },
+  {
+   "name": "sp4",
+   "shape": "ellipsoid",
+   "center": [
+    -7.5,
+    34.791666666666664,
+    -2
+   ],
+   "size": [
+    3.6,
+    5,
+    3.4
+   ],
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    26.25
+   ]
   }
  ],
  "refs": [
   {
-   "url": "https://palworld.gg/images/full_palicon/T_MonochromeQueen_icon_normal.png",
-   "note": "頭部: 淡い藤白の丸いドーム頭、赤い目、頭上と体に黒いトゲ"
-  },
-  {
-   "url": "https://paldb.cc/ja/Solenne",
-   "note": "パルデータベース（アイコンのみ）"
-  },
-  {
-   "url": "https://palworld.wiki.gg/wiki/Solenne",
-   "note": "全身画像なし。胴・脚は推定"
+   "url": "Tools/.refshots/182",
+   "note": "ゲーム内スクショ: 白い丸頭に黒いギザ冠、赤い目、黒い大きな腕に白い斑点、白と黒の葉状スカート、細い黒脚、浮遊"
   }
- ]
+ ],
+ "hover": 3
 }

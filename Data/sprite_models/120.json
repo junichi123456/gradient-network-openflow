@@ -1,109 +1,99 @@
 {
- "name": "ヨミーラ (Gildra)",
- "gait": "biped",
+ "name": "ヨミーラ (Pharaoh)",
+ "gait": "hover",
  "palette": {
-  "gold": "#e0a82a",
-  "gold2": "#f6cf5a",
-  "goldsh": "#a8741a",
-  "teal": "#1f5a6e",
-  "teal2": "#2d7a8c",
-  "horn": "#143c52",
-  "dk": "#10141c",
-  "eye": "#7ab648",
-  "red": "#c0392b"
+  "navy": "#1c2a44",
+  "navy2": "#141e34",
+  "gold": "#c89a30",
+  "gold2": "#a07a22",
+  "face": "#12182a",
+  "eye": "#d8a030",
+  "claw": "#d8b048"
  },
+ "hover": 0,
+ "refs": [
+  {
+   "url": "Tools/.refshots/120 (in-game screenshots)",
+   "note": "in-game screenshots, all views"
+  }
+ ],
  "parts": [
   {
-   "name": "body",
+   "name": "torso",
    "shape": "ellipsoid",
    "center": [
     0,
-    16,
+    22,
     0
    ],
    "size": [
-    20,
-    19,
-    14
+    11,
+    12,
+    9
    ],
-   "color": "teal",
+   "color": "navy",
    "group": "body"
   },
   {
-   "name": "belt1",
-   "shape": "box",
+   "name": "stripe1",
+   "shape": "ellipsoid",
    "center": [
     0,
-    17,
-    6.5
-   ],
-   "size": [
     24,
-    3.5,
-    2.5
-   ],
-   "color": "gold",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    35
-   ]
-  },
-  {
-   "name": "belt2",
-   "shape": "box",
-   "center": [
-    0,
-    17,
-    6.5
-   ],
-   "size": [
-    24,
-    3.5,
-    2.5
-   ],
-   "color": "gold",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    -35
-   ]
-  },
-  {
-   "name": "buckle",
-   "shape": "box",
-   "center": [
-    0,
-    17,
-    8
-   ],
-   "size": [
-    5,
-    5,
-    2
-   ],
-   "color": "gold2",
-   "group": "body",
-   "rot": [
-    0,
-    0,
-    45
-   ]
-  },
-  {
-   "name": "waist",
-   "shape": "cylinder",
-   "center": [
-    0,
-    8,
     0
    ],
    "size": [
-    15,
-    3,
-    12
+    12,
+    2.2,
+    10
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "stripe2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    11,
+    2.2,
+    9.5
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "waist",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    0
+   ],
+   "size": [
+    8,
+    8,
+    7
+   ],
+   "color": "navy",
+   "group": "body"
+  },
+  {
+   "name": "stripe3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    8.5,
+    2,
+    7.5
    ],
    "color": "gold",
    "group": "body"
@@ -113,224 +103,431 @@
    "shape": "ellipsoid",
    "center": [
     0,
-    27,
-    2
-   ],
-   "size": [
-    15,
-    13,
-    13
-   ],
-   "color": "gold",
-   "group": "head"
-  },
-  {
-   "name": "face",
-   "shape": "ellipsoid",
-   "center": [
-    0,
-    26,
-    6
+    32,
+    1
    ],
    "size": [
     10,
-    8,
-    6
+    9,
+    9
    ],
-   "color": "dk",
+   "color": "face",
    "group": "head"
   },
   {
    "name": "eye",
    "shape": "ellipsoid",
    "center": [
-    2.8,
-    26.5,
-    9
+    2.4,
+    32,
+    5
    ],
    "size": [
     2,
     1.6,
-    1
+    1.2
    ],
    "color": "eye",
    "group": "head",
    "mirror_x": true
   },
   {
-   "name": "crest",
+   "name": "hood",
    "shape": "ellipsoid",
    "center": [
     0,
     33,
-    0
-   ],
-   "size": [
-    8,
-    5,
-    14
-   ],
-   "color": "gold2",
-   "group": "head"
-  },
-  {
-   "name": "horn",
-   "shape": "cone",
-   "center": [
-    6.5,
-    37,
     -1
    ],
    "size": [
-    5,
-    17,
+    15,
+    12,
+    10
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "hoodin",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32.5,
+    2.2
+   ],
+   "size": [
+    10,
+    9.5,
+    7
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "crossA",
+   "shape": "box",
+   "center": [
+    0,
+    26.5,
     5
    ],
-   "color": "horn",
+   "size": [
+    14,
+    1.8,
+    1.2
+   ],
+   "color": "gold2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    30
+   ]
+  },
+  {
+   "name": "crossB",
+   "shape": "box",
+   "center": [
+    0,
+    26.5,
+    5
+   ],
+   "size": [
+    14,
+    1.8,
+    1.2
+   ],
+   "color": "gold2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "horn",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    40,
+    0
+   ],
+   "size": [
+    3.2,
+    9,
+    3
+   ],
+   "color": "navy2",
    "group": "head",
    "rot": [
-    8,
     0,
-    -16
+    0,
+    -12
    ],
    "mirror_x": true
   },
   {
-   "name": "band",
-   "shape": "cylinder",
+   "name": "shoulder",
+   "shape": "ellipsoid",
    "center": [
-    0,
-    27,
-    2
+    8,
+    26,
+    0
    ],
    "size": [
-    16,
-    2,
-    14
+    5,
+    5,
+    5
    ],
-   "color": "goldsh",
-   "group": "head"
+   "color": "gold",
+   "group": "arm_l",
+   "mirror_x": true
   },
   {
    "name": "arm",
    "shape": "ellipsoid",
    "center": [
-    13,
-    15,
-    1
-   ],
-   "size": [
-    7,
-    15,
-    7
-   ],
-   "color": "teal2",
-   "group": "arm_r",
-   "rot": [
-    0,
-    0,
-    -8
-   ],
-   "mirror_x": true
-  },
-  {
-   "name": "armband",
-   "shape": "cylinder",
-   "center": [
-    13.5,
-    17,
-    1
-   ],
-   "size": [
-    8,
-    3,
-    8
-   ],
-   "color": "gold",
-   "group": "arm_r",
-   "mirror_x": true
-  },
-  {
-   "name": "hand",
-   "shape": "ellipsoid",
-   "center": [
-    14.5,
-    7,
+    11,
+    23,
     2
    ],
    "size": [
-    6,
-    6,
-    6
+    4,
+    8,
+    4
+   ],
+   "color": "navy",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "band",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    20.5,
+    2.5
+   ],
+   "size": [
+    5.5,
+    2,
+    5.5
    ],
    "color": "gold",
-   "group": "arm_r",
+   "group": "arm_l",
    "mirror_x": true
   },
   {
-   "name": "leg",
-   "shape": "cylinder",
+   "name": "fist",
+   "shape": "ellipsoid",
    "center": [
-    5,
-    5,
-    1
+    13.5,
+    16,
+    3.5
    ],
    "size": [
-    7,
+    9,
+    9,
+    9
+   ],
+   "color": "navy",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "fband",
+   "shape": "ellipsoid",
+   "center": [
+    13.5,
+    17,
+    3.5
+   ],
+   "size": [
+    9.6,
+    1.6,
+    9.6
+   ],
+   "color": "gold",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "claw1",
+   "shape": "ellipsoid",
+   "center": [
+    18.5,
+    11,
+    6
+   ],
+   "size": [
+    2.4,
+    6,
+    2.4
+   ],
+   "color": "claw",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw2",
+   "shape": "ellipsoid",
+   "center": [
+    15,
     10,
-    7
+    8.5
    ],
-   "color": "teal",
-   "group": "leg_fr",
+   "size": [
+    2.4,
+    6,
+    2.4
+   ],
+   "color": "claw",
+   "group": "arm_l",
+   "rot": [
+    20,
+    0,
+    10
+   ],
    "mirror_x": true
   },
   {
-   "name": "legband",
-   "shape": "cylinder",
+   "name": "thigh",
+   "shape": "ellipsoid",
    "center": [
-    5,
     3,
+    8,
+    0
+   ],
+   "size": [
+    5,
+    9,
+    5
+   ],
+   "color": "navy",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "tgold",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    8,
+    0
+   ],
+   "size": [
+    5.6,
+    2,
+    5.6
+   ],
+   "color": "gold",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "calf",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    4,
     1
    ],
    "size": [
-    8,
-    2.5,
+    3.6,
+    9,
+    3.6
+   ],
+   "color": "navy",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "pt",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    1.3,
+    1
+   ],
+   "size": [
+    2,
+    3,
+    2
+   ],
+   "color": "claw",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "rib1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    -7.5
+   ],
+   "size": [
+    3,
+    3,
+    12
+   ],
+   "color": "gold",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "rib2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -13
+   ],
+   "size": [
+    3,
+    3,
     8
    ],
    "color": "gold",
-   "group": "leg_fr",
-   "mirror_x": true
+   "group": "tail",
+   "rot": [
+    -45,
+    0,
+    0
+   ]
   },
   {
-   "name": "foot",
+   "name": "rib3",
    "shape": "ellipsoid",
    "center": [
-    5,
-    1.2,
-    3
+    0,
+    16,
+    -14
    ],
    "size": [
-    8,
-    2.4,
-    10
+    3,
+    3,
+    9
    ],
-   "color": "goldsh",
-   "group": "leg_fr",
-   "mirror_x": true
-  }
- ],
- "refs": [
-  {
-   "url": "https://palworld.gg/images/full_palicon/T_MummyPal_icon_normal.png",
-   "note": "上半身アップのみ: 金の兜と顔を隠す暗い顔、濃い青緑の長い2本角、金の包帯が胸でX字に交差、青緑の体に金の腕輪"
+   "color": "gold",
+   "group": "tail",
+   "rot": [
+    -70,
+    0,
+    0
+   ]
   },
   {
-   "url": "https://palworld.wiki.gg/images/Gildra_icon.png",
-   "note": "wikiもアイコンのみ。下半身は青緑の脚に金の足輪で推定"
+   "name": "rib4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -12
+   ],
+   "size": [
+    3,
+    3,
+    7
+   ],
+   "color": "gold",
+   "group": "tail",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
   },
   {
-   "url": "https://game8.jp/pal-world/799185",
-   "note": "図鑑(画像取得不可): ミイラ型"
+   "name": "ribtip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -10
+   ],
+   "size": [
+    4,
+    1.5,
+    6
+   ],
+   "color": "gold",
+   "group": "tail"
   }
  ]
 }
