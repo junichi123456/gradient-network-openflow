@@ -15,3 +15,4 @@ Thumbs.db
 __pycache__/
 Tools/.refcache/
 Tools/.refshots/
+Tools/.refshots_small/
