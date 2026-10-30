@@ -94,6 +94,7 @@ public static class MetaScenario
                 MoveIds = DefaultLoadout.PickMoves(sp, MoveManager.MaxMoves),
                 ItemId = itemIds.ElementAtOrDefault(i),
                 Spread = StatSpread.Auto(sp),
+                UseTrait2 = BattleEntry.AutoUseTrait2(sp),   // 自動構築は追加特性（乱数なし）
             });
         }
         return new BattleTeam(entries);

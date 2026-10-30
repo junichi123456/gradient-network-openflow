@@ -377,6 +377,7 @@ public partial class BattleMatchScene : Node2D
             {
                 SpeciesId = carrier, ItemId = entries[0].ItemId,
                 Spread = StatSpread.Auto(SpeciesDatabase.Instance?.Get(carrier)),
+                UseTrait2 = BattleEntry.AutoUseTrait2(SpeciesDatabase.Instance?.Get(carrier)),
             };
         }
         var entry = entries[idx];
@@ -1093,6 +1094,7 @@ public partial class BattleMatchScene : Node2D
             {
                 SpeciesId = speciesIds[i],
                 Spread = StatSpread.Auto(SpeciesDatabase.Instance?.Get(speciesIds[i])),   // 乱数を使わない
+                UseTrait2 = BattleEntry.AutoUseTrait2(SpeciesDatabase.Instance?.Get(speciesIds[i])),   // 乱数を使わない
             };
             var learnable = entry.Learnable();
             Shuffle(learnable, rng);
@@ -1146,6 +1148,7 @@ public partial class BattleMatchScene : Node2D
             MoveIds = e.MoveIds,
             ItemId = null,
             Spread = e.Spread?.Clone() ?? StatSpread.Zero(),
+            UseTrait2 = e.UseTrait2,
         }));
 
     private static NpcTeam StripItems(NpcTeam profile) => new()

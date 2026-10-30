@@ -28,6 +28,13 @@ public sealed class BattleEntry
     // 自動で構築を作る箇所は StatSpread.Auto(species) を入れる。
     public StatSpread Spread { get; set; } = StatSpread.Zero();
 
+    // 特性の選択。false = 元の特性、true = 追加特性（SpeciesData.Trait2）。どちらか一方だけが有効。
+    // Trait2 を持たない種族では常に false 扱い（Validate が弾く）。既定は元の特性。
+    // NPC・自動構築は AutoUseTrait2 で決める（乱数は使わない）。
+    public bool UseTrait2 { get; set; }
+
+    public static bool AutoUseTrait2(SpeciesData sp) => !string.IsNullOrEmpty(sp?.Trait2);
+
     public SpeciesData Species => SpeciesDatabase.Instance?.Get(SpeciesId);
 
     // この種族が覚えられる技の一覧。**習得レベルは見ない**——対人戦では
@@ -100,6 +107,16 @@ public sealed class BattleTeam
         _entries[slot].MoveIds = DefaultLoadout.PickMoves(
             SpeciesDatabase.Instance?.Get(speciesId), MoveManager.MaxMoves);
         _entries[slot].Spread = StatSpread.Auto(SpeciesDatabase.Instance?.Get(speciesId));
+        _entries[slot].UseTrait2 = false;   // 種族を替えたら元の特性に戻す
+        return true;
+    }
+
+    // 特性の選択を切り替える。追加特性を持たない種族では true にできない。
+    public bool SetUseTrait2(int slot, bool use)
+    {
+        if (slot < 0 || slot >= _entries.Count) return false;
+        if (use && string.IsNullOrEmpty(_entries[slot].Species?.Trait2)) return false;
+        _entries[slot].UseTrait2 = use;
         return true;
     }
 
@@ -183,6 +200,9 @@ public sealed class BattleTeam
 
             if (!string.IsNullOrEmpty(e.ItemId) && ItemDatabase.Get(e.ItemId) == null)
                 errors.Add($"{who}: 存在しない持ち物 {e.ItemId}");
+
+            if (e.UseTrait2 && string.IsNullOrEmpty(species.Trait2))
+                errors.Add($"{who}: 追加特性を持たないのに追加特性が選ばれている");
 
             if (e.Spread == null)
                 errors.Add($"{who}: 突破値・気質が未設定");

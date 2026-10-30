@@ -62,6 +62,7 @@ public partial class NetTestScene : Node2D
                 MoveIds = sp.Learnset.Select(l => l.MoveId).Distinct()
                             .Take(Entities.MoveManager.MaxMoves).ToList(),
                 Spread = Entities.StatSpread.Auto(sp),
+                UseTrait2 = BattleEntry.AutoUseTrait2(sp),
             };
         }).ToList();
         return new BattleTeam(entries);

@@ -664,23 +664,31 @@ public partial class BattleTestScene : Node2D
                  + $"(物理 A100/B40→{p0}, C/D変更後{p1}, A/B下げ後{p2} / 特殊 C30/D100→{q0}, C/D変更後{q1}, A/B変更後{q2} / {physMv.Name}・{specMv.Name} 威力{physMv.Power})");
 
         // 2. ベンチマーク。(a) DamageCalculator に実数値 攻75/防75 を直接渡して威力35 → 13（式は不変）。
-        //    (b) 001 モコロン(58/69/75/30/41/74)同士 Lv50・突破0、STAB・相性・補正なし、威力35 → 物理12・特殊5。
+        //    (b) 001 モコロン(66/64/85/27/46/59)同士 Lv50・突破0、STAB・相性・補正なし、威力35 → 物理10・特殊4。
         int direct = DamageCalculator.Calculate(new DamageContext { BaseAtk = 75, BaseDef = 75, BasePower = 35 });
         var moko = _sched.Roster.First(e => e.SpeciesId == "001").Stats;
         int physBench = DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.Attack, BaseDef = moko.Defense, BasePower = 35 });
         int specBench = DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.SpAttack, BaseDef = moko.SpDefense, BasePower = 35 });
-        GD.Print($"[検証] ベンチマーク(直接70/70/70→13、モコロン同士 物理12・特殊5): "
-                 + $"{(direct == 13 && physBench == 12 && specBench == 5 ? "OK" : "NG")} "
+        GD.Print($"[検証] ベンチマーク(直接70/70/70→13、モコロン同士 物理10・特殊4): "
+                 + $"{(direct == 13 && physBench == 10 && specBench == 4 ? "OK" : "NG")} "
                  + $"(直接{direct} / モコロン 物理{physBench}[攻{moko.Attack}防{moko.Defense}] 特殊{specBench}[魔{moko.SpAttack}精{moko.SpDefense}])");
 
-        // 3. 同優先度なら俊敏が高いほうが先: ブシガエル(S73) とタマコッコ(S50)。
+        // 3. 同優先度なら俊敏が高いほうが先: タマコッコ(S61・BST6 320) とブシガエル(S48・BST6 397)。
+        //    さらに、俊敏が高く BST6 も高い組（BST6 の低い側が先という同速用の規則と逆向き）をロスターから探し、俊敏が優先されることを見る。
         var slow = _sched.Roster.First(e => e.SpeciesId == "003");
         var fast = _sched.Roster.First(e => e.SpeciesId == "009");
-        var ord = _sched.Order(new BattleScheduler.Commitment(slow, null, 0),
-                               new BattleScheduler.Commitment(fast, null, 0));
-        GD.Print($"[検証] 同優先度なら俊敏が高いほうが先: {(ord[0].Actor == fast ? "OK" : "NG")} "
-                 + $"({ord[0].Actor.ActorName}(S{ord[0].Actor.Stats.BaseSpeed}) が先 / 相手S{ord[1].Actor.Stats.BaseSpeed}。"
-                 + $"BST6は先攻{BattleScheduler.Bst(ord[0].Actor)}・後攻{BattleScheduler.Bst(ord[1].Actor)}で、低い側が後でも俊敏が優先)");
+        var ord = _sched.Order(new BattleScheduler.Commitment(fast, null, 0),
+                               new BattleScheduler.Commitment(slow, null, 0));
+        (Entity hi, Entity lo)? pairHi = null;
+        foreach (var x in _sched.Roster) foreach (var y in _sched.Roster)
+            if (pairHi == null && x != y && x.Stats.BaseSpeed > y.Stats.BaseSpeed && BattleScheduler.Bst(x) > BattleScheduler.Bst(y))
+                pairHi = (x, y);
+        bool revOk = pairHi != null && _sched.Order(new BattleScheduler.Commitment(pairHi.Value.lo, null, 0),
+                                                    new BattleScheduler.Commitment(pairHi.Value.hi, null, 0))[0].Actor == pairHi.Value.hi;
+        GD.Print($"[検証] 同優先度なら俊敏が高いほうが先: {(ord[0].Actor == slow && revOk ? "OK" : "NG")} "
+                 + $"(速くてBST6も高い組={(pairHi == null ? "無し" : pairHi.Value.hi.ActorName + "/" + pairHi.Value.lo.ActorName)} 俊敏優先={revOk} "
+                 + $"{ord[0].Actor.ActorName}(S{ord[0].Actor.Stats.BaseSpeed}) が先 / 相手S{ord[1].Actor.Stats.BaseSpeed}。"
+                 + $"BST6は先攻{BattleScheduler.Bst(ord[0].Actor)}・後攻{BattleScheduler.Bst(ord[1].Actor)})");
 
         // 4. BST は6能力合計: タマコッコ 320・ブシガエル 397。
         int bstSlow = BattleScheduler.Bst(slow), bstFast = BattleScheduler.Bst(fast);
@@ -723,8 +731,8 @@ public partial class BattleTestScene : Node2D
     {
         foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); x.HeldItemId = null; }
 
-        // 1. 気質の後に突破値を足す。ブシガエル(009, A92): 素 97。
-        //    無補正 97 / ↑攻撃 floor(97*1.1)=106 / ↑攻撃+攻撃25 = 106+25 = 131（先に足すと 134）/ ↓攻撃 floor(97*0.9)=87。
+        // 1. 気質の後に突破値を足す。ブシガエル(009, A79): 素 84。
+        //    無補正 84 / ↑攻撃 floor(84*1.1)=92 / ↑攻撃+攻撃25 = 92+25 = 117（先に足すと 119）/ ↓攻撃 floor(84*0.9)=75。
         var bushi = _sched.Roster.First(e => e.SpeciesId == "009").Stats;
         bushi.HealToFull();
         int a0 = bushi.Attack;
@@ -742,7 +750,7 @@ public partial class BattleTestScene : Node2D
         bushi.BreakthroughHP = 0;
         bushi.HealToFull();
         GD.Print($"[検証] 気質の後に突破値を足す: "
-                 + $"{(a0 == 97 && aUp == 106 && aUpBt == 131 && aDown == 87 && hp0 == 122 && hpBt == 147 && curBt == hpBt && bushi.MaxHp == 122 ? "OK" : "NG")} "
+                 + $"{(a0 == 84 && aUp == 92 && aUpBt == 117 && aDown == 75 && hp0 == 136 && hpBt == 161 && curBt == hpBt && bushi.MaxHp == 136 ? "OK" : "NG")} "
                  + $"(ブシガエル 攻撃 無補正{a0}・↑{aUp}・↑+25={aUpBt}(先に足すと{(97 + 25) * 11 / 10})・↓{aDown} / HP25 最大{hp0}→{hpBt} 現在{curBt})");
 
         // 2. 構築検証。BattleTeam.Validate を通して見る。
@@ -766,22 +774,22 @@ public partial class BattleTestScene : Node2D
                  + $"合計0→{(tot0.Count == 0 ? "通る" : "弾く")}、↑攻撃↓攻撃→{(sameNat.Count > 0 ? "弾く" : "通る")}、↑攻撃のみ→{(halfNat.Count > 0 ? "弾く" : "通る")}、"
                  + $"↑攻撃↓魔力→{(goodNat.Count == 0 ? "通る" : "弾く")}。期待は順に 弾く/弾く/通る/通る/弾く/弾く/通る)");
 
-        // 3. 行動順は俊敏の実数値を見る。タマコッコ(003, S50): ↑俊敏+俊敏25 → floor(55*1.1)+25 = 85。
-        //    ブシガエル(009, S73): 無補正・突破0 → 78。優先度0同士でタマコッコが先。戻すとブシガエルが先。
+        // 3. 行動順は俊敏の実数値を見る。ブシガエル(009, S48): ↑俊敏+俊敏25 → floor(53*1.1)+25 = 83。
+        //    タマコッコ(003, S61): 無補正・突破0 → 66。優先度0同士でブシガエルが先。戻すとタマコッコが先。
         var tama = _sched.Roster.First(e => e.SpeciesId == "003");
         var bushiE = _sched.Roster.First(e => e.SpeciesId == "009");
-        tama.Stats.NatureUp = NatureStat.Speed; tama.Stats.NatureDown = NatureStat.Atk;
-        tama.Stats.BreakthroughSpeed = 25;
-        int tamaSpd = tama.Stats.Speed, bushiSpd = bushiE.Stats.Speed;
-        var fastTama = _sched.Order(new BattleScheduler.Commitment(bushiE, null, 0),
-                                    new BattleScheduler.Commitment(tama, null, 0));
-        tama.Stats.NatureUp = NatureStat.None; tama.Stats.NatureDown = NatureStat.None;
-        tama.Stats.BreakthroughSpeed = 0;
-        var backBushi = _sched.Order(new BattleScheduler.Commitment(tama, null, 0),
+        bushiE.Stats.NatureUp = NatureStat.Speed; bushiE.Stats.NatureDown = NatureStat.Atk;
+        bushiE.Stats.BreakthroughSpeed = 25;
+        int bushiSpd = bushiE.Stats.Speed, tamaSpd = tama.Stats.Speed;
+        var fastBushi = _sched.Order(new BattleScheduler.Commitment(tama, null, 0),
                                      new BattleScheduler.Commitment(bushiE, null, 0));
+        bushiE.Stats.NatureUp = NatureStat.None; bushiE.Stats.NatureDown = NatureStat.None;
+        bushiE.Stats.BreakthroughSpeed = 0;
+        var backTama = _sched.Order(new BattleScheduler.Commitment(bushiE, null, 0),
+                                    new BattleScheduler.Commitment(tama, null, 0));
         GD.Print($"[検証] 行動順は俊敏の実数値を見る: "
-                 + $"{(tamaSpd == 85 && bushiSpd == 78 && fastTama[0].Actor == tama && backBushi[0].Actor == bushiE ? "OK" : "NG")} "
-                 + $"(タマコッコ S50→実数値{tamaSpd}、ブシガエル S73→実数値{bushiSpd}。振ると{fastTama[0].Actor.ActorName}が先、戻すと{backBushi[0].Actor.ActorName}が先)");
+                 + $"{(bushiSpd == 83 && tamaSpd == 66 && fastBushi[0].Actor == bushiE && backTama[0].Actor == tama ? "OK" : "NG")} "
+                 + $"(ブシガエル S48→実数値{bushiSpd}、タマコッコ S61→実数値{tamaSpd}。振ると{fastBushi[0].Actor.ActorName}が先、戻すと{backTama[0].Actor.ActorName}が先)");
 
         // 4. 自動配分は決定的で規則どおり。
         var db = SpeciesDatabase.Instance;
@@ -801,10 +809,10 @@ public partial class BattleTestScene : Node2D
         var sXeno = StatSpread.Auto(db.Get("196"));
         bool named = sBushi.Hp == 25 && sBushi.Atk == 25 && sBushi.SpDef == 5 && sBushi.Total == 55
                      && sBushi.NatureUp == NatureStat.Atk && sBushi.NatureDown == NatureStat.SpAtk
-                     && sLight.SpAtk == 25 && sLight.Speed == 25 && sLight.SpDef == 5 && sLight.Total == 55
+                     && sLight.SpAtk == 25 && sLight.Speed == 25 && sLight.SpDef == 0 && sLight.Total == 55
                      && sLight.NatureUp == NatureStat.SpAtk && sLight.NatureDown == NatureStat.Atk
                      && sXeno.Atk == 25 && sXeno.Speed == 25 && sXeno.Def == 5 && sXeno.Total == 55
-                     && sXeno.NatureUp == NatureStat.None && sXeno.NatureDown == NatureStat.None;
+                     && sXeno.NatureUp == NatureStat.Atk && sXeno.NatureDown == NatureStat.SpAtk;
         GD.Print($"[検証] 自動配分は決定的で規則どおり: {(bad == 0 && count == 287 && named ? "OK" : "NG")} "
                  + $"({count}種中の違反{bad}。ブシガエル {sBushi.NatureLabel} HP{sBushi.Hp}/攻{sBushi.Atk}/精{sBushi.SpDef}、"
                  + $"ライトロット {sLight.NatureLabel} 魔{sLight.SpAtk}/俊{sLight.Speed}/精{sLight.SpDef}、"
@@ -941,61 +949,61 @@ public partial class BattleTestScene : Node2D
                  + $"{(all.Count == 287 && bad1.Count == 0 && ref1 ? "OK" : "NG")} "
                  + $"({all.Count}種 違反{bad1.Count} 003={Sp("003").Bst} 186={Sp("186").Bst} 203={Sp("203").Bst})");
 
-        // 2. 配分比率が区分どおり: 全287種で |B/(B+D)-β| <= 0.5/(B+D)（物理耐久 0.65・特殊耐久 0.35・両面耐久 0.5）。
+        // 2. 配分比率が区分どおり: 全287種で |B/(B+D)-β| <= 0.5/(B+D)（物理耐久 0.65・特殊耐久 0.35）。
         //    物理攻撃・特殊攻撃は |A/(A+C)-α| <= 0.5/(A+C)（0.7 / 0.3）。
-        //    両刀攻撃は 10*max(A,C) >= 11*min(A,C) かつ 5*max(A,C) <= 3*(A+C)。
+        //    両面耐久は H=round(0.8(B+D))±1 かつ B:D が 41:59〜59:41。
+        //    両刀攻撃は A+C>=160・A+C>1.3(B+D)・|A-C|>=10・A:C が 4:6〜6:4・H>=55・両面耐久でない。
+        //    下限規則（各能力>=20・最小2つの和>=49）で点を移した6種（仕様書 2026-10-30）は比率の検査から外す。
+        var floorFixed = new HashSet<string> { "011", "129", "129B", "131B", "142", "142B" };
         var bad2 = new List<string>();
         foreach (var sp in all)
         {
             double g = sp.BaseDef + sp.BaseSpDef, off = sp.BaseAtk + sp.BaseSpAtk;
-            double beta = sp.Defense switch { "Physical" => 0.65, "Special" => 0.35, "Both" => 0.5, _ => -1 };
-            if (beta < 0 || System.Math.Abs(sp.BaseDef / g - beta) > 0.5 / g + 1e-9) { bad2.Add(sp.SpeciesId); continue; }
+            if (sp.Defense == "Both" && (System.Math.Abs(sp.BaseHP - System.Math.Floor(0.8 * g + 0.5)) > 1 || 100 * System.Math.Min(sp.BaseDef, sp.BaseSpDef) < 41 * g))
+            { bad2.Add(sp.SpeciesId); continue; }
             if (sp.Offense == "Mixed")
             {
-                int mx = System.Math.Max(sp.BaseAtk, sp.BaseSpAtk), mn = System.Math.Min(sp.BaseAtk, sp.BaseSpAtk);
-                if (!(10 * mx >= 11 * mn && 5 * mx <= 3 * (sp.BaseAtk + sp.BaseSpAtk))) bad2.Add(sp.SpeciesId);
+                bool okM = off >= 160 && 10 * off > 13 * g && System.Math.Abs(sp.BaseAtk - sp.BaseSpAtk) >= 10
+                           && 5 * System.Math.Min(sp.BaseAtk, sp.BaseSpAtk) >= 2 * off && sp.BaseHP >= 55 && sp.Defense != "Both";
+                if (!okM) bad2.Add(sp.SpeciesId);
+                continue;
             }
-            else
-            {
-                double alpha = sp.Offense switch { "Physical" => 0.7, "Special" => 0.3, _ => -1 };
-                if (alpha < 0 || System.Math.Abs(sp.BaseAtk / off - alpha) > 0.5 / off + 1e-9) bad2.Add(sp.SpeciesId);
-            }
+            if (floorFixed.Contains(sp.SpeciesId)) continue;
+            double beta = sp.Defense switch { "Physical" => 0.65, "Special" => 0.35, "Both" => 0.5, _ => -1 };
+            if (beta < 0 || System.Math.Abs(sp.BaseDef / g - beta) > 0.5 / g + 1e-9) { bad2.Add(sp.SpeciesId); continue; }
+            double alpha = sp.Offense switch { "Physical" => 0.7, "Special" => 0.3, _ => -1 };
+            if (alpha < 0 || System.Math.Abs(sp.BaseAtk / off - alpha) > 0.5 / off + 1e-9) bad2.Add(sp.SpeciesId);
         }
-        GD.Print($"[検証] 配分比率が区分どおり(B:D 65:35/35:65/50:50・A:C 70:30/30:70・両刀攻撃は開き10%以上〜60%以下): "
+        GD.Print($"[検証] 配分比率が区分どおり(B:D 65:35/35:65/両面は H=0.8(B+D)・A:C 70:30/30:70・両刀は A+C>=160 等): "
                  + $"{(bad2.Count == 0 ? "OK" : "NG")} (287種 違反{bad2.Count} {string.Join(",", bad2.Take(5))})");
 
         // 3. 9役割が全て実在し内訳が表どおり、かつ全種で Role == Offense + "-" + Defense。
         int Count(string o, string d) => all.Count(sp => sp.Offense == o && sp.Defense == d);
         var expect3 = new (string o, string d, int n)[]
         {
-            ("Physical", "Physical", 51), ("Physical", "Special", 43), ("Physical", "Both", 43),
-            ("Special", "Physical", 34), ("Special", "Special", 42), ("Special", "Both", 36),
-            ("Mixed", "Physical", 13), ("Mixed", "Special", 14), ("Mixed", "Both", 11),
+            ("Physical", "Physical", 51), ("Physical", "Special", 45), ("Physical", "Both", 47),
+            ("Special", "Physical", 42), ("Special", "Special", 47), ("Special", "Both", 43),
+            ("Mixed", "Physical", 5), ("Mixed", "Special", 7), ("Mixed", "Both", 0),
         };
         bool counts3 = expect3.All(e => Count(e.o, e.d) == e.n);
         var bad3 = all.Where(sp => sp.Role != sp.Offense + "-" + sp.Defense).Select(sp => sp.SpeciesId).ToList();
-        GD.Print($"[検証] 9役割が全て実在し内訳が表どおり(物理攻撃51/43/43・特殊攻撃34/42/36・両刀攻撃13/14/11): "
+        GD.Print($"[検証] 役割の内訳が表どおり(物理攻撃51/45/47・特殊攻撃42/47/43・両刀攻撃5/7/0＝12種・両刀×両面耐久は無い): "
                  + $"{(counts3 && bad3.Count == 0 ? "OK" : "NG")} "
                  + $"(物理攻撃{Count("Physical", "Physical")}/{Count("Physical", "Special")}/{Count("Physical", "Both")} "
                  + $"特殊攻撃{Count("Special", "Physical")}/{Count("Special", "Special")}/{Count("Special", "Both")} "
                  + $"両刀攻撃{Count("Mixed", "Physical")}/{Count("Mixed", "Special")}/{Count("Mixed", "Both")} Role不一致{bad3.Count})");
 
-        // 4. 俊敏: 全種35〜130で最小35・最大130。基準点 199=104、130B・196・201=130。三峰（階級は中心±2）。
+        // 4. 俊敏: 確定表（docs/design/drafts/2026-10-30-speed-table.md）。全種20〜130で最小20・最大130。
+        //    表の抜き出し 199=105・130B=99・196=122・201=116。山45/75/105 の ±4 の頭数が谷60/90 より多い。
         int minS = all.Min(sp => sp.BaseSpeed), maxS = all.Max(sp => sp.BaseSpeed);
-        bool refs4 = Sp("199").BaseSpeed == 104 && Sp("130B").BaseSpeed == 130
-                  && Sp("196").BaseSpeed == 130 && Sp("201").BaseSpeed == 130;
-        var cls = new Dictionary<int, int>();
-        for (int c = 35; c <= 130; c += 5) cls[c] = all.Count(sp => sp.BaseSpeed >= c - 2 && sp.BaseSpeed <= c + 2);
-        int Mx(int lo, int hi) { int m = 0; for (int c = lo; c <= hi; c += 5) m = System.Math.Max(m, cls[c]); return m; }
-        bool peaks = cls[50] == Mx(35, 65) && cls[75] == Mx(70, 90) && cls[100] == Mx(95, 130);
-        bool v1 = false, v2 = false;
-        for (int c = 55; c <= 70; c += 5) if (cls[c] * 2 <= System.Math.Min(cls[50], cls[75])) v1 = true;
-        for (int c = 80; c <= 95; c += 5) if (cls[c] * 2 <= System.Math.Min(cls[75], cls[100])) v2 = true;
-        bool peaksOk = peaks && v1 && v2 && cls[50] == 23 && cls[75] == 62 && cls[100] == 68;
-        GD.Print($"[検証] 俊敏35〜130(最小35・最大130)・基準点(199=104/130B・196・201=130)・三峰(50/75/100): "
-                 + $"{(minS == 35 && maxS == 130 && refs4 && peaksOk ? "OK" : "NG")} "
+        bool refs4 = Sp("199").BaseSpeed == 105 && Sp("130B").BaseSpeed == 99
+                  && Sp("196").BaseSpeed == 122 && Sp("201").BaseSpeed == 116;
+        int Win(int c) => all.Count(sp => sp.BaseSpeed >= c - 4 && sp.BaseSpeed <= c + 4);
+        bool peaksOk = Win(45) > Win(60) && Win(75) > Win(60) && Win(75) > Win(90) && Win(105) > Win(90);
+        GD.Print($"[検証] 俊敏20〜130(最小20・最大130)・表の抜き出し(199=105/130B=99/196=122/201=116)・三峰(45/75/105): "
+                 + $"{(minS == 20 && maxS == 130 && refs4 && peaksOk ? "OK" : "NG")} "
                  + $"(最小{minS} 最大{maxS} 199={Sp("199").BaseSpeed} 130B={Sp("130B").BaseSpeed} 196={Sp("196").BaseSpeed} 201={Sp("201").BaseSpeed} "
-                 + $"c(50)={cls[50]} c(75)={cls[75]} c(100)={cls[100]} 谷 c(65)={cls[65]} c(70)={cls[70]} c(90)={cls[90]})");
+                 + $"山45={Win(45)} 谷60={Win(60)} 山75={Win(75)} 谷90={Win(90)} 山105={Win(105)})");
 
         // 5. 俊敏95以上は優先度+1以上の攻撃技を習得しない（変化技は対象外）。
         var fastAll = all.Where(sp => sp.BaseSpeed >= 95).ToList();
@@ -1006,9 +1014,9 @@ public partial class BattleTestScene : Node2D
                 var m = MoveDatabase.Get(e.MoveId);
                 if (m != null && m.Power > 0 && m.Priority >= 1) blocked++;
             }
-        bool yakumo = Sp("127").Learnset.Any(e => e.MoveId == "MV_141");
-        GD.Print($"[検証] 俊敏95以上は優先度+1以上の攻撃技を習得しない: {(fastAll.Count == 111 && blocked == 0 && yakumo ? "OK" : "NG")} "
-                 + $"(S>=95 {fastAll.Count}種 該当{blocked}件 127ヤクモマルはMV_141を習得={yakumo})");
+        bool yakumo = Sp("155").Learnset.Any(e => e.MoveId == "MV_141");
+        GD.Print($"[検証] 俊敏95以上は優先度+1以上の攻撃技を習得しない: {(fastAll.Count == 60 && blocked == 0 && yakumo ? "OK" : "NG")} "
+                 + $"(S>=95 {fastAll.Count}種 該当{blocked}件 155ワンフーはMV_141を習得={yakumo})");
 
         // 6. 俊敏が低いほど総合耐久指数 H*(B+D) が高い: 相関 r<=-0.40 かつ帯別平均（<=62 / 63-87 / >=88）が単調減少。
         double Pearson(IList<double> xs, IList<double> ys)
@@ -1025,33 +1033,16 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 俊敏が低いほど総合耐久指数が高い(r<=-0.40・帯別平均が単調減少): {(r6 <= -0.40 && b1 > b2 && b2 > b3 ? "OK" : "NG")} "
                  + $"(r={r6:F3} 帯別平均 <=62:{b1:F0} > 63-87:{b2:F0} > >=88:{b3:F0})");
 
-        // 7. 両刀攻撃は同じ帯のBST6より速い: Offense==Mixed が38種で全種 S > 俊敏ゾーン(BST6 ±4%・自分を除く・10種未満は近い順に10種)
-        //    の S の中央値。OffenseSource==speed が41種で全種 S <= 中央値・Offense は Physical/Special。
-        bool Fast(SpeciesData sp, out double gap)
-        {
-            var others = all.Where(o => o.SpeciesId != sp.SpeciesId).ToList();
-            var zone = others.Where(o => 25 * System.Math.Abs(o.Bst - sp.Bst) <= sp.Bst).ToList();
-            if (zone.Count < 10)
-            {
-                var near = others.Select(o => (d: System.Math.Abs(o.Bst - sp.Bst), o)).OrderBy(t => t.d).ToList();
-                int lim = near[9].d;
-                zone = near.Where(t => t.d <= lim).Select(t => t.o).ToList();
-            }
-            var ss = zone.Select(o => o.BaseSpeed).OrderBy(x => x).ToList();
-            int k = ss.Count;
-            double med = k % 2 == 1 ? ss[k / 2] : (ss[k / 2 - 1] + ss[k / 2]) / 2.0;
-            gap = sp.BaseSpeed - med;
-            return gap > 0;   // 中央値と等しいときは満たさない
-        }
+        // 7. 両刀攻撃は12種（仕様書 2026-10-30 §3-2）。全員が trait2 を持ち、両面耐久でなく、主属性ごとに2種以下。
         var mixedSp = all.Where(sp => sp.Offense == "Mixed").ToList();
-        var speedSp = all.Where(sp => sp.OffenseSource == "speed").ToList();
-        double minGap = double.MaxValue;
-        int badMixed = 0, badSpeed = 0;
-        foreach (var sp in mixedSp) { if (!Fast(sp, out var gp)) badMixed++; minGap = System.Math.Min(minGap, gp); }
-        foreach (var sp in speedSp) { if (Fast(sp, out _) || sp.Offense == "Mixed") badSpeed++; }
-        GD.Print($"[検証] 両刀攻撃は同じ帯のBST6より速い(38種が S>中央値、再分類41種が S<=中央値): "
-                 + $"{(mixedSp.Count == 38 && badMixed == 0 && speedSp.Count == 41 && badSpeed == 0 ? "OK" : "NG")} "
-                 + $"(両刀攻撃{mixedSp.Count}種 違反{badMixed} 最小のS-中央値={minGap} / 再分類{speedSp.Count}種 違反{badSpeed})");
+        int badMixed = mixedSp.Count(sp => string.IsNullOrEmpty(sp.Trait2) || sp.Defense == "Both"
+                                           || sp.BaseAtk + sp.BaseSpAtk < 160 || sp.BaseHP < 55
+                                           || 10 * (sp.BaseAtk + sp.BaseSpAtk) <= 13 * (sp.BaseDef + sp.BaseSpDef));
+        int maxPerElement = mixedSp.GroupBy(sp => sp.Types[0]).Max(g => g.Count());
+        int nonMixedWithT2 = all.Count(sp => sp.Offense != "Mixed" && !string.IsNullOrEmpty(sp.Trait2));
+        GD.Print($"[検証] 両刀攻撃は12種・全員が追加特性を持ち条件を満たす・主属性ごと2種以下: "
+                 + $"{(mixedSp.Count == 12 && badMixed == 0 && maxPerElement <= 2 && nonMixedWithT2 == 0 ? "OK" : "NG")} "
+                 + $"(両刀攻撃{mixedSp.Count}種 違反{badMixed} 主属性の最大{maxPerElement}種 両刀以外のtrait2持ち{nonMixedWithT2})");
     }
 
     // 両刀攻撃の調査用「2つめの特性」(Trait2)。仕様書
@@ -1065,10 +1056,10 @@ public partial class BattleTestScene : Node2D
         var atk = _sched.Roster.First(e => e.Faction == Faction.Enemy);
         var def = _sched.Roster.First(e => e.Faction == Faction.Player);
         foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); }
-        string savedT = atk.Stats.Trait, savedT2 = atk.Stats.Trait2;
+        string savedT = atk.Stats.Trait, savedT2 = atk.Stats.Trait2; bool savedUse = atk.Stats.UseTrait2;
         string savedDefT = def.Stats.Trait, savedDefT2 = def.Stats.Trait2;
         string savedType1 = atk.Stats.Type1, savedType2 = atk.Stats.Type2;
-        atk.Stats.Trait = ""; atk.Stats.Trait2 = ""; def.Stats.Trait = ""; def.Stats.Trait2 = "";
+        atk.Stats.Trait = ""; atk.Stats.Trait2 = ""; atk.Stats.UseTrait2 = false; def.Stats.Trait = ""; def.Stats.Trait2 = "";
 
         var all = MoveDatabase.AllIds().Select(MoveDatabase.Get).Where(m => m != null).ToList();
         var roomSpecial = all.First(m => m.Range == MoveRange.Room && m.Category == MoveCategory.Special && m.Power > 0);
@@ -1076,7 +1067,7 @@ public partial class BattleTestScene : Node2D
         var discharge = MoveDatabase.Get("MV_170");
 
         // 1. ワイドバースト: 部屋技で+10・単体技で0・特性なしで0
-        atk.Stats.Trait2 = SecondaryTraits.WideBurst;
+        atk.Stats.Trait2 = SecondaryTraits.WideBurst; atk.Stats.UseTrait2 = true;
         float wbRoom = SecondaryTraits.FlatPowerBonus(atk, roomSpecial);
         float wbAdj = SecondaryTraits.FlatPowerBonus(atk, adjSpecial);
         atk.Stats.Trait2 = "";
@@ -1085,7 +1076,7 @@ public partial class BattleTestScene : Node2D
               $"部屋{wbRoom} / 単体{wbAdj} / 特性なし{wbNone}");
 
         // 2. 物理の部屋技(MV_170)にも+10
-        atk.Stats.Trait2 = SecondaryTraits.WideBurst;
+        atk.Stats.Trait2 = SecondaryTraits.WideBurst; atk.Stats.UseTrait2 = true;
         float wbPhys = SecondaryTraits.FlatPowerBonus(atk, discharge);
         atk.Stats.Trait2 = "";
         Check("ワイドバースト 物理の部屋技(MV_170)にも+10",
@@ -1097,7 +1088,7 @@ public partial class BattleTestScene : Node2D
         var sp55 = all.First(m => m.Category == MoveCategory.Special && m.Power >= 55);
         var ph50 = all.First(m => m.Category == MoveCategory.Physical && m.Power > 0 && m.Power <= 50);
         var status = all.First(m => m.Power == 0);
-        atk.Stats.Trait2 = SecondaryTraits.KowazaJouzu;
+        atk.Stats.Trait2 = SecondaryTraits.KowazaJouzu; atk.Stats.UseTrait2 = true;
         float kw50 = sp50 == null ? -1f : SecondaryTraits.FlatPowerBonus(atk, sp50);
         float kw55 = SecondaryTraits.FlatPowerBonus(atk, sp55);
         float kwPh = SecondaryTraits.FlatPowerBonus(atk, ph50);
@@ -1108,7 +1099,7 @@ public partial class BattleTestScene : Node2D
               $"特殊50={kw50} / 特殊{sp55.Power}={kw55} / 物理{ph50.Power}={kwPh} / 変化={kwSt}");
 
         // 4. しみこみの倍率
-        atk.Stats.Trait2 = SecondaryTraits.Shimikomi;
+        atk.Stats.Trait2 = SecondaryTraits.Shimikomi; atk.Stats.UseTrait2 = true;
         int mTarget = SecondaryTraits.AccumulationMultiplier(atk, def);
         int mSelf = SecondaryTraits.AccumulationMultiplier(atk, atk);
         atk.Stats.Trait2 = "";
@@ -1131,55 +1122,82 @@ public partial class BattleTestScene : Node2D
             }
             return acc;
         }
-        atk.Stats.Trait2 = SecondaryTraits.Shimikomi;
+        atk.Stats.Trait2 = SecondaryTraits.Shimikomi; atk.Stats.UseTrait2 = true;
         int accHolder = FirstHitAcc(AilmentType.Burn, fire);
         atk.Stats.Trait2 = "";
         int accPlain = FirstHitAcc(AilmentType.Burn, fire);
         Check("しみこみ 属性技1発で蓄積+50(非保持者は+25)", accHolder == 50 && accPlain == 25,
               $"{fire.Name} 保持者{accHolder} / 非保持者{accPlain}");
 
-        // 6. しみこみ: 特性の固定加算(レッツハギング+500)は2倍にしない
+        // 6. 元の特性(レッツハギング)を選ぶと追加特性(しみこみ)は効かず+500のまま。追加特性を選ぶと元の特性は効かない
         var neutralPhys = all.First(m => m.Type == "Neutral" && m.Category == MoveCategory.Physical
                                          && m.Range == MoveRange.Adjacent && m.Power >= 40 && m.Accuracy >= 100
                                          && m.AilmentEffect == AilmentType.None && m.RankEffects.Count == 0
                                          && m.MultiHit == MultiHitMode.None);
-        atk.Stats.Trait = "let_us_hug"; atk.Stats.Trait2 = SecondaryTraits.Shimikomi;
-        int hug2 = FirstHitAcc(AilmentType.VineBound, neutralPhys);
-        bool hug2Ailment = def.StatusEffects.Ailment != AilmentType.None;
-        atk.Stats.Trait2 = "";
-        int hug1 = FirstHitAcc(AilmentType.VineBound, neutralPhys);
-        atk.Stats.Trait = "";
-        Check("しみこみ 特性の固定加算は2倍にしない", hug2 == 500 && !hug2Ailment && hug1 == 500,
-              $"{neutralPhys.Name} しみこみ併用{hug2}(発症={hug2Ailment}) / レッツハギングのみ{hug1}");
+        atk.Stats.Trait = "let_us_hug"; atk.Stats.Trait2 = SecondaryTraits.Shimikomi; atk.Stats.UseTrait2 = false;
+        int hugOrig = FirstHitAcc(AilmentType.VineBound, neutralPhys);
+        int hugOrigBurn = FirstHitAcc(AilmentType.Burn, fire);
+        atk.Stats.UseTrait2 = true;
+        int hugAlt = FirstHitAcc(AilmentType.VineBound, neutralPhys);
+        int hugAltBurn = FirstHitAcc(AilmentType.Burn, fire);
+        atk.Stats.Trait2 = ""; atk.Stats.UseTrait2 = false; atk.Stats.Trait = "";
+        Check("特性の選択 元の特性ではレッツハギングのみ(+500・しみこみの2倍なし)、追加特性ではしみこみのみ",
+              hugOrig == 500 && hugOrigBurn == 25 && hugAlt == 0 && hugAltBurn == 50,
+              $"元: ツタ{hugOrig}/やけど{hugOrigBurn} 追加: ツタ{hugAlt}/やけど{hugAltBurn}");
         def.StatusEffects.Reset(); def.Stats.HealToFull();
 
-        // 7. 2つの特性が同時に効く
+        // 7. 元の特性(こうふん)を選ぶと追加特性(こわざじょうず)は効かず、追加特性を選ぶと元の特性は効かない
         var small = all.First(m => m.Category == MoveCategory.Special && m.Range == MoveRange.Adjacent
                                    && m.Power >= 30 && m.Power <= 50 && m.Accuracy >= 100
                                    && m.AilmentEffect == AilmentType.None && m.RankEffects.Count == 0
                                    && m.MultiHit == MultiHitMode.None);
-        atk.Stats.Trait = ""; atk.Stats.Trait2 = "";
+        atk.Stats.Trait = ""; atk.Stats.Trait2 = ""; atk.Stats.UseTrait2 = false;
         int dNone = MeasureHit(atk, def, small, null);
         atk.Stats.Trait = "koufun";
         int dKoufun = MeasureHit(atk, def, small, null);
         atk.Stats.Trait2 = SecondaryTraits.KowazaJouzu;
-        int dBoth = MeasureHit(atk, def, small, null);
+        atk.Stats.UseTrait2 = false;
+        int dOrig = MeasureHit(atk, def, small, null);       // 元を選択: こうふんのみ
+        atk.Stats.UseTrait2 = true;
+        int dAlt = MeasureHit(atk, def, small, null);        // 追加を選択: こわざじょうずのみ
         atk.Stats.Trait = "";
         int dKowaza = MeasureHit(atk, def, small, null);
-        atk.Stats.Trait2 = "";
-        Check("2つの特性が同時に効く(こうふん+こわざじょうず)",
-              dBoth > dKoufun && dKoufun > dNone && dBoth > dKowaza && dKowaza > dNone,
-              $"{small.Name}(威力{small.Power}) なし{dNone} / こうふん{dKoufun} / こわざ{dKowaza} / 両方{dBoth}");
+        atk.Stats.Trait2 = ""; atk.Stats.UseTrait2 = false;
+        Check("特性の選択 元の特性ではtrait2の効果が出ず、追加特性では元の特性の効果が出ない",
+              dOrig == dKoufun && dAlt == dKowaza && dKoufun > dNone && dKowaza > dNone,
+              $"{small.Name}(威力{small.Power}) なし{dNone} / こうふんのみ{dKoufun} / こわざのみ{dKowaza} / 元選択{dOrig} / 追加選択{dAlt}");
 
-        // 8. Stats.HasTrait は両方の枠を見る
-        atk.Stats.Trait = "koufun"; atk.Stats.Trait2 = SecondaryTraits.Shimikomi;
-        bool hA = atk.Stats.HasTrait("koufun"), hB = atk.Stats.HasTrait(SecondaryTraits.Shimikomi), hC = atk.Stats.HasTrait("free_fall");
+        // 8. Stats.HasTrait / ActiveTrait は有効な側だけを見る。Trait2 が空なら UseTrait2 でも元の特性
+        atk.Stats.Trait = "koufun"; atk.Stats.Trait2 = SecondaryTraits.Shimikomi; atk.Stats.UseTrait2 = false;
+        bool oA = atk.Stats.HasTrait("koufun"), oB = atk.Stats.HasTrait(SecondaryTraits.Shimikomi);
+        atk.Stats.UseTrait2 = true;
+        bool aA = atk.Stats.HasTrait("koufun"), aB = atk.Stats.HasTrait(SecondaryTraits.Shimikomi);
         atk.Stats.Trait2 = "";
-        bool hEmpty = atk.Stats.HasTrait("");
-        Check("Stats.HasTrait が両方の枠を見る", hA && hB && !hC && !hEmpty,
-              $"A={hA} B={hB} C={hC} 空={hEmpty}");
+        bool eA = atk.Stats.HasTrait("koufun") && atk.Stats.ActiveTrait == "koufun", hEmpty = atk.Stats.HasTrait("");
+        atk.Stats.UseTrait2 = false;
+        Check("Stats.HasTrait は有効な特性だけを見る", oA && !oB && !aA && aB && eA && !hEmpty,
+              $"元選択 こうふん={oA} しみこみ={oB} / 追加選択 こうふん={aA} しみこみ={aB} / Trait2空 元={eA} 空={hEmpty}");
 
-        atk.Stats.Trait = savedT; atk.Stats.Trait2 = savedT2;
+        // 8b. 通信の往復で有効特性が保たれる。t2 キーの無い古い相手は元の特性
+        {
+            var mix = SpeciesDatabase.Instance.All.Values.Where(x => !string.IsNullOrEmpty(x.Trait2)).Take(2).ToList();
+            var plain = SpeciesDatabase.Instance.All.Values.First(x => string.IsNullOrEmpty(x.Trait2));
+            var t = new BattleTeam(new[]
+            {
+                new BattleEntry { SpeciesId = mix[0].SpeciesId, MoveIds = new List<string>(), UseTrait2 = true },
+                new BattleEntry { SpeciesId = mix[1].SpeciesId, MoveIds = new List<string>(), UseTrait2 = false },
+                new BattleEntry { SpeciesId = plain.SpeciesId, MoveIds = new List<string>(), UseTrait2 = false },
+            });
+            var back = BattleNetwork.DecodeFull(BattleNetwork.EncodeFull(t));
+            var oldJson = BattleNetwork.EncodeFull(t).Replace(",\"t2\":1", "").Replace(",\"t2\":0", "");
+            var oldBack = BattleNetwork.DecodeFull(oldJson);
+            Check("通信の往復で有効特性が保たれる(t2キー無しは元の特性)",
+                  back.Entries.Select(e => e.UseTrait2).SequenceEqual(new[] { true, false, false })
+                  && oldBack.Entries.All(e => !e.UseTrait2) && !oldJson.Contains("t2"),
+                  $"往復 {string.Join(",", back.Entries.Select(e => e.UseTrait2))} / キー無し {string.Join(",", oldBack.Entries.Select(e => e.UseTrait2))}");
+        }
+
+        atk.Stats.Trait = savedT; atk.Stats.Trait2 = savedT2; atk.Stats.UseTrait2 = savedUse;
         def.Stats.Trait = savedDefT; def.Stats.Trait2 = savedDefT2;
         atk.Stats.Type1 = savedType1; atk.Stats.Type2 = savedType2;
         foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); }
@@ -1196,6 +1214,7 @@ public partial class BattleTestScene : Node2D
             {
                 SpeciesId = id,
                 MoveIds = DefaultLoadout.PickMoves(SpeciesDatabase.Instance?.Get(id), MoveManager.MaxMoves),
+                UseTrait2 = BattleEntry.AutoUseTrait2(SpeciesDatabase.Instance?.Get(id)),   // 追加特性を選ぶ
             };
             BattleDeployment One(Faction f, string id, int tile) => new(f,
                 new Dictionary<BattleEntry, Vector2I>
@@ -1234,6 +1253,26 @@ public partial class BattleTestScene : Node2D
             s.host.Free();
         }
 
+        // 9b. 元の特性を選ぶと追加特性の地形は置かれない
+        {
+            var h = new Node { Name = "FieldProbe3" };
+            AddChild(h);
+            var ar = new BattleArena(h);
+            var sc = new BattleScheduler();
+            var en = new BattleEntry
+            {
+                SpeciesId = "169B",
+                MoveIds = DefaultLoadout.PickMoves(SpeciesDatabase.Instance?.Get("169B"), MoveManager.MaxMoves),
+                UseTrait2 = false,
+            };
+            ar.Spawn(new BattleDeployment(Faction.Player,
+                new Dictionary<BattleEntry, Vector2I> { [en] = BattleDeployment.AvailableTiles(Faction.Player)[4] }), sc);
+            ar.ApplyEntryWeather(sc);
+            Check("特性の選択 元の特性を選ぶと追加特性の地形は置かれない", ar.Floor.Fields.Count == 0,
+                  $"地形{ar.Floor.Fields.Count}マス");
+            h.Free();
+        }
+
         // 10. 非保持者は地形を置かない
         {
             var s = Setup("001", 4, "003", 0);
@@ -1256,6 +1295,7 @@ public partial class BattleTestScene : Node2D
                 {
                     SpeciesId = id,
                     MoveIds = DefaultLoadout.PickMoves(SpeciesDatabase.Instance?.Get(id), MoveManager.MaxMoves),
+                    UseTrait2 = BattleEntry.AutoUseTrait2(SpeciesDatabase.Instance?.Get(id)),   // 追加特性を選ぶ
                 };
                 BattleDeployment One(Faction f, string id, int tile) => new(f,
                     new Dictionary<BattleEntry, Vector2I>
@@ -1294,8 +1334,9 @@ public partial class BattleTestScene : Node2D
             bool allMixed = holders.All(s => s.Offense == "Mixed");
             bool leaders = string.IsNullOrEmpty(db.Get("021B")?.Trait2) && string.IsNullOrEmpty(db.Get("036")?.Trait2);
             var errors = db.Validate();
-            Check("種族データ 付録Aの16体だけが2つめの特性を持つ",
-                  holders.Count == 16 && allMixed && C("wide_burst") == 4 && C("kowaza_jouzu") == 5 && C("shimikomi") == 4
+            Check("種族データ 両刀12種だけが2つめの特性を持つ",
+                  holders.Count == 12 && holders.Count == db.All.Values.Count(x => x.Offense == "Mixed") && allMixed
+                  && C("wide_burst") + C("kowaza_jouzu") + C("shimikomi") == 9
                   && C("entry_puddle") == 1 && C("entry_flowerbed") == 1 && C("entry_thin_ice") == 1
                   && leaders && errors.Count == 0,
                   $"{holders.Count}体 {string.Join(",", counts.Select(kv => kv.Key + "=" + kv.Value))} 全員両刀={allMixed} リーダー除外={leaders} Validate誤り{errors.Count}");
@@ -2548,19 +2589,18 @@ public partial class BattleTestScene : Node2D
 
         // ---- P2 習得者 ----
         {
-            var expected = new[] { "007", "007B", "016", "021B", "022", "023", "030", "036", "041B", "042", "048B",
-                                   "064B", "073", "073B", "083B", "084", "084B", "096", "100", "100B", "101", "108",
-                                   "112B", "127", "133", "138B", "154", "169B", "178", "188", "188B" };
             var all = SpeciesDatabase.Instance.All.Values.ToList();
             var got = all.Where(sp => sp.Learnset.Any(l => l.MoveId == ProtId)).Select(sp => sp.SpeciesId)
                          .OrderBy(x => x, System.StringComparer.Ordinal).ToArray();
-            bool setOk = got.SequenceEqual(expected.OrderBy(x => x, System.StringComparer.Ordinal));
+            var expected = all.Where(sp => sp.Offense == "Mixed" && sp.Bst <= 470).Select(sp => sp.SpeciesId)
+                              .OrderBy(x => x, System.StringComparer.Ordinal).ToArray();
+            bool setOk = got.SequenceEqual(expected);
             bool rowsOk = all.All(sp =>
             {
                 var rows = sp.Learnset.Where(l => l.MoveId == ProtId).ToList();
                 return rows.Count == 0 || (rows.Count == 1 && rows[0].Level == 10);
             });
-            Rep("P2", "習得者が両刀BST6<=470の31種ちょうど(各1行・level 10)", setOk && rowsOk && got.Length == 31,
+            Rep("P2", "習得者が両刀BST6<=470の11種ちょうど(各1行・level 10)", setOk && rowsOk && got.Length == 11,
                 $"習得{got.Length}種 集合一致={setOk} 各1行level10={rowsOk}");
         }
 

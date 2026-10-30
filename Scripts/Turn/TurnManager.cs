@@ -65,7 +65,7 @@ public partial class TurnManager : Node
             entity?.NotifyOwnActionEnded(); // 虚脱の「2回目の行動終了時」解除
 
             if (shielded) BuildUpRelay.Release(entity);
-            if (entity != null && entity.Stats.Trait == "build_up")
+            if (entity != null && entity.Stats.ActiveTrait == "build_up")
                 BuildUpRelay.Arm(entity.Faction);
 
             // ふわふわ/ゆきすべり: hold the turn open for one more input.

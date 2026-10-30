@@ -232,10 +232,10 @@ public partial class Entity : Node2D, ITurnActor
     }
 
     // Latches the permanent, trait-driven flags onto StatusEffects. These
-    // are resolved once from Stats.Trait rather than re-checked per event,
+    // are resolved once from Stats.ActiveTrait rather than re-checked per event,
     // because StatusEffectManager owns no back-reference to its Stats.
     //
-    // Called from _Ready() after FillFromSpecies has populated Stats.Trait.
+    // Called from _Ready() after FillFromSpecies has populated Stats.ActiveTrait.
     // Public and idempotent so anything that assigns Trait AFTER spawn
     // (test harnesses, a future trait-swap item) can re-latch instead of
     // silently ending up with a trait whose flags never fired - the failure
@@ -245,13 +245,13 @@ public partial class Entity : Node2D, ITurnActor
         // バッテリー permanently occupies the Ailment slot (帯電/Paralyze)
         // with Paralyze's own movement-lock suppressed for its holder -
         // see StatusEffectManager.MarkAsBattery.
-        if (Stats.Trait == "battery")
+        if (Stats.ActiveTrait == "battery")
             StatusEffects.MarkAsBattery();
 
-        if (Stats.Trait == "blitz_beat")
+        if (Stats.ActiveTrait == "blitz_beat")
             StatusEffects.MarkBlocksEvasionDrop();
 
-        if (Stats.Trait == "over_heal")
+        if (Stats.ActiveTrait == "over_heal")
             StatusEffects.MarkHealBonusRate(OverHealBonusRate);
     }
 
@@ -694,8 +694,8 @@ public partial class Entity : Node2D, ITurnActor
         if (!IsAlive) return false;
         return CurrentWeather switch
         {
-            Dungeon.WeatherType.Gale => Stats.Trait == "fuwafuwa",
-            Dungeon.WeatherType.Snow => Stats.Trait == "yukisuberi",
+            Dungeon.WeatherType.Gale => Stats.ActiveTrait == "fuwafuwa",
+            Dungeon.WeatherType.Snow => Stats.ActiveTrait == "yukisuberi",
             _ => false,
         };
     }
@@ -847,7 +847,7 @@ public partial class Entity : Node2D, ITurnActor
         // こんとんのしゅくふく (stage 9 §1): the holder pays 15% of MaxHp per
         // kill outright, matching the project's standing convention that
         // per-turn self-damage (poison/toxic/burn) leaves the holder at 1.
-        if (Stats.Trait == "konton_no_shukufuku" && Stats.IsAlive)
+        if (Stats.ActiveTrait == "konton_no_shukufuku" && Stats.IsAlive)
         {
             int cost = Mathf.Max(1, Mathf.FloorToInt(Stats.MaxHp * KontonHpCostRate));
             int hpBeforeCost = Stats.CurrentHp;

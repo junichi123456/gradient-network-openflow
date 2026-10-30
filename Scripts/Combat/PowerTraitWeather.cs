@@ -30,7 +30,7 @@ public static class PowerTraitWeather
     public const float DarkFogHealRatio = 0.05f;
 
     public static float TurnEndHealRatio(Entity e, WeatherType weather) =>
-        e != null && e.Stats.Trait == Dark && weather == WeatherType.Fog ? DarkFogHealRatio : 0f;
+        e != null && e.Stats.ActiveTrait == Dark && weather == WeatherType.Fog ? DarkFogHealRatio : 0f;
 
     // 炎のちから: 天候がはれのとき、**水属性の相手に対する**自身の炎属性の
     // わざの威力+10。相手の属性は実際の Type1/Type2 で見る（相性計算の都合で
@@ -41,7 +41,7 @@ public static class PowerTraitWeather
                                        string effectiveMoveType, WeatherType weather)
     {
         if (attacker == null || target == null) return 0f;
-        if (weather != WeatherType.Sunny || attacker.Stats.Trait != Fire) return 0f;
+        if (weather != WeatherType.Sunny || attacker.Stats.ActiveTrait != Fire) return 0f;
         if (effectiveMoveType != "Fire") return 0f;
         bool targetIsWater = target.Stats.Type1 == "Water" || target.Stats.Type2 == "Water";
         return targetIsWater ? FireSunnyBonus : 0f;
@@ -50,12 +50,12 @@ public static class PowerTraitWeather
     // 水のちから: 天候があめのとき、自身の優先度+1。**技ではなく個体に付く**
     // ので、その個体が出す手すべて（移動を含む）が同じだけ速くなる。
     public static int PriorityBonus(Entity actor, WeatherType weather) =>
-        actor != null && actor.Stats.Trait == Water && weather == WeatherType.Rain ? 1 : 0;
+        actor != null && actor.Stats.ActiveTrait == Water && weather == WeatherType.Rain ? 1 : 0;
 
     // 草のちから: 天候がはれのとき、自身が使用する草技の命中ランク+1。
     // 属性は EffectiveMoveType を渡す（おしえで草に化けた無属性技も同じ扱い）。
     public static int AccuracyBonus(Entity attacker, string effectiveMoveType, WeatherType weather) =>
-        attacker != null && attacker.Stats.Trait == Grass
+        attacker != null && attacker.Stats.ActiveTrait == Grass
         && weather == WeatherType.Sunny && effectiveMoveType == "Grass" ? 1 : 0;
 
     // 地のちから: 天候がすなあらしのとき、自身の回避ランク+1。
@@ -67,8 +67,8 @@ public static class PowerTraitWeather
     {
         if (target == null) return 0;
         int bonus = 0;
-        if (weather == WeatherType.Sandstorm && target.Stats.Trait == Ground) bonus += 1;
-        if (weather == WeatherType.Snow && target.Stats.Trait == Ice
+        if (weather == WeatherType.Sandstorm && target.Stats.ActiveTrait == Ground) bonus += 1;
+        if (weather == WeatherType.Snow && target.Stats.ActiveTrait == Ice
             && range is MoveRange.Room or MoveRange.FullFloor) bonus += 2;
         return bonus;
     }

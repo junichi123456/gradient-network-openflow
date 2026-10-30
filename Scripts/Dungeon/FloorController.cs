@@ -801,7 +801,7 @@ public partial class FloorController : Node2D
     // Returns true when the weather actually changed.
     public bool ApplyWeatherOnEntry(Entity actor)
     {
-        var trait = Combat.TraitDatabase.Get(actor?.Stats.Trait);
+        var trait = Combat.TraitDatabase.Get(actor?.Stats.ActiveTrait);
         if (trait == null || trait.WeatherOnEntry == WeatherType.None) return false;
 
         // すでにその天候になっている場合、天候を変化する部分に関しては発動しない.
@@ -817,16 +817,15 @@ public partial class FloorController : Node2D
     // 地形特性(みずたまりのぬし 等): 場に出たとき、保持者のマスを中心とする
     // 3x3 のうち盤面内で壁でないマス全てを対応する地形にする。PlaceField と
     // 違い個体のいるマスも含める(「自身がいるマス」を含むため)。既にある地形は
-    // 上書き(FieldManager.Set の規則)。Trait と Trait2 の両方を見る。
+    // 上書き(FieldManager.Set の規則)。有効な特性(ActiveTrait)だけを見る。
     // 置いたマスの数を返す(地形特性を持たなければ 0)。
     public int ApplyFieldOnEntry(Entity actor)
     {
         if (actor == null) return 0;
         int placed = 0;
-        foreach (var traitId in new[] { actor.Stats.Trait, actor.Stats.Trait2 })
         {
-            var trait = Combat.TraitDatabase.Get(traitId);
-            if (trait == null || trait.FieldOnEntry == FieldType.None) continue;
+            var trait = Combat.TraitDatabase.Get(actor.Stats.ActiveTrait);
+            if (trait == null || trait.FieldOnEntry == FieldType.None) return 0;
 
             int count = 0;
             for (int dx = -1; dx <= 1; dx++)

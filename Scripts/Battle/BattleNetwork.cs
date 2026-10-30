@@ -213,6 +213,7 @@ public partial class BattleNetwork : Node
                 },
                 ["nu"] = sp.NatureUp.ToString(),
                 ["nd"] = sp.NatureDown.ToString(),
+                ["t2"] = e.UseTrait2 ? 1 : 0,   // 特性の選択（0=元 / 1=追加）。無い古い相手は元の特性
             });
         }
         return Json.Stringify(arr);
@@ -248,6 +249,7 @@ public partial class BattleNetwork : Node
                 MoveIds = moves,
                 ItemId = string.IsNullOrEmpty(item) ? null : item,
                 Spread = spread,
+                UseTrait2 = d.ContainsKey("t2") && d["t2"].AsInt32() != 0,
             });
         }
         return new BattleTeam(entries);

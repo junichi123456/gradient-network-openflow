@@ -41,6 +41,9 @@ public partial class BattlePal : Entity
 
         HeldItemId = entry.ItemId;   // Entity 側が効果解決に使う
 
+        // 特性の選択(元 / 追加)。追加特性を持たない個体では常に元の特性。
+        Stats.UseTrait2 = entry.UseTrait2 && !string.IsNullOrEmpty(Stats.Trait2);
+
         // 突破値・気質。Stats.Level = 50 のあとに呼ばれる（_Ready の順）。
         Stats.ApplySpread(entry.Spread ?? StatSpread.Zero());
     }

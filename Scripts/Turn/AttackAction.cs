@@ -636,7 +636,7 @@ public class AttackAction : IAction
         float atkFlatBuff = 0f;
         float defFlatBuff = 0f;
 
-        var bondTrait = TraitDatabase.Get(_attacker.Stats.Trait);
+        var bondTrait = TraitDatabase.Get(_attacker.Stats.ActiveTrait);
         if (bondTrait != null && bondTrait.Category == TraitCategory.Template
             && bondTrait.TemplateKind == TraitTemplateKind.Bond && bondTrait.Element.HasValue)
         {
@@ -1115,7 +1115,7 @@ public class AttackAction : IAction
     {
         if (move.Type != "Neutral") return move.Type;
 
-        var trait = TraitDatabase.Get(attacker.Stats.Trait);
+        var trait = TraitDatabase.Get(attacker.Stats.ActiveTrait);
         return trait != null && trait.Category == TraitCategory.Template
             && trait.TemplateKind == TraitTemplateKind.Oshie && trait.Element.HasValue
             ? trait.Element.Value.ToString()
@@ -1133,7 +1133,7 @@ public class AttackAction : IAction
     // OWN declared element, independent of the holder's real Type1/Type2.
     private static bool HasMatchingTemplateTrait(Entity entity, string moveType, TraitTemplateKind kind)
     {
-        var trait = TraitDatabase.Get(entity.Stats.Trait);
+        var trait = TraitDatabase.Get(entity.Stats.ActiveTrait);
         return trait != null && trait.Category == TraitCategory.Template
             && trait.TemplateKind == kind && trait.Element?.ToString() == moveType;
     }

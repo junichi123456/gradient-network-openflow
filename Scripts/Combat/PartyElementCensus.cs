@@ -53,7 +53,7 @@ public static class PartyElementCensus
             if (actor.Faction != self.Faction) continue;
             if (!includeSelf && actor == self) continue;
 
-            var trait = TraitDatabase.Get(actor.Stats.Trait);
+            var trait = TraitDatabase.Get(actor.Stats.ActiveTrait);
             if (trait != null && trait.Category == TraitCategory.Template && trait.TemplateKind == kind && trait.Element == element)
                 return true;
         }
@@ -95,7 +95,7 @@ public static class PartyElementCensus
         foreach (var actor in actors)
         {
             if (actor == self || actor.Faction != self.Faction) continue;
-            if (actor.Stats.Trait == traitId) count++;
+            if (actor.Stats.ActiveTrait == traitId) count++;
         }
         return count;
     }
@@ -108,7 +108,7 @@ public static class PartyElementCensus
         {
             if (actor.Faction != self.Faction) continue;
             if (!includeSelf && actor == self) continue;
-            if (actor.Stats.Trait == traitId) return true;
+            if (actor.Stats.ActiveTrait == traitId) return true;
         }
         return false;
     }

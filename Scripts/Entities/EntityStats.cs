@@ -66,7 +66,14 @@ public partial class EntityStats : Node
     // 2つめの特性(secondary の特性だけが入る。空 = 持たない)。
     public string Trait2 { get; set; } = "";
 
-    public bool HasTrait(string id) => !string.IsNullOrEmpty(id) && (Trait == id || Trait2 == id);
+    // 選択制: Trait(元の特性)と Trait2(追加特性)は同時には効かず、どちらか一方だけが有効。
+    // true なら追加特性が有効。Trait2 が空の個体では常に元の特性。
+    public bool UseTrait2 { get; set; }
+
+    // 有効な特性の id。特性を読む箇所はすべてこれを使う(Trait / Trait2 を直接見ない)。
+    public string ActiveTrait => UseTrait2 && !string.IsNullOrEmpty(Trait2) ? Trait2 : Trait;
+
+    public bool HasTrait(string id) => !string.IsNullOrEmpty(id) && ActiveTrait == id;
 
     // trait_catalog_v2: the INDEPENDENT ecology slot (Data/ecology.json).
     // Separate from Trait on purpose - a species can hold both at once.

@@ -122,6 +122,7 @@ public static class NpcTeamDatabase
                 MoveIds = e.MoveIds ?? new List<string>(),
                 ItemId = e.ItemId,
                 Spread = SpreadOf(e),
+                UseTrait2 = BattleEntry.AutoUseTrait2(SpeciesDatabase.Instance?.Get(e.SpeciesId)),   // NPCは追加特性（乱数なし）
             }));
 
             // 構築規則を通らない相手は出さない。黙って弱い相手として出すより、

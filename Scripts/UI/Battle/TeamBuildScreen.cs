@@ -237,8 +237,10 @@ public partial class TeamBuildScreen : Control
             if (trait != null)
             {
                 var tr = Row(6);
-                tr.AddChild(Pill("特性", BattleTheme.Muted, BattleTheme.Sunk));
-                tr.AddChild(Text(trait.Name, BattleTheme.Ink, BattleTheme.FontSmall));
+                bool hasAlt = !string.IsNullOrEmpty(sp.Trait2);
+                tr.AddChild(Pill(hasAlt ? (entry.UseTrait2 ? "特性(無効)" : "特性(有効)") : "特性",
+                                 BattleTheme.Muted, BattleTheme.Sunk));
+                tr.AddChild(Text(trait.Name, entry.UseTrait2 && hasAlt ? BattleTheme.Muted : BattleTheme.Ink, BattleTheme.FontSmall));
                 col.AddChild(tr);
                 var desc = Text(trait.Description ?? "", BattleTheme.Muted, BattleTheme.FontLabel);
                 desc.AutowrapMode = TextServer.AutowrapMode.WordSmart;
@@ -250,8 +252,13 @@ public partial class TeamBuildScreen : Control
             if (trait2 != null)
             {
                 var tr2 = Row(6);
-                tr2.AddChild(Pill("特性2", BattleTheme.Muted, BattleTheme.Sunk));
-                tr2.AddChild(Text(trait2.Name, BattleTheme.Ink, BattleTheme.FontSmall));
+                tr2.AddChild(Pill(entry.UseTrait2 ? "追加特性(有効)" : "追加特性(無効)", BattleTheme.Muted, BattleTheme.Sunk));
+                tr2.AddChild(Text(trait2.Name, entry.UseTrait2 ? BattleTheme.Ink : BattleTheme.Muted, BattleTheme.FontSmall));
+                tr2.AddChild(Spacer());
+                // 元の特性と追加特性は同時には効かない。どちらを使うかをここで選ぶ。
+                var toggle = new Button { Text = entry.UseTrait2 ? "元の特性にする" : "追加特性にする" };
+                toggle.Pressed += () => { _team.SetUseTrait2(_slot, !entry.UseTrait2); Refresh(); };
+                tr2.AddChild(toggle);
                 col.AddChild(tr2);
                 var desc2 = Text(trait2.Description ?? "", BattleTheme.Muted, BattleTheme.FontLabel);
                 desc2.AutowrapMode = TextServer.AutowrapMode.WordSmart;

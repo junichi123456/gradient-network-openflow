@@ -46,7 +46,7 @@ public static class BuildUpRelay
 
         // The holder's own next action must not consume the token it just
         // armed - the effect targets "次に行動する味方", someone else.
-        if (actor.Stats.Trait == "build_up") return false;
+        if (actor.Stats.ActiveTrait == "build_up") return false;
 
         _pending = null;
         actor.StatusEffects.SetBuildUpShield(true);

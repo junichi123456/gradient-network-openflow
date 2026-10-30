@@ -95,7 +95,7 @@ public class TurnScheduler
                     }
 
                     if (shielded) BuildUpRelay.Release(entity);
-                    if (entity != null && entity.Stats.Trait == "build_up")
+                    if (entity != null && entity.Stats.ActiveTrait == "build_up")
                         BuildUpRelay.Arm(entity.Faction);
                 }
 

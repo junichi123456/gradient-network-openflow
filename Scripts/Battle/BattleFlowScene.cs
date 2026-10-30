@@ -114,6 +114,7 @@ public partial class BattleFlowScene : Control
                 // NPCと同じ選び方で4つ採る（DefaultLoadout）。
                 MoveIds = DefaultLoadout.PickMoves(sp, MoveManager.MaxMoves),
                 Spread = StatSpread.Auto(sp),
+                UseTrait2 = BattleEntry.AutoUseTrait2(sp),
             };
         }).ToList();
         return new BattleTeam(entries);
