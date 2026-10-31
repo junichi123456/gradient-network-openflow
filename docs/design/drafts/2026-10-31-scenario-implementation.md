@@ -85,3 +85,9 @@
 
 ## 7. やらないこと
 `Data/species.json` の書き換え、既存戦闘ロジックの調整、小説化、立ち絵・BGM・演出アセットの制作、ランダム会話、守る/譲るのエンディング本編、補完21〜30の会話本文、追加枠44〜の中身。
+
+## 8. 本文起こしの規約（P3 実装で確定。P6・P7 の執筆者はこれに従う）
+- イベントIDは `cNN_eMM_slug`（MM は台本の流れの番号①②…。1つの番号を複数イベントに分けるときは `cNN_eMM_slug`／`cNN_eMMb_slug` のように MM に英字を足す）。補完35の挿入点は `c14_e04_*`（チャート14の④のイベント）直後。補完31〜34は `chart_end`。
+- ファイルは `Data/story/events/cNN.json` 1つ（配列またはオブジェクト。`c01.json`・`c02.json` と同じ形）。トリガー: `chart_start`（チャートの頭）/`dungeon_clear`/`boss_defeated`/`chart_end`。`requires` にフラグ、一度きりは `once:true`。チャートの締めのイベントで `set_flag cNN_done` と `chart_end` を満たす（`StoryFlow` の完了条件は `charts.json` と `c01.json` を参照）。
+- 書き換えてよいのは **自分の担当の `events/cNN.json` だけ**。`charts.json`・`dungeons.json`・`characters.json` 等の共有データを変えたいときは変えずに報告する。
+- 台詞の書き分け・`by_type`・`{I}` 等は §3、台本の「主人公と相棒」「引き」を必ず反映。山場の `key:true` 行は16タイプ全部を手書き。
