@@ -1,0 +1,356 @@
+{
+ "name": "ビリビリュー (Dinossom Lux)",
+ "gait": "biped",
+ "palette": {
+  "body": "#f0b020",
+  "body2": "#f4c440",
+  "belly": "#f8f4e8",
+  "mane": "#8a5a30",
+  "flower": "#e8607a",
+  "flower2": "#f090a0",
+  "yel": "#e8d050",
+  "eye": "#c03050",
+  "claw": "#e86080"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    0
+   ],
+   "size": [
+    15,
+    20,
+    16
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    5
+   ],
+   "size": [
+    10,
+    18,
+    8
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    4
+   ],
+   "size": [
+    7,
+    16,
+    8
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    6
+   ],
+   "size": [
+    10,
+    9,
+    13
+   ],
+   "color": "body2",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    12
+   ],
+   "size": [
+    6,
+    5,
+    6
+   ],
+   "color": "body2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    35,
+    10
+   ],
+   "size": [
+    2.4,
+    3.4,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    31,
+    5
+   ],
+   "size": [
+    5,
+    13,
+    9
+   ],
+   "color": "mane",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "mane2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    -1
+   ],
+   "size": [
+    14,
+    6,
+    6
+   ],
+   "color": "mane",
+   "group": "head"
+  },
+  {
+   "name": "flower",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    3
+   ],
+   "size": [
+    15,
+    5,
+    13
+   ],
+   "color": "flower",
+   "group": "head"
+  },
+  {
+   "name": "flower2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    42,
+    3
+   ],
+   "size": [
+    8,
+    3.4,
+    7
+   ],
+   "color": "flower2",
+   "group": "head"
+  },
+  {
+   "name": "crown",
+   "shape": "cone",
+   "center": [
+    0,
+    46,
+    3
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "yel",
+   "group": "head"
+  },
+  {
+   "name": "crown2",
+   "shape": "cone",
+   "center": [
+    5,
+    44,
+    3
+   ],
+   "size": [
+    3.4,
+    6,
+    3.4
+   ],
+   "color": "yel",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    17,
+    5
+   ],
+   "size": [
+    3.6,
+    9,
+    3.8
+   ],
+   "color": "body",
+   "group": "arm_r",
+   "rot": [
+    -25,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "cone",
+   "center": [
+    7.5,
+    12,
+    8
+   ],
+   "size": [
+    2.4,
+    3,
+    2.4
+   ],
+   "color": "claw",
+   "group": "arm_r",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    6,
+    1
+   ],
+   "size": [
+    7,
+    12,
+    10
+   ],
+   "color": "body",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    1.2,
+    4
+   ],
+   "size": [
+    6,
+    2.4,
+    9
+   ],
+   "color": "body2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    7,
+    -13
+   ],
+   "size": [
+    8,
+    20,
+    8
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -24
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "mane",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_FlowerDinosaur_Electric_icon_normal.png",
+   "note": "正面: 頭頂の桃の花と黄色い冠、顔の両脇に垂れる葉(橙版は茶の鬣)、桃色の目"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Dinossom",
+   "note": "全身: 長い首、直立した竜、白い腹、桃色の爪、渦を巻く尾"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799244",
+   "note": "黄橙の体、茶の鬣、白い腹"
+  }
+ ]
+}

@@ -1,0 +1,396 @@
+{
+ "name": "フリーズマ (Rayhound Cryst)",
+ "gait": "quad",
+ "palette": {
+  "body": "#28303e",
+  "cream": "#e0ecf4",
+  "bolt": "#6cc4f2",
+  "dark": "#161a24",
+  "eye": "#3a70e0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -1
+   ],
+   "size": [
+    14,
+    14,
+    26
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    8
+   ],
+   "size": [
+    10,
+    13,
+    10
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "rump",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -10
+   ],
+   "size": [
+    13,
+    14,
+    11
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "bolt1",
+   "shape": "wedge",
+   "center": [
+    7.5,
+    19,
+    -1
+   ],
+   "size": [
+    1.2,
+    8,
+    9
+   ],
+   "color": "bolt",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bolt2",
+   "shape": "wedge",
+   "center": [
+    7,
+    12,
+    -6
+   ],
+   "size": [
+    1.2,
+    6,
+    7
+   ],
+   "color": "bolt",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    10
+   ],
+   "size": [
+    8,
+    12,
+    8
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    15
+   ],
+   "size": [
+    9,
+    8,
+    11
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24.5,
+    21
+   ],
+   "size": [
+    5,
+    4.5,
+    9
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    25.5
+   ],
+   "size": [
+    2.4,
+    2,
+    1.8
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28.5,
+    17
+   ],
+   "size": [
+    10,
+    3,
+    7
+   ],
+   "color": "bolt",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    27,
+    20
+   ],
+   "size": [
+    2,
+    2.2,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    4,
+    33,
+    13
+   ],
+   "size": [
+    6,
+    13,
+    4
+   ],
+   "color": "bolt",
+   "group": "ear",
+   "rot": [
+    -18,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "cone",
+   "center": [
+    4,
+    32,
+    14
+   ],
+   "size": [
+    3.5,
+    9,
+    2.5
+   ],
+   "color": "dark",
+   "group": "ear",
+   "rot": [
+    -18,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    6.5,
+    7
+   ],
+   "size": [
+    4,
+    13,
+    4
+   ],
+   "color": "body",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "pawf",
+   "shape": "box",
+   "center": [
+    4.5,
+    1,
+    7.8
+   ],
+   "size": [
+    4.4,
+    2,
+    5.5
+   ],
+   "color": "dark",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    6.5,
+    -10
+   ],
+   "size": [
+    4,
+    13,
+    4
+   ],
+   "color": "body",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "pawb",
+   "shape": "box",
+   "center": [
+    4.5,
+    1,
+    -9.2
+   ],
+   "size": [
+    4.4,
+    2,
+    5.5
+   ],
+   "color": "dark",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cylinder",
+   "center": [
+    0,
+    22,
+    -17
+   ],
+   "size": [
+    2.2,
+    16,
+    2.2
+   ],
+   "color": "dark",
+   "group": "tail",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tb1",
+   "shape": "wedge",
+   "center": [
+    0,
+    30,
+    -25
+   ],
+   "size": [
+    6,
+    9,
+    2.4
+   ],
+   "color": "bolt",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tb2",
+   "shape": "wedge",
+   "center": [
+    0,
+    36,
+    -26
+   ],
+   "size": [
+    5,
+    8,
+    2.4
+   ],
+   "color": "bolt",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/098B/icon.png",
+   "note": "頭部: 黒に近い青灰の体、氷青の耳と模様、青い目"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Rayhound_bis.png",
+   "note": "元種との差: 茶→暗青灰、黄→氷青、胸は白"
+  },
+  {
+   "url": "Tools/.refcache/098/icon.png",
+   "note": "比較用元種"
+  }
+ ]
+}

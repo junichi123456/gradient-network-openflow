@@ -1,0 +1,445 @@
+{
+ "name": "ソルレイス (Maraith)",
+ "gait": "quad",
+ "palette": {
+  "dk": "#3a3358",
+  "dk2": "#4d4575",
+  "claw": "#7a5fd0",
+  "white": "#f4f4f4",
+  "green": "#7ae33a",
+  "flame": "#6fd8ff",
+  "flame2": "#d8f6ff",
+  "wing": "#5d62d8",
+  "wing2": "#8cb4ff",
+  "edge": "#2a2548"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    16,
+    13,
+    22
+   ],
+   "color": "dk",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    8
+   ],
+   "size": [
+    15,
+    13,
+    10
+   ],
+   "color": "dk2",
+   "group": "body"
+  },
+  {
+   "name": "fur0",
+   "shape": "cone",
+   "center": [
+    6,
+    20,
+    8
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "dk2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -60
+   ]
+  },
+  {
+   "name": "fur1",
+   "shape": "cone",
+   "center": [
+    7,
+    15,
+    8
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "dk2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -80
+   ]
+  },
+  {
+   "name": "fur2",
+   "shape": "cone",
+   "center": [
+    -6,
+    20,
+    8
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "dk2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    60
+   ]
+  },
+  {
+   "name": "fur3",
+   "shape": "cone",
+   "center": [
+    -7,
+    15,
+    8
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "dk2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    80
+   ]
+  },
+  {
+   "name": "fur4",
+   "shape": "cone",
+   "center": [
+    5,
+    24,
+    3
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "dk2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -40
+   ]
+  },
+  {
+   "name": "fur5",
+   "shape": "cone",
+   "center": [
+    -5,
+    24,
+    3
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "dk2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    40
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    7
+   ],
+   "size": [
+    15,
+    14,
+    13
+   ],
+   "color": "dk",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    12.5
+   ],
+   "size": [
+    12.5,
+    12.5,
+    6
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "iris",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    15.3
+   ],
+   "size": [
+    6,
+    6,
+    1.5
+   ],
+   "color": "green",
+   "group": "head"
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    16
+   ],
+   "size": [
+    2.6,
+    2.6,
+    1
+   ],
+   "color": "edge",
+   "group": "head"
+  },
+  {
+   "name": "flame",
+   "shape": "cone",
+   "center": [
+    0,
+    35,
+    4
+   ],
+   "size": [
+    6,
+    13,
+    6
+   ],
+   "color": "flame",
+   "group": "head"
+  },
+  {
+   "name": "flame_in",
+   "shape": "cone",
+   "center": [
+    0,
+    34,
+    5
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "flame2",
+   "group": "head"
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    26,
+    -5
+   ],
+   "size": [
+    20,
+    1.5,
+    10
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_in",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    26.6,
+    -5
+   ],
+   "size": [
+    13,
+    1,
+    6
+   ],
+   "color": "wing2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg0",
+   "shape": "cylinder",
+   "center": [
+    5,
+    6.5,
+    8
+   ],
+   "size": [
+    3.2,
+    13,
+    3.2
+   ],
+   "color": "dk",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "claw0",
+   "shape": "cone",
+   "center": [
+    5,
+    1,
+    10
+   ],
+   "size": [
+    2.4,
+    3,
+    2.4
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg1",
+   "shape": "cylinder",
+   "center": [
+    5,
+    6.5,
+    -8
+   ],
+   "size": [
+    3.2,
+    13,
+    3.2
+   ],
+   "color": "dk",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "claw1",
+   "shape": "cone",
+   "center": [
+    5,
+    1,
+    -6
+   ],
+   "size": [
+    2.4,
+    3,
+    2.4
+   ],
+   "color": "claw",
+   "group": "leg_br",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cylinder",
+   "center": [
+    0,
+    15,
+    -15
+   ],
+   "size": [
+    2,
+    12,
+    2
+   ],
+   "color": "dk2",
+   "group": "tail",
+   "rot": [
+    55,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_f",
+   "shape": "cone",
+   "center": [
+    0,
+    21,
+    -19
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "flame",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Maraith_bis.png",
+   "note": "全身: 濃紫の小さな獣、巨大な白い眼球の顔に緑の虹彩、青い炎のたてがみ、青紫の半透明の翼、細い脚に紫の爪"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Maraith_side.webp",
+   "note": "側面: 背に炎の翼、尻尾の先に青い炎"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_GhostBeast_icon_normal.png",
+   "note": "顔アップ: 白い球の目に緑の瞳、ぎざぎざの濃紫の毛"
+  }
+ ]
+}

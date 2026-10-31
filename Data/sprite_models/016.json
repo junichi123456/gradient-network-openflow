@@ -1,0 +1,280 @@
+{
+ "name": "ンダコアラ (Depresso)",
+ "gait": "biped",
+ "palette": {
+  "b": "#3a8cd8",
+  "b2": "#4c9ae2",
+  "sh": "#6a78a8",
+  "horn": "#7a3e90",
+  "horn2": "#9a58b0",
+  "pur": "#8a4a9a",
+  "wht": "#f4f0f8",
+  "iris": "#8a6ab0",
+  "pup": "#2a1a38",
+  "lid": "#3070b8"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    0
+   ],
+   "size": [
+    26,
+    25,
+    22
+   ],
+   "color": "b",
+   "group": "body"
+  },
+  {
+   "name": "under",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    1
+   ],
+   "size": [
+    18,
+    8,
+    16
+   ],
+   "color": "sh",
+   "group": "body"
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0,
+    28.5,
+    0
+   ],
+   "size": [
+    6,
+    7,
+    6
+   ],
+   "color": "horn",
+   "group": "body"
+  },
+  {
+   "name": "horn_t",
+   "shape": "cone",
+   "center": [
+    0,
+    32.5,
+    0
+   ],
+   "size": [
+    3.6,
+    3,
+    3.6
+   ],
+   "color": "horn2",
+   "group": "body"
+  },
+  {
+   "name": "eye_w",
+   "shape": "ellipsoid",
+   "center": [
+    6.6,
+    17,
+    10
+   ],
+   "size": [
+    8.4,
+    6.4,
+    3.4
+   ],
+   "color": "wht",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "iris",
+   "shape": "ellipsoid",
+   "center": [
+    6.6,
+    16.5,
+    11.6
+   ],
+   "size": [
+    4.6,
+    4.2,
+    1.6
+   ],
+   "color": "iris",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    6.6,
+    16.5,
+    12.5
+   ],
+   "size": [
+    1.8,
+    1.8,
+    0.8
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "lid",
+   "shape": "ellipsoid",
+   "center": [
+    6.6,
+    19.4,
+    11
+   ],
+   "size": [
+    9.4,
+    3.6,
+    3.8
+   ],
+   "color": "lid",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    11,
+    11.2
+   ],
+   "size": [
+    4.4,
+    0.7,
+    0.8
+   ],
+   "color": "pup",
+   "group": "head"
+  },
+  {
+   "name": "earp",
+   "shape": "ellipsoid",
+   "center": [
+    13.4,
+    17,
+    -1
+   ],
+   "size": [
+    3.6,
+    8,
+    7
+   ],
+   "color": "pur",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "sp",
+   "shape": "cone",
+   "center": [
+    12,
+    5,
+    2
+   ],
+   "size": [
+    5,
+    7,
+    5
+   ],
+   "color": "b2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -70
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sp_b",
+   "shape": "cone",
+   "center": [
+    10,
+    6,
+    -8
+   ],
+   "size": [
+    5,
+    6,
+    5
+   ],
+   "color": "b2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -60
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    6,
+    6
+   ],
+   "size": [
+    4.5,
+    6,
+    4.5
+   ],
+   "color": "sh",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    1.4,
+    5
+   ],
+   "size": [
+    6,
+    3,
+    7
+   ],
+   "color": "sh",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_NegativeKoala_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Depresso_resting.png",
+   "note": "休息: 青い丸い体、頭頂の紫の角、半目のうつろな目、側面の紫の耳、下側に棘"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Depresso_hotsprings.png",
+   "note": "温泉: 体は青、灰紫の下半身"
+  }
+ ]
+}

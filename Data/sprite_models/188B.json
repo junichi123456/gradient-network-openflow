@@ -1,0 +1,425 @@
+{
+ "name": "イシス (Faleris Aqua)",
+ "gait": "hover",
+ "palette": {
+  "blk": "#25262c",
+  "blk2": "#383a44",
+  "acc": "#2f86c8",
+  "acc2": "#2a5fa8",
+  "cream": "#f3e49a",
+  "cream2": "#e6cf7a",
+  "gold": "#d8b43c",
+  "eye": "#f0c840",
+  "beak": "#2a2a2a",
+  "talon": "#e0c040"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    14,
+    15,
+    17
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "breast",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    5
+   ],
+   "size": [
+    11,
+    12,
+    9
+   ],
+   "color": "acc",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    3
+   ],
+   "size": [
+    10,
+    7,
+    11
+   ],
+   "color": "acc2",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -5
+   ],
+   "size": [
+    13,
+    6,
+    12
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    5
+   ],
+   "size": [
+    9,
+    9,
+    10
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27.5,
+    8.5
+   ],
+   "size": [
+    8.5,
+    6.5,
+    5
+   ],
+   "color": "acc",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    26,
+    13
+   ],
+   "size": [
+    3.5,
+    5,
+    3
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    28.5,
+    10
+   ],
+   "size": [
+    2,
+    1.6,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    2
+   ],
+   "size": [
+    4,
+    8,
+    9
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    -4
+   ],
+   "size": [
+    5,
+    7,
+    6
+   ],
+   "color": "blk2",
+   "group": "head"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    4
+   ],
+   "size": [
+    11,
+    4,
+    10
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "wing_a",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    22,
+    -1
+   ],
+   "size": [
+    18,
+    4,
+    14
+   ],
+   "color": "blk",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_b",
+   "shape": "ellipsoid",
+   "center": [
+    28,
+    24,
+    -2
+   ],
+   "size": [
+    16,
+    3,
+    11
+   ],
+   "color": "blk2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    16
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_s",
+   "shape": "box",
+   "center": [
+    18,
+    22.5,
+    0
+   ],
+   "size": [
+    14,
+    0.6,
+    3
+   ],
+   "color": "acc",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "prim0",
+   "shape": "ellipsoid",
+   "center": [
+    22,
+    25.0,
+    -7
+   ],
+   "size": [
+    7,
+    2,
+    12
+   ],
+   "color": "cream",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "prim1",
+   "shape": "ellipsoid",
+   "center": [
+    27,
+    25.8,
+    -6
+   ],
+   "size": [
+    7,
+    2,
+    11
+   ],
+   "color": "acc2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "prim2",
+   "shape": "ellipsoid",
+   "center": [
+    32,
+    26.6,
+    -4
+   ],
+   "size": [
+    7,
+    2,
+    10
+   ],
+   "color": "cream",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -15
+   ],
+   "size": [
+    5,
+    2.5,
+    16
+   ],
+   "color": "cream",
+   "group": "tail",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    12,
+    -14
+   ],
+   "size": [
+    3.5,
+    2,
+    15
+   ],
+   "color": "acc",
+   "group": "tail",
+   "rot": [
+    -15,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    3.5,
+    5,
+    1
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "talon",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    3.5,
+    0.8,
+    3
+   ],
+   "size": [
+    4,
+    1.6,
+    6
+   ],
+   "color": "talon",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/188B/icon.png",
+   "note": "正面: 青い顔帯と首、金の冠羽"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Faleris.png",
+   "note": "元種との差分: 赤橙→青"
+  }
+ ],
+ "hover": 9
+}

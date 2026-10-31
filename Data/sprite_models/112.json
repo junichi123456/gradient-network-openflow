@@ -1,0 +1,568 @@
+{
+ "name": "ゴクエンオ (Manticore)",
+ "gait": "quad",
+ "palette": {
+  "fur": "#2e2a2c",
+  "fur2": "#4a4446",
+  "muz": "#d8d0c8",
+  "dk": "#141214",
+  "eye": "#40d070",
+  "mane": "#f28a28",
+  "mane2": "#f4d23a",
+  "horn": "#2a2628",
+  "horn2": "#4e4850"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -2
+   ],
+   "size": [
+    18,
+    17,
+    26
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    8
+   ],
+   "size": [
+    17,
+    17,
+    12
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -2
+   ],
+   "size": [
+    14,
+    7,
+    22
+   ],
+   "color": "fur2",
+   "group": "body"
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    9
+   ],
+   "size": [
+    24,
+    22,
+    16
+   ],
+   "color": "mane",
+   "group": "body"
+  },
+  {
+   "name": "mf0",
+   "shape": "cone",
+   "center": [
+    0,
+    38,
+    8
+   ],
+   "size": [
+    7,
+    12,
+    6
+   ],
+   "color": "mane2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mf1",
+   "shape": "cone",
+   "center": [
+    8,
+    36,
+    7
+   ],
+   "size": [
+    7,
+    11,
+    6
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "mf2",
+   "shape": "cone",
+   "center": [
+    -8,
+    36,
+    7
+   ],
+   "size": [
+    7,
+    11,
+    6
+   ],
+   "color": "mane2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    30
+   ]
+  },
+  {
+   "name": "mf3",
+   "shape": "cone",
+   "center": [
+    13,
+    31,
+    8
+   ],
+   "size": [
+    7,
+    10,
+    6
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -55
+   ]
+  },
+  {
+   "name": "mf4",
+   "shape": "cone",
+   "center": [
+    -13,
+    31,
+    8
+   ],
+   "size": [
+    7,
+    10,
+    6
+   ],
+   "color": "mane2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    55
+   ]
+  },
+  {
+   "name": "mf5",
+   "shape": "cone",
+   "center": [
+    0,
+    34,
+    2
+   ],
+   "size": [
+    7,
+    10,
+    6
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mf6",
+   "shape": "cone",
+   "center": [
+    6,
+    38,
+    3
+   ],
+   "size": [
+    7,
+    9,
+    6
+   ],
+   "color": "mane2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ]
+  },
+  {
+   "name": "mf7",
+   "shape": "cone",
+   "center": [
+    -6,
+    38,
+    3
+   ],
+   "size": [
+    7,
+    9,
+    6
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    20
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    17
+   ],
+   "size": [
+    13,
+    11,
+    13
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24.5,
+    23
+   ],
+   "size": [
+    8,
+    6,
+    8
+   ],
+   "color": "muz",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    27
+   ],
+   "size": [
+    3,
+    2.4,
+    2
+   ],
+   "color": "dk",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    29,
+    22
+   ],
+   "size": [
+    2.6,
+    2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "brow",
+   "shape": "wedge",
+   "center": [
+    5.4,
+    31,
+    21
+   ],
+   "size": [
+    4.4,
+    1.6,
+    5
+   ],
+   "color": "fur2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    11,
+    44,
+    15
+   ],
+   "size": [
+    9,
+    24,
+    9
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    15,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    21,
+    55,
+    16
+   ],
+   "size": [
+    6,
+    16,
+    6
+   ],
+   "color": "horn2",
+   "group": "head",
+   "rot": [
+    20,
+    0,
+    -65
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn3",
+   "shape": "cone",
+   "center": [
+    25,
+    53,
+    17
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "horn2",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    -130
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    6.5,
+    8,
+    8
+   ],
+   "size": [
+    6,
+    16,
+    6.5
+   ],
+   "color": "fur",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "pawf",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    1.4,
+    9.5
+   ],
+   "size": [
+    7,
+    2.8,
+    8
+   ],
+   "color": "fur2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    7,
+    8,
+    -10
+   ],
+   "size": [
+    6.5,
+    16,
+    7
+   ],
+   "color": "fur",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "pawb",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    1.4,
+    -8.5
+   ],
+   "size": [
+    7.4,
+    2.8,
+    8
+   ],
+   "color": "fur2",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -17
+   ],
+   "size": [
+    5,
+    5,
+    14
+   ],
+   "color": "fur",
+   "group": "tail",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tfl0",
+   "shape": "cone",
+   "center": [
+    0,
+    23,
+    -25
+   ],
+   "size": [
+    7,
+    13,
+    7
+   ],
+   "color": "mane2",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tfl1",
+   "shape": "cone",
+   "center": [
+    3,
+    23,
+    -25
+   ],
+   "size": [
+    7,
+    13,
+    7
+   ],
+   "color": "mane",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    -25
+   ]
+  },
+  {
+   "name": "tfl2",
+   "shape": "cone",
+   "center": [
+    -3,
+    23,
+    -25
+   ],
+   "size": [
+    7,
+    13,
+    7
+   ],
+   "color": "mane",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    25
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Manticore_icon_normal.png",
+   "note": "頭部アップ: 黒い毛の獅子顔、白い鼻先、緑の目、橙〜黄の炎のたてがみ、黒い湾曲した大角"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_Manticore_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799197",
+   "note": "game8 乗用サドル画像のみ。獅子体型・背のたてがみ炎として推定"
+  }
+ ]
+}

@@ -1,0 +1,249 @@
+{
+ "name": "ドンモップ (Sweepa)",
+ "gait": "slither",
+ "palette": {
+  "c": "#f1e8d4",
+  "c2": "#e0d2b4",
+  "ear": "#5a6c96",
+  "ear2": "#303e5c",
+  "dot": "#2a2428",
+  "mus": "#fffaf0"
+ },
+ "parts": [
+  {
+   "name": "dome",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11.700000000000001,
+    0
+   ],
+   "size": [
+    31.200000000000003,
+    23.400000000000002,
+    28.6
+   ],
+   "color": "c",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    3.3800000000000003,
+    0
+   ],
+   "size": [
+    37.7,
+    6.5,
+    35.1
+   ],
+   "color": "c2",
+   "group": "body"
+  },
+  {
+   "name": "fr1",
+   "shape": "ellipsoid",
+   "center": [
+    -14.3,
+    1.8,
+    11.700000000000001
+   ],
+   "size": [
+    10.4,
+    3.6,
+    9.1
+   ],
+   "color": "c2",
+   "group": "body"
+  },
+  {
+   "name": "fr2",
+   "shape": "ellipsoid",
+   "center": [
+    14.3,
+    1.8,
+    11.700000000000001
+   ],
+   "size": [
+    10.4,
+    3.6,
+    9.1
+   ],
+   "color": "c2",
+   "group": "body"
+  },
+  {
+   "name": "fr3",
+   "shape": "ellipsoid",
+   "center": [
+    -11.700000000000001,
+    1.8,
+    -13.0
+   ],
+   "size": [
+    10.4,
+    3.6,
+    9.1
+   ],
+   "color": "c2",
+   "group": "body"
+  },
+  {
+   "name": "fr4",
+   "shape": "ellipsoid",
+   "center": [
+    11.700000000000001,
+    1.8,
+    -13.0
+   ],
+   "size": [
+    10.4,
+    3.6,
+    9.1
+   ],
+   "color": "c2",
+   "group": "body"
+  },
+  {
+   "name": "tuft",
+   "shape": "cone",
+   "center": [
+    16.25,
+    13.0,
+    0
+   ],
+   "size": [
+    3,
+    5.720000000000001,
+    3
+   ],
+   "color": "c",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    8.32,
+    25.35,
+    0
+   ],
+   "size": [
+    6.760000000000001,
+    10.4,
+    4.42
+   ],
+   "color": "ear",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earin",
+   "shape": "cone",
+   "center": [
+    8.32,
+    24.7,
+    1
+   ],
+   "size": [
+    3.6399999999999997,
+    7.0200000000000005,
+    1.6
+   ],
+   "color": "ear2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    5.4,
+    12.4,
+    14.9
+   ],
+   "size": [
+    3.8,
+    1.0,
+    1.6
+   ],
+   "color": "dot",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "mus",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    8.4,
+    14.6
+   ],
+   "size": [
+    8.4,
+    4,
+    3.8
+   ],
+   "color": "mus",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "musc",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9.8,
+    15.2
+   ],
+   "size": [
+    5,
+    3.6,
+    3.4
+   ],
+   "color": "mus",
+   "group": "body"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Sweepa.png",
+   "note": "モデル画: Sweeより大型、クリーム色の毛、白い立派な口ひげ、青灰の猫耳"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Sweepa_sleeping.png",
+   "note": "眠る姿: 目を閉じ、口ひげが巻く、裾が広い"
+  },
+  {
+   "url": "Tools/.refcache/036/icon.png",
+   "note": "顔: 閉じた目と口ひげ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Swee.png",
+   "note": "基種との差: 大きさ×1.3、口ひげ、目が線"
+  }
+ ]
+}

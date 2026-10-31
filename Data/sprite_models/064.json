@@ -1,0 +1,391 @@
+{
+ "name": "カバネドリ (Vanwyrm)",
+ "gait": "hover",
+ "palette": {
+  "body": "#27304a",
+  "belly": "#34405e",
+  "head": "#8c8f96",
+  "head2": "#74777e",
+  "eye": "#58d0e0",
+  "spike": "#5f6168",
+  "wing": "#222a44",
+  "feather": "#c8402e",
+  "leg": "#3a3a46",
+  "talon": "#2a2a30"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    0
+   ],
+   "size": [
+    12,
+    12,
+    18
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    3
+   ],
+   "size": [
+    9,
+    9,
+    12
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    7
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "head",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    10
+   ],
+   "size": [
+    9,
+    8,
+    13
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21.5,
+    15.5
+   ],
+   "size": [
+    6,
+    5,
+    7
+   ],
+   "color": "head2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    24,
+    13
+   ],
+   "size": [
+    1.8,
+    2.2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    2.8,
+    28,
+    5
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    0,
+    28,
+    5
+   ],
+   "size": [
+    3.4,
+    11,
+    3.4
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    -45,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    -8
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    -50,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    17,
+    -1
+   ],
+   "size": [
+    34,
+    1.8,
+    14
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing2",
+   "shape": "ellipsoid",
+   "center": [
+    32,
+    15,
+    -3
+   ],
+   "size": [
+    18,
+    1.6,
+    9
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "f1",
+   "shape": "box",
+   "center": [
+    14,
+    9,
+    -9
+   ],
+   "size": [
+    14,
+    1.6,
+    6
+   ],
+   "color": "feather",
+   "group": "wing_r",
+   "rot": [
+    0,
+    -20,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "f2",
+   "shape": "box",
+   "center": [
+    18,
+    11,
+    -12
+   ],
+   "size": [
+    14,
+    1.6,
+    6
+   ],
+   "color": "feather",
+   "group": "wing_r",
+   "rot": [
+    0,
+    -25,
+    6
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "f3",
+   "shape": "box",
+   "center": [
+    24,
+    13,
+    -13
+   ],
+   "size": [
+    14,
+    1.6,
+    6
+   ],
+   "color": "feather",
+   "group": "wing_r",
+   "rot": [
+    0,
+    -30,
+    4
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tf",
+   "shape": "wedge",
+   "center": [
+    4,
+    7,
+    -14
+   ],
+   "size": [
+    7,
+    1.6,
+    12
+   ],
+   "color": "feather",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    6.5,
+    1
+   ],
+   "size": [
+    4,
+    8,
+    5
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "talon",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    2,
+    3
+   ],
+   "size": [
+    4.4,
+    2.4,
+    6.4
+   ],
+   "color": "talon",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    11,
+    -14
+   ],
+   "size": [
+    6,
+    12,
+    6
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Vanwyrm.png",
+   "note": "全身: 空を飛ぶ・濃紺の翼と体・灰色の竜の頭と角・翼の後縁と尾に赤い羽根・細い脚"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Vanwyrm_slep.png",
+   "note": "ゲーム内: 丸まって寝る、灰色の兜状の頭、赤〜橙の尾羽"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_BirdDragon_icon_normal.png",
+   "note": "正面アップ: 灰色の頭・水色の目・角"
+  }
+ ],
+ "hover": 6
+}

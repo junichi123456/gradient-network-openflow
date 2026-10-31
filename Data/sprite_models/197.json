@@ -1,0 +1,434 @@
+{
+ "name": "レジェンディア (Hartalis)",
+ "gait": "quad",
+ "palette": {
+  "wh": "#dcdcd8",
+  "wh2": "#c4c4c6",
+  "teal": "#58c4c0",
+  "teal2": "#78dcd0",
+  "ant": "#a8a030",
+  "ant2": "#788c34",
+  "hoof": "#4a3828",
+  "brown": "#a07a48",
+  "eye": "#3a90a8",
+  "tip": "#48b8d0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    0
+   ],
+   "size": [
+    16,
+    16,
+    34
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    13
+   ],
+   "size": [
+    14,
+    15,
+    10
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "diamond",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    18
+   ],
+   "size": [
+    6,
+    7,
+    2
+   ],
+   "color": "brown",
+   "group": "body"
+  },
+  {
+   "name": "cape",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    30,
+    2
+   ],
+   "size": [
+    3,
+    12,
+    22
+   ],
+   "color": "wh2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37,
+    16
+   ],
+   "size": [
+    10,
+    18,
+    10
+   ],
+   "color": "teal2",
+   "group": "head",
+   "rot": [
+    25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    12
+   ],
+   "size": [
+    12,
+    16,
+    12
+   ],
+   "color": "teal",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    44,
+    20
+   ],
+   "size": [
+    9,
+    9,
+    13
+   ],
+   "color": "wh",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    42,
+    25.5
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "wh2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    45,
+    21
+   ],
+   "size": [
+    1.8,
+    2.4,
+    2.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    47,
+    16
+   ],
+   "size": [
+    3,
+    6,
+    2.5
+   ],
+   "color": "wh",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    51,
+    17
+   ],
+   "size": [
+    2.6,
+    9,
+    2.6
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    -15,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant2",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    56,
+    17
+   ],
+   "size": [
+    2.6,
+    9,
+    2.6
+   ],
+   "color": "ant2",
+   "group": "head",
+   "rot": [
+    -15,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant3",
+   "shape": "ellipsoid",
+   "center": [
+    2,
+    56,
+    17
+   ],
+   "size": [
+    2.6,
+    7,
+    2.6
+   ],
+   "color": "ant2",
+   "group": "head",
+   "rot": [
+    -15,
+    0,
+    -5
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "anttip",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    61,
+    16
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "tip",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    15,
+    13
+   ],
+   "size": [
+    5,
+    26,
+    6
+   ],
+   "color": "wh",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    2,
+    13.5
+   ],
+   "size": [
+    5.4,
+    4,
+    6.4
+   ],
+   "color": "hoof",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    15,
+    -12
+   ],
+   "size": [
+    6,
+    26,
+    8
+   ],
+   "color": "wh",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofb",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    2,
+    -11.5
+   ],
+   "size": [
+    5.4,
+    4,
+    6.4
+   ],
+   "color": "hoof",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "fet",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    9,
+    13
+   ],
+   "size": [
+    2,
+    10,
+    3
+   ],
+   "color": "tip",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -22
+   ],
+   "size": [
+    12,
+    20,
+    16
+   ],
+   "color": "teal",
+   "group": "tail",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    -32
+   ],
+   "size": [
+    11,
+    22,
+    12
+   ],
+   "color": "teal2",
+   "group": "tail",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail3",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    8,
+    -36
+   ],
+   "size": [
+    7,
+    16,
+    8
+   ],
+   "color": "teal",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    10
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/197",
+   "note": "white deer, teal flowing mane and multi-lock tail, olive gold antlers, brown chest diamond, brown hooves"
+  }
+ ]
+}

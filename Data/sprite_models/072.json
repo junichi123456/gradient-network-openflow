@@ -1,0 +1,261 @@
+{
+ "name": "バニザラシ",
+ "gait": "quad",
+ "palette": {
+  "body": "#4aa6da",
+  "belly": "#78c0ea",
+  "cap": "#dcdce2",
+  "spot": "#8ccaf0",
+  "muz": "#e0e0e6",
+  "nose": "#2a48b8",
+  "mouth": "#a82a38",
+  "tongue": "#e07888",
+  "horn": "#7a9cc8",
+  "flip": "#4aa6da"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9.5,
+    -2
+   ],
+   "size": [
+    23,
+    18,
+    32
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    2
+   ],
+   "size": [
+    17,
+    13,
+    24
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -17
+   ],
+   "size": [
+    10,
+    8,
+    16
+   ],
+   "color": "body",
+   "group": "tail"
+  },
+  {
+   "name": "fluke",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    4.5,
+    -26
+   ],
+   "size": [
+    16,
+    3,
+    7
+   ],
+   "color": "body",
+   "group": "tail"
+  },
+  {
+   "name": "cap",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    5
+   ],
+   "size": [
+    25,
+    17,
+    23
+   ],
+   "color": "cap",
+   "group": "head"
+  },
+  {
+   "name": "drip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    4.5
+   ],
+   "size": [
+    26,
+    6.5,
+    23
+   ],
+   "color": "cap",
+   "group": "head"
+  },
+  {
+   "name": "spot",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    13.2,
+    11
+   ],
+   "size": [
+    3,
+    2.2,
+    2
+   ],
+   "color": "spot",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    15.5
+   ],
+   "size": [
+    14,
+    9,
+    9
+   ],
+   "color": "muz",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19.5,
+    19.8
+   ],
+   "size": [
+    4.5,
+    2.8,
+    2.2
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13.5,
+    17
+   ],
+   "size": [
+    9,
+    2,
+    6
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "tongue",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12.2,
+    19.5
+   ],
+   "size": [
+    6.5,
+    2,
+    8
+   ],
+   "color": "tongue",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    21.5,
+    14
+   ],
+   "size": [
+    2.4,
+    2.4,
+    2
+   ],
+   "color": "nose",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0,
+    29,
+    3.5
+   ],
+   "size": [
+    10,
+    13,
+    10
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "flip",
+   "shape": "ellipsoid",
+   "center": [
+    12.5,
+    3.2,
+    7
+   ],
+   "size": [
+    9,
+    4.5,
+    10
+   ],
+   "color": "flip",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    25,
+    0
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots",
+   "note": "game screenshots"
+  }
+ ]
+}

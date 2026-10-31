@@ -1,0 +1,609 @@
+{
+ "name": "マシュリー",
+ "gait": "biped",
+ "palette": {
+  "cap": "#c23040",
+  "cap2": "#a02038",
+  "dot": "#dc5560",
+  "hair": "#e8cc78",
+  "hair2": "#e8a060",
+  "skin": "#f4e4b4",
+  "skin2": "#e8d09c",
+  "dress": "#e8544c",
+  "pet": "#ee6a50",
+  "pet2": "#f08a58",
+  "eye": "#d89a30",
+  "hand": "#f2d8a0"
+ },
+ "parts": [
+  {
+   "name": "leg_l",
+   "shape": "cylinder",
+   "center": [
+    2.8,
+    6,
+    0
+   ],
+   "size": [
+    2.8,
+    12,
+    2.8
+   ],
+   "color": "skin",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "foot_l",
+   "shape": "ellipsoid",
+   "center": [
+    2.8,
+    0.9,
+    1.5
+   ],
+   "size": [
+    3.4,
+    1.8,
+    5.5
+   ],
+   "color": "skin2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "waist",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16.5,
+    0
+   ],
+   "size": [
+    9,
+    6,
+    8
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21.5,
+    0
+   ],
+   "size": [
+    8.5,
+    8,
+    7
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22.0,
+    2.5
+   ],
+   "size": [
+    4,
+    5,
+    3
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "pet0",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    14.0,
+    8.5
+   ],
+   "size": [
+    9,
+    3.5,
+    9
+   ],
+   "color": "pet",
+   "group": "body"
+  },
+  {
+   "name": "pet1",
+   "shape": "ellipsoid",
+   "center": [
+    6.010407640085654,
+    14.0,
+    6.0104076400856545
+   ],
+   "size": [
+    9,
+    3.5,
+    9
+   ],
+   "color": "pet2",
+   "group": "body"
+  },
+  {
+   "name": "pet2",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    14.0,
+    5.204748896376251e-16
+   ],
+   "size": [
+    9,
+    3.5,
+    9
+   ],
+   "color": "pet",
+   "group": "body"
+  },
+  {
+   "name": "pet3",
+   "shape": "ellipsoid",
+   "center": [
+    6.0104076400856545,
+    14.0,
+    -6.010407640085654
+   ],
+   "size": [
+    9,
+    3.5,
+    9
+   ],
+   "color": "pet2",
+   "group": "body"
+  },
+  {
+   "name": "pet4",
+   "shape": "ellipsoid",
+   "center": [
+    1.0409497792752501e-15,
+    14.0,
+    -8.5
+   ],
+   "size": [
+    9,
+    3.5,
+    9
+   ],
+   "color": "pet",
+   "group": "body"
+  },
+  {
+   "name": "pet5",
+   "shape": "ellipsoid",
+   "center": [
+    -6.010407640085654,
+    14.0,
+    -6.010407640085655
+   ],
+   "size": [
+    9,
+    3.5,
+    9
+   ],
+   "color": "pet2",
+   "group": "body"
+  },
+  {
+   "name": "pet6",
+   "shape": "ellipsoid",
+   "center": [
+    -8.5,
+    14.0,
+    -1.5614246689128753e-15
+   ],
+   "size": [
+    9,
+    3.5,
+    9
+   ],
+   "color": "pet",
+   "group": "body"
+  },
+  {
+   "name": "pet7",
+   "shape": "ellipsoid",
+   "center": [
+    -6.010407640085655,
+    14.0,
+    6.010407640085653
+   ],
+   "size": [
+    9,
+    3.5,
+    9
+   ],
+   "color": "pet2",
+   "group": "body"
+  },
+  {
+   "name": "pu0",
+   "shape": "ellipsoid",
+   "center": [
+    2.060336263787516,
+    16.5,
+    5.09951120011733
+   ],
+   "size": [
+    8,
+    3.5,
+    8
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "pu1",
+   "shape": "ellipsoid",
+   "center": [
+    5.062776693988422,
+    16.5,
+    2.1490212066910055
+   ],
+   "size": [
+    8,
+    3.5,
+    8
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "pu2",
+   "shape": "ellipsoid",
+   "center": [
+    5.09951120011733,
+    16.5,
+    -2.060336263787516
+   ],
+   "size": [
+    8,
+    3.5,
+    8
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "pu3",
+   "shape": "ellipsoid",
+   "center": [
+    2.149021206691006,
+    16.5,
+    -5.062776693988422
+   ],
+   "size": [
+    8,
+    3.5,
+    8
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "pu4",
+   "shape": "ellipsoid",
+   "center": [
+    -2.060336263787516,
+    16.5,
+    -5.09951120011733
+   ],
+   "size": [
+    8,
+    3.5,
+    8
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "pu5",
+   "shape": "ellipsoid",
+   "center": [
+    -5.062776693988422,
+    16.5,
+    -2.149021206691006
+   ],
+   "size": [
+    8,
+    3.5,
+    8
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "pu6",
+   "shape": "ellipsoid",
+   "center": [
+    -5.09951120011733,
+    16.5,
+    2.0603362637875158
+   ],
+   "size": [
+    8,
+    3.5,
+    8
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "pu7",
+   "shape": "ellipsoid",
+   "center": [
+    -2.1490212066910064,
+    16.5,
+    5.062776693988422
+   ],
+   "size": [
+    8,
+    3.5,
+    8
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15.5,
+    0
+   ],
+   "size": [
+    14,
+    6,
+    14
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    21.5,
+    3
+   ],
+   "size": [
+    2.6,
+    8,
+    3
+   ],
+   "color": "skin",
+   "group": "arm_l",
+   "rot": [
+    -40,
+    0,
+    25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand_l",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    22.5,
+    6
+   ],
+   "size": [
+    3.4,
+    3,
+    3
+   ],
+   "color": "hand",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30.5,
+    -1.5
+   ],
+   "size": [
+    15,
+    15,
+    14
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "hairlow",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25.5,
+    -1
+   ],
+   "size": [
+    14,
+    6,
+    11
+   ],
+   "color": "hair2",
+   "group": "head"
+  },
+  {
+   "name": "side",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    26.5,
+    2
+   ],
+   "size": [
+    4,
+    11,
+    5
+   ],
+   "color": "hair2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30.0,
+    4.2
+   ],
+   "size": [
+    9,
+    8,
+    6
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "eye_l",
+   "shape": "ellipsoid",
+   "center": [
+    2.6,
+    30.5,
+    7
+   ],
+   "size": [
+    2.2,
+    2.6,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "cap",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39.0,
+    -3
+   ],
+   "size": [
+    21,
+    9,
+    19
+   ],
+   "color": "cap",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "capfront",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36.8,
+    3.5
+   ],
+   "size": [
+    16,
+    4,
+    6
+   ],
+   "color": "cap2",
+   "group": "head"
+  },
+  {
+   "name": "dot1",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    40.9,
+    -1
+   ],
+   "size": [
+    5,
+    2,
+    5
+   ],
+   "color": "dot",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "curl",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37.5,
+    -9
+   ],
+   "size": [
+    13,
+    12,
+    8
+   ],
+   "color": "cap2",
+   "group": "head"
+  },
+  {
+   "name": "curl2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38.5,
+    -12
+   ],
+   "size": [
+    8,
+    8,
+    5
+   ],
+   "color": "cap",
+   "group": "head"
+  },
+  {
+   "name": "curldot",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    38.5,
+    -10.5
+   ],
+   "size": [
+    4,
+    4,
+    3
+   ],
+   "color": "dot",
+   "group": "head",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/179",
+   "note": "ゲーム内スクショ: 赤いキノコ帽(後ろに渦)、黄色い髪、赤橙の花びらスカート、クリーム色の細い脚"
+  }
+ ]
+}

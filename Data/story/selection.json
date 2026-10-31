@@ -1,0 +1,78 @@
+{
+  "questions": [
+    {
+      "axis": "EI",
+      "scene": "浜に、にぎやかな声が聞こえる。",
+      "options": [
+        {
+          "text": "声のほうへ近づく",
+          "letter": "E"
+        },
+        {
+          "text": "離れた岩陰から眺める",
+          "letter": "I"
+        }
+      ]
+    },
+    {
+      "axis": "SN",
+      "scene": "浜に貝殻が落ちている。",
+      "options": [
+        {
+          "text": "拾って裏まで確かめる",
+          "letter": "S"
+        },
+        {
+          "text": "波音から出どころを想像する",
+          "letter": "N"
+        }
+      ]
+    },
+    {
+      "axis": "TF",
+      "scene": "小さなパルが泣いている。",
+      "options": [
+        {
+          "text": "来た道を順に聞いて割り出す",
+          "letter": "T"
+        },
+        {
+          "text": "隣に座って落ち着くのを待つ",
+          "letter": "F"
+        }
+      ]
+    },
+    {
+      "axis": "JP",
+      "scene": "夕方、道が二股に分かれる。",
+      "options": [
+        {
+          "text": "順番を決めて進む",
+          "letter": "J"
+        },
+        {
+          "text": "風向きで選び、歩きながら決める",
+          "letter": "P"
+        }
+      ]
+    }
+  ],
+  "type_to_species": {
+    "ISFJ": "001",
+    "ESTJ": "002",
+    "ENFJ": "004",
+    "ESFP": "005",
+    "ESTP": "011",
+    "ISTJ": "013",
+    "ENFP": "015",
+    "ISFP": "016",
+    "INFP": "022",
+    "ESFJ": "023",
+    "INFJ": "024",
+    "ENTJ": "027",
+    "ISTP": "027B",
+    "INTJ": "029B",
+    "INTP": "031",
+    "ENTP": "042"
+  }
+}

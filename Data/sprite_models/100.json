@@ -1,0 +1,343 @@
+{
+ "name": "ハグミー (Cactus)",
+ "gait": "biped",
+ "palette": {
+  "body": "#a9b232",
+  "bodysh": "#8c9a28",
+  "belly": "#b8be3a",
+  "mask": "#16130f",
+  "eye": "#f0ece0",
+  "tip": "#2a6a46",
+  "spike": "#d8a030",
+  "flower": "#c82a2a",
+  "flower2": "#e0503a",
+  "foot": "#6f7a2a"
+ },
+ "refs": [
+  {
+   "url": "Tools/.refshots/100 (in-game screenshots)",
+   "note": "in-game screenshots, all views"
+  }
+ ],
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    22,
+    22,
+    20
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    2
+   ],
+   "size": [
+    18,
+    14,
+    17
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14.5,
+    8.3
+   ],
+   "size": [
+    12,
+    7.5,
+    5
+   ],
+   "color": "mask",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    14.8,
+    10.4
+   ],
+   "size": [
+    2.6,
+    3.2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "cone",
+   "center": [
+    0,
+    10,
+    10
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "top",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    -3
+   ],
+   "size": [
+    9,
+    11,
+    9
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "toptip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    -3.5
+   ],
+   "size": [
+    8,
+    6,
+    8
+   ],
+   "color": "tip",
+   "group": "head"
+  },
+  {
+   "name": "petalA",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    24.5,
+    4
+   ],
+   "size": [
+    6,
+    2.6,
+    4
+   ],
+   "color": "flower",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ]
+  },
+  {
+   "name": "petalB",
+   "shape": "ellipsoid",
+   "center": [
+    -3,
+    24.5,
+    4
+   ],
+   "size": [
+    6,
+    2.6,
+    4
+   ],
+   "color": "flower",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    20
+   ]
+  },
+  {
+   "name": "petalC",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25.5,
+    4.5
+   ],
+   "size": [
+    4,
+    3,
+    4
+   ],
+   "color": "flower2",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    16,
+    2
+   ],
+   "size": [
+    12,
+    7,
+    7
+   ],
+   "color": "body",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "armtip",
+   "shape": "ellipsoid",
+   "center": [
+    19,
+    18.5,
+    2
+   ],
+   "size": [
+    7,
+    8,
+    8
+   ],
+   "color": "tip",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "armsp",
+   "shape": "cone",
+   "center": [
+    16,
+    21.5,
+    4
+   ],
+   "size": [
+    2.4,
+    4,
+    2.4
+   ],
+   "color": "spike",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    2,
+    2
+   ],
+   "size": [
+    7,
+    4,
+    9
+   ],
+   "color": "foot",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "sp1",
+   "shape": "cone",
+   "center": [
+    9.5,
+    17,
+    -4
+   ],
+   "size": [
+    2.6,
+    4,
+    2.6
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -70
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sp2",
+   "shape": "cone",
+   "center": [
+    8,
+    21,
+    -6
+   ],
+   "size": [
+    2.6,
+    4,
+    2.6
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -45
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sp3",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    -11
+   ],
+   "size": [
+    2.6,
+    4,
+    2.6
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    -70,
+    0,
+    0
+   ]
+  }
+ ]
+}

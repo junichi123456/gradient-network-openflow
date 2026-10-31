@@ -1,0 +1,336 @@
+{
+ "name": "モモンチュラ (Tarantriss)",
+ "gait": "quad",
+ "palette": {
+  "body": "#2a2632",
+  "white": "#f4f0f6",
+  "lav": "#c9a8e6",
+  "lav2": "#a884d4",
+  "pink": "#ec5ab6",
+  "pink2": "#f6a0d8",
+  "eye": "#f2d230",
+  "pupil": "#1a1620",
+  "gold": "#f2c83a",
+  "leg": "#2e2a36"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -1
+   ],
+   "size": [
+    14,
+    12,
+    18
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    6
+   ],
+   "size": [
+    9,
+    9,
+    6
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "gem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    9
+   ],
+   "size": [
+    2.4,
+    2.8,
+    1
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "puff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -8
+   ],
+   "size": [
+    12,
+    9,
+    9
+   ],
+   "color": "lav",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    8
+   ],
+   "size": [
+    16,
+    12,
+    12
+   ],
+   "color": "lav",
+   "group": "head"
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    12
+   ],
+   "size": [
+    11,
+    7,
+    5
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    19,
+    13
+   ],
+   "size": [
+    4.6,
+    4.4,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    19,
+    14
+   ],
+   "size": [
+    1.6,
+    3.4,
+    0.8
+   ],
+   "color": "pupil",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "dot",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    12.4
+   ],
+   "size": [
+    3,
+    2.2,
+    0.9
+   ],
+   "color": "pink",
+   "group": "head"
+  },
+  {
+   "name": "dot2",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    23,
+    11
+   ],
+   "size": [
+    2.6,
+    2,
+    0.9
+   ],
+   "color": "pink",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    29,
+    5
+   ],
+   "size": [
+    5.4,
+    14,
+    3
+   ],
+   "color": "lav",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earp",
+   "shape": "ellipsoid",
+   "center": [
+    5.6,
+    29,
+    6.5
+   ],
+   "size": [
+    2.8,
+    9,
+    1.6
+   ],
+   "color": "pink2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    6,
+    9,
+    6
+   ],
+   "size": [
+    2.4,
+    12,
+    2.4
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "pomf",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    3.5,
+    7
+   ],
+   "size": [
+    8,
+    7,
+    8
+   ],
+   "color": "lav2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "pomf2",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    3,
+    8.5
+   ],
+   "size": [
+    6,
+    5,
+    5
+   ],
+   "color": "pink",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    6.5,
+    9,
+    -8
+   ],
+   "size": [
+    2.4,
+    12,
+    2.4
+   ],
+   "color": "leg",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "pomb",
+   "shape": "ellipsoid",
+   "center": [
+    6.8,
+    3.5,
+    -8
+   ],
+   "size": [
+    7,
+    7,
+    7
+   ],
+   "color": "lav2",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -13
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "body",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/135a.jpg",
+   "note": "ゲーム内: 淡い紫の頭に桃色の菱形の斑点・黄色い大きな目と黒い口元・長いウサギ耳・黒い体に白い胸と金のひし形・桃と薄紫の丸いふさ飾りの脚"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_PurpleSpider_icon_normal.png",
+   "note": "正面アップ: 黄色い目、耳の内側が桃色、白い胸に黄の飾り"
+  }
+ ]
+}

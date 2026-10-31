@@ -1,0 +1,792 @@
+[
+  {
+    "id": "d01_c1",
+    "chart": "c01",
+    "name": "ビーチのどうくつ",
+    "floors": 5,
+    "rule_id": "d01_c1",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "088B",
+      "level": 5,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d02_c2",
+    "chart": "c02",
+    "name": "ハコニワ裏山",
+    "floors": 6,
+    "rule_id": "d02_c2",
+    "end_type": "StoryBoss",
+    "boss": {
+      "species_id": "080",
+      "level": 8,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": true
+    }
+  },
+  {
+    "id": "d03_c3",
+    "chart": "c03",
+    "name": "くずれた鉱道",
+    "floors": 7,
+    "rule_id": "d03_c3",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "032",
+      "level": 11,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d04_c3",
+    "chart": "c03",
+    "name": "割れ目の浅層",
+    "floors": 8,
+    "rule_id": "d04_c3",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "166",
+      "level": 11,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d05_c4",
+    "chart": "c04",
+    "name": "水の入江の洞",
+    "floors": 8,
+    "rule_id": "d05_c4",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "046",
+      "level": 14,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d06_c4",
+    "chart": "c04",
+    "name": "雷鳴の原の地下道",
+    "floors": 8,
+    "rule_id": "d06_c4",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "062",
+      "level": 14,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d07_c5",
+    "chart": "c05",
+    "name": "煙の道",
+    "floors": 9,
+    "rule_id": "d07_c5",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "058",
+      "level": 17,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d08_c6",
+    "chart": "c06",
+    "name": "緑の谷の根の迷宮",
+    "floors": 9,
+    "rule_id": "d08_c6",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "067",
+      "level": 19,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d09_c7",
+    "chart": "c07",
+    "name": "見回りの巡回路",
+    "floors": 10,
+    "rule_id": "d09_c7",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "079",
+      "level": 22,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d10_c7",
+    "chart": "c07",
+    "name": "作業台奪還の砦",
+    "floors": 8,
+    "rule_id": "d10_c7",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "064B",
+      "level": 22,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d11_c8",
+    "chart": "c08",
+    "name": "凍てつく峰の氷穴",
+    "floors": 10,
+    "rule_id": "d11_c8",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "154",
+      "level": 25,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d12_c8",
+    "chart": "c08",
+    "name": "吹雪の荷運び道",
+    "floors": 7,
+    "rule_id": "d12_c8",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "095",
+      "level": 25,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d13_c9",
+    "chart": "c09",
+    "name": "裁きの庭の地下牢",
+    "floors": 9,
+    "rule_id": "d13_c9",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "139",
+      "level": 28,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d14_c10",
+    "chart": "c10",
+    "name": "祭りの裏路",
+    "floors": 5,
+    "rule_id": "d14_c10",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "102B",
+      "level": 31,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d15_c11",
+    "chart": "c11",
+    "name": "かけらの回廊",
+    "floors": 10,
+    "rule_id": "d15_c11",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "116B",
+      "level": 34,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d16_c12",
+    "chart": "c12",
+    "name": "影の森",
+    "floors": 11,
+    "rule_id": "d16_c12",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "195",
+      "level": 37,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false,
+      "group": [
+        {
+          "species_id": "195B",
+          "level": 37,
+          "hp_mult": 1.0,
+          "atk_mult": 1.0,
+          "defeat_ok": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "d17_c12",
+    "chart": "c12",
+    "name": "ささやきの洞",
+    "floors": 8,
+    "rule_id": "d17_c12",
+    "end_type": "StoryMultiEnemyBattle",
+    "boss": {
+      "species_id": "145",
+      "level": 37,
+      "hp_mult": 0.6,
+      "atk_mult": 1.0,
+      "defeat_ok": false,
+      "group": [
+        {
+          "species_id": "145",
+          "level": 37,
+          "hp_mult": 0.6,
+          "atk_mult": 1.0,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "146",
+          "level": 37,
+          "hp_mult": 0.6,
+          "atk_mult": 1.0,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "146",
+          "level": 37,
+          "hp_mult": 0.6,
+          "atk_mult": 1.0,
+          "defeat_ok": false
+        }
+      ]
+    },
+    "requires_cleared": [
+      "d16_c12"
+    ]
+  },
+  {
+    "id": "d18_c13",
+    "chart": "c13",
+    "name": "炎山の火口道",
+    "floors": 12,
+    "rule_id": "d18_c13",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "122",
+      "level": 40,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false,
+      "post_battle": {
+        "coop_character": "suzaku",
+        "coop_dungeon": "d19_c13"
+      }
+    }
+  },
+  {
+    "id": "d19_c13",
+    "chart": "c13",
+    "name": "かけらの坑",
+    "floors": 9,
+    "rule_id": "d19_c13",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "138B",
+      "level": 40,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "requires_cleared": [
+      "d18_c13"
+    ]
+  },
+  {
+    "id": "d20_c14",
+    "chart": "c14",
+    "name": "竜の空の階",
+    "floors": 12,
+    "rule_id": "d20_c14",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "192",
+      "level": 43,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d21_c14",
+    "chart": "c14",
+    "name": "かけらの荒野",
+    "floors": 12,
+    "rule_id": "d21_c14",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "188",
+      "level": 43,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "requires_cleared": [
+      "d20_c14"
+    ]
+  },
+  {
+    "id": "d22_c15",
+    "chart": "c15",
+    "name": "世界樹の根の洞・外縁",
+    "floors": 12,
+    "rule_id": "d22_c15",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "110",
+      "level": 46,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d23_c15",
+    "chart": "c15",
+    "name": "世界樹の根の洞・中層",
+    "floors": 14,
+    "rule_id": "d23_c15",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "189",
+      "level": 46,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "requires_cleared": [
+      "d22_c15"
+    ]
+  },
+  {
+    "id": "d24_c16",
+    "chart": "c16",
+    "name": "石舞台の遺構",
+    "floors": 10,
+    "rule_id": "d24_c16",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "099B",
+      "level": 48,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d25_c16",
+    "chart": "c16",
+    "name": "根のほこら",
+    "floors": 8,
+    "rule_id": "d25_c16",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "099",
+      "level": 48,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "requires_cleared": [
+      "d24_c16"
+    ]
+  },
+  {
+    "id": "d26_c17",
+    "chart": "c17",
+    "name": "分裂の峠",
+    "floors": 10,
+    "rule_id": "d26_c17",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "191",
+      "level": 51,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d27_c18",
+    "chart": "c18",
+    "name": "夢の浜",
+    "floors": 6,
+    "rule_id": "d27_c18",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "182",
+      "level": 54,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d28_c19",
+    "chart": "c19",
+    "name": "世界樹への道",
+    "floors": 15,
+    "rule_id": "d28_c19",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "197",
+      "level": 57,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d29_c19",
+    "chart": "c19",
+    "name": "世界樹・幹の回廊",
+    "floors": 15,
+    "rule_id": "d29_c19",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "193",
+      "level": 57,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "requires_cleared": [
+      "d28_c19"
+    ]
+  },
+  {
+    "id": "d30_c20",
+    "chart": "c20",
+    "name": "世界樹・梢",
+    "floors": 7,
+    "rule_id": "d30_c20",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "196",
+      "level": 60,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d31_s31",
+    "chart": "c31",
+    "name": "浜の岩棚",
+    "floors": 4,
+    "rule_id": "d31_s31",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "088",
+      "level": 5,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d32_s32",
+    "chart": "c32",
+    "name": "ひび割れの庭",
+    "floors": 6,
+    "rule_id": "d32_s32",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "064",
+      "level": 22,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d33_s33",
+    "chart": "c33",
+    "name": "忘れ水の洞",
+    "floors": 7,
+    "rule_id": "d33_s33",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "072",
+      "level": 28,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d34_s34",
+    "chart": "c34",
+    "name": "かけらの巣",
+    "floors": 9,
+    "rule_id": "d34_s34",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "147",
+      "level": 37,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "d35_s35",
+    "chart": "c35",
+    "name": "世界樹の外周路",
+    "floors": 10,
+    "rule_id": "d35_s35",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "138",
+      "level": 43,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  },
+  {
+    "id": "x_root_base",
+    "chart": "c14",
+    "name": "世界樹の根もと",
+    "floors": 1,
+    "rule_id": "x_root_base",
+    "end_type": "StoryBoss",
+    "boss": {
+      "species_id": "198",
+      "level": 43,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": true
+    },
+    "hidden": true,
+    "no_wild": true
+  },
+  {
+    "id": "x36",
+    "chart": "x36",
+    "name": "追加枠36（セイントール）",
+    "floors": 15,
+    "rule_id": "x_extra",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "198",
+      "level": 70,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "post_clear": true,
+    "no_wild": true
+  },
+  {
+    "id": "x37",
+    "chart": "x37",
+    "name": "追加枠37（ベイントール）",
+    "floors": 15,
+    "rule_id": "x_extra",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "199",
+      "level": 70,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "post_clear": true,
+    "no_wild": true
+  },
+  {
+    "id": "x38",
+    "chart": "x38",
+    "name": "追加枠38（グレイシャル）",
+    "floors": 15,
+    "rule_id": "x_extra",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "200",
+      "level": 70,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "post_clear": true,
+    "no_wild": true
+  },
+  {
+    "id": "x39",
+    "chart": "x39",
+    "name": "追加枠39（グレイシャドウ）",
+    "floors": 15,
+    "rule_id": "x_extra",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "200B",
+      "level": 70,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "post_clear": true,
+    "no_wild": true
+  },
+  {
+    "id": "x40",
+    "chart": "x40",
+    "name": "追加枠40（ネプティオス）",
+    "floors": 15,
+    "rule_id": "x_extra",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "201",
+      "level": 70,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "post_clear": true,
+    "no_wild": true
+  },
+  {
+    "id": "x41",
+    "chart": "x41",
+    "name": "追加枠41（ジェッドラン）",
+    "floors": 15,
+    "rule_id": "x_extra",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "202",
+      "level": 70,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "post_clear": true,
+    "no_wild": true
+  },
+  {
+    "id": "x42",
+    "chart": "x42",
+    "name": "追加枠42（グランジーラ）",
+    "floors": 15,
+    "rule_id": "x_extra",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "203",
+      "level": 70,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    },
+    "post_clear": true,
+    "no_wild": true
+  },
+  {
+    "id": "x43",
+    "chart": "x43",
+    "name": "追加枠43（再挑戦回廊）",
+    "floors": 10,
+    "rule_id": "x_extra",
+    "end_type": "StoryMultiEnemyBattle",
+    "post_clear": true,
+    "no_wild": true,
+    "boss": {
+      "species_id": "192",
+      "level": 0,
+      "hp_mult": 0.35,
+      "atk_mult": 0.6,
+      "defeat_ok": false,
+      "group": [
+        {
+          "species_id": "145",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "146",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "189",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "191",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "195",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "195B",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "196",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "197",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        }
+      ]
+    }
+  }
+]

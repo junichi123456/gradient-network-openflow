@@ -1,0 +1,294 @@
+{
+ "name": "モモンパ (Herbil)",
+ "gait": "biped",
+ "palette": {
+  "br": "#a8703c",
+  "br2": "#bd8450",
+  "cr": "#f4efe2",
+  "lf": "#5aa83a",
+  "lf2": "#82c050",
+  "lfd": "#2e6a28",
+  "pup": "#1a1a1a",
+  "wht": "#ffffff",
+  "gr": "#6cb850"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    26,
+    26,
+    22
+   ],
+   "color": "br",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    7
+   ],
+   "size": [
+    15,
+    17,
+    10
+   ],
+   "color": "cr",
+   "group": "body"
+  },
+  {
+   "name": "smile",
+   "shape": "box",
+   "center": [
+    0,
+    6.5,
+    12
+   ],
+   "size": [
+    6,
+    0.8,
+    1
+   ],
+   "color": "gr",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    2
+   ],
+   "size": [
+    22,
+    12,
+    16
+   ],
+   "color": "br2",
+   "group": "head"
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    1
+   ],
+   "size": [
+    8,
+    10,
+    2.4
+   ],
+   "color": "lf2",
+   "group": "head"
+  },
+  {
+   "name": "leafvein",
+   "shape": "box",
+   "center": [
+    0,
+    33,
+    2.4
+   ],
+   "size": [
+    0.7,
+    8,
+    0.4
+   ],
+   "color": "lfd",
+   "group": "head"
+  },
+  {
+   "name": "earleaf",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    29,
+    0
+   ],
+   "size": [
+    10,
+    6,
+    3
+   ],
+   "color": "lf",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earbr",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    27,
+    -1
+   ],
+   "size": [
+    9,
+    7,
+    3
+   ],
+   "color": "br",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    19,
+    9
+   ],
+   "size": [
+    11,
+    6,
+    4
+   ],
+   "color": "cr",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    22.5,
+    10
+   ],
+   "size": [
+    3.4,
+    3.8,
+    2
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyehi",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    23.4,
+    11
+   ],
+   "size": [
+    1.2,
+    1.2,
+    0.6
+   ],
+   "color": "wht",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    19.6,
+    11.2
+   ],
+   "size": [
+    3,
+    0.6,
+    0.6
+   ],
+   "color": "pup",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    13.5,
+    14,
+    1
+   ],
+   "size": [
+    5,
+    9,
+    6
+   ],
+   "color": "br",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    2,
+    3
+   ],
+   "size": [
+    7,
+    5,
+    9
+   ],
+   "color": "br2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -12
+   ],
+   "size": [
+    10,
+    10,
+    8
+   ],
+   "color": "br",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_LeafMomonga_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "",
+   "note": "参照はアイコン1枚のみ(wiki/他サイトに画像なし): 茶色の丸い体、頭頂に葉、左右に緑の葉の耳、白い顔下半分と緑の笑い口"
+  }
+ ]
+}

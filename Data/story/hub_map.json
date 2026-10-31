@@ -1,0 +1,52 @@
+{
+  "currency": "ポイント",
+  "wall_thickness": 40,
+  "spawn": [640, 360],
+  "areas": [
+    { "id": "north", "name": "生活拠点", "rect": [0, -720, 1280, 720] },
+    { "id": "center", "name": "ハコニワ広場", "rect": [0, 0, 1280, 720] },
+    { "id": "west", "name": "対戦広場", "rect": [-1280, 0, 1280, 720] },
+    { "id": "south", "name": "ダンジョンへの道", "rect": [0, 720, 1280, 720] }
+  ],
+  "passages": [
+    { "a": "center", "b": "north", "width": 200 },
+    { "a": "center", "b": "west", "width": 200 },
+    { "a": "center", "b": "south", "width": 200 }
+  ],
+  "fixtures": [
+    { "id": "pal_bed", "kind": "upgrade", "facility_id": "pal_bed", "area": "north", "position": [400, -520], "name": "寝床 (Enterで強化・セーブ)", "color": "#8b5a2b", "save": true },
+    { "id": "pal_workbench", "kind": "upgrade", "facility_id": "pal_workbench", "area": "north", "position": [240, -520], "name": "作業台 (Enterで強化)", "color": "#a0522d" },
+    { "id": "pal_box", "kind": "pal_box", "area": "north", "position": [900, -520], "name": "パルボックス", "color": "#87ceeb" },
+    { "id": "npc_bed", "kind": "resident", "area": "north", "position": [400, -440], "required_facility": "pal_bed", "required_level": 2 },
+    { "id": "npc_workbench", "kind": "resident", "area": "north", "position": [240, -440], "required_facility": "pal_workbench", "required_level": 2 },
+    { "id": "battle_entrance", "kind": "battle", "area": "west", "position": [-1000, 360], "name": "対戦広場の入口", "color": "#cd5c5c", "scene": "res://Scenes/BattleFlowScene.tscn", "return_position": [-900, 360] },
+    { "id": "dungeon_gate", "kind": "gate", "area": "south", "position": [640, 1340], "name": "ダンジョンゲート", "color": "#9370db" }
+  ],
+  "facilities": [
+    {
+      "id": "warehouse", "area": "center", "position": [260, 150], "name": "ヘルガルダ倉庫", "appears_after": "c03",
+      "npc": [{ "id": "helgalda", "offset": [0, 80] }], "ui": "storage", "color": "#6b705c",
+      "greeting": [{ "who": "helgalda", "text": "預けるなら、ここに置きな。数は、わたしがきっちり見てるだろうが" }]
+    },
+    {
+      "id": "bushigaeru_shop", "area": "center", "position": [1020, 150], "name": "ブシガエル物産", "appears_after": "c04",
+      "npc": [{ "id": "bushigaeru", "offset": [0, 80] }], "ui": "shop", "filter": "nonfood", "color": "#2f6f4f",
+      "greeting": [{ "who": "bushigaeru", "text": "物産の店だ。拙者の目利きで、道具を揃えてある" }, { "who": "bushigaeru", "text": "食い物と素材は扱わぬ。素材は拠点のために取っておくがいい" }]
+    },
+    {
+      "id": "bulferno_diner", "area": "center", "position": [1020, 560], "name": "ブルフェルノ飯店", "appears_after": "c05",
+      "npc": [{ "id": "bulferno", "offset": [0, 80] }], "ui": "shop", "filter": "food", "color": "#c1440e",
+      "greeting": [{ "who": "bulferno", "text": "いらっしゃいっす！食い物なら、ここっす！" }, { "who": "bulferno", "text": "腹が減っては探検できないっすよ！" }]
+    },
+    {
+      "id": "clinic", "area": "center", "position": [260, 560], "name": "ヴィオレッタ診療所", "appears_after": "c06",
+      "npc": [{ "id": "violetta", "offset": [0, 80] }], "ui": "clinic", "filter": "medicine", "color": "#b07aa1",
+      "greeting": [{ "who": "violetta", "text": "いらっしゃい。薬なら、ここにあるわ" }, { "who": "violetta", "text": "無理はしないでね。……それがいちばんの薬だと思う" }]
+    },
+    {
+      "id": "lab", "area": "center", "position": [260, 560], "name": "ヴィオレッタ研究所", "appears_after": "c12", "replaces": "clinic",
+      "npc": [{ "id": "violetta", "offset": [-40, 80] }, { "id": "majoruna", "offset": [40, 80] }], "ui": "lab", "filter": "medicine", "color": "#7a5c99",
+      "greeting": [{ "who": "violetta", "text": "研究所に改めたの。診療所の仕事は、これまでどおりよ" }, { "who": "majoruna", "text": "かけらの分析なら、あたしも手伝うぜ。見たいなら持ってこいよ、じゃね？" }]
+    }
+  ]
+}

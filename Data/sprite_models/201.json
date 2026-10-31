@@ -1,0 +1,400 @@
+{
+ "name": "ネプティオス (Neptilius)",
+ "gait": "hover",
+ "palette": {
+  "navy": "#2a3468",
+  "navy2": "#3a4a84",
+  "blue": "#2a54a0",
+  "cream": "#cdb8b0",
+  "cream2": "#e0d0c8",
+  "gold": "#b88a2c",
+  "cyan": "#38c0d8",
+  "cyan2": "#7ae0f0",
+  "eye": "#e8d070"
+ },
+ "hover": 8,
+ "parts": [
+  {
+   "name": "back",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -3
+   ],
+   "size": [
+    22,
+    34,
+    16
+   ],
+   "color": "navy",
+   "group": "body"
+  },
+  {
+   "name": "gem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -11
+   ],
+   "size": [
+    7,
+    12,
+    2
+   ],
+   "color": "cyan",
+   "group": "body"
+  },
+  {
+   "name": "front",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    3
+   ],
+   "size": [
+    16,
+    30,
+    12
+   ],
+   "color": "blue",
+   "group": "body"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    5
+   ],
+   "size": [
+    14,
+    14,
+    10
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "lower",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    0
+   ],
+   "size": [
+    8,
+    12,
+    8
+   ],
+   "color": "navy2",
+   "group": "body"
+  },
+  {
+   "name": "fluke",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    0,
+    0
+   ],
+   "size": [
+    18,
+    3,
+    7
+   ],
+   "color": "navy",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    2
+   ],
+   "size": [
+    14,
+    10,
+    10
+   ],
+   "color": "navy",
+   "group": "head"
+  },
+  {
+   "name": "hgem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39,
+    5
+   ],
+   "size": [
+    7,
+    5,
+    4
+   ],
+   "color": "cyan2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    35,
+    7
+   ],
+   "size": [
+    2,
+    1.6,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ant",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    43,
+    3
+   ],
+   "size": [
+    3,
+    12,
+    3
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant2",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    48,
+    3
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant3",
+   "shape": "ellipsoid",
+   "center": [
+    1.5,
+    40,
+    5
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "t1",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    30,
+    3
+   ],
+   "size": [
+    20,
+    6,
+    7
+   ],
+   "color": "cream",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "t1b",
+   "shape": "ellipsoid",
+   "center": [
+    29,
+    37,
+    3
+   ],
+   "size": [
+    6,
+    18,
+    6
+   ],
+   "color": "cream",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "t2",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    23,
+    4
+   ],
+   "size": [
+    20,
+    6,
+    7
+   ],
+   "color": "cream",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "t2b",
+   "shape": "ellipsoid",
+   "center": [
+    29,
+    28,
+    4
+   ],
+   "size": [
+    6,
+    14,
+    6
+   ],
+   "color": "cream",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "t3",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    14,
+    5
+   ],
+   "size": [
+    6,
+    20,
+    7
+   ],
+   "color": "cream2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "t4",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    16,
+    6
+   ],
+   "size": [
+    6,
+    22,
+    6
+   ],
+   "color": "cream",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    5
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "side",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    18,
+    -2
+   ],
+   "size": [
+    4,
+    28,
+    8
+   ],
+   "color": "navy",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sgem",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    24,
+    -2
+   ],
+   "size": [
+    3,
+    8,
+    5
+   ],
+   "color": "cyan",
+   "group": "wing_r",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/201",
+   "note": "navy+blue body with cyan gems, cream tentacles, gold antlers, fluke tail"
+  }
+ ]
+}

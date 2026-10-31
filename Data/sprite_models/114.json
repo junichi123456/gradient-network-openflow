@@ -1,0 +1,515 @@
+{
+ "name": "クジャンナ (Frostplume)",
+ "gait": "biped",
+ "palette": {
+  "body": "#c2c6d6",
+  "body2": "#aeb4cc",
+  "blue": "#3c7ccc",
+  "mid": "#5a96e0",
+  "lt": "#8ac0f0",
+  "beak": "#c8b84a",
+  "eye": "#2a3a8a",
+  "leg": "#4a78b8",
+  "dk": "#2a56a8"
+ },
+ "refs": [
+  {
+   "url": "Tools/.refshots/114 (in-game screenshots)",
+   "note": "in-game screenshots, all views"
+  }
+ ],
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    14,
+    13,
+    18
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "breast",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    5
+   ],
+   "size": [
+    11,
+    11,
+    9
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "bchev",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    8
+   ],
+   "size": [
+    9,
+    4,
+    5
+   ],
+   "color": "blue",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    5.5
+   ],
+   "size": [
+    5.5,
+    17,
+    5.5
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -8,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37,
+    7
+   ],
+   "size": [
+    7.5,
+    7,
+    9
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    36,
+    12.5
+   ],
+   "size": [
+    3,
+    5,
+    3
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    37.5,
+    9
+   ],
+   "size": [
+    1.6,
+    2.4,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    42.5,
+    6
+   ],
+   "size": [
+    2.6,
+    6,
+    2.6
+   ],
+   "color": "mid",
+   "group": "head"
+  },
+  {
+   "name": "crest1",
+   "shape": "ellipsoid",
+   "center": [
+    2.5,
+    41.5,
+    6
+   ],
+   "size": [
+    2.4,
+    5,
+    2.4
+   ],
+   "color": "lt",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crest2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    45.5,
+    6
+   ],
+   "size": [
+    3,
+    3,
+    3
+   ],
+   "color": "lt",
+   "group": "head"
+  },
+  {
+   "name": "legt",
+   "shape": "cylinder",
+   "center": [
+    3,
+    5,
+    0
+   ],
+   "size": [
+    2.2,
+    10,
+    2.2
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legd",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    13,
+    0
+   ],
+   "size": [
+    5,
+    5,
+    6
+   ],
+   "color": "body",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    0.8,
+    2.5
+   ],
+   "size": [
+    3,
+    2,
+    7
+   ],
+   "color": "dk",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    18,
+    -1
+   ],
+   "size": [
+    3,
+    9,
+    13
+   ],
+   "color": "body2",
+   "group": "wing_l",
+   "mirror_x": true
+  },
+  {
+   "name": "fth0",
+   "shape": "ellipsoid",
+   "center": [
+    -7.1,
+    18.4,
+    -17.4
+   ],
+   "size": [
+    7,
+    1.8,
+    22
+   ],
+   "color": "mid",
+   "group": "tail",
+   "rot": [
+    -40,
+    28,
+    0
+   ]
+  },
+  {
+   "name": "ftip0",
+   "shape": "ellipsoid",
+   "center": [
+    -10.6,
+    10.0,
+    -23.0
+   ],
+   "size": [
+    4,
+    1.6,
+    10
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -40,
+    28,
+    0
+   ]
+  },
+  {
+   "name": "fth1",
+   "shape": "ellipsoid",
+   "center": [
+    -3.8,
+    19.2,
+    -19.3
+   ],
+   "size": [
+    7,
+    1.8,
+    22
+   ],
+   "color": "lt",
+   "group": "tail",
+   "rot": [
+    -40,
+    14,
+    0
+   ]
+  },
+  {
+   "name": "ftip1",
+   "shape": "ellipsoid",
+   "center": [
+    -5.6,
+    11.0,
+    -26.0
+   ],
+   "size": [
+    4,
+    1.6,
+    10
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -40,
+    14,
+    0
+   ]
+  },
+  {
+   "name": "fth2",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    20.0,
+    -20.0
+   ],
+   "size": [
+    7,
+    1.8,
+    22
+   ],
+   "color": "blue",
+   "group": "tail",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ftip2",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    12.0,
+    -27.0
+   ],
+   "size": [
+    4,
+    1.6,
+    10
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fth3",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    19.2,
+    -19.3
+   ],
+   "size": [
+    7,
+    1.8,
+    22
+   ],
+   "color": "lt",
+   "group": "tail",
+   "rot": [
+    -40,
+    -14,
+    0
+   ]
+  },
+  {
+   "name": "ftip3",
+   "shape": "ellipsoid",
+   "center": [
+    5.6,
+    11.0,
+    -26.0
+   ],
+   "size": [
+    4,
+    1.6,
+    10
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -40,
+    -14,
+    0
+   ]
+  },
+  {
+   "name": "fth4",
+   "shape": "ellipsoid",
+   "center": [
+    7.1,
+    18.4,
+    -17.4
+   ],
+   "size": [
+    7,
+    1.8,
+    22
+   ],
+   "color": "mid",
+   "group": "tail",
+   "rot": [
+    -40,
+    -28,
+    0
+   ]
+  },
+  {
+   "name": "ftip4",
+   "shape": "ellipsoid",
+   "center": [
+    10.6,
+    10.0,
+    -23.0
+   ],
+   "size": [
+    4,
+    1.6,
+    10
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -40,
+    -28,
+    0
+   ]
+  },
+  {
+   "name": "ridge",
+   "shape": "cone",
+   "center": [
+    0,
+    24.5,
+    -5
+   ],
+   "size": [
+    3,
+    3,
+    3
+   ],
+   "color": "body2",
+   "group": "body",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ridge2",
+   "shape": "cone",
+   "center": [
+    0,
+    24,
+    0
+   ],
+   "size": [
+    3,
+    3,
+    3
+   ],
+   "color": "body2",
+   "group": "body"
+  }
+ ]
+}

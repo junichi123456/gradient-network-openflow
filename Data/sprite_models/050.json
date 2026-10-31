@@ -1,0 +1,317 @@
+{
+ "name": "ニャンシー (Wispaw)",
+ "gait": "hover",
+ "palette": {
+  "navy": "#2e3450",
+  "navy2": "#3a4264",
+  "purple": "#8a68c8",
+  "purple2": "#a888e0",
+  "eye": "#f0e040",
+  "pupil": "#2a2a30",
+  "flame": "#8ac8f0",
+  "flame2": "#b8e4fa",
+  "scarf": "#7a5ac0"
+ },
+ "hover": 2,
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    0
+   ],
+   "size": [
+    14,
+    13,
+    12
+   ],
+   "color": "navy",
+   "group": "body"
+  },
+  {
+   "name": "scarf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    3
+   ],
+   "size": [
+    15,
+    5,
+    13
+   ],
+   "color": "scarf",
+   "group": "body"
+  },
+  {
+   "name": "scarf_t",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    12,
+    6
+   ],
+   "size": [
+    5,
+    8,
+    3
+   ],
+   "color": "purple",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    15
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    2
+   ],
+   "size": [
+    23,
+    19,
+    17
+   ],
+   "color": "navy",
+   "group": "head"
+  },
+  {
+   "name": "moon",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29.5,
+    10.4
+   ],
+   "size": [
+    6,
+    6,
+    1.2
+   ],
+   "color": "purple2",
+   "group": "head"
+  },
+  {
+   "name": "moon_in",
+   "shape": "ellipsoid",
+   "center": [
+    1.4,
+    29.8,
+    10.9
+   ],
+   "size": [
+    5,
+    5,
+    1.2
+   ],
+   "color": "navy",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    25.5,
+    9.5
+   ],
+   "size": [
+    5.4,
+    6,
+    2.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    25.5,
+    10.8
+   ],
+   "size": [
+    1.6,
+    3.6,
+    0.8
+   ],
+   "color": "pupil",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    21.5,
+    10.2
+   ],
+   "size": [
+    1.8,
+    0.6,
+    0.8
+   ],
+   "color": "pupil",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    8,
+    36,
+    0
+   ],
+   "size": [
+    8,
+    12,
+    5
+   ],
+   "color": "navy",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "cone",
+   "center": [
+    8,
+    35,
+    1
+   ],
+   "size": [
+    4.4,
+    8,
+    3
+   ],
+   "color": "purple",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    13.5,
+    26,
+    0
+   ],
+   "size": [
+    7,
+    5,
+    3
+   ],
+   "color": "navy2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    10,
+    4
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "navy",
+   "group": "arm_r"
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    2,
+    3
+   ],
+   "size": [
+    5,
+    4,
+    6
+   ],
+   "color": "navy",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "flame",
+   "shape": "cone",
+   "center": [
+    0,
+    26,
+    -12
+   ],
+   "size": [
+    10,
+    22,
+    6
+   ],
+   "color": "flame",
+   "group": "tail",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "flame2",
+   "shape": "cone",
+   "center": [
+    10,
+    25,
+    -10
+   ],
+   "size": [
+    7,
+    16,
+    5
+   ],
+   "color": "flame2",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_GhostBlackCat_icon_normal.png",
+   "note": "正面: 紺色の丸い頭、額の紫の三日月、黄色い目、とがった耳（内側紫）、紫のスカーフ、背後の水色の鬼火"
+  }
+ ]
+}

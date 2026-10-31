@@ -1,0 +1,326 @@
+{
+ "name": "ニャルル (Valentail)",
+ "gait": "quad",
+ "palette": {
+  "red": "#e03a3a",
+  "red2": "#c02a30",
+  "white": "#f6eeee",
+  "pink": "#f0a0a8",
+  "eye": "#30b878",
+  "nose": "#e07080",
+  "dark": "#301820"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    13.5,
+    -4.5
+   ],
+   "size": [
+    21.0,
+    19.5,
+    36.0
+   ],
+   "color": "red",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    7.5,
+    -1.5
+   ],
+   "size": [
+    15.0,
+    9.0,
+    30.0
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "fur",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    16.5,
+    13.5
+   ],
+   "size": [
+    18.0,
+    15.0,
+    12.0
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    22.5,
+    21.0
+   ],
+   "size": [
+    22.5,
+    19.5,
+    18.0
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    9.0,
+    18.0,
+    22.5
+   ],
+   "size": [
+    7.5,
+    9.0,
+    9.0
+   ],
+   "color": "red",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "cap",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    27.0,
+    18.0
+   ],
+   "size": [
+    16.5,
+    7.5,
+    13.5
+   ],
+   "color": "red",
+   "group": "head"
+  },
+  {
+   "name": "earO",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    34.5,
+    16.5
+   ],
+   "size": [
+    12.0,
+    22.5,
+    5.25
+   ],
+   "color": "red",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earI",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    34.5,
+    18.3
+   ],
+   "size": [
+    7.5,
+    16.5,
+    3.0
+   ],
+   "color": "pink",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    6.75,
+    21.75,
+    29.25
+   ],
+   "size": [
+    5.1,
+    5.1,
+    2.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "box",
+   "center": [
+    6.75,
+    21.75,
+    30.75
+   ],
+   "size": [
+    1.5,
+    3.9,
+    0.75
+   ],
+   "color": "dark",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0.0,
+    18.0,
+    30.45
+   ],
+   "size": [
+    2.4,
+    1.8,
+    1.2
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    13.5,
+    -25.5
+   ],
+   "size": [
+    9.0,
+    9.0,
+    21.0
+   ],
+   "color": "red",
+   "group": "tail",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    19.5,
+    -37.5
+   ],
+   "size": [
+    9.0,
+    10.5,
+    13.5
+   ],
+   "color": "white",
+   "group": "tail",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leg_f",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    4.5,
+    9.0
+   ],
+   "size": [
+    6.75,
+    9.0,
+    7.5
+   ],
+   "color": "red2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "paw_f",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    1.5,
+    10.5
+   ],
+   "size": [
+    6.6,
+    3.6,
+    8.25
+   ],
+   "color": "white",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_b",
+   "shape": "ellipsoid",
+   "center": [
+    6.75,
+    4.5,
+    -15.0
+   ],
+   "size": [
+    7.5,
+    9.0,
+    9.0
+   ],
+   "color": "red2",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "paw_b",
+   "shape": "ellipsoid",
+   "center": [
+    6.75,
+    1.5,
+    -13.5
+   ],
+   "size": [
+    6.6,
+    3.6,
+    8.25
+   ],
+   "color": "white",
+   "group": "leg_br",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_LongCat_icon_normal.png",
+   "note": "アイコン: 白い顔に赤い頭頂/頬、大きな赤い耳(内側は桃)、緑の目。名前通り胴と尾が長い猫型"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_LongCat_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  }
+ ]
+}

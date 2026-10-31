@@ -1,0 +1,396 @@
+{
+ "name": "チルウィッチ (Ice Witch)",
+ "gait": "hover",
+ "palette": {
+  "hat": "#d8dce8",
+  "hatdk": "#242c40",
+  "body": "#7eb6e0",
+  "body2": "#5a9ad0",
+  "belly": "#a8d0ee",
+  "face": "#4a86c4",
+  "cry": "#58d8d0",
+  "cry2": "#a8f0e8",
+  "dk": "#1c2c6a",
+  "eye": "#e8f4ff"
+ },
+ "hover": 6,
+ "refs": [
+  {
+   "url": "Tools/.refshots/119 (in-game screenshots)",
+   "note": "in-game screenshots, all views"
+  }
+ ],
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    15,
+    15,
+    14
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    3.5
+   ],
+   "size": [
+    11,
+    12,
+    9
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "sk0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6.5,
+    0
+   ],
+   "size": [
+    17,
+    6,
+    16
+   ],
+   "color": "body2",
+   "group": "body"
+  },
+  {
+   "name": "sp0",
+   "shape": "cone",
+   "center": [
+    0,
+    3,
+    5
+   ],
+   "size": [
+    5,
+    7,
+    3
+   ],
+   "color": "belly",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "sp1",
+   "shape": "cone",
+   "center": [
+    6,
+    3.5,
+    3
+   ],
+   "size": [
+    5,
+    7,
+    3
+   ],
+   "color": "body",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sp2",
+   "shape": "cone",
+   "center": [
+    3,
+    3,
+    -6
+   ],
+   "size": [
+    5,
+    7,
+    3
+   ],
+   "color": "belly",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.5,
+    5
+   ],
+   "size": [
+    11,
+    6,
+    7
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    2.6,
+    21,
+    8.5
+   ],
+   "size": [
+    2.2,
+    2.6,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "brim",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26.5,
+    1
+   ],
+   "size": [
+    31,
+    3,
+    31
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "brimdk",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25.6,
+    1
+   ],
+   "size": [
+    29,
+    1.5,
+    29
+   ],
+   "color": "hatdk",
+   "group": "head"
+  },
+  {
+   "name": "hat1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31.5,
+    0
+   ],
+   "size": [
+    11,
+    10,
+    11
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "hat2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37,
+    -1.5
+   ],
+   "size": [
+    7,
+    9,
+    7
+   ],
+   "color": "hat",
+   "group": "head",
+   "rot": [
+    -14,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hat3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41.5,
+    -3.5
+   ],
+   "size": [
+    4,
+    7,
+    4
+   ],
+   "color": "hat",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "cr1",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    28,
+    5
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "cry",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cr2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    6.5
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "cry2",
+   "group": "head"
+  },
+  {
+   "name": "cr3",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    33,
+    -4
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "cry",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    14,
+    2
+   ],
+   "size": [
+    5,
+    12,
+    5
+   ],
+   "color": "body",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    8,
+    3
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "belly",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "tend",
+   "shape": "ellipsoid",
+   "center": [
+    -9,
+    16,
+    -6
+   ],
+   "size": [
+    6,
+    5,
+    10
+   ],
+   "color": "body2",
+   "group": "tail",
+   "rot": [
+    0,
+    40,
+    0
+   ]
+  },
+  {
+   "name": "tend2",
+   "shape": "ellipsoid",
+   "center": [
+    -14,
+    18,
+    -11
+   ],
+   "size": [
+    5,
+    4,
+    8
+   ],
+   "color": "belly",
+   "group": "tail",
+   "rot": [
+    0,
+    40,
+    0
+   ]
+  }
+ ]
+}

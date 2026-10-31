@@ -1,0 +1,446 @@
+{
+ "name": "ヒョウガオー (Bastigor)",
+ "gait": "biped",
+ "palette": {
+  "mane": "#8a9aa8",
+  "mane2": "#a8b6c0",
+  "cream": "#c8b4b0",
+  "blue": "#2a62b8",
+  "blue2": "#1a3a80",
+  "dark": "#2a1a1a",
+  "brown": "#3a2418",
+  "gold": "#c89a3a",
+  "claw": "#1c1418",
+  "eye": "#d8a020",
+  "face": "#3a58a0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    0
+   ],
+   "size": [
+    20,
+    18,
+    16
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    2
+   ],
+   "size": [
+    16,
+    14,
+    14
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "cloth",
+   "shape": "wedge",
+   "center": [
+    0,
+    13,
+    8
+   ],
+   "size": [
+    10,
+    18,
+    3
+   ],
+   "color": "brown",
+   "group": "body"
+  },
+  {
+   "name": "cross",
+   "shape": "box",
+   "center": [
+    0,
+    14,
+    9.6
+   ],
+   "size": [
+    2,
+    9,
+    0.8
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "crossb",
+   "shape": "box",
+   "center": [
+    0,
+    16,
+    9.6
+   ],
+   "size": [
+    7,
+    1.6,
+    0.8
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "hem",
+   "shape": "box",
+   "center": [
+    0,
+    5,
+    8
+   ],
+   "size": [
+    10,
+    2.5,
+    2.5
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    -3
+   ],
+   "size": [
+    22,
+    22,
+    17
+   ],
+   "color": "mane",
+   "group": "body"
+  },
+  {
+   "name": "maneb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -8
+   ],
+   "size": [
+    18,
+    28,
+    7
+   ],
+   "color": "mane2",
+   "group": "body"
+  },
+  {
+   "name": "manetip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -8
+   ],
+   "size": [
+    10,
+    4,
+    5
+   ],
+   "color": "dark",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    2
+   ],
+   "size": [
+    12,
+    11,
+    11
+   ],
+   "color": "mane2",
+   "group": "head"
+  },
+  {
+   "name": "beard",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    6
+   ],
+   "size": [
+    9,
+    10,
+    5
+   ],
+   "color": "mane2",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    6
+   ],
+   "size": [
+    9,
+    6,
+    6
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    27,
+    8.5
+   ],
+   "size": [
+    3,
+    2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "brow",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    28.5,
+    8.2
+   ],
+   "size": [
+    3.4,
+    1.5,
+    1.2
+   ],
+   "color": "brown",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tuft",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    25,
+    3
+   ],
+   "size": [
+    7,
+    9,
+    6
+   ],
+   "color": "mane",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    23,
+    0
+   ],
+   "size": [
+    8,
+    7,
+    8
+   ],
+   "color": "blue",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    17,
+    3
+   ],
+   "size": [
+    6,
+    13,
+    6
+   ],
+   "color": "blue",
+   "group": "arm_r",
+   "rot": [
+    -25,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "stripe",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    17,
+    3
+   ],
+   "size": [
+    6.4,
+    2,
+    6.4
+   ],
+   "color": "blue2",
+   "group": "arm_r",
+   "rot": [
+    -25,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fist",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    10,
+    7
+   ],
+   "size": [
+    7,
+    6,
+    7
+   ],
+   "color": "blue",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "ellipsoid",
+   "center": [
+    14.5,
+    7.5,
+    9.5
+   ],
+   "size": [
+    5,
+    3,
+    5
+   ],
+   "color": "claw",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    8,
+    0
+   ],
+   "size": [
+    8,
+    10,
+    10
+   ],
+   "color": "cream",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    2,
+    2.5
+   ],
+   "size": [
+    8,
+    4,
+    11
+   ],
+   "color": "blue",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "toe",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    1.2,
+    7.5
+   ],
+   "size": [
+    6,
+    2.4,
+    4
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -12
+   ],
+   "size": [
+    8,
+    10,
+    8
+   ],
+   "color": "brown",
+   "group": "tail"
+  },
+  {
+   "name": "tailband",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -10
+   ],
+   "size": [
+    8,
+    2,
+    6
+   ],
+   "color": "gold",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/191",
+   "note": "in-game shots: huge grey mane, striped blue arms with dark claws, cream body, brown cloth with gold cross"
+  }
+ ]
+}

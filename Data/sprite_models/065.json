@@ -1,0 +1,292 @@
+{
+ "name": "ヤミトバリ (Felbat)",
+ "gait": "hover",
+ "palette": {
+  "fur": "#f2f2f6",
+  "fur2": "#d8d8e2",
+  "dark": "#3a3550",
+  "horn": "#2e2a42",
+  "red": "#c0262c",
+  "wing": "#4a4660",
+  "eye": "#40d8e0",
+  "beak": "#e8b838"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    0
+   ],
+   "size": [
+    9,
+    16,
+    7
+   ],
+   "color": "dark",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    2.5
+   ],
+   "size": [
+    10,
+    10,
+    6
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    2
+   ],
+   "size": [
+    13,
+    6,
+    10
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    3
+   ],
+   "size": [
+    11,
+    10,
+    10
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    7
+   ],
+   "size": [
+    8,
+    6,
+    4
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    2.8,
+    24.5,
+    8.8
+   ],
+   "size": [
+    2.2,
+    1.6,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0,
+    30,
+    1
+   ],
+   "size": [
+    4.5,
+    18,
+    4.5
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hornb",
+   "shape": "cone",
+   "center": [
+    -4,
+    32,
+    -2
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "fur2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    40
+   ]
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    14,
+    -3
+   ],
+   "size": [
+    22,
+    22,
+    1.6
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -32
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "winr",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    14,
+    -2.3
+   ],
+   "size": [
+    14,
+    17,
+    1.2
+   ],
+   "color": "red",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -32
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing2",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    9,
+    -3
+   ],
+   "size": [
+    15,
+    10,
+    1.6
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    2,
+    5,
+    0
+   ],
+   "size": [
+    2,
+    10,
+    2
+   ],
+   "color": "dark",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "cone",
+   "center": [
+    2,
+    1,
+    1.5
+   ],
+   "size": [
+    2.4,
+    4,
+    2.4
+   ],
+   "color": "beak",
+   "group": "leg_fr",
+   "rot": [
+    100,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    10,
+    -6
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "dark",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Felbat.png",
+   "note": "全身: 白い羽毛の襟と頭・黒い仮面状の顔・曲がった黒い角・暗い紫の翼のマントに赤い裏地・細い脚と黄色い爪"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_CatVampire_icon_normal.png",
+   "note": "正面アップ: 白い顔に黒い鼻先、長い黒い角"
+  }
+ ],
+ "hover": 6
+}

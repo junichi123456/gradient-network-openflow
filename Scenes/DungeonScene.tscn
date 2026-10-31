@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Core/DungeonScene.cs" id="1"]
+[ext_resource type="Script" path="res://Scripts/Grid/GridManager.cs" id="2"]
+[ext_resource type="Script" path="res://Scripts/Turn/TurnManager.cs" id="3"]
+[ext_resource type="Script" path="res://Scripts/Entities/Player.cs" id="4"]
+[ext_resource type="Script" path="res://Scripts/Dungeon/FloorController.cs" id="5"]
+[ext_resource type="Script" path="res://Scripts/UI/MinimapUI.cs" id="6"]
+[ext_resource type="Script" path="res://Scripts/UI/HUD.cs" id="7"]
+[ext_resource type="Script" path="res://Scripts/UI/MenuUI.cs" id="8"]
+[ext_resource type="Script" path="res://Scripts/UI/MessageLogUI.cs" id="9"]
+
+[node name="DungeonScene" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1")
+GridManagerPath = NodePath("GridManager")
+TurnManagerPath = NodePath("TurnManager")
+PlayerPath = NodePath("Player")
+FloorControllerPath = NodePath("FloorController")
+MinimapPath = NodePath("UILayer/MinimapUI")
+HudPath = NodePath("UILayer/HUD")
+MenuPath = NodePath("UILayer/MenuUI")
+DungeonId = "beach_cave"
+
+[node name="GridManager" type="Node2D" parent="."]
+script = ExtResource("2")
+Width = 15
+Height = 10
+TileSize = 32
+
+[node name="TurnManager" type="Node" parent="."]
+script = ExtResource("3")
+
+[node name="Player" type="Node2D" parent="."]
+script = ExtResource("4")
+ActorName = "Player"
+Speed = 100
+DebugColor = Color(1, 0.9, 0.1, 1)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position_smoothing_enabled = false
+
+[node name="FloorController" type="Node2D" parent="."]
+y_sort_enabled = true
+script = ExtResource("5")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="MinimapUI" type="Control" parent="UILayer"]
+script = ExtResource("6")
+
+[node name="HUD" type="Control" parent="UILayer"]
+script = ExtResource("7")
+
+[node name="MenuUI" type="Control" parent="UILayer"]
+script = ExtResource("8")
+
+[node name="MessageLogUI" type="Control" parent="UILayer"]
+script = ExtResource("9")

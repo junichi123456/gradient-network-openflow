@@ -1,0 +1,359 @@
+{
+ "name": "ウゴクゾー",
+ "gait": "biped",
+ "palette": {
+  "st": "#666a73",
+  "st2": "#575b64",
+  "dk": "#20252a",
+  "sp": "#6ee8b8",
+  "glow": "#38e0e8",
+  "stem": "#4a8a3a",
+  "moss": "#3f6a34"
+ },
+ "parts": [
+  {
+   "name": "torso",
+   "shape": "box",
+   "center": [
+    0,
+    22,
+    0
+   ],
+   "size": [
+    15,
+    15,
+    12
+   ],
+   "color": "st",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "box",
+   "center": [
+    0,
+    26,
+    0.5
+   ],
+   "size": [
+    13,
+    7,
+    12
+   ],
+   "color": "st2",
+   "group": "body"
+  },
+  {
+   "name": "hole",
+   "shape": "box",
+   "center": [
+    0,
+    21.5,
+    5.8
+   ],
+   "size": [
+    6,
+    6,
+    1
+   ],
+   "color": "dk",
+   "group": "body"
+  },
+  {
+   "name": "spirit",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21.5,
+    6.3
+   ],
+   "size": [
+    4.4,
+    4.4,
+    1.5
+   ],
+   "color": "sp",
+   "group": "body"
+  },
+  {
+   "name": "l1",
+   "shape": "box",
+   "center": [
+    -4.5,
+    26.5,
+    6.2
+   ],
+   "size": [
+    5,
+    1.6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "body"
+  },
+  {
+   "name": "l2",
+   "shape": "box",
+   "center": [
+    -7,
+    24,
+    6.2
+   ],
+   "size": [
+    1.6,
+    5,
+    0.8
+   ],
+   "color": "glow",
+   "group": "body"
+  },
+  {
+   "name": "l3",
+   "shape": "box",
+   "center": [
+    4.5,
+    17.5,
+    6.2
+   ],
+   "size": [
+    5,
+    1.6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "body"
+  },
+  {
+   "name": "l4",
+   "shape": "box",
+   "center": [
+    7,
+    20,
+    6.2
+   ],
+   "size": [
+    1.6,
+    5,
+    0.8
+   ],
+   "color": "glow",
+   "group": "body"
+  },
+  {
+   "name": "stem",
+   "shape": "cylinder",
+   "center": [
+    0,
+    31,
+    0
+   ],
+   "size": [
+    1.6,
+    5,
+    1.6
+   ],
+   "color": "stem",
+   "group": "body"
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    2,
+    33.5,
+    0
+   ],
+   "size": [
+    4.5,
+    1.8,
+    3
+   ],
+   "color": "stem",
+   "group": "body"
+  },
+  {
+   "name": "leaf2",
+   "shape": "ellipsoid",
+   "center": [
+    -2,
+    34,
+    0
+   ],
+   "size": [
+    4.5,
+    1.8,
+    3
+   ],
+   "color": "stem",
+   "group": "body"
+  },
+  {
+   "name": "legu",
+   "shape": "box",
+   "center": [
+    4,
+    9.5,
+    0
+   ],
+   "size": [
+    6.5,
+    9,
+    7.5
+   ],
+   "color": "st2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legm",
+   "shape": "box",
+   "center": [
+    4,
+    3.5,
+    0
+   ],
+   "size": [
+    6.5,
+    7,
+    7.5
+   ],
+   "color": "moss",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "ll",
+   "shape": "box",
+   "center": [
+    4,
+    8,
+    3.8
+   ],
+   "size": [
+    4,
+    1.4,
+    0.8
+   ],
+   "color": "glow",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "au",
+   "shape": "box",
+   "center": [
+    15,
+    22,
+    0
+   ],
+   "size": [
+    8,
+    13,
+    8.5
+   ],
+   "color": "st",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "al1",
+   "shape": "box",
+   "center": [
+    15,
+    22.5,
+    4.3
+   ],
+   "size": [
+    1.6,
+    6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "al2",
+   "shape": "box",
+   "center": [
+    15,
+    12.5,
+    0
+   ],
+   "size": [
+    6.5,
+    9,
+    7
+   ],
+   "color": "st2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "fist",
+   "shape": "box",
+   "center": [
+    15,
+    4.5,
+    0
+   ],
+   "size": [
+    8,
+    9,
+    8.5
+   ],
+   "color": "st",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "fl",
+   "shape": "box",
+   "center": [
+    15,
+    5,
+    4.3
+   ],
+   "size": [
+    5,
+    1.6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "back",
+   "shape": "box",
+   "center": [
+    0,
+    21,
+    -6.2
+   ],
+   "size": [
+    8,
+    1.6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "body"
+  },
+  {
+   "name": "back2",
+   "shape": "box",
+   "center": [
+    3,
+    25,
+    -6.2
+   ],
+   "size": [
+    1.6,
+    6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "body"
+  }
+ ]
+}

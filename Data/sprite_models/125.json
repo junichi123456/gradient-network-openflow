@@ -1,0 +1,633 @@
+{
+ "name": "フワフラワ (Lullu)",
+ "gait": "biped",
+ "palette": {
+  "white": "#fbfbfb",
+  "white2": "#e9e9ef",
+  "peach": "#f4b48e",
+  "peach2": "#f8c8a6",
+  "orange": "#e87a2a",
+  "leaf": "#6ea84a",
+  "pink": "#ee6a9a",
+  "yellow": "#e8d058",
+  "green": "#78b048",
+  "skin": "#fdfdfd",
+  "eye": "#e8872a",
+  "dk": "#2a2a2a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    9,
+    10,
+    8
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    3
+   ],
+   "size": [
+    11,
+    3,
+    6
+   ],
+   "color": "leaf",
+   "group": "body"
+  },
+  {
+   "name": "gem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    6.2
+   ],
+   "size": [
+    2.6,
+    2.6,
+    1.6
+   ],
+   "color": "pink",
+   "group": "body"
+  },
+  {
+   "name": "petal0",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    10,
+    8.0
+   ],
+   "size": [
+    7,
+    15,
+    3.5
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "petal1",
+   "shape": "ellipsoid",
+   "center": [
+    5.65685424949238,
+    10,
+    5.656854249492381
+   ],
+   "size": [
+    7,
+    15,
+    3.5
+   ],
+   "color": "peach2",
+   "group": "body"
+  },
+  {
+   "name": "petal2",
+   "shape": "ellipsoid",
+   "center": [
+    8.0,
+    10,
+    4.898587196589413e-16
+   ],
+   "size": [
+    7,
+    15,
+    3.5
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "petal3",
+   "shape": "ellipsoid",
+   "center": [
+    5.656854249492381,
+    10,
+    -5.65685424949238
+   ],
+   "size": [
+    7,
+    15,
+    3.5
+   ],
+   "color": "peach2",
+   "group": "body"
+  },
+  {
+   "name": "petal4",
+   "shape": "ellipsoid",
+   "center": [
+    9.797174393178826e-16,
+    10,
+    -8.0
+   ],
+   "size": [
+    7,
+    15,
+    3.5
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "petal5",
+   "shape": "ellipsoid",
+   "center": [
+    -5.65685424949238,
+    10,
+    -5.6568542494923815
+   ],
+   "size": [
+    7,
+    15,
+    3.5
+   ],
+   "color": "peach2",
+   "group": "body"
+  },
+  {
+   "name": "petal6",
+   "shape": "ellipsoid",
+   "center": [
+    -8.0,
+    10,
+    -1.4695761589768238e-15
+   ],
+   "size": [
+    7,
+    15,
+    3.5
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "petal7",
+   "shape": "ellipsoid",
+   "center": [
+    -5.6568542494923815,
+    10,
+    5.656854249492379
+   ],
+   "size": [
+    7,
+    15,
+    3.5
+   ],
+   "color": "peach2",
+   "group": "body"
+  },
+  {
+   "name": "skirt_in",
+   "shape": "cone",
+   "center": [
+    0,
+    9,
+    0
+   ],
+   "size": [
+    19,
+    14,
+    19
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "tip0",
+   "shape": "cone",
+   "center": [
+    0.0,
+    3.5,
+    8.5
+   ],
+   "size": [
+    5,
+    7,
+    5
+   ],
+   "color": "yellow",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tip1",
+   "shape": "cone",
+   "center": [
+    6.010407640085654,
+    3.5,
+    6.0104076400856545
+   ],
+   "size": [
+    5,
+    7,
+    5
+   ],
+   "color": "green",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tip2",
+   "shape": "cone",
+   "center": [
+    8.5,
+    3.5,
+    5.204748896376251e-16
+   ],
+   "size": [
+    5,
+    7,
+    5
+   ],
+   "color": "yellow",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tip3",
+   "shape": "cone",
+   "center": [
+    6.0104076400856545,
+    3.5,
+    -6.010407640085654
+   ],
+   "size": [
+    5,
+    7,
+    5
+   ],
+   "color": "green",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tip4",
+   "shape": "cone",
+   "center": [
+    1.0409497792752501e-15,
+    3.5,
+    -8.5
+   ],
+   "size": [
+    5,
+    7,
+    5
+   ],
+   "color": "yellow",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tip5",
+   "shape": "cone",
+   "center": [
+    -6.010407640085654,
+    3.5,
+    -6.010407640085655
+   ],
+   "size": [
+    5,
+    7,
+    5
+   ],
+   "color": "green",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tip6",
+   "shape": "cone",
+   "center": [
+    -8.5,
+    3.5,
+    -1.5614246689128753e-15
+   ],
+   "size": [
+    5,
+    7,
+    5
+   ],
+   "color": "yellow",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tip7",
+   "shape": "cone",
+   "center": [
+    -6.010407640085655,
+    3.5,
+    6.010407640085653
+   ],
+   "size": [
+    5,
+    7,
+    5
+   ],
+   "color": "green",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    2
+   ],
+   "size": [
+    15,
+    12,
+    13
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    -1.5
+   ],
+   "size": [
+    18,
+    13,
+    13
+   ],
+   "color": "peach",
+   "group": "head"
+  },
+  {
+   "name": "hair_s",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    25,
+    -1
+   ],
+   "size": [
+    5,
+    11,
+    8
+   ],
+   "color": "peach",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "curl",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    4
+   ],
+   "size": [
+    5,
+    4,
+    3
+   ],
+   "color": "peach2",
+   "group": "head"
+  },
+  {
+   "name": "bang",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    4
+   ],
+   "size": [
+    13,
+    3,
+    5
+   ],
+   "color": "peach",
+   "group": "head"
+  },
+  {
+   "name": "cloud",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41,
+    0
+   ],
+   "size": [
+    22,
+    10,
+    14
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "cloud2",
+   "shape": "ellipsoid",
+   "center": [
+    -8,
+    39,
+    0
+   ],
+   "size": [
+    10,
+    8,
+    11
+   ],
+   "color": "white2",
+   "group": "head"
+  },
+  {
+   "name": "cloud3",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    39,
+    0
+   ],
+   "size": [
+    10,
+    8,
+    11
+   ],
+   "color": "white2",
+   "group": "head"
+  },
+  {
+   "name": "flower",
+   "shape": "cone",
+   "center": [
+    0,
+    48,
+    0
+   ],
+   "size": [
+    5,
+    6,
+    5
+   ],
+   "color": "orange",
+   "group": "head"
+  },
+  {
+   "name": "flower2",
+   "shape": "cone",
+   "center": [
+    3,
+    47,
+    0
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "yellow",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    28,
+    7.5
+   ],
+   "size": [
+    3.6,
+    4.6,
+    1.5
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye_h",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    29,
+    8.3
+   ],
+   "size": [
+    1.4,
+    1.6,
+    0.8
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    18,
+    1
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "white",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    1.2,
+    2
+   ],
+   "size": [
+    4,
+    2.4,
+    5
+   ],
+   "color": "leaf",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Lullu.png",
+   "note": "全身: 頭上に白い雲のような丸い塊3つ、桃色の巻き髪、白い顔に橙の目、緑の葉の襟とピンクの宝石、白→桃→黄→緑のグラデの花びらのスカート"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_LeafPrincess_icon_normal.png",
+   "note": "顔アップ: 橙の大きな目、桃色のくるんとした前髪、白い雲の帽子"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Lullu.png",
+   "note": "上端に橙の花の冠(3枚)"
+  }
+ ]
+}

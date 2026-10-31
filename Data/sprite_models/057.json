@@ -1,0 +1,358 @@
+{
+ "name": "マスクロウ (Cawgnito)",
+ "gait": "biped",
+ "palette": {
+  "coat": "#2e2e36",
+  "coat2": "#3c3c46",
+  "belly": "#f4f4f4",
+  "red": "#9c2a2a",
+  "hat": "#3d3d42",
+  "hat2": "#2a2a2e",
+  "beak": "#ece7dc",
+  "eyew": "#f6f6f6",
+  "eyer": "#d62b2b",
+  "leg": "#d8c88a",
+  "gold": "#d9a73a",
+  "face": "#4a4a52"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    0
+   ],
+   "size": [
+    17,
+    22,
+    16
+   ],
+   "color": "coat",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    3
+   ],
+   "size": [
+    12,
+    17,
+    11
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "cape",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    -5
+   ],
+   "size": [
+    20,
+    20,
+    9
+   ],
+   "color": "coat2",
+   "group": "body"
+  },
+  {
+   "name": "capel",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    10,
+    -3
+   ],
+   "size": [
+    3,
+    12,
+    10
+   ],
+   "color": "red",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "button",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    9.2
+   ],
+   "size": [
+    2.6,
+    2.6,
+    1.2
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    3
+   ],
+   "size": [
+    12,
+    11,
+    12
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    7
+   ],
+   "size": [
+    9,
+    8,
+    6
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    27,
+    10
+   ],
+   "size": [
+    5.5,
+    16,
+    5.5
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    98,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "beak2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    15
+   ],
+   "size": [
+    3.5,
+    6,
+    4
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eyew",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    31,
+    7.5
+   ],
+   "size": [
+    3.6,
+    3.6,
+    2
+   ],
+   "color": "eyew",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyer",
+   "shape": "ellipsoid",
+   "center": [
+    5.4,
+    31,
+    8.8
+   ],
+   "size": [
+    2.2,
+    2.2,
+    1
+   ],
+   "color": "eyer",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "brim",
+   "shape": "cylinder",
+   "center": [
+    0,
+    36,
+    0.5
+   ],
+   "size": [
+    22,
+    1.4,
+    22
+   ],
+   "color": "hat",
+   "group": "head",
+   "rot": [
+    -8,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crown",
+   "shape": "cylinder",
+   "center": [
+    0,
+    39,
+    0
+   ],
+   "size": [
+    12,
+    5,
+    12
+   ],
+   "color": "hat",
+   "group": "head",
+   "rot": [
+    -8,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "band",
+   "shape": "cylinder",
+   "center": [
+    0,
+    37.5,
+    0.3
+   ],
+   "size": [
+    12.6,
+    1.2,
+    12.6
+   ],
+   "color": "hat2",
+   "group": "head",
+   "rot": [
+    -8,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    4,
+    5,
+    2
+   ],
+   "size": [
+    2,
+    10,
+    2
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    4,
+    0.8,
+    4.5
+   ],
+   "size": [
+    5.5,
+    1.6,
+    7
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    14,
+    -1
+   ],
+   "size": [
+    4,
+    15,
+    11
+   ],
+   "color": "coat",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -10
+   ],
+   "size": [
+    8,
+    7,
+    6
+   ],
+   "color": "belly",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Cawgnito.png",
+   "note": "全身: 黒いつば広帽・長い白いくちばし・黒い外套と白い腹・黄色い細い脚・赤い目"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Cawgnito2.png",
+   "note": "ゲーム内: 帽子のつばが体より広い、外套の裏は赤"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Cawgnito_bis.png",
+   "note": "正面: 灰色の帽子、くちばしは下向き、足は淡い黄"
+  }
+ ]
+}

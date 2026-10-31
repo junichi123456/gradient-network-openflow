@@ -1,0 +1,283 @@
+{
+ "name": "ポワワ (Clovee)",
+ "gait": "biped",
+ "palette": {
+  "w": "#efece0",
+  "w2": "#f8f6ee",
+  "sh": "#d8d4c4",
+  "g1": "#7ab870",
+  "g2": "#58a058",
+  "g3": "#3e8648",
+  "pup": "#1a1a1a",
+  "vine": "#5a9a4a",
+  "pk": "#d86a6a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    0
+   ],
+   "size": [
+    19,
+    18,
+    16
+   ],
+   "color": "w",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    2
+   ],
+   "size": [
+    21,
+    15,
+    16
+   ],
+   "color": "w2",
+   "group": "head"
+  },
+  {
+   "name": "hat_c",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    1
+   ],
+   "size": [
+    15,
+    6,
+    15
+   ],
+   "color": "g2",
+   "group": "head"
+  },
+  {
+   "name": "lobe",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    31,
+    1
+   ],
+   "size": [
+    14,
+    6,
+    12
+   ],
+   "color": "g1",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lobe_b",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    -5
+   ],
+   "size": [
+    12,
+    6,
+    10
+   ],
+   "color": "g1",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "lobe_pat",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    32.4,
+    2
+   ],
+   "size": [
+    8,
+    3.4,
+    7
+   ],
+   "color": "g3",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5.2,
+    22.5,
+    10
+   ],
+   "size": [
+    2.6,
+    3,
+    1.6
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "smile",
+   "shape": "box",
+   "center": [
+    0,
+    20.6,
+    10.4
+   ],
+   "size": [
+    3.4,
+    0.6,
+    0.6
+   ],
+   "color": "pup",
+   "group": "head"
+  },
+  {
+   "name": "cheekdot",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23.2,
+    10.6
+   ],
+   "size": [
+    2.2,
+    2.2,
+    1
+   ],
+   "color": "sh",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    17,
+    0
+   ],
+   "size": [
+    11,
+    3.4,
+    6
+   ],
+   "color": "w2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    10,
+    3
+   ],
+   "size": [
+    5,
+    7,
+    5
+   ],
+   "color": "w2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    2,
+    2
+   ],
+   "size": [
+    6,
+    5,
+    8
+   ],
+   "color": "w2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -9
+   ],
+   "size": [
+    7,
+    6,
+    5
+   ],
+   "color": "w2",
+   "group": "tail"
+  },
+  {
+   "name": "vine",
+   "shape": "cylinder",
+   "center": [
+    8,
+    7,
+    5
+   ],
+   "size": [
+    0.8,
+    10,
+    0.8
+   ],
+   "color": "vine",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_CloverFairy_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Clovee_slep.png",
+   "note": "睡眠: 白い丸い体、クローバー型の緑の帽子、左右に垂れた長い耳、蔓の尻尾"
+  }
+ ]
+}

@@ -1,0 +1,529 @@
+{
+ "name": "ココヤンバ (Tropical Ostrich)",
+ "gait": "biped",
+ "palette": {
+  "g": "#8fae38",
+  "g2": "#6f9230",
+  "leaf": "#3e7a34",
+  "leaf2": "#2e5e2a",
+  "tip": "#e8683a",
+  "beak": "#f2a23a",
+  "beak2": "#e07a2a",
+  "eye": "#f2d25a",
+  "zig": "#e8d23a",
+  "leg": "#a0b84a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -2
+   ],
+   "size": [
+    14,
+    14,
+    20
+   ],
+   "color": "g",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    2
+   ],
+   "size": [
+    11,
+    10,
+    13
+   ],
+   "color": "g2",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "cylinder",
+   "center": [
+    0,
+    29,
+    5
+   ],
+   "size": [
+    6,
+    16,
+    6
+   ],
+   "color": "g",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "zig",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    6
+   ],
+   "size": [
+    7,
+    5,
+    6
+   ],
+   "color": "zig",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37,
+    8
+   ],
+   "size": [
+    10,
+    9,
+    11
+   ],
+   "color": "g",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35.5,
+    14
+   ],
+   "size": [
+    6,
+    3.2,
+    8
+   ],
+   "color": "beak",
+   "group": "head"
+  },
+  {
+   "name": "beak2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33.5,
+    13.5
+   ],
+   "size": [
+    5,
+    2,
+    6
+   ],
+   "color": "beak2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    38,
+    11
+   ],
+   "size": [
+    2.6,
+    2.4,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "lid",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    39.3,
+    11.3
+   ],
+   "size": [
+    3,
+    1.4,
+    1.6
+   ],
+   "color": "g2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "leaf0",
+   "shape": "cone",
+   "center": [
+    0.0,
+    48,
+    2
+   ],
+   "size": [
+    5,
+    16,
+    2
+   ],
+   "color": "leaf",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leaftip0",
+   "shape": "cone",
+   "center": [
+    0.0,
+    50,
+    2
+   ],
+   "size": [
+    3,
+    5,
+    1.4
+   ],
+   "color": "tip",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leaf1",
+   "shape": "cone",
+   "center": [
+    -4.0,
+    45,
+    2
+   ],
+   "size": [
+    5,
+    15,
+    2
+   ],
+   "color": "leaf2",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    40
+   ]
+  },
+  {
+   "name": "leaftip1",
+   "shape": "cone",
+   "center": [
+    -8.0,
+    50,
+    2
+   ],
+   "size": [
+    3,
+    5,
+    1.4
+   ],
+   "color": "tip",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    40
+   ]
+  },
+  {
+   "name": "leaf2",
+   "shape": "cone",
+   "center": [
+    4.0,
+    45,
+    2
+   ],
+   "size": [
+    5,
+    15,
+    2
+   ],
+   "color": "leaf",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -40
+   ]
+  },
+  {
+   "name": "leaftip2",
+   "shape": "cone",
+   "center": [
+    8.0,
+    50,
+    2
+   ],
+   "size": [
+    3,
+    5,
+    1.4
+   ],
+   "color": "tip",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -40
+   ]
+  },
+  {
+   "name": "leaf3",
+   "shape": "cone",
+   "center": [
+    -6.4,
+    45,
+    2
+   ],
+   "size": [
+    5,
+    13,
+    2
+   ],
+   "color": "leaf2",
+   "group": "head",
+   "rot": [
+    -5,
+    0,
+    70
+   ]
+  },
+  {
+   "name": "leaftip3",
+   "shape": "cone",
+   "center": [
+    -12.8,
+    50,
+    2
+   ],
+   "size": [
+    3,
+    5,
+    1.4
+   ],
+   "color": "tip",
+   "group": "head",
+   "rot": [
+    -5,
+    0,
+    70
+   ]
+  },
+  {
+   "name": "leaf4",
+   "shape": "cone",
+   "center": [
+    6.4,
+    45,
+    2
+   ],
+   "size": [
+    5,
+    13,
+    2
+   ],
+   "color": "leaf",
+   "group": "head",
+   "rot": [
+    -5,
+    0,
+    -70
+   ]
+  },
+  {
+   "name": "leaftip4",
+   "shape": "cone",
+   "center": [
+    12.8,
+    50,
+    2
+   ],
+   "size": [
+    3,
+    5,
+    1.4
+   ],
+   "color": "tip",
+   "group": "head",
+   "rot": [
+    -5,
+    0,
+    -70
+   ]
+  },
+  {
+   "name": "tail0",
+   "shape": "cone",
+   "center": [
+    0,
+    21,
+    -13
+   ],
+   "size": [
+    5,
+    14,
+    2
+   ],
+   "color": "leaf",
+   "group": "tail",
+   "rot": [
+    -105,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail1",
+   "shape": "cone",
+   "center": [
+    -4,
+    21,
+    -12
+   ],
+   "size": [
+    5,
+    14,
+    2
+   ],
+   "color": "leaf2",
+   "group": "tail",
+   "rot": [
+    -105,
+    0,
+    25
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cone",
+   "center": [
+    4,
+    21,
+    -12
+   ],
+   "size": [
+    5,
+    14,
+    2
+   ],
+   "color": "leaf2",
+   "group": "tail",
+   "rot": [
+    -105,
+    0,
+    -25
+   ]
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    19,
+    -2
+   ],
+   "size": [
+    4,
+    10,
+    14
+   ],
+   "color": "g2",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -5
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    13,
+    -1
+   ],
+   "size": [
+    7,
+    9,
+    9
+   ],
+   "color": "g2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    5,
+    6,
+    0
+   ],
+   "size": [
+    3.4,
+    12,
+    3.4
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    5,
+    1,
+    2.5
+   ],
+   "size": [
+    5,
+    2,
+    8
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_TropicalOstrich_icon_normal.png",
+   "note": "頭部アップ: 黄緑の頭と首、橙の嘴、眠たげな目、ヤシの葉状の冠（先は橙）、首元に黄のギザギザ"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_TropicalOstrich_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799206",
+   "note": "game8 乗用サドル画像のみ。胴は長脚の鳥として推定"
+  }
+ ]
+}

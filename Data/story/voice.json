@@ -1,0 +1,98 @@
+{
+  "INFJ": {
+    "first_person": "わたし",
+    "speech": "「〜かな」「〜だと思う」と言い切らない",
+    "catch": "……たぶん、ね",
+    "emotion": "声が低くなり、核心だけを言う"
+  },
+  "INFP": {
+    "first_person": "ぼく",
+    "speech": "「〜かも」「〜ふぁ」と語尾が溶ける",
+    "catch": "えっと、その……",
+    "emotion": "小さな声で本音がこぼれる"
+  },
+  "INTJ": {
+    "first_person": "私",
+    "speech": "「〜だ」「〜だろう」と短く断定",
+    "catch": "想定の範囲だ",
+    "emotion": "温度が下がり、さらに短くなる"
+  },
+  "INTP": {
+    "first_person": "ぼく",
+    "speech": "「〜だよね」「〜かもしれない」",
+    "catch": "待って、前提が……",
+    "emotion": "早口になり、話が脱線する"
+  },
+  "ISFJ": {
+    "first_person": "わたし",
+    "speech": "「〜です」「〜ですよ」と丁寧",
+    "catch": "お疲れではありませんか",
+    "emotion": "丁寧語のまま、強く言い切る"
+  },
+  "ISFP": {
+    "first_person": "ぼく",
+    "speech": "「〜んだよ」「〜かなぁ」とのんびり",
+    "catch": "まぁ、いっか",
+    "emotion": "黙って行動で示す"
+  },
+  "ISTJ": {
+    "first_person": "自分",
+    "speech": "「〜だ」「〜する」と実直",
+    "catch": "決まりは決まりだ",
+    "emotion": "言葉が硬くなり、声が張る"
+  },
+  "ISTP": {
+    "first_person": "おれ",
+    "speech": "「〜だろ」と単語に近い短文",
+    "catch": "……やる",
+    "emotion": "一言だけ、低く落とす"
+  },
+  "ENFJ": {
+    "first_person": "わたし",
+    "speech": "「〜しましょう!」「〜よね?」",
+    "catch": "みんなで行こう!",
+    "emotion": "涙ぐみながらも前に出る"
+  },
+  "ENFP": {
+    "first_person": "あたし",
+    "speech": "「〜じゃん!」「〜かも!?」",
+    "catch": "ねえねえ聞いて!",
+    "emotion": "笑いと涙が同時に出る"
+  },
+  "ENTJ": {
+    "first_person": "わたし",
+    "speech": "「〜わ」「〜しなさい」と命令形",
+    "catch": "段取りはこうよ",
+    "emotion": "声を荒げ、その後すぐ照れる"
+  },
+  "ENTP": {
+    "first_person": "おれ",
+    "speech": "「〜じゃね?」「〜だろ?」",
+    "catch": "でもさ、逆に",
+    "emotion": "冗談が尽きて、真顔になる"
+  },
+  "ESFJ": {
+    "first_person": "あたし",
+    "speech": "「〜わよ」「〜でしょ」",
+    "catch": "ちゃんと食べた?",
+    "emotion": "世話を焼きながら泣く"
+  },
+  "ESFP": {
+    "first_person": "おいら",
+    "speech": "「〜だぜ!」「〜っしょ!」",
+    "catch": "楽しもうぜ!",
+    "emotion": "笑顔が消え、静かになる"
+  },
+  "ESTJ": {
+    "first_person": "アタシ",
+    "speech": "「〜だろうが」「〜しな」",
+    "catch": "筋は通しな",
+    "emotion": "むきになり、声が大きくなる"
+  },
+  "ESTP": {
+    "first_person": "オレ",
+    "speech": "「〜っす」「〜っすよ」",
+    "catch": "いくっす!",
+    "emotion": "悔しさが顔に出て、先に動く"
+  }
+}

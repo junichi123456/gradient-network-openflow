@@ -1,0 +1,298 @@
+{
+ "name": "ホシノコ",
+ "gait": "hover",
+ "palette": {
+  "gold": "#d6a22c",
+  "gold2": "#e8c050",
+  "lav": "#8f80d8",
+  "lav2": "#b4a4e8",
+  "pink": "#e4bede",
+  "cream": "#f0e2bc",
+  "cream2": "#d8c498",
+  "eye": "#a06090",
+  "purp": "#6a58c0"
+ },
+ "parts": [
+  {
+   "name": "skirt",
+   "shape": "cone",
+   "center": [
+    0,
+    4.8,
+    0
+   ],
+   "size": [
+    13,
+    10,
+    12
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "skirt2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    2.4000000000000004,
+    0
+   ],
+   "size": [
+    14,
+    5,
+    13
+   ],
+   "color": "cream2",
+   "group": "body"
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8.8,
+    0
+   ],
+   "size": [
+    8,
+    7,
+    7
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "hairb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11.8,
+    -2
+   ],
+   "size": [
+    13,
+    10,
+    9
+   ],
+   "color": "pink",
+   "group": "head"
+  },
+  {
+   "name": "hairside",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    8.8,
+    1
+   ],
+   "size": [
+    4.5,
+    10,
+    5
+   ],
+   "color": "pink",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12.3,
+    3.5
+   ],
+   "size": [
+    9,
+    7,
+    6
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "eye_l",
+   "shape": "ellipsoid",
+   "center": [
+    2.2,
+    12.3,
+    6.1
+   ],
+   "size": [
+    1.8,
+    1.8,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "brim",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19.8,
+    -3
+   ],
+   "size": [
+    23,
+    2.6,
+    17
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    50,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "brimc",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.6,
+    -4
+   ],
+   "size": [
+    11,
+    2.2,
+    8
+   ],
+   "color": "lav2",
+   "group": "head",
+   "rot": [
+    50,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "cone",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.8,
+    -3.5
+   ],
+   "size": [
+    10,
+    12,
+    10
+   ],
+   "color": "lav",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "cone2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25.8,
+    -8
+   ],
+   "size": [
+    6,
+    9,
+    6
+   ],
+   "color": "lav2",
+   "group": "head",
+   "rot": [
+    -45,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28.8,
+    -12.5
+   ],
+   "size": [
+    3.6,
+    6,
+    3.6
+   ],
+   "color": "lav",
+   "group": "head",
+   "rot": [
+    -70,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "star",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22.3,
+    0.5
+   ],
+   "size": [
+    3.4,
+    3.4,
+    3
+   ],
+   "color": "gold2",
+   "group": "head"
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    9.3,
+    1.5
+   ],
+   "size": [
+    3.4,
+    7,
+    3.4
+   ],
+   "color": "lav2",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand_l",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    6.3,
+    2.5
+   ],
+   "size": [
+    4,
+    3,
+    4
+   ],
+   "color": "purp",
+   "group": "arm_l",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/181",
+   "note": "ゲーム内スクショ(俯瞰): 金の三日月つばの魔女帽、後ろに倒れる藤色の円錐、ピンクの髪、クリームのスカート、藤色の手"
+  }
+ ],
+ "hover": 4
+}

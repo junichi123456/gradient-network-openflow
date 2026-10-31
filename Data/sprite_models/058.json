@@ -1,0 +1,469 @@
+{
+ "name": "ブルフェルノ (Arsox)",
+ "gait": "quad",
+ "palette": {
+  "fire": "#f08a26",
+  "fire2": "#ffc93a",
+  "brown": "#8c3a24",
+  "cream": "#f2e6cc",
+  "horn": "#80838c",
+  "horn2": "#5f626b",
+  "band": "#8d8b80",
+  "hoof": "#5c3426",
+  "eye": "#6ab04a",
+  "fire3": "#e8651c"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    20,
+    17,
+    30
+   ],
+   "color": "brown",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    0
+   ],
+   "size": [
+    16,
+    10,
+    24
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "flame1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    -2
+   ],
+   "size": [
+    20,
+    12,
+    22
+   ],
+   "color": "fire",
+   "group": "body"
+  },
+  {
+   "name": "flame2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    25,
+    5
+   ],
+   "size": [
+    11,
+    13,
+    12
+   ],
+   "color": "fire3",
+   "group": "body"
+  },
+  {
+   "name": "flame3",
+   "shape": "ellipsoid",
+   "center": [
+    -8,
+    25,
+    5
+   ],
+   "size": [
+    11,
+    13,
+    12
+   ],
+   "color": "fire3",
+   "group": "body"
+  },
+  {
+   "name": "flame4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    2
+   ],
+   "size": [
+    12,
+    8,
+    10
+   ],
+   "color": "fire2",
+   "group": "body"
+  },
+  {
+   "name": "flame5",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    -12
+   ],
+   "size": [
+    14,
+    12,
+    12
+   ],
+   "color": "fire",
+   "group": "body"
+  },
+  {
+   "name": "side",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    21,
+    -3
+   ],
+   "size": [
+    8,
+    16,
+    24
+   ],
+   "color": "brown",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "sidef",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    24,
+    -5
+   ],
+   "size": [
+    6,
+    8,
+    16
+   ],
+   "color": "fire",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    13
+   ],
+   "size": [
+    14,
+    15,
+    9
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    15
+   ],
+   "size": [
+    11,
+    13,
+    9
+   ],
+   "color": "cream",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    22
+   ],
+   "size": [
+    11,
+    11,
+    14
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "helm",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    21
+   ],
+   "size": [
+    12,
+    6,
+    14
+   ],
+   "color": "horn2",
+   "group": "head"
+  },
+  {
+   "name": "helmc",
+   "shape": "cone",
+   "center": [
+    0,
+    36,
+    19
+   ],
+   "size": [
+    6,
+    7,
+    6
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    30,
+    27
+   ],
+   "size": [
+    2,
+    2.4,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    10,
+    34,
+    18
+   ],
+   "size": [
+    9,
+    22,
+    9
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    -72
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    9,
+    32,
+    15
+   ],
+   "size": [
+    5,
+    13,
+    5
+   ],
+   "color": "horn2",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -100
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    24,
+    22
+   ],
+   "size": [
+    5,
+    16,
+    6
+   ],
+   "color": "brown",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    6,
+    8,
+    9
+   ],
+   "size": [
+    6,
+    16,
+    6
+   ],
+   "color": "cream",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "bandf",
+   "shape": "cylinder",
+   "center": [
+    6,
+    4,
+    9
+   ],
+   "size": [
+    6.8,
+    2,
+    6.8
+   ],
+   "color": "band",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofF",
+   "shape": "box",
+   "center": [
+    6,
+    0.8,
+    9.5
+   ],
+   "size": [
+    6,
+    1.6,
+    6.5
+   ],
+   "color": "hoof",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    6,
+    8,
+    -10
+   ],
+   "size": [
+    6.4,
+    16,
+    6.4
+   ],
+   "color": "cream",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "bandb",
+   "shape": "cylinder",
+   "center": [
+    6,
+    4,
+    -10
+   ],
+   "size": [
+    7.2,
+    2,
+    7.2
+   ],
+   "color": "band",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofB",
+   "shape": "box",
+   "center": [
+    6,
+    0.8,
+    -9.5
+   ],
+   "size": [
+    6.4,
+    1.6,
+    6.5
+   ],
+   "color": "hoof",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -17
+   ],
+   "size": [
+    6,
+    6,
+    8
+   ],
+   "color": "fire2",
+   "group": "tail",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Arsox.png",
+   "note": "全身: 炎のたてがみが背と横に広がる・茶色の長い毛・灰色の鉄の兜と外向きの大きな角・クリーム色の脚に灰色の帯・茶色の蹄"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Arsox_HotSpringsSlep.png",
+   "note": "ゲーム内: 炎の塊が体の両脇に浮く、角は後ろに湾曲"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_FlameBuffalo_icon_normal.png",
+   "note": "正面アップ: 緑の目・白い顎ひげ"
+  }
+ ]
+}

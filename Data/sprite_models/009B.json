@@ -1,0 +1,271 @@
+{
+ "name": "ドスガエル",
+ "gait": "biped",
+ "palette": {
+  "green": "#4a86c8",
+  "belly": "#d8cc4a",
+  "robe": "#aab0ac",
+  "robesh": "#8e948f",
+  "belt": "#1f1f1f",
+  "white": "#e8e8e4",
+  "lid": "#2f5f9a",
+  "stick": "#5a3f2a",
+  "leaf": "#7ab83a",
+  "blade": "#6c7378",
+  "hilt": "#2a2a2a"
+ },
+ "parts": [
+  {
+   "name": "robe",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    35.2,
+    26,
+    30.800000000000004
+   ],
+   "color": "robe",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    0.5
+   ],
+   "size": [
+    31.35,
+    19,
+    27.500000000000004
+   ],
+   "color": "green",
+   "group": "head"
+  },
+  {
+   "name": "bump",
+   "shape": "ellipsoid",
+   "center": [
+    8.25,
+    31,
+    0
+   ],
+   "size": [
+    8,
+    4,
+    8
+   ],
+   "color": "green",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "throat",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    10.450000000000001
+   ],
+   "size": [
+    15.400000000000002,
+    9,
+    9
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "lapel",
+   "shape": "wedge",
+   "center": [
+    7.700000000000001,
+    15,
+    12.65
+   ],
+   "size": [
+    7,
+    11,
+    3
+   ],
+   "color": "robesh",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    24
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "belt",
+   "shape": "cylinder",
+   "center": [
+    0,
+    5.5,
+    0
+   ],
+   "size": [
+    30.800000000000004,
+    2.8,
+    26.950000000000003
+   ],
+   "color": "belt",
+   "group": "body"
+  },
+  {
+   "name": "knot",
+   "shape": "box",
+   "center": [
+    0,
+    5.5,
+    13.200000000000001
+   ],
+   "size": [
+    4,
+    3,
+    1.5
+   ],
+   "color": "belt",
+   "group": "body"
+  },
+  {
+   "name": "eye_w",
+   "shape": "ellipsoid",
+   "center": [
+    9.350000000000001,
+    24,
+    11.0
+   ],
+   "size": [
+    7.5,
+    6.5,
+    4
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "lid",
+   "shape": "ellipsoid",
+   "center": [
+    9.350000000000001,
+    25.2,
+    12.430000000000001
+   ],
+   "size": [
+    7.9,
+    3.2,
+    3.4
+   ],
+   "color": "lid",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "box",
+   "center": [
+    9.350000000000001,
+    24.2,
+    14.190000000000001
+   ],
+   "size": [
+    3.2,
+    0.7,
+    0.8
+   ],
+   "color": "belt",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    17.05,
+    14,
+    3
+   ],
+   "size": [
+    6.5,
+    11,
+    7
+   ],
+   "color": "green",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    2,
+    4
+   ],
+   "size": [
+    10.5,
+    4,
+    12
+   ],
+   "color": "green",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "blade",
+   "shape": "box",
+   "center": [
+    -17,
+    9,
+    10
+   ],
+   "size": [
+    2,
+    2.6,
+    17
+   ],
+   "color": "blade",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hilt",
+   "shape": "box",
+   "center": [
+    -17,
+    9,
+    0.5
+   ],
+   "size": [
+    3,
+    3.2,
+    5
+   ],
+   "color": "hilt",
+   "group": "arm_l"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/009",
+   "note": "game screenshots: egg body, grey robe, black belt low, green dome head, yellow throat, half-closed eyes"
+  }
+ ]
+}

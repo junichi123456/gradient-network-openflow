@@ -1,0 +1,351 @@
+{
+ "name": "ドスコイヌ (Bulldosu)",
+ "gait": "biped",
+ "palette": {
+  "fur": "#c4985a",
+  "fur2": "#d4a878",
+  "rock": "#d8b868",
+  "rock2": "#b89848",
+  "hair": "#3a2a22",
+  "band": "#e8e0c8",
+  "eye": "#201814",
+  "nose": "#201814",
+  "belt": "#6a4a2a",
+  "tooth": "#f4f0e0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    24,
+    22,
+    20
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    6
+   ],
+   "size": [
+    17,
+    15,
+    10
+   ],
+   "color": "fur2",
+   "group": "body"
+  },
+  {
+   "name": "belt",
+   "shape": "cylinder",
+   "center": [
+    0,
+    7,
+    0
+   ],
+   "size": [
+    24.5,
+    3,
+    20.5
+   ],
+   "color": "belt",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    3
+   ],
+   "size": [
+    18,
+    13,
+    15
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    11
+   ],
+   "size": [
+    11,
+    8,
+    8
+   ],
+   "color": "fur2",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    14.8
+   ],
+   "size": [
+    4.5,
+    3,
+    2
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "jowl",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    22,
+    11
+   ],
+   "size": [
+    5,
+    4,
+    4
+   ],
+   "color": "fur2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tusk",
+   "shape": "cone",
+   "center": [
+    4.6,
+    21.2,
+    13.5
+   ],
+   "size": [
+    1.6,
+    2.4,
+    1.6
+   ],
+   "color": "tooth",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "topknot",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    0
+   ],
+   "size": [
+    8,
+    7,
+    8
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "band",
+   "shape": "cylinder",
+   "center": [
+    0,
+    31.5,
+    0
+   ],
+   "size": [
+    8.4,
+    1.4,
+    8.4
+   ],
+   "color": "band",
+   "group": "head"
+  },
+  {
+   "name": "earL",
+   "shape": "ellipsoid",
+   "center": [
+    8.3,
+    29,
+    -1
+   ],
+   "size": [
+    3,
+    6,
+    6
+   ],
+   "color": "fur2",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    4.3,
+    28,
+    10
+   ],
+   "size": [
+    2.4,
+    1.4,
+    0.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "rock",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    19,
+    0
+   ],
+   "size": [
+    10,
+    10,
+    10
+   ],
+   "color": "rock",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "rock2",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    13,
+    2
+   ],
+   "size": [
+    8,
+    8,
+    8
+   ],
+   "color": "rock2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    13.5,
+    12,
+    3
+   ],
+   "size": [
+    6,
+    10,
+    6
+   ],
+   "color": "fur",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "rockB",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -10
+   ],
+   "size": [
+    11,
+    11,
+    8
+   ],
+   "color": "rock",
+   "group": "body"
+  },
+  {
+   "name": "rockB2",
+   "shape": "ellipsoid",
+   "center": [
+    -5,
+    12,
+    -10
+   ],
+   "size": [
+    7,
+    7,
+    6
+   ],
+   "color": "rock2",
+   "group": "body"
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    3,
+    2
+   ],
+   "size": [
+    8,
+    8,
+    10
+   ],
+   "color": "fur",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    1.2,
+    4
+   ],
+   "size": [
+    7.5,
+    3,
+    10
+   ],
+   "color": "fur2",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_SumoDog_icon_normal.png",
+   "note": "アイコン: 丸い褐色の犬顔、黄土色の岩(丸い石)が肩/腕に並ぶ、頭頂に黒い髷"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_SumoDog_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  }
+ ]
+}

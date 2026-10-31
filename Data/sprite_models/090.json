@@ -1,0 +1,283 @@
+{
+ "name": "リーファン (Leafan)",
+ "gait": "biped",
+ "palette": {
+  "white": "#f4f4ee",
+  "black": "#26262a",
+  "green": "#58b040",
+  "green2": "#7acc50",
+  "eye": "#c83a20",
+  "cream": "#e8e8dc"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    11,
+    12,
+    9
+   ],
+   "color": "black",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    3.6
+   ],
+   "size": [
+    8,
+    9,
+    4
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    1
+   ],
+   "size": [
+    17,
+    14,
+    14
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "patch",
+   "shape": "ellipsoid",
+   "center": [
+    4.3,
+    22,
+    7.4
+   ],
+   "size": [
+    5.2,
+    4.6,
+    2.6
+   ],
+   "color": "black",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eyeP",
+   "shape": "ellipsoid",
+   "center": [
+    4.3,
+    22,
+    8.4
+   ],
+   "size": [
+    2.2,
+    2.6,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19.5,
+    8
+   ],
+   "size": [
+    2.4,
+    1.6,
+    1.4
+   ],
+   "color": "black",
+   "group": "head"
+  },
+  {
+   "name": "ear_g",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    30,
+    -1
+   ],
+   "size": [
+    11,
+    11,
+    4
+   ],
+   "color": "green",
+   "group": "ear",
+   "mirror_x": true
+  },
+  {
+   "name": "ear_b",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    30.5,
+    1.2
+   ],
+   "size": [
+    7,
+    7,
+    2.6
+   ],
+   "color": "black",
+   "group": "ear",
+   "mirror_x": true
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    31,
+    1
+   ],
+   "size": [
+    7,
+    13,
+    4
+   ],
+   "color": "green2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leaf2",
+   "shape": "ellipsoid",
+   "center": [
+    1,
+    33,
+    3
+   ],
+   "size": [
+    5,
+    10,
+    3
+   ],
+   "color": "green",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    -6
+   ]
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    6.8,
+    10,
+    2
+   ],
+   "size": [
+    3.4,
+    9,
+    3.6
+   ],
+   "color": "black",
+   "group": "arm_r",
+   "rot": [
+    -20,
+    0,
+    -10
+   ]
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    -6.8,
+    10,
+    2
+   ],
+   "size": [
+    3.4,
+    9,
+    3.6
+   ],
+   "color": "black",
+   "group": "arm_l",
+   "rot": [
+    -20,
+    0,
+    10
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    2.5,
+    1
+   ],
+   "size": [
+    4.6,
+    5,
+    6
+   ],
+   "color": "black",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -6
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "white",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/090/icon.png",
+   "note": "頭部: 白い顔、黒い目の周り+赤い目、緑の大きな丸耳（黒い円付き）、額に緑の葉"
+  },
+  {
+   "url": "https://paldb.cc/en/Leafan",
+   "note": "種名確認(草)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Leafan",
+   "note": "全身画像無し: パンダ配色(黒い手足と胴、白い顔)で推定"
+  }
+ ]
+}

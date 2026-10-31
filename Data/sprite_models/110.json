@@ -1,0 +1,539 @@
+{
+ "name": "トコナッツ (Plesiosaur)",
+ "gait": "quad",
+ "palette": {
+  "body": "#d49a58",
+  "belly": "#e0b878",
+  "neck": "#e4c088",
+  "leg": "#c8884c",
+  "hoof": "#a07050",
+  "leaf": "#3e7a2e",
+  "leaf2": "#2e6424",
+  "orange": "#e0701c",
+  "cream": "#e8d8a0",
+  "crest": "#e8601c",
+  "eye": "#7a1a14",
+  "diam": "#5a8a3a"
+ },
+ "refs": [
+  {
+   "url": "Tools/.refshots/110 (in-game screenshots)",
+   "note": "in-game screenshots, all views"
+  }
+ ],
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    0
+   ],
+   "size": [
+    17,
+    15,
+    26
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    1
+   ],
+   "size": [
+    13,
+    9,
+    21
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    13
+   ],
+   "size": [
+    8,
+    18,
+    9
+   ],
+   "color": "neck",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "neck2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    17.5
+   ],
+   "size": [
+    6.5,
+    14,
+    7
+   ],
+   "color": "neck",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    42,
+    19
+   ],
+   "size": [
+    7.5,
+    7,
+    10
+   ],
+   "color": "neck",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41.5,
+    23.5
+   ],
+   "size": [
+    5.5,
+    5,
+    5
+   ],
+   "color": "neck",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    43,
+    21
+   ],
+   "size": [
+    2,
+    2.4,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    46,
+    17.5
+   ],
+   "size": [
+    3.5,
+    5,
+    7
+   ],
+   "color": "crest",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest2",
+   "shape": "ellipsoid",
+   "center": [
+    2.5,
+    45.5,
+    18
+   ],
+   "size": [
+    3,
+    4,
+    6
+   ],
+   "color": "crest",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hleaf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    47.5,
+    16
+   ],
+   "size": [
+    8,
+    3,
+    10
+   ],
+   "color": "leaf",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hleaf2",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    46.5,
+    16
+   ],
+   "size": [
+    7,
+    3,
+    8
+   ],
+   "color": "leaf2",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "flo",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -2
+   ],
+   "size": [
+    15,
+    4,
+    13
+   ],
+   "color": "orange",
+   "group": "body"
+  },
+  {
+   "name": "flo2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23.5,
+    2
+   ],
+   "size": [
+    15,
+    3,
+    6
+   ],
+   "color": "orange",
+   "group": "body"
+  },
+  {
+   "name": "pet",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    -4
+   ],
+   "size": [
+    8,
+    5,
+    5
+   ],
+   "color": "cream",
+   "group": "body",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "pet2",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    27,
+    -3
+   ],
+   "size": [
+    6,
+    5,
+    4
+   ],
+   "color": "cream",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lf0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -8
+   ],
+   "size": [
+    5,
+    4,
+    17
+   ],
+   "color": "leaf",
+   "group": "body",
+   "rot": [
+    40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "lf1",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    19,
+    -1
+   ],
+   "size": [
+    4,
+    4,
+    15
+   ],
+   "color": "leaf",
+   "group": "body",
+   "rot": [
+    10,
+    0,
+    -50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lf2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    18,
+    -8
+   ],
+   "size": [
+    4,
+    3,
+    12
+   ],
+   "color": "leaf2",
+   "group": "body",
+   "rot": [
+    40,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    5.5,
+    9
+   ],
+   "size": [
+    6,
+    11,
+    7
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    5.5,
+    -9
+   ],
+   "size": [
+    6.5,
+    11,
+    8
+   ],
+   "color": "leg",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    1,
+    10
+   ],
+   "size": [
+    6,
+    2.5,
+    8
+   ],
+   "color": "hoof",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofb",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    1,
+    -8
+   ],
+   "size": [
+    6,
+    2.5,
+    8
+   ],
+   "color": "hoof",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -17
+   ],
+   "size": [
+    7,
+    7,
+    14
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    -27
+   ],
+   "size": [
+    4.5,
+    4.5,
+    14
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10.5,
+    -36
+   ],
+   "size": [
+    3,
+    3,
+    12
+   ],
+   "color": "body",
+   "group": "tail"
+  },
+  {
+   "name": "tailleaf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    -42
+   ],
+   "size": [
+    2.5,
+    1.8,
+    8
+   ],
+   "color": "leaf",
+   "group": "tail"
+  },
+  {
+   "name": "diam",
+   "shape": "box",
+   "center": [
+    8.6,
+    19,
+    0
+   ],
+   "size": [
+    0.6,
+    3,
+    3
+   ],
+   "color": "diam",
+   "group": "body",
+   "rot": [
+    45,
+    0,
+    0
+   ],
+   "mirror_x": true
+  }
+ ]
+}

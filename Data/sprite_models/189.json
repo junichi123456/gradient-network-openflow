@@ -1,0 +1,406 @@
+{
+ "name": "ゼノグリフ (Shadowbeak)",
+ "gait": "biped",
+ "palette": {
+  "sl": "#3e4350",
+  "sl2": "#575e6e",
+  "dk": "#262932",
+  "cy": "#4fe6ee",
+  "beak": "#1e2026",
+  "talon": "#8a8f9c",
+  "wing": "#323744"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    15,
+    17,
+    20
+   ],
+   "color": "sl",
+   "group": "body",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    6
+   ],
+   "size": [
+    12,
+    13,
+    9
+   ],
+   "color": "sl2",
+   "group": "body"
+  },
+  {
+   "name": "ring",
+   "shape": "cylinder",
+   "center": [
+    0,
+    17,
+    8
+   ],
+   "size": [
+    9,
+    1.2,
+    9
+   ],
+   "color": "cy",
+   "group": "body",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    6
+   ],
+   "size": [
+    7,
+    11,
+    7
+   ],
+   "color": "sl2",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    9
+   ],
+   "size": [
+    8,
+    8,
+    11
+   ],
+   "color": "sl",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    29,
+    16
+   ],
+   "size": [
+    4,
+    7,
+    3.5
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    31,
+    13
+   ],
+   "size": [
+    2,
+    2,
+    1.4
+   ],
+   "color": "cy",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest0",
+   "shape": "cone",
+   "center": [
+    0,
+    36,
+    6
+   ],
+   "size": [
+    2.8,
+    9,
+    2.8
+   ],
+   "color": "dk",
+   "group": "head",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest1",
+   "shape": "cone",
+   "center": [
+    0,
+    35,
+    3
+   ],
+   "size": [
+    2.8,
+    8,
+    2.8
+   ],
+   "color": "dk",
+   "group": "head",
+   "rot": [
+    -50,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest2",
+   "shape": "cone",
+   "center": [
+    0,
+    34,
+    0
+   ],
+   "size": [
+    2.8,
+    7,
+    2.8
+   ],
+   "color": "dk",
+   "group": "head",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "wing_a",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    25,
+    -3
+   ],
+   "size": [
+    16,
+    4,
+    14
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_b",
+   "shape": "ellipsoid",
+   "center": [
+    24,
+    31,
+    -4
+   ],
+   "size": [
+    16,
+    3,
+    11
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_t",
+   "shape": "ellipsoid",
+   "center": [
+    31,
+    35,
+    -5
+   ],
+   "size": [
+    9,
+    2.4,
+    7
+   ],
+   "color": "dk",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    34
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_ring",
+   "shape": "cylinder",
+   "center": [
+    15,
+    26,
+    -2
+   ],
+   "size": [
+    5,
+    1,
+    5
+   ],
+   "color": "cy",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    10,
+    -1
+   ],
+   "size": [
+    8,
+    12,
+    10
+   ],
+   "color": "sl",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "shin",
+   "shape": "cylinder",
+   "center": [
+    5,
+    5,
+    3
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "talon",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    5,
+    0.8,
+    5
+   ],
+   "size": [
+    5,
+    1.6,
+    8
+   ],
+   "color": "talon",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -14
+   ],
+   "size": [
+    8,
+    3,
+    14
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -22
+   ],
+   "size": [
+    6,
+    2.5,
+    10
+   ],
+   "color": "wing",
+   "group": "tail",
+   "rot": [
+    15,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Shadowbeak.png",
+   "note": "全身: スレート黒の大鳥、冠羽、翼を広げる、胸に水色の光る環"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Shadowbeak_bis.png",
+   "note": "ゲーム内: 翼の下面は濃紺灰、胸と翼に水色の環状紋"
+  },
+  {
+   "url": "Tools/.refcache/189/icon.png",
+   "note": "頭部: 黒灰の羽毛の冠、水色の目"
+  }
+ ]
+}

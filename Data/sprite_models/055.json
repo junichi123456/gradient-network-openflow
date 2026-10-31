@@ -1,0 +1,326 @@
+{
+ "name": "シャーキッド (Gobfin)",
+ "gait": "biped",
+ "palette": {
+  "body": "#2f6db3",
+  "body2": "#245a96",
+  "belly": "#e6eef5",
+  "mark": "#f2c53a",
+  "white": "#f6f6f6",
+  "dark": "#1d2a3e",
+  "fin": "#f0f4f8"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    22,
+    18,
+    17
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    5
+   ],
+   "size": [
+    14,
+    14,
+    9
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    4
+   ],
+   "size": [
+    25,
+    17,
+    17
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "fin",
+   "shape": "cone",
+   "center": [
+    0,
+    34,
+    0
+   ],
+   "size": [
+    10,
+    17,
+    8
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mark",
+   "shape": "box",
+   "center": [
+    3,
+    27.5,
+    12.2
+   ],
+   "size": [
+    5,
+    2.2,
+    1
+   ],
+   "color": "mark",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eyew",
+   "shape": "ellipsoid",
+   "center": [
+    6.3,
+    22.5,
+    12.2
+   ],
+   "size": [
+    8,
+    6.5,
+    3
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "lid",
+   "shape": "ellipsoid",
+   "center": [
+    6.3,
+    24.8,
+    12.9
+   ],
+   "size": [
+    8.4,
+    3,
+    3
+   ],
+   "color": "body2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "box",
+   "center": [
+    5.4,
+    22,
+    14.2
+   ],
+   "size": [
+    2.6,
+    3,
+    0.8
+   ],
+   "color": "dark",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "cheekfin",
+   "shape": "ellipsoid",
+   "center": [
+    12.5,
+    19,
+    3
+   ],
+   "size": [
+    3,
+    10,
+    10
+   ],
+   "color": "fin",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cheekspike",
+   "shape": "cone",
+   "center": [
+    13,
+    15,
+    4
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "fin",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -80
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    17,
+    12.6
+   ],
+   "size": [
+    8,
+    0.8,
+    1
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    12.5,
+    9,
+    5
+   ],
+   "size": [
+    6,
+    6,
+    9
+   ],
+   "color": "body2",
+   "group": "arm_r",
+   "rot": [
+    -30,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    6.5,
+    10
+   ],
+   "size": [
+    5,
+    4,
+    5
+   ],
+   "color": "body",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    2.5,
+    3
+   ],
+   "size": [
+    8,
+    5,
+    10
+   ],
+   "color": "body2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "toe",
+   "shape": "box",
+   "center": [
+    6,
+    0.8,
+    8
+   ],
+   "size": [
+    6,
+    1.6,
+    3
+   ],
+   "color": "belly",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    5,
+    -11
+   ],
+   "size": [
+    6,
+    10,
+    6
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Gobfin.png",
+   "note": "青い体・頭の大きな背びれ・黄色の稲妻状の模様・白い腹と頬びれ・つり目の白い目"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_SharkKid_icon_normal.png",
+   "note": "正面アップ: 目は白で上まぶたが青、頬の白いひれ"
+  }
+ ]
+}

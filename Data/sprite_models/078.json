@@ -1,0 +1,308 @@
+{
+ "name": "フォレーナ (Wixen)",
+ "gait": "biped",
+ "palette": {
+  "hat": "#b82a2a",
+  "hat2": "#8a1c20",
+  "shirt": "#f08a30",
+  "tuft": "#f2c830",
+  "tail": "#f0d8a0",
+  "tail2": "#f08a30",
+  "face": "#eceae6",
+  "eye": "#48b8e8",
+  "blk": "#2a2020",
+  "hair": "#8a1c20"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    0
+   ],
+   "size": [
+    12,
+    14,
+    10
+   ],
+   "color": "shirt",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    3
+   ],
+   "size": [
+    13,
+    11,
+    12
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    9
+   ],
+   "size": [
+    6,
+    5,
+    5
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    11.6
+   ],
+   "size": [
+    2,
+    1.6,
+    1.4
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    20,
+    9
+   ],
+   "size": [
+    3,
+    3.2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "earp",
+   "shape": "cone",
+   "center": [
+    8,
+    21,
+    2
+   ],
+   "size": [
+    4,
+    6,
+    3
+   ],
+   "color": "face",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -80
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "brim",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26.5,
+    1
+   ],
+   "size": [
+    27,
+    4.5,
+    25
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "brim2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27.5,
+    1
+   ],
+   "size": [
+    20,
+    3,
+    18
+   ],
+   "color": "hat2",
+   "group": "head"
+  },
+  {
+   "name": "crown",
+   "shape": "cone",
+   "center": [
+    0,
+    37,
+    -2
+   ],
+   "size": [
+    15,
+    15,
+    14
+   ],
+   "color": "hat",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tuft",
+   "shape": "cone",
+   "center": [
+    11,
+    28,
+    3
+   ],
+   "size": [
+    5,
+    9,
+    3
+   ],
+   "color": "tuft",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -70
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lock",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    15,
+    0
+   ],
+   "size": [
+    4.5,
+    15,
+    5
+   ],
+   "color": "hat2",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    6
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    9,
+    2
+   ],
+   "size": [
+    4,
+    9,
+    4
+   ],
+   "color": "shirt",
+   "group": "arm_r",
+   "rot": [
+    -20,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    2.5,
+    2
+   ],
+   "size": [
+    5,
+    5,
+    8
+   ],
+   "color": "tail",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -13
+   ],
+   "size": [
+    9,
+    10,
+    15
+   ],
+   "color": "tail",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -19
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "tail2",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_FoxMage_icon_normal.png",
+   "note": "正面: 大きな魔女帽子、水色の目、白い顔、帽子の両脇の黄(紫版は桃)の房、垂れる髪の束"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Wixen",
+   "note": "ゲーム内: 座り/立ち、帽子の先の炎、ふさふさの尾"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799256",
+   "note": "橙の首元、赤い帽子"
+  }
+ ]
+}

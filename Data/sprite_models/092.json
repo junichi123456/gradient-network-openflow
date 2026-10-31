@@ -1,0 +1,348 @@
+{
+ "name": "カミナラシ (Dazzi)",
+ "gait": "hover",
+ "palette": {
+  "cloud": "#e4eef8",
+  "cloud2": "#b8c8e4",
+  "skin": "#8a6cc0",
+  "face": "#8a6cc0",
+  "hair": "#cfdcee",
+  "teeth": "#ffffff",
+  "dark": "#2a2040",
+  "horn": "#7a50d0",
+  "collar": "#9a84d0"
+ },
+ "parts": [
+  {
+   "name": "cloud",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    0
+   ],
+   "size": [
+    20,
+    12,
+    18
+   ],
+   "color": "cloud",
+   "group": "body"
+  },
+  {
+   "name": "cloud2",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    10,
+    3
+   ],
+   "size": [
+    11,
+    11,
+    11
+   ],
+   "color": "cloud",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "cloud3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -8
+   ],
+   "size": [
+    14,
+    10,
+    10
+   ],
+   "color": "cloud",
+   "group": "body"
+  },
+  {
+   "name": "cloud4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    7
+   ],
+   "size": [
+    14,
+    8,
+    10
+   ],
+   "color": "cloud2",
+   "group": "body"
+  },
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    9,
+    11,
+    8
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "cylinder",
+   "center": [
+    0,
+    22,
+    0
+   ],
+   "size": [
+    7,
+    2,
+    6
+   ],
+   "color": "collar",
+   "group": "body"
+  },
+  {
+   "name": "hair_b",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    -4.5
+   ],
+   "size": [
+    17,
+    18,
+    10
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    3.5
+   ],
+   "size": [
+    15,
+    13,
+    12
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "bangs",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33.5,
+    2
+   ],
+   "size": [
+    15,
+    4,
+    8
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "bang_s",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    28,
+    2
+   ],
+   "size": [
+    4,
+    12,
+    8
+   ],
+   "color": "hair",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    23.5,
+    9.6
+   ],
+   "size": [
+    7,
+    2,
+    1.2
+   ],
+   "color": "teeth",
+   "group": "head"
+  },
+  {
+   "name": "mouth2",
+   "shape": "box",
+   "center": [
+    0,
+    24.8,
+    9.4
+   ],
+   "size": [
+    8,
+    0.8,
+    1
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    3.2,
+    28.3,
+    9.6
+   ],
+   "size": [
+    2.2,
+    0.8,
+    0.8
+   ],
+   "color": "dark",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    4.5,
+    37,
+    3
+   ],
+   "size": [
+    3.6,
+    6,
+    3.6
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ]
+  },
+  {
+   "name": "pony",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    36,
+    -8
+   ],
+   "size": [
+    9,
+    22,
+    9
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "pony_t",
+   "shape": "cone",
+   "center": [
+    11,
+    45,
+    -8
+   ],
+   "size": [
+    7,
+    14,
+    7
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -60
+   ]
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    18,
+    2
+   ],
+   "size": [
+    3.2,
+    8,
+    3.2
+   ],
+   "color": "skin",
+   "group": "arm_r",
+   "rot": [
+    -10,
+    0,
+    -10
+   ]
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    -5.5,
+    19,
+    3.5
+   ],
+   "size": [
+    3.2,
+    8,
+    3.2
+   ],
+   "color": "skin",
+   "group": "arm_l",
+   "rot": [
+    -60,
+    0,
+    10
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/092/icon.png",
+   "note": "頭部: 淡青白の髪と大きなポニーテール、紫の肌、歯を見せる笑顔、小さな紫の角、白青の雲"
+  },
+  {
+   "url": "https://paldb.cc/en/Dazzi",
+   "note": "種名確認(雷)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Dazzi",
+   "note": "全身画像無し: 雲に乗る少女として推定"
+  }
+ ],
+ "hover": 3
+}

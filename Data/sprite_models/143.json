@@ -1,0 +1,462 @@
+{
+ "name": "ニャニミテ",
+ "gait": "biped",
+ "palette": {
+  "lav": "#8a82ab",
+  "lav2": "#a49cc4",
+  "pk": "#b02c6c",
+  "pk2": "#d04888",
+  "dk": "#3a3248",
+  "blk": "#1e1a26",
+  "eye": "#d8c050",
+  "st": "#5a5078"
+ },
+ "parts": [
+  {
+   "name": "legu",
+   "shape": "ellipsoid",
+   "center": [
+    2.6,
+    15,
+    0
+   ],
+   "size": [
+    4.4,
+    18,
+    4.6
+   ],
+   "color": "dk",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legl",
+   "shape": "ellipsoid",
+   "center": [
+    2.6,
+    6,
+    0
+   ],
+   "size": [
+    4,
+    12,
+    4.2
+   ],
+   "color": "st",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    2.6,
+    1.6,
+    1.5
+   ],
+   "size": [
+    5,
+    3.4,
+    7
+   ],
+   "color": "blk",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "hips",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    0
+   ],
+   "size": [
+    10,
+    7,
+    8
+   ],
+   "color": "dk",
+   "group": "body"
+  },
+  {
+   "name": "dress",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    0
+   ],
+   "size": [
+    12,
+    8,
+    10
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    0
+   ],
+   "size": [
+    9,
+    10,
+    7
+   ],
+   "color": "dk",
+   "group": "body"
+  },
+  {
+   "name": "ruff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    1
+   ],
+   "size": [
+    15,
+    7,
+    10
+   ],
+   "color": "pk",
+   "group": "body"
+  },
+  {
+   "name": "ruff2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    3
+   ],
+   "size": [
+    11,
+    5,
+    7
+   ],
+   "color": "pk2",
+   "group": "body"
+  },
+  {
+   "name": "bib",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    4
+   ],
+   "size": [
+    6,
+    5,
+    3.5
+   ],
+   "color": "lav2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    2
+   ],
+   "size": [
+    12,
+    9,
+    11
+   ],
+   "color": "lav",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38.5,
+    7.5
+   ],
+   "size": [
+    6,
+    4.5,
+    5
+   ],
+   "color": "lav2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    40.2,
+    7
+   ],
+   "size": [
+    2.6,
+    2.2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "fringe",
+   "shape": "ellipsoid",
+   "center": [
+    -3,
+    43,
+    5
+   ],
+   "size": [
+    7,
+    6.5,
+    5
+   ],
+   "color": "pk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    15
+   ]
+  },
+  {
+   "name": "fringe2",
+   "shape": "ellipsoid",
+   "center": [
+    -5,
+    40.5,
+    5.5
+   ],
+   "size": [
+    3.5,
+    7,
+    4
+   ],
+   "color": "pk2",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    49,
+    -0.5
+   ],
+   "size": [
+    7,
+    11,
+    3
+   ],
+   "color": "lav",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earin",
+   "shape": "ellipsoid",
+   "center": [
+    4.9,
+    49,
+    0.6
+   ],
+   "size": [
+    3.6,
+    8,
+    1.2
+   ],
+   "color": "pk2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cs",
+   "shape": "ellipsoid",
+   "center": [
+    7.2,
+    39.5,
+    1.5
+   ],
+   "size": [
+    5,
+    3,
+    3
+   ],
+   "color": "lav",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cs2",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    37.5,
+    0
+   ],
+   "size": [
+    4.5,
+    2.6,
+    3
+   ],
+   "color": "lav2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    29,
+    2
+   ],
+   "size": [
+    3,
+    12,
+    3
+   ],
+   "color": "dk",
+   "group": "arm_r",
+   "rot": [
+    -20,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cuff",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    23.5,
+    5
+   ],
+   "size": [
+    6.5,
+    5.5,
+    6.5
+   ],
+   "color": "pk",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    20.5,
+    6
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "lav2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -8
+   ],
+   "size": [
+    5.5,
+    6,
+    10
+   ],
+   "color": "lav",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -14
+   ],
+   "size": [
+    5.5,
+    6,
+    8
+   ],
+   "color": "st",
+   "group": "tail"
+  },
+  {
+   "name": "tail3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    -16
+   ],
+   "size": [
+    6,
+    6,
+    8
+   ],
+   "color": "lav",
+   "group": "tail"
+  },
+  {
+   "name": "tailt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    -16
+   ],
+   "size": [
+    7,
+    6,
+    8
+   ],
+   "color": "pk",
+   "group": "tail"
+  }
+ ]
+}

@@ -1,0 +1,271 @@
+{
+ "name": "ブシガエル",
+ "gait": "biped",
+ "palette": {
+  "green": "#6fb534",
+  "belly": "#cfc25a",
+  "robe": "#a9a9a2",
+  "robesh": "#8d8d86",
+  "belt": "#1f1f1f",
+  "white": "#e8e8e4",
+  "lid": "#4f8a22",
+  "stick": "#5a3f2a",
+  "leaf": "#7ab83a",
+  "blade": "#6c7378",
+  "hilt": "#2a2a2a"
+ },
+ "parts": [
+  {
+   "name": "robe",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    32.0,
+    26,
+    28.0
+   ],
+   "color": "robe",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    0.5
+   ],
+   "size": [
+    28.5,
+    19,
+    25.0
+   ],
+   "color": "green",
+   "group": "head"
+  },
+  {
+   "name": "bump",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    31,
+    0
+   ],
+   "size": [
+    8,
+    4,
+    8
+   ],
+   "color": "green",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "throat",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    9.5
+   ],
+   "size": [
+    14.0,
+    9,
+    9
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "lapel",
+   "shape": "wedge",
+   "center": [
+    7.0,
+    15,
+    11.5
+   ],
+   "size": [
+    7,
+    11,
+    3
+   ],
+   "color": "robesh",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    24
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "belt",
+   "shape": "cylinder",
+   "center": [
+    0,
+    5.5,
+    0
+   ],
+   "size": [
+    28.0,
+    2.8,
+    24.5
+   ],
+   "color": "belt",
+   "group": "body"
+  },
+  {
+   "name": "knot",
+   "shape": "box",
+   "center": [
+    0,
+    5.5,
+    12.0
+   ],
+   "size": [
+    4,
+    3,
+    1.5
+   ],
+   "color": "belt",
+   "group": "body"
+  },
+  {
+   "name": "eye_w",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    24,
+    10.0
+   ],
+   "size": [
+    7.5,
+    6.5,
+    4
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "lid",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    25.2,
+    11.3
+   ],
+   "size": [
+    7.9,
+    3.2,
+    3.4
+   ],
+   "color": "lid",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "box",
+   "center": [
+    8.5,
+    24.2,
+    12.9
+   ],
+   "size": [
+    3.2,
+    0.7,
+    0.8
+   ],
+   "color": "belt",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    15.5,
+    14,
+    3
+   ],
+   "size": [
+    6.5,
+    11,
+    7
+   ],
+   "color": "green",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    2,
+    4
+   ],
+   "size": [
+    10.5,
+    4,
+    12
+   ],
+   "color": "green",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "stick",
+   "shape": "cylinder",
+   "center": [
+    -19,
+    10,
+    6
+   ],
+   "size": [
+    2.2,
+    17,
+    2.2
+   ],
+   "color": "stick",
+   "group": "arm_l",
+   "rot": [
+    60,
+    0,
+    35
+   ]
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    -23,
+    17.5,
+    9
+   ],
+   "size": [
+    3,
+    4,
+    2
+   ],
+   "color": "leaf",
+   "group": "arm_l"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/009",
+   "note": "game screenshots: egg body, grey robe, black belt low, green dome head, yellow throat, half-closed eyes"
+  }
+ ]
+}

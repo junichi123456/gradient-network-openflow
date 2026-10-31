@@ -1,0 +1,460 @@
+{
+ "name": "チルテト (Mau Cryst)",
+ "gait": "quad",
+ "palette": {
+  "fur": "#b9d6dc",
+  "fur2": "#d8eaee",
+  "gold": "#2e3e94",
+  "eye": "#f0dc20",
+  "dark": "#26306a",
+  "bg": "#d6ecf6",
+  "gem": "#8fdcf2"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    9,
+    8.5,
+    16
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    1
+   ],
+   "size": [
+    7,
+    6,
+    13
+   ],
+   "color": "fur2",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    6
+   ],
+   "size": [
+    10,
+    5,
+    8
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "collarh",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    9.6
+   ],
+   "size": [
+    2.4,
+    2.4,
+    1
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    9
+   ],
+   "size": [
+    10,
+    9,
+    9.5
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.6,
+    13.5
+   ],
+   "size": [
+    4.4,
+    3.4,
+    3.6
+   ],
+   "color": "fur2",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21.4,
+    15.4
+   ],
+   "size": [
+    1.4,
+    1,
+    1
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    22.8,
+    13.4
+   ],
+   "size": [
+    2.8,
+    2.6,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mark",
+   "shape": "box",
+   "center": [
+    4.4,
+    24.6,
+    13
+   ],
+   "size": [
+    1.8,
+    0.8,
+    0.8
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    3.8,
+    29.5,
+    8
+   ],
+   "size": [
+    5,
+    8,
+    3.4
+   ],
+   "color": "fur",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earst",
+   "shape": "box",
+   "center": [
+    3.9,
+    30.5,
+    8
+   ],
+   "size": [
+    3.2,
+    1.1,
+    2.6
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earst2",
+   "shape": "box",
+   "center": [
+    3.7,
+    28,
+    8
+   ],
+   "size": [
+    3.8,
+    1.1,
+    2.8
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    3,
+    6.5,
+    5.5
+   ],
+   "size": [
+    2.8,
+    13,
+    2.8
+   ],
+   "color": "fur",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "band",
+   "shape": "cylinder",
+   "center": [
+    3,
+    3.6,
+    5.5
+   ],
+   "size": [
+    3.2,
+    1.6,
+    3.2
+   ],
+   "color": "gold",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "paw",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    0.9,
+    6.4
+   ],
+   "size": [
+    3.4,
+    1.8,
+    4.6
+   ],
+   "color": "fur",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    3,
+    6.5,
+    -5.5
+   ],
+   "size": [
+    2.8,
+    13,
+    2.8
+   ],
+   "color": "fur",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "bandb",
+   "shape": "cylinder",
+   "center": [
+    3,
+    3.6,
+    -5.5
+   ],
+   "size": [
+    3.2,
+    1.6,
+    3.2
+   ],
+   "color": "gold",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "pawb",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    0.9,
+    -4.6
+   ],
+   "size": [
+    3.4,
+    1.8,
+    4.6
+   ],
+   "color": "fur",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -10
+   ],
+   "size": [
+    2.8,
+    2.8,
+    9
+   ],
+   "color": "fur",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -14
+   ],
+   "size": [
+    2.8,
+    9,
+    2.8
+   ],
+   "color": "fur",
+   "group": "tail"
+  },
+  {
+   "name": "tailst",
+   "shape": "cylinder",
+   "center": [
+    0,
+    25,
+    -14
+   ],
+   "size": [
+    3.2,
+    1.2,
+    3.2
+   ],
+   "color": "gold",
+   "group": "tail"
+  },
+  {
+   "name": "ring",
+   "shape": "cylinder",
+   "center": [
+    0,
+    31,
+    -14
+   ],
+   "size": [
+    7.5,
+    1.6,
+    7.5
+   ],
+   "color": "gold",
+   "group": "tail",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ringin",
+   "shape": "cylinder",
+   "center": [
+    0,
+    31,
+    -14
+   ],
+   "size": [
+    3.4,
+    2,
+    3.4
+   ],
+   "color": "bg",
+   "group": "tail",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "gem",
+   "shape": "box",
+   "center": [
+    0,
+    26.4,
+    12.2
+   ],
+   "size": [
+    3.6,
+    4.2,
+    1
+   ],
+   "color": "gem",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    45
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Mau_Cryst.png",
+   "note": "氷版: 水色〜白の体、濃青の縞、黄色い目、額と首輪に氷の結晶、尾の先は氷の輪"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Mau.png",
+   "note": "基種との差: 黒緑→水白、金縞→紺縞、緑目→黄目、額に氷晶"
+  }
+ ]
+}
