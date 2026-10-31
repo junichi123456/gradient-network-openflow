@@ -35,10 +35,10 @@ public static class DungeonDestinations
         var hub = HubUpgradeManager.Instance;
         if (db == null || hub == null || hub.Story.Protagonist == "") return Fallback();
         var flow = new StoryFlow(db, hub.Story, new EventInterpreter(db, hub.Story, null));
-        return flow.AvailableDungeons().Select(d => From(db, d)).ToList();
+        return flow.AvailableDungeons().Select(d => From(db, d, hub.Story)).ToList();
     }
 
-    public static DungeonDestination From(StoryDatabase db, DungeonDef d)
+    public static DungeonDestination From(StoryDatabase db, DungeonDef d, StoryState st = null)
     {
         var endType = Enum.Parse<DungeonEndType>(d.EndType);
         string tag = endType switch
@@ -52,11 +52,11 @@ public static class DungeonDestinations
             Id = d.Id,
             DisplayName = $"{d.Name} (全{d.Floors}階層・{tag})",
             DungeonRuleId = d.RuleId,
-            Config = ConfigFor(db, d),
+            Config = ConfigFor(db, d, st),
         };
     }
 
-    public static DungeonConfig ConfigFor(StoryDatabase db, DungeonDef d)
+    public static DungeonConfig ConfigFor(StoryDatabase db, DungeonDef d, StoryState st = null)
     {
         int bossLv = db.BossLevelFor(d);
         return new DungeonConfig
@@ -67,6 +67,8 @@ public static class DungeonDestinations
             Boss = d.Boss == null ? null : Spec(d.Boss, bossLv),
             WildPool = db.WildPool(d.Id),
             WildLevel = Math.Max(2, bossLv + db.LevelCurve.WildOffset),
+            // 戦闘後共闘: ボスを倒した直後の次のダンジョンだけ、仲間が同行する。
+            CoopGuests = st != null && st.CoopDungeon == d.Id && st.CoopSpecies != "" ? new List<string> { st.CoopSpecies } : new(),
         };
     }
 

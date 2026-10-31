@@ -1,4 +1,5 @@
 using Godot;
+using System.Linq;
 using System.Threading.Tasks;
 using MysteryDungeon.Species;
 using MysteryDungeon.Story;
@@ -17,6 +18,12 @@ public partial class HubScene : Node2D
     [Export] public NodePath DungeonPortalPath { get; set; }
     [Export] public NodePath PartySetupUIPath { get; set; }
     [Export] public NodePath DungeonSelectUIPath { get; set; }
+
+    private StoryFlow _flow;
+    private StoryDialogueUI _storyUi;
+    private HubPlayer _hubPlayer;
+    private bool _menuBusy;
+    private int _residentNpcs;
 
     public override void _Ready()
     {
@@ -96,7 +103,13 @@ public partial class HubScene : Node2D
             PrimaryType = id => SpeciesDatabase.Instance.Get(id)?.Types[0].ToString() ?? "",
         };
         it.Callbacks.GiveItem = hub.GrantItem;
-        var flow = new StoryFlow(db, hub.Story, it);
+        var flow = new StoryFlow(db, hub.Story, it)
+        {
+            SpeciesName = it.SpeciesName,
+            // 勧誘成功: 既存のロスター（PartyManager）へ加える。
+            OnRecruit = id => { if (!hub.PartyManager.RecruitedRoster.Contains(id)) hub.PartyManager.AddToRoster(id); },
+        };
+        _flow = flow; _storyUi = ui; _hubPlayer = player;
         if (hub.PendingResult != null)
         {
             var result = hub.PendingResult;
@@ -107,15 +120,45 @@ public partial class HubScene : Node2D
         ui.Close();
         hub.Save();
         player.InputEnabled = true;
+        ShowRecruitedResidents(hub);
 
         string fight = flow.TakePendingFight();
         if (fight != null) EnterScenarioFight(db, hub, fight);
     }
 
+    // M キー: ハコニワのメニュー（思い出／住民と話す）。会話窓の選択肢で開く。
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event is InputEventKey { Pressed: true, Echo: false, Keycode: Key.M } && _flow != null && !_menuBusy && _hubPlayer.InputEnabled)
+            _ = OpenStoryMenu();
+    }
+
+    private async Task OpenStoryMenu()
+    {
+        _menuBusy = true; _hubPlayer.InputEnabled = false;
+        try { await _flow.RunHubMenu(); }
+        finally
+        {
+            _storyUi.Close();
+            HubUpgradeManager.Instance?.Save();
+            _hubPlayer.InputEnabled = true; _menuBusy = false;
+        }
+    }
+
+    // 仲間になった伝説・ボスパルは、ハコニワの住民として現れる。
+    private void ShowRecruitedResidents(HubUpgradeManager hub)
+    {
+        foreach (var _ in hub.Story.RecruitedPals.OrderBy(x => x, System.StringComparer.Ordinal).Skip(_residentNpcs))
+        {
+            AddChild(new HubPalNpc { RequiredLevel = 1, DebugColor = Colors.Gold, Position = new Vector2(260 + 36 * _residentNpcs, 430) });
+            _residentNpcs++;
+        }
+    }
+
     // start_scenario_fight: 隠しダンジョン（ヘルガルダ戦・世界樹の根もと）へ直行する。
     private void EnterScenarioFight(StoryDatabase db, HubUpgradeManager hub, string dungeonId)
     {
-        var dest = DungeonDestinations.From(db, db.Dungeon(dungeonId));
+        var dest = DungeonDestinations.From(db, db.Dungeon(dungeonId), hub.Story);
         hub.PendingDungeonConfig = dest.Config;
         hub.PendingDungeonId = dest.DungeonRuleId;
         GetTree().ChangeSceneToFile("res://Scenes/DungeonScene.tscn");

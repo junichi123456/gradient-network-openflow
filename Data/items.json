@@ -201,5 +201,12 @@
     "battle_effect": "ImmuneWideRange",
     "consumed_on_trigger": false,
     "description": "全体攻撃技(room、area)の攻撃を受けない。"
+  },
+  {
+    "id": "mysterious_shard",
+    "name": "不思議なかけら",
+    "type": "Material",
+    "effect_target": "None",
+    "effect_value": 0
   }
 ]

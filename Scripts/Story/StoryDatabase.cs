@@ -140,6 +140,13 @@ public class StoryDatabase
             if (!ruleExists(d.RuleId)) e.Add($"dungeon {d.Id}: rule_id '{d.RuleId}' が Data/dungeons.json に無い");
             if (!Enum.TryParse<DungeonEndType>(d.EndType, out _)) e.Add($"dungeon {d.Id}: end_type '{d.EndType}' が不正");
             if (d.Floors < 1) e.Add($"dungeon {d.Id}: floors が不正");
+            foreach (var rc in d.RequiresCleared)
+                if (Dungeon(rc) == null || rc == d.Id) e.Add($"dungeon {d.Id}: requires_cleared '{rc}' が不正");
+            if (d.Boss?.PostBattle is { } pb)
+            {
+                if (Character(pb.CoopCharacter) == null) e.Add($"dungeon {d.Id}: post_battle.coop_character '{pb.CoopCharacter}' が無い");
+                if (Dungeon(pb.CoopDungeon) == null) e.Add($"dungeon {d.Id}: post_battle.coop_dungeon '{pb.CoopDungeon}' が無い");
+            }
             if (d.Boss != null && !speciesExists(d.Boss.SpeciesId)) e.Add($"dungeon {d.Id}: boss 種族 '{d.Boss.SpeciesId}' が無い");
             if (d.Boss != null) foreach (var g in d.Boss.Group)
                 if (!speciesExists(g.SpeciesId)) e.Add($"dungeon {d.Id}: group 種族 '{g.SpeciesId}' が無い");

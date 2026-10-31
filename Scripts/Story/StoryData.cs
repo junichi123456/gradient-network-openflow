@@ -49,6 +49,15 @@ public class BossSpecDef
     [JsonPropertyName("defeat_ok")] public bool DefeatOk { get; set; }
     // 2体ボス・群れ戦の追加メンバー（主ボスに加えて同時に出す）。
     [JsonPropertyName("group")] public List<BossSpecDef> Group { get; set; } = new();
+    // 撃破後の処理（戦闘後共闘など）。
+    [JsonPropertyName("post_battle")] public PostBattleDef PostBattle { get; set; }
+}
+
+// ボス撃破後の共闘: coop_character（characters.json の id）が仲間として、coop_dungeon の間だけ同行する。
+public class PostBattleDef
+{
+    [JsonPropertyName("coop_character")] public string CoopCharacter { get; set; } = "";
+    [JsonPropertyName("coop_dungeon")] public string CoopDungeon { get; set; } = "";
 }
 
 public class LevelCurveDef
@@ -94,6 +103,8 @@ public class DungeonDef
     [JsonPropertyName("post_clear")] public bool PostClear { get; set; }
     // 野生種を出さない（枠だけの追加ダンジョン等）。
     [JsonPropertyName("no_wild")] public bool NoWild { get; set; }
+    // このダンジョンを選べるようになる条件: ここに挙げたダンジョンをすべてクリア済み（解放済みに加えて）。
+    [JsonPropertyName("requires_cleared")] public List<string> RequiresCleared { get; set; } = new();
 }
 
 public class CharacterDef

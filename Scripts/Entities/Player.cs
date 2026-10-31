@@ -79,6 +79,7 @@ public partial class Player : Entity
     }
 
     public void DisableInput() => _inputDisabled = true;
+    public void EnableInput() { if (IsAlive) _inputDisabled = false; }
 
     // NPCs get removed from the scene on death (see Entity.Die()); the
     // player stays on screen (no title-screen flow yet) and instead

@@ -39,7 +39,7 @@ Sonnet の報告を信用せず、必ず自分で確かめる。
 
 ```sh
 dotnet build MysteryDungeonRoguelike.csproj      # コンパイルエラーを先に出す
-godot --headless --path . Scenes/BattleTestScene.tscn  # 回帰スイート（現在188項目）
+godot --headless --path . Scenes/BattleTestScene.tscn  # 回帰スイート（現在237項目）
 git diff                                          # 仕様書と差分を突き合わせる
 ```
 
@@ -166,3 +166,9 @@ URL を保つ。
 
 実験の設計と結果は `docs/design/pvp_spec.md` に節を足して記録する
 （現在 §35 まで）。仕様書の草案は `docs/design/drafts/` に置く。
+
+### シナリオ（Data/story/）
+
+仕様書 `docs/design/drafts/2026-10-31-scenario-implementation.md`（一次資料は `docs/design/scenario/`）。進行は `Scripts/Story/`
+（`StoryState`/`StoryFlow`/`EventInterpreter`/`SaveService`）、会話は `Data/story/events/*.json`（イベントID `cNN_eMM_slug`）。
+`Tools/verify_story.py`・`verify_pal_plan.py` で検証。チャートのイベント一覧は `Tools/sync_chart_events.py` で同期。

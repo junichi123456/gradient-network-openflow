@@ -284,7 +284,10 @@
           "defeat_ok": false
         }
       ]
-    }
+    },
+    "requires_cleared": [
+      "d16_c12"
+    ]
   },
   {
     "id": "d18_c13",
@@ -298,7 +301,11 @@
       "level": 40,
       "hp_mult": 1.0,
       "atk_mult": 1.0,
-      "defeat_ok": false
+      "defeat_ok": false,
+      "post_battle": {
+        "coop_character": "suzaku",
+        "coop_dungeon": "d19_c13"
+      }
     }
   },
   {
@@ -314,7 +321,10 @@
       "hp_mult": 1.0,
       "atk_mult": 1.0,
       "defeat_ok": false
-    }
+    },
+    "requires_cleared": [
+      "d18_c13"
+    ]
   },
   {
     "id": "d20_c14",
@@ -344,7 +354,10 @@
       "hp_mult": 1.0,
       "atk_mult": 1.0,
       "defeat_ok": false
-    }
+    },
+    "requires_cleared": [
+      "d20_c14"
+    ]
   },
   {
     "id": "d22_c15",
@@ -374,7 +387,10 @@
       "hp_mult": 1.0,
       "atk_mult": 1.0,
       "defeat_ok": false
-    }
+    },
+    "requires_cleared": [
+      "d22_c15"
+    ]
   },
   {
     "id": "d24_c16",
@@ -404,7 +420,10 @@
       "hp_mult": 1.0,
       "atk_mult": 1.0,
       "defeat_ok": false
-    }
+    },
+    "requires_cleared": [
+      "d24_c16"
+    ]
   },
   {
     "id": "d26_c17",
@@ -464,7 +483,10 @@
       "hp_mult": 1.0,
       "atk_mult": 1.0,
       "defeat_ok": false
-    }
+    },
+    "requires_cleared": [
+      "d28_c19"
+    ]
   },
   {
     "id": "d30_c20",
@@ -698,8 +720,73 @@
     "name": "追加枠43（再挑戦回廊）",
     "floors": 10,
     "rule_id": "x_extra",
-    "end_type": "FreeDungeonNoBossFinalFloor",
+    "end_type": "StoryMultiEnemyBattle",
     "post_clear": true,
-    "no_wild": true
+    "no_wild": true,
+    "boss": {
+      "species_id": "192",
+      "level": 0,
+      "hp_mult": 0.35,
+      "atk_mult": 0.6,
+      "defeat_ok": false,
+      "group": [
+        {
+          "species_id": "145",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "146",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "189",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "191",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "195",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "195B",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "196",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        },
+        {
+          "species_id": "197",
+          "level": 0,
+          "hp_mult": 0.35,
+          "atk_mult": 0.6,
+          "defeat_ok": false
+        }
+      ]
+    }
   }
 ]

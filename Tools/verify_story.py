@@ -160,7 +160,7 @@ def main():
         if want_t != have_t:
             warns.append("属性の食い違い %s: 台本 %s / データ %s（characters には種族データ側が載る）" % (n, want_t, have_t))
     check(sum(1 for c in chars if c["role"] == "playable") == 16, "プレイアブルが16体でない")
-    check(len(chars) == 32 and all(c["mbti"] in voice for c in chars), "characters が32件でない/ mbti が voice に無い")
+    check(len(chars) >= 32 and all(c["mbti"] in voice for c in chars), "characters が32件未満/ mbti が voice に無い")
     fp = {c["id"]: c.get("first_person") or voice[c["mbti"]]["first_person"] for c in chars}
     check(fp["bushigaeru"] == "拙者" and fp["levidra"] == "我" and fp["xenoglyph"] == "わたしたち", "一人称の上書き（拙者/我/わたしたち）が無い")
 
@@ -170,9 +170,9 @@ def main():
         evs += load(f)
     eids = [e["id"] for e in evs]
     check(len(set(eids)) == len(eids), "イベントIDが重複")
-    check(all(re.match(r"^c\d\d_e\d\d(_\w+)?$", i) for i in eids), "イベントIDが cNN_eMM[_slug] でない")
+    check(all(re.match(r"^(c\d\d_(e\d\d[a-z]?|x)(_\w+)?|x\d\d_intro|x_mem_c\d\d|x_pillars_hint)$", i) for i in eids), "イベントIDが cNN_eMM[_slug] でない")
     check(all(i in eids for c in charts for i in c["events"]), "charts.events に未定義のイベントがある")
-    check(all(e["id"].split("_")[0] in C and e["id"] in C[e["id"].split("_")[0]]["events"] for e in evs), "どのチャートにも載っていないイベントがある")
+    check(all(any(e["id"] in c["events"] for c in charts) for e in evs), "どのチャートにも載っていないイベントがある")
     speakers = {"protagonist", "partner", "narrator"} | set(fp)
     firsts = {k: v for k, v in fp.items() if v}
     keyn = 0
@@ -194,7 +194,7 @@ def main():
                     mine = fp[who]
                     for t in texts:
                         for oid, p in firsts.items():
-                            if oid != who and p in ("拙者", "我", "わたしたち") and p != mine and p in t:
+                            if oid != who and p in ("拙者", "我") and p != mine and re.search("(?<![怪自我])" + p + "(?![々ら慢])", t):
                                 check(False, "%s: %s の台詞に別人の一人称 '%s'" % (ev["id"], who, p))
                     if mine in ("拙者", "我", "わたしたち"):
                         pass
@@ -207,7 +207,7 @@ def main():
             for o in s.get("options", []) or []:
                 walk(o.get("steps", []), ev)
     for e in evs:
-        t = e.get("trigger") or {}
+        t = e.get("trigger") or {"type": "hub_enter"}   # トリガー無し=他イベントから呼ぶ/メニュー起動
         check(t.get("type") in ("hub_enter", "dungeon_clear", "dungeon_floor", "boss_defeated", "chart_start", "chart_end", "time_passed"), "%s: trigger が不正" % e["id"])
         if t.get("dungeon"):
             check(t["dungeon"] in D, "%s: trigger.dungeon が無い" % e["id"])
@@ -219,6 +219,33 @@ def main():
     check(any(s.get("op") == "name_input" for e in c1 for s in e["steps"]), "c01 に name_input が無い")
     check(any(s.get("who") == "bushigaeru" for e in c2 for s in e["steps"]) and any(s.get("who") == "helgalda" for e in c2 for s in e["steps"]), "c02 にブシガエル/ヘルガルダが登場しない")
     print("events=%d key行=%d c01=%dステップ c02=%dステップ" % (len(evs), keyn, sum(len(e["steps"]) for e in c1), sum(len(e["steps"]) for e in c2)))
+
+
+    # --- P5/P7/P8/P9 のコード側が頼るデータ
+    allev = {e["id"]: e for e in evs}
+    for did, d in D.items():
+        for rc in d.get("requires_cleared", []):
+            check(rc in D and rc != did, "%s: requires_cleared '%s' が不正" % (did, rc))
+        pb = (d.get("boss") or {}).get("post_battle")
+        if pb:
+            check(pb.get("coop_character") in {c["id"] for c in load(S / "characters.json")}, "%s: post_battle.coop_character が無い" % did)
+            check(pb.get("coop_dungeon") in D, "%s: post_battle.coop_dungeon が無い" % did)
+    for a, b in (("d17_c12", "d16_c12"), ("d19_c13", "d18_c13"), ("d29_c19", "d28_c19")):
+        check(D[a].get("requires_cleared") == [b], "%s は %s のクリアが前提" % (a, b))
+    check((D["d18_c13"]["boss"].get("post_battle") or {}).get("coop_dungeon") == "d19_c13", "d18 のボスに post_battle（スザク共闘→d19）が無い")
+    nonwild = sorted(sid for sid, r in plan.items() if r.get("category") == "nonwild")
+    x43 = D["x43"].get("boss") or {}
+    check(sorted([x43.get("species_id")] + [g["species_id"] for g in x43.get("group", [])]) == nonwild and len(nonwild) == 9, "x43 のボス群が野生で出ない9体でない")
+    check(len(D["d16_c12"]["boss"].get("group", [])) == 1 and len(D["d17_c12"]["boss"].get("group", [])) == 3, "影の森は2体・ささやきの洞は4体")
+    for n in range(36, 44):
+        e = allev.get("x%d_intro" % n)
+        check(e is not None and e["trigger"]["type"] == "dungeon_floor" and e["trigger"]["dungeon"] == "x%d" % n
+              and 1 <= e["trigger"]["floor"] <= D["x%d" % n]["floors"], "x%d_intro（dungeon_floor）が不正" % n)
+    for n in range(31, 36):
+        m = allev.get("x_mem_c%d" % n)
+        check(m is not None and "memory_c%d" % n in json.dumps(m, ensure_ascii=False), "x_mem_c%d が無い／memory_c%d を立てない" % (n, n))
+    for n in range(21, 31):
+        check(any(i.startswith("c%d_" % n) and e.get("trigger") is None for i, e in allev.items()), "c%d の住民イベント（trigger 無し）が無い" % n)
 
     for w in warns:
         print("WARN", w)

@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 using MysteryDungeon.Grid;
 using MysteryDungeon.Turn;
 using MysteryDungeon.Entities;
@@ -46,6 +47,7 @@ public partial class FloorController : Node2D
     public bool DefeatedByBoss => _defeatedByBoss;
     public DungeonConfig Config => _config;
     public IReadOnlyList<BossEntity> Bosses => _bosses;
+    public IReadOnlyList<AllyEntity> Allies => _spawnedAllies;
     public IEnumerable<Entity> SpawnedEnemyList => _spawnedEnemies;
     // ヘッドレス検証: パーティ全滅の判定（負けても進行するボス戦ならクリア扱いに切り替わる）。
     public bool ResolvePlayerDefeat() => CheckPlayerDeath();
@@ -561,10 +563,52 @@ public partial class FloorController : Node2D
         if (_floorNumber >= _config.MaxFloors)
         {
             GenerateFinalFloor();
+            NotifyFloorReached();
             return;
         }
 
         GenerateNormalFloor();
+        NotifyFloorReached();
+    }
+
+    // ---- 階到達イベント（dungeon_floor トリガー） ----
+
+    // ヘッドレス検証用: 設定すると、物語ダンジョンで階に着くたびに (ダンジョンID, 階) で呼ばれる。
+    // null のときは既定（StoryDatabase + 会話UIで該当イベントを実際に流す。SuppressSceneChange 中は何もしない）。
+    public static System.Func<string, int, System.Threading.Tasks.Task> FloorReachedHook { get; set; }
+
+    private async void NotifyFloorReached()
+    {
+        if (_config.StoryDungeonId == "") return;
+        string dungeonId = _config.StoryDungeonId;
+        int floor = _floorNumber;
+        var hook = FloorReachedHook;
+        Story.StoryDialogueUI ui = null;
+        if (hook == null)
+        {
+            var db = Story.StoryDatabase.Instance; var hub = HubUpgradeManager.Instance;
+            if (SuppressSceneChange || db == null || hub == null) return;
+            var probe = new Story.StoryFlow(db, hub.Story, new Story.EventInterpreter(db, hub.Story, null));
+            if (!probe.FloorEventsPending(dungeonId, floor)) return;
+            ui = new Story.StoryDialogueUI();
+            AddChild(ui);
+            var it = new Story.EventInterpreter(db, hub.Story, ui)
+            {
+                SpeciesName = id => Species.SpeciesDatabase.Instance.Get(id)?.DisplayName ?? id,
+                PrimaryType = id => Species.SpeciesDatabase.Instance.Get(id)?.Types[0].ToString() ?? "",
+            };
+            it.Callbacks.GiveItem = hub.GrantItem;
+            var flow = new Story.StoryFlow(db, hub.Story, it);
+            hook = (d, f) => flow.OnFloorReached(d, f);
+        }
+        _player.DisableInput();
+        try { await hook(dungeonId, floor); }
+        catch (System.Exception e) { GD.PushError($"[Dungeon] 階到達イベントが失敗: {e.Message}"); }
+        finally
+        {
+            if (ui != null && GodotObject.IsInstanceValid(ui)) ui.Close();
+            if (GodotObject.IsInstanceValid(_player) && !_isGameCleared) _player.EnableInput();
+        }
     }
 
     private void GenerateNormalFloor(bool finalPortal = false)
@@ -1156,7 +1200,8 @@ public partial class FloorController : Node2D
         Entity previous = _player;
         int memberId = 0;
 
-        foreach (var speciesId in ActivePartyManager.AllMemberSpeciesIds())
+        // 戦闘後共闘の同行者は、通常の編成の後ろに付く（このダンジョンだけ）。
+        foreach (var speciesId in ActivePartyManager.AllMemberSpeciesIds().Concat(_config.CoopGuests))
         {
             int id = memberId++;
             _partyState.EnsureRecord(id, speciesId);

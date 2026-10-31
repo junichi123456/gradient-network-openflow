@@ -255,7 +255,7 @@
     "mbti": "ENTP",
     "first_chart": "c12",
     "role": "かけらを集める魔女",
-    "first_person": "",
+    "first_person": "あたし",
     "resident_from": "",
     "speech_style": "「〜じゃね？」"
   },
@@ -266,7 +266,7 @@
     "mbti": "ISTP",
     "first_chart": "c12",
     "role": "影の斥候",
-    "first_person": "",
+    "first_person": "おれ",
     "resident_from": "",
     "speech_style": "単語に近い短文"
   },
@@ -302,5 +302,71 @@
     "first_person": "わたしたち",
     "resident_from": "",
     "speech_style": "一人称は「わたしたち」"
+  },
+  {
+    "id": "hyougaou",
+    "species_id": "191",
+    "display_name": "ヒョウガオー",
+    "mbti": "ESTJ",
+    "first_chart": "c17",
+    "role": "氷の守り手（分裂の峠のボス）",
+    "first_person": "おれ",
+    "resident_from": "",
+    "speech_style": "「〜だ」「〜ぬ」と古風で断定"
+  },
+  {
+    "id": "granjila",
+    "species_id": "203",
+    "display_name": "グランジーラ",
+    "mbti": "INFJ",
+    "first_chart": "c16",
+    "role": "世界を根から支える者（世界樹の主）",
+    "first_person": "わたし",
+    "resident_from": "",
+    "speech_style": "丁寧で静か。「〜ですね」「〜なさい」"
+  },
+  {
+    "id": "seintor",
+    "species_id": "198",
+    "display_name": "セイントール",
+    "mbti": "INTJ",
+    "first_chart": "c14",
+    "role": "乱れた世界樹の守護者（伝説）",
+    "first_person": "私",
+    "resident_from": "",
+    "speech_style": "短く断定。「〜た」「〜よう」"
+  },
+  {
+    "id": "xenodoran",
+    "species_id": "196",
+    "display_name": "ゼノドラン",
+    "mbti": "INTJ",
+    "first_chart": "c14",
+    "role": "黒い竜、ほどく者（伝説）",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "言葉を発さない。意思は視線とゼノグリフの通訳で伝わる"
+  },
+  {
+    "id": "soireine",
+    "species_id": "116B",
+    "display_name": "ソワレーヌ",
+    "mbti": "ISFJ",
+    "first_chart": "c11",
+    "role": "かけらの回廊の最奥に立つ者",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "物静か。台詞なし"
+  },
+  {
+    "id": "raizo",
+    "species_id": "102B",
+    "display_name": "ライゾー",
+    "mbti": "ENFP",
+    "first_chart": "c10",
+    "role": "雷をまとった獣（祭りの音に怯えた）",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "台詞なし"
   }
 ]

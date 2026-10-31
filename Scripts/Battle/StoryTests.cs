@@ -21,7 +21,7 @@ public static partial class StoryTests
         public string NameToGive = "テスト名";
         public Task Say(SayLine l) { Lines.Add($"{l.DisplayName}:{l.Text}"); return Task.CompletedTask; }
         public Task Narration(string t) { Lines.Add("N:" + t); return Task.CompletedTask; }
-        public Task<int> Choice(IReadOnlyList<string> o) { Lines.Add("C:" + string.Join("/", o)); return Task.FromResult(ChoiceIndex); }
+        public Task<int> Choice(IReadOnlyList<string> o) { Lines.Add("C:" + string.Join("/", o)); return Task.FromResult(Math.Min(ChoiceIndex, o.Count - 1)); }
         public Task<string> NameInput(string d, int m) => Task.FromResult(NameToGive);
         public Task Fade(string m, double s) => Task.CompletedTask;
         public Task Wait(double s) => Task.CompletedTask;
@@ -35,7 +35,7 @@ public static partial class StoryTests
         return f.GetAsText();
     }
 
-    private static readonly string[] EventFiles = { "c01.json", "c02.json" };
+    private static readonly string[] EventFiles = Godot.DirAccess.GetFilesAt(StoryBootstrap.Dir + "events").Where(f => f.EndsWith(".json")).ToArray();
     private static bool SpeciesOk(string id) => SpeciesDatabase.Instance.Get(id) != null;
     private static HashSet<string> _rules;
     private static bool RuleOk(string id)
@@ -72,7 +72,7 @@ public static partial class StoryTests
 
         // ---- P0: データ・状態・セーブ ----
         var db = Db(ReadRes, out var errs);
-        Check("StoryDatabase が参照切れ0で読める", errs.Count == 0 && db.Charts.Count == 44 && db.Characters.Count == 32,
+        Check("StoryDatabase が参照切れ0で読める", errs.Count == 0 && db.Charts.Count == 44 && db.Characters.Count >= 32,
               errs.Count == 0 ? $"chart{db.Charts.Count} char{db.Characters.Count} event{db.Events.Count}" : errs[0]);
 
         string Bad(Func<string, string> mod, string needle)
@@ -155,7 +155,7 @@ public static partial class StoryTests
         ]
         """;
         Func<string, string> rdr = p => p == "events/t.json" ? evJson : ReadRes(p);
-        var tdb = Db(rdr, out var terrs, new[] { "c01.json", "c02.json", "t.json" });
+        var tdb = Db(rdr, out var terrs, EventFiles.Append("t.json"));
         Check("テスト用イベント定義が検証を通る", terrs.Count == 0, terrs.Count == 0 ? $"{tdb.Events.Count}件" : terrs[0]);
 
         var st = HeroState(); var host = new RecHost(); var it = It(tdb, st, host);

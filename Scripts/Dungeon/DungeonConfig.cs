@@ -27,4 +27,6 @@ public class DungeonConfig
     public int WildLevel { get; set; } = 5;
     // 最初に生成する階（ヘッドレス検証で最終階へ直行するため。既定 1）。
     public int StartFloor { get; set; } = 1;
+    // 戦闘後共闘: このダンジョンだけ、パーティに加わって同行する種族ID。
+    public System.Collections.Generic.List<string> CoopGuests { get; set; } = new();
 }

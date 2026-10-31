@@ -66,7 +66,16 @@
       "d03_c3",
       "d04_c3"
     ],
-    "events": [],
+    "events": [
+      "c03_e01_wounded",
+      "c03_e02_news",
+      "c03_e03_mine_in",
+      "c03_e04_rescue",
+      "c03_e04b_return",
+      "c03_e05_violetta",
+      "c03_e06_shard",
+      "c03_e07_clinic"
+    ],
     "hub_changes": [
       "clinic"
     ]
@@ -86,7 +95,14 @@
       "d05_c4",
       "d06_c4"
     ],
-    "events": [],
+    "events": [
+      "c04_e01_quarrel",
+      "c04_e02_split",
+      "c04_e03_inlet",
+      "c04_e04_underpass",
+      "c04_e04b_wall",
+      "c04_e05_well"
+    ],
     "hub_changes": [
       "well"
     ]
@@ -105,7 +121,14 @@
     "dungeons": [
       "d07_c5"
     ],
-    "events": [],
+    "events": [
+      "c05_e01_granaries",
+      "c05_e02_tribute",
+      "c05_e03_smoke",
+      "c05_e04_bulferno",
+      "c05_e05_open",
+      "c05_e06_helgalda_join"
+    ],
     "hub_changes": [
       "granary"
     ]
@@ -124,7 +147,13 @@
     "dungeons": [
       "d08_c6"
     ],
-    "events": [],
+    "events": [
+      "c06_e01_quarrel",
+      "c06_e02_bushigaeru",
+      "c06_e03_rules",
+      "c06_e04_roots",
+      "c06_e05_gate"
+    ],
     "hub_changes": [
       "rules_board"
     ]
@@ -144,7 +173,16 @@
       "d09_c7",
       "d10_c7"
     ],
-    "events": [],
+    "events": [
+      "c07_e01_watch",
+      "c07_e02_theft",
+      "c07_e02b_patrol",
+      "c07_e02c_fort",
+      "c07_e03_aftershock",
+      "c07_e04_morning",
+      "c07_e05_expedition",
+      "c07_e05b_sendoff"
+    ],
     "hub_changes": [
       "watch_post"
     ]
@@ -164,7 +202,14 @@
       "d11_c8",
       "d12_c8"
     ],
-    "events": [],
+    "events": [
+      "c08_e01_depart",
+      "c08_e02_tsurarajika",
+      "c08_e03_sylphia",
+      "c08_e04_trade",
+      "c08_e05_glints",
+      "c08_e06_dragon_sky"
+    ],
     "hub_changes": [
       "inn"
     ]
@@ -183,7 +228,15 @@
     "dungeons": [
       "d13_c9"
     ],
-    "events": [],
+    "events": [
+      "c09_e01_arrive",
+      "c09_e02_accused",
+      "c09_e03_prison",
+      "c09_e04a_culprit",
+      "c09_e04b_defense",
+      "c09_e05_share",
+      "c09_e06_pillar"
+    ],
     "hub_changes": [
       "court"
     ]
@@ -202,7 +255,15 @@
     "dungeons": [
       "d14_c10"
     ],
-    "events": [],
+    "events": [
+      "c10_e01_festival",
+      "c10_e02_wanderers",
+      "c10_e02b_raizo",
+      "c10_e03_council",
+      "c10_e04_recall",
+      "c10_e05_wasteland",
+      "c10_e06_cry"
+    ],
     "hub_changes": [
       "festival_stage"
     ]
@@ -221,7 +282,14 @@
     "dungeons": [
       "d15_c11"
     ],
-    "events": [],
+    "events": [
+      "c11_e01_lab",
+      "c11_e02_analysis",
+      "c11_e03_corridor",
+      "c11_e04_boss",
+      "c11_e05_alarm",
+      "c11_e06_glow"
+    ],
     "hub_changes": [
       "lab"
     ]
@@ -241,7 +309,15 @@
       "d16_c12",
       "d17_c12"
     ],
-    "events": [],
+    "events": [
+      "c12_e01_forest",
+      "c12_e02_guardians",
+      "c12_e02b_calm",
+      "c12_e03_majoruna",
+      "c12_e04_swarm",
+      "c12_e05_judge",
+      "c12_e06_glow"
+    ],
     "hub_changes": []
   },
   {
@@ -259,7 +335,16 @@
       "d18_c13",
       "d19_c13"
     ],
-    "events": [],
+    "events": [
+      "c13_e01_conclusion",
+      "c13_e02_wasteland",
+      "c13_e03_alarm",
+      "c13_e04_suzaku",
+      "c13_e04b_cobattle",
+      "c13_e05_mass",
+      "c13_e05b_exit",
+      "c13_e06_point"
+    ],
     "hub_changes": [
       "furnace"
     ]
@@ -280,7 +365,16 @@
       "d21_c14",
       "x_root_base"
     ],
-    "events": [],
+    "events": [
+      "c14_e01_levidra",
+      "c14_e02_ascend",
+      "c14_e02b_wastes",
+      "c14_e03_blackdragon",
+      "c14_e04_root",
+      "c14_e05_seintor",
+      "c14_e06_return",
+      "c14_e06b_drawing"
+    ],
     "hub_changes": []
   },
   {
@@ -292,13 +386,23 @@
       "charts": [
         "c14"
       ],
-      "flags": []
+      "flags": [
+        "c14_done"
+      ]
     },
     "dungeons": [
       "d22_c15",
       "d23_c15"
     ],
-    "events": [],
+    "events": [
+      "c15_e01_council",
+      "c15_e02_roots",
+      "c15_e03_outer",
+      "c15_e03b_outer_clear",
+      "c15_e04_glyph",
+      "c15_e05_glyph_told",
+      "c15_e06_return"
+    ],
     "hub_changes": []
   },
   {
@@ -316,7 +420,18 @@
       "d24_c16",
       "d25_c16"
     ],
-    "events": [],
+    "events": [
+      "c16_e01_stele",
+      "c16_e02a_stage",
+      "c16_e02b_stele_read",
+      "c16_e03a_shrine_boss",
+      "c16_e03b_voice",
+      "c16_e04_xeno",
+      "c16_e05_tell",
+      "c16_x_pick2",
+      "c16_x_pick3",
+      "c16_x_pick4"
+    ],
     "hub_changes": []
   },
   {
@@ -333,7 +448,19 @@
     "dungeons": [
       "d26_c17"
     ],
-    "events": [],
+    "events": [
+      "c17_e01_open",
+      "c17_e01b_mamoru",
+      "c17_e01c_yuzuru",
+      "c17_e01d_tsugu",
+      "c17_e02_pass",
+      "c17_e03_split",
+      "c17_e04_helgalda",
+      "c17_e05_night",
+      "c17_x_pick2",
+      "c17_x_pick3",
+      "c17_x_pick4"
+    ],
     "hub_changes": []
   },
   {
@@ -350,7 +477,15 @@
     "dungeons": [
       "d27_c18"
     ],
-    "events": [],
+    "events": [
+      "c18_e01_shore",
+      "c18_e02_questions",
+      "c18_e03_silence",
+      "c18_e04_boss",
+      "c18_e05_shadows",
+      "c18_e06_partner",
+      "c18_e07_omen"
+    ],
     "hub_changes": []
   },
   {
@@ -368,7 +503,16 @@
       "d28_c19",
       "d29_c19"
     ],
-    "events": [],
+    "events": [
+      "c19_e01_announce",
+      "c19_e01b_dissent",
+      "c19_e02_orders",
+      "c19_e03_legendia",
+      "c19_e03b_camp",
+      "c19_e04_trunk",
+      "c19_e04b_ascend",
+      "c19_e05_granjira"
+    ],
     "hub_changes": []
   },
   {
@@ -385,7 +529,15 @@
     "dungeons": [
       "d30_c20"
     ],
-    "events": [],
+    "events": [
+      "c20_e01_gather",
+      "c20_e02_name",
+      "c20_e03_boss",
+      "c20_e04_voices",
+      "c20_e05_root",
+      "c20_e06_ending",
+      "x_pillars_hint"
+    ],
     "hub_changes": [],
     "ends_game": true
   },
@@ -403,7 +555,9 @@
       "affinity": 10
     },
     "dungeons": [],
-    "events": [],
+    "events": [
+      "c21_e01_pillars"
+    ],
     "hub_changes": []
   },
   {
@@ -420,7 +574,9 @@
       "affinity": 20
     },
     "dungeons": [],
-    "events": [],
+    "events": [
+      "c22_e01_bushigaeru"
+    ],
     "hub_changes": []
   },
   {
@@ -437,7 +593,9 @@
       "affinity": 30
     },
     "dungeons": [],
-    "events": [],
+    "events": [
+      "c23_e01_helgalda"
+    ],
     "hub_changes": []
   },
   {
@@ -454,7 +612,9 @@
       "affinity": 40
     },
     "dungeons": [],
-    "events": [],
+    "events": [
+      "c24_e01_hawkwin"
+    ],
     "hub_changes": []
   },
   {
@@ -471,7 +631,9 @@
       "affinity": 50
     },
     "dungeons": [],
-    "events": [],
+    "events": [
+      "c25_e01_violetta"
+    ],
     "hub_changes": []
   },
   {
@@ -488,7 +650,9 @@
       "affinity": 60
     },
     "dungeons": [],
-    "events": [],
+    "events": [
+      "c26_e01_tsurarajika"
+    ],
     "hub_changes": []
   },
   {
@@ -505,7 +669,9 @@
       "affinity": 70
     },
     "dungeons": [],
-    "events": [],
+    "events": [
+      "c27_e01_suzaku"
+    ],
     "hub_changes": []
   },
   {
@@ -522,7 +688,9 @@
       "affinity": 80
     },
     "dungeons": [],
-    "events": [],
+    "events": [
+      "c28_e01_council"
+    ],
     "hub_changes": []
   },
   {
@@ -539,7 +707,9 @@
       "affinity": 90
     },
     "dungeons": [],
-    "events": [],
+    "events": [
+      "c29_e01_daily"
+    ],
     "hub_changes": []
   },
   {
@@ -556,7 +726,9 @@
       "affinity": 100
     },
     "dungeons": [],
-    "events": [],
+    "events": [
+      "c30_e01_other"
+    ],
     "hub_changes": []
   },
   {
@@ -571,7 +743,16 @@
     "dungeons": [
       "d31_s31"
     ],
-    "events": [],
+    "events": [
+      "c31_e01_dusk",
+      "c31_e02_ledge",
+      "c31_e02b_boss",
+      "c31_e03_fire",
+      "c31_e04_worry",
+      "c31_e05_night",
+      "c31_e05b_morning",
+      "x_mem_c31"
+    ],
     "hub_changes": [],
     "insert_after": {
       "chart": "c01",
@@ -592,7 +773,17 @@
     "dungeons": [
       "d32_s32"
     ],
-    "events": [],
+    "events": [
+      "c32_e01_wake",
+      "c32_e02_command",
+      "c32_e03_crack",
+      "c32_e03b_boss",
+      "c32_e03c_spring",
+      "c32_e04_morning",
+      "c32_e05_proposal",
+      "c32_e05b_trace",
+      "x_mem_c32"
+    ],
     "hub_changes": [],
     "insert_after": {
       "chart": "c07",
@@ -613,7 +804,15 @@
     "dungeons": [
       "d33_s33"
     ],
-    "events": [],
+    "events": [
+      "c33_e01_return",
+      "c33_e02_notice",
+      "c33_e02b_boss",
+      "c33_e03_wall",
+      "c33_e04_map",
+      "c33_e05_home",
+      "x_mem_c33"
+    ],
     "hub_changes": [],
     "insert_after": {
       "chart": "c09",
@@ -634,7 +833,15 @@
     "dungeons": [
       "d34_s34"
     ],
-    "events": [],
+    "events": [
+      "c34_e01_trace",
+      "c34_e01b_follow",
+      "c34_e02_nest",
+      "c34_e03_reason",
+      "c34_e04_sleep",
+      "c34_e05_report",
+      "x_mem_c34"
+    ],
     "hub_changes": [],
     "insert_after": {
       "chart": "c12",
@@ -655,7 +862,15 @@
     "dungeons": [
       "d35_s35"
     ],
-    "events": [],
+    "events": [
+      "c35_e01_levidra",
+      "c35_e02_road",
+      "c35_e02b_boss",
+      "c35_e03_presence",
+      "c35_e04_root",
+      "c35_e05_turn",
+      "x_mem_c35"
+    ],
     "hub_changes": [],
     "insert_after": {
       "chart": "c14",
@@ -679,7 +894,9 @@
     "dungeons": [
       "x36"
     ],
-    "events": [],
+    "events": [
+      "x36_intro"
+    ],
     "hub_changes": []
   },
   {
@@ -697,7 +914,9 @@
     "dungeons": [
       "x37"
     ],
-    "events": [],
+    "events": [
+      "x37_intro"
+    ],
     "hub_changes": []
   },
   {
@@ -715,7 +934,9 @@
     "dungeons": [
       "x38"
     ],
-    "events": [],
+    "events": [
+      "x38_intro"
+    ],
     "hub_changes": []
   },
   {
@@ -733,7 +954,9 @@
     "dungeons": [
       "x39"
     ],
-    "events": [],
+    "events": [
+      "x39_intro"
+    ],
     "hub_changes": []
   },
   {
@@ -751,7 +974,9 @@
     "dungeons": [
       "x40"
     ],
-    "events": [],
+    "events": [
+      "x40_intro"
+    ],
     "hub_changes": []
   },
   {
@@ -769,7 +994,9 @@
     "dungeons": [
       "x41"
     ],
-    "events": [],
+    "events": [
+      "x41_intro"
+    ],
     "hub_changes": []
   },
   {
@@ -787,7 +1014,9 @@
     "dungeons": [
       "x42"
     ],
-    "events": [],
+    "events": [
+      "x42_intro"
+    ],
     "hub_changes": []
   },
   {
@@ -805,7 +1034,9 @@
     "dungeons": [
       "x43"
     ],
-    "events": [],
+    "events": [
+      "x43_intro"
+    ],
     "hub_changes": []
   },
   {
