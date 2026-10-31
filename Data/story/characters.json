@@ -1,0 +1,130 @@
+[
+  {
+    "id": "res_001",
+    "species_id": "001",
+    "display_name": "モコロン",
+    "mbti": "ISFJ",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_002",
+    "species_id": "002",
+    "display_name": "ツッパニャン",
+    "mbti": "ESTJ",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_004",
+    "species_id": "004",
+    "display_name": "クルリス",
+    "mbti": "ENFJ",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_005",
+    "species_id": "005",
+    "display_name": "カモノスケ",
+    "mbti": "ESFP",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_011",
+    "species_id": "011",
+    "display_name": "チョロゾウ",
+    "mbti": "ESTP",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_013",
+    "species_id": "013",
+    "display_name": "ポチムネ",
+    "mbti": "ISTJ",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_015",
+    "species_id": "015",
+    "display_name": "パチグリ",
+    "mbti": "ENFP",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_016",
+    "species_id": "016",
+    "display_name": "ンダコアラ",
+    "mbti": "ISFP",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_022",
+    "species_id": "022",
+    "display_name": "ネムラム",
+    "mbti": "INFP",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_023",
+    "species_id": "023",
+    "display_name": "エテッパ",
+    "mbti": "ESFJ",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_024",
+    "species_id": "024",
+    "display_name": "ルナティ",
+    "mbti": "INFJ",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_027",
+    "species_id": "027",
+    "display_name": "ニャオテト",
+    "mbti": "ENTJ",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_027B",
+    "species_id": "027B",
+    "display_name": "チルテト",
+    "mbti": "ISTP",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_029B",
+    "species_id": "029B",
+    "display_name": "ユキツネ",
+    "mbti": "INTJ",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_031",
+    "species_id": "031",
+    "display_name": "モグルン",
+    "mbti": "INTP",
+    "first_chart": "c01",
+    "role": "playable"
+  },
+  {
+    "id": "res_042",
+    "species_id": "042",
+    "display_name": "ボルトラ",
+    "mbti": "ENTP",
+    "first_chart": "c01",
+    "role": "playable"
+  }
+]

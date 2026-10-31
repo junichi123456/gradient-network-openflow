@@ -1,0 +1,39 @@
+[
+  {
+    "id": "c01_e01_surface",
+    "trigger": {
+      "type": "chart_start",
+      "chart": "c01",
+      "requires": [],
+      "once": true
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "夜明けの浜。水面に、見知らぬ姿が映っている。"
+      },
+      {
+        "op": "narration",
+        "text": "{protagonist}。それが、{I}の姿だった。"
+      },
+      {
+        "op": "name_input",
+        "max": 8
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "{player_name}！よかった、目が覚めたんだね！"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……うん。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c01_surface_done"
+      }
+    ]
+  }
+]

@@ -1,4 +1,7 @@
 using Godot;
+using System.Threading.Tasks;
+using MysteryDungeon.Species;
+using MysteryDungeon.Story;
 
 namespace MysteryDungeon.Hub;
 
@@ -48,6 +51,43 @@ public partial class HubScene : Node2D
             GD.Print($"[Hub] pal_workbench Lv.{hub.GetFacilityLevel("pal_workbench")}, pal_bed Lv.{hub.GetFacilityLevel("pal_bed")}");
             GD.Print($"[Hub] Party roster: {hub.PartyManager.RecruitedRoster.Count} recruited, {hub.PartyManager.ActiveParty.Count} active.");
         }
+
+        _ = StartStoryIfNeeded(player);
+    }
+
+    // セーブがあれば読み込み、無ければ「はじめから」（夢の4問→相棒選び→チャート1の水面イベント）。
+    // タイトル画面は無いので、ハコニワ起動直後にここで分岐する。
+    private async Task StartStoryIfNeeded(HubPlayer player)
+    {
+        var hub = HubUpgradeManager.Instance;
+        var db = StoryDatabase.Instance;
+        if (hub == null || db == null || hub.StoryInitialized) return;
+        hub.StoryInitialized = true;
+
+        if (SaveService.Exists())
+        {
+            var r = SaveService.Load();
+            if (r.Status == LoadStatus.Ok) { hub.ImportState(r.Data); return; }
+            GD.PushWarning($"[Story] {r.Message}");
+            if (r.Status == LoadStatus.Incompatible) return;   // 上書きせずに通常起動
+        }
+        if (hub.Story.Protagonist != "") return;
+
+        player.InputEnabled = false;
+        var sel = new SelectionScene();
+        AddChild(sel);
+        await sel.StartNewGame(hub.Story, db);
+        hub.PartyManager.SetStartingParty(hub.Story.Protagonist, hub.Story.Partner);
+
+        var ui = new StoryDialogueUI();
+        AddChild(ui);
+        var it = new EventInterpreter(db, hub.Story, ui)
+            { SpeciesName = id => SpeciesDatabase.Instance.Get(id)?.DisplayName ?? id };
+        hub.Story.CurrentChart = "c01";
+        await it.Fire("chart_start", new EventInterpreter.TriggerArgs(Chart: "c01"));
+        ui.Close();
+        hub.Save();
+        player.InputEnabled = true;
     }
 
     private void RefreshShopLog(Label label)

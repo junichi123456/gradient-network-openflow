@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MysteryDungeon.Combat;
 using MysteryDungeon.Entities;
 using MysteryDungeon.Dungeon;
+using MysteryDungeon.Story;
 
 namespace MysteryDungeon.Hub;
 
@@ -22,6 +23,11 @@ public partial class HubUpgradeManager : Node
     public static HubUpgradeManager Instance { get; private set; }
 
     public PartyManager PartyManager { get; } = new();
+
+    // 物語の進行状態（セーブ対象）。
+    public StoryState Story { get; private set; } = new();
+    // HubScene がセーブ読込 / 新規開始を一度だけ行うためのフラグ（シーン再入場で上書きしない）。
+    public bool StoryInitialized { get; set; }
 
     // Set by DungeonSelectUI right before ChangeSceneToFile; read (and
     // consumed - see DungeonScene._Ready) by the next dungeon scene. Null
@@ -109,4 +115,34 @@ public partial class HubUpgradeManager : Node
             for (int i = 0; i < quantity; i++)
                 inventory.AddItem(itemId);
     }
+
+    // --- セーブ用スナップショット（Pending* は保存しない） ---
+
+    public SaveData ExportState()
+    {
+        var data = new SaveData { Story = Story };
+        foreach (var (k, v) in _facilityLevels) data.Hub.FacilityLevels[k] = v;
+        foreach (var (k, v) in _materialBank) data.Hub.MaterialBank[k] = v;
+        data.Party.Protagonist = PartyManager.Protagonist;
+        data.Party.Partner = PartyManager.Partner;
+        data.Party.Roster.AddRange(PartyManager.RecruitedRoster);
+        data.Party.Active.AddRange(PartyManager.ActiveParty);
+        foreach (var (id, n) in _inventorySnapshot) data.Inventory.Add(new InventoryEntry { Id = id, N = n });
+        return data;
+    }
+
+    public void ImportState(SaveData data)
+    {
+        Story = data.Story ?? new StoryState();
+        _facilityLevels.Clear(); foreach (var (k, v) in data.Hub.FacilityLevels) _facilityLevels[k] = v;
+        _materialBank.Clear(); foreach (var (k, v) in data.Hub.MaterialBank) _materialBank[k] = v;
+        PartyManager.Restore(data.Party.Protagonist, data.Party.Partner, data.Party.Roster, data.Party.Active);
+        _inventorySnapshot.Clear();
+        foreach (var e in data.Inventory) _inventorySnapshot.Add((e.Id, e.N));
+    }
+
+    public void Save() => SaveService.Save(ExportState());
+
+    // 新しいゲーム用に物語状態を差し替える。
+    public void ResetStory() => Story = new StoryState();
 }

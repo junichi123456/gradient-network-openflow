@@ -1,0 +1,6949 @@
+[
+ {
+  "species_id": "001",
+  "display_name": "モコロン",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 347,
+  "first_chart": 4,
+  "dungeons": [
+   "d05_c4",
+   "d06_c4",
+   "d08_c6",
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 4
+  }
+ },
+ {
+  "species_id": "002",
+  "display_name": "ツッパニャン",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 347,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d03_c3",
+   "d08_c6",
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 2
+  }
+ },
+ {
+  "species_id": "003",
+  "display_name": "タマコッコ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 320,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "004",
+  "display_name": "クルリス",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 352,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d04_c3",
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 2
+  }
+ },
+ {
+  "species_id": "005",
+  "display_name": "カモノスケ",
+  "types": [
+   "Water"
+  ],
+  "bst6": 338,
+  "first_chart": 3,
+  "dungeons": [
+   "d03_c3",
+   "d04_c3",
+   "d05_c4",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 3
+  }
+ },
+ {
+  "species_id": "005B",
+  "display_name": "モモノスケ",
+  "types": [
+   "Water",
+   "Fire"
+  ],
+  "bst6": 343,
+  "first_chart": 3,
+  "dungeons": [
+   "d03_c3",
+   "d04_c3",
+   "d05_c4",
+   "d07_c5",
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d20_c14",
+   "d21_c14",
+   "d25_c16",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "006",
+  "display_name": "タマモ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 347,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d03_c3",
+   "d08_c6",
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "007",
+  "display_name": "ルミカイト",
+  "types": [
+   "Water"
+  ],
+  "bst6": 365,
+  "first_chart": 4,
+  "dungeons": [
+   "d05_c4",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "007B",
+  "display_name": "エレカイト",
+  "types": [
+   "Water",
+   "Electric"
+  ],
+  "bst6": 370,
+  "first_chart": 4,
+  "dungeons": [
+   "d05_c4",
+   "d06_c4",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "008",
+  "display_name": "ミルフィー",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 352,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "009",
+  "display_name": "ブシガエル",
+  "types": [
+   "Water"
+  ],
+  "bst6": 397,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d05_c4",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "named_character": true
+ },
+ {
+  "species_id": "009B",
+  "display_name": "ドスガエル",
+  "types": [
+   "Water",
+   "Dark"
+  ],
+  "bst6": 415,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d03_c3",
+   "d05_c4",
+   "d07_c5",
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d32_s32",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "010",
+  "display_name": "モモンパ",
+  "types": [
+   "Grass",
+   "Neutral"
+  ],
+  "bst6": 365,
+  "first_chart": 12,
+  "dungeons": [
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "011",
+  "display_name": "チョロゾウ",
+  "types": [
+   "Water"
+  ],
+  "bst6": 338,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d05_c4",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 2
+  }
+ },
+ {
+  "species_id": "012",
+  "display_name": "ナエモチ",
+  "types": [
+   "Grass",
+   "Ground"
+  ],
+  "bst6": 347,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d09_c7",
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d22_c15",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "013",
+  "display_name": "ポチムネ",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 356,
+  "first_chart": 3,
+  "dungeons": [
+   "d03_c3",
+   "d09_c7",
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 3
+  }
+ },
+ {
+  "species_id": "014",
+  "display_name": "ポワワ",
+  "types": [
+   "Grass",
+   "Neutral"
+  ],
+  "bst6": 347,
+  "first_chart": 3,
+  "dungeons": [
+   "d03_c3",
+   "d04_c3",
+   "d08_c6",
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "015",
+  "display_name": "パチグリ",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 352,
+  "first_chart": 4,
+  "dungeons": [
+   "d06_c4",
+   "d14_c10",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 4
+  }
+ },
+ {
+  "species_id": "015B",
+  "display_name": "コチグリ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 361,
+  "first_chart": 4,
+  "dungeons": [
+   "d05_c4",
+   "d06_c4",
+   "d10_c7",
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "016",
+  "display_name": "ンダコアラ",
+  "types": [
+   "Void"
+  ],
+  "bst6": 347,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d14_c10",
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d32_s32",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 5
+  }
+ },
+ {
+  "species_id": "017",
+  "display_name": "ペンタマ",
+  "types": [
+   "Water",
+   "Ice"
+  ],
+  "bst6": 352,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d05_c4",
+   "d10_c7",
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d31_s31",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "017B",
+  "display_name": "デンタマ",
+  "types": [
+   "Water",
+   "Electric"
+  ],
+  "bst6": 356,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d05_c4",
+   "d06_c4",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d31_s31",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "018",
+  "display_name": "キャプペン",
+  "types": [
+   "Water",
+   "Ice"
+  ],
+  "bst6": 415,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "018B",
+  "display_name": "ペンキッド",
+  "types": [
+   "Water",
+   "Electric"
+  ],
+  "bst6": 429,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "019",
+  "display_name": "ホウロック",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 356,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "020",
+  "display_name": "メルパカ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 388,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "021",
+  "display_name": "アルパオー",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 424,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "021B",
+  "display_name": "アオパオー",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 424,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "022",
+  "display_name": "ネムラム",
+  "types": [
+   "Void"
+  ],
+  "bst6": 343,
+  "first_chart": 4,
+  "dungeons": [
+   "d05_c4",
+   "d06_c4",
+   "d14_c10",
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d32_s32",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 4
+  }
+ },
+ {
+  "species_id": "023",
+  "display_name": "エテッパ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 356,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 5
+  }
+ },
+ {
+  "species_id": "023B",
+  "display_name": "カレッパ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 361,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "024",
+  "display_name": "ルナティ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 365,
+  "first_chart": 4,
+  "dungeons": [
+   "d05_c4",
+   "d06_c4",
+   "d07_c5",
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 4
+  }
+ },
+ {
+  "species_id": "025",
+  "display_name": "ラヴィ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 347,
+  "first_chart": 7,
+  "dungeons": [
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "026",
+  "display_name": "ヒノコジカ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 356,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "027",
+  "display_name": "ニャオテト",
+  "types": [
+   "Void"
+  ],
+  "bst6": 338,
+  "first_chart": 3,
+  "dungeons": [
+   "d04_c3",
+   "d14_c10",
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d32_s32",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 3
+  }
+ },
+ {
+  "species_id": "027B",
+  "display_name": "チルテト",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 343,
+  "first_chart": 3,
+  "dungeons": [
+   "d03_c3",
+   "d04_c3",
+   "d10_c7",
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 3
+  }
+ },
+ {
+  "species_id": "028",
+  "display_name": "イノボウ",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 356,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "029",
+  "display_name": "キツネビ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 347,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "029B",
+  "display_name": "ユキツネ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 352,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d10_c7",
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 5
+  }
+ },
+ {
+  "species_id": "030",
+  "display_name": "ヤミイカ",
+  "types": [
+   "Void",
+   "Water"
+  ],
+  "bst6": 329,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d20_c14",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "030B",
+  "display_name": "ユメイカ",
+  "types": [
+   "Neutral",
+   "Water"
+  ],
+  "bst6": 338,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d20_c14",
+   "d24_c16",
+   "d25_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "031",
+  "display_name": "モグルン",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 334,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d03_c3",
+   "d09_c7",
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 2
+  }
+ },
+ {
+  "species_id": "032",
+  "display_name": "ツノガミ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 388,
+  "first_chart": 3,
+  "dungeons": [
+   "d03_c3",
+   "d08_c6",
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d03_c3"
+  ]
+ },
+ {
+  "species_id": "032B",
+  "display_name": "ヤマガミ",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 388,
+  "first_chart": 3,
+  "dungeons": [
+   "d03_c3",
+   "d09_c7",
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "033",
+  "display_name": "ガウルフ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 379,
+  "first_chart": 15,
+  "dungeons": [
+   "d22_c15",
+   "d23_c15",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "034",
+  "display_name": "ベリゴート",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 393,
+  "first_chart": 3,
+  "dungeons": [
+   "d04_c3",
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "034B",
+  "display_name": "ベノゴート",
+  "types": [
+   "Void"
+  ],
+  "bst6": 397,
+  "first_chart": 3,
+  "dungeons": [
+   "d04_c3",
+   "d14_c10",
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d32_s32",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "035",
+  "display_name": "コモップ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 320,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "036",
+  "display_name": "ドンモップ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 411,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "037",
+  "display_name": "ヘルメッコ",
+  "types": [
+   "Water"
+  ],
+  "bst6": 397,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "037B",
+  "display_name": "ゴルメッコ",
+  "types": [
+   "Water",
+   "Ground"
+  ],
+  "bst6": 424,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d20_c14",
+   "d21_c14",
+   "d24_c16",
+   "d25_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "038",
+  "display_name": "シメナワ",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 356,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "038B",
+  "display_name": "オバケナワ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 365,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d19_c13",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "039",
+  "display_name": "メリポップ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 365,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d02_c2",
+   "d03_c3",
+   "d08_c6",
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d31_s31",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "039B",
+  "display_name": "メリコロネ",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 370,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d02_c2",
+   "d03_c3",
+   "d09_c7",
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "040",
+  "display_name": "ミルカルビ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 356,
+  "first_chart": 20,
+  "dungeons": [
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "041",
+  "display_name": "アズレーン",
+  "types": [
+   "Water",
+   "Void"
+  ],
+  "bst6": 438,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d20_c14",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "041B",
+  "display_name": "アズルーナ",
+  "types": [
+   "Ice",
+   "Void"
+  ],
+  "bst6": 451,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "042",
+  "display_name": "ボルトラ",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 343,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d14_c10",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "playable": true,
+  "recruit_rule": {
+   "kind": "resident",
+   "chart": 5
+  }
+ },
+ {
+  "species_id": "043",
+  "display_name": "ケルピス",
+  "types": [
+   "Water"
+  ],
+  "bst6": 347,
+  "first_chart": 14,
+  "dungeons": [
+   "d20_c14",
+   "d25_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "043B",
+  "display_name": "マグピス",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 347,
+  "first_chart": 14,
+  "dungeons": [
+   "d21_c14",
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "044",
+  "display_name": "ヒメウサ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 347,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "044B",
+  "display_name": "ヨモギウサ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 352,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19",
+   "d29_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "045",
+  "display_name": "クララン",
+  "types": [
+   "Water"
+  ],
+  "bst6": 370,
+  "first_chart": 4,
+  "dungeons": [
+   "d05_c4",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "046",
+  "display_name": "ユララン",
+  "types": [
+   "Water",
+   "Dark"
+  ],
+  "bst6": 374,
+  "first_chart": 4,
+  "dungeons": [
+   "d05_c4",
+   "d07_c5",
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d32_s32",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d05_c4"
+  ]
+ },
+ {
+  "species_id": "047",
+  "display_name": "リオリネ",
+  "types": [
+   "Void"
+  ],
+  "bst6": 338,
+  "first_chart": 3,
+  "dungeons": [
+   "d04_c3",
+   "d14_c10",
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d32_s32",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "048",
+  "display_name": "ヒメンダコ",
+  "types": [
+   "Water",
+   "Dark"
+  ],
+  "bst6": 361,
+  "first_chart": 16,
+  "dungeons": [
+   "d25_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "048B",
+  "display_name": "ユメンダコ",
+  "types": [
+   "Water",
+   "Neutral"
+  ],
+  "bst6": 365,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d25_c16",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "049",
+  "display_name": "エアムルグ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 356,
+  "first_chart": 20,
+  "dungeons": [
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "050",
+  "display_name": "ニャンシー",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 383,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "051",
+  "display_name": "ホークウィン",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 406,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "named_character": true
+ },
+ {
+  "species_id": "052",
+  "display_name": "ニャンバット",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 402,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d16_c12",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "053",
+  "display_name": "クルットリ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 343,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "054",
+  "display_name": "ライコーン",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 420,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "054B",
+  "display_name": "レイコーン",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 424,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "055",
+  "display_name": "シャーキッド",
+  "types": [
+   "Void"
+  ],
+  "bst6": 388,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "055B",
+  "display_name": "シャーマンダー",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 388,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "056",
+  "display_name": "ツキカゲ",
+  "types": [
+   "Void"
+  ],
+  "bst6": 393,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "056B",
+  "display_name": "ユキカゲ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 397,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "057",
+  "display_name": "マスクロウ",
+  "types": [
+   "Void"
+  ],
+  "bst6": 383,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "058",
+  "display_name": "ブルフェルノ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 406,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d07_c5"
+  ],
+  "named_character": true
+ },
+ {
+  "species_id": "059",
+  "display_name": "モコチッチ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 334,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "060",
+  "display_name": "イバラヒメ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 374,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "061",
+  "display_name": "パピテフ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 365,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19",
+   "d29_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "062",
+  "display_name": "パチマル",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 361,
+  "first_chart": 4,
+  "dungeons": [
+   "d06_c4",
+   "d14_c10",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d06_c4"
+  ]
+ },
+ {
+  "species_id": "063",
+  "display_name": "シルフィア",
+  "types": [
+   "Dragon"
+  ],
+  "bst6": 411,
+  "first_chart": 8,
+  "dungeons": [
+   "d12_c8",
+   "d14_c10",
+   "d20_c14",
+   "d21_c14",
+   "d23_c15",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "named_character": true
+ },
+ {
+  "species_id": "063B",
+  "display_name": "シルティア",
+  "types": [
+   "Dragon",
+   "Water"
+  ],
+  "bst6": 420,
+  "first_chart": 8,
+  "dungeons": [
+   "d12_c8",
+   "d14_c10",
+   "d20_c14",
+   "d21_c14",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d33_s33",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "064",
+  "display_name": "カバネドリ",
+  "types": [
+   "Fire",
+   "Void"
+  ],
+  "bst6": 424,
+  "first_chart": 7,
+  "dungeons": [
+   "d10_c7",
+   "d14_c10",
+   "d15_c11",
+   "d17_c12",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d26_c17",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d32_s32",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d32_s32"
+  ]
+ },
+ {
+  "species_id": "064B",
+  "display_name": "シロカバネ",
+  "types": [
+   "Ice",
+   "Dark"
+  ],
+  "bst6": 433,
+  "first_chart": 7,
+  "dungeons": [
+   "d09_c7",
+   "d10_c7",
+   "d11_c8",
+   "d12_c8",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d32_s32",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d10_c7"
+  ]
+ },
+ {
+  "species_id": "065",
+  "display_name": "ヤミトバリ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 442,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "066",
+  "display_name": "ヴィオレッタ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 447,
+  "first_chart": 3,
+  "dungeons": [
+   "d04_c3",
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "named_character": true
+ },
+ {
+  "species_id": "067",
+  "display_name": "ビーナイト",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 393,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d08_c6"
+  ]
+ },
+ {
+  "species_id": "068",
+  "display_name": "クインビーナ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 424,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d04_c3",
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "069",
+  "display_name": "ラブマンダー",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 393,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "070",
+  "display_name": "ニャンギマリ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 402,
+  "first_chart": 15,
+  "dungeons": [
+   "d22_c15",
+   "d23_c15",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "071",
+  "display_name": "モモンチュラ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 438,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "072",
+  "display_name": "バニザラシ",
+  "types": [
+   "Ice",
+   "Water"
+  ],
+  "bst6": 433,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d33_s33"
+  ]
+ },
+ {
+  "species_id": "072B",
+  "display_name": "チョコザラシ",
+  "types": [
+   "Ice",
+   "Ground"
+  ],
+  "bst6": 438,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d12_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "073",
+  "display_name": "ダリザード",
+  "types": [
+   "Void"
+  ],
+  "bst6": 347,
+  "first_chart": 16,
+  "dungeons": [
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "073B",
+  "display_name": "チリザード",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 347,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d25_c16",
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "074",
+  "display_name": "ゴリレイジ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 406,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "074B",
+  "display_name": "ゴリガイア",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 411,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "075",
+  "display_name": "シーペント",
+  "types": [
+   "Water"
+  ],
+  "bst6": 393,
+  "first_chart": 14,
+  "dungeons": [
+   "d20_c14",
+   "d25_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "075B",
+  "display_name": "スナペント",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 411,
+  "first_chart": 14,
+  "dungeons": [
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "076",
+  "display_name": "フェザーロ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 406,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "076B",
+  "display_name": "サンドロ",
+  "types": [
+   "Grass",
+   "Ground"
+  ],
+  "bst6": 406,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d09_c7",
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d22_c15",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "077",
+  "display_name": "ポプリーナ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 347,
+  "first_chart": 14,
+  "dungeons": [
+   "d20_c14",
+   "d21_c14",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "078",
+  "display_name": "フォレーナ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 411,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "078B",
+  "display_name": "フォレーオ",
+  "types": [
+   "Fire",
+   "Void"
+  ],
+  "bst6": 415,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d26_c17",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "079",
+  "display_name": "クレメーオ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 415,
+  "first_chart": 7,
+  "dungeons": [
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d09_c7"
+  ]
+ },
+ {
+  "species_id": "079B",
+  "display_name": "クレメーナ",
+  "types": [
+   "Void",
+   "Fire"
+  ],
+  "bst6": 420,
+  "first_chart": 7,
+  "dungeons": [
+   "d10_c7",
+   "d14_c10",
+   "d15_c11",
+   "d17_c12",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d26_c17",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d32_s32",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "080",
+  "display_name": "ヘルガルダ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 451,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d03_c3",
+   "d07_c5",
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d02_c2"
+  ],
+  "named_character": true
+ },
+ {
+  "species_id": "080B",
+  "display_name": "ライガルダ",
+  "types": [
+   "Dark",
+   "Electric"
+  ],
+  "bst6": 456,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d03_c3",
+   "d06_c4",
+   "d07_c5",
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d20_c14",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "081",
+  "display_name": "モリタロス",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 447,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "081B",
+  "display_name": "ユキタロス",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 451,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "082",
+  "display_name": "ミステリア",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 411,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "named_character": true
+ },
+ {
+  "species_id": "083",
+  "display_name": "ムラクモ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 438,
+  "first_chart": 14,
+  "dungeons": [
+   "d20_c14",
+   "d21_c14",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "083B",
+  "display_name": "ムラサメ",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 442,
+  "first_chart": 14,
+  "dungeons": [
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "084",
+  "display_name": "アロアリュー",
+  "types": [
+   "Grass",
+   "Void"
+  ],
+  "bst6": 415,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d02_c2",
+   "d04_c3",
+   "d08_c6",
+   "d14_c10",
+   "d15_c11",
+   "d16_c12",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d32_s32",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "084B",
+  "display_name": "ビリビリュー",
+  "types": [
+   "Electric",
+   "Void"
+  ],
+  "bst6": 420,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d04_c3",
+   "d06_c4",
+   "d14_c10",
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d20_c14",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d32_s32",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "085",
+  "display_name": "ツジギリ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 415,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d07_c5",
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19",
+   "d31_s31",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "085B",
+  "display_name": "ヤミウチ",
+  "types": [
+   "Fire",
+   "Dark"
+  ],
+  "bst6": 420,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d03_c3",
+   "d07_c5",
+   "d09_c7",
+   "d10_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19",
+   "d31_s31",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "086",
+  "display_name": "コチワニ",
+  "types": [
+   "Ice",
+   "Water"
+  ],
+  "bst6": 374,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "087",
+  "display_name": "グランモス",
+  "types": [
+   "Grass",
+   "Ground"
+  ],
+  "bst6": 451,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19",
+   "d29_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "087B",
+  "display_name": "ブリザモス",
+  "types": [
+   "Ice",
+   "Ground"
+  ],
+  "bst6": 451,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "088",
+  "display_name": "ガブルミ",
+  "types": [
+   "Water"
+  ],
+  "bst6": 374,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d05_c4",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d31_s31",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d31_s31"
+  ]
+ },
+ {
+  "species_id": "088B",
+  "display_name": "ヒグルミ",
+  "types": [
+   "Water",
+   "Fire"
+  ],
+  "bst6": 379,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d05_c4",
+   "d07_c5",
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d20_c14",
+   "d21_c14",
+   "d25_c16",
+   "d26_c17",
+   "d28_c19",
+   "d31_s31",
+   "d32_s32",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d01_c1"
+  ]
+ },
+ {
+  "species_id": "089",
+  "display_name": "フラリーナ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 424,
+  "first_chart": 12,
+  "dungeons": [
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "089B",
+  "display_name": "チェリーナ",
+  "types": [
+   "Grass",
+   "Fire"
+  ],
+  "bst6": 429,
+  "first_chart": 12,
+  "dungeons": [
+   "d16_c12",
+   "d17_c12",
+   "d18_c13",
+   "d21_c14",
+   "d22_c15",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "090",
+  "display_name": "リーファン",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 438,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "091",
+  "display_name": "ヘルゴート",
+  "types": [
+   "Fire",
+   "Dark"
+  ],
+  "bst6": 411,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "091B",
+  "display_name": "アビスゴート",
+  "types": [
+   "Void"
+  ],
+  "bst6": 415,
+  "first_chart": 13,
+  "dungeons": [
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "092",
+  "display_name": "カミナラシ",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 356,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "092B",
+  "display_name": "ヤミナラシ",
+  "types": [
+   "Dark",
+   "Electric"
+  ],
+  "bst6": 361,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d16_c12",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "093",
+  "display_name": "サラブレイズ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 415,
+  "first_chart": 7,
+  "dungeons": [
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "093B",
+  "display_name": "サラブラック",
+  "types": [
+   "Fire",
+   "Dark"
+  ],
+  "bst6": 415,
+  "first_chart": 7,
+  "dungeons": [
+   "d09_c7",
+   "d10_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "094",
+  "display_name": "ペコドン",
+  "types": [
+   "Dragon",
+   "Water"
+  ],
+  "bst6": 470,
+  "first_chart": 15,
+  "dungeons": [
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "094B",
+  "display_name": "パリピドン",
+  "types": [
+   "Dragon",
+   "Electric"
+  ],
+  "bst6": 474,
+  "first_chart": 15,
+  "dungeons": [
+   "d23_c15",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "095",
+  "display_name": "フブキツネ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 420,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d12_c8"
+  ]
+ },
+ {
+  "species_id": "096",
+  "display_name": "ライバード",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 429,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "096B",
+  "display_name": "チルバード",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 433,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "097",
+  "display_name": "アンドーン",
+  "types": [
+   "Dark",
+   "Water"
+  ],
+  "bst6": 447,
+  "first_chart": 7,
+  "dungeons": [
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d32_s32",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "097B",
+  "display_name": "メラドーン",
+  "types": [
+   "Fire",
+   "Water"
+  ],
+  "bst6": 451,
+  "first_chart": 7,
+  "dungeons": [
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d20_c14",
+   "d21_c14",
+   "d25_c16",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "098",
+  "display_name": "イヌズマ",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 402,
+  "first_chart": 15,
+  "dungeons": [
+   "d22_c15",
+   "d23_c15",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "098B",
+  "display_name": "フリーズマ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 406,
+  "first_chart": 15,
+  "dungeons": [
+   "d22_c15",
+   "d23_c15",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "099",
+  "display_name": "デスティング",
+  "types": [
+   "Void",
+   "Ground"
+  ],
+  "bst6": 456,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d25_c16"
+  ]
+ },
+ {
+  "species_id": "099B",
+  "display_name": "ゴルディング",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 460,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d24_c16"
+  ]
+ },
+ {
+  "species_id": "100",
+  "display_name": "ハグミー",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 365,
+  "first_chart": 12,
+  "dungeons": [
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "100B",
+  "display_name": "ハグユー",
+  "types": [
+   "Dark",
+   "Grass"
+  ],
+  "bst6": 370,
+  "first_chart": 12,
+  "dungeons": [
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "101",
+  "display_name": "ツララジカ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 424,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "named_character": true
+ },
+ {
+  "species_id": "102",
+  "display_name": "ササゾー",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 411,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "102B",
+  "display_name": "ライゾー",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 429,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d14_c10"
+  ]
+ },
+ {
+  "species_id": "103",
+  "display_name": "オコチョ",
+  "types": [
+   "Ice",
+   "Dragon"
+  ],
+  "bst6": 383,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "103B",
+  "display_name": "モモチョ",
+  "types": [
+   "Fire",
+   "Dragon"
+  ],
+  "bst6": 388,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "104",
+  "display_name": "イグニクス",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 447,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "105",
+  "display_name": "マグマンダー",
+  "types": [
+   "Fire",
+   "Ground"
+  ],
+  "bst6": 474,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "105B",
+  "display_name": "ブリザンダー",
+  "types": [
+   "Ice",
+   "Ground"
+  ],
+  "bst6": 479,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "106",
+  "display_name": "ココヤンバ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 456,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19",
+   "d29_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "107",
+  "display_name": "ドリタス",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 424,
+  "first_chart": 15,
+  "dungeons": [
+   "d22_c15",
+   "d23_c15",
+   "d24_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "108",
+  "display_name": "ラブラドン",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 438,
+  "first_chart": 12,
+  "dungeons": [
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "108B",
+  "display_name": "スプラドン",
+  "types": [
+   "Grass",
+   "Water"
+  ],
+  "bst6": 442,
+  "first_chart": 12,
+  "dungeons": [
+   "d16_c12",
+   "d17_c12",
+   "d20_c14",
+   "d22_c15",
+   "d25_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "109",
+  "display_name": "トドドドン",
+  "types": [
+   "Ground",
+   "Water"
+  ],
+  "bst6": 397,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "109B",
+  "display_name": "ゴルドドン",
+  "types": [
+   "Ground",
+   "Water"
+  ],
+  "bst6": 411,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "110",
+  "display_name": "トコナッツ",
+  "types": [
+   "Grass",
+   "Ground"
+  ],
+  "bst6": 470,
+  "first_chart": 15,
+  "dungeons": [
+   "d22_c15",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d22_c15"
+  ]
+ },
+ {
+  "species_id": "111",
+  "display_name": "シラヌイ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 442,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "111B",
+  "display_name": "カゲヌイ",
+  "types": [
+   "Void"
+  ],
+  "bst6": 447,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "112",
+  "display_name": "ゴクエンオ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 424,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "112B",
+  "display_name": "シンエンオ",
+  "types": [
+   "Fire",
+   "Dark"
+  ],
+  "bst6": 429,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "113",
+  "display_name": "グラクレス",
+  "types": [
+   "Ground",
+   "Grass"
+  ],
+  "bst6": 465,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d22_c15",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "113B",
+  "display_name": "ゴルクレス",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 470,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "114",
+  "display_name": "クジャンナ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 438,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "115",
+  "display_name": "マジョルナ",
+  "types": [
+   "Void",
+   "Fire"
+  ],
+  "bst6": 442,
+  "first_chart": 12,
+  "dungeons": [
+   "d17_c12",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d26_c17",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "named_character": true
+ },
+ {
+  "species_id": "116",
+  "display_name": "シルキーヌ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 429,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "116B",
+  "display_name": "ソワレーヌ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 433,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d15_c11"
+  ]
+ },
+ {
+  "species_id": "117",
+  "display_name": "ソルレイス",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 393,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "118",
+  "display_name": "キノッポ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 411,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "118B",
+  "display_name": "ベノッポ",
+  "types": [
+   "Grass",
+   "Dark"
+  ],
+  "bst6": 415,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d32_s32",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "119",
+  "display_name": "チルウィッチ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 442,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "120",
+  "display_name": "ヨミーラ",
+  "types": [
+   "Dark",
+   "Ground"
+  ],
+  "bst6": 456,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "121",
+  "display_name": "レヴィドラ",
+  "types": [
+   "Dragon",
+   "Water"
+  ],
+  "bst6": 474,
+  "first_chart": 14,
+  "dungeons": [
+   "d20_c14",
+   "d21_c14",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "named_character": true
+ },
+ {
+  "species_id": "121B",
+  "display_name": "アグニドラ",
+  "types": [
+   "Dragon",
+   "Fire"
+  ],
+  "bst6": 483,
+  "first_chart": 14,
+  "dungeons": [
+   "d20_c14",
+   "d21_c14",
+   "d23_c15",
+   "d26_c17",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "122",
+  "display_name": "スザク",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 456,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d18_c13"
+  ],
+  "named_character": true
+ },
+ {
+  "species_id": "122B",
+  "display_name": "シヴァ",
+  "types": [
+   "Water"
+  ],
+  "bst6": 460,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d19_c13",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "123",
+  "display_name": "トリステップ",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 397,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "124",
+  "display_name": "フェスキー",
+  "types": [
+   "Dragon"
+  ],
+  "bst6": 433,
+  "first_chart": 15,
+  "dungeons": [
+   "d23_c15",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "124B",
+  "display_name": "フォレスキー",
+  "types": [
+   "Dragon",
+   "Grass"
+  ],
+  "bst6": 438,
+  "first_chart": 15,
+  "dungeons": [
+   "d22_c15",
+   "d23_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "125",
+  "display_name": "フワフラワ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 393,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "126",
+  "display_name": "コロマジロ",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 370,
+  "first_chart": 20,
+  "dungeons": [
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "127",
+  "display_name": "ヤクモマル",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 388,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "128",
+  "display_name": "オオタチウオ",
+  "types": [
+   "Water"
+  ],
+  "bst6": 383,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "128B",
+  "display_name": "ヒノタチウオ",
+  "types": [
+   "Water",
+   "Fire"
+  ],
+  "bst6": 388,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d20_c14",
+   "d21_c14",
+   "d25_c16",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "129",
+  "display_name": "ボルカノン",
+  "types": [
+   "Fire",
+   "Ground"
+  ],
+  "bst6": 460,
+  "first_chart": 7,
+  "dungeons": [
+   "d09_c7",
+   "d10_c7",
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "129B",
+  "display_name": "フロスカノン",
+  "types": [
+   "Ice",
+   "Ground"
+  ],
+  "bst6": 470,
+  "first_chart": 7,
+  "dungeons": [
+   "d09_c7",
+   "d10_c7",
+   "d11_c8",
+   "d12_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "130",
+  "display_name": "ナイトロット",
+  "types": [
+   "Void"
+  ],
+  "bst6": 438,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "named_character": true
+ },
+ {
+  "species_id": "130B",
+  "display_name": "ライトロット",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 442,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "named_character": true
+ },
+ {
+  "species_id": "131",
+  "display_name": "ジオルドン",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 451,
+  "first_chart": 20,
+  "dungeons": [
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "131B",
+  "display_name": "フロスドン",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 456,
+  "first_chart": 20,
+  "dungeons": [
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "132",
+  "display_name": "ツンドラー",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 438,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "132B",
+  "display_name": "グランドラー",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 442,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "133",
+  "display_name": "ユキボウ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 374,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d12_c8",
+   "d14_c10",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "134",
+  "display_name": "ヒエティ",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 447,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "134B",
+  "display_name": "トロピティ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 456,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19",
+   "d29_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "135",
+  "display_name": "オドロクロ",
+  "types": [
+   "Dark",
+   "Fire"
+  ],
+  "bst6": 447,
+  "first_chart": 15,
+  "dungeons": [
+   "d22_c15",
+   "d23_c15",
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "136",
+  "display_name": "カプリリス",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 393,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "137",
+  "display_name": "ボルカイザー",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 470,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "137B",
+  "display_name": "ボルドラゴ",
+  "types": [
+   "Dragon",
+   "Fire"
+  ],
+  "bst6": 483,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "138",
+  "display_name": "ウゴクゾー",
+  "types": [
+   "Ground",
+   "Grass"
+  ],
+  "bst6": 465,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d22_c15",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d35_s35"
+  ]
+ },
+ {
+  "species_id": "138B",
+  "display_name": "ノロウゾー",
+  "types": [
+   "Ground",
+   "Void"
+  ],
+  "bst6": 470,
+  "first_chart": 13,
+  "dungeons": [
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d22_c15",
+   "d23_c15",
+   "d24_c16",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d19_c13"
+  ]
+ },
+ {
+  "species_id": "139",
+  "display_name": "アヌビス",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 474,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d13_c9"
+  ],
+  "named_character": true
+ },
+ {
+  "species_id": "140",
+  "display_name": "セクメト",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 451,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "141",
+  "display_name": "ブッサソリ",
+  "types": [
+   "Dark",
+   "Ground"
+  ],
+  "bst6": 420,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d09_c7",
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d32_s32",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "141B",
+  "display_name": "ブッサンダー",
+  "types": [
+   "Electric",
+   "Ground"
+  ],
+  "bst6": 424,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d09_c7",
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d20_c14",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "142",
+  "display_name": "オモシガメ",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 456,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "142B",
+  "display_name": "オシロガメ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 460,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "143",
+  "display_name": "ニャニミテ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 438,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "144",
+  "display_name": "ミミドッグ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 383,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d03_c3",
+   "d08_c6",
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "145",
+  "display_name": "ゼノベーダ",
+  "types": [
+   "Void"
+  ],
+  "bst6": 429,
+  "first_chart": 12,
+  "dungeons": [],
+  "wild": false,
+  "category": "nonwild",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x43",
+   "rate": 0.2
+  },
+  "boss_dungeons": [
+   "d17_c12"
+  ]
+ },
+ {
+  "species_id": "146",
+  "display_name": "ゼノルーダ",
+  "types": [
+   "Dragon"
+  ],
+  "bst6": 483,
+  "first_chart": 12,
+  "dungeons": [],
+  "wild": false,
+  "category": "nonwild",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x43",
+   "rate": 0.2
+  },
+  "boss_dungeons": [
+   "d17_c12"
+  ]
+ },
+ {
+  "species_id": "147",
+  "display_name": "プラムルリム",
+  "types": [
+   "Grass",
+   "Void"
+  ],
+  "bst6": 429,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d04_c3",
+   "d08_c6",
+   "d14_c10",
+   "d15_c11",
+   "d16_c12",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d32_s32",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d34_s34"
+  ]
+ },
+ {
+  "species_id": "148",
+  "display_name": "ナイトメアリ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 433,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "148B",
+  "display_name": "グラスメアリ",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 438,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19",
+   "d29_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "149",
+  "display_name": "クロマル",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 393,
+  "first_chart": 7,
+  "dungeons": [
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "149B",
+  "display_name": "フユマル",
+  "types": [
+   "Dark",
+   "Ice"
+  ],
+  "bst6": 397,
+  "first_chart": 7,
+  "dungeons": [
+   "d09_c7",
+   "d10_c7",
+   "d11_c8",
+   "d12_c8",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d26_c17",
+   "d27_c18",
+   "d28_c19",
+   "d32_s32",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "150",
+  "display_name": "オーメン",
+  "types": [
+   "Void"
+  ],
+  "bst6": 429,
+  "first_chart": 12,
+  "dungeons": [
+   "d16_c12",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "named_character": true
+ },
+ {
+  "species_id": "151",
+  "display_name": "コゴエール",
+  "types": [
+   "Ice",
+   "Water"
+  ],
+  "bst6": 456,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "151B",
+  "display_name": "モモエール",
+  "types": [
+   "Ice",
+   "Fire"
+  ],
+  "bst6": 460,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "152",
+  "display_name": "ラベロット",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 424,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d04_c3",
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "153",
+  "display_name": "ヤンデリナ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 442,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "154",
+  "display_name": "キンガゼル",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 465,
+  "first_chart": 8,
+  "dungeons": [
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d11_c8"
+  ]
+ },
+ {
+  "species_id": "155",
+  "display_name": "ワンフー",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 420,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d13_c9",
+   "d14_c10",
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "156",
+  "display_name": "ドスコイヌ",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 438,
+  "first_chart": 3,
+  "dungeons": [
+   "d03_c3",
+   "d09_c7",
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "157",
+  "display_name": "セレスディア",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 456,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "157B",
+  "display_name": "コスモディア",
+  "types": [
+   "Void"
+  ],
+  "bst6": 460,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "158",
+  "display_name": "ジオラーヴァ",
+  "types": [
+   "Dragon",
+   "Dark"
+  ],
+  "bst6": 474,
+  "first_chart": 15,
+  "dungeons": [
+   "d23_c15",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "159",
+  "display_name": "テラナイト",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 474,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "159B",
+  "display_name": "マグナイト",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 479,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "160",
+  "display_name": "アイギルガ",
+  "types": [
+   "Dragon"
+  ],
+  "bst6": 470,
+  "first_chart": 15,
+  "dungeons": [
+   "d23_c15",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "161",
+  "display_name": "オーマサンダ",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 483,
+  "first_chart": 14,
+  "dungeons": [
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "162",
+  "display_name": "ニャルル",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 361,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "163",
+  "display_name": "デンツム",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 347,
+  "first_chart": 4,
+  "dungeons": [
+   "d06_c4",
+   "d14_c10",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "163B",
+  "display_name": "ドンツム",
+  "types": [
+   "Electric",
+   "Ground"
+  ],
+  "bst6": 352,
+  "first_chart": 4,
+  "dungeons": [
+   "d06_c4",
+   "d09_c7",
+   "d11_c8",
+   "d13_c9",
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d20_c14",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "164",
+  "display_name": "ポポフィア",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 343,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19",
+   "d29_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "165",
+  "display_name": "バトラビー",
+  "types": [
+   "Ground"
+  ],
+  "bst6": 361,
+  "first_chart": 10,
+  "dungeons": [
+   "d14_c10",
+   "d18_c13",
+   "d19_c13",
+   "d21_c14",
+   "d24_c16",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "166",
+  "display_name": "フードール",
+  "types": [
+   "Void"
+  ],
+  "bst6": 370,
+  "first_chart": 3,
+  "dungeons": [
+   "d04_c3",
+   "d14_c10",
+   "d15_c11",
+   "d17_c12",
+   "d19_c13",
+   "d22_c15",
+   "d23_c15",
+   "d25_c16",
+   "d28_c19",
+   "d29_c19",
+   "d30_c20",
+   "d32_s32",
+   "d34_s34"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d04_c3"
+  ]
+ },
+ {
+  "species_id": "167",
+  "display_name": "ノンビリリ",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 361,
+  "first_chart": 4,
+  "dungeons": [
+   "d06_c4",
+   "d14_c10",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "168",
+  "display_name": "ウラミィ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 370,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "169",
+  "display_name": "オーマンボ",
+  "types": [
+   "Water"
+  ],
+  "bst6": 397,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d05_c4",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d31_s31",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "169B",
+  "display_name": "トノサマンボ",
+  "types": [
+   "Water",
+   "Electric"
+  ],
+  "bst6": 402,
+  "first_chart": 1,
+  "dungeons": [
+   "d01_c1",
+   "d05_c4",
+   "d06_c4",
+   "d14_c10",
+   "d20_c14",
+   "d25_c16",
+   "d28_c19",
+   "d31_s31",
+   "d33_s33"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "170",
+  "display_name": "ネモフィ",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 433,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "171",
+  "display_name": "レイバーン",
+  "types": [
+   "Dragon",
+   "Dark"
+  ],
+  "bst6": 483,
+  "first_chart": 20,
+  "dungeons": [
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "171B",
+  "display_name": "ヘルバーン",
+  "types": [
+   "Dragon",
+   "Fire"
+  ],
+  "bst6": 488,
+  "first_chart": 20,
+  "dungeons": [
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "172",
+  "display_name": "ダイナモフ",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 374,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d14_c10",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "173",
+  "display_name": "フラペック",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 393,
+  "first_chart": 2,
+  "dungeons": [
+   "d02_c2",
+   "d04_c3",
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "174",
+  "display_name": "センコ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 465,
+  "first_chart": 20,
+  "dungeons": [
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "175",
+  "display_name": "ハナミズチ",
+  "types": [
+   "Grass",
+   "Water"
+  ],
+  "bst6": 488,
+  "first_chart": 6,
+  "dungeons": [
+   "d08_c6",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d20_c14",
+   "d22_c15",
+   "d25_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d33_s33",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "176",
+  "display_name": "ラピエール",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 438,
+  "first_chart": 7,
+  "dungeons": [
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "177",
+  "display_name": "アルセーヴ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 447,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "178",
+  "display_name": "メドゥーナ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 388,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "179",
+  "display_name": "マシュリー",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 420,
+  "first_chart": 9,
+  "dungeons": [
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d17_c12",
+   "d22_c15",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19",
+   "d34_s34",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "180",
+  "display_name": "ヴィランタン",
+  "types": [
+   "Dark",
+   "Fire"
+  ],
+  "bst6": 415,
+  "first_chart": 17,
+  "dungeons": [
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "181",
+  "display_name": "ホシノコ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 365,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d09_c7",
+   "d13_c9",
+   "d14_c10",
+   "d16_c12",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "182",
+  "display_name": "モノクローナ",
+  "types": [
+   "Dark",
+   "Neutral"
+  ],
+  "bst6": 465,
+  "first_chart": 18,
+  "dungeons": [
+   "d27_c18",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d27_c18"
+  ]
+ },
+ {
+  "species_id": "183",
+  "display_name": "ゴウカブキ",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 451,
+  "first_chart": 5,
+  "dungeons": [
+   "d07_c5",
+   "d10_c7",
+   "d14_c10",
+   "d18_c13",
+   "d21_c14",
+   "d26_c17",
+   "d28_c19",
+   "d32_s32"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "184",
+  "display_name": "シェルガドラ",
+  "types": [
+   "Dragon",
+   "Ground"
+  ],
+  "bst6": 492,
+  "first_chart": 20,
+  "dungeons": [
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "185",
+  "display_name": "エレパンダ",
+  "types": [
+   "Electric"
+  ],
+  "bst6": 456,
+  "first_chart": 4,
+  "dungeons": [
+   "d06_c4",
+   "d14_c10",
+   "d20_c14",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "186",
+  "display_name": "リリクイン",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 474,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d25_c16",
+   "d27_c18",
+   "d28_c19",
+   "d29_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "186B",
+  "display_name": "ルナクイン",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 474,
+  "first_chart": 16,
+  "dungeons": [
+   "d24_c16",
+   "d25_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "187",
+  "display_name": "ボルゼクス",
+  "types": [
+   "Dragon",
+   "Electric"
+  ],
+  "bst6": 488,
+  "first_chart": 20,
+  "dungeons": [
+   "d30_c20"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "188",
+  "display_name": "ホルス",
+  "types": [
+   "Fire"
+  ],
+  "bst6": 456,
+  "first_chart": 14,
+  "dungeons": [
+   "d21_c14",
+   "d26_c17",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d21_c14"
+  ]
+ },
+ {
+  "species_id": "188B",
+  "display_name": "イシス",
+  "types": [
+   "Water"
+  ],
+  "bst6": 460,
+  "first_chart": 14,
+  "dungeons": [
+   "d20_c14",
+   "d25_c16",
+   "d28_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "189",
+  "display_name": "ゼノグリフ",
+  "types": [
+   "Void"
+  ],
+  "bst6": 501,
+  "first_chart": 15,
+  "dungeons": [],
+  "wild": false,
+  "category": "nonwild",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x43",
+   "rate": 0.2
+  },
+  "boss_dungeons": [
+   "d23_c15"
+  ],
+  "named_character": true
+ },
+ {
+  "species_id": "190",
+  "display_name": "セレムーン",
+  "types": [
+   "Dark",
+   "Neutral"
+  ],
+  "bst6": 479,
+  "first_chart": 11,
+  "dungeons": [
+   "d15_c11",
+   "d16_c12",
+   "d24_c16",
+   "d27_c18",
+   "d28_c19",
+   "d35_s35"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "191",
+  "display_name": "ヒョウガオー",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 510,
+  "first_chart": 17,
+  "dungeons": [],
+  "wild": false,
+  "category": "nonwild",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x43",
+   "rate": 0.2
+  },
+  "boss_dungeons": [
+   "d26_c17"
+  ]
+ },
+ {
+  "species_id": "192",
+  "display_name": "シャオロン",
+  "types": [
+   "Dragon",
+   "Water"
+  ],
+  "bst6": 515,
+  "first_chart": 14,
+  "dungeons": [],
+  "wild": false,
+  "category": "nonwild",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x43",
+   "rate": 0.2
+  },
+  "boss_dungeons": [
+   "d20_c14"
+  ]
+ },
+ {
+  "species_id": "193",
+  "display_name": "モスローン",
+  "types": [
+   "Grass"
+  ],
+  "bst6": 492,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19",
+   "d29_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  },
+  "boss_dungeons": [
+   "d29_c19"
+  ]
+ },
+ {
+  "species_id": "194",
+  "display_name": "ノクサージュ",
+  "types": [
+   "Grass",
+   "Dark"
+  ],
+  "bst6": 492,
+  "first_chart": 19,
+  "dungeons": [
+   "d28_c19",
+   "d29_c19"
+  ],
+  "wild": true,
+  "category": "normal",
+  "recruit_rule": {
+   "kind": "wild",
+   "rate": null
+  }
+ },
+ {
+  "species_id": "195",
+  "display_name": "ベラノワール",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 492,
+  "first_chart": 12,
+  "dungeons": [],
+  "wild": false,
+  "category": "nonwild",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x43",
+   "rate": 0.2
+  },
+  "boss_dungeons": [
+   "d16_c12"
+  ]
+ },
+ {
+  "species_id": "195B",
+  "display_name": "ベラルージュ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 492,
+  "first_chart": 12,
+  "dungeons": [],
+  "wild": false,
+  "category": "nonwild",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x43",
+   "rate": 0.2
+  },
+  "boss_dungeons": [
+   "d16_c12"
+  ]
+ },
+ {
+  "species_id": "196",
+  "display_name": "ゼノドラン",
+  "types": [
+   "Void",
+   "Dragon"
+  ],
+  "bst6": 492,
+  "first_chart": 14,
+  "dungeons": [],
+  "wild": false,
+  "category": "nonwild",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x43",
+   "rate": 0.2
+  },
+  "boss_dungeons": [
+   "d30_c20"
+  ]
+ },
+ {
+  "species_id": "197",
+  "display_name": "レジェンディア",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 497,
+  "first_chart": 19,
+  "dungeons": [],
+  "wild": false,
+  "category": "nonwild",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x43",
+   "rate": 0.2
+  },
+  "boss_dungeons": [
+   "d28_c19"
+  ]
+ },
+ {
+  "species_id": "198",
+  "display_name": "セイントール",
+  "types": [
+   "Neutral"
+  ],
+  "bst6": 515,
+  "first_chart": null,
+  "dungeons": [],
+  "wild": false,
+  "category": "legendary",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x36",
+   "rate": 0.3
+  },
+  "cameo_chart": 14,
+  "cameo_note": "チャート14のシナリオ戦(x_root_base)"
+ },
+ {
+  "species_id": "199",
+  "display_name": "ベイントール",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 515,
+  "first_chart": null,
+  "dungeons": [],
+  "wild": false,
+  "category": "legendary",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x37",
+   "rate": 0.3
+  }
+ },
+ {
+  "species_id": "200",
+  "display_name": "グレイシャル",
+  "types": [
+   "Ice"
+  ],
+  "bst6": 519,
+  "first_chart": null,
+  "dungeons": [],
+  "wild": false,
+  "category": "legendary",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x38",
+   "rate": 0.3
+  }
+ },
+ {
+  "species_id": "200B",
+  "display_name": "グレイシャドウ",
+  "types": [
+   "Dark"
+  ],
+  "bst6": 533,
+  "first_chart": null,
+  "dungeons": [],
+  "wild": false,
+  "category": "legendary",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x39",
+   "rate": 0.3
+  }
+ },
+ {
+  "species_id": "201",
+  "display_name": "ネプティオス",
+  "types": [
+   "Water"
+  ],
+  "bst6": 497,
+  "first_chart": null,
+  "dungeons": [],
+  "wild": false,
+  "category": "legendary",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x40",
+   "rate": 0.3
+  }
+ },
+ {
+  "species_id": "202",
+  "display_name": "ジェッドラン",
+  "types": [
+   "Dragon"
+  ],
+  "bst6": 497,
+  "first_chart": null,
+  "dungeons": [],
+  "wild": false,
+  "category": "legendary",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x41",
+   "rate": 0.3
+  }
+ },
+ {
+  "species_id": "203",
+  "display_name": "グランジーラ",
+  "types": [
+   "Water"
+  ],
+  "bst6": 610,
+  "first_chart": null,
+  "dungeons": [],
+  "wild": false,
+  "category": "legendary",
+  "recruit_rule": {
+   "kind": "postclear_boss",
+   "dungeon": "x42",
+   "rate": 0.3
+  },
+  "cameo_chart": 19,
+  "cameo_note": "チャート19・20の会話(顔出し)"
+ }
+]

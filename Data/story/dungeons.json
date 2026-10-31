@@ -1,0 +1,17 @@
+[
+  {
+    "id": "d01_beach_cave",
+    "chart": "c01",
+    "name": "ビーチのどうくつ",
+    "floors": 5,
+    "rule_id": "beach_cave",
+    "end_type": "FreeDungeonBoss",
+    "boss": {
+      "species_id": "088B",
+      "level": 5,
+      "hp_mult": 1.0,
+      "atk_mult": 1.0,
+      "defeat_ok": false
+    }
+  }
+]

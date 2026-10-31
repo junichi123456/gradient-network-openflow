@@ -80,6 +80,7 @@ public partial class BattleTestScene : Node2D
         VerifySpread();
         VerifyRestrictions();
         VerifyProtection();
+        StoryTests.Run();
         RunBattle();
 
         // 終了時クラッシュ対策: 試合が長引くと未処理の Tween の C# ラッパーが

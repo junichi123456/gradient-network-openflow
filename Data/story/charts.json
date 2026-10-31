@@ -1,0 +1,19 @@
+[
+  {
+    "id": "c01",
+    "part": 1,
+    "kind": "main",
+    "title": "崩落の明け",
+    "unlock": {
+      "charts": [],
+      "flags": []
+    },
+    "dungeons": [
+      "d01_beach_cave"
+    ],
+    "events": [
+      "c01_e01_surface"
+    ],
+    "hub_changes": []
+  }
+]
