@@ -110,6 +110,12 @@ public partial class HubScene : Node2D
             OnRecruit = id => { if (!hub.PartyManager.RecruitedRoster.Contains(id)) hub.PartyManager.AddToRoster(id); },
         };
         _flow = flow; _storyUi = ui; _hubPlayer = player;
+        GetNode<DungeonSelectUI>(DungeonSelectUIPath).BeforeDepart = async dest =>
+        {
+            await flow.EnterSupplementDungeon(dest.Id);
+            ui.Close();
+            hub.Save();
+        };
         if (hub.PendingResult != null)
         {
             var result = hub.PendingResult;

@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Godot;
 
 namespace MysteryDungeon.Hub;
@@ -14,6 +16,10 @@ public partial class DungeonSelectUI : Control
     private System.Collections.Generic.List<DungeonDestination> _items = new();
 
     public bool IsOpen { get; private set; }
+
+    // スキップした補完ダンジョンに入る直前に、そのチャートを始める（HubScene が StoryFlow を差す）。
+    public Func<DungeonDestination, Task> BeforeDepart { get; set; }
+    private bool _departing;
 
     public void Initialize(HubPlayer player)
     {
@@ -89,6 +95,30 @@ public partial class DungeonSelectUI : Control
         if (_items.Count == 0) return;
 
         var destination = _items[_cursor];
+        if (destination.SupplementChart != "" && BeforeDepart != null)
+        {
+            if (_departing) return;
+            _departing = true;
+            _ = DepartAfter(destination);
+            return;
+        }
+        Depart(destination);
+    }
+
+    private async Task DepartAfter(DungeonDestination destination)
+    {
+        try
+        {
+            Close();
+            if (_player != null) _player.InputEnabled = false;
+            await BeforeDepart(destination);
+        }
+        finally { _departing = false; }
+        Depart(destination);
+    }
+
+    private void Depart(DungeonDestination destination)
+    {
         GD.Print($"[Hub] Departing for {destination.DisplayName} (MaxFloors={destination.Config.MaxFloors}, EndType={destination.Config.EndType})...");
 
         var hub = HubUpgradeManager.Instance;

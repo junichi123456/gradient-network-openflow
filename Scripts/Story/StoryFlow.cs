@@ -52,8 +52,25 @@ public class StoryFlow
 
     // ダンジョン選択に出せるか: 隠しでなく、解放済み（チャート開始で解放）で、追加枠は PostClear 後。
     public bool IsDungeonAvailable(DungeonDef d)
-        => !d.Hidden && State.UnlockedDungeons.Contains(d.Id) && (!d.PostClear || State.PostClear)
+        => !d.Hidden && (State.UnlockedDungeons.Contains(d.Id) || IsSkippedSupplementDungeon(d)) && (!d.PostClear || State.PostClear)
            && d.RequiresCleared.All(State.ClearedDungeons.Contains);
+
+    // スキップした補完（まだ始めていない）のダンジョンか。挿入先の本編チャートが完了していれば、いつでも入れる（35 は c14 完了後）。
+    public bool IsSkippedSupplementDungeon(DungeonDef d)
+    {
+        if (!State.SkippedSupplements.Contains(d.Chart) || IsStarted(d.Chart)) return false;
+        var c = _db.Chart(d.Chart);
+        return c is { Kind: "supplement" } && c.Dungeons.Contains(d.Id)
+               && (c.InsertAfter == null || State.CompletedCharts.Contains(c.InsertAfter.Chart));
+    }
+
+    // ダンジョン選択で補完ダンジョンに入る直前: 補完チャートを通常どおり始める（本文が流れ、ダンジョンが解放される）。
+    public async Task EnterSupplementDungeon(string dungeonId)
+    {
+        var d = _db.Dungeon(dungeonId);
+        if (d == null || !IsSkippedSupplementDungeon(d)) return;
+        await StartChart(d.Chart);
+    }
 
     public List<DungeonDef> AvailableDungeons() => _db.Dungeons.Where(IsDungeonAvailable).ToList();
 
@@ -250,6 +267,9 @@ public class StoryFlow
         if (!r.Defeated && d.PostClear && d.Boss != null) await TryRecruit(d);
         var c = _db.Chart(d.Chart);
         if (c != null && !State.CompletedCharts.Contains(c.Id) && ChartComplete(c)) await CompleteChart(c);
+        // 後日解放した補完をクリアした: 思い出メニューには残さず、回収済みにする。
+        if (c is { Kind: "supplement" } && State.CompletedCharts.Contains(c.Id) && State.SkippedSupplements.Remove(c.Id))
+            State.MemoryCollected.Add(c.Id);
         await AdvanceCharts();   // 隠しダンジョンの結果で立つフラグ（c14_done など）が次のチャートの解放条件になる
         await Drain();
     }

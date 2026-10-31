@@ -67,7 +67,8 @@ public partial class Player : Entity
         // Base 80/100/85 + Type Water now come from species "009"
         // (Data/species.json) via Entity._Ready. Level/belly/SpAtk-SpDef
         // stay here - individual/non-species values.
-        Stats.Level = 10;
+        // ストーリー進行で始めた主人公は Lv5（チャート1のボスと釣り合う）。単体起動・テストは従来どおり Lv10。
+        Stats.Level = useStory ? 5 : 10;
         Stats.MaxBelly = 100;
         Stats.Belly = 100;
 

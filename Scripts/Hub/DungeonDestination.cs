@@ -14,6 +14,8 @@ public class DungeonDestination
     public string DisplayName;
     public string DungeonRuleId;
     public DungeonConfig Config;
+    // 空でなければ、スキップした補完のチャートID。入る直前に StartChart する。
+    public string SupplementChart = "";
 }
 
 // Data/story/dungeons.json から組み立てる（StoryState の解放状況で絞る）。
@@ -35,7 +37,12 @@ public static class DungeonDestinations
         var hub = HubUpgradeManager.Instance;
         if (db == null || hub == null || hub.Story.Protagonist == "") return Fallback();
         var flow = new StoryFlow(db, hub.Story, new EventInterpreter(db, hub.Story, null));
-        return flow.AvailableDungeons().Select(d => From(db, d, hub.Story)).ToList();
+        return flow.AvailableDungeons().Select(d =>
+        {
+            var dest = From(db, d, hub.Story);
+            if (flow.IsSkippedSupplementDungeon(d)) { dest.SupplementChart = d.Chart; dest.DisplayName = "[補完] " + dest.DisplayName; }
+            return dest;
+        }).ToList();
     }
 
     public static DungeonDestination From(StoryDatabase db, DungeonDef d, StoryState st = null)

@@ -163,6 +163,15 @@ public static partial class StoryTests
               winOk && loseNormal && loseOk && protagonistOk && st4.HasFlag("c02_done") && st4.HasFlag("lost_d02_c2"),
               $"win={winOk} loseNormal={loseNormal} loseOk={loseOk} hero={protagonistOk}");
 
+        // 初期レベル5: ストーリー開始時の主人公と相棒は Lv5、Lv5 の時点で技が0個にならない
+        sc = Enter(host, hub, db, d1, 1);
+        var pl = sc.GetNode<Player>(sc.PlayerPath); var allyL = FloorOf(sc).Allies.FirstOrDefault();
+        var mm = new MoveManager(); int learnedAt5 = MoveKit.LearnFromLearnset(mm, "027B", 5);
+        Check("初期レベル: ストーリー開始時の主人公・相棒は Lv5／Lv5 で習得技が1個以上",
+              pl.Stats.Level == 5 && allyL != null && allyL.Stats.Level == 5 && learnedAt5 > 0 && pl.Moves.Slots.Count > 0,
+              $"player={pl.Stats.Level} ally={allyL?.Stats.Level} learned={learnedAt5}");
+        Leave(host, sc);
+
         // FreeDungeonNoBossFinalFloor: 最終階にポータルが置かれ、踏むとクリア
         var cfg = new DungeonConfig { MaxFloors = 2, EndType = DungeonEndType.FreeDungeonNoBossFinalFloor, StartFloor = 2 };
         hub.PendingDungeonConfig = cfg; hub.PendingDungeonId = "d01_c1";
@@ -320,6 +329,47 @@ public static partial class StoryTests
         bool again = !fM.RunMemory("c31").GetAwaiter().GetResult();
         Check("思い出: クリア前は出ない／クリア後にスキップした補完が並ぶ／「そっとしておく」では回収されず、「思い出す」で MemoryCollected に入る（残りは回収可能のまま）",
               hiddenBefore && noMemoryMenu && listed && declined && got && again, $"hidden={hiddenBefore} menu={noMemoryMenu} listed={listed} declined={declined} got={got}");
+
+        // ---- 後日解放: スキップした補完ダンジョンをダンジョン選択に出し、入って完了すると回収済みになる ----
+        var stDL = HeroState(); var hDL = new RecHost { ChoiceIndex = 1 }; var fDL = new StoryFlow(db, stDL, It(db, stDL, hDL));
+        fDL.EnterHub().GetAwaiter().GetResult();
+        fDL.OnDungeonResult(new DungeonResult { DungeonId = "d01_c1" }).GetAwaiter().GetResult();   // c31 をあとにする → c02
+        bool skipListed = stDL.SkippedSupplements.Contains("c31") && fDL.AvailableDungeons().Any(d => d.Id == "d31_s31") && fDL.AvailableDungeons().Any(d => d.Id == "d02_c2")
+            && !stDL.HasFlag("started_c31");
+        var stDLj = StoryState.FromJson(stDL.ToJson());   // セーブ往復: スキップ状態が保たれ、ロード後も選べる
+        var fLj = new StoryFlow(db, stDLj, It(db, stDLj, new RecHost()));
+        bool saveRound = stDLj.SkippedSupplements.SetEquals(stDL.SkippedSupplements) && fLj.AvailableDungeons().Any(d => d.Id == "d31_s31");
+        fDL.EnterSupplementDungeon("d31_s31").GetAwaiter().GetResult();
+        bool started = stDL.HasFlag("started_c31") && stDL.UnlockedDungeons.Contains("d31_s31") && stDL.CurrentChart == "c02" && !fDL.IsSkippedSupplementDungeon(db.Dungeon("d31_s31"));
+        fDL.OnDungeonResult(new DungeonResult { DungeonId = "d31_s31" }).GetAwaiter().GetResult();
+        bool doneL = stDL.CompletedCharts.Contains("c31") && stDL.MemoryCollected.Contains("c31") && !stDL.SkippedSupplements.Contains("c31")
+            && stDL.CurrentChart == "c02" && !stDL.CompletedCharts.Contains("c02");
+        stDL.PostClear = true;
+        bool noMem = !fDL.MemoryEntries().Contains("c31");
+        var stLk = StoryState.FromJson(stDL.ToJson());
+        bool collectedSaved = stLk.MemoryCollected.Contains("c31") && !stLk.SkippedSupplements.Contains("c31");
+        Check("補完の後日解放: スキップ直後からダンジョン選択に出る／入ると始まる／完了で MemoryCollected に入り Skipped から外れ思い出に出ない／セーブ往復で保たれる",
+              skipListed && saveRound && started && doneL && noMem && collectedSaved,
+              $"list={skipListed} save={saveRound} started={started} done={doneL} noMem={noMem} saved={collectedSaved}");
+
+        var s35L = HeroState(); s35L.SkippedSupplements.Add("c35");
+        var f35L = new StoryFlow(db, s35L, It(db, s35L, new RecHost()));
+        bool before14 = !f35L.AvailableDungeons().Any(d => d.Id == "d35_s35");
+        s35L.CompletedCharts.Add("c14");
+        bool after14 = f35L.AvailableDungeons().Any(d => d.Id == "d35_s35");
+        f35L.EnterSupplementDungeon("d35_s35").GetAwaiter().GetResult();
+        bool c14Intact = s35L.HasFlag("started_c35") && s35L.CurrentChart != "c35" && !s35L.CompletedCharts.Contains("c35");
+        f35L.OnDungeonResult(new DungeonResult { DungeonId = "d35_s35" }).GetAwaiter().GetResult();
+        Check("補完35: c14 完了前は出ず、完了後は入れる／本編の現在チャートを変えず、クリアで回収済み",
+              before14 && after14 && c14Intact && s35L.MemoryCollected.Contains("c35") && !s35L.SkippedSupplements.Contains("c35"),
+              $"before={before14} after={after14} intact={c14Intact}");
+
+        var stA = HeroState(); var fA = new StoryFlow(db, stA, It(db, stA, new RecHost { ChoiceIndex = 0 }));
+        fA.EnterHub().GetAwaiter().GetResult();
+        fA.OnDungeonResult(new DungeonResult { DungeonId = "d01_c1" }).GetAwaiter().GetResult();
+        fA.OnDungeonResult(new DungeonResult { DungeonId = "d31_s31" }).GetAwaiter().GetResult();
+        Check("受けた補完は従来どおり進む（スキップ扱いにならず、完了しても MemoryCollected に入らない）",
+              stA.CompletedCharts.Contains("c31") && !stA.SkippedSupplements.Contains("c31") && !stA.MemoryCollected.Contains("c31"), "");
 
         // ---- (e) P8: クリア後の追加枠と勧誘 ----
         var stP = HeroState(); stP.CompletedCharts.Add("c20"); foreach (var n in Enumerable.Range(36, 8)) stP.UnlockedDungeons.Add($"x{n}");

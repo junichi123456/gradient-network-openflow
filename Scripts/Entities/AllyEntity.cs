@@ -51,7 +51,8 @@ public partial class AllyEntity : Entity
 
         Faction = Faction.Player;
 
-        Stats.Level = 8;
+        // ストーリー進行中（主人公が振り分け済み）の相棒は Lv5。それ以外（テスト・単体起動）は従来どおり Lv8。
+        Stats.Level = (Hub.HubUpgradeManager.Instance?.PartyManager.Protagonist ?? "") != "" ? 5 : 8;
 
         Moves.Learn("gap_neutral_s_35");
     }
