@@ -126,5 +126,181 @@
     "mbti": "ENTP",
     "first_chart": "c01",
     "role": "playable"
+  },
+  {
+    "id": "bushigaeru",
+    "species_id": "009",
+    "display_name": "ブシガエル",
+    "mbti": "ISTJ",
+    "first_chart": "c02",
+    "role": "ハコニワの古参（古老）",
+    "first_person": "拙者",
+    "resident_from": "c02",
+    "speech_style": "「〜だ」「〜する」と実直。一人称は拙者"
+  },
+  {
+    "id": "helgalda",
+    "species_id": "080",
+    "display_name": "ヘルガルダ",
+    "mbti": "ESTJ",
+    "first_chart": "c02",
+    "role": "備蓄を抱え込む番犬（のち見回り隊長）",
+    "first_person": "",
+    "resident_from": "c05",
+    "speech_style": "「〜だろうが」「〜しな」"
+  },
+  {
+    "id": "violetta",
+    "species_id": "066",
+    "display_name": "ヴィオレッタ",
+    "mbti": "INFJ",
+    "first_chart": "c03",
+    "role": "薬師（のち研究施設の長）",
+    "first_person": "",
+    "resident_from": "c03",
+    "speech_style": "「〜かな」「〜だと思う」"
+  },
+  {
+    "id": "bulferno",
+    "species_id": "058",
+    "display_name": "ブルフェルノ",
+    "mbti": "ESTP",
+    "first_chart": "c05",
+    "role": "食料倉を押さえる親分",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "「〜っす」"
+  },
+  {
+    "id": "tsurarajika",
+    "species_id": "101",
+    "display_name": "ツララジカ",
+    "mbti": "ISFJ",
+    "first_chart": "c08",
+    "role": "凍てつく峰の長",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "丁寧"
+  },
+  {
+    "id": "sylphia",
+    "species_id": "063",
+    "display_name": "シルフィア",
+    "mbti": "ENFJ",
+    "first_chart": "c08",
+    "role": "竜の空からの使者",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "「〜しましょう！」"
+  },
+  {
+    "id": "anubis",
+    "species_id": "139",
+    "display_name": "アヌビス",
+    "mbti": "INTJ",
+    "first_chart": "c09",
+    "role": "裁きの庭の裁き手",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "短く断定"
+  },
+  {
+    "id": "hawkwin",
+    "species_id": "051",
+    "display_name": "ホークウィン",
+    "mbti": "ESFP",
+    "first_chart": "c10",
+    "role": "流浪の探検隊の隊長",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "「〜だぜ！」"
+  },
+  {
+    "id": "mysteria",
+    "species_id": "082",
+    "display_name": "ミステリア",
+    "mbti": "INFP",
+    "first_chart": "c10",
+    "role": "流浪の探検隊の占い師",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "語尾が溶ける"
+  },
+  {
+    "id": "nightrot",
+    "species_id": "130",
+    "display_name": "ナイトロット",
+    "mbti": "ISFP",
+    "first_chart": "c11",
+    "role": "研究施設の助手",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "のんびり"
+  },
+  {
+    "id": "lightrot",
+    "species_id": "130B",
+    "display_name": "ライトロット",
+    "mbti": "ESFJ",
+    "first_chart": "c11",
+    "role": "研究施設の助手（ナイトロットの身内）",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "「〜わよ」"
+  },
+  {
+    "id": "majoruna",
+    "species_id": "115",
+    "display_name": "マジョルナ",
+    "mbti": "ENTP",
+    "first_chart": "c12",
+    "role": "かけらを集める魔女",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "「〜じゃね？」"
+  },
+  {
+    "id": "omen",
+    "species_id": "150",
+    "display_name": "オーメン",
+    "mbti": "ISTP",
+    "first_chart": "c12",
+    "role": "影の斥候",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "単語に近い短文"
+  },
+  {
+    "id": "suzaku",
+    "species_id": "122",
+    "display_name": "スザク",
+    "mbti": "ENTJ",
+    "first_chart": "c13",
+    "role": "炎山の主",
+    "first_person": "",
+    "resident_from": "",
+    "speech_style": "「〜わ」命令形"
+  },
+  {
+    "id": "levidra",
+    "species_id": "121",
+    "display_name": "レヴィドラ",
+    "mbti": "ISTJ",
+    "first_chart": "c14",
+    "role": "竜の評議の長",
+    "first_person": "我",
+    "resident_from": "",
+    "speech_style": "実直。一人称は我"
+  },
+  {
+    "id": "xenoglyph",
+    "species_id": "189",
+    "display_name": "ゼノグリフ",
+    "mbti": "INFJ",
+    "first_chart": "c15",
+    "role": "ゼノ系の言葉を持つ者",
+    "first_person": "わたしたち",
+    "resident_from": "",
+    "speech_style": "一人称は「わたしたち」"
   }
 ]

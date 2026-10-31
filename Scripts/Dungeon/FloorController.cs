@@ -36,7 +36,23 @@ public partial class FloorController : Node2D
     private DungeonRule _rule;
     private DungeonConfig _config;
     private AStarPathfinder _pathfinder;
-    private BossEntity _bossEntity; // non-null only on a FreeDungeonBoss final floor
+    // Bosses on the final floor (FreeDungeonBoss / StoryBoss / StoryMultiEnemyBattle). Empty on every other floor.
+    private readonly List<BossEntity> _bosses = new();
+    private bool _defeatedByBoss; // StoryBoss(defeat_ok): the party fell but the story goes on
+
+    // ヘッドレス検証用: true のとき、クリアしてもシーン遷移しない。
+    public static bool SuppressSceneChange { get; set; }
+    public bool IsCleared => _isGameCleared;
+    public bool DefeatedByBoss => _defeatedByBoss;
+    public DungeonConfig Config => _config;
+    public IReadOnlyList<BossEntity> Bosses => _bosses;
+    public IEnumerable<Entity> SpawnedEnemyList => _spawnedEnemies;
+    // ヘッドレス検証: パーティ全滅の判定（負けても進行するボス戦ならクリア扱いに切り替わる）。
+    public bool ResolvePlayerDefeat() => CheckPlayerDeath();
+    // ヘッドレス検証: ターン終了時の判定（ボス撃破・ポータル到達など）を直接走らせる。
+    public void RunTurnEndChecks() => OnTurnEnded(0);
+    public Vector2I? PortalPosition { get; private set; }
+    public bool OnFinalFloor => _floorNumber >= _config.MaxFloors;
     private bool _isGameCleared;
     private bool _storyEventCompleted; // framework hook for DungeonEndType.StoryNoBossFinalFloor
 
@@ -240,6 +256,7 @@ public partial class FloorController : Node2D
         _player = player;
         _rule = DungeonRuleLoader.Load(dungeonId);
         _config = config;
+        _floorNumber = System.Math.Max(0, config.StartFloor - 1);
 
         Experience = new ExperienceSystem { Name = "ExperienceSystem" };
         AddChild(Experience);
@@ -330,7 +347,7 @@ public partial class FloorController : Node2D
         // IsAlive flips false the instant Entity.Die() runs (before the
         // deferred QueueFree()), so this is safe to check every turn
         // without an IsInstanceValid race.
-        if (_bossEntity != null && !_bossEntity.IsAlive)
+        if (_bosses.Count > 0 && _bosses.TrueForAll(b => !GodotObject.IsInstanceValid(b) || !b.IsAlive))
         {
             HandleDungeonCleared();
             return;
@@ -417,21 +434,28 @@ public partial class FloorController : Node2D
     // CompleteDungeon()'s recruitment results, banks whatever materials
     // the player is carrying, hands the rest of the inventory off to
     // HubUpgradeManager for the trip back, and returns to the Hub scene.
-    private void HandleDungeonCleared()
+    private void HandleDungeonCleared(bool defeated = false)
     {
         if (_isGameCleared) return;
         _isGameCleared = true;
+        _defeatedByBoss = defeated;
 
         _player.DisableInput();
-        MessageLogger.Log("Dungeon cleared!", MessageLogger.ProgressionColor);
-        CompleteDungeon();
+        MessageLogger.Log(defeated ? "Defeated... but the story goes on." : "Dungeon cleared!", MessageLogger.ProgressionColor);
+        if (!defeated) CompleteDungeon();
 
         var hub = HubUpgradeManager.Instance;
         if (hub != null)
         {
-            hub.DepositMaterials(_player.MaterialInventory);
-            hub.SaveInventory(_player.Inventory);
-            GetTree().ChangeSceneToFile("res://Scenes/HubScene.tscn");
+            // 物語のダンジョンなら、ハコニワへ戻ったあとで StoryFlow が結果を処理する。
+            if (_config.StoryDungeonId != "")
+                hub.PendingResult = new Story.DungeonResult { DungeonId = _config.StoryDungeonId, Defeated = defeated };
+            if (!SuppressSceneChange)
+            {
+                hub.DepositMaterials(_player.MaterialInventory);
+                hub.SaveInventory(_player.Inventory);
+                GetTree().ChangeSceneToFile("res://Scenes/HubScene.tscn");
+            }
         }
     }
 
@@ -454,6 +478,13 @@ public partial class FloorController : Node2D
     private bool CheckPlayerDeath()
     {
         if (_player.Stats.IsAlive) return false;
+        // 負けても進行するボス戦（ヘルガルダ・世界樹の根もと）: 回復してクリア扱いでハコニワへ。
+        if (_config.Boss is { DefeatOk: true } && OnFinalFloor && _bosses.Count > 0 && !_isGameCleared)
+        {
+            _player.Stats.HealToFull();
+            HandleDungeonCleared(defeated: true);
+            return true;
+        }
         _player.Die();
         return true;
     }
@@ -536,7 +567,7 @@ public partial class FloorController : Node2D
         GenerateNormalFloor();
     }
 
-    private void GenerateNormalFloor()
+    private void GenerateNormalFloor(bool finalPortal = false)
     {
         var rng = new RandomNumberGenerator();
         rng.Seed = GD.Randi();
@@ -565,7 +596,7 @@ public partial class FloorController : Node2D
         MarkMonsterHouse(playerRoom, rng);
         var normalRooms = GetNormalSpawnRooms(playerRoom);
 
-        PlaceStairs(normalRooms, occupied, rng);
+        PlaceStairs(normalRooms, occupied, rng, finalPortal);
         PlaceItemsAndTraps(occupied, rng);
         SpawnEnemies(normalRooms, occupied, rng);
         SpawnPartyMembers(occupied);
@@ -598,13 +629,8 @@ public partial class FloorController : Node2D
                 break;
 
             case DungeonEndType.StoryBoss:
-                GD.PrintErr("[Dungeon] DungeonEndType.StoryBoss final-floor generation: Not implemented yet. Falling back to a normal floor.");
-                GenerateNormalFloor();
-                break;
-
             case DungeonEndType.StoryMultiEnemyBattle:
-                GD.PrintErr("[Dungeon] DungeonEndType.StoryMultiEnemyBattle final-floor generation: Not implemented yet. Falling back to a normal floor.");
-                GenerateNormalFloor();
+                GenerateFreeDungeonBossFloor();
                 break;
 
             case DungeonEndType.StoryNoBossFinalFloor:
@@ -616,11 +642,8 @@ public partial class FloorController : Node2D
                 break;
 
             case DungeonEndType.FreeDungeonNoBossFinalFloor:
-                // EscapePortal placement isn't implemented yet - only
-                // the MapObjectType.EscapePortal identifier and
-                // OnTurnEnded's step-on-it check exist so far.
-                GD.PrintErr("[Dungeon] DungeonEndType.FreeDungeonNoBossFinalFloor final-floor generation: Not implemented yet. Falling back to a normal floor.");
-                GenerateNormalFloor();
+                // 通常階と同じ作りで、階段の代わりに EscapePortal を置く。踏むとクリア。
+                GenerateNormalFloor(finalPortal: true);
                 break;
 
             default:
@@ -655,18 +678,28 @@ public partial class FloorController : Node2D
         var occupied = new HashSet<Vector2I> { playerPos };
         SpawnPartyMembers(occupied);
 
-        _bossEntity = new BossEntity();
-        AddChild(_bossEntity);
-        _bossEntity.Grid = _grid;
-        _bossEntity.Pathfinder = _pathfinder;
-        _bossEntity.TargetPlayer = _player;
-        _bossEntity.FloorController = this;
-        _bossEntity.Stats.Level += (_floorNumber - 1) * 2; // same per-floor scaling as normal enemies (enemies/boss ONLY - see SpawnEnemyAt's note on the ally exclusion)
-        _bossEntity.PlaceAt(bossRoom.Center);
-        _bossEntity.Visible = false; // hidden until RefreshFieldOfView() reveals it
+        // 主ボス＋同時出現のメンバー（2体ボス・群れ戦）。Spec 無しは従来の固定ボス1体。
+        var specs = new List<BossSpec> { _config.Boss };
+        if (_config.Boss != null) specs.AddRange(_config.Boss.Group);
+        var offsets = new[] { Vector2I.Zero, new Vector2I(3, 0), new Vector2I(-3, 0), new Vector2I(0, 3), new Vector2I(0, -3),
+                              new Vector2I(3, 3), new Vector2I(-3, -3), new Vector2I(3, -3), new Vector2I(-3, 3) };
+        for (int i = 0; i < specs.Count; i++)
+        {
+            var boss = new BossEntity { Spec = specs[i] };
+            AddChild(boss);
+            boss.Grid = _grid;
+            boss.Pathfinder = _pathfinder;
+            boss.TargetPlayer = _player;
+            boss.FloorController = this;
+            // 物語ボスのレベルは曲線の値そのもの（階による加算はしない）。従来の固定ボスだけ従来の加算。
+            if (specs[i] == null) boss.Stats.Level += (_floorNumber - 1) * 2;
+            boss.PlaceAt(bossRoom.Center + offsets[System.Math.Min(i, offsets.Length - 1)]);
+            boss.Visible = false; // hidden until RefreshFieldOfView() reveals it
 
-        _turnManager.RegisterActor(_bossEntity);
-        _spawnedEnemies.Add(_bossEntity);
+            _turnManager.RegisterActor(boss);
+            _spawnedEnemies.Add(boss);
+            _bosses.Add(boss);
+        }
 
         // Same floor-entry weather pass the normal floor runs - the boss is
         // as much "a Pal coming out onto the floor" as any spawned enemy.
@@ -674,7 +707,7 @@ public partial class FloorController : Node2D
 
         RefreshFieldOfView();
 
-        GD.Print($"[Dungeon] Boss floor {_floorNumber} ready: {_bossEntity.ActorName} (Lv {_bossEntity.Stats.Level}, HP {_bossEntity.Stats.MaxHp}) spawned at {bossRoom.Center}.");
+        GD.Print($"[Dungeon] Boss floor {_floorNumber} ready: {_bosses[0].ActorName} (Lv {_bosses[0].Stats.Level}, HP {_bosses[0].Stats.MaxHp}) spawned at {bossRoom.Center}, bosses={_bosses.Count}.");
     }
 
     private void CleanupCurrentFloor()
@@ -685,7 +718,7 @@ public partial class FloorController : Node2D
             enemy.QueueFree();
         }
         _spawnedEnemies.Clear();
-        _bossEntity = null;
+        _bosses.Clear();
 
         // Allies are rebuilt fresh from PartyManager's roster every
         // floor (same as enemies) - only the roster itself (who's in
@@ -746,14 +779,15 @@ public partial class FloorController : Node2D
         return candidates.Count > 0 ? candidates : _rooms;
     }
 
-    private void PlaceStairs(List<Room> candidateRooms, HashSet<Vector2I> occupied, RandomNumberGenerator rng)
+    private void PlaceStairs(List<Room> candidateRooms, HashSet<Vector2I> occupied, RandomNumberGenerator rng, bool portal = false)
     {
         var stairsRoom = candidateRooms[rng.RandiRange(0, candidateRooms.Count - 1)];
         var pos = RandomFreeTileInRoom(stairsRoom.Bounds, occupied, rng) ?? stairsRoom.Center;
 
-        _objects.Set(pos, MapObjectType.Stairs);
+        _objects.Set(pos, portal ? MapObjectType.EscapePortal : MapObjectType.Stairs);
+        PortalPosition = portal ? pos : null;
         occupied.Add(pos);
-        AddMarker(pos, StairsColor);
+        AddMarker(pos, portal ? new Color(0.2f, 0.9f, 0.9f) : StairsColor);
         _stairsPos = pos;
     }
 
@@ -1086,7 +1120,15 @@ public partial class FloorController : Node2D
 
     private void SpawnEnemyAt(Vector2I pos, RandomNumberGenerator rng)
     {
-        HostileEntity enemy = rng.Randf() < _rule.DummyNpcRatio ? new DummyNPC() : new FastNPC();
+        HostileEntity enemy;
+        bool wild = _config.WildPool.Count > 0;
+        if (wild)
+        {
+            // pal_plan 由来の出現表から種族を引く。レベルは「最終の通常階で 基準Lv、手前は1階ごとに -1」（階の加算はしない）。
+            int lv = System.Math.Max(2, _config.WildLevel - System.Math.Max(0, _config.MaxFloors - 1 - _floorNumber));
+            enemy = new WildEntity { SpeciesId = _config.WildPool[rng.RandiRange(0, _config.WildPool.Count - 1)], WildLevel = lv };
+        }
+        else enemy = rng.Randf() < _rule.DummyNpcRatio ? new DummyNPC() : new FastNPC();
         AddChild(enemy);
         enemy.Grid = _grid;
         enemy.Pathfinder = _pathfinder;
@@ -1097,7 +1139,7 @@ public partial class FloorController : Node2D
         // their Level authority is PartyState's hydrate (Phase 19), and
         // extending this scaling to allies would clobber the carried-over
         // Level (PartyState.TryHydrate's tripwire would fire).
-        enemy.Stats.Level += (_floorNumber - 1) * 2;
+        if (!wild) enemy.Stats.Level += (_floorNumber - 1) * 2;
         enemy.PlaceAt(pos);
         enemy.Visible = false; // hidden until RefreshFieldOfView() reveals it
 

@@ -30,6 +30,8 @@ public class StoryCallbacks
 {
     public Action<string, int> GiveItem;
     public Action<string> StartScenarioFight;
+    // goto_chart: 進行を切り替える依頼（実際の chart_start 発火は StoryFlow が行う）。
+    public Action<string> GotoChart;
 }
 
 public delegate Task OpHandler(EventInterpreter it, JsonObject step, string eventId);
@@ -45,6 +47,12 @@ public class EventInterpreter
     public IStoryHost Host { get; }
     public StoryCallbacks Callbacks { get; } = new();
     public Func<string, string> SpeciesName { get; set; } = id => id;
+    // 種族ID → 第1属性（join_unchosen の属性分散に使う）。
+    public Func<string, string> PrimaryType { get; set; } = id => id;
+    // 直近の join_unchosen で加わった住民の表示名（{arrivals}）。
+    public List<string> LastArrivals { get; } = new();
+    // イベント1本の実行が終わるたびに呼ばれる（補完チャートの挿入点用）。
+    public Func<string, Task> AfterEvent { get; set; }
     private readonly Dictionary<string, OpHandler> _ops = new();
     private int _depth;
 
@@ -75,6 +83,7 @@ public class EventInterpreter
             if (t.Once) State.FiredEvents.Add(ev.Id);   // 途中で中断しても二度目は走らせない
             fired.Add(ev.Id);
             await RunSteps(ev.Steps, ev.Id);
+            if (AfterEvent != null) await AfterEvent(ev.Id);
         }
         return fired;
     }
@@ -156,6 +165,7 @@ public class EventInterpreter
                 case "player_name": return State.PlayerName != "" ? State.PlayerName : SpeciesName(State.Protagonist);
                 case "protagonist": return SpeciesName(State.Protagonist);
                 case "partner": return SpeciesName(State.Partner);
+                case "arrivals": return string.Join("、", LastArrivals);
                 case "name": return _db.Character(arg)?.DisplayName ?? throw new StoryException($"{{name:{arg}}} の人物が無い");
                 default: throw new StoryException($"未知のプレースホルダ {m.Value}");
             }
@@ -165,7 +175,12 @@ public class EventInterpreter
     private VoiceDef Voice(string who)
     {
         string mbti = SpeakerMbti(who);
-        return _db.Voices.TryGetValue(mbti, out var v) ? v : throw new StoryException($"voice.json に '{mbti}' が無い");
+        var v = _db.Voices.TryGetValue(mbti, out var vv) ? vv : throw new StoryException($"voice.json に '{mbti}' が無い");
+        // ネームド人物の一人称の上書き（一人称が被る人物を区別する）。
+        var ch = who is "protagonist" or "partner" or "narrator" ? null : _db.Character(who);
+        if (ch != null && ch.FirstPerson != "")
+            return new VoiceDef { FirstPerson = ch.FirstPerson, Speech = v.Speech, Catch = v.Catch, Emotion = v.Emotion };
+        return v;
     }
 
     // by_type があれば話者の型の行、無ければ text。どちらも無ければ起動時エラー相当。
@@ -242,7 +257,24 @@ public class EventInterpreter
             if (s["introvert"]?.GetValue<bool>() == true) sec *= State.ProtagonistIntrovertion / 50.0;
             await Host.Wait(sec);
         });
-        Register("goto_chart", (it, s, id) => { State.CurrentChart = Str(s, "id"); return Task.CompletedTask; });
+        Register("goto_chart", (it, s, id) =>
+        {
+            State.CurrentChart = Str(s, "id");
+            Callbacks.GotoChart?.Invoke(Str(s, "id"));
+            return Task.CompletedTask;
+        });
+        // 選ばれなかったプレイアブル14体を 4/4/3/3 でチャート2〜5へ割り振った slot 番目（0〜3）が加わる。
+        Register("join_unchosen", (it, s, id) =>
+        {
+            LastArrivals.Clear();
+            foreach (var sp in SelectionLogic.ResidentSchedule(_db, State, PrimaryType, s["slot"]?.GetValue<int>() ?? 0))
+            {
+                var ch = _db.CharacterBySpecies(sp);
+                if (ch != null) State.ResidentsArrived.Add(ch.Id);
+                LastArrivals.Add(SpeciesName(sp));
+            }
+            return Task.CompletedTask;
+        });
         Register("if", async (it, s, id) =>
         {
             var branch = Eval(s["cond"]) ? s["then"] : s["else"];

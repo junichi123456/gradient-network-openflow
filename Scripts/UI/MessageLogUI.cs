@@ -38,6 +38,12 @@ public partial class MessageLogUI : Control
             MessageLogger.Instance.MessageLogged += OnMessageLogged;
     }
 
+    // シーンが外れたあとも autoload のシグナルが残ると、破棄済みの UI を触って例外になる。
+    public override void _ExitTree()
+    {
+        if (MessageLogger.Instance != null) MessageLogger.Instance.MessageLogged -= OnMessageLogged;
+    }
+
     private void OnMessageLogged(string message, Color color)
     {
         _lines.Add((message, color));

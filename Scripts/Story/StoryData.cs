@@ -8,6 +8,11 @@ public class UnlockDef
 {
     [JsonPropertyName("charts")] public List<string> Charts { get; set; } = new();
     [JsonPropertyName("flags")] public List<string> Flags { get; set; } = new();
+    // 補完21〜30（ハコニワの住民イベント）の解放条件。評価は P9。0 = 条件なし。
+    [JsonPropertyName("days")] public int Days { get; set; }
+    [JsonPropertyName("affinity")] public int Affinity { get; set; }
+    // true のとき、クリア後（PostClear）でなければ開かない。
+    [JsonPropertyName("post_clear")] public bool PostClear { get; set; }
 }
 
 public class InsertAfterDef
@@ -27,6 +32,12 @@ public class ChartDef
     [JsonPropertyName("events")] public List<string> Events { get; set; } = new();
     [JsonPropertyName("hub_changes")] public List<string> HubChanges { get; set; } = new();
     [JsonPropertyName("insert_after")] public InsertAfterDef InsertAfter { get; set; }
+    // 補完チャートを挿入点で出すときの案内文（スキップ可）。
+    [JsonPropertyName("offer")] public string Offer { get; set; } = "";
+    // true のチャートの完了でエンディング（PostClear）に入る。
+    [JsonPropertyName("ends_game")] public bool EndsGame { get; set; }
+    // 本編チャート番号（レベル曲線の入力）。補完は挿入先、追加枠は 0。
+    [JsonPropertyName("level_chart")] public int LevelChart { get; set; }
 }
 
 public class BossSpecDef
@@ -36,6 +47,36 @@ public class BossSpecDef
     [JsonPropertyName("hp_mult")] public double HpMult { get; set; } = 1.0;
     [JsonPropertyName("atk_mult")] public double AtkMult { get; set; } = 1.0;
     [JsonPropertyName("defeat_ok")] public bool DefeatOk { get; set; }
+    // 2体ボス・群れ戦の追加メンバー（主ボスに加えて同時に出す）。
+    [JsonPropertyName("group")] public List<BossSpecDef> Group { get; set; } = new();
+}
+
+public class LevelCurveDef
+{
+    [JsonPropertyName("first_chart")] public int FirstChart { get; set; } = 1;
+    [JsonPropertyName("first_level")] public int FirstLevel { get; set; } = 5;
+    [JsonPropertyName("last_chart")] public int LastChart { get; set; } = 20;
+    [JsonPropertyName("last_level")] public int LastLevel { get; set; } = 60;
+    [JsonPropertyName("legendary_level")] public int LegendaryLevel { get; set; } = 70;
+    [JsonPropertyName("rematch_level")] public int RematchLevel { get; set; } = 65;
+    [JsonPropertyName("wild_offset")] public int WildOffset { get; set; } = -3;
+
+    public int At(int chart)
+    {
+        if (chart <= FirstChart) return FirstLevel;
+        if (chart >= LastChart) return LastLevel;
+        return (int)System.Math.Round(FirstLevel + (chart - FirstChart) * (double)(LastLevel - FirstLevel) / (LastChart - FirstChart));
+    }
+}
+
+public class PalPlanRow
+{
+    [JsonPropertyName("species_id")] public string SpeciesId { get; set; } = "";
+    [JsonPropertyName("first_chart")] public int? FirstChart { get; set; }
+    [JsonPropertyName("dungeons")] public List<string> Dungeons { get; set; } = new();
+    [JsonPropertyName("boss_dungeons")] public List<string> BossDungeons { get; set; } = new();
+    [JsonPropertyName("wild")] public bool Wild { get; set; }
+    [JsonPropertyName("category")] public string Category { get; set; } = "normal";
 }
 
 public class DungeonDef
@@ -47,6 +88,12 @@ public class DungeonDef
     [JsonPropertyName("rule_id")] public string RuleId { get; set; } = "";
     [JsonPropertyName("end_type")] public string EndType { get; set; } = "FreeDungeonBoss";
     [JsonPropertyName("boss")] public BossSpecDef Boss { get; set; }
+    // ダンジョン選択に出さない（シナリオ戦から入る隠しダンジョン）。
+    [JsonPropertyName("hidden")] public bool Hidden { get; set; }
+    // 追加枠（クリア後に開く）。
+    [JsonPropertyName("post_clear")] public bool PostClear { get; set; }
+    // 野生種を出さない（枠だけの追加ダンジョン等）。
+    [JsonPropertyName("no_wild")] public bool NoWild { get; set; }
 }
 
 public class CharacterDef
@@ -57,6 +104,11 @@ public class CharacterDef
     [JsonPropertyName("mbti")] public string Mbti { get; set; } = "";
     [JsonPropertyName("first_chart")] public string FirstChart { get; set; } = "";
     [JsonPropertyName("role")] public string Role { get; set; } = "";
+    // 一人称の上書き（ブシガエル「拙者」・レヴィドラ「我」・ゼノグリフ「わたしたち」）。
+    [JsonPropertyName("first_person")] public string FirstPerson { get; set; } = "";
+    // ハコニワ常駐の開始チャート（空 = 常駐しない）。
+    [JsonPropertyName("resident_from")] public string ResidentFrom { get; set; } = "";
+    [JsonPropertyName("speech_style")] public string SpeechStyle { get; set; } = "";
 }
 
 public class VoiceDef

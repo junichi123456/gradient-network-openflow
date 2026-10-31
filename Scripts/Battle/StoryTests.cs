@@ -12,7 +12,7 @@ using MysteryDungeon.Story;
 namespace MysteryDungeon.Battle;
 
 // シナリオ基盤（P0〜P2）のヘッドレス検証。BattleTestScene から呼ぶ。
-public static class StoryTests
+public static partial class StoryTests
 {
     private sealed class RecHost : IStoryHost
     {
@@ -35,9 +35,23 @@ public static class StoryTests
         return f.GetAsText();
     }
 
-    private static readonly string[] EventFiles = { "c01.json" };
+    private static readonly string[] EventFiles = { "c01.json", "c02.json" };
     private static bool SpeciesOk(string id) => SpeciesDatabase.Instance.Get(id) != null;
-    private static bool RuleOk(string id) => id == "beach_cave";
+    private static HashSet<string> _rules;
+    private static bool RuleOk(string id)
+    {
+        if (_rules == null)
+        {
+            using var doc = System.Text.Json.JsonDocument.Parse(ReadResAbs("res://Data/dungeons.json"));
+            _rules = doc.RootElement.EnumerateArray().Select(d => d.GetProperty("id").GetString()).ToHashSet();
+        }
+        return _rules.Contains(id);
+    }
+    private static string ReadResAbs(string p)
+    {
+        using var f = Godot.FileAccess.Open(p, Godot.FileAccess.ModeFlags.Read);
+        return f.GetAsText();
+    }
 
     private static StoryDatabase Db(Func<string, string> reader, out List<string> errs, IEnumerable<string> eventFiles = null)
     {
@@ -52,13 +66,13 @@ public static class StoryTests
     private static EventInterpreter It(StoryDatabase db, StoryState st, RecHost h)
         => new(db, st, h) { SpeciesName = id => SpeciesDatabase.Instance.Get(id)?.DisplayName ?? id };
 
-    public static void Run()
+    public static void Run(Node sceneHost)
     {
         void Check(string label, bool ok, string detail) => GD.Print($"[検証] {label}: {(ok ? "OK" : "NG")} ({detail})");
 
         // ---- P0: データ・状態・セーブ ----
         var db = Db(ReadRes, out var errs);
-        Check("StoryDatabase が参照切れ0で読める", errs.Count == 0 && db.Charts.Count == 1 && db.Characters.Count == 16,
+        Check("StoryDatabase が参照切れ0で読める", errs.Count == 0 && db.Charts.Count == 44 && db.Characters.Count == 32,
               errs.Count == 0 ? $"chart{db.Charts.Count} char{db.Characters.Count} event{db.Events.Count}" : errs[0]);
 
         string Bad(Func<string, string> mod, string needle)
@@ -67,7 +81,7 @@ public static class StoryTests
             return e.Any(x => x.Contains(needle)) ? "" : $"'{needle}' が検出されない: {string.Join(" / ", e)}";
         }
         string miss = Bad(p => p == "dungeons.json" ? ReadRes(p).Replace("\"088B\"", "\"999Z\"") : ReadRes(p), "999Z")
-            + Bad(p => p == "charts.json" ? ReadRes(p).Replace("d01_beach_cave", "d_none") : ReadRes(p), "d_none")
+            + Bad(p => p == "charts.json" ? ReadRes(p).Replace("d01_c1", "d_none") : ReadRes(p), "d_none")
             + Bad(p => p == "selection.json" ? ReadRes(p).Replace("\"024\"", "\"998Z\"") : ReadRes(p), "998Z")
             + Bad(p => p == "events/c01.json" ? ReadRes(p).Replace("\"partner\"", "\"nobody\"") : ReadRes(p), "nobody")
             + Bad(p => p == "events/c01.json" ? ReadRes(p).Replace("set_flag", "teleport") : ReadRes(p), "teleport")
@@ -119,9 +133,9 @@ public static class StoryTests
         [
          {"id":"t_once","trigger":{"type":"hub_enter","once":true},"steps":[{"op":"inc_counter","counter":"once_hits"}]},
          {"id":"t_req","trigger":{"type":"hub_enter","once":false,"requires":["gate"]},"steps":[{"op":"inc_counter","counter":"req_hits"}]},
-         {"id":"t_floor","trigger":{"type":"dungeon_floor","dungeon":"d01_beach_cave","floor":3},"steps":[{"op":"set_flag","flag":"floor3"}]},
+         {"id":"t_floor","trigger":{"type":"dungeon_floor","dungeon":"d01_c1","floor":3},"steps":[{"op":"set_flag","flag":"floor3"}]},
          {"id":"t_days","trigger":{"type":"time_passed","days":5},"steps":[{"op":"set_flag","flag":"day5"}]},
-         {"id":"t_clear","trigger":{"type":"dungeon_clear","dungeon":"d01_beach_cave"},"steps":[{"op":"set_flag","flag":"cleared"}]},
+         {"id":"t_clear","trigger":{"type":"dungeon_clear","dungeon":"d01_c1"},"steps":[{"op":"set_flag","flag":"cleared"}]},
          {"id":"t_cs","trigger":{"type":"chart_start","chart":"c01"},"steps":[{"op":"set_flag","flag":"cs"}]},
          {"id":"t_if","steps":[{"op":"if","cond":{"flag":"yes"},"then":[{"op":"set_flag","flag":"took_then"}],"else":[{"op":"set_flag","flag":"took_else"}]},
                               {"op":"if","cond":{"all":[{"counter":"n","gte":2},{"not_flag":"no"}]},"then":[{"op":"set_flag","flag":"all_ok"}]}]},
@@ -135,13 +149,13 @@ public static class StoryTests
          {"id":"t_choice","steps":[{"op":"choice","options":[{"text":"A","set_flag":"fa"},{"text":"B","set_flag":"fb","steps":[{"op":"set_flag","flag":"fb_steps"}]}]}]},
          {"id":"t_name","steps":[{"op":"name_input","max":4}]},
          {"id":"t_loop","steps":[{"op":"call_event","id":"t_loop"}]},
-         {"id":"t_call","steps":[{"op":"call_event","id":"t_callee"},{"op":"give_item","id":"potion","n":2},{"op":"join_resident","id":"res_001"},{"op":"unlock_dungeon","id":"d01_beach_cave"},{"op":"goto_chart","id":"c01"}]},
+         {"id":"t_call","steps":[{"op":"call_event","id":"t_callee"},{"op":"give_item","id":"potion","n":2},{"op":"join_resident","id":"res_001"},{"op":"unlock_dungeon","id":"d01_c1"},{"op":"goto_chart","id":"c01"}]},
          {"id":"t_callee","steps":[{"op":"inc_counter","counter":"callee","n":5}]},
          {"id":"t_wait","steps":[{"op":"wait","sec":1.0,"introvert":true}]}
         ]
         """;
         Func<string, string> rdr = p => p == "events/t.json" ? evJson : ReadRes(p);
-        var tdb = Db(rdr, out var terrs, new[] { "c01.json", "t.json" });
+        var tdb = Db(rdr, out var terrs, new[] { "c01.json", "c02.json", "t.json" });
         Check("テスト用イベント定義が検証を通る", terrs.Count == 0, terrs.Count == 0 ? $"{tdb.Events.Count}件" : terrs[0]);
 
         var st = HeroState(); var host = new RecHost(); var it = It(tdb, st, host);
@@ -151,16 +165,16 @@ public static class StoryTests
               f1.Contains("t_once") && !f2.Contains("t_once") && st.GetCounter("once_hits") == 1, $"1回目[{string.Join(",", f1)}] 2回目[{string.Join(",", f2)}]");
         Check("requires のフラグが無いと発火しない / 立てば once:false は毎回発火",
               st.GetCounter("req_hits") == 0 && Fire3(it, st), $"req_hits={st.GetCounter("req_hits")}");
-        it.Fire("dungeon_floor", new(Dungeon: "d01_beach_cave", Floor: 2)).GetAwaiter().GetResult();
+        it.Fire("dungeon_floor", new(Dungeon: "d01_c1", Floor: 2)).GetAwaiter().GetResult();
         bool floorMiss = !st.HasFlag("floor3");
-        it.Fire("dungeon_floor", new(Dungeon: "d01_beach_cave", Floor: 3)).GetAwaiter().GetResult();
+        it.Fire("dungeon_floor", new(Dungeon: "d01_c1", Floor: 3)).GetAwaiter().GetResult();
         it.Fire("time_passed", new(Days: 4)).GetAwaiter().GetResult();
         bool dayMiss = !st.HasFlag("day5");
         it.Fire("time_passed", new(Days: 5)).GetAwaiter().GetResult();
         it.Fire("chart_start", new(Chart: "c02")).GetAwaiter().GetResult();
         bool csMiss = !st.HasFlag("cs");
         it.Fire("chart_start", new(Chart: "c01")).GetAwaiter().GetResult();
-        it.Fire("dungeon_clear", new(Dungeon: "d01_beach_cave")).GetAwaiter().GetResult();
+        it.Fire("dungeon_clear", new(Dungeon: "d01_c1")).GetAwaiter().GetResult();
         Check("トリガー種（階到達・日数・チャート開始・踏破）が条件どおり発火",
               floorMiss && dayMiss && csMiss && st.HasFlag("floor3") && st.HasFlag("day5") && st.HasFlag("cs") && st.HasFlag("cleared"),
               $"floor{floorMiss}/day{dayMiss}/cs{csMiss}");
@@ -183,7 +197,7 @@ public static class StoryTests
         var fbHost = new RecHost();
         It(tdb, HeroState(), fbHost).RunEvent("t_nofb").GetAwaiter().GetResult();
         Check("by_type に該当タイプが無ければ text にフォールバックする", fbHost.Lines.SequenceEqual(new[] { "ミナト:ok" }), string.Join("|", fbHost.Lines));
-        var nofbDb = Db(p => p == "events/t.json" ? """[{"id":"x","steps":[{"op":"say","who":"protagonist","by_type":{"INFJ":"a"}}]}]""" : ReadRes(p), out var nofbErrs, new[] { "c01.json", "t.json" });
+        var nofbDb = Db(p => p == "events/t.json" ? """[{"id":"x","steps":[{"op":"say","who":"protagonist","by_type":{"INFJ":"a"}}]}]""" : ReadRes(p), out var nofbErrs, new[] { "c01.json", "c02.json", "t.json" });
         Check("by_type が16タイプ揃わず text も無い say を検証が弾く", nofbErrs.Any(x => x.Contains("16タイプ")), nofbErrs.FirstOrDefault() ?? "検出なし");
 
         var ch = new RecHost { ChoiceIndex = 1 }; var cst = HeroState();
@@ -202,7 +216,7 @@ public static class StoryTests
         it2.RunEvent("t_call").GetAwaiter().GetResult();
         Check("call_event・give_item・join_resident・unlock_dungeon・goto_chart と、call_event の無限再帰を止める",
               loopThrew && cst2.GetCounter("callee") == 5 && gi.SequenceEqual(new[] { "potionx2" }) && cst2.ResidentsArrived.Contains("res_001")
-              && cst2.UnlockedDungeons.Contains("d01_beach_cave") && cst2.CurrentChart == "c01", $"throw={loopThrew}");
+              && cst2.UnlockedDungeons.Contains("d01_c1") && cst2.CurrentChart == "c01", $"throw={loopThrew}");
 
         var real = HeroState(); var realHost = new RecHost();
         It(db, real, realHost).Fire("chart_start", new(Chart: "c01")).GetAwaiter().GetResult();
@@ -254,6 +268,8 @@ public static class StoryTests
         bool emptyOk = pm.AllMemberSpeciesIds().Count == 0;
         pm.SetStartingParty("024", "031"); pm.AddToRoster("002");
         var all = pm.AllMemberSpeciesIds();
+        RunDungeonAndFlow(sceneHost, db);
+
         Check("PartyManager の固定相棒(001)を廃止し、選んだ相棒が先頭", emptyOk && all[0] == "031" && all.Count == 2 && !all.Contains("001")
               && pm.Protagonist == "024", string.Join(",", all));
     }

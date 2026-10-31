@@ -2,31 +2,42 @@ using Godot;
 
 namespace MysteryDungeon.Entities;
 
-// FreeDungeonBoss (end pattern 4): a single, heavily-buffed enemy that
-// owns the entire final floor. Inherits HostileEntity's existing
-// wander/chase/attack state machine as-is - only stats and moveset are
-// boss-specific, so no new AI is needed.
+// FreeDungeonBoss / StoryBoss / StoryMultiEnemyBattle のボス1体。HostileEntity の
+// 徘徊・追跡・攻撃をそのまま使い、種族・レベル・係数だけを BossSpec で差し替える。
+// Spec が null のときは従来の固定ボス（種族124・Lv15）。FloorController が AddChild の前に Spec を入れる。
 public partial class BossEntity : HostileEntity
 {
+    public BossSpec Spec { get; set; }
+
     public override void _Ready()
     {
         ActorName = "DungeonBoss";
         Speed = 100;
         DebugColor = Colors.Purple;
 
-        // Base 105/100/100 (フェスキー) + Type Dragon + SpriteKey 124 come
-        // from species "124" (Data/species.json). The boss's real edge
-        // comes from these plus FloorController's floor-based Level bump
-        // on top of the Lv15 base below.
-        SpeciesId = "124";
-        base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
+        if (Spec == null)
+        {
+            SpeciesId = "124";
+            base._Ready();
+            Stats.Level = 15;
+            Moves.Learn("aqua_gun");
+            Moves.Learn("mvn_059");
+            Moves.Learn("shockwave");
+            return;
+        }
 
-        Stats.Level = 15;
+        SpeciesId = Spec.SpeciesId;
+        base._Ready(); // 種族の能力値・見た目・属性を DB から取る
+        ActorName = Species.SpeciesDatabase.Instance?.Get(SpeciesId)?.DisplayName ?? SpeciesId;
 
-        // Fixed 3-move boss kit (FloorController still applies the same
-        // floor-based level scaling as normal enemies on top of this).
-        Moves.Learn("aqua_gun");
-        Moves.Learn("mvn_059");
-        Moves.Learn("shockwave");
+        if (Spec.HpMult != 1.0) Stats.BaseMaxHp = (int)System.Math.Round(Stats.BaseMaxHp * Spec.HpMult);
+        if (Spec.AtkMult != 1.0)
+        {
+            Stats.BaseAtk = (int)System.Math.Round(Stats.BaseAtk * Spec.AtkMult);
+            Stats.BaseSpAtk = (int)System.Math.Round(Stats.BaseSpAtk * Spec.AtkMult);
+        }
+        Stats.Level = Spec.Level;
+        Stats.HealToFull();
+        if (MoveKit.LearnFromLearnset(Moves, SpeciesId, Spec.Level) == 0) Moves.Learn("gap_neutral_s_35");
     }
 }

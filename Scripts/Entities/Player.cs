@@ -44,7 +44,10 @@ public partial class Player : Entity
 
     public override void _Ready()
     {
-        SpeciesId = "009"; // ブシガエル: fills SpriteKey 009 + Base 80/100/85 + Type Water from the DB
+        // 振り分けで決まった主人公の種族。物語が未開始（単体起動・テスト）のときは従来どおり 009 ブシガエル。
+        string story = Hub.HubUpgradeManager.Instance?.PartyManager.Protagonist ?? "";
+        bool useStory = story != "" && Species.SpeciesDatabase.Instance?.Get(story) != null;
+        SpeciesId = useStory ? story : "009"; // fills SpriteKey + Base stats + Type from the DB
         base._Ready(); // resolves species, creates Stats + Moves + the Sprite2D visual
 
         if (!InputMap.HasAction(DiagonalLockAction))
@@ -68,8 +71,11 @@ public partial class Player : Entity
         Stats.MaxBelly = 100;
         Stats.Belly = 100;
 
-        Moves.Learn("gap_neutral_s_35");
-        Moves.Learn("MV_234");
+        if (!useStory || MoveKit.LearnFromLearnset(Moves, SpeciesId, Stats.Level) == 0)
+        {
+            Moves.Learn("gap_neutral_s_35");
+            Moves.Learn("MV_234");
+        }
     }
 
     public void DisableInput() => _inputDisabled = true;

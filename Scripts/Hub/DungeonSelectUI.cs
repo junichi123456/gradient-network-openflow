@@ -11,6 +11,7 @@ public partial class DungeonSelectUI : Control
     private HubPlayer _player;
     private VBoxContainer _list;
     private int _cursor;
+    private System.Collections.Generic.List<DungeonDestination> _items = new();
 
     public bool IsOpen { get; private set; }
 
@@ -34,6 +35,7 @@ public partial class DungeonSelectUI : Control
         IsOpen = true;
         Visible = true;
         _cursor = 0;
+        _items = DungeonDestinations.Current();
         if (_player != null) _player.InputEnabled = false;
         Render();
         GD.Print("[Hub] Dungeon Gate opened.");
@@ -77,16 +79,16 @@ public partial class DungeonSelectUI : Control
 
     private void MoveCursor(int delta)
     {
-        int count = Mathf.Max(1, DungeonDestinations.All.Count);
+        int count = Mathf.Max(1, _items.Count);
         _cursor = (_cursor + delta + count) % count;
         Render();
     }
 
     private void HandleAccept()
     {
-        if (DungeonDestinations.All.Count == 0) return;
+        if (_items.Count == 0) return;
 
-        var destination = DungeonDestinations.All[_cursor];
+        var destination = _items[_cursor];
         GD.Print($"[Hub] Departing for {destination.DisplayName} (MaxFloors={destination.Config.MaxFloors}, EndType={destination.Config.EndType})...");
 
         var hub = HubUpgradeManager.Instance;
@@ -105,10 +107,10 @@ public partial class DungeonSelectUI : Control
         foreach (Node child in _list.GetChildren())
             child.QueueFree();
 
-        for (int i = 0; i < DungeonDestinations.All.Count; i++)
+        for (int i = 0; i < _items.Count; i++)
         {
             string prefix = i == _cursor ? "> " : "  ";
-            _list.AddChild(new Label { Text = prefix + DungeonDestinations.All[i].DisplayName });
+            _list.AddChild(new Label { Text = prefix + _items[i].DisplayName });
         }
     }
 }

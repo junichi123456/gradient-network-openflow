@@ -41,6 +41,17 @@ public static class SelectionLogic
         => db.Selection.TypeToSpecies.Values.Distinct().Where(s => s != protagonist && s != partner)
             .OrderBy(s => s, StringComparer.Ordinal).ToList();
 
+    // 選ばれなかった14体の登場順（チャート2〜5へ 4/4/3/3、属性を分散）。SelectionSeed で固定。
+    // 属性ごとにまとめた並び（属性内は固定シードで並べ替え）に 0,1,2,3,0,1,2,3,... を配る。
+    public static List<string> ResidentSchedule(StoryDatabase db, StoryState st, Func<string, string> primaryType, int slot)
+    {
+        var rest = UnchosenResidents(db, st.Protagonist, st.Partner);
+        var rng = new Random(unchecked((int)st.SelectionSeed ^ (int)(st.SelectionSeed >> 32)) + 17);
+        var shuffled = rest.OrderBy(_ => rng.Next()).ToList();
+        var sorted = shuffled.GroupBy(primaryType).OrderBy(g => g.Key, StringComparer.Ordinal).SelectMany(g => g).ToList();
+        return sorted.Where((_, i) => i % 4 == slot).ToList();
+    }
+
     public static void ApplyAnswers(StoryState state, StoryDatabase db, IReadOnlyList<string> letters, long seed)
     {
         string type = TypeFromAnswers(letters);

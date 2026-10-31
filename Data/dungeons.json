@@ -7,8 +7,14 @@
       "map_width": 50,
       "map_height": 30,
       "min_leaf_size": 8,
-      "room_min": [4, 4],
-      "room_max": [9, 7],
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
       "monster_house_chance": 0.2,
       "min_items_per_room": 1,
       "max_items_per_room": 3,
@@ -20,6 +26,1344 @@
       "monster_house_max_traps": 4,
       "min_enemy_count": 3,
       "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d01_c1",
+    "name": "ビーチのどうくつ",
+    "floors": 5,
+    "main_types": [
+      "Water",
+      "Neutral"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d02_c2",
+    "name": "ハコニワ裏山",
+    "floors": 6,
+    "main_types": [
+      "Grass",
+      "Ground",
+      "Neutral"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d03_c3",
+    "name": "くずれた鉱道",
+    "floors": 7,
+    "main_types": [
+      "Ground",
+      "Neutral",
+      "Dark"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d04_c3",
+    "name": "割れ目の浅層",
+    "floors": 8,
+    "main_types": [
+      "Void",
+      "Grass"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d05_c4",
+    "name": "水の入江の洞",
+    "floors": 8,
+    "main_types": [
+      "Water"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d06_c4",
+    "name": "雷鳴の原の地下道",
+    "floors": 8,
+    "main_types": [
+      "Electric"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d07_c5",
+    "name": "煙の道",
+    "floors": 9,
+    "main_types": [
+      "Fire",
+      "Dark"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d08_c6",
+    "name": "緑の谷の根の迷宮",
+    "floors": 9,
+    "main_types": [
+      "Grass",
+      "Neutral"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d09_c7",
+    "name": "見回りの巡回路",
+    "floors": 10,
+    "main_types": [
+      "Dark",
+      "Ground"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d10_c7",
+    "name": "作業台奪還の砦",
+    "floors": 8,
+    "main_types": [
+      "Fire",
+      "Ice"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d11_c8",
+    "name": "凍てつく峰の氷穴",
+    "floors": 10,
+    "main_types": [
+      "Ice",
+      "Ground"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d12_c8",
+    "name": "吹雪の荷運び道",
+    "floors": 7,
+    "main_types": [
+      "Ice",
+      "Dragon"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d13_c9",
+    "name": "裁きの庭の地下牢",
+    "floors": 9,
+    "main_types": [
+      "Dark",
+      "Ground",
+      "Neutral"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d14_c10",
+    "name": "祭りの裏路",
+    "floors": 5,
+    "main_types": [
+      "All"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d15_c11",
+    "name": "かけらの回廊",
+    "floors": 10,
+    "main_types": [
+      "Neutral",
+      "Void"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d16_c12",
+    "name": "影の森",
+    "floors": 11,
+    "main_types": [
+      "Grass",
+      "Dark"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d17_c12",
+    "name": "ささやきの洞",
+    "floors": 8,
+    "main_types": [
+      "Void",
+      "Grass"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d18_c13",
+    "name": "炎山の火口道",
+    "floors": 12,
+    "main_types": [
+      "Fire",
+      "Ground"
+    ],
+    "generation": {
+      "map_width": 64,
+      "map_height": 40,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 4,
+      "max_enemy_count": 8,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d19_c13",
+    "name": "かけらの坑",
+    "floors": 9,
+    "main_types": [
+      "Ground",
+      "Void"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d20_c14",
+    "name": "竜の空の階",
+    "floors": 12,
+    "main_types": [
+      "Dragon",
+      "Water",
+      "Electric"
+    ],
+    "generation": {
+      "map_width": 64,
+      "map_height": 40,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 4,
+      "max_enemy_count": 8,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d21_c14",
+    "name": "かけらの荒野",
+    "floors": 12,
+    "main_types": [
+      "Dragon",
+      "Fire",
+      "Ground"
+    ],
+    "generation": {
+      "map_width": 64,
+      "map_height": 40,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 4,
+      "max_enemy_count": 8,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d22_c15",
+    "name": "世界樹の根の洞・外縁",
+    "floors": 12,
+    "main_types": [
+      "Void",
+      "Grass"
+    ],
+    "generation": {
+      "map_width": 64,
+      "map_height": 40,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 4,
+      "max_enemy_count": 8,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d23_c15",
+    "name": "世界樹の根の洞・中層",
+    "floors": 14,
+    "main_types": [
+      "Void",
+      "Dragon"
+    ],
+    "generation": {
+      "map_width": 64,
+      "map_height": 40,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 4,
+      "max_enemy_count": 8,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d24_c16",
+    "name": "石舞台の遺構",
+    "floors": 10,
+    "main_types": [
+      "Ground",
+      "Neutral"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d25_c16",
+    "name": "根のほこら",
+    "floors": 8,
+    "main_types": [
+      "Void",
+      "Water"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d26_c17",
+    "name": "分裂の峠",
+    "floors": 10,
+    "main_types": [
+      "Ice",
+      "Fire"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d27_c18",
+    "name": "夢の浜",
+    "floors": 6,
+    "main_types": [
+      "Grass",
+      "Neutral",
+      "Ice"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d28_c19",
+    "name": "世界樹への道",
+    "floors": 15,
+    "main_types": [
+      "All"
+    ],
+    "generation": {
+      "map_width": 64,
+      "map_height": 40,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 4,
+      "max_enemy_count": 8,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d29_c19",
+    "name": "世界樹・幹の回廊",
+    "floors": 15,
+    "main_types": [
+      "Grass",
+      "Dragon",
+      "Void"
+    ],
+    "generation": {
+      "map_width": 64,
+      "map_height": 40,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 4,
+      "max_enemy_count": 8,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d30_c20",
+    "name": "世界樹・梢",
+    "floors": 7,
+    "main_types": [
+      "Void",
+      "Dragon"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d31_s31",
+    "name": "浜の岩棚",
+    "floors": 4,
+    "main_types": [
+      "Water",
+      "Neutral",
+      "Fire"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d32_s32",
+    "name": "ひび割れの庭",
+    "floors": 6,
+    "main_types": [
+      "Void",
+      "Dark",
+      "Fire"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d33_s33",
+    "name": "忘れ水の洞",
+    "floors": 7,
+    "main_types": [
+      "Ice",
+      "Water"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d34_s34",
+    "name": "かけらの巣",
+    "floors": 9,
+    "main_types": [
+      "Void",
+      "Grass",
+      "Dragon"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "d35_s35",
+    "name": "世界樹の外周路",
+    "floors": 10,
+    "main_types": [
+      "Neutral",
+      "Grass",
+      "Ground",
+      "Dragon"
+    ],
+    "generation": {
+      "map_width": 60,
+      "map_height": 36,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 7,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "x_root_base",
+    "name": "世界樹の根もと",
+    "floors": 1,
+    "main_types": [
+      "Neutral"
+    ],
+    "generation": {
+      "map_width": 50,
+      "map_height": 30,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 3,
+      "max_enemy_count": 6,
+      "monster_house_min_enemies": 5,
+      "monster_house_max_enemies": 8,
+      "dummy_npc_ratio": 0.7
+    }
+  },
+  {
+    "id": "x_extra",
+    "name": "追加枠（仮）",
+    "floors": 15,
+    "main_types": [
+      "All"
+    ],
+    "generation": {
+      "map_width": 64,
+      "map_height": 40,
+      "min_leaf_size": 8,
+      "room_min": [
+        4,
+        4
+      ],
+      "room_max": [
+        9,
+        7
+      ],
+      "monster_house_chance": 0.2,
+      "min_items_per_room": 1,
+      "max_items_per_room": 3,
+      "min_traps_per_room": 0,
+      "max_traps_per_room": 2,
+      "monster_house_min_items": 4,
+      "monster_house_max_items": 6,
+      "monster_house_min_traps": 2,
+      "monster_house_max_traps": 4,
+      "min_enemy_count": 4,
+      "max_enemy_count": 8,
       "monster_house_min_enemies": 5,
       "monster_house_max_enemies": 8,
       "dummy_npc_ratio": 0.7

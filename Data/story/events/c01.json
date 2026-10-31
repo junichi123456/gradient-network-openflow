@@ -1,13 +1,26 @@
 [
   {
-    "id": "c01_e01_surface",
+    "id": "c01_e02_surface",
     "trigger": {
       "type": "chart_start",
-      "chart": "c01",
       "requires": [],
-      "once": true
+      "once": true,
+      "chart": "c01"
     },
     "steps": [
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 1.0
+      },
+      {
+        "op": "narration",
+        "text": "夜が明けていく。波の音が、遠くでゆっくり繰り返している。"
+      },
+      {
+        "op": "narration",
+        "text": "冷たい砂の感触。まぶたの裏が、少しずつ白んでいく。"
+      },
       {
         "op": "narration",
         "text": "夜明けの浜。水面に、見知らぬ姿が映っている。"
@@ -21,9 +34,15 @@
         "max": 8
       },
       {
+        "op": "wait",
+        "sec": 1.0,
+        "introvert": true
+      },
+      {
         "op": "say",
         "who": "partner",
-        "text": "{player_name}！よかった、目が覚めたんだね！"
+        "text": "{player_name}！よかった、目が覚めたんだね！",
+        "face": "relieved"
       },
       {
         "op": "say",
@@ -31,8 +50,435 @@
         "text": "……うん。"
       },
       {
+        "op": "narration",
+        "text": "声が、うまく出ない。{I}は、ただ小さくうなずいた。"
+      },
+      {
         "op": "set_flag",
         "flag": "c01_surface_done"
+      }
+    ]
+  },
+  {
+    "id": "c01_e03_partner",
+    "trigger": {
+      "type": "chart_start",
+      "requires": [],
+      "once": true,
+      "chart": "c01"
+    },
+    "steps": [
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "ずっと呼んでたんだよ。浜に倒れてたから、心配で……",
+        "face": "worried"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "どこか痛いところ、ない？ちょっと見せて！"
+      },
+      {
+        "op": "narration",
+        "text": "相棒の手が、肩や腕をそっと確かめていく。息は整っている。大きな怪我も、なさそうだ。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "息もしてる。怪我もない。……よかった、本当によかった！",
+        "face": "tearful"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……だいじょうぶ。"
+      },
+      {
+        "op": "narration",
+        "text": "それだけ言うのが、精一杯だった。相棒はぱっと顔を明るくした。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "ここ、どこなんだろう。昨日の夜のこと、{player_name}は覚えてる？"
+      },
+      {
+        "op": "narration",
+        "text": "夜。地面が裂ける音。誰かの叫び声。思い出せるのは、断片だけだ。"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……少し。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "{I}も少しだけ。大きな音がして、地面が割れたことは確かだよ"
+      },
+      {
+        "op": "narration",
+        "text": "あたりを見回すと、浜は無残に崩れていた。遠くには、一本だけ立ち残った巨大な樹の影がある。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "あれ、世界樹……だよね。あれだけ、無事だったんだ"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c01_partner_done"
+      }
+    ]
+  },
+  {
+    "id": "c01_e04_beach",
+    "trigger": {
+      "type": "chart_start",
+      "requires": [],
+      "once": true,
+      "chart": "c01"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "浜には、流れ着いた荷がいくつも転がっていた。割れた木箱。ちぎれた縄。"
+      },
+      {
+        "op": "narration",
+        "text": "荷のそばには、座り込んだパルたち。誰も話さない。波の音ばかりが、やけに大きい。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "みんな、疲れてるんだ……。{I}たちだけじゃないんだね"
+      },
+      {
+        "op": "narration",
+        "text": "近づくと、小さなパルが荷を抱えて後ずさった。分けてくれる様子はない。奪われまいと、必死なのだ。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "あの、お水だけでも……ううん、いいや。ごめんね",
+        "face": "sad"
+      },
+      {
+        "op": "narration",
+        "text": "お腹が鳴った。{I}のものか、相棒のものか、わからない。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "食べ物、探さなきゃ。{player_name}、どうする？"
+      },
+      {
+        "op": "choice",
+        "options": [
+          {
+            "text": "食べ物を探しに行く",
+            "set_flag": "c01_choice_go"
+          },
+          {
+            "text": "もう少し様子を見る",
+            "set_flag": "c01_choice_wait",
+            "steps": [
+              {
+                "op": "say",
+                "who": "partner",
+                "text": "でも、待ってても食べ物は降ってこないよ。まず動こう！"
+              },
+              {
+                "op": "narration",
+                "text": "相棒の言うとおりだった。{I}は、小さく息を吐いた。"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "あそこに割れ目があるでしょ。崩れた地面の下、洞みたいな……"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "あそこなら、木の実か、水が残ってるかもしれない"
+      },
+      {
+        "op": "narration",
+        "text": "朝日の中に、ぽっかりと口を開けた洞があった。ビーチのどうくつ。誰かがそう呼んでいた。"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……行こう。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c01_beach_done"
+      }
+    ]
+  },
+  {
+    "id": "c01_e05_cave",
+    "trigger": {
+      "type": "chart_start",
+      "requires": [],
+      "once": true,
+      "chart": "c01"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "洞の入口に立つと、潮の匂いがした。崩落の傷跡が、岩肌に深く残っている。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "足元、気をつけてね。滑るよ！"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "{catch}……なんてね。大丈夫、{player_name}と一緒だもん"
+      },
+      {
+        "op": "narration",
+        "text": "この先は、二人で行く。奥には、きっと食べ物と水がある。ボスが守っているとしても、引き返す理由はなかった。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c01_cave_in"
+      }
+    ]
+  },
+  {
+    "id": "c01_e05_boss",
+    "trigger": {
+      "type": "boss_defeated",
+      "requires": [],
+      "once": true,
+      "dungeon": "d01_c1"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "最奥で待っていたのは、ヒグルミだった。木の実と水の湧く場所を、ひとりで守っていたのだ。"
+      },
+      {
+        "op": "narration",
+        "text": "ヒグルミは、倒れても二人から目を離さなかった。怖がっているのだと、{I}にはわかった。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "ごめんね。ちょっとだけ分けてもらうね。全部は取らないから！"
+      },
+      {
+        "op": "narration",
+        "text": "ヒグルミは、小さく鼻を鳴らして、奥へ下がった。"
+      },
+      {
+        "op": "give_item",
+        "id": "baked_berries",
+        "n": 3
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "木の実だ！こんなにある！水も、ほら、ちゃんと澄んでる！",
+        "face": "smile"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……これで、みんなに。"
+      },
+      {
+        "op": "narration",
+        "text": "思ったより自然に、言葉がこぼれた。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "うん！持って帰って、浜のみんなに分けよう！"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c01_boss_done"
+      }
+    ]
+  },
+  {
+    "id": "c01_e06_plain",
+    "trigger": {
+      "type": "dungeon_clear",
+      "requires": [],
+      "once": true,
+      "dungeon": "d01_c1"
+    },
+    "steps": [
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 0.8
+      },
+      {
+        "op": "narration",
+        "text": "洞の出口は、崩れた地形の反対側に抜けていた。まぶしさに目を細める。"
+      },
+      {
+        "op": "narration",
+        "text": "その先に、ゆるやかな平地が広がっている。小川の跡。風の通る丘。木々がまばらに残っている。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "うわあ……！広い！",
+        "face": "surprise"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "崩れてない。この辺りだけ、地割れが浅いんだ"
+      },
+      {
+        "op": "narration",
+        "text": "ここなら、浜の子たちも休めるかもしれない。畑も作れそうだ。"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……ここ。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "by_type": {
+          "INFJ": "……ここ、かな。ここなら、みんなで暮らせると思う",
+          "INFP": "えっと、ここ……ここにしよう、かも。あったかいふぁ",
+          "INTJ": "ここだ。広さも水場も足りる。ここにする",
+          "INTP": "待って……条件が揃ってる。ここにしよう、だよね",
+          "ISFJ": "ここにしましょう。みなさんが休める場所ですよ",
+          "ISFP": "ここがいいんだよ。風が気持ちいいかなぁ",
+          "ISTJ": "ここにする。広さは十分だ。決まりだ",
+          "ISTP": "……ここだ。ここにする",
+          "ENFJ": "ここにしましょう！みんなで暮らせる場所にするの！",
+          "ENFP": "ここじゃん！ここにしよう！胸がいっぱい！",
+          "ENTJ": "ここにするわ。段取りはこうよ、まず杭を打ちなさい",
+          "ENTP": "ここにしようぜ。でさ、逆にここ以外ある？ないだろ？",
+          "ESFJ": "ここにしましょ！ちゃんと寝る場所、作ってあげなきゃ",
+          "ESFP": "ここだぜ！ここでみんなと楽しもうぜ！",
+          "ESTJ": "ここにしな！筋は通すよ、アタシが仕切るからね",
+          "ESTP": "ここっす！ここにするっす！もう掘りたいっす！"
+        },
+        "key": true,
+        "face": "smile"
+      },
+      {
+        "op": "narration",
+        "text": "{I}は、小さくうなずいた。胸の奥が、少しだけ軽くなる。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c01_plain_seen"
+      }
+    ]
+  },
+  {
+    "id": "c01_e06_stake",
+    "trigger": {
+      "type": "chart_end",
+      "requires": [],
+      "once": true,
+      "chart": "c01"
+    },
+    "steps": [
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "杭、打とうよ！ここがはじまりだって、印をつけるの！"
+      },
+      {
+        "op": "narration",
+        "text": "流木を削った杭を、平地の真ん中に立てる。二人でそっと土を押し固める。"
+      },
+      {
+        "op": "wait",
+        "sec": 1.0,
+        "introvert": true
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "by_type": {
+          "INFJ": "小さく始めたいの。箱庭みたいに……ハコニワ、って呼ぶのはどうかな",
+          "INFP": "小さくていいから……箱庭みたいな……ハコニワ、かも",
+          "INTJ": "小さく始める。箱庭のようにだ。名は、ハコニワだ",
+          "INTP": "小さく始めて、箱庭みたいに育てるなら……ハコニワ、でいいよね",
+          "ISFJ": "小さく始めましょう。箱庭のように。ハコニワと呼びませんか",
+          "ISFP": "小さくていいんだよ。箱庭みたい。ハコニワって呼ぼうかなぁ",
+          "ISTJ": "小さく始める。箱庭のようにだ。ここはハコニワだ",
+          "ISTP": "小さくいく。……ハコニワ。それでいいだろ",
+          "ENFJ": "小さく始めましょう！箱庭みたいに。ここは、ハコニワよね？",
+          "ENFP": "小さく始めようよ！箱庭みたいで、ハコニワじゃん！",
+          "ENTJ": "小さく始めるわ。箱庭みたいにね。ここはハコニワよ",
+          "ENTP": "小さく始めて箱庭みたいにしてさ、ハコニワ、でどうよ？",
+          "ESFJ": "小さくていいのよ。箱庭みたいでしょ。ハコニワって呼びましょ！",
+          "ESFP": "小さく始めようぜ！箱庭みたいでいいっしょ！ハコニワだぜ！",
+          "ESTJ": "小さく始めな。箱庭みたいにね。ここはハコニワだろうが",
+          "ESTP": "小さく始めるっす！箱庭みたいで、ハコニワっす！"
+        },
+        "key": true,
+        "face": "smile"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "by_type": {
+          "INFJ": "……ハコニワ。うん、たぶん、ね",
+          "INFP": "ハコニワ……ふぁ、いいかも",
+          "INTJ": "ハコニワ。悪くない",
+          "INTP": "ハコニワ……うん、いいよね",
+          "ISFJ": "ハコニワ。いい名前です",
+          "ISFP": "ハコニワ、かぁ。いいんだよ",
+          "ISTJ": "ハコニワ。自分も、そう呼ぶ",
+          "ISTP": "……ハコニワ",
+          "ENFJ": "ハコニワ！……うん",
+          "ENFP": "ハコニワ！……いいじゃん",
+          "ENTJ": "ハコニワ。……いいわ",
+          "ENTP": "ハコニワ、ね。……悪くねえ",
+          "ESFJ": "ハコニワ……いいわよ",
+          "ESFP": "ハコニワ。……いいぜ",
+          "ESTJ": "ハコニワ。……それでいい",
+          "ESTP": "ハコニワ。……いいっす"
+        },
+        "key": true
+      },
+      {
+        "op": "narration",
+        "text": "風が吹いて、杭の先に結んだ布切れが、小さく揺れた。"
+      },
+      {
+        "op": "narration",
+        "text": "ハコニワ。崩れた世界のなかの、小さな箱庭。そのはじまりの朝だった。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c01_done"
+      },
+      {
+        "op": "fade",
+        "mode": "out",
+        "sec": 1.0
+      },
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 1.0
       }
     ]
   }

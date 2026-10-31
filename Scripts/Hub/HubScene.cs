@@ -55,39 +55,70 @@ public partial class HubScene : Node2D
         _ = StartStoryIfNeeded(player);
     }
 
-    // セーブがあれば読み込み、無ければ「はじめから」（夢の4問→相棒選び→チャート1の水面イベント）。
-    // タイトル画面は無いので、ハコニワ起動直後にここで分岐する。
+    // 初回: セーブがあれば読み込み、無ければ「はじめから」（夢の4問→相棒選び）。
+    // どちらでも、ここで StoryFlow を回す: ダンジョンから戻った結果の処理 → チャートの開始。
     private async Task StartStoryIfNeeded(HubPlayer player)
     {
         var hub = HubUpgradeManager.Instance;
         var db = StoryDatabase.Instance;
-        if (hub == null || db == null || hub.StoryInitialized) return;
-        hub.StoryInitialized = true;
+        if (hub == null || db == null) return;
 
-        if (SaveService.Exists())
+        if (!hub.StoryInitialized)
         {
-            var r = SaveService.Load();
-            if (r.Status == LoadStatus.Ok) { hub.ImportState(r.Data); return; }
-            GD.PushWarning($"[Story] {r.Message}");
-            if (r.Status == LoadStatus.Incompatible) return;   // 上書きせずに通常起動
+            hub.StoryInitialized = true;
+            if (SaveService.Exists())
+            {
+                var r = SaveService.Load();
+                if (r.Status == LoadStatus.Ok) hub.ImportState(r.Data);
+                else
+                {
+                    GD.PushWarning($"[Story] {r.Message}");
+                    if (r.Status == LoadStatus.Incompatible) return;   // 上書きせずに通常起動
+                }
+            }
+            if (hub.Story.Protagonist == "")
+            {
+                player.InputEnabled = false;
+                var sel = new SelectionScene();
+                AddChild(sel);
+                await sel.StartNewGame(hub.Story, db);
+                hub.PartyManager.SetStartingParty(hub.Story.Protagonist, hub.Story.Partner);
+            }
         }
-        if (hub.Story.Protagonist != "") return;
+        if (hub.Story.Protagonist == "") return;
 
         player.InputEnabled = false;
-        var sel = new SelectionScene();
-        AddChild(sel);
-        await sel.StartNewGame(hub.Story, db);
-        hub.PartyManager.SetStartingParty(hub.Story.Protagonist, hub.Story.Partner);
-
         var ui = new StoryDialogueUI();
         AddChild(ui);
         var it = new EventInterpreter(db, hub.Story, ui)
-            { SpeciesName = id => SpeciesDatabase.Instance.Get(id)?.DisplayName ?? id };
-        hub.Story.CurrentChart = "c01";
-        await it.Fire("chart_start", new EventInterpreter.TriggerArgs(Chart: "c01"));
+        {
+            SpeciesName = id => SpeciesDatabase.Instance.Get(id)?.DisplayName ?? id,
+            PrimaryType = id => SpeciesDatabase.Instance.Get(id)?.Types[0].ToString() ?? "",
+        };
+        it.Callbacks.GiveItem = hub.GrantItem;
+        var flow = new StoryFlow(db, hub.Story, it);
+        if (hub.PendingResult != null)
+        {
+            var result = hub.PendingResult;
+            hub.PendingResult = null;
+            await flow.OnDungeonResult(result);
+        }
+        await flow.EnterHub();
         ui.Close();
         hub.Save();
         player.InputEnabled = true;
+
+        string fight = flow.TakePendingFight();
+        if (fight != null) EnterScenarioFight(db, hub, fight);
+    }
+
+    // start_scenario_fight: 隠しダンジョン（ヘルガルダ戦・世界樹の根もと）へ直行する。
+    private void EnterScenarioFight(StoryDatabase db, HubUpgradeManager hub, string dungeonId)
+    {
+        var dest = DungeonDestinations.From(db, db.Dungeon(dungeonId));
+        hub.PendingDungeonConfig = dest.Config;
+        hub.PendingDungeonId = dest.DungeonRuleId;
+        GetTree().ChangeSceneToFile("res://Scenes/DungeonScene.tscn");
     }
 
     private void RefreshShopLog(Label label)

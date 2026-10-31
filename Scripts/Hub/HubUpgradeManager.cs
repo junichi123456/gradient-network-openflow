@@ -35,6 +35,17 @@ public partial class HubUpgradeManager : Node
     // own [Export] defaults, so it stays launchable standalone.
     public DungeonConfig PendingDungeonConfig { get; set; }
     public string PendingDungeonId { get; set; }
+    // 物語のダンジョンから戻った直後の結果。HubScene が StoryFlow に渡して消す（セーブ対象外）。
+    public DungeonResult PendingResult { get; set; }
+
+    // シナリオのアイテム付与。素材は素材バンクへ、それ以外は次回の持ち物へ。
+    public void GrantItem(string itemId, int n)
+    {
+        var data = ItemDatabase.Get(itemId);
+        if (data == null) { GD.PushWarning($"[Hub] give_item: 不明なアイテム '{itemId}'"); return; }
+        if (data.Type == ItemType.Material) _materialBank[itemId] = _materialBank.GetValueOrDefault(itemId) + n;
+        else _inventorySnapshot.Add((itemId, n));
+    }
 
     // Tiny hardcoded cost table for now (facilityId -> (materialId,
     // cost per level, linear)). Data/facilities.json is a natural
