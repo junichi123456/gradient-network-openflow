@@ -15,7 +15,8 @@ public partial class HubScene : Node2D
 {
     [Export] public NodePath PlayerPath { get; set; }
     [Export] public NodePath ShopLogLabelPath { get; set; }
-    [Export] public NodePath DungeonPortalPath { get; set; }
+    [Export] public NodePath HubListUIPath { get; set; }
+    [Export] public NodePath PointsLabelPath { get; set; }
     [Export] public NodePath PartySetupUIPath { get; set; }
     [Export] public NodePath DungeonSelectUIPath { get; set; }
 
@@ -24,25 +25,46 @@ public partial class HubScene : Node2D
     private HubPlayer _hubPlayer;
     private bool _menuBusy;
     private int _residentNpcs;
+    private HubMapDef _map;
+    private HubListUI _listUi;
+    private Label _pointsLabel;
+    private bool _busy;
+    private readonly System.Collections.Generic.Dictionary<string, Node2D> _plaza = new();
+
+    // 今、広場に立っている施設ID（テスト・確認用）。
+    public System.Collections.Generic.IReadOnlyCollection<string> PlazaFacilityIds => _plaza.Keys;
 
     public override void _Ready()
     {
         var player = GetNode<HubPlayer>(PlayerPath);
         var shopLogLabel = GetNodeOrNull<Label>(ShopLogLabelPath);
-        var portal = GetNodeOrNull<Area2D>(DungeonPortalPath);
+        _listUi = GetNode<HubListUI>(HubListUIPath);
+        _pointsLabel = GetNodeOrNull<Label>(PointsLabelPath);
+        _hubPlayer = player;
         var partySetupUI = GetNode<PartySetupUI>(PartySetupUIPath);
         var dungeonSelectUI = GetNode<DungeonSelectUI>(DungeonSelectUIPath);
 
         partySetupUI.Initialize(player);
         dungeonSelectUI.Initialize(player);
+        _listUi.Initialize(player);
+        _listUi.Closed += () => { HubUpgradeManager.Instance?.Save(); _busy = false; RefreshPoints(); };
 
-        if (portal != null)
+        // 十字型4画面の世界を hub_map.json から組み立てる。
+        _map = HubData.Map;
+        var geo = new HubGeometry(_map);
+        HubWorld.BuildStatic(this, _map, geo, player);
+        HubWorld.BuildFixtures(this, _map, EnterBattle, IsBlocked, AfterBedAccept);
+        var spawn = new Vector2(_map.Spawn[0], _map.Spawn[1]);
+        var hub0 = HubUpgradeManager.Instance;
+        if (hub0 != null && hub0.ReturnSpawn == "battle")
         {
-            portal.BodyEntered += body =>
-            {
-                if (body is HubPlayer) GetTree().ChangeSceneToFile("res://Scenes/DungeonScene.tscn");
-            };
+            var f = _map.Fixtures.Find(x => x.Kind == "battle");
+            if (f?.ReturnPosition != null) spawn = new Vector2(f.ReturnPosition[0], f.ReturnPosition[1]);
+            hub0.ReturnSpawn = "";
         }
+        player.Position = spawn;
+        RefreshPlaza();
+        RefreshPoints();
 
         RefreshShopLog(shopLogLabel);
         if (HubUpgradeManager.Instance != null)
@@ -109,7 +131,7 @@ public partial class HubScene : Node2D
             // 勧誘成功: 既存のロスター（PartyManager）へ加える。
             OnRecruit = id => { if (!hub.PartyManager.RecruitedRoster.Contains(id)) hub.PartyManager.AddToRoster(id); },
         };
-        _flow = flow; _storyUi = ui; _hubPlayer = player;
+        _flow = flow; _storyUi = ui;
         GetNode<DungeonSelectUI>(DungeonSelectUIPath).BeforeDepart = async dest =>
         {
             await flow.EnterSupplementDungeon(dest.Id);
@@ -120,13 +142,19 @@ public partial class HubScene : Node2D
         {
             var result = hub.PendingResult;
             hub.PendingResult = null;
+            // クリア報酬（敗北は0）。式は Data/story/rewards.json。
+            int pts = HubData.Rewards.ClearReward(db, db.Dungeon(result.DungeonId), result.Defeated);
+            hub.AddPoints(pts);
             await flow.OnDungeonResult(result);
+            if (pts > 0) await ui.Narration($"{pts}{_map.Currency}を手に入れた。");
+            RefreshPoints();
         }
         await flow.EnterHub();
         ui.Close();
         hub.Save();
         player.InputEnabled = true;
         ShowRecruitedResidents(hub);
+        RefreshPlaza();
 
         string fight = flow.TakePendingFight();
         if (fight != null) EnterScenarioFight(db, hub, fight);
@@ -156,7 +184,8 @@ public partial class HubScene : Node2D
     {
         foreach (var _ in hub.Story.RecruitedPals.OrderBy(x => x, System.StringComparer.Ordinal).Skip(_residentNpcs))
         {
-            AddChild(new HubPalNpc { RequiredLevel = 1, DebugColor = Colors.Gold, Position = new Vector2(260 + 36 * _residentNpcs, 430) });
+            // 勧誘で増えた仲間は、中央の広場（建物のない中ほど）に立つ。
+            AddChild(new HubPalNpc { RequiredLevel = 1, DebugColor = Colors.Gold, Position = new Vector2(480 + 36 * (_residentNpcs % 8), 330 + 40 * (_residentNpcs / 8)) });
             _residentNpcs++;
         }
     }
@@ -168,6 +197,66 @@ public partial class HubScene : Node2D
         hub.PendingDungeonConfig = dest.Config;
         hub.PendingDungeonId = dest.DungeonRuleId;
         GetTree().ChangeSceneToFile("res://Scenes/DungeonScene.tscn");
+    }
+
+    private bool IsBlocked() => _busy || _hubPlayer == null || !_hubPlayer.InputEnabled;
+
+    private void RefreshPoints()
+    {
+        var hub = HubUpgradeManager.Instance;
+        if (_pointsLabel != null && hub != null) _pointsLabel.Text = $"{_map.Currency}: {hub.Points}";
+    }
+
+    // 寝床で Enter: 強化を試みたあと、セーブする。
+    private void AfterBedAccept(HubFixtureDef f)
+    {
+        HubUpgradeManager.Instance?.Save();
+        GD.Print("[Hub] セーブしました。");
+        if (_pointsLabel != null) _pointsLabel.Text = $"{_map.Currency}: {HubUpgradeManager.Instance?.Points ?? 0}   (セーブしました)";
+    }
+
+    // 西の対戦広場: 既存の対戦フロー（BattleFlowScene）へ。戻りは BattleFlowScene の F10。
+    private void EnterBattle(HubFixtureDef f)
+    {
+        var hub = HubUpgradeManager.Instance;
+        if (hub != null) { hub.ReturnSpawn = "battle"; hub.Save(); }
+        GetTree().ChangeSceneToFile(f.Scene);
+    }
+
+    // 完了済みチャートから広場の施設を作り直す（セーブ・ロード後も同じ状態になる）。
+    public void RefreshPlaza()
+    {
+        var done = HubUpgradeManager.Instance?.Story.CompletedCharts ?? new System.Collections.Generic.HashSet<string>();
+        var want = _map.VisibleFacilities(done);
+        foreach (var id in _plaza.Keys.Where(k => want.All(f => f.Id != k)).ToList())
+        {
+            _plaza[id].QueueFree(); _plaza.Remove(id);
+        }
+        foreach (var f in want)
+        {
+            if (_plaza.ContainsKey(f.Id)) continue;
+            var node = HubWorld.BuildPlazaFacility(f, f2 => _ = UseFacility(f2), IsBlocked);
+            AddChild(node); _plaza[f.Id] = node;
+        }
+    }
+
+    // 施設の主の挨拶（会話窓）のあと、施設の一覧UIを開く。
+    private async Task UseFacility(HubFacilityDef f)
+    {
+        var hub = HubUpgradeManager.Instance;
+        if (hub == null || _busy) return;
+        _busy = true; _hubPlayer.InputEnabled = false;
+        var db = StoryDatabase.Instance;
+        if (_storyUi != null && db != null)
+        {
+            foreach (var g in f.Greeting)
+            {
+                var ch = db.Character(g.Who);
+                await _storyUi.Say(new SayLine(g.Who, ch?.DisplayName ?? g.Who, ch?.SpeciesId ?? "", g.Text, ""));
+            }
+            _storyUi.Close();
+        }
+        _listUi.Open(f.Name, HubFacilityMenus.TabsFor(f, hub, hub.Story.CompletedCharts), () => HubFacilityMenus.Header(hub));
     }
 
     private void RefreshShopLog(Label label)

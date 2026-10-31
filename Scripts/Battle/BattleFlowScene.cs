@@ -54,6 +54,21 @@ public partial class BattleFlowScene : Control
                     new BattleSession(sched, clock), arena);
 
         if (_shotPath != null) JumpTo(_shotPhase, mine);
+
+        // ハコニワの西の入口から来たときだけ、F10 で戻れる（対戦モードの内部には触れない）。
+        if (FromHub)
+            AddChild(new Label { Text = "[F10] ハコニワへ戻る", Position = new Vector2(8, 4), ZIndex = 100 });
+    }
+
+    private static bool FromHub => Hub.HubUpgradeManager.Instance?.ReturnSpawn == "battle";
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (FromHub && @event is InputEventKey { Pressed: true, Echo: false, Keycode: Key.F10 })
+        {
+            GetViewport().SetInputAsHandled();
+            GetTree().ChangeSceneToFile("res://Scenes/HubScene.tscn");
+        }
     }
 
     // 撮影用にフェーズを飛ばす。手で触るときは使わない。

@@ -70,4 +70,12 @@ public class ItemData
     public ItemEffectTarget EffectTarget { get; set; }
     public int EffectValue { get; set; }
     public string ElementType { get; set; }
+
+    // 買値（ポイント）。0 = 取引不可（素材は拠点の強化に使うので売買しない）。売値は Price / 2（切り捨て）。
+    public int Price { get; set; }
+    public bool Tradable => Type != ItemType.Material && Price > 0;
+    // 食品: 満腹度を回復する消耗品。飯店で扱う。
+    public bool IsFood => Type == ItemType.Consumable && EffectTarget == ItemEffectTarget.Belly;
+    // 薬: HP を回復する消耗品。診療所・研究所で扱う。
+    public bool IsMedicine => Type == ItemType.Consumable && EffectTarget == ItemEffectTarget.Hp;
 }

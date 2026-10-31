@@ -566,5 +566,44 @@
         "sec": 1.0
       }
     ]
+  },
+  {
+    "id": "c05_e07_diner",
+    "trigger": {
+      "type": "chart_end",
+      "requires": [],
+      "once": true,
+      "chart": "c05"
+    },
+    "steps": [
+      {
+        "op": "fade",
+        "mode": "out",
+        "sec": 0.8
+      },
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 0.8
+      },
+      {
+        "op": "narration",
+        "text": "翌朝。食料倉の煙のにおいは、いつのまにか、炊き出しの湯気に変わっていた。"
+      },
+      {
+        "op": "say",
+        "who": "bulferno",
+        "text": "ここで飯屋を開くっす！腹いっぱい食わせるっすよ！"
+      },
+      {
+        "op": "say",
+        "who": "bulferno",
+        "text": "食い物の買い取りもやるっす。ほしけりゃ売るっす！"
+      },
+      {
+        "op": "narration",
+        "text": "ブルフェルノの飯店の前には、さっそく、ひとの列ができはじめた。"
+      }
+    ]
   }
 ]

@@ -13,6 +13,9 @@ public partial class HubFacility : Area2D
     [Export] public string FacilityId { get; set; } = "pal_workbench";
     [Export] public Color DebugColor { get; set; } = Colors.SaddleBrown;
 
+    // 強化を試みたあとに呼ぶ（寝床ではここでセーブする）。
+    public System.Action AfterAccept { get; set; }
+
     private bool _playerInside;
 
     private const float VisualSize = 36f;
@@ -50,6 +53,7 @@ public partial class HubFacility : Area2D
         if (!@event.IsActionPressed("ui_accept")) return;
 
         HubUpgradeManager.Instance?.UpgradeFacility(FacilityId);
+        AfterAccept?.Invoke();
         GetViewport().SetInputAsHandled();
     }
 }

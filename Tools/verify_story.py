@@ -247,6 +247,41 @@ def main():
     for n in range(21, 31):
         check(any(i.startswith("c%d_" % n) and e.get("trigger") is None for i, e in allev.items()), "c%d の住民イベント（trigger 無し）が無い" % n)
 
+    # --- ハコニワの地図・施設（仕様書 2026-10-31-hub-map.md）
+    hm = load(S / "hub_map.json")
+    areas = {a["id"]: a["rect"] for a in hm["areas"]}
+    check(set(areas) == {"north", "center", "west", "south"}, "hub_map: 画面が north/center/west/south でない")
+    check(areas.get("center") == [0, 0, 1280, 720] and areas.get("north") == [0, -720, 1280, 720]
+          and areas.get("west") == [-1280, 0, 1280, 720] and areas.get("south") == [0, 720, 1280, 720], "hub_map: 十字型4画面の座標が仕様と違う")
+    check({frozenset((p["a"], p["b"])) for p in hm["passages"]} == {frozenset(("center", x)) for x in ("north", "west", "south")}
+          and all(p["width"] >= 100 for p in hm["passages"]), "hub_map: 中央と北・西・南の通路が揃っていない")
+    inside = lambda a, p: areas[a][0] <= p[0] <= areas[a][0] + areas[a][2] and areas[a][1] <= p[1] <= areas[a][1] + areas[a][3]
+    check(all(f["area"] in areas and inside(f["area"], f["position"]) for f in hm["fixtures"] + hm["facilities"]), "hub_map: 配置が自分の画面の外にある")
+    want = {"c03": "warehouse", "c04": "bushigaeru_shop", "c05": "bulferno_diner", "c06": "clinic", "c12": "lab"}
+    fac = {f["id"]: f for f in hm["facilities"]}
+    check({f["appears_after"]: f["id"] for f in hm["facilities"]} == want, "hub_map: 施設の現れる時期が指示と違う（c03 倉庫/c04 物産/c05 飯店/c06 診療所/c12 研究所）")
+    check(fac["lab"].get("replaces") == "clinic" and all(not f.get("replaces") for i, f in fac.items() if i != "lab"), "hub_map: lab だけが clinic を置き換える")
+    cid = {c["id"] for c in chars}
+    for i, f in fac.items():
+        check(f["appears_after"] in C and i in C[f["appears_after"]]["hub_changes"], "hub_map: %s が charts の hub_changes に無い" % i)
+        check(f["ui"] in ("storage", "shop", "clinic", "lab") and (f["ui"] == "storage" or f["filter"] in ("food", "nonfood", "medicine")), "hub_map: %s の ui/filter が不正" % i)
+        check(f["npc"] and all(n["id"] in cid for n in f["npc"]) and 1 <= len(f["greeting"]) <= 3 and all(g["who"] in cid and g["text"] for g in f["greeting"]), "hub_map: %s の NPC/挨拶が不正" % i)
+    check("clinic" not in C["c03"]["hub_changes"] and "lab" not in C["c11"]["hub_changes"], "charts: c03 の clinic / c11 の lab が残っている")
+    check(not [x for x in ("stake", "workbench", "bed", "well", "granary", "rules_board", "furnace") if not any(x in c["hub_changes"] for c in charts)], "charts: 見た目フラグの hub_changes が消えている")
+    for eid, ch in (("c03_e08_warehouse", "c03"), ("c04_e06_shop", "c04"), ("c05_e07_diner", "c05"), ("c06_e06_clinic", "c06"), ("c12_e07_lab", "c12")):
+        e = allev.get(eid)
+        check(e is not None and e["trigger"]["type"] == "chart_end" and e["trigger"]["chart"] == ch and eid in C[ch]["events"], "%s: 追加イベントが無い/chart_end でない/charts に載っていない" % eid)
+        if e:
+            check(3 <= len(e["steps"]) <= 8 and not any(s.get("op") in ("set_flag", "goto_chart", "start_scenario_fight") for s in e["steps"]), "%s: 3〜6行程度で、進行を動かさない" % eid)
+            check(C[ch]["events"][-1] == eid, "%s: チャート末尾（完了イベントの後）に置く" % eid)
+    check(not any("診療所を開く" in (s.get("text") or "") for e in evs if e["id"].startswith("c03_") for s in e["steps"]), "c03 に「診療所を開く」記述が残っている")
+    rw = load(S / "rewards.json")
+    check(rw["base"] == 30 and rw["per_chart"] == 10 and rw["sell_divisor"] == 2, "rewards.json が仕様（30+10×チャート番号、売値は1/2）と違う")
+    notes = load(S / "lab_notes.json")
+    check([n["after_chart"] for n in notes] == ["c12", "c13", "c14", "c16"] and all(n["lines"] for n in notes), "lab_notes.json が4段階（c12/c13/c14/c16）でない")
+    items = load(ROOT / "Data" / "items.json")
+    check(all("price" in i and (i["price"] == 0) == (i["type"] == "Material") for i in items) and sum(1 for i in items if i["type"] == "Material") == 4, "items.json: 全アイテムに price（素材のみ0）が無い")
+
     for w in warns:
         print("WARN", w)
     for f in fails:

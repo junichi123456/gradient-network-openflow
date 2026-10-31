@@ -19,6 +19,9 @@ public class HubSave
 {
     [JsonPropertyName("facility_levels")] public Dictionary<string, int> FacilityLevels { get; set; } = new();
     [JsonPropertyName("material_bank")] public Dictionary<string, int> MaterialBank { get; set; } = new();
+    // ポイントと倉庫在庫。version は上げない（旧セーブは欠損 = 0 / 空で読める）。
+    [JsonPropertyName("points")] public int Points { get; set; }
+    [JsonPropertyName("storage")] public Dictionary<string, int> Storage { get; set; } = new();
 }
 
 public class PartySave

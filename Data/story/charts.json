@@ -74,10 +74,11 @@
       "c03_e04b_return",
       "c03_e05_violetta",
       "c03_e06_shard",
-      "c03_e07_clinic"
+      "c03_e07_clinic",
+      "c03_e08_warehouse"
     ],
     "hub_changes": [
-      "clinic"
+      "warehouse"
     ]
   },
   {
@@ -101,10 +102,12 @@
       "c04_e03_inlet",
       "c04_e04_underpass",
       "c04_e04b_wall",
-      "c04_e05_well"
+      "c04_e05_well",
+      "c04_e06_shop"
     ],
     "hub_changes": [
-      "well"
+      "well",
+      "bushigaeru_shop"
     ]
   },
   {
@@ -127,10 +130,12 @@
       "c05_e03_smoke",
       "c05_e04_bulferno",
       "c05_e05_open",
-      "c05_e06_helgalda_join"
+      "c05_e06_helgalda_join",
+      "c05_e07_diner"
     ],
     "hub_changes": [
-      "granary"
+      "granary",
+      "bulferno_diner"
     ]
   },
   {
@@ -152,10 +157,12 @@
       "c06_e02_bushigaeru",
       "c06_e03_rules",
       "c06_e04_roots",
-      "c06_e05_gate"
+      "c06_e05_gate",
+      "c06_e06_clinic"
     ],
     "hub_changes": [
-      "rules_board"
+      "rules_board",
+      "clinic"
     ]
   },
   {
@@ -290,9 +297,7 @@
       "c11_e05_alarm",
       "c11_e06_glow"
     ],
-    "hub_changes": [
-      "lab"
-    ]
+    "hub_changes": []
   },
   {
     "id": "c12",
@@ -316,9 +321,12 @@
       "c12_e03_majoruna",
       "c12_e04_swarm",
       "c12_e05_judge",
-      "c12_e06_glow"
+      "c12_e06_glow",
+      "c12_e07_lab"
     ],
-    "hub_changes": []
+    "hub_changes": [
+      "lab"
+    ]
   },
   {
     "id": "c13",

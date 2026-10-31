@@ -39,7 +39,7 @@ Sonnet の報告を信用せず、必ず自分で確かめる。
 
 ```sh
 dotnet build MysteryDungeonRoguelike.csproj      # コンパイルエラーを先に出す
-godot --headless --path . Scenes/BattleTestScene.tscn  # 回帰スイート（現在241項目）
+godot --headless --path . Scenes/BattleTestScene.tscn  # 回帰スイート（現在258項目）
 git diff                                          # 仕様書と差分を突き合わせる
 ```
 
@@ -172,3 +172,8 @@ URL を保つ。
 仕様書 `docs/design/drafts/2026-10-31-scenario-implementation.md`（一次資料は `docs/design/scenario/`）。進行は `Scripts/Story/`
 （`StoryState`/`StoryFlow`/`EventInterpreter`/`SaveService`）、会話は `Data/story/events/*.json`（イベントID `cNN_eMM_slug`）。
 `Tools/verify_story.py`・`verify_pal_plan.py` で検証。チャートのイベント一覧は `Tools/sync_chart_events.py` で同期。
+
+### ハコニワ（非戦闘マップ）
+
+十字型4画面（北=生活拠点、中央=広場、西=対戦入口、南=ダンジョンゲート）。仕様書 `docs/design/drafts/2026-10-31-hub-map.md`、
+データ `Data/story/hub_map.json`（施設の出現はチャート完了後）・`rewards.json`・`lab_notes.json`、通貨は「ポイント」（`HubUpgradeManager.Points`）。

@@ -4,14 +4,32 @@
     "name": "ベイクドベリー",
     "type": "Consumable",
     "effect_target": "Belly",
-    "effect_value": 30
+    "effect_value": 30,
+    "price": 30
   },
   {
     "id": "low_grade_medical_supplies",
     "name": "低品質な医薬品",
     "type": "Consumable",
     "effect_target": "Hp",
-    "effect_value": 20
+    "effect_value": 20,
+    "price": 40
+  },
+  {
+    "id": "medical_supplies",
+    "name": "医薬品",
+    "type": "Consumable",
+    "effect_target": "Hp",
+    "effect_value": 50,
+    "price": 60
+  },
+  {
+    "id": "high_grade_medical_supplies",
+    "name": "高品質な医薬品",
+    "type": "Consumable",
+    "effect_target": "Hp",
+    "effect_value": 100,
+    "price": 80
   },
   {
     "id": "fire_bow_arrow",
@@ -19,28 +37,32 @@
     "type": "Throwable",
     "effect_target": "Damage",
     "effect_value": 15,
-    "element_type": "Fire"
+    "element_type": "Fire",
+    "price": 30
   },
   {
     "id": "pal_fluids",
     "name": "パルの体液",
     "type": "Material",
     "effect_target": "None",
-    "effect_value": 0
+    "effect_value": 0,
+    "price": 0
   },
   {
     "id": "flame_organ",
     "name": "発火器官",
     "type": "Material",
     "effect_target": "None",
-    "effect_value": 0
+    "effect_value": 0,
+    "price": 0
   },
   {
     "id": "wood",
     "name": "木材",
     "type": "Material",
     "effect_target": "None",
-    "effect_value": 0
+    "effect_value": 0,
+    "price": 0
   },
   {
     "id": "guard_tonic_25",
@@ -50,7 +72,8 @@
     "effect_value": 0,
     "battle_effect": "HealAt50",
     "consumed_on_trigger": true,
-    "description": "HPが50%未満になると、最大HPの25%を回復する。"
+    "description": "HPが50%未満になると、最大HPの25%を回復する。",
+    "price": 120
   },
   {
     "id": "guard_tonic_50",
@@ -60,7 +83,8 @@
     "effect_value": 0,
     "battle_effect": "HealAt33",
     "consumed_on_trigger": true,
-    "description": "HPが33%以下になると、最大HPの50%を回復する。"
+    "description": "HPが33%以下になると、最大HPの50%を回復する。",
+    "price": 200
   },
   {
     "id": "endure_charm",
@@ -70,7 +94,8 @@
     "effect_value": 0,
     "battle_effect": "SurviveFromFull",
     "consumed_on_trigger": true,
-    "description": "HPが最大の状態で、即死に至る威力の攻撃を受けた時、HPが1残る。"
+    "description": "HPが最大の状態で、即死に至る威力の攻撃を受けた時、HPが1残る。",
+    "price": 300
   },
   {
     "id": "crit_shell",
@@ -80,7 +105,8 @@
     "effect_value": 0,
     "battle_effect": "CritCut90",
     "consumed_on_trigger": true,
-    "description": "急所に攻撃を受けた時、受けるダメージを90%減らす。"
+    "description": "急所に攻撃を受けた時、受けるダメージを90%減らす。",
+    "price": 180
   },
   {
     "id": "weakness_shell",
@@ -90,7 +116,8 @@
     "effect_value": 0,
     "battle_effect": "WeaknessCut75",
     "consumed_on_trigger": true,
-    "description": "弱点属性の攻撃を受けた時、受けるダメージを75%減らす。"
+    "description": "弱点属性の攻撃を受けた時、受けるダメージを75%減らす。",
+    "price": 240
   },
   {
     "id": "room_mirror",
@@ -100,7 +127,8 @@
     "effect_value": 0,
     "battle_effect": "CounterRoom",
     "consumed_on_trigger": true,
-    "description": "room射程の攻撃技が使用されたとき、自分が受けるダメージを使用者にカウンターする。"
+    "description": "room射程の攻撃技が使用されたとき、自分が受けるダメージを使用者にカウンターする。",
+    "price": 260
   },
   {
     "id": "area_aegis",
@@ -110,7 +138,8 @@
     "effect_value": 0,
     "battle_effect": "CoverAllies",
     "consumed_on_trigger": true,
-    "description": "範囲射程の攻撃技が使用されたとき、自分以外の味方はダメージを受けない。"
+    "description": "範囲射程の攻撃技が使用されたとき、自分以外の味方はダメージを受けない。",
+    "price": 260
   },
   {
     "id": "rank_anchor",
@@ -120,7 +149,8 @@
     "effect_value": 0,
     "battle_effect": "RestoreRank",
     "consumed_on_trigger": true,
-    "description": "自分のランクが下がると、元に戻す。"
+    "description": "自分のランクが下がると、元に戻す。",
+    "price": 200
   },
   {
     "id": "cure_bell",
@@ -130,7 +160,8 @@
     "effect_value": 0,
     "battle_effect": "CureAilment",
     "consumed_on_trigger": true,
-    "description": "自分が状態異常になると、状態異常が回復する。"
+    "description": "自分が状態異常になると、状態異常が回復する。",
+    "price": 160
   },
   {
     "id": "regen_band",
@@ -140,7 +171,8 @@
     "effect_value": 0,
     "battle_effect": "RegenOnTurnEnd",
     "consumed_on_trigger": false,
-    "description": "自分のターン終了時、HPを10%回復する。"
+    "description": "自分のターン終了時、HPを10%回復する。",
+    "price": 320
   },
   {
     "id": "purge_band",
@@ -150,7 +182,8 @@
     "effect_value": 0,
     "battle_effect": "PurgeOnTurnEnd",
     "consumed_on_trigger": false,
-    "description": "自分のターン終了時、すべての状態異常蓄積値が100減少する。"
+    "description": "自分のターン終了時、すべての状態異常蓄積値が100減少する。",
+    "price": 280
   },
   {
     "id": "power_lens",
@@ -160,7 +193,8 @@
     "effect_value": 0,
     "battle_effect": "PhysAtkUp25",
     "consumed_on_trigger": false,
-    "description": "物理技の使用時、実効威力が25%上がる。"
+    "description": "物理技の使用時、実効威力が25%上がる。",
+    "price": 400
   },
   {
     "id": "focus_lens",
@@ -170,7 +204,8 @@
     "effect_value": 0,
     "battle_effect": "SpecAtkUp25",
     "consumed_on_trigger": false,
-    "description": "特殊技の使用時、実効威力が25%上がる。"
+    "description": "特殊技の使用時、実効威力が25%上がる。",
+    "price": 400
   },
   {
     "id": "iron_plate",
@@ -180,7 +215,8 @@
     "effect_value": 0,
     "battle_effect": "PhysDefUp30",
     "consumed_on_trigger": false,
-    "description": "物理技の被弾時、受ける技の実効威力が30%下がる。"
+    "description": "物理技の被弾時、受ける技の実効威力が30%下がる。",
+    "price": 340
   },
   {
     "id": "mind_plate",
@@ -190,7 +226,8 @@
     "effect_value": 0,
     "battle_effect": "SpecDefUp40",
     "consumed_on_trigger": false,
-    "description": "特殊技の被弾時、受ける技の実効威力が40%下がる。"
+    "description": "特殊技の被弾時、受ける技の実効威力が40%下がる。",
+    "price": 340
   },
   {
     "id": "wide_ward",
@@ -200,13 +237,15 @@
     "effect_value": 0,
     "battle_effect": "ImmuneWideRange",
     "consumed_on_trigger": false,
-    "description": "全体攻撃技(room、area)の攻撃を受けない。"
+    "description": "全体攻撃技(room、area)の攻撃を受けない。",
+    "price": 300
   },
   {
     "id": "mysterious_shard",
     "name": "不思議なかけら",
     "type": "Material",
     "effect_target": "None",
-    "effect_value": 0
+    "effect_value": 0,
+    "price": 0
   }
 ]
