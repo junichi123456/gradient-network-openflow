@@ -66,4 +66,11 @@ public class DamageContext
     // whole non-dragon path is unchanged; AttackAction sets it from
     // move.DragonMultiplier. Joins the Step-4 chain like CritMultiplier.
     public float DragonMultiplier { get; set; } = 1.0f;
+
+    // Attacker's level (Pokemon-style base term floor(Lv*2/5)+2).
+    public int Level { get; set; } = 50;
+
+    // Random roll 0.85..1.00. Default 1.0 so benchmarks/checks/NPC
+    // estimates are deterministic; only AttackAction supplies a real roll.
+    public float RandomFactor { get; set; } = 1.0f;
 }

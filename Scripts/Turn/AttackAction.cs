@@ -862,6 +862,10 @@ public class AttackAction : IAction
             PowerMultiplier = powerMul,
             CritMultiplier = isCrit ? 1.5f : 1.0f,
             DragonMultiplier = effectiveDragonMultiplier,
+            Level = _attacker.Stats.Level,
+            // One roll (0.85-1.00) per damaging hit, from the same RNG as the
+            // hit/crit rolls, drawn after the miss/immunity returns.
+            RandomFactor = DamageCalculator.RandomFactorFromRoll(GD.Randf()),
         };
 
         int damage = DamageCalculator.Calculate(ctx);
@@ -869,19 +873,19 @@ public class AttackAction : IAction
         // Burn's contact-damage penalty (x0.5 output halving), outside
         // DamageCalculator - a damage-output penalty, not a stat modifier.
         if (_attacker.StatusEffects.Ailment == AilmentType.Burn && move.IsContact)
-            damage = Mathf.FloorToInt(damage * 0.5f);
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.5f));
 
         // 〇〇流 (§3): the DEFENDER holding a resist-template trait matching
         // the incoming move's own element takes only 15% damage (85%
         // reduction) - keyed on the trait's declared element, independent
         // of the holder's real Type1/Type2.
         if (HasMatchingTemplateTrait(target, effectiveType, TraitTemplateKind.Resist))
-            damage = Mathf.FloorToInt(damage * 0.15f);
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.15f));
 
         // クリットシェル(使い切り): 急所を受けた時、そのダメージを90%減。
         if (isCrit && target.Holds(Combat.BattleItemEffect.CritCut90))
         {
-            damage = Mathf.FloorToInt(damage * 0.1f);
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.1f));
             target.ConsumeHeldItem();
         }
 
@@ -889,14 +893,14 @@ public class AttackAction : IAction
         // 「弱点」は解決後の相性倍率が等倍超であることで判定する。
         if (typeMultiplier > 1.0f && target.Holds(Combat.BattleItemEffect.WeaknessCut75))
         {
-            damage = Mathf.FloorToInt(damage * 0.25f);
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.25f));
             target.ConsumeHeldItem();
         }
 
         // きぬぬい (§3): one-time -10% on the next damage this entity takes,
         // armed by their own prior Ice-move use (see Execute()).
         if (target.StatusEffects.ConsumeDamageReductionIfArmed())
-            damage = Mathf.FloorToInt(damage * 0.9f);
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.9f));
 
         // わたほうし (§4, stage 2-c): the DEFENDER holding this trait
         // checks the ATTACKER's own ailment (VineBound) - the reverse
@@ -904,7 +908,7 @@ public class AttackAction : IAction
         // normally checks only its own holder's state ("通常と逆方向の参照").
         // 50% reduction, per the confirmed magnitude.
         if (HasTrait(target, "watahoushi") && _attacker.StatusEffects.IsVineBound)
-            damage = Mathf.FloorToInt(damage * 0.5f);
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.5f));
 
         // むれのいちいん (stage 9 §1): -15% while a リーダー holder is in the
         // party AND this entity is at FULL HP - a "first hit only" shield in
@@ -913,14 +917,14 @@ public class AttackAction : IAction
         if (HasTrait(target, "mure_no_ichiin")
             && defenderStats.CurrentHp >= defenderStats.MaxHp
             && HasAnyLeaderAlly(target))
-            damage = Mathf.FloorToInt(damage * 0.85f);
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.85f));
 
         // ビルドアップ (stage 9 §1): -25% for the duration of the recipient's
         // one action. Recoil is explicitly NOT reduced, which is automatic
         // here: ApplyRecoil computes from the damage DEALT and never routes
         // through this defender-side path.
         if (target.StatusEffects.HasBuildUpShield)
-            damage = Mathf.FloorToInt(damage * 0.75f);
+            damage = Mathf.Max(1, Mathf.FloorToInt(damage * 0.75f));
 
         // ばくせん (§4, stage 3): a Fire hit on an already-Burning target
         // adds a FLAT target-Level*0.8, in "相性倍率の影響を受けない別枠" -
@@ -976,12 +980,9 @@ public class AttackAction : IAction
         // it splits the FINAL number - everything above (multipliers, ばく
         // せん's flat add) is already baked in, and the attacker's own
         // drain/recoil still key off the full damage they dealt.
+        // 相性倍率0・威力0では軽減の Max(1) が 0 を 1 にしないよう 0 に戻す。
+        if (typeMultiplier <= 0f || move.Power <= 0) damage = 0;
         damage = ApplyGuardianShoulder(target, damage);
-
-        // 最終ダメージへの定数 +1 (仕様 2026-11-02): すべての補正・特性・持ち物・
-        // 場・軽減(肩代わり含む)を適用し終えた後、HP を引く直前に1ヒットごと加算。
-        // 相性倍率0・威力0のようにダメージを与えられない場合は 0 のまま。
-        damage = DamageCalculator.ApplyFlatFinalBonus(damage, typeMultiplier > 0f && move.Power > 0);
 
         // エンデュアチャーム(使い切り): HP満タンから即死する一撃をHP1で耐える。
         if (damage >= defenderStats.CurrentHp

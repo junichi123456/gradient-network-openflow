@@ -36,6 +36,8 @@ public partial class BattleTestScene : Node2D
 
     public override void _Ready()
     {
+        // 固定値の検査は乱数 1.0 で行う（実戦の 0.85-1.00 は VerifyRandomDamage が別に見る）。
+        DamageCalculator.ForcedRandomFactor = 1.0f;
         _grid = new GridManager { Name = "GridManager" };
         AddChild(_grid);
 
@@ -665,15 +667,51 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 物理技は攻撃対防御・特殊技は魔力対精神でダメージが決まる: {(wired ? "OK" : "NG")} "
                  + $"(物理 A100/B40→{p0}, C/D変更後{p1}, A/B下げ後{p2} / 特殊 C30/D100→{q0}, C/D変更後{q1}, A/B変更後{q2} / {physMv.Name}・{specMv.Name} 威力{physMv.Power})");
 
-        // 2. ベンチマーク。(a) DamageCalculator に実数値 攻75/防75 を直接渡して威力35 → 13、定数+1後は14。
-        //    (b) 001 モコロン(66/64/85/27/46/59)同士 Lv50・突破0、STAB・相性・補正なし、威力35 → 物理10・特殊4、+1後は物理11・特殊5。
-        int direct = DamageCalculator.ApplyFlatFinalBonus(DamageCalculator.Calculate(new DamageContext { BaseAtk = 75, BaseDef = 75, BasePower = 35 }));
+        // 2. ベンチマーク。(a) DamageCalculator に実数値 攻75/防75・Lv50・威力35・乱数1.0 を直接渡して → 17（乱数0.85なら14）。
+        //    (b) 001 モコロン(66/64/85/27/46/59)同士 Lv50・突破0、STAB・相性・補正なし、威力35・乱数1.0 → 物理13・特殊11（A69/B90、C32/D51）。
+        int direct = DamageCalculator.Calculate(new DamageContext { BaseAtk = 75, BaseDef = 75, BasePower = 35 });
         var moko = _sched.Roster.First(e => e.SpeciesId == "001").Stats;
-        int physBench = DamageCalculator.ApplyFlatFinalBonus(DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.Attack, BaseDef = moko.Defense, BasePower = 35 }));
-        int specBench = DamageCalculator.ApplyFlatFinalBonus(DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.SpAttack, BaseDef = moko.SpDefense, BasePower = 35 }));
-        GD.Print($"[検証] ベンチマーク(+1後 直接70/70/70→14、モコロン同士 物理11・特殊5): "
-                 + $"{(direct == 14 && physBench == 11 && specBench == 5 ? "OK" : "NG")} "
+        int physBench = DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.Attack, BaseDef = moko.Defense, BasePower = 35 });
+        int specBench = DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.SpAttack, BaseDef = moko.SpDefense, BasePower = 35 });
+        GD.Print($"[検証] ベンチマーク(ポケモン式 直接75/75/35→17、モコロン同士 物理13・特殊11): "
+                 + $"{(direct == 17 && physBench == 13 && specBench == 11 ? "OK" : "NG")} "
                  + $"(直接{direct} / モコロン 物理{physBench}[攻{moko.Attack}防{moko.Defense}] 特殊{specBench}[魔{moko.SpAttack}精{moko.SpDefense}])");
+
+        // 2b. 乱数 0.85-1.00（ヒットごとに1回）。式の端点・最低1・無効0・吸収/回復の整合・同一シード再現性。
+        {
+            DamageCalculator.ForcedRandomFactor = null;
+            float lo = DamageCalculator.RandomFactorFromRoll(0f), hi = DamageCalculator.RandomFactorFromRoll(0.99999f);
+            int d85 = DamageCalculator.Calculate(new DamageContext { BaseAtk = 75, BaseDef = 75, BasePower = 35, RandomFactor = 0.85f });
+            int lv5 = DamageCalculator.Calculate(new DamageContext { Level = 5, BaseAtk = 12, BaseDef = 12, BasePower = 25 });
+            int tiny = DamageCalculator.Calculate(new DamageContext { BaseAtk = 1, BaseDef = 999, BasePower = 1, RandomFactor = 0.85f, StabMultiplier = 0.1f });
+            int immune = DamageCalculator.Calculate(new DamageContext { BaseAtk = 75, BaseDef = 75, BasePower = 35, TypeEffectiveness = 0f });
+            int noPow = DamageCalculator.Calculate(new DamageContext { BaseAtk = 75, BaseDef = 75, BasePower = 0 });
+            DamageCalculator.ForcedRandomFactor = null;
+            var seq = new List<int>[2];
+            for (int run = 0; run < 2; run++)
+            {
+                GD.Seed(20261102);
+                seq[run] = new List<int>();
+                for (int i = 0; i < 120; i++)
+                {
+                    def.Stats.HealToFull(); def.HeldItemId = null; atk.HeldItemId = null;
+                    int hp0 = def.Stats.CurrentHp;
+                    new AttackAction(atk, def, MakeSlot(atk, physMv), _floor).Execute(0);
+                    seq[run].Add(hp0 - def.Stats.CurrentHp);
+                }
+            }
+            DamageCalculator.ForcedRandomFactor = 1.0f;
+            GD.Randomize();   // 固定シードを残さない（以降の検査は乱数に依存するものがある）
+            foreach (var x in _sched.Roster) { x.StatusEffects.Reset(); x.Stats.HealToFull(); x.HeldItemId = null; }
+            int full = MeasureHit(atk, def, physMv, null);
+            var nz = seq[0].Where(x => x > 0 && x <= full).ToList();   // 急所(1.5倍)・ミスを除く
+            bool repro = seq[0].SequenceEqual(seq[1]);
+            bool rangeOk = nz.Count > 20 && nz.Min() >= (int)(full * 0.85f) - 1 && nz.Max() <= full && nz.Distinct().Count() > 1;
+            bool edgesOk = System.Math.Abs(lo - 0.85f) < 1e-6 && System.Math.Abs(hi - 1.0f) < 1e-6 && d85 == 14 && lv5 == 4;
+            bool zeroOk = immune == 0 && noPow == 0 && tiny == 1;
+            GD.Print($"[検証] ダメージ乱数(0.85-1.00・最低1・無効0・同一シード再現): {(repro && rangeOk && edgesOk && zeroOk ? "OK" : "NG")} "
+                     + $"(端点{lo}/{hi} 威力35→0.85で{d85} Lv5→{lv5} 最低保証{tiny} 無効{immune}/{noPow} 範囲[{(nz.Count > 0 ? nz.Min() : -1)},{(nz.Count > 0 ? nz.Max() : -1)}] 乱数1.0={full} 再現={repro})");
+        }
 
         // 3. 同優先度なら俊敏が高いほうが先: タマコッコ(S61・BST6 320) とブシガエル(S48・BST6 397)。
         //    さらに、俊敏が高く BST6 も高い組（BST6 の低い側が先という同速用の規則と逆向き）をロスターから探し、俊敏が優先されることを見る。
