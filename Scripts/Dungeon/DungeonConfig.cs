@@ -25,6 +25,8 @@ public class DungeonConfig
     public System.Collections.Generic.List<string> WildPool { get; set; } = new();
     // 野生の基準レベル（階が進むと FloorController が上げる）。
     public int WildLevel { get; set; } = 5;
+    // 任意。[最初の階のLv, 最終階のLv]。あれば WildLevel より優先し、階ごとに線形（端数切り捨て）。
+    public int[] WildLevelRange { get; set; }
     // 最初に生成する階（ヘッドレス検証で最終階へ直行するため。既定 1）。
     public int StartFloor { get; set; } = 1;
     // 戦闘後共闘: このダンジョンだけ、パーティに加わって同行する種族ID。

@@ -74,6 +74,7 @@ public static class DungeonDestinations
             Boss = d.Boss == null ? null : Spec(d.Boss, bossLv),
             WildPool = db.WildPool(d.Id),
             WildLevel = Math.Max(2, bossLv + db.LevelCurve.WildOffset),
+            WildLevelRange = d.WildLevelRange is { Count: 2 } r ? new[] { r[0], r[1] } : null,
             // 戦闘後共闘: ボスを倒した直後の次のダンジョンだけ、仲間が同行する。
             CoopGuests = st != null && st.CoopDungeon == d.Id && st.CoopSpecies != "" ? new List<string> { st.CoopSpecies } : new(),
         };

@@ -1170,6 +1170,13 @@ public partial class FloorController : Node2D
         {
             // pal_plan 由来の出現表から種族を引く。レベルは「最終の通常階で 基準Lv、手前は1階ごとに -1」（階の加算はしない）。
             int lv = System.Math.Max(2, _config.WildLevel - System.Math.Max(0, _config.MaxFloors - 1 - _floorNumber));
+            if (_config.WildLevelRange is { Length: 2 } wr)
+            {
+                // wild_level_range: 1階=wr[0]、最終階=wr[1]、間は線形（切り捨て）。
+                int span = System.Math.Max(1, _config.MaxFloors - 1);
+                int f = System.Math.Clamp(_floorNumber - 1, 0, span);
+                lv = wr[0] + (wr[1] - wr[0]) * f / span;
+            }
             enemy = new WildEntity { SpeciesId = _config.WildPool[rng.RandiRange(0, _config.WildPool.Count - 1)], WildLevel = lv };
         }
         else enemy = rng.Randf() < _rule.DummyNpcRatio ? new DummyNPC() : new FastNPC();

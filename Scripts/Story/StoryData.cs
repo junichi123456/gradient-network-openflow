@@ -105,6 +105,8 @@ public class DungeonDef
     [JsonPropertyName("no_wild")] public bool NoWild { get; set; }
     // このダンジョンを選べるようになる条件: ここに挙げたダンジョンをすべてクリア済み（解放済みに加えて）。
     [JsonPropertyName("requires_cleared")] public List<string> RequiresCleared { get; set; } = new();
+    // 任意。[最初の階のLv, 最終階のLv]。指定があれば野生のLvは階ごとに線形（端数切り捨て）で、曲線より優先。
+    [JsonPropertyName("wild_level_range")] public List<int> WildLevelRange { get; set; }
 }
 
 public class CharacterDef

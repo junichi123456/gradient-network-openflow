@@ -45,7 +45,29 @@ public static partial class StoryTests
         var cv = db.LevelCurve;
         Check("レベル曲線: チャート1=Lv5・チャート20=Lv60・単調増加、ボスのレベルは曲線どおり",
               cv.At(1) == 5 && cv.At(20) == 60 && Enumerable.Range(1, 19).All(c => cv.At(c) <= cv.At(c + 1))
-              && main35.All(d => d.Boss.Level == db.BossLevelFor(d)), $"c2={cv.At(2)} c10={cv.At(10)}");
+              && main35.All(d => d.Boss.Level == db.BossLevelFor(d) || d.WildLevelRange != null), $"c2={cv.At(2)} c10={cv.At(10)}");
+
+        // d01_c1 だけ 野生Lv 1,1,2,2,3（wild_level_range [1,3]）・ボスLv3。他（d02_c2）は曲線のまま。
+        {
+            var dd1 = db.Dungeon("d01_c1"); var dd2 = db.Dungeon("d02_c2");
+            var c1 = DungeonDestinations.ConfigFor(db, dd1); var c2 = DungeonDestinations.ConfigFor(db, dd2);
+            var lvs = new List<int>();
+            if (hub != null)
+            {
+                FloorController.SuppressSceneChange = true;
+                for (int fN = 1; fN <= dd1.Floors; fN++)
+                {
+                    var s1 = Enter(host, hub, db, dd1, fN); var f1 = FloorOf(s1);
+                    var w = f1.SpawnedEnemyList.OfType<WildEntity>().ToList();
+                    lvs.Add(w.Count == 0 ? -1 : w[0].Stats.Level);
+                    Leave(host, s1);
+                }
+            }
+            Check("d01_c1: 野生Lvは階ごとに1,1,2,2（最終階はボス階で野生なし、出れば3）・ボスLv3／d02_c2 は曲線のまま（野生Lv=max(2,ボス-3)・ボスLv8・range無し）",
+                  dd1.Boss.Level == 3 && c1.Boss.Level == 3 && c1.WildLevelRange is { Length: 2 } && lvs.Take(4).SequenceEqual(new[] { 1, 1, 2, 2 }) && (lvs[4] == 3 || lvs[4] == -1)
+                  && dd2.Boss.Level == 8 && c2.Boss.Level == 8 && c2.WildLevelRange == null && c2.WildLevel == System.Math.Max(2, 8 + db.LevelCurve.WildOffset),
+                  $"lv=[{string.Join(",", lvs)}] boss={dd1.Boss.Level} d02wild={c2.WildLevel}");
+        }
 
         // ---- P3: チャート進行（StoryFlow） ----
         var st = HeroState(); var h = new RecHost { ChoiceIndex = 1 };

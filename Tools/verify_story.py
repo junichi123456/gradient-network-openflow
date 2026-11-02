@@ -128,6 +128,10 @@ def main():
     for d in main_d:
         c = C[d["chart"]]
         n = c.get("level_chart") or int(d["chart"][1:])
+        if d.get("wild_level_range"):
+            rg = d["wild_level_range"]
+            check(len(rg) == 2 and 1 <= rg[0] <= rg[1] == d["boss"]["level"], "%s: wild_level_range が不正（[最初,最終]、最終=ボスLv）" % d["id"])
+            continue  # 例外: 序盤の敵レベルを個別指定（d01_c1: 野生 1→3・ボス Lv3）
         check(d["boss"]["level"] == lv(n), "%s: ボスLv %d != 曲線 %d" % (d["id"], d["boss"]["level"], lv(n)))
     check(all(D["x%d" % n]["boss"]["level"] == curve["legendary_level"] for n in range(36, 43)), "追加枠の伝説が Lv70 でない")
     check(rb["boss"]["level"] == lv(14), "根もとのセイントールがチャート14のレベルでない")
