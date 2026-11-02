@@ -1,0 +1,219 @@
+{
+ "name": "タマコッコ (Chikipi)",
+ "gait": "biped",
+ "palette": {
+  "cr": "#f6e2c2",
+  "cr2": "#fbeed6",
+  "comb": "#e0381c",
+  "beak": "#f0a030",
+  "eye": "#2a2a2e",
+  "white": "#ffffff",
+  "foot": "#e8761c"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    0
+   ],
+   "size": [
+    26,
+    21,
+    24
+   ],
+   "color": "cr",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    6
+   ],
+   "size": [
+    23,
+    17,
+    17
+   ],
+   "color": "cr2",
+   "group": "head"
+  },
+  {
+   "name": "comb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    5
+   ],
+   "size": [
+    4,
+    8,
+    5
+   ],
+   "color": "comb",
+   "group": "head"
+  },
+  {
+   "name": "comb2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    9
+   ],
+   "size": [
+    3.5,
+    6,
+    4
+   ],
+   "color": "comb",
+   "group": "head"
+  },
+  {
+   "name": "eye_w",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    19,
+    13.5
+   ],
+   "size": [
+    5.6,
+    6.6,
+    2.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye_h",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    20,
+    14.8
+   ],
+   "size": [
+    2.4,
+    3.2,
+    0.8
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    16,
+    15
+   ],
+   "size": [
+    7,
+    4,
+    5
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "wattle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12.5,
+    15
+   ],
+   "size": [
+    6,
+    7,
+    2.5
+   ],
+   "color": "comb",
+   "group": "head"
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    13.5,
+    11,
+    -1
+   ],
+   "size": [
+    4,
+    10,
+    12
+   ],
+   "color": "cr",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    12,
+    -12
+   ],
+   "size": [
+    7,
+    7,
+    4
+   ],
+   "color": "cr2",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    1,
+    6
+   ],
+   "size": [
+    5,
+    2,
+    6
+   ],
+   "color": "foot",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_ChickenPal_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Chikipi1.webp",
+   "note": "草地: 丸い白〜クリーム色のひよこ型、赤いトサカ、橙のくちばし、赤い肉垂れ、橙の足"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Chikipi_sleep.png",
+   "note": "側面: 丸い体に小さな翼"
+  }
+ ]
+}

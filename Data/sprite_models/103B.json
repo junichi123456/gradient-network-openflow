@@ -1,0 +1,301 @@
+{
+ "name": "モモチョ (Weasel Dragon Fire)",
+ "gait": "quad",
+ "palette": {
+  "body": "#f2a0bc",
+  "body2": "#f6b3c9",
+  "belly": "#f8e8ee",
+  "ear": "#f08cb0",
+  "eartip": "#e0507e",
+  "eyew": "#fbf3fb",
+  "iris": "#8a4ad0",
+  "nose": "#c04a76"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -2
+   ],
+   "size": [
+    11,
+    11,
+    19
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7.5,
+    -1
+   ],
+   "size": [
+    9,
+    7,
+    16
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    8
+   ],
+   "size": [
+    8,
+    10,
+    8
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    7
+   ],
+   "size": [
+    7,
+    8,
+    6
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    11
+   ],
+   "size": [
+    10,
+    9,
+    11
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17.5,
+    16
+   ],
+   "size": [
+    6,
+    5,
+    6
+   ],
+   "color": "body2",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18.5,
+    18.8
+   ],
+   "size": [
+    2.4,
+    2,
+    1.6
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.3,
+    20,
+    15
+   ],
+   "size": [
+    3.4,
+    4.2,
+    1.6
+   ],
+   "color": "eyew",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "iris",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    19.8,
+    15.8
+   ],
+   "size": [
+    2.4,
+    3,
+    1
+   ],
+   "color": "iris",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    28,
+    8
+   ],
+   "size": [
+    9,
+    16,
+    3
+   ],
+   "color": "ear",
+   "group": "ear",
+   "rot": [
+    -10,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eartip",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    33,
+    8
+   ],
+   "size": [
+    7.5,
+    7,
+    2.6
+   ],
+   "color": "eartip",
+   "group": "ear",
+   "rot": [
+    -10,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg_f",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    3,
+    5
+   ],
+   "size": [
+    4.5,
+    7,
+    5
+   ],
+   "color": "body",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_b",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    3,
+    -9
+   ],
+   "size": [
+    5,
+    7,
+    6
+   ],
+   "color": "body",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -12
+   ],
+   "size": [
+    5,
+    5,
+    9
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -17
+   ],
+   "size": [
+    7,
+    10,
+    8
+   ],
+   "color": "eartip",
+   "group": "tail",
+   "rot": [
+    25,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_WeaselDragon_Fire_icon_normal.png",
+   "note": "ピンクの体、耳・尾の先は濃いピンク、白い腹、紫の瞳。色以外は元種と同形"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_WeaselDragon_Fire_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799210",
+   "note": "game8 ページ（乗用サドル画像のみ）。胴は細長いイタチ竜体型として推定"
+  }
+ ]
+}

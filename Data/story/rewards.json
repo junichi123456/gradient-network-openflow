@@ -1,0 +1,6 @@
+{
+  "base": 30,
+  "per_chart": 10,
+  "extra_chart": 20,
+  "sell_divisor": 2
+}

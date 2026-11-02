@@ -1,0 +1,355 @@
+{
+ "name": "ポチムネ (Pupperai)",
+ "gait": "biped",
+ "palette": {
+  "or_": "#c8683a",
+  "or2": "#d8804a",
+  "wht": "#f6f2ec",
+  "dk": "#4a3028",
+  "tail": "#3a2c2c",
+  "scarf": "#b85428",
+  "eye": "#e89030",
+  "pup": "#2a1810",
+  "nose": "#c85030",
+  "stick": "#6a5038",
+  "lf": "#5a8a38"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    0
+   ],
+   "size": [
+    14,
+    15,
+    12
+   ],
+   "color": "or_",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    4.5
+   ],
+   "size": [
+    8,
+    10,
+    5
+   ],
+   "color": "wht",
+   "group": "body"
+  },
+  {
+   "name": "scarf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    2
+   ],
+   "size": [
+    17,
+    6,
+    15
+   ],
+   "color": "scarf",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    3
+   ],
+   "size": [
+    17,
+    13,
+    14
+   ],
+   "color": "or2",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.5,
+    9.5
+   ],
+   "size": [
+    8,
+    6,
+    6
+   ],
+   "color": "wht",
+   "group": "head"
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    20.5,
+    6
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "wht",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21.5,
+    12.6
+   ],
+   "size": [
+    2.4,
+    1.8,
+    1.4
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "brow",
+   "shape": "box",
+   "center": [
+    4.6,
+    26,
+    9
+   ],
+   "size": [
+    5.4,
+    1.6,
+    1.4
+   ],
+   "color": "dk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    24,
+    9.5
+   ],
+   "size": [
+    3.4,
+    4,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    24,
+    10.4
+   ],
+   "size": [
+    1.6,
+    2.6,
+    0.8
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    6.5,
+    32,
+    2
+   ],
+   "size": [
+    6.5,
+    9,
+    3
+   ],
+   "color": "or_",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -16
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "cone",
+   "center": [
+    6.5,
+    31,
+    3.2
+   ],
+   "size": [
+    3.6,
+    6,
+    1.4
+   ],
+   "color": "dk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -16
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    12,
+    1
+   ],
+   "size": [
+    4,
+    8,
+    4.4
+   ],
+   "color": "or_",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    3,
+    2
+   ],
+   "size": [
+    5.5,
+    7,
+    8
+   ],
+   "color": "or2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tailb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -11
+   ],
+   "size": [
+    10,
+    14,
+    9
+   ],
+   "color": "tail",
+   "group": "tail",
+   "rot": [
+    25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "cone",
+   "center": [
+    1,
+    31,
+    -13
+   ],
+   "size": [
+    5,
+    7,
+    4
+   ],
+   "color": "tail",
+   "group": "tail",
+   "rot": [
+    25,
+    0,
+    15
+   ]
+  },
+  {
+   "name": "stick",
+   "shape": "cylinder",
+   "center": [
+    0,
+    14,
+    -7
+   ],
+   "size": [
+    1.8,
+    30,
+    1.8
+   ],
+   "color": "stick",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    62
+   ]
+  },
+  {
+   "name": "sprout",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    22,
+    -9
+   ],
+   "size": [
+    6,
+    2,
+    3
+   ],
+   "color": "lf",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_SamuraiDog_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Pupperai_deepwater.png",
+   "note": "水中: 直立、橙茶の体、白い顔と胸、首に赤茶のスカーフ、背に黒い大きな尾と棒を背負う"
+  }
+ ]
+}

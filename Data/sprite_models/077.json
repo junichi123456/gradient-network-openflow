@@ -1,0 +1,369 @@
+{
+ "name": "ポプリーナ (Flopie)",
+ "gait": "biped",
+ "palette": {
+  "pink": "#f6a0c0",
+  "pink2": "#ee7fa8",
+  "cream": "#f6f0dc",
+  "tip": "#f8d890",
+  "flower": "#f08a20",
+  "leaf": "#6cc040",
+  "eye": "#c8942a",
+  "blk": "#2a2020",
+  "pad": "#f06a8a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    0
+   ],
+   "size": [
+    11,
+    12,
+    9
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "top",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13.5,
+    3.5
+   ],
+   "size": [
+    9,
+    2.4,
+    4
+   ],
+   "color": "leaf",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    1
+   ],
+   "size": [
+    14,
+    12,
+    12
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -2
+   ],
+   "size": [
+    19,
+    15,
+    10
+   ],
+   "color": "pink",
+   "group": "head"
+  },
+  {
+   "name": "bang",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    3
+   ],
+   "size": [
+    14,
+    5,
+    7
+   ],
+   "color": "pink",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    5
+   ],
+   "size": [
+    11,
+    9,
+    5
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    20.5,
+    7.4
+   ],
+   "size": [
+    2.2,
+    3,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    20.5,
+    8
+   ],
+   "size": [
+    1.1,
+    1.8,
+    0.6
+   ],
+   "color": "blk",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0,
+    18,
+    8
+   ],
+   "size": [
+    1.6,
+    1,
+    0.8
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "drape",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    16,
+    -1
+   ],
+   "size": [
+    6,
+    16,
+    7
+   ],
+   "color": "pink",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    6
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "drapetip",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    8,
+    -1
+   ],
+   "size": [
+    5.5,
+    6,
+    6
+   ],
+   "color": "tip",
+   "group": "ear",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    32,
+    -1
+   ],
+   "size": [
+    4,
+    13,
+    3
+   ],
+   "color": "pink",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    32,
+    0.5
+   ],
+   "size": [
+    2,
+    10,
+    1.5
+   ],
+   "color": "pink2",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "flower",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    27,
+    4
+   ],
+   "size": [
+    7,
+    2.4,
+    7
+   ],
+   "color": "flower",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ]
+  },
+  {
+   "name": "fcore",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    27.8,
+    4
+   ],
+   "size": [
+    2.4,
+    1.6,
+    2.4
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    10,
+    1
+   ],
+   "size": [
+    4,
+    8,
+    4
+   ],
+   "color": "pink",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    2.5,
+    2
+   ],
+   "size": [
+    5,
+    5,
+    8
+   ],
+   "color": "cream",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "pad",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    0.8,
+    4.5
+   ],
+   "size": [
+    4,
+    1.8,
+    4
+   ],
+   "color": "pad",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -6
+   ],
+   "size": [
+    5,
+    5,
+    4
+   ],
+   "color": "cream",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_FlowerRabbit_icon_normal.png",
+   "note": "正面: 桃色の大きな垂れ髪、立ち耳、頭に橙の花、緑の葉のトップス、クリーム色の顔"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Flopie",
+   "note": "ゲーム内: 両側の垂れた髪の先がクリーム色、耳は立っている、足裏は桃色"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799257",
+   "note": "全身は小さく丸い、クリーム色の胴"
+  }
+ ]
+}

@@ -1,0 +1,486 @@
+{
+ "name": "オーマサンダ (Azurmane)",
+ "gait": "quad",
+ "palette": {
+  "blue": "#4a52c0",
+  "navy": "#2a2a6a",
+  "mask": "#1a1a28",
+  "gold": "#d8b830",
+  "gold2": "#f0d860",
+  "ice": "#9ad8ff",
+  "ice2": "#d8f4ff",
+  "eye": "#e02838",
+  "hoof": "#e0c040"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    25.5,
+    -3.0
+   ],
+   "size": [
+    22.5,
+    21.0,
+    39.0
+   ],
+   "color": "blue",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    19.5,
+    -1.5
+   ],
+   "size": [
+    18.0,
+    12.0,
+    33.0
+   ],
+   "color": "navy",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    27.0,
+    13.5
+   ],
+   "size": [
+    18.0,
+    19.5,
+    13.5
+   ],
+   "color": "blue",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    37.5,
+    16.5
+   ],
+   "size": [
+    13.5,
+    21.0,
+    13.5
+   ],
+   "color": "blue",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    45.0,
+    24.0
+   ],
+   "size": [
+    12.0,
+    15.0,
+    21.0
+   ],
+   "color": "mask",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    41.25,
+    33.0
+   ],
+   "size": [
+    9.75,
+    9.75,
+    10.5
+   ],
+   "color": "navy",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0.0,
+    40.5,
+    37.5
+   ],
+   "size": [
+    3.9,
+    2.4,
+    1.5
+   ],
+   "color": "mask",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    5.7,
+    47.25,
+    30.0
+   ],
+   "size": [
+    2.4,
+    3.0,
+    1.5
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hornG",
+   "shape": "cone",
+   "center": [
+    0.0,
+    55.5,
+    19.5
+   ],
+   "size": [
+    4.8,
+    19.5,
+    4.8
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hornTip",
+   "shape": "cone",
+   "center": [
+    0.0,
+    67.5,
+    13.5
+   ],
+   "size": [
+    2.4,
+    7.5,
+    2.4
+   ],
+   "color": "gold2",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "plateL",
+   "shape": "wedge",
+   "center": [
+    7.5,
+    54.0,
+    16.5
+   ],
+   "size": [
+    3.0,
+    19.5,
+    13.5
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earL",
+   "shape": "cone",
+   "center": [
+    7.5,
+    54.0,
+    22.5
+   ],
+   "size": [
+    4.5,
+    9.0,
+    3.75
+   ],
+   "color": "navy",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "maneI",
+   "shape": "cone",
+   "center": [
+    0.0,
+    43.5,
+    9.0
+   ],
+   "size": [
+    10.5,
+    15.0,
+    10.5
+   ],
+   "color": "ice",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "maneI2",
+   "shape": "cone",
+   "center": [
+    6.0,
+    42.0,
+    9.0
+   ],
+   "size": [
+    9.0,
+    15.0,
+    9.0
+   ],
+   "color": "ice2",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "backI",
+   "shape": "cone",
+   "center": [
+    0.0,
+    39.0,
+    -4.5
+   ],
+   "size": [
+    10.5,
+    16.5,
+    10.5
+   ],
+   "color": "ice",
+   "group": "body",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "backI2",
+   "shape": "cone",
+   "center": [
+    7.5,
+    37.5,
+    -12.0
+   ],
+   "size": [
+    9.0,
+    15.0,
+    9.0
+   ],
+   "color": "ice2",
+   "group": "body",
+   "rot": [
+    -10,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "backI3",
+   "shape": "cone",
+   "center": [
+    6.0,
+    36.0,
+    3.0
+   ],
+   "size": [
+    9.0,
+    13.5,
+    9.0
+   ],
+   "color": "ice",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tailI",
+   "shape": "cone",
+   "center": [
+    0.0,
+    31.5,
+    -27.0
+   ],
+   "size": [
+    9.0,
+    21.0,
+    9.0
+   ],
+   "color": "ice",
+   "group": "tail",
+   "rot": [
+    -65,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailI2",
+   "shape": "cone",
+   "center": [
+    4.5,
+    28.5,
+    -28.5
+   ],
+   "size": [
+    7.5,
+    16.5,
+    7.5
+   ],
+   "color": "ice2",
+   "group": "tail",
+   "rot": [
+    -55,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg_f",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    10.5,
+    10.5
+   ],
+   "size": [
+    7.5,
+    22.5,
+    8.25
+   ],
+   "color": "blue",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "band_f",
+   "shape": "cylinder",
+   "center": [
+    7.5,
+    15.0,
+    10.5
+   ],
+   "size": [
+    8.7,
+    1.8,
+    9.45
+   ],
+   "color": "gold",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_f",
+   "shape": "box",
+   "center": [
+    7.5,
+    1.2,
+    10.8
+   ],
+   "size": [
+    8.1,
+    2.7,
+    8.7
+   ],
+   "color": "hoof",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_b",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    10.5,
+    -16.5
+   ],
+   "size": [
+    8.25,
+    22.5,
+    10.5
+   ],
+   "color": "blue",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_b",
+   "shape": "box",
+   "center": [
+    7.5,
+    1.2,
+    -16.2
+   ],
+   "size": [
+    8.1,
+    2.7,
+    8.7
+   ],
+   "color": "hoof",
+   "group": "leg_br",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_BlueThunderHorse_icon_normal.png",
+   "note": "アイコン: 黒い面頬の顔に金の角と金の頭板、赤い目、青い体、氷青色の稲妻の鬣"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_BlueThunderHorse_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Azurmane_HotSprings.png",
+   "note": "ゲーム内: 氷青色のトゲ状の鬣/尾が体を覆う"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Azurmane_slep.png",
+   "note": "寝姿: 紺青の体、金の脚輪、背の氷青の棘"
+  }
+ ]
+}

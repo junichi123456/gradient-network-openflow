@@ -1,0 +1,701 @@
+[
+  {
+    "id": "x_mem_c31",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "思い出　杭を立てた日の夕暮れから、翌朝まで。火のそばで過ごした、最初の夜の記憶。"
+      },
+      {
+        "op": "choice",
+        "options": [
+          {
+            "text": "思い出す",
+            "set_flag": "memory_c31",
+            "steps": [
+              {
+                "op": "call_event",
+                "id": "c31_e01_dusk"
+              },
+              {
+                "op": "call_event",
+                "id": "c31_e02_ledge"
+              },
+              {
+                "op": "call_event",
+                "id": "c31_e02b_boss"
+              },
+              {
+                "op": "call_event",
+                "id": "c31_e03_fire"
+              },
+              {
+                "op": "call_event",
+                "id": "c31_e04_worry"
+              },
+              {
+                "op": "call_event",
+                "id": "c31_e05_night"
+              },
+              {
+                "op": "call_event",
+                "id": "c31_e05b_morning"
+              },
+              {
+                "op": "narration",
+                "text": "思い出は、そっと胸の奥へ戻っていった。"
+              }
+            ]
+          },
+          {
+            "text": "そっとしておく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "x_mem_c32",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "思い出　余波の夜。ヘルガルダとヴィオレッタが見ていた、あの夜のこと。"
+      },
+      {
+        "op": "choice",
+        "options": [
+          {
+            "text": "思い出す",
+            "set_flag": "memory_c32",
+            "steps": [
+              {
+                "op": "call_event",
+                "id": "c32_e01_wake"
+              },
+              {
+                "op": "call_event",
+                "id": "c32_e02_command"
+              },
+              {
+                "op": "call_event",
+                "id": "c32_e03_crack"
+              },
+              {
+                "op": "call_event",
+                "id": "c32_e03b_boss"
+              },
+              {
+                "op": "call_event",
+                "id": "c32_e03c_spring"
+              },
+              {
+                "op": "call_event",
+                "id": "c32_e04_morning"
+              },
+              {
+                "op": "call_event",
+                "id": "c32_e05_proposal"
+              },
+              {
+                "op": "call_event",
+                "id": "c32_e05b_trace"
+              },
+              {
+                "op": "narration",
+                "text": "思い出は、そっと胸の奥へ戻っていった。"
+              }
+            ]
+          },
+          {
+            "text": "そっとしておく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "x_mem_c33",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "思い出　旅の記録帳。雨の帰り道、洞の入口で絵を見返した日のこと。"
+      },
+      {
+        "op": "choice",
+        "options": [
+          {
+            "text": "思い出す",
+            "set_flag": "memory_c33",
+            "steps": [
+              {
+                "op": "call_event",
+                "id": "c33_e01_return"
+              },
+              {
+                "op": "call_event",
+                "id": "c33_e02_notice"
+              },
+              {
+                "op": "call_event",
+                "id": "c33_e02b_boss"
+              },
+              {
+                "op": "call_event",
+                "id": "c33_e03_wall"
+              },
+              {
+                "op": "call_event",
+                "id": "c33_e04_map"
+              },
+              {
+                "op": "call_event",
+                "id": "c33_e05_home"
+              },
+              {
+                "op": "narration",
+                "text": "思い出は、そっと胸の奥へ戻っていった。"
+              }
+            ]
+          },
+          {
+            "text": "そっとしておく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "x_mem_c34",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "思い出　ゼノの足跡。マジョルナとオーメンが追った、群れの寝床のこと。"
+      },
+      {
+        "op": "choice",
+        "options": [
+          {
+            "text": "思い出す",
+            "set_flag": "memory_c34",
+            "steps": [
+              {
+                "op": "call_event",
+                "id": "c34_e01_trace"
+              },
+              {
+                "op": "call_event",
+                "id": "c34_e01b_follow"
+              },
+              {
+                "op": "call_event",
+                "id": "c34_e02_nest"
+              },
+              {
+                "op": "call_event",
+                "id": "c34_e03_reason"
+              },
+              {
+                "op": "call_event",
+                "id": "c34_e04_sleep"
+              },
+              {
+                "op": "call_event",
+                "id": "c34_e05_report"
+              },
+              {
+                "op": "narration",
+                "text": "思い出は、そっと胸の奥へ戻っていった。"
+              }
+            ]
+          },
+          {
+            "text": "そっとしておく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "x_mem_c35",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "思い出　根もとへの追走。世界樹の外周路を、手を引いて進んだ道のこと。"
+      },
+      {
+        "op": "choice",
+        "options": [
+          {
+            "text": "思い出す",
+            "set_flag": "memory_c35",
+            "steps": [
+              {
+                "op": "call_event",
+                "id": "c35_e01_levidra"
+              },
+              {
+                "op": "call_event",
+                "id": "c35_e02_road"
+              },
+              {
+                "op": "call_event",
+                "id": "c35_e02b_boss"
+              },
+              {
+                "op": "call_event",
+                "id": "c35_e03_presence"
+              },
+              {
+                "op": "call_event",
+                "id": "c35_e04_root"
+              },
+              {
+                "op": "call_event",
+                "id": "c35_e05_turn"
+              },
+              {
+                "op": "narration",
+                "text": "思い出は、そっと胸の奥へ戻っていった。"
+              }
+            ]
+          },
+          {
+            "text": "そっとしておく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "x36_intro",
+    "trigger": {
+      "type": "dungeon_floor",
+      "requires": [],
+      "once": true,
+      "dungeon": "x36",
+      "floor": 1
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "根もとの伝説の間。あの日、荒れていた白い影が、静かに待っている。"
+      },
+      {
+        "op": "narration",
+        "text": "なぜあの日、乱れていたのか。その答えを、この奥で確かめられる気がした。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "もう一度、会えるんだね。今度は、ちゃんと話せるといいな"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……行こう。"
+      }
+    ]
+  },
+  {
+    "id": "x37_intro",
+    "trigger": {
+      "type": "dungeon_floor",
+      "requires": [],
+      "once": true,
+      "dungeon": "x37",
+      "floor": 1
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "伝説の間の扉の向こうは、灯りを呑み込むような闇だった。ここに棲むのは、ベイントール。"
+      },
+      {
+        "op": "narration",
+        "text": "闇の主は、黙って待っている。挑む者を、ただ見定めるために。認められれば、力を貸してくれるかもしれない。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "暗い……。でも、{I}たちなら大丈夫。行こう"
+      }
+    ]
+  },
+  {
+    "id": "x38_intro",
+    "trigger": {
+      "type": "dungeon_floor",
+      "requires": [],
+      "once": true,
+      "dungeon": "x38",
+      "floor": 1
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "息が白く凍る、静かな間。氷を纏った伝説、グレイシャルが、奥で眠るように佇んでいる。"
+      },
+      {
+        "op": "narration",
+        "text": "冷たい光の先で待つ者に、勝てば、仲間になってくれる機会があるという。"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……寒い。行く。"
+      }
+    ]
+  },
+  {
+    "id": "x39_intro",
+    "trigger": {
+      "type": "dungeon_floor",
+      "requires": [],
+      "once": true,
+      "dungeon": "x39",
+      "floor": 1
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "氷の間と対をなすように、もうひとつの間があった。影をまとうグレイシャドウが、そこで待っている。"
+      },
+      {
+        "op": "narration",
+        "text": "同じ名の響きを持ちながら、まるで別の気配。挑めば、ひとつの答えが返ってくるだろう。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "似てるのに、ちがう……。気をつけて進もうね"
+      }
+    ]
+  },
+  {
+    "id": "x40_intro",
+    "trigger": {
+      "type": "dungeon_floor",
+      "requires": [],
+      "once": true,
+      "dungeon": "x40",
+      "floor": 1
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "水音だけが満ちる、深い間。ネプティオスが、揺れる水面の奥で、静かに目を開けた。"
+      },
+      {
+        "op": "narration",
+        "text": "深く、静かな力。認められれば、その力を預けてもらえるかもしれない。"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……静かだ。行こう。"
+      }
+    ]
+  },
+  {
+    "id": "x41_intro",
+    "trigger": {
+      "type": "dungeon_floor",
+      "requires": [],
+      "once": true,
+      "dungeon": "x41",
+      "floor": 1
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "空気が張りつめる竜の間。ジェッドランの気配が、足元の石まで震わせている。"
+      },
+      {
+        "op": "narration",
+        "text": "伝説の竜は、挑む者を待っていた。勝てば、仲間になる機会が巡ってくる。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "すごい気配……！　でも、逃げない。行こう！"
+      }
+    ]
+  },
+  {
+    "id": "x42_intro",
+    "trigger": {
+      "type": "dungeon_floor",
+      "requires": [],
+      "once": true,
+      "dungeon": "x42",
+      "floor": 1
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "世界樹の守り手、グランジーラ。本編で言葉を交わしたあの存在が、いま、対等に立ちはだかる。"
+      },
+      {
+        "op": "narration",
+        "text": "挑むのは、決断を果たした者として。守り手は、静かにその力を試そうとしている。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "あのとき話した人と、戦うんだね。……全力で行こう"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……うん。"
+      }
+    ]
+  },
+  {
+    "id": "x43_intro",
+    "trigger": {
+      "type": "dungeon_floor",
+      "requires": [],
+      "once": true,
+      "dungeon": "x43",
+      "floor": 1
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "再挑戦回廊。壁には九つの名が刻まれていた。シャオロン、ヒョウガオー、レジェンディア、ベラルージュ、ベラノワール。"
+      },
+      {
+        "op": "narration",
+        "text": "そして、ゼノグリフ、ゼノドラン、ゼノベーダ、ゼノルーダ。かつて本編で立ちはだかった者たちだ。"
+      },
+      {
+        "op": "narration",
+        "text": "回廊の奥で、彼らが再び待っている。勝てば、仲間にできる機会がある。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "みんな、また会えるんだ。今度は、仲間になってくれるかな"
+      }
+    ]
+  },
+  {
+    "id": "x_pillars_hint",
+    "trigger": {
+      "type": "chart_end",
+      "requires": [],
+      "once": true,
+      "chart": "c20"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "数日後の浜。波音のなかで、ふと、世界樹の根もとを見上げた。"
+      },
+      {
+        "op": "narration",
+        "text": "世界樹を支える七つの柱。その席は、崩落のあとも、まだ埋まっていない。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "空いたままの席……誰かが、待ってるのかな"
+      },
+      {
+        "op": "narration",
+        "text": "答えは、まだ先にある。ハコニワの日々は、続いていく。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "x_pillars_hinted"
+      }
+    ]
+  },
+  {
+    "id": "c21_e01_pillars",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "世界樹を支える七つの柱。その由来と、ほどく者との古い関係を、{protagonist}たちは知ろうとしていた。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "七つ目の席は、まだ空いたまま……。どうして、空いたんだろう"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c21_intro_seen"
+      }
+    ]
+  },
+  {
+    "id": "c22_e01_bushigaeru",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "縁側で、ブシガエルが杖を膝に置き、遠い目をしていた。"
+      },
+      {
+        "op": "say",
+        "who": "bushigaeru",
+        "text": "拙者が碑文を見た日のことを、話しておこう。崩落の夜のことも、だ"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c22_intro_seen"
+      }
+    ]
+  },
+  {
+    "id": "c23_e01_helgalda",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "見回りの合間に、ヘルガルダが古びた帳面を持ってきた。"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "帳面を見せてやる。群れの子と、食い物の数だ。取り立てのわけ……聞く気があるなら、だがね"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c23_intro_seen"
+      }
+    ]
+  },
+  {
+    "id": "c24_e01_hawkwin",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "say",
+        "who": "hawkwin",
+        "text": "よう、聞いてくれるか？　おいらたち流浪の探検隊が、あの荒れ地を見つけるまでの旅の話だぜ！"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c24_intro_seen"
+      }
+    ]
+  },
+  {
+    "id": "c25_e01_violetta",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "研究施設の机に、ヴィオレッタの日誌が積まれていた。"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "読んでみる？　かけらを拾った日から、分析の結論までの記録かな。たぶん、長いけど"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c25_intro_seen"
+      }
+    ]
+  },
+  {
+    "id": "c26_e01_tsurarajika",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "凍てつく峰の長、ツララジカが、湯気の立つお茶を差し出した。"
+      },
+      {
+        "op": "say",
+        "who": "tsurarajika",
+        "text": "峰でかけらが塊になった、いきさつをお話ししましょう。どうぞ、あたたまってください"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c26_intro_seen"
+      }
+    ]
+  },
+  {
+    "id": "c27_e01_suzaku",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "say",
+        "who": "suzaku",
+        "text": "聞きなさい。わたしが、力で守ると決めた日の話よ。一度しか話さないわ"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c27_intro_seen"
+      }
+    ]
+  },
+  {
+    "id": "c28_e01_council",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "say",
+        "who": "levidra",
+        "text": "我が荒野を預かるに至った経緯を、語ろう。長い話になる"
+      },
+      {
+        "op": "say",
+        "who": "sylphia",
+        "text": "わたしの外交のお話も、聞いてくださいね！　竜の空は、思ったより賑やかなんですよ！"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c28_intro_seen"
+      }
+    ]
+  },
+  {
+    "id": "c29_e01_daily",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "ハコニワの住民たちの、何気ない一日。選ばれなかった十四体それぞれの、朝から夕までの暮らし。"
+      },
+      {
+        "op": "narration",
+        "text": "今日は、ひとりずつ、そっとのぞいてみよう。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c29_intro_seen"
+      }
+    ]
+  },
+  {
+    "id": "c30_e01_other",
+    "trigger": null,
+    "steps": [
+      {
+        "op": "narration",
+        "text": "もし、別のパルが選ばれていたなら。もう一人の主人公と相棒が見た、崩落のあとの世界が、ここにある。"
+      },
+      {
+        "op": "narration",
+        "text": "同じ朝。同じ崩落。けれど、少しだけちがう道。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c30_intro_seen"
+      }
+    ]
+  }
+]

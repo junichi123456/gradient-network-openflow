@@ -1,0 +1,261 @@
+{
+ "name": "クルリス (Lifmunk)",
+ "gait": "biped",
+ "palette": {
+  "g": "#c7dc86",
+  "g2": "#d9e8a6",
+  "lf": "#4e9a3c",
+  "lf2": "#76b84a",
+  "gem": "#e03a2a",
+  "eye": "#e8402a",
+  "eyew": "#f6d0c0",
+  "tail": "#b8d070",
+  "wht": "#f4f4ea",
+  "dk": "#2a3a22"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    16,
+    17,
+    14
+   ],
+   "color": "g",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    5
+   ],
+   "size": [
+    10,
+    11,
+    6
+   ],
+   "color": "g2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    1
+   ],
+   "size": [
+    19,
+    16,
+    16
+   ],
+   "color": "g2",
+   "group": "head"
+  },
+  {
+   "name": "gem",
+   "shape": "cone",
+   "center": [
+    0,
+    27.5,
+    7
+   ],
+   "size": [
+    5,
+    5,
+    3
+   ],
+   "color": "gem",
+   "group": "head",
+   "rot": [
+    170,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    32,
+    -2
+   ],
+   "size": [
+    5,
+    15,
+    2.4
+   ],
+   "color": "lf",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    22,
+    8
+   ],
+   "size": [
+    4.6,
+    5,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyedot",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    23,
+    9
+   ],
+   "size": [
+    2,
+    2,
+    0.8
+   ],
+   "color": "eyew",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    18.5,
+    8
+   ],
+   "size": [
+    2.5,
+    0.6,
+    0.8
+   ],
+   "color": "dk",
+   "group": "head"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    3
+   ],
+   "size": [
+    14,
+    5,
+    13
+   ],
+   "color": "lf2",
+   "group": "body"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    11,
+    3
+   ],
+   "size": [
+    4,
+    7,
+    4
+   ],
+   "color": "g",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    2,
+    3
+   ],
+   "size": [
+    5,
+    5,
+    7
+   ],
+   "color": "g",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -14
+   ],
+   "size": [
+    12,
+    20,
+    9
+   ],
+   "color": "tail",
+   "group": "tail",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    -20
+   ],
+   "size": [
+    8,
+    6,
+    7
+   ],
+   "color": "wht",
+   "group": "tail",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_Carbunclo_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Lifmunk1.webp",
+   "note": "ゲーム内: 淡黄緑の体、額の赤い宝石、葉の耳、大きなふさふさ尾、首元に葉の襟"
+  }
+ ]
+}

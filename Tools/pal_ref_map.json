@@ -1,0 +1,1150 @@
+{
+ "001": {
+  "en": "",
+  "icon": "T_SheepBall"
+ },
+ "002": {
+  "en": "",
+  "icon": "T_PinkCat"
+ },
+ "003": {
+  "en": "",
+  "icon": "T_ChickenPal"
+ },
+ "004": {
+  "en": "",
+  "icon": "T_Carbunclo"
+ },
+ "005": {
+  "en": "",
+  "icon": "T_BluePlatypus"
+ },
+ "005B": {
+  "en": "",
+  "icon": "T_BluePlatypus_Fire"
+ },
+ "006": {
+  "en": "",
+  "icon": "T_CuteFox"
+ },
+ "007": {
+  "en": "",
+  "icon": "T_FlyingManta"
+ },
+ "007B": {
+  "en": "",
+  "icon": "T_FlyingManta_Thunder"
+ },
+ "008": {
+  "en": "",
+  "icon": "T_WoolFox"
+ },
+ "009": {
+  "en": "",
+  "icon": "T_KendoFrog"
+ },
+ "009B": {
+  "en": "",
+  "icon": "T_KendoFrog_Dark"
+ },
+ "010": {
+  "en": "",
+  "icon": "T_LeafMomonga"
+ },
+ "011": {
+  "en": "",
+  "icon": "T_Ganesha"
+ },
+ "012": {
+  "en": "",
+  "icon": "T_PlantSlime"
+ },
+ "013": {
+  "en": "",
+  "icon": "T_SamuraiDog"
+ },
+ "014": {
+  "en": "",
+  "icon": "T_CloverFairy"
+ },
+ "015": {
+  "en": "",
+  "icon": "T_Hedgehog"
+ },
+ "015B": {
+  "en": "",
+  "icon": "T_Hedgehog_Ice"
+ },
+ "016": {
+  "en": "",
+  "icon": "T_NegativeKoala"
+ },
+ "017": {
+  "en": "",
+  "icon": "T_Penguin"
+ },
+ "017B": {
+  "en": "",
+  "icon": "T_Penguin_Electric"
+ },
+ "018": {
+  "en": "",
+  "icon": "T_CaptainPenguin"
+ },
+ "018B": {
+  "en": "",
+  "icon": "T_CaptainPenguin_Black"
+ },
+ "019": {
+  "en": "",
+  "icon": "T_WizardOwl"
+ },
+ "020": {
+  "en": "",
+  "icon": "T_Alpaca"
+ },
+ "021": {
+  "en": "",
+  "icon": "T_KingAlpaca"
+ },
+ "021B": {
+  "en": "",
+  "icon": "T_KingAlpaca_Ice"
+ },
+ "022": {
+  "en": "",
+  "icon": "T_DreamDemon"
+ },
+ "023": {
+  "en": "",
+  "icon": "T_Monkey"
+ },
+ "023B": {
+  "en": "",
+  "icon": "T_Monkey_Fire"
+ },
+ "024": {
+  "en": "",
+  "icon": "T_NightFox"
+ },
+ "025": {
+  "en": "",
+  "icon": "T_LavaGirl"
+ },
+ "026": {
+  "en": "",
+  "icon": "T_FlameBambi"
+ },
+ "027": {
+  "en": "",
+  "icon": "T_Bastet"
+ },
+ "027B": {
+  "en": "",
+  "icon": "T_Bastet_Ice"
+ },
+ "028": {
+  "en": "",
+  "icon": "T_Boar"
+ },
+ "029": {
+  "en": "",
+  "icon": "T_Kitsunebi"
+ },
+ "029B": {
+  "en": "",
+  "icon": "T_Kitsunebi_Ice"
+ },
+ "030": {
+  "en": "",
+  "icon": "T_NegativeOctopus"
+ },
+ "030B": {
+  "en": "",
+  "icon": "T_NegativeOctopus_Neutral"
+ },
+ "031": {
+  "en": "",
+  "icon": "T_CuteMole"
+ },
+ "032": {
+  "en": "",
+  "icon": "T_Deer"
+ },
+ "032B": {
+  "en": "",
+  "icon": "T_Deer_Ground"
+ },
+ "033": {
+  "en": "",
+  "icon": "T_Garm"
+ },
+ "034": {
+  "en": "",
+  "icon": "T_BerryGoat"
+ },
+ "034B": {
+  "en": "",
+  "icon": "T_BerryGoat_Dark"
+ },
+ "035": {
+  "en": "",
+  "icon": "T_MopBaby"
+ },
+ "036": {
+  "en": "",
+  "icon": "T_MopKing"
+ },
+ "037": {
+  "en": "",
+  "icon": "T_TentacleTurtle"
+ },
+ "037B": {
+  "en": "",
+  "icon": "T_TentacleTurtle_Ground"
+ },
+ "038": {
+  "en": "",
+  "icon": "T_WindChimes"
+ },
+ "038B": {
+  "en": "",
+  "icon": "T_WindChimes_Ice"
+ },
+ "039": {
+  "en": "",
+  "icon": "T_SweetsSheep"
+ },
+ "039B": {
+  "en": "",
+  "icon": "T_SweetsSheep_Ground"
+ },
+ "040": {
+  "en": "",
+  "icon": "T_CowPal"
+ },
+ "041": {
+  "en": "",
+  "icon": "T_BlueDragon"
+ },
+ "041B": {
+  "en": "",
+  "icon": "T_BlueDragon_Ice"
+ },
+ "042": {
+  "en": "",
+  "icon": "T_ElecCat"
+ },
+ "043": {
+  "en": "",
+  "icon": "T_Kelpie"
+ },
+ "043B": {
+  "en": "",
+  "icon": "T_Kelpie_Fire"
+ },
+ "044": {
+  "en": "",
+  "icon": "T_PinkRabbit"
+ },
+ "044B": {
+  "en": "",
+  "icon": "T_PinkRabbit_Grass"
+ },
+ "045": {
+  "en": "",
+  "icon": "T_JellyfishFairy"
+ },
+ "046": {
+  "en": "",
+  "icon": "T_JellyfishGhost"
+ },
+ "047": {
+  "en": "",
+  "icon": "T_ClioneTwins"
+ },
+ "048": {
+  "en": "",
+  "icon": "T_OctopusGirl"
+ },
+ "048B": {
+  "en": "",
+  "icon": "T_OctopusGirl_Neutral"
+ },
+ "049": {
+  "en": "",
+  "icon": "T_Eagle"
+ },
+ "050": {
+  "en": "",
+  "icon": "T_GhostBlackCat"
+ },
+ "051": {
+  "en": "",
+  "icon": "T_HawkBird"
+ },
+ "052": {
+  "en": "",
+  "icon": "T_CatBat"
+ },
+ "053": {
+  "en": "",
+  "icon": "T_ColorfulBird"
+ },
+ "054": {
+  "en": "",
+  "icon": "T_Kirin"
+ },
+ "054B": {
+  "en": "",
+  "icon": "T_Kirin_Ice"
+ },
+ "055": {
+  "en": "",
+  "icon": "T_SharkKid"
+ },
+ "055B": {
+  "en": "",
+  "icon": "T_SharkKid_Fire"
+ },
+ "056": {
+  "en": "",
+  "icon": "T_Werewolf"
+ },
+ "056B": {
+  "en": "",
+  "icon": "T_Werewolf_Ice"
+ },
+ "057": {
+  "en": "",
+  "icon": "T_DarkCrow"
+ },
+ "058": {
+  "en": "",
+  "icon": "T_FlameBuffalo"
+ },
+ "059": {
+  "en": "",
+  "icon": "T_FluffyBird"
+ },
+ "060": {
+  "en": "",
+  "icon": "T_LittleBriarRose"
+ },
+ "061": {
+  "en": "",
+  "icon": "T_CuteButterfly"
+ },
+ "062": {
+  "en": "",
+  "icon": "T_ElecPomeranian"
+ },
+ "063": {
+  "en": "",
+  "icon": "T_FairyDragon"
+ },
+ "063B": {
+  "en": "",
+  "icon": "T_FairyDragon_Water"
+ },
+ "064": {
+  "en": "",
+  "icon": "T_BirdDragon"
+ },
+ "064B": {
+  "en": "",
+  "icon": "T_BirdDragon_Ice"
+ },
+ "065": {
+  "en": "",
+  "icon": "T_CatVampire"
+ },
+ "066": {
+  "en": "",
+  "icon": "T_VioletFairy"
+ },
+ "067": {
+  "en": "",
+  "icon": "T_SoldierBee"
+ },
+ "068": {
+  "en": "",
+  "icon": "T_QueenBee"
+ },
+ "069": {
+  "en": "",
+  "icon": "T_PinkLizard"
+ },
+ "070": {
+  "en": "",
+  "icon": "T_NaughtyCat"
+ },
+ "071": {
+  "en": "",
+  "icon": "T_PurpleSpider"
+ },
+ "072": {
+  "en": "",
+  "icon": "T_IceSeal"
+ },
+ "072B": {
+  "en": "",
+  "icon": "T_IceSeal_Ground"
+ },
+ "073": {
+  "en": "",
+  "icon": "T_LizardMan"
+ },
+ "073B": {
+  "en": "",
+  "icon": "T_LizardMan_Fire"
+ },
+ "074": {
+  "en": "",
+  "icon": "T_Gorilla"
+ },
+ "074B": {
+  "en": "",
+  "icon": "T_Gorilla_Ground"
+ },
+ "075": {
+  "en": "",
+  "icon": "T_Serpent"
+ },
+ "075B": {
+  "en": "",
+  "icon": "T_Serpent_Ground"
+ },
+ "076": {
+  "en": "",
+  "icon": "T_RobinHood"
+ },
+ "076B": {
+  "en": "",
+  "icon": "T_RobinHood_Ground"
+ },
+ "077": {
+  "en": "",
+  "icon": "T_FlowerRabbit"
+ },
+ "078": {
+  "en": "",
+  "icon": "T_FoxMage"
+ },
+ "078B": {
+  "en": "",
+  "icon": "T_FoxMage_Dark"
+ },
+ "079": {
+  "en": "",
+  "icon": "T_CatMage"
+ },
+ "079B": {
+  "en": "",
+  "icon": "T_CatMage_Fire"
+ },
+ "080": {
+  "en": "",
+  "icon": "T_HadesBird"
+ },
+ "080B": {
+  "en": "",
+  "icon": "T_HadesBird_Electric"
+ },
+ "081": {
+  "en": "",
+  "icon": "T_GrassMinotaur"
+ },
+ "081B": {
+  "en": "",
+  "icon": "T_GrassMinotaur_Ice"
+ },
+ "082": {
+  "en": "",
+  "icon": "T_Mutant"
+ },
+ "083": {
+  "en": "",
+  "icon": "T_FengyunDeeper"
+ },
+ "083B": {
+  "en": "",
+  "icon": "T_FengyunDeeper_Electric"
+ },
+ "084": {
+  "en": "",
+  "icon": "T_FlowerDinosaur"
+ },
+ "084B": {
+  "en": "",
+  "icon": "T_FlowerDinosaur_Electric"
+ },
+ "085": {
+  "en": "",
+  "icon": "T_Ronin"
+ },
+ "085B": {
+  "en": "",
+  "icon": "T_Ronin_Dark"
+ },
+ "086": {
+  "en": "",
+  "icon": "T_IceCrocodile"
+ },
+ "087": {
+  "en": "",
+  "icon": "T_GrassMammoth"
+ },
+ "087B": {
+  "en": "",
+  "icon": "T_GrassMammoth_Ice"
+ },
+ "088": {
+  "en": "",
+  "icon": "T_StuffedShark"
+ },
+ "088B": {
+  "en": "",
+  "icon": "T_StuffedShark_Fire"
+ },
+ "089": {
+  "en": "",
+  "icon": "T_FlowerDoll"
+ },
+ "089B": {
+  "en": "",
+  "icon": "T_FlowerDoll_Fire"
+ },
+ "090": {
+  "en": "",
+  "icon": "T_PandaGirl"
+ },
+ "091": {
+  "en": "",
+  "icon": "T_Baphomet"
+ },
+ "091B": {
+  "en": "",
+  "icon": "T_Baphomet_Dark"
+ },
+ "092": {
+  "en": "",
+  "icon": "T_RaijinDaughter"
+ },
+ "092B": {
+  "en": "",
+  "icon": "T_RaijinDaughter_Water"
+ },
+ "093": {
+  "en": "",
+  "icon": "T_FireKirin"
+ },
+ "093B": {
+  "en": "",
+  "icon": "T_FireKirin_Dark"
+ },
+ "094": {
+  "en": "",
+  "icon": "T_LazyDragon"
+ },
+ "094B": {
+  "en": "",
+  "icon": "T_LazyDragon_Electric"
+ },
+ "095": {
+  "en": "",
+  "icon": "T_IceFox"
+ },
+ "096": {
+  "en": "",
+  "icon": "T_ThunderBird"
+ },
+ "096B": {
+  "en": "",
+  "icon": "T_ThunderBird_Ice"
+ },
+ "097": {
+  "en": "",
+  "icon": "T_GhostAnglerfish"
+ },
+ "097B": {
+  "en": "",
+  "icon": "T_GhostAnglerfish_Fire"
+ },
+ "098": {
+  "en": "",
+  "icon": "T_ThunderDog"
+ },
+ "098B": {
+  "en": "",
+  "icon": "T_ThunderDog_Ice"
+ },
+ "099": {
+  "en": "",
+  "icon": "T_DarkScorpion"
+ },
+ "099B": {
+  "en": "",
+  "icon": "T_DarkScorpion_Ground"
+ },
+ "100": {
+  "en": "",
+  "icon": "T_CactusDoll"
+ },
+ "100B": {
+  "en": "",
+  "icon": "T_CactusDoll_Dark"
+ },
+ "101": {
+  "en": "",
+  "icon": "T_IceDeer"
+ },
+ "102": {
+  "en": "",
+  "icon": "T_GrassPanda"
+ },
+ "102B": {
+  "en": "",
+  "icon": "T_GrassPanda_Electric"
+ },
+ "103": {
+  "en": "",
+  "icon": "T_WeaselDragon"
+ },
+ "103B": {
+  "en": "",
+  "icon": "T_WeaselDragon_Fire"
+ },
+ "104": {
+  "en": "",
+  "icon": "T_RedArmorBird"
+ },
+ "105": {
+  "en": "",
+  "icon": "T_VolcanoDragon"
+ },
+ "105B": {
+  "en": "",
+  "icon": "T_VolcanoDragon_Ice"
+ },
+ "106": {
+  "en": "",
+  "icon": "T_TropicalOstrich"
+ },
+ "107": {
+  "en": "",
+  "icon": "T_DrillGame"
+ },
+ "108": {
+  "en": "",
+  "icon": "T_SakuraSaurus"
+ },
+ "108B": {
+  "en": "",
+  "icon": "T_SakuraSaurus_Water"
+ },
+ "109": {
+  "en": "",
+  "icon": "T_LazyCatfish"
+ },
+ "109B": {
+  "en": "",
+  "icon": "T_LazyCatfish_Gold"
+ },
+ "110": {
+  "en": "",
+  "icon": "T_Plesiosaur"
+ },
+ "111": {
+  "en": "",
+  "icon": "T_AmaterasuWolf"
+ },
+ "111B": {
+  "en": "",
+  "icon": "T_AmaterasuWolf_Dark"
+ },
+ "112": {
+  "en": "",
+  "icon": "T_Manticore"
+ },
+ "112B": {
+  "en": "",
+  "icon": "T_Manticore_Dark"
+ },
+ "113": {
+  "en": "",
+  "icon": "T_HerculesBeetle"
+ },
+ "113B": {
+  "en": "",
+  "icon": "T_HerculesBeetle_Ground"
+ },
+ "114": {
+  "en": "",
+  "icon": "T_SnowPeafowl"
+ },
+ "115": {
+  "en": "",
+  "icon": "T_DarkFlameFox"
+ },
+ "116": {
+  "en": "",
+  "icon": "T_WhiteMoth"
+ },
+ "116B": {
+  "en": "",
+  "icon": "T_WhiteMoth_Neutral"
+ },
+ "117": {
+  "en": "",
+  "icon": "T_GhostBeast"
+ },
+ "118": {
+  "en": "",
+  "icon": "T_MushroomDragon"
+ },
+ "118B": {
+  "en": "",
+  "icon": "T_MushroomDragon_Dark"
+ },
+ "119": {
+  "en": "",
+  "icon": "T_IceWitch"
+ },
+ "120": {
+  "en": "",
+  "icon": "T_MummyPal"
+ },
+ "121": {
+  "en": "",
+  "icon": "T_Umihebi"
+ },
+ "121B": {
+  "en": "",
+  "icon": "T_Umihebi_Fire"
+ },
+ "122": {
+  "en": "",
+  "icon": "T_Suzaku"
+ },
+ "122B": {
+  "en": "",
+  "icon": "T_Suzaku_Water"
+ },
+ "123": {
+  "en": "",
+  "icon": "T_FeatherOstrich"
+ },
+ "124": {
+  "en": "",
+  "icon": "T_SkyDragon"
+ },
+ "124B": {
+  "en": "",
+  "icon": "T_SkyDragon_Grass"
+ },
+ "125": {
+  "en": "",
+  "icon": "T_LeafPrincess"
+ },
+ "126": {
+  "en": "",
+  "icon": "T_SmallArmadillo"
+ },
+ "127": {
+  "en": "",
+  "icon": "T_GuardianDog"
+ },
+ "128": {
+  "en": "",
+  "icon": "T_SwordCutlassfish"
+ },
+ "128B": {
+  "en": "",
+  "icon": "T_SwordCutlassfish_Fire"
+ },
+ "129": {
+  "en": "",
+  "icon": "T_VolcanicMonster"
+ },
+ "129B": {
+  "en": "",
+  "icon": "T_VolcanicMonster_Ice"
+ },
+ "130": {
+  "en": "",
+  "icon": "T_NightBlueHorse"
+ },
+ "130B": {
+  "en": "",
+  "icon": "T_NightBlueHorse_Neutral"
+ },
+ "131": {
+  "en": "",
+  "icon": "T_RockBeast"
+ },
+ "131B": {
+  "en": "",
+  "icon": "T_RockBeast_Ice"
+ },
+ "132": {
+  "en": "",
+  "icon": "T_WhiteTiger"
+ },
+ "132B": {
+  "en": "",
+  "icon": "T_WhiteTiger_Ground"
+ },
+ "133": {
+  "en": "",
+  "icon": "T_SmallYeti"
+ },
+ "134": {
+  "en": "",
+  "icon": "T_Yeti"
+ },
+ "134B": {
+  "en": "",
+  "icon": "T_Yeti_Grass"
+ },
+ "135": {
+  "en": "",
+  "icon": "T_CandleGhost"
+ },
+ "136": {
+  "en": "",
+  "icon": "T_VenusFlytrap"
+ },
+ "137": {
+  "en": "",
+  "icon": "T_KingBahamut"
+ },
+ "137B": {
+  "en": "",
+  "icon": "T_KingBahamut_Dragon"
+ },
+ "138": {
+  "en": "",
+  "icon": "T_GrassGolem"
+ },
+ "138B": {
+  "en": "",
+  "icon": "T_GrassGolem_Dark"
+ },
+ "139": {
+  "en": "",
+  "icon": "T_Anubis"
+ },
+ "140": {
+  "en": "",
+  "icon": "T_Sekhmet"
+ },
+ "141": {
+  "en": "",
+  "icon": "T_ScorpionMan"
+ },
+ "141B": {
+  "en": "",
+  "icon": "T_ScorpionMan_Electric"
+ },
+ "142": {
+  "en": "",
+  "icon": "T_CubeTurtle"
+ },
+ "142B": {
+  "en": "",
+  "icon": "T_CubeTurtle_Neutral"
+ },
+ "143": {
+  "en": "",
+  "icon": "T_BadCatgirl"
+ },
+ "144": {
+  "en": "",
+  "icon": "T_MimicDog"
+ },
+ "145": {
+  "en": "",
+  "icon": "T_DarkAlien"
+ },
+ "146": {
+  "en": "",
+  "icon": "T_WhiteAlienDragon"
+ },
+ "147": {
+  "en": "",
+  "icon": "T_BlueberryFairy"
+ },
+ "148": {
+  "en": "",
+  "icon": "T_GhostRabbit"
+ },
+ "148B": {
+  "en": "",
+  "icon": "T_GhostRabbit_Grass"
+ },
+ "149": {
+  "en": "",
+  "icon": "T_BlackPuppy"
+ },
+ "149B": {
+  "en": "",
+  "icon": "T_BlackPuppy_Ice"
+ },
+ "150": {
+  "en": "",
+  "icon": "T_MysteryMask"
+ },
+ "151": {
+  "en": "",
+  "icon": "T_IceNarwhal"
+ },
+ "151B": {
+  "en": "",
+  "icon": "T_IceNarwhal_Fire"
+ },
+ "152": {
+  "en": "",
+  "icon": "T_GrassRabbitMan"
+ },
+ "153": {
+  "en": "",
+  "icon": "T_GrimGirl"
+ },
+ "154": {
+  "en": "",
+  "icon": "T_GoldenHorse"
+ },
+ "155": {
+  "en": "",
+  "icon": "T_SifuDog"
+ },
+ "156": {
+  "en": "",
+  "icon": "T_SumoDog"
+ },
+ "157": {
+  "en": "",
+  "icon": "T_WhiteDeer"
+ },
+ "157B": {
+  "en": "",
+  "icon": "T_WhiteDeer_Dark"
+ },
+ "158": {
+  "en": "",
+  "icon": "T_BlackMetalDragon"
+ },
+ "159": {
+  "en": "",
+  "icon": "T_WingGolem"
+ },
+ "159B": {
+  "en": "",
+  "icon": "T_WingGolem_Fire"
+ },
+ "160": {
+  "en": "",
+  "icon": "T_WhiteShieldDragon"
+ },
+ "161": {
+  "en": "",
+  "icon": "T_BlueThunderHorse"
+ },
+ "162": {
+  "en": "",
+  "icon": "T_LongCat"
+ },
+ "163": {
+  "en": "",
+  "icon": "T_ElecSnail"
+ },
+ "163B": {
+  "en": "",
+  "icon": "T_ElecSnail_Ground"
+ },
+ "164": {
+  "en": "",
+  "icon": "T_DandelionGirl"
+ },
+ "165": {
+  "en": "",
+  "icon": "T_BrownRabbit"
+ },
+ "166": {
+  "en": "",
+  "icon": "T_HoodGhost"
+ },
+ "167": {
+  "en": "",
+  "icon": "T_ElecLizard"
+ },
+ "168": {
+  "en": "",
+  "icon": "T_OniGhostGirl"
+ },
+ "169": {
+  "en": "",
+  "icon": "T_KingSunfish"
+ },
+ "169B": {
+  "en": "",
+  "icon": "T_KingSunfish_Thunder"
+ },
+ "170": {
+  "en": "",
+  "icon": "T_SleeveRabbit"
+ },
+ "171": {
+  "en": "",
+  "icon": "T_GhostDragon"
+ },
+ "171B": {
+  "en": "",
+  "icon": "T_GhostDragon_Fire"
+ },
+ "172": {
+  "en": "",
+  "icon": "T_ThunderFluffyBird"
+ },
+ "173": {
+  "en": "",
+  "icon": "T_RedFlowerBird"
+ },
+ "174": {
+  "en": "",
+  "icon": "T_FoxExorcist"
+ },
+ "175": {
+  "en": "",
+  "icon": "T_LotusDragon"
+ },
+ "176": {
+  "en": "",
+  "icon": "T_ClownRabbit"
+ },
+ "177": {
+  "en": "",
+  "icon": "T_ThiefBird"
+ },
+ "178": {
+  "en": "",
+  "icon": "T_SnakeGirl"
+ },
+ "179": {
+  "en": "",
+  "icon": "T_MushroomLady"
+ },
+ "180": {
+  "en": "",
+  "icon": "T_LanternButler"
+ },
+ "181": {
+  "en": "",
+  "icon": "T_MoonChild"
+ },
+ "182": {
+  "en": "",
+  "icon": "T_MonochromeQueen"
+ },
+ "183": {
+  "en": "",
+  "icon": "T_KabukiMan"
+ },
+ "184": {
+  "en": "",
+  "icon": "T_DomeArmorDragon"
+ },
+ "185": {
+  "en": "",
+  "icon": "T_ElecPanda"
+ },
+ "186": {
+  "en": "",
+  "icon": "T_LilyQueen"
+ },
+ "186B": {
+  "en": "",
+  "icon": "T_LilyQueen_Dark"
+ },
+ "187": {
+  "en": "",
+  "icon": "T_ThunderDragonMan"
+ },
+ "188": {
+  "en": "",
+  "icon": "T_Horus"
+ },
+ "188B": {
+  "en": "",
+  "icon": "T_Horus_Water"
+ },
+ "189": {
+  "en": "",
+  "icon": "T_BlackGriffon"
+ },
+ "190": {
+  "en": "",
+  "icon": "T_MoonQueen"
+ },
+ "191": {
+  "en": "",
+  "icon": "T_SnowTigerBeastman"
+ },
+ "192": {
+  "en": "",
+  "icon": "T_BlueSkyDragon"
+ },
+ "193": {
+  "en": "",
+  "icon": "T_Mothman"
+ },
+ "194": {
+  "en": "",
+  "icon": "T_FlowerPrince"
+ },
+ "195": {
+  "en": "",
+  "icon": "T_NightLady"
+ },
+ "195B": {
+  "en": "",
+  "icon": "T_NightLady_Dark"
+ },
+ "196": {
+  "en": "",
+  "icon": "T_DarkMechaDragon"
+ },
+ "197": {
+  "en": "",
+  "icon": "T_LegendDeer"
+ },
+ "198": {
+  "en": "",
+  "icon": "T_SaintCentaur"
+ },
+ "199": {
+  "en": "",
+  "icon": "T_BlackCentaur"
+ },
+ "200": {
+  "en": "",
+  "icon": "T_IceHorse"
+ },
+ "200B": {
+  "en": "",
+  "icon": "T_IceHorse_Dark"
+ },
+ "201": {
+  "en": "",
+  "icon": "T_PoseidonOrca"
+ },
+ "202": {
+  "en": "",
+  "icon": "T_JetDragon"
+ },
+ "203": {
+  "en": "",
+  "icon": "T_KingWhale"
+ }
+}

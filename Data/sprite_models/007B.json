@@ -1,0 +1,269 @@
+{
+ "name": "エレカイト (Celaray Lux)",
+ "gait": "hover",
+ "palette": {
+  "b": "#f4c838",
+  "b2": "#f6d450",
+  "belly": "#f0ece0",
+  "wing": "#2a2a34",
+  "spot": "#f6f2e0",
+  "tip": "#f4c838",
+  "eye": "#e04a6a",
+  "pup": "#2a1020",
+  "wht": "#ffffff"
+ },
+ "hover": 14,
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    0
+   ],
+   "size": [
+    17,
+    13,
+    26
+   ],
+   "color": "b",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    2.5,
+    3
+   ],
+   "size": [
+    13,
+    8,
+    20
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    12
+   ],
+   "size": [
+    16,
+    12,
+    12
+   ],
+   "color": "b2",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    4.5,
+    17,
+    8
+   ],
+   "size": [
+    4.4,
+    13,
+    4
+   ],
+   "color": "b",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_tip",
+   "shape": "cone",
+   "center": [
+    5.2,
+    23.4,
+    8
+   ],
+   "size": [
+    3.6,
+    4,
+    3.2
+   ],
+   "color": "tip",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    7.4,
+    7,
+    15
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    8.4,
+    7,
+    16
+   ],
+   "size": [
+    1.2,
+    2,
+    1
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    19,
+    8,
+    -3
+   ],
+   "size": [
+    26,
+    2.4,
+    13
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    -8,
+    6
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_spot",
+   "shape": "ellipsoid",
+   "center": [
+    26,
+    8.6,
+    -3
+   ],
+   "size": [
+    8,
+    1.2,
+    4
+   ],
+   "color": "spot",
+   "group": "wing_r",
+   "rot": [
+    0,
+    -8,
+    6
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_tip",
+   "shape": "ellipsoid",
+   "center": [
+    29,
+    8,
+    -6
+   ],
+   "size": [
+    8,
+    1.6,
+    4
+   ],
+   "color": "tip",
+   "group": "wing_r",
+   "mirror_x": true
+  },
+  {
+   "name": "tailfin",
+   "shape": "cone",
+   "center": [
+    0,
+    6,
+    -16
+   ],
+   "size": [
+    3,
+    10,
+    3
+   ],
+   "color": "tip",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    2.6,
+    3
+   ],
+   "size": [
+    3.6,
+    5,
+    3.6
+   ],
+   "color": "belly",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7.2,
+    14.4
+   ],
+   "size": [
+    11,
+    5,
+    7
+   ],
+   "color": "pup",
+   "group": "head"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_FlyingManta_Thunder_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "",
+   "note": "基本種 Celaray と同形。黄色の体と耳、顔に黒いマスク、翼は黒地に白縞(アイコンのみ)"
+  }
+ ]
+}

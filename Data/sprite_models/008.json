@@ -1,0 +1,274 @@
+{
+ "name": "ミルフィー (Cremis)",
+ "gait": "quad",
+ "palette": {
+  "wool": "#f6e6c8",
+  "wool2": "#fff2dc",
+  "sh": "#e4cfa8",
+  "face": "#f4dcb8",
+  "ear": "#e8c8a8",
+  "earin": "#a86858",
+  "eye": "#f0a838",
+  "eye2": "#e07018",
+  "pup": "#3a2a20",
+  "leg": "#7a5a50",
+  "nose": "#c08070"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -1
+   ],
+   "size": [
+    24,
+    19,
+    26
+   ],
+   "color": "wool",
+   "group": "body"
+  },
+  {
+   "name": "wl",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    13,
+    -6
+   ],
+   "size": [
+    12,
+    13,
+    13
+   ],
+   "color": "wool2",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "back",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -8
+   ],
+   "size": [
+    16,
+    9,
+    14
+   ],
+   "color": "wool2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    10
+   ],
+   "size": [
+    16,
+    14,
+    13
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "ruff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    5
+   ],
+   "size": [
+    21,
+    15,
+    10
+   ],
+   "color": "wool2",
+   "group": "head"
+  },
+  {
+   "name": "fringe",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24.5,
+    9
+   ],
+   "size": [
+    8,
+    4,
+    5
+   ],
+   "color": "wool2",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    28,
+    6
+   ],
+   "size": [
+    7,
+    15,
+    3
+   ],
+   "color": "face",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "ellipsoid",
+   "center": [
+    8.6,
+    28.4,
+    7.2
+   ],
+   "size": [
+    4,
+    11,
+    1.4
+   ],
+   "color": "earin",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    19,
+    16
+   ],
+   "size": [
+    4.4,
+    5,
+    1.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye_in",
+   "shape": "ellipsoid",
+   "center": [
+    5.2,
+    18.4,
+    17
+   ],
+   "size": [
+    2.6,
+    3,
+    1
+   ],
+   "color": "eye2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16.5,
+    16.8
+   ],
+   "size": [
+    2,
+    1.4,
+    1.2
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "fl",
+   "shape": "cylinder",
+   "center": [
+    5,
+    3,
+    6
+   ],
+   "size": [
+    4.4,
+    6,
+    4.4
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "bl",
+   "shape": "cylinder",
+   "center": [
+    5,
+    3,
+    -9
+   ],
+   "size": [
+    4.4,
+    6,
+    4.4
+   ],
+   "color": "leg",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -16
+   ],
+   "size": [
+    9,
+    9,
+    8
+   ],
+   "color": "wool2",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_WoolFox_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Cremis_sleep.png",
+   "note": "睡眠: 羊毛のもこもこ体は淡いクリーム色"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/CremisScreenshotFromGamerGuidesLocationVideoThumbnail.webp",
+   "note": "草地: 毛玉の体に大きな耳(内側は赤茶)、橙の目、短い暗色の脚"
+  }
+ ]
+}

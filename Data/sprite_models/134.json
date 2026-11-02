@@ -1,0 +1,439 @@
+{
+ "name": "ヒエティ (Wumpo)",
+ "gait": "biped",
+ "palette": {
+  "fur": "#f2f4fa",
+  "fur2": "#dfe5f4",
+  "low": "#7e9ad6",
+  "low2": "#667fc0",
+  "claw": "#4a4a58",
+  "face": "#17171f",
+  "eyew": "#f4f4f8",
+  "leaf": "#5aa83a",
+  "inner": "#b8c4e0",
+  "fl": "#e8782a",
+  "fl2": "#f0a050"
+ },
+ "parts": [
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    27,
+    20,
+    22
+   ],
+   "color": "low",
+   "group": "body"
+  },
+  {
+   "name": "lowshade",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    1
+   ],
+   "size": [
+    24,
+    10,
+    20
+   ],
+   "color": "low2",
+   "group": "body"
+  },
+  {
+   "name": "mantle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    33,
+    14,
+    26
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "hem0",
+   "shape": "cone",
+   "center": [
+    -12,
+    15.5,
+    2.0
+   ],
+   "size": [
+    5.5,
+    6,
+    5
+   ],
+   "color": "fur",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "hem1",
+   "shape": "cone",
+   "center": [
+    -6,
+    15.5,
+    3.5
+   ],
+   "size": [
+    5.5,
+    6,
+    5
+   ],
+   "color": "fur",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "hem2",
+   "shape": "cone",
+   "center": [
+    0,
+    15.5,
+    5.0
+   ],
+   "size": [
+    5.5,
+    6,
+    5
+   ],
+   "color": "fur",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "hem3",
+   "shape": "cone",
+   "center": [
+    6,
+    15.5,
+    3.5
+   ],
+   "size": [
+    5.5,
+    6,
+    5
+   ],
+   "color": "fur",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "hem4",
+   "shape": "cone",
+   "center": [
+    12,
+    15.5,
+    2.0
+   ],
+   "size": [
+    5.5,
+    6,
+    5
+   ],
+   "color": "fur",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24.5,
+    2
+   ],
+   "size": [
+    25,
+    17,
+    19
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    10.5
+   ],
+   "size": [
+    15,
+    9,
+    4
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    24.5,
+    12.6
+   ],
+   "size": [
+    2.4,
+    2.4,
+    1
+   ],
+   "color": "eyew",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    8.5,
+    34,
+    0
+   ],
+   "size": [
+    6,
+    8,
+    5
+   ],
+   "color": "fur",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earin",
+   "shape": "cone",
+   "center": [
+    8.3,
+    33,
+    1.5
+   ],
+   "size": [
+    3,
+    5,
+    2.5
+   ],
+   "color": "#b8c4e0",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    -6,
+    21,
+    12.5
+   ],
+   "size": [
+    10,
+    1,
+    4
+   ],
+   "color": "leaf",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    10
+   ]
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    17,
+    17,
+    1
+   ],
+   "size": [
+    8,
+    12,
+    8
+   ],
+   "color": "fur",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "forearm",
+   "shape": "ellipsoid",
+   "center": [
+    19.5,
+    9,
+    3
+   ],
+   "size": [
+    7,
+    9,
+    7
+   ],
+   "color": "low",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "claw0",
+   "shape": "cone",
+   "center": [
+    18.0,
+    3.5,
+    5.5
+   ],
+   "size": [
+    1.8,
+    4.5,
+    1.8
+   ],
+   "color": "claw",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw1",
+   "shape": "cone",
+   "center": [
+    19.6,
+    3.5,
+    5.5
+   ],
+   "size": [
+    1.8,
+    4.5,
+    1.8
+   ],
+   "color": "claw",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw2",
+   "shape": "cone",
+   "center": [
+    21.2,
+    3.5,
+    5.5
+   ],
+   "size": [
+    1.8,
+    4.5,
+    1.8
+   ],
+   "color": "claw",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    1.8,
+    4
+   ],
+   "size": [
+    8,
+    4,
+    11
+   ],
+   "color": "low2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "toes",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    1.2,
+    9
+   ],
+   "size": [
+    7,
+    2.5,
+    3
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Yeti_icon_normal.png",
+   "note": "正面: 白い毛の頭巾に黒い顔、白い丸目"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Wumpo.png",
+   "note": "全身: 丸い体、上半身は白い毛、下は青、裾はギザギザ、口に葉"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Wumpo_bis.png",
+   "note": "ゲーム内: 雪原、ケモ耳が頭巾上に"
+  }
+ ]
+}

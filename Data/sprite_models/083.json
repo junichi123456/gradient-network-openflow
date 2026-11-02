@@ -1,0 +1,444 @@
+{
+ "name": "ムラクモ",
+ "gait": "quad",
+ "palette": {
+  "ind": "#383a96",
+  "ind2": "#4a4aa6",
+  "cloud": "#a4a8dc",
+  "cloud2": "#c0c2ea",
+  "orange": "#b87828",
+  "eye": "#b02828",
+  "hoof": "#9a7840",
+  "pat": "#7a78c8",
+  "blk": "#1a1a28"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    16.32,
+    0.0
+   ],
+   "size": [
+    14.3,
+    8.84,
+    19.5
+   ],
+   "color": "ind",
+   "group": "body"
+  },
+  {
+   "name": "cloudb",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    20.4,
+    -0.75
+   ],
+   "size": [
+    22.1,
+    6.8,
+    17.25
+   ],
+   "color": "cloud",
+   "group": "body"
+  },
+  {
+   "name": "cloudf",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    20.06,
+    6.38
+   ],
+   "size": [
+    23.4,
+    8.16,
+    8.25
+   ],
+   "color": "cloud2",
+   "group": "body"
+  },
+  {
+   "name": "cloudr",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    19.38,
+    -7.5
+   ],
+   "size": [
+    19.5,
+    6.8,
+    7.5
+   ],
+   "color": "cloud",
+   "group": "body"
+  },
+  {
+   "name": "pat",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    14.96,
+    -6.0
+   ],
+   "size": [
+    2.6,
+    4.76,
+    5.25
+   ],
+   "color": "pat",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    23.8,
+    8.25
+   ],
+   "size": [
+    8.45,
+    10.2,
+    4.88
+   ],
+   "color": "ind",
+   "group": "head",
+   "rot": [
+    -18,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    28.9,
+    10.88
+   ],
+   "size": [
+    9.1,
+    5.1,
+    8.25
+   ],
+   "color": "ind2",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    27.88,
+    15.0
+   ],
+   "size": [
+    5.98,
+    3.13,
+    4.5
+   ],
+   "color": "ind",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    28.22,
+    17.25
+   ],
+   "size": [
+    2.86,
+    1.36,
+    1.5
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.42,
+    29.58,
+    12.38
+   ],
+   "size": [
+    2.34,
+    1.36,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tuft",
+   "shape": "ellipsoid",
+   "center": [
+    6.76,
+    28.22,
+    8.25
+   ],
+   "size": [
+    4.55,
+    3.4,
+    3.75
+   ],
+   "color": "ind2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5.85,
+    32.3,
+    8.25
+   ],
+   "size": [
+    5.2,
+    6.8,
+    3.0
+   ],
+   "color": "ind",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earin",
+   "shape": "ellipsoid",
+   "center": [
+    6.24,
+    32.3,
+    9.15
+   ],
+   "size": [
+    3.12,
+    4.76,
+    1.8
+   ],
+   "color": "orange",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "ellipsoid",
+   "center": [
+    3.9,
+    36.72,
+    7.5
+   ],
+   "size": [
+    5.2,
+    12.24,
+    3.0
+   ],
+   "color": "cloud2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "ellipsoid",
+   "center": [
+    8.45,
+    38.76,
+    7.5
+   ],
+   "size": [
+    3.9,
+    6.12,
+    2.25
+   ],
+   "color": "cloud2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    18.36,
+    -12.0
+   ],
+   "size": [
+    10.4,
+    6.12,
+    8.25
+   ],
+   "color": "cloud",
+   "group": "tail",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    21.08,
+    -15.0
+   ],
+   "size": [
+    6.5,
+    5.44,
+    4.5
+   ],
+   "color": "cloud2",
+   "group": "tail",
+   "rot": [
+    40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    5.2,
+    7.48,
+    6.0
+   ],
+   "size": [
+    4.42,
+    14.96,
+    2.85
+   ],
+   "color": "ind",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "puff_f",
+   "shape": "ellipsoid",
+   "center": [
+    5.2,
+    2.72,
+    6.0
+   ],
+   "size": [
+    7.8,
+    3.4,
+    5.25
+   ],
+   "color": "cloud2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_f",
+   "shape": "cylinder",
+   "center": [
+    5.2,
+    0.54,
+    6.38
+   ],
+   "size": [
+    4.94,
+    1.22,
+    3.15
+   ],
+   "color": "hoof",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    5.2,
+    7.48,
+    -6.0
+   ],
+   "size": [
+    4.42,
+    14.96,
+    2.85
+   ],
+   "color": "ind",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "puff_b",
+   "shape": "ellipsoid",
+   "center": [
+    5.2,
+    2.72,
+    -6.0
+   ],
+   "size": [
+    7.8,
+    3.4,
+    5.25
+   ],
+   "color": "cloud2",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_b",
+   "shape": "cylinder",
+   "center": [
+    5.2,
+    0.54,
+    -5.62
+   ],
+   "size": [
+    4.94,
+    1.22,
+    3.15
+   ],
+   "color": "hoof",
+   "group": "leg_bl",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/083",
+   "note": "game screenshots"
+  }
+ ]
+}

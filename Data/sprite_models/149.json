@@ -1,0 +1,343 @@
+{
+ "name": "クロマル (Smokie)",
+ "gait": "quad",
+ "palette": {
+  "body": "#2a2a30",
+  "head": "#8b8d98",
+  "ear": "#c8303a",
+  "eye": "#e02838",
+  "paw": "#5fb0c0",
+  "claw": "#9be8f4",
+  "tuft": "#9a9ca8",
+  "mark": "#c8303a",
+  "nose": "#15151a",
+  "white": "#f4f4f4"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    17.0,
+    -1.7
+   ],
+   "size": [
+    23.8,
+    20.4,
+    37.4
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    15.3,
+    13.6
+   ],
+   "size": [
+    17.0,
+    15.3,
+    13.6
+   ],
+   "color": "paw",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    27.2,
+    17.0
+   ],
+   "size": [
+    25.5,
+    20.4,
+    22.1
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "crest",
+   "shape": "cone",
+   "center": [
+    0.0,
+    39.1,
+    13.6
+   ],
+   "size": [
+    15.3,
+    15.3,
+    13.6
+   ],
+   "color": "#9a9ca8",
+   "group": "head"
+  },
+  {
+   "name": "crest2",
+   "shape": "cone",
+   "center": [
+    0.0,
+    37.4,
+    20.4
+   ],
+   "size": [
+    10.2,
+    11.9,
+    8.5
+   ],
+   "color": "#9a9ca8",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    23.8,
+    28.9
+   ],
+   "size": [
+    11.9,
+    8.5,
+    10.2
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0.0,
+    25.5,
+    34.0
+   ],
+   "size": [
+    4.25,
+    3.06,
+    1.7
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "markf",
+   "shape": "wedge",
+   "center": [
+    0.0,
+    30.6,
+    26.35
+   ],
+   "size": [
+    7.65,
+    5.1,
+    3.4
+   ],
+   "color": "mark",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "earo",
+   "shape": "cone",
+   "center": [
+    11.05,
+    37.4,
+    13.6
+   ],
+   "size": [
+    11.9,
+    17.0,
+    5.95
+   ],
+   "color": "body",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eari",
+   "shape": "cone",
+   "center": [
+    11.05,
+    35.7,
+    15.3
+   ],
+   "size": [
+    7.65,
+    11.9,
+    3.4
+   ],
+   "color": "ear",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    8.16,
+    28.9,
+    27.2
+   ],
+   "size": [
+    4.76,
+    3.4,
+    1.7
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    18.7,
+    -23.8
+   ],
+   "size": [
+    10.2,
+    11.9,
+    17.0
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    22.1,
+    -30.6
+   ],
+   "size": [
+    8.5,
+    8.5,
+    10.2
+   ],
+   "color": "#9a9ca8",
+   "group": "tail"
+  },
+  {
+   "name": "spike",
+   "shape": "cone",
+   "center": [
+    0.0,
+    27.2,
+    -10.2
+   ],
+   "size": [
+    10.2,
+    11.9,
+    10.2
+   ],
+   "color": "#9a9ca8",
+   "group": "body"
+  },
+  {
+   "name": "leg_fl",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    5.95,
+    10.2
+   ],
+   "size": [
+    7.65,
+    13.6,
+    8.5
+   ],
+   "color": "body",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "paw_f",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    2.04,
+    11.9
+   ],
+   "size": [
+    8.5,
+    5.1,
+    10.2
+   ],
+   "color": "paw",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_b",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    5.95,
+    -11.9
+   ],
+   "size": [
+    7.65,
+    13.6,
+    8.5
+   ],
+   "color": "body",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "paw_b",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    2.04,
+    -10.2
+   ],
+   "size": [
+    8.5,
+    5.1,
+    10.2
+   ],
+   "color": "paw",
+   "group": "leg_br",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_BlackPuppy_icon_normal.png",
+   "note": "アイコン/wiki水辺シーン: 黒い体、灰色の頭と尖った頭頂、耳の内側が赤、額に赤い三角、赤い目、足先と胸が青緑"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_BlackPuppy_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  }
+ ]
+}

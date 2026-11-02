@@ -1,0 +1,310 @@
+{
+ "name": "ワンフー (Dogen)",
+ "gait": "biped",
+ "palette": {
+  "fur": "#8a7a74",
+  "fur2": "#6a5a56",
+  "white": "#ece8e6",
+  "hat": "#d83a3a",
+  "hat2": "#b02a2a",
+  "eye": "#4ab4d8",
+  "nose": "#2a2024",
+  "ear": "#9a8a84",
+  "sash": "#3a3a48",
+  "paw": "#f2eeea"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    17,
+    17,
+    14
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    5
+   ],
+   "size": [
+    11,
+    12,
+    7
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "sash",
+   "shape": "cylinder",
+   "center": [
+    0,
+    8,
+    0
+   ],
+   "size": [
+    18,
+    2.4,
+    15
+   ],
+   "color": "sash",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    3
+   ],
+   "size": [
+    16,
+    12,
+    14
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    10
+   ],
+   "size": [
+    8,
+    6,
+    7
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21.5,
+    13.2
+   ],
+   "size": [
+    3,
+    2.5,
+    2
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "earL",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    21,
+    0
+   ],
+   "size": [
+    4,
+    10,
+    6
+   ],
+   "color": "ear",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hat",
+   "shape": "cone",
+   "center": [
+    0,
+    31,
+    2
+   ],
+   "size": [
+    34,
+    15,
+    30
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "hatrim",
+   "shape": "cylinder",
+   "center": [
+    0,
+    25.2,
+    2
+   ],
+   "size": [
+    35,
+    1.6,
+    31
+   ],
+   "color": "hat2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.2,
+    23.5,
+    9.6
+   ],
+   "size": [
+    3.2,
+    3.4,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "box",
+   "center": [
+    4.2,
+    23.5,
+    10.5
+   ],
+   "size": [
+    1,
+    1.8,
+    0.5
+   ],
+   "color": "nose",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    12,
+    3
+   ],
+   "size": [
+    5,
+    11,
+    5
+   ],
+   "color": "fur2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "paw",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    6,
+    4
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "paw",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    3.5,
+    2
+   ],
+   "size": [
+    7,
+    7,
+    9
+   ],
+   "color": "fur2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    1.2,
+    4
+   ],
+   "size": [
+    6.5,
+    3,
+    9
+   ],
+   "color": "paw",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -9
+   ],
+   "size": [
+    5,
+    5,
+    8
+   ],
+   "color": "fur",
+   "group": "tail",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_SifuDog_icon_normal.png",
+   "note": "アイコン: 大きな赤い円錐の笠、灰褐色の顔、青い瞳、白い口吻。wikiの祈祷シーンでも赤い笠が最も目立つ"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_SifuDog_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Dogenprayer.png",
+   "note": "祈祷シーン: 赤い笠をかぶり座る姿"
+  }
+ ]
+}

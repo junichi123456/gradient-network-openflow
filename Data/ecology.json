@@ -1,0 +1,47 @@
+[
+  {
+    "id": "flight",
+    "name": "飛行",
+    "description": "溶岩・水源・奈落の上を移動できる。トラップの対象外になる。",
+    "hooks": [
+      "lava_walk",
+      "water_walk",
+      "chasm_walk",
+      "trap_immune"
+    ]
+  },
+  {
+    "id": "submerge",
+    "name": "潜航",
+    "description": "水源上を移動できる。水源にいる間、状態異常の蓄積値が毎ターン-100される。",
+    "hooks": [
+      "water_walk",
+      "water_accumulation_decay"
+    ]
+  },
+  {
+    "id": "glide",
+    "name": "グライド",
+    "description": "トラップの対象外になる。地形ダメージを受けない。",
+    "hooks": [
+      "trap_immune",
+      "terrain_damage_immune"
+    ]
+  },
+  {
+    "id": "stairs_sense",
+    "name": "ひらめきのよかん",
+    "description": "新フロア到達時、現在Lv/120の確率で階段の位置を感知する。",
+    "hooks": [
+      "stairs_sense_on_floor_start"
+    ]
+  },
+  {
+    "id": "heat_organ",
+    "name": "放熱器官",
+    "description": "溶岩の上を移動できる。",
+    "hooks": [
+      "lava_walk"
+    ]
+  }
+]

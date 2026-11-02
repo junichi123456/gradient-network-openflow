@@ -1,0 +1,512 @@
+{
+ "name": "ジェッドラン (Jetragon)",
+ "gait": "hover",
+ "palette": {
+  "body": "#8ccde0",
+  "body2": "#6ab0cc",
+  "belly": "#cfe8f0",
+  "navy": "#2a2e54",
+  "navy2": "#3a3f6a",
+  "org": "#e8703a",
+  "claw": "#f4f0e4",
+  "eye": "#d83a40",
+  "crys": "#f060c8",
+  "crys2": "#ff9ae8"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    0
+   ],
+   "size": [
+    14,
+    12,
+    30
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    2
+   ],
+   "size": [
+    10,
+    7,
+    24
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "back",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    -3
+   ],
+   "size": [
+    7,
+    4,
+    20
+   ],
+   "color": "navy2",
+   "group": "body"
+  },
+  {
+   "name": "fin",
+   "shape": "cone",
+   "center": [
+    0,
+    28,
+    -8
+   ],
+   "size": [
+    3,
+    9,
+    10
+   ],
+   "color": "navy",
+   "group": "body",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    13
+   ],
+   "size": [
+    8,
+    9,
+    10
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    19
+   ],
+   "size": [
+    10,
+    9,
+    12
+   ],
+   "color": "navy",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    25
+   ],
+   "size": [
+    6.4,
+    5,
+    6
+   ],
+   "color": "navy2",
+   "group": "head"
+  },
+  {
+   "name": "jaw",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17.5,
+    22
+   ],
+   "size": [
+    7,
+    3,
+    10
+   ],
+   "color": "body2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    23.5,
+    22
+   ],
+   "size": [
+    2.2,
+    2.2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    4,
+    27,
+    14
+   ],
+   "size": [
+    3.2,
+    20,
+    3.2
+   ],
+   "color": "navy",
+   "group": "head",
+   "rot": [
+    -75,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    3,
+    25,
+    16
+   ],
+   "size": [
+    2.4,
+    12,
+    2.4
+   ],
+   "color": "navy2",
+   "group": "head",
+   "rot": [
+    -80,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cw0",
+   "shape": "wedge",
+   "center": [
+    13,
+    28,
+    2
+   ],
+   "size": [
+    5,
+    16,
+    2
+   ],
+   "color": "crys",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cw1",
+   "shape": "wedge",
+   "center": [
+    21,
+    23,
+    -2
+   ],
+   "size": [
+    4,
+    14,
+    2
+   ],
+   "color": "crys2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -75
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cw2",
+   "shape": "wedge",
+   "center": [
+    14,
+    20,
+    -10
+   ],
+   "size": [
+    4,
+    13,
+    2
+   ],
+   "color": "crys",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -100
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cw3",
+   "shape": "wedge",
+   "center": [
+    21,
+    17,
+    -12
+   ],
+   "size": [
+    3,
+    10,
+    2
+   ],
+   "color": "crys2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -110
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingbase",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    22,
+    -1
+   ],
+   "size": [
+    7,
+    4,
+    10
+   ],
+   "color": "body2",
+   "group": "wing_r",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    12,
+    8
+   ],
+   "size": [
+    4,
+    8,
+    4.4
+   ],
+   "color": "body",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ring",
+   "shape": "cylinder",
+   "center": [
+    7,
+    11,
+    8
+   ],
+   "size": [
+    5.2,
+    1.6,
+    5.6
+   ],
+   "color": "org",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "cone",
+   "center": [
+    7.5,
+    6.5,
+    9
+   ],
+   "size": [
+    2.4,
+    5,
+    2.4
+   ],
+   "color": "claw",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    10,
+    -8
+   ],
+   "size": [
+    5,
+    9,
+    5.4
+   ],
+   "color": "body",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "ringl",
+   "shape": "cylinder",
+   "center": [
+    6,
+    8,
+    -8
+   ],
+   "size": [
+    5.6,
+    1.6,
+    6
+   ],
+   "color": "org",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "clawl",
+   "shape": "cone",
+   "center": [
+    6,
+    4,
+    -7
+   ],
+   "size": [
+    2.6,
+    5,
+    2.6
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -17
+   ],
+   "size": [
+    8,
+    7,
+    12
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailr",
+   "shape": "cylinder",
+   "center": [
+    0,
+    16,
+    -19
+   ],
+   "size": [
+    8.4,
+    1.6,
+    8.4
+   ],
+   "color": "org",
+   "group": "tail",
+   "rot": [
+    100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cone",
+   "center": [
+    0,
+    15,
+    -27
+   ],
+   "size": [
+    6,
+    14,
+    6
+   ],
+   "color": "body2",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Jetragon.png",
+   "note": "全身: 水色の流線形の竜体、紺の頭と長い後ろ向きの角、橙の輪、ピンクの結晶の4枚翼"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Jetragon_riding.png",
+   "note": "飛行: 平たい体、紺の背ヒレ、ピンクの結晶翼が両側に広がる"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Jetragon_bis.png",
+   "note": "側面: 脚と尾に橙の輪、白い爪"
+  }
+ ],
+ "hover": 14
+}

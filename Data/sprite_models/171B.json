@@ -1,0 +1,614 @@
+{
+ "name": "ヘルバーン (Eidrolon Ignis)",
+ "gait": "hover",
+ "hover": 6,
+ "palette": {
+  "body": "#9a2226",
+  "chest": "#58444c",
+  "neck": "#58444c",
+  "head": "#52404c",
+  "eye": "#f0a020",
+  "streak": "#e07a20",
+  "horn": "#3e2a34",
+  "leg": "#a02428",
+  "claw": "#6a2028",
+  "edge": "#4a3844",
+  "mem": "#4a2e3a",
+  "glow": "#e08a18",
+  "tail": "#4a3844",
+  "tip": "#d86a18"
+ },
+ "parts": [
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    0
+   ],
+   "size": [
+    11,
+    19,
+    9
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    3.6
+   ],
+   "size": [
+    6.5,
+    14,
+    3.5
+   ],
+   "color": "chest",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    2.5
+   ],
+   "size": [
+    5.5,
+    8,
+    5.5
+   ],
+   "color": "neck",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40.5,
+    4.5
+   ],
+   "size": [
+    8,
+    7,
+    10
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39.5,
+    9
+   ],
+   "size": [
+    5,
+    4,
+    5
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    2.8,
+    41.5,
+    7.5
+   ],
+   "size": [
+    2,
+    1.8,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "streak",
+   "shape": "ellipsoid",
+   "center": [
+    3.3,
+    43,
+    6
+   ],
+   "size": [
+    1.4,
+    1.6,
+    4.5
+   ],
+   "color": "streak",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "ellipsoid",
+   "center": [
+    2.8,
+    47,
+    0
+   ],
+   "size": [
+    3,
+    11,
+    3
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "ellipsoid",
+   "center": [
+    2.2,
+    44.5,
+    -4
+   ],
+   "size": [
+    2.5,
+    9,
+    2.8
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -55,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    15,
+    0
+   ],
+   "size": [
+    5.5,
+    10,
+    6.5
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "shin",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    8,
+    -1
+   ],
+   "size": [
+    3.6,
+    9,
+    4
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    2.5,
+    1.5
+   ],
+   "size": [
+    4,
+    3,
+    6
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "wbone",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    33,
+    -1
+   ],
+   "size": [
+    30,
+    3.5,
+    4
+   ],
+   "color": "edge",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wbone2",
+   "shape": "ellipsoid",
+   "center": [
+    31,
+    38,
+    -1
+   ],
+   "size": [
+    14,
+    3.2,
+    3.5
+   ],
+   "color": "edge",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    32
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wtip",
+   "shape": "ellipsoid",
+   "center": [
+    37,
+    43,
+    -1
+   ],
+   "size": [
+    6,
+    3,
+    3
+   ],
+   "color": "edge",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    70
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wmem",
+   "shape": "ellipsoid",
+   "center": [
+    17,
+    27,
+    -2
+   ],
+   "size": [
+    27,
+    17,
+    2.6
+   ],
+   "color": "mem",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wmem2",
+   "shape": "ellipsoid",
+   "center": [
+    29,
+    31,
+    -2
+   ],
+   "size": [
+    14,
+    10,
+    2.6
+   ],
+   "color": "mem",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch0",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    28,
+    -0.3
+   ],
+   "size": [
+    6,
+    7,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch1",
+   "shape": "ellipsoid",
+   "center": [
+    16,
+    25,
+    -0.3
+   ],
+   "size": [
+    8,
+    6,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch2",
+   "shape": "ellipsoid",
+   "center": [
+    23,
+    29,
+    -0.3
+   ],
+   "size": [
+    6,
+    7,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch3",
+   "shape": "ellipsoid",
+   "center": [
+    29,
+    32,
+    -0.3
+   ],
+   "size": [
+    5,
+    6,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch4",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    31,
+    -0.3
+   ],
+   "size": [
+    5,
+    5,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch5",
+   "shape": "ellipsoid",
+   "center": [
+    21,
+    23.5,
+    -0.3
+   ],
+   "size": [
+    5,
+    5,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "patch6",
+   "shape": "ellipsoid",
+   "center": [
+    26,
+    26,
+    -0.3
+   ],
+   "size": [
+    5,
+    5,
+    3.2
+   ],
+   "color": "glow",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -6
+   ],
+   "size": [
+    5,
+    5,
+    7.5
+   ],
+   "color": "tail",
+   "group": "tail"
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -12
+   ],
+   "size": [
+    4.5,
+    4.5,
+    7.5
+   ],
+   "color": "tail",
+   "group": "tail"
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -19
+   ],
+   "size": [
+    4,
+    4,
+    7.5
+   ],
+   "color": "tail",
+   "group": "tail"
+  },
+  {
+   "name": "tail3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -26
+   ],
+   "size": [
+    3.6,
+    3.6,
+    7.5
+   ],
+   "color": "tail",
+   "group": "tail"
+  },
+  {
+   "name": "tail4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7.5,
+    -33
+   ],
+   "size": [
+    3.2,
+    3.2,
+    7.5
+   ],
+   "color": "tail",
+   "group": "tail"
+  },
+  {
+   "name": "tip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -39
+   ],
+   "size": [
+    7,
+    2.5,
+    8
+   ],
+   "color": "tip",
+   "group": "tail"
+  },
+  {
+   "name": "tip2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -37
+   ],
+   "size": [
+    2.5,
+    6,
+    5
+   ],
+   "color": "tip",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/171B",
+   "note": "ゲーム内SS: 細身の飛竜、大きく広げた翼(縁取りの太い腕+暗い膜+発光パッチ)、後ろに流れる角2本、長い尾と矢じり先端、脚は垂れ下がる"
+  }
+ ]
+}

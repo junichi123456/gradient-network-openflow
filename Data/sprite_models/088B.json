@@ -1,0 +1,347 @@
+{
+ "name": "ヒグルミ (Finsider Ignis)",
+ "gait": "biped",
+ "palette": {
+  "skin": "#f27ca0",
+  "belly": "#f8e4e8",
+  "black": "#14141c",
+  "teeth": "#f0e6cc",
+  "eye": "#f0e040",
+  "fin": "#e0304c"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    0
+   ],
+   "size": [
+    22,
+    20,
+    19
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    6
+   ],
+   "size": [
+    15,
+    15,
+    10
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "hood",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    1
+   ],
+   "size": [
+    24,
+    17,
+    18
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.5,
+    9
+   ],
+   "size": [
+    16,
+    11,
+    6
+   ],
+   "color": "black",
+   "group": "head"
+  },
+  {
+   "name": "teeth_u",
+   "shape": "box",
+   "center": [
+    0,
+    25.5,
+    11.2
+   ],
+   "size": [
+    14,
+    2.2,
+    1.4
+   ],
+   "color": "teeth",
+   "group": "head"
+  },
+  {
+   "name": "teeth_l",
+   "shape": "box",
+   "center": [
+    0,
+    15.5,
+    11.2
+   ],
+   "size": [
+    12,
+    2,
+    1.4
+   ],
+   "color": "teeth",
+   "group": "head"
+  },
+  {
+   "name": "tu0",
+   "shape": "cone",
+   "center": [
+    -4.5,
+    24,
+    11.6
+   ],
+   "size": [
+    2.4,
+    3,
+    1.6
+   ],
+   "color": "teeth",
+   "group": "head",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tu1",
+   "shape": "cone",
+   "center": [
+    -1.5,
+    24,
+    11.6
+   ],
+   "size": [
+    2.4,
+    3,
+    1.6
+   ],
+   "color": "teeth",
+   "group": "head",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tu2",
+   "shape": "cone",
+   "center": [
+    1.5,
+    24,
+    11.6
+   ],
+   "size": [
+    2.4,
+    3,
+    1.6
+   ],
+   "color": "teeth",
+   "group": "head",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tu3",
+   "shape": "cone",
+   "center": [
+    4.5,
+    24,
+    11.6
+   ],
+   "size": [
+    2.4,
+    3,
+    1.6
+   ],
+   "color": "teeth",
+   "group": "head",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    3.6,
+    20.5,
+    12.2
+   ],
+   "size": [
+    1.2,
+    3,
+    0.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "dfin",
+   "shape": "cone",
+   "center": [
+    0,
+    35,
+    -1
+   ],
+   "size": [
+    7,
+    11,
+    6
+   ],
+   "color": "fin",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "dfin2",
+   "shape": "cone",
+   "center": [
+    0,
+    29,
+    -8
+   ],
+   "size": [
+    5,
+    7,
+    4
+   ],
+   "color": "fin",
+   "group": "head",
+   "rot": [
+    -50,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "sfin",
+   "shape": "ellipsoid",
+   "center": [
+    11.5,
+    12,
+    1
+   ],
+   "size": [
+    4,
+    10,
+    8
+   ],
+   "color": "fin",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ]
+  },
+  {
+   "name": "sfin_l",
+   "shape": "ellipsoid",
+   "center": [
+    -11.5,
+    12,
+    1
+   ],
+   "size": [
+    4,
+    10,
+    8
+   ],
+   "color": "fin",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    15
+   ]
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    6,
+    -12
+   ],
+   "size": [
+    8,
+    10,
+    6
+   ],
+   "color": "fin",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    2.2,
+    2
+   ],
+   "size": [
+    7,
+    4.5,
+    8
+   ],
+   "color": "skin",
+   "group": "leg_fl",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/088B/icon.png",
+   "note": "正面: 桃色の着ぐるみ、赤いヒレ、黒い顔に黄の目と歯"
+  },
+  {
+   "url": "Tools/.refcache/088/icon.png",
+   "note": "元種との差: 黄→桃、橙ヒレ→赤"
+  },
+  {
+   "url": "https://paldb.cc/en/Finsider_Ignis",
+   "note": "種名確認"
+  }
+ ]
+}

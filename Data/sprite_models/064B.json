@@ -1,0 +1,387 @@
+{
+ "name": "シロカバネ (Vanwyrm Cryst)",
+ "gait": "hover",
+ "palette": {
+  "body": "#d8e6f4",
+  "belly": "#e8f2fb",
+  "head": "#eaf3fb",
+  "head2": "#cfe2f2",
+  "eye": "#d83a3a",
+  "spike": "#a8d0ee",
+  "wing": "#cfe3f4",
+  "feather": "#78b6ea",
+  "leg": "#e6c24a",
+  "talon": "#e6c24a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    0
+   ],
+   "size": [
+    12,
+    12,
+    18
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    3
+   ],
+   "size": [
+    9,
+    9,
+    12
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    7
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "head",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    10
+   ],
+   "size": [
+    9,
+    8,
+    13
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21.5,
+    15.5
+   ],
+   "size": [
+    6,
+    5,
+    7
+   ],
+   "color": "head2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    24,
+    13
+   ],
+   "size": [
+    1.8,
+    2.2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    2.8,
+    28,
+    5
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    0,
+    28,
+    5
+   ],
+   "size": [
+    3.4,
+    11,
+    3.4
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    -45,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    -8
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    -50,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    17,
+    -1
+   ],
+   "size": [
+    34,
+    1.8,
+    14
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing2",
+   "shape": "ellipsoid",
+   "center": [
+    32,
+    15,
+    -3
+   ],
+   "size": [
+    18,
+    1.6,
+    9
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "f1",
+   "shape": "box",
+   "center": [
+    14,
+    9,
+    -9
+   ],
+   "size": [
+    14,
+    1.6,
+    6
+   ],
+   "color": "feather",
+   "group": "wing_r",
+   "rot": [
+    0,
+    -20,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "f2",
+   "shape": "box",
+   "center": [
+    18,
+    11,
+    -12
+   ],
+   "size": [
+    14,
+    1.6,
+    6
+   ],
+   "color": "feather",
+   "group": "wing_r",
+   "rot": [
+    0,
+    -25,
+    6
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "f3",
+   "shape": "box",
+   "center": [
+    24,
+    13,
+    -13
+   ],
+   "size": [
+    14,
+    1.6,
+    6
+   ],
+   "color": "feather",
+   "group": "wing_r",
+   "rot": [
+    0,
+    -30,
+    4
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tf",
+   "shape": "wedge",
+   "center": [
+    4,
+    7,
+    -14
+   ],
+   "size": [
+    7,
+    1.6,
+    12
+   ],
+   "color": "feather",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    6.5,
+    1
+   ],
+   "size": [
+    4,
+    8,
+    5
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "talon",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    2,
+    3
+   ],
+   "size": [
+    4.4,
+    2.4,
+    6.4
+   ],
+   "color": "talon",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    11,
+    -14
+   ],
+   "size": [
+    6,
+    12,
+    6
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Vanwyrm_Cryst.png",
+   "note": "Cryst版: 淡い氷色の翼・青い氷の結晶状の羽根・黄色い脚と爪・青い腿"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_BirdDragon_Ice_icon_normal.png",
+   "note": "正面アップ: 白〜水色の頭、赤い目、氷の角"
+  }
+ ],
+ "hover": 6
+}

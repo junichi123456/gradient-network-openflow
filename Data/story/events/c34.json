@@ -1,0 +1,348 @@
+[
+  {
+    "id": "c34_e01_trace",
+    "trigger": {
+      "type": "chart_start",
+      "requires": [],
+      "once": true,
+      "chart": "c34"
+    },
+    "steps": [
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 0.8
+      },
+      {
+        "op": "narration",
+        "text": "ささやきの洞の戦いから、数日。ゼノベーダとゼノルーダの群れは、洞のさらに奥へ散っていった。"
+      },
+      {
+        "op": "narration",
+        "text": "その足跡を、二つの影が追っていた。影の斥候オーメンと、かけらを集める魔女マジョルナだ。"
+      },
+      {
+        "op": "say",
+        "who": "omen",
+        "text": "……足跡。新しい"
+      },
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "おっ、さすがだな。でさ、これ、どっちだ？　ベーダか？　ルーダか？"
+      },
+      {
+        "op": "say",
+        "who": "omen",
+        "text": "両方。……同じ方へ"
+      },
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "同じ方へ、ね。でもさ、逆に。襲った跡がひとつもねえんだよな、この道"
+      },
+      {
+        "op": "say",
+        "who": "omen",
+        "text": "ない。壊してもいない。……ただ、歩いただけ"
+      },
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "歩いただけで、かけらをこぼしながら、か。道しるべみたいで、気に入らねえ。……行ってみるか"
+      },
+      {
+        "op": "say",
+        "who": "omen",
+        "text": "……行く"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c34_trace_found"
+      }
+    ]
+  },
+  {
+    "id": "c34_e01b_follow",
+    "trigger": {
+      "type": "chart_start",
+      "requires": [],
+      "once": true,
+      "chart": "c34"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "二人は、洞の壁に白墨の目印を残しながら、奥へ進んでいった。"
+      },
+      {
+        "op": "narration",
+        "text": "その知らせは、ハコニワにも届いた。{player_name}と{partner}は、目印を頼りに洞へ向かう。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "オーメンの目印だ！　これを追いかければ、合流できるね"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……行こう。"
+      },
+      {
+        "op": "narration",
+        "text": "目印は、洞の奥へ奥へと、細く続いていた。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c34_follow"
+      }
+    ]
+  },
+  {
+    "id": "c34_e02_nest",
+    "trigger": {
+      "type": "boss_defeated",
+      "requires": [],
+      "once": true,
+      "dungeon": "d34_s34"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "目印の終わりで、巨大な空洞に出た。かけらの山のそばに、プラムルリムが立ちふさがっていた。"
+      },
+      {
+        "op": "narration",
+        "text": "群れの寝床を、静かに守っているのだろう。倒れたあとも、プラムルリムは巣の方角から目を離さなかった。"
+      },
+      {
+        "op": "say",
+        "who": "omen",
+        "text": "……こっち"
+      },
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "しっ。あいつが起き上がる前に、下を見ろ。……ほら、あれだ"
+      },
+      {
+        "op": "narration",
+        "text": "岩棚の下には、かけらの巣があった。ゼノベーダとゼノルーダが、うずくまっている。襲ってくる気配はない。"
+      },
+      {
+        "op": "narration",
+        "text": "群れは、あちこちから運んできたかけらを、巣の真ん中へ寄せ集めている。ひとつ、またひとつ。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "襲って、こない……。かけらを、集めてる……",
+        "face": "surprise"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……見よう。"
+      },
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "あたしと同じことしてるな、って思ったろ？　……思っただろ"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c34_nest_seen"
+      }
+    ]
+  },
+  {
+    "id": "c34_e03_reason",
+    "trigger": {
+      "type": "dungeon_clear",
+      "requires": [],
+      "once": true,
+      "dungeon": "d34_s34"
+    },
+    "steps": [
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "笑えよ。あたしが、かけらを集めてる理由、気になってたんだろ。教えてやるよ"
+      },
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "知りたかったんだ。それだけだ。光るもんが足元に転がってんのに、誰も拾わねえ。だから、あたしが拾った"
+      },
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "そしたら、集めるのが止まらなくなった。それ以上の理由は、まだ決めてねえ。……決めたくねえんだ、今は"
+      },
+      {
+        "op": "say",
+        "who": "omen",
+        "text": "……嘘じゃない"
+      },
+      {
+        "op": "narration",
+        "text": "オーメンは、短くそれだけ言った。マジョルナは、肩をすくめて笑った。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "{I}たちも、同じだ。気になって、拾ってた"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……そう。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c34_reason_told"
+      }
+    ]
+  },
+  {
+    "id": "c34_e04_sleep",
+    "trigger": {
+      "type": "dungeon_clear",
+      "requires": [],
+      "once": true,
+      "dungeon": "d34_s34"
+    },
+    "steps": [
+      {
+        "op": "wait",
+        "sec": 1.0,
+        "introvert": true
+      },
+      {
+        "op": "narration",
+        "text": "夜が深くなると、群れは体を寄せ合って、眠りについた。ゼノベーダも、ゼノルーダも。"
+      },
+      {
+        "op": "narration",
+        "text": "眠る前に、みなが同じ方を向いた。示し合わせたように、ゆっくりと。"
+      },
+      {
+        "op": "say",
+        "who": "omen",
+        "text": "……方角。全員、同じ"
+      },
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "コンパスみたいなもんか。……メモ取れ、メモ"
+      },
+      {
+        "op": "narration",
+        "text": "{I}は、地図の隅に、小さな矢印を書き込んだ。"
+      },
+      {
+        "op": "narration",
+        "text": "四人は、群れの寝息だけを聞きながら、洞の朝を待った。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c34_sleep_seen"
+      }
+    ]
+  },
+  {
+    "id": "c34_e05_report",
+    "trigger": {
+      "type": "chart_end",
+      "requires": [],
+      "once": true,
+      "chart": "c34"
+    },
+    "steps": [
+      {
+        "op": "fade",
+        "mode": "out",
+        "sec": 1.0
+      },
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 1.0
+      },
+      {
+        "op": "narration",
+        "text": "翌朝、四人は研究施設へ戻った。ヴィオレッタが、助手のナイトロットとライトロットと一緒に迎えてくれた。"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "おかえり。……無事で、よかった。報告を、聞かせてもらえるかな"
+      },
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "襲われてねえ。襲われるどころか、あいつら、かけらを寄せ集めて、眠った。それだけだ。でもな、これが大事なんだよ"
+      },
+      {
+        "op": "say",
+        "who": "omen",
+        "text": "方角。全員、同じ。……地図に"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "地図、見せてもらっていい？　わたしたちのは、こっち"
+      },
+      {
+        "op": "narration",
+        "text": "{I}は、地図を卓に広げた。群れの向いた方角に、鉛筆で一本の線を引く。"
+      },
+      {
+        "op": "narration",
+        "text": "線の先に、見覚えのある印があった。祭りの夜、{name:hawkwin}が語った荒れ地。その方角だった。"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "by_type": {
+          "INFJ": "……荒れ地と、同じ方角。たぶん、ね、偶然じゃない",
+          "INFP": "えっと……荒れ地の方角、かも。同じふぁ",
+          "INTJ": "荒れ地と同じ方角だ。想定の範囲だ",
+          "INTP": "待って……荒れ地と同じだよね。偶然、かもしれない",
+          "ISFJ": "荒れ地と、同じ方角ですよ",
+          "ISFP": "荒れ地と同じなんだよ。……まぁ、いっか、じゃ済まないかなぁ",
+          "ISTJ": "荒れ地と同じ方角だ。確かめる",
+          "ISTP": "……荒れ地。同じだ",
+          "ENFJ": "荒れ地と同じ方角……みんなで、確かめよう",
+          "ENFP": "ねえねえ聞いて！　荒れ地と同じ方角じゃん！",
+          "ENTJ": "荒れ地と同じ方角ね。段取りはこうよ、次は確かめる",
+          "ENTP": "でもさ、逆に。荒れ地と同じ方角、って出来すぎじゃね？",
+          "ESFJ": "荒れ地と同じ方角よ。ちゃんと見てね、みんな",
+          "ESFP": "荒れ地と、同じだぜ……",
+          "ESTJ": "荒れ地と同じ方角だろうが。筋が通っちまう",
+          "ESTP": "荒れ地と同じっす！　行くしかないっす！"
+        },
+        "key": true
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "{name:hawkwin}の荒れ地……。そう、なのかな。たぶん、会議で話したほうがいいと思う"
+      },
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "ほらな。見に行く理由が、ひとつ増えたぜ"
+      },
+      {
+        "op": "narration",
+        "text": "同じ方角を向いて眠っていた群れ。その視線の先に、荒れ地がある。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c34_done"
+      }
+    ]
+  }
+]

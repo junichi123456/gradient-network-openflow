@@ -1,0 +1,375 @@
+{
+ "name": "フラペック (Tropicaw)",
+ "gait": "biped",
+ "palette": {
+  "lime": "#b4d63a",
+  "lime2": "#d6e85a",
+  "yel": "#f0d040",
+  "red": "#d8283c",
+  "red2": "#a81c30",
+  "org": "#f08a28",
+  "beak": "#e8502c",
+  "bkg": "#9bc22e",
+  "eye": "#e8d030",
+  "dk": "#2a2a20",
+  "leg": "#e8a838"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    0
+   ],
+   "size": [
+    13,
+    15,
+    16
+   ],
+   "color": "lime",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    3
+   ],
+   "size": [
+    9,
+    11,
+    10
+   ],
+   "color": "lime2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    3
+   ],
+   "size": [
+    11,
+    10,
+    11
+   ],
+   "color": "lime",
+   "group": "head"
+  },
+  {
+   "name": "beak_t",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.2,
+    12
+   ],
+   "size": [
+    6,
+    4,
+    13
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "beak_b",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16.8,
+    11
+   ],
+   "size": [
+    5,
+    3,
+    10
+   ],
+   "color": "org",
+   "group": "head",
+   "rot": [
+    -5,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "beak_g",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22.2,
+    11
+   ],
+   "size": [
+    3,
+    1.4,
+    9
+   ],
+   "color": "bkg",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    22,
+    8
+   ],
+   "size": [
+    2.6,
+    3,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pup",
+   "shape": "ellipsoid",
+   "center": [
+    4.9,
+    22,
+    9
+   ],
+   "size": [
+    1.2,
+    1.6,
+    1
+   ],
+   "color": "dk",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pet1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -4
+   ],
+   "size": [
+    14,
+    12,
+    3
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "pet2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    21,
+    -3
+   ],
+   "size": [
+    12,
+    7,
+    3
+   ],
+   "color": "red2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "pet3",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    17,
+    -2
+   ],
+   "size": [
+    10,
+    6,
+    3
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -60
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "pet4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -5
+   ],
+   "size": [
+    12,
+    6,
+    3
+   ],
+   "color": "red2",
+   "group": "head",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    13,
+    -1
+   ],
+   "size": [
+    4,
+    12,
+    12
+   ],
+   "color": "lime2",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingtip",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    8,
+    -2
+   ],
+   "size": [
+    3.4,
+    6,
+    8
+   ],
+   "color": "org",
+   "group": "wing_l",
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -12
+   ],
+   "size": [
+    8,
+    3,
+    14
+   ],
+   "color": "yel",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    6,
+    -18
+   ],
+   "size": [
+    4,
+    2,
+    12
+   ],
+   "color": "org",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    3.5,
+    3,
+    2
+   ],
+   "size": [
+    2.4,
+    6,
+    2.4
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    3.5,
+    0.6,
+    3.5
+   ],
+   "size": [
+    4,
+    1.2,
+    5
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_RedFlowerBird_icon_normal.png",
+   "note": "頭部: 大きな橙赤のくちばし（上に黄緑の縞）、黄の目、赤い花びら状の襟"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Tropicaw_slep.png",
+   "note": "ゲーム内: 黄緑の体、赤い花びらの輪、黄〜橙の長い尾羽と翼"
+  },
+  {
+   "url": "https://paldb.cc/ja/Tropicaw",
+   "note": "オオハシ型"
+  }
+ ]
+}

@@ -1,0 +1,240 @@
+{
+ "name": "ユララン (Jellroy)",
+ "gait": "hover",
+ "palette": {
+  "cap": "#c4ccd4",
+  "cap2": "#9aa6b0",
+  "rim": "#58c8dc",
+  "spike": "#4aa8e0",
+  "skin": "#d8dee4",
+  "hand": "#58cce0",
+  "bow": "#d83a3a",
+  "eye": "#445060",
+  "blue": "#3a8ad0"
+ },
+ "hover": 4,
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    0
+   ],
+   "size": [
+    15,
+    14,
+    12
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    3
+   ],
+   "size": [
+    8,
+    4,
+    6
+   ],
+   "color": "blue",
+   "group": "body"
+  },
+  {
+   "name": "bow",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17.5,
+    7.5
+   ],
+   "size": [
+    2.6,
+    2.4,
+    1.4
+   ],
+   "color": "bow",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    2
+   ],
+   "size": [
+    16,
+    13,
+    14
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    4,
+    25.5,
+    9
+   ],
+   "size": [
+    4,
+    0.8,
+    0.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    22.5,
+    9
+   ],
+   "size": [
+    3,
+    0.6,
+    0.6
+   ],
+   "color": "eye",
+   "group": "head"
+  },
+  {
+   "name": "cap",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    2
+   ],
+   "size": [
+    42,
+    10,
+    34
+   ],
+   "color": "cap",
+   "group": "head"
+  },
+  {
+   "name": "cap_rim",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29.5,
+    2
+   ],
+   "size": [
+    43,
+    4,
+    35
+   ],
+   "color": "rim",
+   "group": "head"
+  },
+  {
+   "name": "cap_top",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    1
+   ],
+   "size": [
+    24,
+    7,
+    18
+   ],
+   "color": "cap2",
+   "group": "head"
+  },
+  {
+   "name": "spike",
+   "shape": "cone",
+   "center": [
+    11,
+    38,
+    0
+   ],
+   "size": [
+    5,
+    9,
+    5
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "spike2",
+   "shape": "cone",
+   "center": [
+    -2,
+    40,
+    -6
+   ],
+   "size": [
+    4,
+    7,
+    4
+   ],
+   "color": "spike",
+   "group": "head"
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    12,
+    2
+   ],
+   "size": [
+    8,
+    8,
+    8
+   ],
+   "color": "hand",
+   "group": "arm_r"
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    3,
+    2
+   ],
+   "size": [
+    8,
+    6,
+    8
+   ],
+   "color": "hand",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_JellyfishGhost_icon_normal.png",
+   "note": "正面: 平たく広い灰色の傘、水色の縁、青いトゲ、目を閉じた笑顔、水色の丸い手と足、赤い小さなリボン"
+  }
+ ]
+}

@@ -1,0 +1,333 @@
+{
+ "name": "タマモ (Vixy)",
+ "gait": "quad",
+ "palette": {
+  "tan": "#d8a868",
+  "tan2": "#e6bc82",
+  "cr": "#f4dc9c",
+  "wht": "#fafaf6",
+  "gr": "#38b848",
+  "pup": "#1c2a1c",
+  "ear": "#e8a090",
+  "ylw": "#f2d030",
+  "paw": "#f6f0e0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    -1
+   ],
+   "size": [
+    15,
+    13,
+    22
+   ],
+   "color": "tan",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    6
+   ],
+   "size": [
+    11,
+    10,
+    9
+   ],
+   "color": "cr",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    9
+   ],
+   "size": [
+    17,
+    13,
+    14
+   ],
+   "color": "tan2",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    15.5
+   ],
+   "size": [
+    8,
+    6,
+    6
+   ],
+   "color": "wht",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16.5,
+    18.5
+   ],
+   "size": [
+    2,
+    1.6,
+    1.4
+   ],
+   "color": "pup",
+   "group": "head"
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    15.5,
+    12
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "wht",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    19,
+    15
+   ],
+   "size": [
+    4.6,
+    5,
+    1.8
+   ],
+   "color": "gr",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    19,
+    16
+   ],
+   "size": [
+    1.6,
+    3,
+    0.8
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    6.5,
+    29,
+    6
+   ],
+   "size": [
+    7,
+    14,
+    3.5
+   ],
+   "color": "tan",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "cone",
+   "center": [
+    6.5,
+    28,
+    7
+   ],
+   "size": [
+    4,
+    10,
+    1.5
+   ],
+   "color": "ear",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tuft",
+   "shape": "cone",
+   "center": [
+    0,
+    25,
+    9
+   ],
+   "size": [
+    4,
+    5,
+    2.4
+   ],
+   "color": "ylw",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fl",
+   "shape": "cylinder",
+   "center": [
+    3.5,
+    4,
+    6
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "cr",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "bl",
+   "shape": "cylinder",
+   "center": [
+    3.5,
+    4,
+    -8
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "cr",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "fpaw",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    0.8,
+    6.5
+   ],
+   "size": [
+    3.6,
+    2,
+    4.4
+   ],
+   "color": "paw",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "bpaw",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    0.8,
+    -7.5
+   ],
+   "size": [
+    3.6,
+    2,
+    4.4
+   ],
+   "color": "paw",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -17
+   ],
+   "size": [
+    14,
+    12,
+    16
+   ],
+   "color": "tan2",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    -24
+   ],
+   "size": [
+    10,
+    9,
+    7
+   ],
+   "color": "wht",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_CuteFox_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Vixy_bis.png",
+   "note": "側面: 黄褐色の体、白い顔と緑の目、大きな耳、先白の大きな尾、足先は白"
+  }
+ ]
+}

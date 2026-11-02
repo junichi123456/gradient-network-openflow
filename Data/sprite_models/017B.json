@@ -1,0 +1,269 @@
+{
+ "name": "デンタマ (Pengullet Lux)",
+ "gait": "biped",
+ "palette": {
+  "b": "#2c3440",
+  "b2": "#363e4c",
+  "belly": "#f8ecc0",
+  "tuft": "#e8b030",
+  "beak": "#f0b82c",
+  "wing": "#2c3440",
+  "tip": "#e8b030",
+  "eyew": "#f6f0d4",
+  "eye": "#2a6ab8",
+  "pup": "#101828",
+  "drop": "#f0507a",
+  "foot": "#f0a030"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    24,
+    24,
+    21
+   ],
+   "color": "b",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    5
+   ],
+   "size": [
+    16,
+    16,
+    11
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "drop",
+   "shape": "cone",
+   "center": [
+    0,
+    12,
+    10.4
+   ],
+   "size": [
+    3.2,
+    5,
+    2
+   ],
+   "color": "drop",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head_bump",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    1
+   ],
+   "size": [
+    20,
+    6,
+    16
+   ],
+   "color": "b2",
+   "group": "head"
+  },
+  {
+   "name": "tuft",
+   "shape": "cone",
+   "center": [
+    0,
+    28,
+    0
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "tuft",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    12
+   ]
+  },
+  {
+   "name": "tuft2",
+   "shape": "cone",
+   "center": [
+    2.4,
+    27.5,
+    -1
+   ],
+   "size": [
+    3,
+    5,
+    3
+   ],
+   "color": "tip",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "eyew",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    19,
+    9.4
+   ],
+   "size": [
+    8,
+    8,
+    3
+   ],
+   "color": "eyew",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    19,
+    10.8
+   ],
+   "size": [
+    4.6,
+    6,
+    1.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    19,
+    11.6
+   ],
+   "size": [
+    2,
+    3.6,
+    0.8
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "beak",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    12
+   ],
+   "size": [
+    7,
+    3,
+    4
+   ],
+   "color": "beak",
+   "group": "head"
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    13.5,
+    14,
+    0
+   ],
+   "size": [
+    3,
+    12,
+    8
+   ],
+   "color": "wing",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingt",
+   "shape": "ellipsoid",
+   "center": [
+    17.5,
+    9.5,
+    0
+   ],
+   "size": [
+    2.4,
+    4,
+    5
+   ],
+   "color": "tip",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    5,
+    0.8,
+    4
+   ],
+   "size": [
+    5,
+    1.6,
+    8
+   ],
+   "color": "foot",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_Penguin_Electric_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "",
+   "note": "基本種 Pengullet と同形。体は黒に近い紺、冠羽と翼先は橙黄(アイコンのみ)"
+  }
+ ]
+}

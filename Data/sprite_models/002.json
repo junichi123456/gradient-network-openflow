@@ -1,0 +1,329 @@
+{
+ "name": "ツッパニャン (Cattiva)",
+ "gait": "biped",
+ "palette": {
+  "pink": "#e8808c",
+  "pink2": "#f09aa6",
+  "dk": "#a85868",
+  "cream": "#f6e2a0",
+  "eye": "#4aa8e8",
+  "white": "#fafafa",
+  "pup": "#2a2030"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    19,
+    20,
+    15
+   ],
+   "color": "pink",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    5
+   ],
+   "size": [
+    12,
+    14,
+    8
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    1
+   ],
+   "size": [
+    24,
+    19,
+    18
+   ],
+   "color": "pink2",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    8,
+    33,
+    -1
+   ],
+   "size": [
+    8,
+    10,
+    3
+   ],
+   "color": "pink2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "cone",
+   "center": [
+    8,
+    32,
+    1
+   ],
+   "size": [
+    5,
+    7,
+    1.5
+   ],
+   "color": "dk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tuft",
+   "shape": "cone",
+   "center": [
+    0,
+    35,
+    -1
+   ],
+   "size": [
+    4,
+    12,
+    3
+   ],
+   "color": "pink",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye_w",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    26.5,
+    8.5
+   ],
+   "size": [
+    7,
+    7,
+    3
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    26,
+    10
+   ],
+   "size": [
+    4.6,
+    5.2,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    26,
+    10.8
+   ],
+   "size": [
+    1.8,
+    2.6,
+    0.8
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23.5,
+    9.6
+   ],
+   "size": [
+    2.2,
+    1.4,
+    1.2
+   ],
+   "color": "pup",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    21.4,
+    9.4
+   ],
+   "size": [
+    5,
+    0.7,
+    0.8
+   ],
+   "color": "pup",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    19,
+    0
+   ],
+   "size": [
+    12,
+    3.5,
+    6
+   ],
+   "color": "pink",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "finger1",
+   "shape": "ellipsoid",
+   "center": [
+    22,
+    21,
+    1
+   ],
+   "size": [
+    6,
+    2,
+    3
+   ],
+   "color": "pink2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "finger2",
+   "shape": "ellipsoid",
+   "center": [
+    22,
+    17.5,
+    1
+   ],
+   "size": [
+    6,
+    2,
+    3
+   ],
+   "color": "pink2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    3,
+    2
+   ],
+   "size": [
+    7,
+    6,
+    9
+   ],
+   "color": "pink",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -10
+   ],
+   "size": [
+    5,
+    5,
+    8
+   ],
+   "color": "pink2",
+   "group": "tail",
+   "rot": [
+    35,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_PinkCat_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Cattiva1.webp",
+   "note": "草地・正面: 桃色の体、腹はクリーム、耳と頭頂に角状の突起、左右に鰭状の腕"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Cattiva2.webp",
+   "note": "アップ: 青い大きな目、鋭いまぶた"
+  }
+ ]
+}

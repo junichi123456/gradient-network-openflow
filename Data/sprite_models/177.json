@@ -1,0 +1,385 @@
+{
+ "name": "アルセーヴ",
+ "gait": "biped",
+ "palette": {
+  "blk": "#25222c",
+  "blk2": "#3a3643",
+  "red": "#b01a2a",
+  "red2": "#d03040",
+  "white": "#e8e4de",
+  "white2": "#c9c4bc",
+  "grey": "#5a5a66",
+  "beak": "#3a3a42",
+  "eye": "#e0b030"
+ },
+ "parts": [
+  {
+   "name": "leg_l",
+   "shape": "cylinder",
+   "center": [
+    3,
+    7,
+    0
+   ],
+   "size": [
+    1.8,
+    14,
+    1.8
+   ],
+   "color": "grey",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "foot_l",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    0.8,
+    2.5
+   ],
+   "size": [
+    3,
+    1.6,
+    8
+   ],
+   "color": "grey",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    12,
+    9,
+    10
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    -1
+   ],
+   "size": [
+    13,
+    16,
+    19
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "bib",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21.5,
+    6.2
+   ],
+   "size": [
+    9,
+    12,
+    5.5
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    -8,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "bib2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16.5,
+    6.2
+   ],
+   "size": [
+    6,
+    4,
+    3.5
+   ],
+   "color": "white2",
+   "group": "body"
+  },
+  {
+   "name": "neckspike",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    27,
+    1
+   ],
+   "size": [
+    4,
+    6,
+    6
+   ],
+   "color": "blk2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "neckspike2",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    22,
+    -7
+   ],
+   "size": [
+    3,
+    5,
+    8
+   ],
+   "color": "red2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_l",
+   "shape": "ellipsoid",
+   "center": [
+    6.8,
+    20,
+    -2
+   ],
+   "size": [
+    3.5,
+    12,
+    17
+   ],
+   "color": "blk2",
+   "group": "wing_l",
+   "rot": [
+    -12,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingred",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    16,
+    -11
+   ],
+   "size": [
+    2.4,
+    3,
+    10
+   ],
+   "color": "red",
+   "group": "wing_l",
+   "mirror_x": true
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    4
+   ],
+   "size": [
+    8,
+    8,
+    8
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29.5,
+    6.5
+   ],
+   "size": [
+    6,
+    4,
+    3
+   ],
+   "color": "blk2",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    9.5
+   ],
+   "size": [
+    2.6,
+    2.6,
+    5
+   ],
+   "color": "beak",
+   "group": "head"
+  },
+  {
+   "name": "eye_l",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    30.5,
+    7
+   ],
+   "size": [
+    1.5,
+    1.5,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34.5,
+    3
+   ],
+   "size": [
+    3,
+    7,
+    4.5
+   ],
+   "color": "red2",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crestbk",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    0
+   ],
+   "size": [
+    7,
+    5,
+    5
+   ],
+   "color": "blk2",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -13
+   ],
+   "size": [
+    5,
+    3,
+    14
+   ],
+   "color": "blk",
+   "group": "tail",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    14,
+    -17
+   ],
+   "size": [
+    3,
+    2.4,
+    16
+   ],
+   "color": "blk2",
+   "group": "tail",
+   "rot": [
+    25,
+    -10,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tailred",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -22
+   ],
+   "size": [
+    3.5,
+    2,
+    9
+   ],
+   "color": "red",
+   "group": "tail",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/177",
+   "note": "ゲーム内スクショ: 黒い鳥、赤い冠羽、白い胸飾り、長い黒＋赤の尾羽、灰色の脚"
+  }
+ ]
+}

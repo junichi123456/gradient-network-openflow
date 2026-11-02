@@ -1,0 +1,419 @@
+{
+ "name": "ベノゴート (Caprity Noct)",
+ "gait": "quad",
+ "palette": {
+  "cream": "#efe6f4",
+  "lf": "#9a66d6",
+  "lf2": "#d4c0ec",
+  "face": "#b08ae0",
+  "bush": "#6a3a9e",
+  "bush2": "#7e4cb4",
+  "berry": "#d0508c",
+  "nose": "#f08a98",
+  "eye": "#f0a428",
+  "horn": "#6e4a3a",
+  "hoof": "#4a3a52"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    22,
+    20,
+    24
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "wool",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    2
+   ],
+   "size": [
+    23,
+    8,
+    24
+   ],
+   "color": "lf2",
+   "group": "body"
+  },
+  {
+   "name": "lf",
+   "shape": "cone",
+   "center": [
+    6,
+    5,
+    10
+   ],
+   "size": [
+    5,
+    7,
+    3
+   ],
+   "color": "lf2",
+   "group": "body",
+   "rot": [
+    160,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bush",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -8
+   ],
+   "size": [
+    21,
+    15,
+    17
+   ],
+   "color": "bush",
+   "group": "body"
+  },
+  {
+   "name": "bush2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    -7
+   ],
+   "size": [
+    15,
+    9,
+    12
+   ],
+   "color": "bush2",
+   "group": "body"
+  },
+  {
+   "name": "berry",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    29,
+    -5
+   ],
+   "size": [
+    3.4,
+    3.4,
+    3.4
+   ],
+   "color": "berry",
+   "group": "body"
+  },
+  {
+   "name": "berry2",
+   "shape": "ellipsoid",
+   "center": [
+    -4,
+    31,
+    -8
+   ],
+   "size": [
+    3.4,
+    3.4,
+    3.4
+   ],
+   "color": "berry",
+   "group": "body"
+  },
+  {
+   "name": "berry3",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    24,
+    -12
+   ],
+   "size": [
+    3.4,
+    3.4,
+    3.4
+   ],
+   "color": "berry",
+   "group": "body"
+  },
+  {
+   "name": "berry4",
+   "shape": "ellipsoid",
+   "center": [
+    -9,
+    25,
+    -6
+   ],
+   "size": [
+    3.4,
+    3.4,
+    3.4
+   ],
+   "color": "berry",
+   "group": "body"
+  },
+  {
+   "name": "berry5",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -16
+   ],
+   "size": [
+    3.4,
+    3.4,
+    3.4
+   ],
+   "color": "berry",
+   "group": "body"
+  },
+  {
+   "name": "berry6",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    26,
+    0
+   ],
+   "size": [
+    3.2,
+    3.2,
+    3.2
+   ],
+   "color": "berry",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    14
+   ],
+   "size": [
+    13,
+    12,
+    11
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13.6,
+    18.6
+   ],
+   "size": [
+    9,
+    6.4,
+    5.4
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14.8,
+    21.4
+   ],
+   "size": [
+    2,
+    1.4,
+    1.2
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    17.6,
+    18.4
+   ],
+   "size": [
+    2.6,
+    3.2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    3.5,
+    26,
+    11
+   ],
+   "size": [
+    3.4,
+    10,
+    3.4
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hornb",
+   "shape": "cone",
+   "center": [
+    3,
+    27.6,
+    8
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -70,
+    0,
+    -4
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    15,
+    13
+   ],
+   "size": [
+    8,
+    3,
+    5.6
+   ],
+   "color": "lf",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tuft",
+   "shape": "cone",
+   "center": [
+    4.6,
+    22,
+    13
+   ],
+   "size": [
+    2.4,
+    5,
+    2.4
+   ],
+   "color": "face",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    5,
+    2.4,
+    7
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "hoof",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    5,
+    2.4,
+    -7
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "hoof",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    10,
+    -13
+   ],
+   "size": [
+    5,
+    8,
+    3
+   ],
+   "color": "lf",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/034B/icon.png",
+   "note": "Noct版: 顔・耳・茂みが紫、角は茶のまま、体は白〜薄紫"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Caprity.png",
+   "note": "基種との差: 緑→紫（顔・耳・茂み・裾）、実は赤紫"
+  }
+ ]
+}

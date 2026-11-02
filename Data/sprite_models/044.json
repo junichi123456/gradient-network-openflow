@@ -1,0 +1,283 @@
+{
+ "name": "ヒメウサ (Ribbuny)",
+ "gait": "biped",
+ "palette": {
+  "body": "#f6c6d6",
+  "belly": "#fff4f6",
+  "skirt": "#f4a6c0",
+  "head": "#fbd4e0",
+  "face": "#fff4f6",
+  "eye": "#7a50c8",
+  "white": "#ffffff",
+  "nose": "#e0708a",
+  "ear": "#f48ab0",
+  "earin": "#fbc0d4",
+  "bow": "#f0507a",
+  "bow2": "#d83a62",
+  "foot": "#f4a6c0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    16,
+    16,
+    14
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    5
+   ],
+   "size": [
+    11,
+    12,
+    6
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    -1
+   ],
+   "size": [
+    22,
+    8,
+    18
+   ],
+   "color": "skirt",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    2
+   ],
+   "size": [
+    20,
+    17,
+    16
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    7
+   ],
+   "size": [
+    15,
+    12,
+    6
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    23,
+    9.8
+   ],
+   "size": [
+    4,
+    4.6,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye_hi",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    24.4,
+    11
+   ],
+   "size": [
+    1.4,
+    1.6,
+    0.8
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0,
+    20.2,
+    10.4
+   ],
+   "size": [
+    1.6,
+    1,
+    0.8
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    36,
+    -1
+   ],
+   "size": [
+    6,
+    20,
+    5
+   ],
+   "color": "ear",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "ellipsoid",
+   "center": [
+    5.4,
+    36,
+    0.4
+   ],
+   "size": [
+    3.4,
+    16,
+    3
+   ],
+   "color": "earin",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bow",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    31,
+    3
+   ],
+   "size": [
+    7,
+    6,
+    4
+   ],
+   "color": "bow",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "bow_c",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30.5,
+    3.4
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "bow2",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    11,
+    3
+   ],
+   "size": [
+    4.4,
+    8,
+    4.4
+   ],
+   "color": "body",
+   "group": "arm_r"
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    2.5,
+    3
+   ],
+   "size": [
+    6,
+    5,
+    9
+   ],
+   "color": "foot",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -10
+   ],
+   "size": [
+    8,
+    8,
+    8
+   ],
+   "color": "belly",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_PinkRabbit_icon_normal.png",
+   "note": "正面: ピンクの長い耳、赤ピンクの大きなリボン、紫の瞳、白い顔と胸、ふわふわのピンクのスカート"
+  }
+ ]
+}

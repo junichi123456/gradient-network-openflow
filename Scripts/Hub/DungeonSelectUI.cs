@@ -1,0 +1,146 @@
+using System;
+using System.Threading.Tasks;
+using Godot;
+
+namespace MysteryDungeon.Hub;
+
+// Dungeon Gate: pick a destination (DungeonDestinations.All) and depart.
+// On confirm, stashes the chosen DungeonConfig/DungeonRuleId on
+// HubUpgradeManager and changes to DungeonScene.tscn - see
+// DungeonScene._Ready for the other half of the handoff.
+public partial class DungeonSelectUI : Control
+{
+    private HubPlayer _player;
+    private VBoxContainer _list;
+    private int _cursor;
+    private System.Collections.Generic.List<DungeonDestination> _items = new();
+
+    public bool IsOpen { get; private set; }
+
+    // スキップした補完ダンジョンに入る直前に、そのチャートを始める（HubScene が StoryFlow を差す）。
+    public Func<DungeonDestination, Task> BeforeDepart { get; set; }
+    private bool _departing;
+
+    public void Initialize(HubPlayer player)
+    {
+        _player = player;
+
+        MouseFilter = MouseFilterEnum.Ignore;
+        Position = new Vector2(200, 80);
+
+        var panel = new PanelContainer();
+        AddChild(panel);
+        _list = new VBoxContainer();
+        panel.AddChild(_list);
+
+        Visible = false;
+    }
+
+    public void Open()
+    {
+        IsOpen = true;
+        Visible = true;
+        _cursor = 0;
+        _items = DungeonDestinations.Current();
+        if (_player != null) _player.InputEnabled = false;
+        Render();
+        GD.Print("[Hub] Dungeon Gate opened.");
+    }
+
+    public void Close()
+    {
+        IsOpen = false;
+        Visible = false;
+        if (_player != null) _player.InputEnabled = true;
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (!IsOpen) return;
+
+        if (@event.IsActionPressed("ui_cancel"))
+        {
+            Close();
+            GetViewport().SetInputAsHandled();
+        }
+        else if (@event.IsActionPressed("ui_up"))
+        {
+            MoveCursor(-1);
+            GetViewport().SetInputAsHandled();
+        }
+        else if (@event.IsActionPressed("ui_down"))
+        {
+            MoveCursor(1);
+            GetViewport().SetInputAsHandled();
+        }
+        else if (@event.IsActionPressed("ui_accept"))
+        {
+            // Handled-flag set first: HandleAccept() may trigger
+            // ChangeSceneToFile, which detaches this node from the tree
+            // immediately - GetViewport() would return null afterwards.
+            GetViewport().SetInputAsHandled();
+            HandleAccept();
+        }
+    }
+
+    private void MoveCursor(int delta)
+    {
+        int count = Mathf.Max(1, _items.Count);
+        _cursor = (_cursor + delta + count) % count;
+        Render();
+    }
+
+    private void HandleAccept()
+    {
+        if (_items.Count == 0) return;
+
+        var destination = _items[_cursor];
+        if (destination.SupplementChart != "" && BeforeDepart != null)
+        {
+            if (_departing) return;
+            _departing = true;
+            _ = DepartAfter(destination);
+            return;
+        }
+        Depart(destination);
+    }
+
+    private async Task DepartAfter(DungeonDestination destination)
+    {
+        try
+        {
+            Close();
+            if (_player != null) _player.InputEnabled = false;
+            await BeforeDepart(destination);
+        }
+        finally { _departing = false; }
+        Depart(destination);
+    }
+
+    private void Depart(DungeonDestination destination)
+    {
+        GD.Print($"[Hub] Departing for {destination.DisplayName} (MaxFloors={destination.Config.MaxFloors}, EndType={destination.Config.EndType})...");
+
+        var hub = HubUpgradeManager.Instance;
+        if (hub != null)
+        {
+            hub.PendingDungeonConfig = destination.Config;
+            hub.PendingDungeonId = destination.DungeonRuleId;
+        }
+
+        Close();
+        GetTree().ChangeSceneToFile("res://Scenes/DungeonScene.tscn");
+    }
+
+    private void Render()
+    {
+        foreach (Node child in _list.GetChildren())
+            child.QueueFree();
+
+        for (int i = 0; i < _items.Count; i++)
+        {
+            string prefix = i == _cursor ? "> " : "  ";
+            _list.AddChild(new Label { Text = prefix + _items[i].DisplayName });
+        }
+    }
+}

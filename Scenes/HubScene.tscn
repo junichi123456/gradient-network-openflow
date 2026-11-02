@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Hub/HubScene.cs" id="1"]
+[ext_resource type="Script" path="res://Scripts/Hub/HubPlayer.cs" id="2"]
+[ext_resource type="Script" path="res://Scripts/Hub/PartySetupUI.cs" id="7"]
+[ext_resource type="Script" path="res://Scripts/Hub/DungeonSelectUI.cs" id="8"]
+[ext_resource type="Script" path="res://Scripts/Hub/HubListUI.cs" id="9"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(28, 28)
+
+[node name="HubScene" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1")
+PlayerPath = NodePath("HubPlayer")
+ShopLogLabelPath = NodePath("UILayer/ShopLogLabel")
+PartySetupUIPath = NodePath("UILayer/PartySetupUI")
+DungeonSelectUIPath = NodePath("UILayer/DungeonSelectUI")
+HubListUIPath = NodePath("UILayer/HubListUI")
+PointsLabelPath = NodePath("UILayer/PointsLabel")
+
+[node name="HubPlayer" type="CharacterBody2D" parent="."]
+position = Vector2(640, 360)
+script = ExtResource("2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HubPlayer"]
+shape = SubResource("RectangleShape2D_player")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="ShopLogLabel" type="Label" parent="UILayer"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 400.0
+offset_bottom = 30.0
+text = "[パル作業台] 簡素な道具しかありません。"
+
+[node name="PointsLabel" type="Label" parent="UILayer"]
+offset_left = 10.0
+offset_top = 34.0
+offset_right = 400.0
+offset_bottom = 54.0
+text = "ポイント: 0"
+
+[node name="PartySetupUI" type="Control" parent="UILayer"]
+script = ExtResource("7")
+
+[node name="DungeonSelectUI" type="Control" parent="UILayer"]
+script = ExtResource("8")
+
+[node name="HubListUI" type="Control" parent="UILayer"]
+script = ExtResource("9")

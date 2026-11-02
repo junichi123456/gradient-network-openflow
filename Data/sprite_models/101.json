@@ -1,0 +1,428 @@
+{
+ "name": "ツララジカ (Ice Deer)",
+ "gait": "quad",
+ "palette": {
+  "fur": "#d2e9f1",
+  "fur2": "#a9d3e4",
+  "belly": "#f2f8fb",
+  "ant": "#3fb0dc",
+  "ant2": "#7fd8f0",
+  "hoof": "#4a9ccc",
+  "eye": "#c43a3a",
+  "nose": "#3a7ea8"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    14,
+    14,
+    26
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    0
+   ],
+   "size": [
+    12,
+    8,
+    22
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "rump",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    -9
+   ],
+   "size": [
+    14,
+    14,
+    10
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    12
+   ],
+   "size": [
+    8,
+    16,
+    9
+   ],
+   "color": "fur",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ruff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    11
+   ],
+   "size": [
+    10,
+    10,
+    9
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    17
+   ],
+   "size": [
+    8,
+    8,
+    12
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    22.5
+   ],
+   "size": [
+    5,
+    5,
+    8
+   ],
+   "color": "fur2",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    26
+   ],
+   "size": [
+    3,
+    2.4,
+    2
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    36,
+    20
+   ],
+   "size": [
+    1.8,
+    2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    38,
+    13
+   ],
+   "size": [
+    6,
+    3,
+    3
+   ],
+   "color": "fur2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant0",
+   "shape": "cone",
+   "center": [
+    6,
+    41,
+    13
+   ],
+   "size": [
+    5.04,
+    9.9,
+    5.04
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant1",
+   "shape": "cone",
+   "center": [
+    10,
+    45,
+    12
+   ],
+   "size": [
+    4.199999999999999,
+    8.8,
+    4.199999999999999
+   ],
+   "color": "ant2",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant2",
+   "shape": "cone",
+   "center": [
+    14,
+    48,
+    10
+   ],
+   "size": [
+    3.6399999999999997,
+    7.700000000000001,
+    3.6399999999999997
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant3",
+   "shape": "cone",
+   "center": [
+    5,
+    47,
+    11
+   ],
+   "size": [
+    3.36,
+    7.700000000000001,
+    3.36
+   ],
+   "color": "ant2",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant4",
+   "shape": "cone",
+   "center": [
+    16,
+    43,
+    9
+   ],
+   "size": [
+    3.36,
+    6.6000000000000005,
+    3.36
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -70
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant5",
+   "shape": "cone",
+   "center": [
+    11,
+    50,
+    12
+   ],
+   "size": [
+    3.08,
+    6.6000000000000005,
+    3.08
+   ],
+   "color": "ant2",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    5,
+    10,
+    9
+   ],
+   "size": [
+    3.6,
+    20,
+    3.6
+   ],
+   "color": "fur",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_f",
+   "shape": "cylinder",
+   "center": [
+    5,
+    1.2,
+    9
+   ],
+   "size": [
+    4.4,
+    2.4,
+    4.4
+   ],
+   "color": "hoof",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    5,
+    10,
+    -9
+   ],
+   "size": [
+    4,
+    20,
+    4
+   ],
+   "color": "fur",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_b",
+   "shape": "cylinder",
+   "center": [
+    5,
+    1.2,
+    -9
+   ],
+   "size": [
+    4.6,
+    2.4,
+    4.6
+   ],
+   "color": "hoof",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    22,
+    -15
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "belly",
+   "group": "tail",
+   "rot": [
+    -120,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_IceDeer_icon_normal.png",
+   "note": "頭部アップ: 水色の透き通った大枝角、白〜淡水色の毛、赤い目、細長い鼻面"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_IceDeer_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799214",
+   "note": "game8 乗用サドル画像のみ。胴は鹿体型として推定"
+  }
+ ]
+}

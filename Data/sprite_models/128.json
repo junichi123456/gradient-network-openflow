@@ -1,0 +1,380 @@
+{
+ "name": "オオタチウオ (Skutlass)",
+ "gait": "hover",
+ "palette": {
+  "dark": "#1d3a78",
+  "dark2": "#2c4f9a",
+  "white": "#f4f4f0",
+  "fin": "#8793b4",
+  "eye": "#c8d030"
+ },
+ "hover": 3,
+ "parts": [
+  {
+   "name": "blade",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7.5,
+    -3
+   ],
+   "size": [
+    8,
+    8.5,
+    46
+   ],
+   "color": "dark",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5.0,
+    0
+   ],
+   "size": [
+    7,
+    5,
+    34
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "tooth0",
+   "shape": "cone",
+   "center": [
+    3.5,
+    7.0,
+    -16
+   ],
+   "size": [
+    3,
+    3.5,
+    3
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tooth1",
+   "shape": "cone",
+   "center": [
+    3.5,
+    7.0,
+    -10
+   ],
+   "size": [
+    3,
+    3.5,
+    3
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tooth2",
+   "shape": "cone",
+   "center": [
+    3.5,
+    7.0,
+    -4
+   ],
+   "size": [
+    3,
+    3.5,
+    3
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tooth3",
+   "shape": "cone",
+   "center": [
+    3.5,
+    7.0,
+    2
+   ],
+   "size": [
+    3,
+    3.5,
+    3
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tooth4",
+   "shape": "cone",
+   "center": [
+    3.5,
+    7.0,
+    8
+   ],
+   "size": [
+    3,
+    3.5,
+    3
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tooth5",
+   "shape": "cone",
+   "center": [
+    3.5,
+    7.0,
+    14
+   ],
+   "size": [
+    3,
+    3.5,
+    3
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8.5,
+    19
+   ],
+   "size": [
+    10,
+    10,
+    14
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "jaw",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5.5,
+    23
+   ],
+   "size": [
+    7,
+    4.5,
+    12
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "brow",
+   "shape": "wedge",
+   "center": [
+    4,
+    12.5,
+    20
+   ],
+   "size": [
+    3,
+    5,
+    7
+   ],
+   "color": "dark2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    9.5,
+    23
+   ],
+   "size": [
+    1.2,
+    2.2,
+    3
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "dfin",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15.0,
+    -4
+   ],
+   "size": [
+    1.8,
+    8,
+    24
+   ],
+   "color": "dark2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "horn",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16.5,
+    17
+   ],
+   "size": [
+    2,
+    5,
+    16
+   ],
+   "color": "fin",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "horn_t",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17.1,
+    8
+   ],
+   "size": [
+    2,
+    3,
+    10
+   ],
+   "color": "fin",
+   "group": "head"
+  },
+  {
+   "name": "pfin",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    4.5,
+    6
+   ],
+   "size": [
+    9,
+    1.5,
+    9
+   ],
+   "color": "dark2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tailfin",
+   "shape": "wedge",
+   "center": [
+    0,
+    6.5,
+    -27
+   ],
+   "size": [
+    2,
+    13,
+    8
+   ],
+   "color": "fin",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailfin2",
+   "shape": "wedge",
+   "center": [
+    0,
+    6.5,
+    -27
+   ],
+   "size": [
+    10,
+    2,
+    8
+   ],
+   "color": "fin",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_SwordCutlassfish_icon_normal.png",
+   "note": "頭アップ: 紺の鎧状の頭、白い下あご、鋭い目、頭上の灰青の曲がった角板"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Skutlass_slep.png",
+   "note": "横から: 剣のように細長い体、紺と白の境目がギザギザ、背びれは灰"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Skutlass_insides.png",
+   "note": "地面に置かれた姿: 刃のような体と灰青のヒレ、先端は尖る"
+  }
+ ]
+}

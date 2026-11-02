@@ -1,0 +1,339 @@
+{
+ "name": "リリクイン (Lyleen)",
+ "gait": "biped",
+ "palette": {
+  "sk": "#f2eed8",
+  "sk2": "#8ccf70",
+  "pt": "#3fa070",
+  "bd": "#4fae78",
+  "face": "#d8f0d0",
+  "eye": "#d83a3a",
+  "hair": "#7cc86a",
+  "fl": "#f08a40",
+  "flc": "#f8d060"
+ },
+ "parts": [
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    0
+   ],
+   "size": [
+    22,
+    14,
+    20
+   ],
+   "color": "sk",
+   "group": "body"
+  },
+  {
+   "name": "skirt2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    4,
+    0
+   ],
+   "size": [
+    26,
+    8,
+    23
+   ],
+   "color": "sk2",
+   "group": "body"
+  },
+  {
+   "name": "petal1",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    9,
+    6
+   ],
+   "size": [
+    10,
+    8,
+    8
+   ],
+   "color": "pt",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "petal2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    9
+   ],
+   "size": [
+    10,
+    8,
+    6
+   ],
+   "color": "pt",
+   "group": "body",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "bodice",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    0
+   ],
+   "size": [
+    10,
+    9,
+    8
+   ],
+   "color": "bd",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    1
+   ],
+   "size": [
+    13,
+    12,
+    12
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    23.5,
+    6.4
+   ],
+   "size": [
+    3,
+    3.8,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    -3
+   ],
+   "size": [
+    15,
+    10,
+    10
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "hairl",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    17,
+    -2
+   ],
+   "size": [
+    5,
+    18,
+    5
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fl1",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    31,
+    0
+   ],
+   "size": [
+    9,
+    3,
+    9
+   ],
+   "color": "fl",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fl1c",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    32,
+    0
+   ],
+   "size": [
+    4,
+    2,
+    4
+   ],
+   "color": "flc",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fl2",
+   "shape": "ellipsoid",
+   "center": [
+    -2,
+    33,
+    -1
+   ],
+   "size": [
+    9,
+    3,
+    9
+   ],
+   "color": "fl",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    10
+   ]
+  },
+  {
+   "name": "fl2c",
+   "shape": "ellipsoid",
+   "center": [
+    -2,
+    34,
+    -1
+   ],
+   "size": [
+    4,
+    2,
+    4
+   ],
+   "color": "flc",
+   "group": "head"
+  },
+  {
+   "name": "fl3",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    28,
+    -2
+   ],
+   "size": [
+    7,
+    3,
+    7
+   ],
+   "color": "fl",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -60
+   ]
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    18,
+    -2
+   ],
+   "size": [
+    5,
+    8,
+    2
+   ],
+   "color": "hair",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    14,
+    2
+   ],
+   "size": [
+    3.5,
+    9,
+    4
+   ],
+   "color": "face",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_LilyQueen_icon_normal.png",
+   "note": "頭部: 緑の長い髪、頭の橙の百合、赤い目、薄緑の顔"
+  },
+  {
+   "url": "https://paldb.cc/ja/Lyleen",
+   "note": "パルデータベース（アイコンのみ）"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Lyleen_3.jpg",
+   "note": "ゲーム内(元種): 緑と白のドレス状の下半身、橙の百合を頭に、緑の長い髪"
+  }
+ ]
+}

@@ -1,0 +1,327 @@
+{
+ "name": "エアムルグ (Galeclaw)",
+ "gait": "biped",
+ "palette": {
+  "white": "#f6f6f2",
+  "teal": "#1f9aa6",
+  "teal2": "#46bcc0",
+  "beak": "#e8a828",
+  "beak2": "#c88818",
+  "wing": "#6a4638",
+  "wing2": "#8a6048",
+  "eye": "#e08a20",
+  "pupil": "#2a1a10",
+  "talon": "#e8b838",
+  "strap": "#6a4a38",
+  "green": "#8ac848"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -1
+   ],
+   "size": [
+    18,
+    22,
+    20
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    6
+   ],
+   "size": [
+    14,
+    16,
+    9
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "chev1",
+   "shape": "wedge",
+   "center": [
+    0,
+    22,
+    10.2
+   ],
+   "size": [
+    8,
+    3,
+    1.4
+   ],
+   "color": "teal",
+   "group": "body"
+  },
+  {
+   "name": "chev2",
+   "shape": "wedge",
+   "center": [
+    0,
+    17,
+    11
+   ],
+   "size": [
+    7,
+    3,
+    1.4
+   ],
+   "color": "teal",
+   "group": "body"
+  },
+  {
+   "name": "chev3",
+   "shape": "wedge",
+   "center": [
+    0,
+    12.5,
+    10
+   ],
+   "size": [
+    6,
+    3,
+    1.4
+   ],
+   "color": "teal",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    5
+   ],
+   "size": [
+    12,
+    12,
+    13
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    29.5,
+    13.5
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "beak_u",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30.5,
+    12
+   ],
+   "size": [
+    5,
+    3,
+    5
+   ],
+   "color": "beak2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    32.5,
+    8
+   ],
+   "size": [
+    2,
+    3,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "brow",
+   "shape": "box",
+   "center": [
+    4.8,
+    34.4,
+    9
+   ],
+   "size": [
+    3.6,
+    0.8,
+    1
+   ],
+   "color": "teal",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    -1
+   ],
+   "size": [
+    3,
+    3,
+    14
+   ],
+   "color": "teal",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    -9
+   ],
+   "size": [
+    2.4,
+    2.4,
+    10
+   ],
+   "color": "green",
+   "group": "head",
+   "rot": [
+    -45,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    19,
+    -2
+   ],
+   "size": [
+    5,
+    20,
+    18
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -6
+   ]
+  },
+  {
+   "name": "wing_f",
+   "shape": "ellipsoid",
+   "center": [
+    11.5,
+    12,
+    -4
+   ],
+   "size": [
+    4,
+    10,
+    14
+   ],
+   "color": "wing2",
+   "group": "wing_r"
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    5,
+    1
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "talon",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    4.5,
+    1,
+    3
+   ],
+   "size": [
+    5,
+    2,
+    7
+   ],
+   "color": "talon",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "wedge",
+   "center": [
+    0,
+    11,
+    -12
+   ],
+   "size": [
+    10,
+    3,
+    12
+   ],
+   "color": "wing",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Eagle_icon_normal.png",
+   "note": "正面: 白い頭と胸、黄橙のくちばし、橙の目、青緑の眉と羽冠、胸の青緑のシェブロン模様、茶の翼とベルト"
+  }
+ ]
+}

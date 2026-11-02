@@ -1,0 +1,351 @@
+{
+ "name": "クルットリ (Tocotoco)",
+ "gait": "biped",
+ "palette": {
+  "green": "#5ec23a",
+  "green2": "#7ad850",
+  "belly": "#d8e88a",
+  "beak": "#f2b830",
+  "beak2": "#f08a8a",
+  "beak3": "#e84a6a",
+  "tip": "#4a4a50",
+  "eye": "#ffffff",
+  "pupil": "#1a1a1a",
+  "crest": "#e8506e",
+  "crest2": "#f4b028",
+  "orange": "#f08a28",
+  "leg": "#f0b830",
+  "tail": "#e84a6a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -1
+   ],
+   "size": [
+    20,
+    24,
+    22
+   ],
+   "color": "green",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    5
+   ],
+   "size": [
+    14,
+    17,
+    10
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "mark1",
+   "shape": "box",
+   "center": [
+    -4,
+    20,
+    10
+   ],
+   "size": [
+    2,
+    5,
+    1
+   ],
+   "color": "orange",
+   "group": "body"
+  },
+  {
+   "name": "mark2",
+   "shape": "box",
+   "center": [
+    1,
+    20,
+    10.4
+   ],
+   "size": [
+    2,
+    5,
+    1
+   ],
+   "color": "orange",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    5
+   ],
+   "size": [
+    15,
+    14,
+    14
+   ],
+   "color": "green2",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    16
+   ],
+   "size": [
+    8,
+    8,
+    17
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "beak_p",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24.6,
+    17
+   ],
+   "size": [
+    7,
+    3,
+    15
+   ],
+   "color": "beak2",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "beak_t",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    25
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "tip",
+   "group": "head"
+  },
+  {
+   "name": "eyew",
+   "shape": "ellipsoid",
+   "center": [
+    5.6,
+    32,
+    10
+   ],
+   "size": [
+    5,
+    5,
+    2.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    5.8,
+    32,
+    11.2
+   ],
+   "size": [
+    2,
+    2.4,
+    0.8
+   ],
+   "color": "pupil",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39,
+    2
+   ],
+   "size": [
+    5,
+    12,
+    9
+   ],
+   "color": "crest",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest_y",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    5
+   ],
+   "size": [
+    4,
+    6,
+    5
+   ],
+   "color": "crest2",
+   "group": "head"
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    29,
+    8
+   ],
+   "size": [
+    2,
+    4,
+    4
+   ],
+   "color": "orange",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    17,
+    -1
+   ],
+   "size": [
+    4,
+    15,
+    15
+   ],
+   "color": "green",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -6
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    4,
+    0
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    4.5,
+    0.8,
+    2
+   ],
+   "size": [
+    5,
+    1.6,
+    6
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -14
+   ],
+   "size": [
+    8,
+    6,
+    14
+   ],
+   "color": "tail",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -18
+   ],
+   "size": [
+    6,
+    5,
+    10
+   ],
+   "color": "crest2",
+   "group": "tail",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_ColorfulBird_icon_normal.png",
+   "note": "正面: 緑のオオハシ、大きな黄橙のくちばし（ピンクの縞と黒い先）、白い大きな目、赤とオレンジのとさか、赤い尾羽"
+  }
+ ]
+}

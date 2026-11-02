@@ -1,0 +1,299 @@
+{
+ "name": "ヤミウチ (Bushi Noct)",
+ "gait": "biped",
+ "palette": {
+  "skin": "#80b0e0",
+  "cap": "#2c3458",
+  "cloak": "#5a3a98",
+  "cloak2": "#3a2468",
+  "trim": "#3a2468",
+  "hat": "#d8b890",
+  "hat2": "#b89870",
+  "wrap": "#f0ece0",
+  "glove": "#2a3040",
+  "eye": "#c83030",
+  "cord": "#e8c850",
+  "blk": "#1a1a20"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    12,
+    16,
+    9
+   ],
+   "color": "wrap",
+   "group": "body"
+  },
+  {
+   "name": "cloak",
+   "shape": "cone",
+   "center": [
+    0,
+    13,
+    -1
+   ],
+   "size": [
+    18,
+    20,
+    13
+   ],
+   "color": "cloak",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "cloak2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -3
+   ],
+   "size": [
+    18,
+    7,
+    12
+   ],
+   "color": "cloak2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    2
+   ],
+   "size": [
+    11,
+    10,
+    10
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "cap",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26.5,
+    1
+   ],
+   "size": [
+    12.5,
+    7,
+    11
+   ],
+   "color": "cap",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    23.6,
+    6.8
+   ],
+   "size": [
+    2.4,
+    2.2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hat",
+   "shape": "cone",
+   "center": [
+    0,
+    39,
+    0
+   ],
+   "size": [
+    28,
+    10,
+    28
+   ],
+   "color": "hat",
+   "group": "head"
+  },
+  {
+   "name": "hatrim",
+   "shape": "cylinder",
+   "center": [
+    0,
+    33.6,
+    0
+   ],
+   "size": [
+    28,
+    1.6,
+    28
+   ],
+   "color": "hat2",
+   "group": "head"
+  },
+  {
+   "name": "cord",
+   "shape": "ellipsoid",
+   "center": [
+    5.4,
+    25,
+    5
+   ],
+   "size": [
+    1,
+    5,
+    1
+   ],
+   "color": "cord",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sleeve",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    14,
+    1
+   ],
+   "size": [
+    5,
+    10,
+    5
+   ],
+   "color": "cloak",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "glove",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    8.5,
+    3
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "glove",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    2.5,
+    2
+   ],
+   "size": [
+    5,
+    5,
+    8
+   ],
+   "color": "glove",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "sword",
+   "shape": "box",
+   "center": [
+    -9,
+    9,
+    2
+   ],
+   "size": [
+    1.6,
+    1.6,
+    18
+   ],
+   "color": "wrap",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hilt",
+   "shape": "box",
+   "center": [
+    -9,
+    9,
+    12
+   ],
+   "size": [
+    2.4,
+    2.4,
+    4
+   ],
+   "color": "cord",
+   "group": "body"
+  },
+  {
+   "name": "trim",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    4,
+    3
+   ],
+   "size": [
+    16,
+    2,
+    12
+   ],
+   "color": "trim",
+   "group": "body"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Ronin_Dark_icon_normal.png",
+   "note": "正面: 巨大な笠(茶色の円錐)、濃紺の前髪、赤い目、赤(紫)のマント、首の白い布"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Bushi",
+   "note": "ゲーム内: 小柄な体に笠が非常に大きい、腰に刀"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799242",
+   "note": "青い肌、紫のマント"
+  }
+ ]
+}

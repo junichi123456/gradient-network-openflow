@@ -1,0 +1,361 @@
+{
+ "name": "オドロクロ (Sootseer)",
+ "gait": "hover",
+ "hover": 6,
+ "palette": {
+  "blk": "#25232e",
+  "blk2": "#383545",
+  "bone": "#d9d3b4",
+  "eye": "#b8f030",
+  "fl": "#8a6cd8",
+  "fl2": "#a98af0",
+  "core": "#f4f2ff",
+  "claw": "#4c3f68"
+ },
+ "parts": [
+  {
+   "name": "robe",
+   "shape": "cone",
+   "center": [
+    0,
+    9,
+    0
+   ],
+   "size": [
+    14,
+    16,
+    12
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "robe_tip",
+   "shape": "cone",
+   "center": [
+    0,
+    3,
+    -2
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "blk2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "robe_top",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    1
+   ],
+   "size": [
+    14,
+    8,
+    12
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "zig",
+   "shape": "cone",
+   "center": [
+    0,
+    13,
+    6.2
+   ],
+   "size": [
+    6,
+    4,
+    3
+   ],
+   "color": "blk2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    3
+   ],
+   "size": [
+    10,
+    9,
+    9
+   ],
+   "color": "bone",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.3,
+    7.2
+   ],
+   "size": [
+    5,
+    4,
+    3
+   ],
+   "color": "bone",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    2.5,
+    22.5,
+    7.6
+   ],
+   "size": [
+    2.8,
+    3,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    3.6,
+    28,
+    2.5
+   ],
+   "size": [
+    3.4,
+    6,
+    2.4
+   ],
+   "color": "bone",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "shade",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    0
+   ],
+   "size": [
+    11,
+    10,
+    6
+   ],
+   "color": "blk2",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    15,
+    3
+   ],
+   "size": [
+    9,
+    3,
+    3
+   ],
+   "color": "blk2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    17,
+    4
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "blk",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "hclaw",
+   "shape": "cone",
+   "center": [
+    14,
+    14,
+    5
+   ],
+   "size": [
+    1.5,
+    4,
+    1.5
+   ],
+   "color": "claw",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cup",
+   "shape": "cylinder",
+   "center": [
+    14,
+    19,
+    4
+   ],
+   "size": [
+    4.5,
+    3,
+    4.5
+   ],
+   "color": "blk",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "flame",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    27,
+    4
+   ],
+   "size": [
+    15,
+    17,
+    12
+   ],
+   "color": "fl",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "flame2",
+   "shape": "ellipsoid",
+   "center": [
+    14.5,
+    24.5,
+    5
+   ],
+   "size": [
+    10,
+    12,
+    8
+   ],
+   "color": "fl2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "core",
+   "shape": "ellipsoid",
+   "center": [
+    14.5,
+    23,
+    5.5
+   ],
+   "size": [
+    4,
+    6,
+    3.5
+   ],
+   "color": "core",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "flame_tip",
+   "shape": "cone",
+   "center": [
+    15.5,
+    33,
+    4
+   ],
+   "size": [
+    5,
+    8,
+    4
+   ],
+   "color": "fl",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    -2
+   ],
+   "size": [
+    14,
+    8,
+    6
+   ],
+   "color": "fl",
+   "group": "head"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_CandleGhost_icon_normal.png",
+   "note": "正面: 骨色の猫頭蓋の面、黄緑に光る目、紫の炎"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Sootseer.png",
+   "note": "全身: 黒いローブ状の体が細い尾に、両手の先に白芯の紫の炎、手は黒い爪"
+  }
+ ]
+}

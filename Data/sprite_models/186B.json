@@ -1,0 +1,438 @@
+{
+ "name": "ルナクイン (Lyleen Noct)",
+ "gait": "biped",
+ "palette": {
+  "skirt": "#2a2a8a",
+  "skirt2": "#3a3aa8",
+  "front": "#6a9ad8",
+  "front2": "#8cb4e6",
+  "gold": "#a88a50",
+  "face": "#8aaee0",
+  "hair": "#a8c6ec",
+  "teal": "#1aa8a8",
+  "teal2": "#3ad0c0",
+  "eye": "#d84a3a",
+  "brown": "#6a4a2a",
+  "pale": "#c8d8f0"
+ },
+ "parts": [
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -1
+   ],
+   "size": [
+    30,
+    18,
+    26
+   ],
+   "color": "skirt",
+   "group": "body"
+  },
+  {
+   "name": "skirtlow",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    -1
+   ],
+   "size": [
+    34,
+    9,
+    28
+   ],
+   "color": "skirt2",
+   "group": "body"
+  },
+  {
+   "name": "front",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    6
+   ],
+   "size": [
+    12,
+    16,
+    12
+   ],
+   "color": "front",
+   "group": "body"
+  },
+  {
+   "name": "frontlow",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    3,
+    8
+   ],
+   "size": [
+    14,
+    6,
+    10
+   ],
+   "color": "front2",
+   "group": "body"
+  },
+  {
+   "name": "pt1",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    16,
+    5
+   ],
+   "size": [
+    9,
+    4,
+    9
+   ],
+   "color": "gold",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "pt2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    8
+   ],
+   "size": [
+    9,
+    4,
+    8
+   ],
+   "color": "gold",
+   "group": "body",
+   "rot": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fin",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    6,
+    -2
+   ],
+   "size": [
+    14,
+    5,
+    14
+   ],
+   "color": "skirt",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "spike",
+   "shape": "cone",
+   "center": [
+    18,
+    3,
+    -2
+   ],
+   "size": [
+    8,
+    10,
+    8
+   ],
+   "color": "skirt2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -70
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -12
+   ],
+   "size": [
+    12,
+    6,
+    8
+   ],
+   "color": "pale",
+   "group": "body"
+  },
+  {
+   "name": "bodice",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    0
+   ],
+   "size": [
+    9,
+    8,
+    7
+   ],
+   "color": "front",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24.5,
+    3
+   ],
+   "size": [
+    15,
+    2.5,
+    5
+   ],
+   "color": "brown",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "collar2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    25.5,
+    3
+   ],
+   "size": [
+    7,
+    2.5,
+    4
+   ],
+   "color": "brown",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    0
+   ],
+   "size": [
+    13,
+    12,
+    12
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    29.5,
+    5.6
+   ],
+   "size": [
+    2.8,
+    3.2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hairtop",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    -1
+   ],
+   "size": [
+    13,
+    6,
+    11
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "hb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    -5
+   ],
+   "size": [
+    14,
+    12,
+    5
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "pony",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    31,
+    -1
+   ],
+   "size": [
+    14,
+    5,
+    6
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ponyt",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    27,
+    -1
+   ],
+   "size": [
+    8,
+    5,
+    5
+   ],
+   "color": "pale",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fl1",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    37,
+    0
+   ],
+   "size": [
+    9,
+    4,
+    9
+   ],
+   "color": "teal",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fl1c",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    38,
+    0
+   ],
+   "size": [
+    5,
+    3,
+    5
+   ],
+   "color": "teal2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "fl2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    -3
+   ],
+   "size": [
+    8,
+    5,
+    6
+   ],
+   "color": "teal",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    22,
+    3
+   ],
+   "size": [
+    3.5,
+    7,
+    4
+   ],
+   "color": "face",
+   "group": "arm_r",
+   "rot": [
+    30,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/186B",
+   "note": "in-game screenshots: indigo starry bell skirt, pale blue face, long pony curls, teal flowers, brown collar"
+  }
+ ]
+}

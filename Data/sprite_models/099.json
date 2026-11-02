@@ -1,0 +1,642 @@
+{
+ "name": "デスティング (Menasting)",
+ "gait": "quad",
+ "palette": {
+  "dark": "#2a2a36",
+  "dark2": "#3c3c4c",
+  "purple": "#7a58b8",
+  "purple2": "#9a82d0",
+  "mask": "#8a84b4",
+  "eye": "#e03030",
+  "flame": "#3ad8e8",
+  "flame2": "#6a58e8",
+  "spike": "#c8c4d8"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    -1
+   ],
+   "size": [
+    20,
+    12,
+    28
+   ],
+   "color": "dark",
+   "group": "body"
+  },
+  {
+   "name": "shell",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -3
+   ],
+   "size": [
+    17,
+    9,
+    22
+   ],
+   "color": "dark2",
+   "group": "body"
+  },
+  {
+   "name": "plate1",
+   "shape": "box",
+   "center": [
+    0,
+    23,
+    2
+   ],
+   "size": [
+    12,
+    2.4,
+    6
+   ],
+   "color": "purple",
+   "group": "body"
+  },
+  {
+   "name": "plate2",
+   "shape": "box",
+   "center": [
+    0,
+    22.6,
+    -6
+   ],
+   "size": [
+    10,
+    2.4,
+    6
+   ],
+   "color": "purple",
+   "group": "body"
+  },
+  {
+   "name": "plate3",
+   "shape": "box",
+   "center": [
+    0,
+    21.4,
+    -13
+   ],
+   "size": [
+    8,
+    2.4,
+    5
+   ],
+   "color": "purple",
+   "group": "body"
+  },
+  {
+   "name": "fl0",
+   "shape": "cone",
+   "center": [
+    0,
+    27.5,
+    0
+   ],
+   "size": [
+    5,
+    13,
+    5
+   ],
+   "color": "flame",
+   "group": "body"
+  },
+  {
+   "name": "fl1",
+   "shape": "cone",
+   "center": [
+    5,
+    26.0,
+    -5
+   ],
+   "size": [
+    5,
+    10,
+    5
+   ],
+   "color": "flame2",
+   "group": "body"
+  },
+  {
+   "name": "fl2",
+   "shape": "cone",
+   "center": [
+    -5,
+    26.0,
+    -5
+   ],
+   "size": [
+    5,
+    10,
+    5
+   ],
+   "color": "flame",
+   "group": "body"
+  },
+  {
+   "name": "fl3",
+   "shape": "cone",
+   "center": [
+    0,
+    25.5,
+    -9
+   ],
+   "size": [
+    5,
+    9,
+    5
+   ],
+   "color": "flame2",
+   "group": "body"
+  },
+  {
+   "name": "fl4",
+   "shape": "cone",
+   "center": [
+    7,
+    25.0,
+    2
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "flame",
+   "group": "body"
+  },
+  {
+   "name": "fl5",
+   "shape": "cone",
+   "center": [
+    -7,
+    25.0,
+    2
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "flame2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    15
+   ],
+   "size": [
+    14,
+    10,
+    10
+   ],
+   "color": "mask",
+   "group": "head"
+  },
+  {
+   "name": "visor",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    19
+   ],
+   "size": [
+    12,
+    4,
+    5
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    17,
+    21.6
+   ],
+   "size": [
+    2.4,
+    1.8,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hornh",
+   "shape": "cone",
+   "center": [
+    5,
+    22,
+    14
+   ],
+   "size": [
+    3.4,
+    10,
+    3.4
+   ],
+   "color": "purple2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "jaw",
+   "shape": "box",
+   "center": [
+    0,
+    11,
+    20
+   ],
+   "size": [
+    9,
+    3,
+    5
+   ],
+   "color": "purple",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "cylinder",
+   "center": [
+    11,
+    13,
+    12
+   ],
+   "size": [
+    5,
+    12,
+    5
+   ],
+   "color": "dark2",
+   "group": "arm_r",
+   "rot": [
+    70,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "arm_l",
+   "shape": "cylinder",
+   "center": [
+    -11,
+    13,
+    12
+   ],
+   "size": [
+    5,
+    12,
+    5
+   ],
+   "color": "dark2",
+   "group": "arm_l",
+   "rot": [
+    70,
+    0,
+    30
+   ]
+  },
+  {
+   "name": "claw",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    12,
+    21
+   ],
+   "size": [
+    8,
+    7,
+    10
+   ],
+   "color": "purple",
+   "group": "arm_r"
+  },
+  {
+   "name": "claw_l",
+   "shape": "ellipsoid",
+   "center": [
+    -15,
+    12,
+    21
+   ],
+   "size": [
+    8,
+    7,
+    10
+   ],
+   "color": "purple",
+   "group": "arm_l"
+  },
+  {
+   "name": "claw_t",
+   "shape": "cone",
+   "center": [
+    18,
+    12,
+    26
+   ],
+   "size": [
+    3.6,
+    8,
+    3.6
+   ],
+   "color": "spike",
+   "group": "arm_r",
+   "rot": [
+    90,
+    0,
+    -10
+   ]
+  },
+  {
+   "name": "claw_tl",
+   "shape": "cone",
+   "center": [
+    -18,
+    12,
+    26
+   ],
+   "size": [
+    3.6,
+    8,
+    3.6
+   ],
+   "color": "spike",
+   "group": "arm_l",
+   "rot": [
+    90,
+    0,
+    10
+   ]
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    10,
+    5,
+    4
+   ],
+   "size": [
+    3.6,
+    10,
+    3.6
+   ],
+   "color": "dark",
+   "group": "leg_fl",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "footf",
+   "shape": "cone",
+   "center": [
+    13,
+    1.5,
+    4
+   ],
+   "size": [
+    3,
+    5,
+    3
+   ],
+   "color": "spike",
+   "group": "leg_fl",
+   "rot": [
+    0,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legm",
+   "shape": "cylinder",
+   "center": [
+    10,
+    5,
+    -8
+   ],
+   "size": [
+    3.6,
+    10,
+    3.6
+   ],
+   "color": "dark",
+   "group": "leg_bl",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "footm",
+   "shape": "cone",
+   "center": [
+    13,
+    1.5,
+    -8
+   ],
+   "size": [
+    3,
+    5,
+    3
+   ],
+   "color": "spike",
+   "group": "leg_bl",
+   "rot": [
+    0,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    10,
+    5,
+    -15
+   ],
+   "size": [
+    3.6,
+    10,
+    3.6
+   ],
+   "color": "dark",
+   "group": "leg_br",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "footb",
+   "shape": "cone",
+   "center": [
+    13,
+    1.5,
+    -15
+   ],
+   "size": [
+    3,
+    5,
+    3
+   ],
+   "color": "spike",
+   "group": "leg_br",
+   "rot": [
+    0,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "t1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -17
+   ],
+   "size": [
+    8,
+    7,
+    9
+   ],
+   "color": "dark2",
+   "group": "tail"
+  },
+  {
+   "name": "t2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -23
+   ],
+   "size": [
+    7,
+    7,
+    8
+   ],
+   "color": "dark2",
+   "group": "tail",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "t3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -26
+   ],
+   "size": [
+    6,
+    8,
+    7
+   ],
+   "color": "dark2",
+   "group": "tail",
+   "rot": [
+    70,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "t4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    -23
+   ],
+   "size": [
+    6,
+    8,
+    7
+   ],
+   "color": "dark2",
+   "group": "tail",
+   "rot": [
+    130,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "sting",
+   "shape": "cone",
+   "center": [
+    0,
+    34,
+    -16
+   ],
+   "size": [
+    5,
+    11,
+    5
+   ],
+   "color": "purple2",
+   "group": "tail",
+   "rot": [
+    140,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/099/icon.png",
+   "note": "頭部: 暗灰色の装甲、紫の面当て、赤い目、背に水色〜青紫の炎"
+  },
+  {
+   "url": "https://paldb.cc/en/Menasting",
+   "note": "種名確認(虚/地)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Menasting",
+   "note": "全身画像無し: サソリ型(大きなハサミ+上向きの尾)として推定"
+  }
+ ]
+}

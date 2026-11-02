@@ -1,0 +1,361 @@
+{
+ "name": "ニャンバット (Tombat)",
+ "gait": "biped",
+ "palette": {
+  "black": "#2a2838",
+  "black2": "#3c3a52",
+  "grey": "#b8c4c4",
+  "white": "#e6ecec",
+  "red": "#e04820",
+  "red2": "#f06a38",
+  "wing": "#3a3a68",
+  "wing2": "#50508a",
+  "eye": "#d82a2a",
+  "tooth": "#ffffff",
+  "ear": "#c880c0",
+  "mouth": "#6a1a1a",
+  "gold": "#e8b030"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    0
+   ],
+   "size": [
+    15,
+    17,
+    13
+   ],
+   "color": "grey",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    5
+   ],
+   "size": [
+    11,
+    12,
+    6
+   ],
+   "color": "red",
+   "group": "body"
+  },
+  {
+   "name": "scarf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    4
+   ],
+   "size": [
+    14,
+    5,
+    10
+   ],
+   "color": "red2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    3
+   ],
+   "size": [
+    19,
+    15,
+    15
+   ],
+   "color": "grey",
+   "group": "head"
+  },
+  {
+   "name": "hood",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    1
+   ],
+   "size": [
+    19,
+    10,
+    15
+   ],
+   "color": "black",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24.5,
+    9
+   ],
+   "size": [
+    10,
+    6,
+    5
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23.5,
+    11
+   ],
+   "size": [
+    6,
+    3,
+    2
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "fang",
+   "shape": "cone",
+   "center": [
+    2,
+    22.5,
+    11.4
+   ],
+   "size": [
+    1.4,
+    2.6,
+    1.4
+   ],
+   "color": "tooth",
+   "group": "head",
+   "rot": [
+    180,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    28,
+    9.4
+   ],
+   "size": [
+    3.6,
+    3.2,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "gem",
+   "shape": "box",
+   "center": [
+    0,
+    33.2,
+    9.4
+   ],
+   "size": [
+    2.2,
+    2.6,
+    1
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    45
+   ]
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    8.5,
+    38,
+    -1
+   ],
+   "size": [
+    6,
+    13,
+    5
+   ],
+   "color": "black",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "cone",
+   "center": [
+    8.5,
+    36,
+    0
+   ],
+   "size": [
+    3.4,
+    8,
+    3
+   ],
+   "color": "ear",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear2",
+   "shape": "cone",
+   "center": [
+    3.5,
+    39,
+    -1
+   ],
+   "size": [
+    5,
+    13,
+    4
+   ],
+   "color": "black2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -5
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    22,
+    -3
+   ],
+   "size": [
+    3,
+    22,
+    20
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -14
+   ]
+  },
+  {
+   "name": "wing2",
+   "shape": "ellipsoid",
+   "center": [
+    20,
+    14,
+    -4
+   ],
+   "size": [
+    3,
+    14,
+    16
+   ],
+   "color": "wing2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    11,
+    4
+   ],
+   "size": [
+    4,
+    7,
+    4
+   ],
+   "color": "grey",
+   "group": "arm_r"
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    2.5,
+    3
+   ],
+   "size": [
+    6,
+    5,
+    9
+   ],
+   "color": "black",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    11,
+    -10
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "black",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_CatBat_icon_normal.png",
+   "note": "正面: 黒い頭巾と四本の尖った耳、灰白の顔、赤い目、牙をのぞかせた口、橙赤の襟、紺紫のコウモリの翼"
+  }
+ ]
+}

@@ -1,0 +1,388 @@
+{
+ "name": "ライゾー (Electric Panda)",
+ "gait": "biped",
+ "palette": {
+  "fur": "#f0a431",
+  "fur2": "#c9761f",
+  "fur3": "#c9761f",
+  "belly": "#f4efe2",
+  "dark": "#3b3f46",
+  "white": "#fbfbfb",
+  "crest": "#f4d23a",
+  "leaf": "#4f8a2c",
+  "leaf2": "#3b6e24"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    24,
+    22,
+    20
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    5
+   ],
+   "size": [
+    16,
+    15,
+    12
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    5
+   ],
+   "size": [
+    20,
+    7,
+    14
+   ],
+   "color": "fur2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    3
+   ],
+   "size": [
+    22,
+    15,
+    17
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26.5,
+    12
+   ],
+   "size": [
+    10,
+    6,
+    6
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    14.6
+   ],
+   "size": [
+    3.5,
+    2.2,
+    2
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    36,
+    0
+   ],
+   "size": [
+    7,
+    7,
+    4
+   ],
+   "color": "dark",
+   "group": "ear",
+   "mirror_x": true
+  },
+  {
+   "name": "ring",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    30.5,
+    11
+   ],
+   "size": [
+    8.5,
+    8.5,
+    3
+   ],
+   "color": "dark",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyew",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    30.5,
+    12.6
+   ],
+   "size": [
+    6,
+    6,
+    2
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    30.5,
+    13.7
+   ],
+   "size": [
+    2.6,
+    2.6,
+    1
+   ],
+   "color": "dark",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest0",
+   "shape": "cone",
+   "center": [
+    0,
+    42.55,
+    1
+   ],
+   "size": [
+    4,
+    13,
+    4
+   ],
+   "color": "crest",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest1",
+   "shape": "cone",
+   "center": [
+    -3.5,
+    41.5,
+    1
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "crest",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    25
+   ]
+  },
+  {
+   "name": "crest2",
+   "shape": "cone",
+   "center": [
+    3.5,
+    41.5,
+    1
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "crest",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ]
+  },
+  {
+   "name": "crest3",
+   "shape": "cone",
+   "center": [
+    -6,
+    40.45,
+    1
+   ],
+   "size": [
+    4,
+    7,
+    4
+   ],
+   "color": "crest",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    50
+   ]
+  },
+  {
+   "name": "crest4",
+   "shape": "cone",
+   "center": [
+    6,
+    40.45,
+    1
+   ],
+   "size": [
+    4,
+    7,
+    4
+   ],
+   "color": "crest",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -50
+   ]
+  },
+  {
+   "name": "ruff",
+   "shape": "wedge",
+   "center": [
+    0,
+    21.5,
+    6
+   ],
+   "size": [
+    21,
+    5,
+    10
+   ],
+   "color": "fur3",
+   "group": "body"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    13.5,
+    16,
+    3
+   ],
+   "size": [
+    7,
+    13,
+    8
+   ],
+   "color": "dark",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    14.5,
+    10,
+    5
+   ],
+   "size": [
+    6.5,
+    5,
+    6.5
+   ],
+   "color": "fur",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    3,
+    2
+   ],
+   "size": [
+    10,
+    6,
+    13
+   ],
+   "color": "dark",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -11
+   ],
+   "size": [
+    7,
+    6,
+    5
+   ],
+   "color": "dark",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_GrassPanda_Electric_icon_normal.png",
+   "note": "橙の体、胸元と襟は濃い橙の毛、頭に黄色のとげとげしい冠、黒い目の輪とパンダ耳は同じ"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_GrassPanda_Electric_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799212",
+   "note": "game8 ページ（地図のみ）。全身は二足のパンダ体型として推定"
+  }
+ ]
+}

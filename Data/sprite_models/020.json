@@ -1,0 +1,289 @@
+{
+ "name": "メルパカ (Melpaca)",
+ "gait": "quad",
+ "palette": {
+  "w": "#f6f0f2",
+  "w2": "#fcf8fa",
+  "sh": "#e2d8dc",
+  "pk": "#f48aa8",
+  "pk2": "#f6a6bc",
+  "ear": "#f4a0b8",
+  "earin": "#6a78d0",
+  "eye": "#c03040",
+  "hoof": "#ee9ab0",
+  "nose": "#e06888"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    -1
+   ],
+   "size": [
+    20,
+    17,
+    26
+   ],
+   "color": "w",
+   "group": "body"
+  },
+  {
+   "name": "back",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -4
+   ],
+   "size": [
+    15,
+    8,
+    17
+   ],
+   "color": "w2",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    9
+   ],
+   "size": [
+    11,
+    17,
+    10
+   ],
+   "color": "w2",
+   "group": "head"
+  },
+  {
+   "name": "curl",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    6
+   ],
+   "size": [
+    10,
+    7,
+    9
+   ],
+   "color": "w2",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    12
+   ],
+   "size": [
+    10,
+    10,
+    12
+   ],
+   "color": "pk2",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    17
+   ],
+   "size": [
+    7,
+    6,
+    6
+   ],
+   "color": "pk",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28.4,
+    20
+   ],
+   "size": [
+    2.2,
+    1.6,
+    1.2
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    31,
+    15
+   ],
+   "size": [
+    1.8,
+    2.4,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    40,
+    6
+   ],
+   "size": [
+    3,
+    13,
+    2.4
+   ],
+   "color": "ear",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    40,
+    7
+   ],
+   "size": [
+    1.8,
+    10,
+    1
+   ],
+   "color": "earin",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fl",
+   "shape": "cylinder",
+   "center": [
+    5,
+    4,
+    6
+   ],
+   "size": [
+    4,
+    8,
+    4
+   ],
+   "color": "w",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "bl",
+   "shape": "cylinder",
+   "center": [
+    5,
+    4,
+    -9
+   ],
+   "size": [
+    4,
+    8,
+    4
+   ],
+   "color": "w",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "fh",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    0.8,
+    6.2
+   ],
+   "size": [
+    4.4,
+    2,
+    4.8
+   ],
+   "color": "hoof",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "bh",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    0.8,
+    -8.8
+   ],
+   "size": [
+    4.4,
+    2,
+    4.8
+   ],
+   "color": "hoof",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    -15
+   ],
+   "size": [
+    7,
+    7,
+    6
+   ],
+   "color": "w",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_Alpaca_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Melpaca_bis.png",
+   "note": "全身: 白い羊毛の体、長い首、桃色の顔、ピンク×青の長い耳、頭頂の巻き毛"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Melpaca2.png",
+   "note": "騎乗: 羊毛は純白に近い、ひづめはピンク"
+  }
+ ]
+}

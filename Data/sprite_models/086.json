@@ -1,0 +1,262 @@
+{
+ "name": "コチワニ (Munchill)",
+ "gait": "quad",
+ "palette": {
+  "blue": "#5cc4ea",
+  "blue2": "#3a9ed0",
+  "white": "#f4f6f8",
+  "dark": "#24405e",
+  "eye": "#f0d060",
+  "lid": "#3a9ed0",
+  "mouth": "#1c2c48"
+ },
+ "parts": [
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    20,
+    16,
+    24
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "back",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -1
+   ],
+   "size": [
+    19,
+    12,
+    23
+   ],
+   "color": "blue",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    10
+   ],
+   "size": [
+    17,
+    13,
+    14
+   ],
+   "color": "blue",
+   "group": "head"
+  },
+  {
+   "name": "chin",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    11
+   ],
+   "size": [
+    15,
+    9,
+    14
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    10.2,
+    17.2
+   ],
+   "size": [
+    14,
+    0.9,
+    1.4
+   ],
+   "color": "mouth",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    6.2,
+    15.5,
+    14
+   ],
+   "size": [
+    3.6,
+    3.6,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "lid",
+   "shape": "ellipsoid",
+   "center": [
+    6.4,
+    16.8,
+    14.4
+   ],
+   "size": [
+    4.2,
+    2,
+    2.2
+   ],
+   "color": "lid",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "fin",
+   "shape": "cone",
+   "center": [
+    0,
+    21,
+    8
+   ],
+   "size": [
+    4.5,
+    7,
+    4.5
+   ],
+   "color": "blue2",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    10,
+    8
+   ],
+   "size": [
+    3,
+    6,
+    6
+   ],
+   "color": "blue2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "spike",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    -8
+   ],
+   "size": [
+    3.5,
+    5,
+    3.5
+   ],
+   "color": "blue2",
+   "group": "body",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    2.5,
+    8
+   ],
+   "size": [
+    5,
+    5,
+    6
+   ],
+   "color": "blue2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    2.5,
+    -8
+   ],
+   "size": [
+    5,
+    5,
+    6
+   ],
+   "color": "blue2",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    7,
+    -15
+   ],
+   "size": [
+    6,
+    12,
+    6
+   ],
+   "color": "blue",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/086/icon.png",
+   "note": "頭部アップ: 水色の丸い頭、半目、横一文字の口、白い大きな腹、頭の小さなヒレ、頬の青いヒレ"
+  },
+  {
+   "url": "https://paldb.cc/en/Munchill",
+   "note": "種名・属性(氷/水)の確認。全身画像は入手できず推定: ずんぐりした小型ワニ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Munchill",
+   "note": "同上（アイコンのみ）"
+  }
+ ]
+}

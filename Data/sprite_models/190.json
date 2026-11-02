@@ -1,0 +1,609 @@
+{
+ "name": "セレムーン (Selyne)",
+ "gait": "hover",
+ "palette": {
+  "skin": "#c9ccd4",
+  "skin2": "#a8acb8",
+  "dress": "#f0eff0",
+  "dress2": "#d4d3dc",
+  "dk": "#4a3c3a",
+  "gold": "#d7bd55",
+  "cyan": "#6fd0e8",
+  "pink": "#ec72d0",
+  "vio": "#9a74e8",
+  "eye": "#c8283a",
+  "dot": "#e8d060"
+ },
+ "parts": [
+  {
+   "name": "skirt",
+   "shape": "cone",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    24,
+    24,
+    24
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "skirt2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    0
+   ],
+   "size": [
+    26,
+    9,
+    26
+   ],
+   "color": "dress2",
+   "group": "body"
+  },
+  {
+   "name": "dot0",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    4,
+    11.5
+   ],
+   "size": [
+    2,
+    2,
+    2
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "dot1",
+   "shape": "ellipsoid",
+   "center": [
+    8.131727983645296,
+    4,
+    8.131727983645296
+   ],
+   "size": [
+    2,
+    2,
+    2
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "dot2",
+   "shape": "ellipsoid",
+   "center": [
+    11.5,
+    4,
+    7.041719095097281e-16
+   ],
+   "size": [
+    2,
+    2,
+    2
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "dot3",
+   "shape": "ellipsoid",
+   "center": [
+    8.131727983645296,
+    4,
+    -8.131727983645296
+   ],
+   "size": [
+    2,
+    2,
+    2
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "dot4",
+   "shape": "ellipsoid",
+   "center": [
+    1.4083438190194562e-15,
+    4,
+    -11.5
+   ],
+   "size": [
+    2,
+    2,
+    2
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "dot5",
+   "shape": "ellipsoid",
+   "center": [
+    -8.131727983645296,
+    4,
+    -8.131727983645298
+   ],
+   "size": [
+    2,
+    2,
+    2
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "dot6",
+   "shape": "ellipsoid",
+   "center": [
+    -11.5,
+    4,
+    -2.112515728529184e-15
+   ],
+   "size": [
+    2,
+    2,
+    2
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "dot7",
+   "shape": "ellipsoid",
+   "center": [
+    -8.131727983645298,
+    4,
+    8.131727983645295
+   ],
+   "size": [
+    2,
+    2,
+    2
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    0
+   ],
+   "size": [
+    8,
+    12,
+    6
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "cone",
+   "center": [
+    0,
+    27,
+    2
+   ],
+   "size": [
+    9,
+    6,
+    5
+   ],
+   "color": "dress",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    1
+   ],
+   "size": [
+    10,
+    10,
+    9
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "hair",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    -1
+   ],
+   "size": [
+    11,
+    10,
+    9
+   ],
+   "color": "dk",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    4
+   ],
+   "size": [
+    8,
+    7,
+    3
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    2.4,
+    33.5,
+    5.6
+   ],
+   "size": [
+    2,
+    2.2,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crown_l",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    40,
+    1
+   ],
+   "size": [
+    2.6,
+    6,
+    2.6
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crown_b",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38.5,
+    1
+   ],
+   "size": [
+    7,
+    2.6,
+    2.6
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "gem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41,
+    1
+   ],
+   "size": [
+    4,
+    3,
+    3
+   ],
+   "color": "cyan",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    22,
+    2
+   ],
+   "size": [
+    3,
+    10,
+    3
+   ],
+   "color": "skin2",
+   "group": "arm_r",
+   "rot": [
+    -20,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sleeve",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    25,
+    0
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "dress",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "cres0",
+   "shape": "ellipsoid",
+   "center": [
+    10.0,
+    22,
+    -7
+   ],
+   "size": [
+    11,
+    4.5628335990023725,
+    4
+   ],
+   "color": "vio",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    30.96375653207352
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cres1",
+   "shape": "ellipsoid",
+   "center": [
+    15.574025148547635,
+    25,
+    -7
+   ],
+   "size": [
+    11,
+    7.499999999999999,
+    4
+   ],
+   "color": "pink",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    34.99202019855866
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cres2",
+   "shape": "ellipsoid",
+   "center": [
+    21.060660171779823,
+    29,
+    -7
+   ],
+   "size": [
+    11,
+    9.894399988070802,
+    4
+   ],
+   "color": "pink",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    48.01278750418334
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cres3",
+   "shape": "ellipsoid",
+   "center": [
+    25.38581929876693,
+    35,
+    -7
+   ],
+   "size": [
+    11,
+    11.457233587073175,
+    4
+   ],
+   "color": "pink",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    65.22485943116808
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cres4",
+   "shape": "ellipsoid",
+   "center": [
+    27.5,
+    42,
+    -7
+   ],
+   "size": [
+    11,
+    12.0,
+    4
+   ],
+   "color": "cyan",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    85.91438322002513
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cres5",
+   "shape": "ellipsoid",
+   "center": [
+    26.38581929876693,
+    49,
+    -7
+   ],
+   "size": [
+    11,
+    11.457233587073176,
+    4
+   ],
+   "color": "cyan",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    111.03751102542182
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cres6",
+   "shape": "ellipsoid",
+   "center": [
+    22.060660171779823,
+    55,
+    -7
+   ],
+   "size": [
+    11,
+    9.894399988070802,
+    4
+   ],
+   "color": "cyan",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    135.0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cres7",
+   "shape": "ellipsoid",
+   "center": [
+    15.574025148547635,
+    59,
+    -7
+   ],
+   "size": [
+    11,
+    7.500000000000003,
+    4
+   ],
+   "color": "vio",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    157.38013505195957
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cres8",
+   "shape": "ellipsoid",
+   "center": [
+    9.0,
+    60,
+    -7
+   ],
+   "size": [
+    11,
+    4.5628335990023725,
+    4
+   ],
+   "color": "vio",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    170.53767779197437
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cres_tip",
+   "shape": "cone",
+   "center": [
+    28,
+    46,
+    -7
+   ],
+   "size": [
+    3,
+    6,
+    2
+   ],
+   "color": "gold",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Selyne.png",
+   "note": "全身: 白灰の肌の少女、金の三日月の冠、白い裾に金の点、背に桃〜水色の銀河色の大きな三日月"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Selyne_hotspring.png",
+   "note": "正面: 巨大な三日月が左右に広がる、裾は白い花弁状"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/SelyneWorking.webp",
+   "note": "夜景: 裾は黒茶に金の縁、背の三日月は桃青紫のグラデーション"
+  }
+ ],
+ "hover": 8
+}

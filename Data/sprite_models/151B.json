@@ -1,0 +1,347 @@
+{
+ "name": "モモエール (Whalaska Ignis)",
+ "gait": "quad",
+ "palette": {
+  "body": "#f08a78",
+  "belly": "#f2f4f6",
+  "cry": "#f4a4a8",
+  "cry2": "#e0707c",
+  "tooth": "#ffffff",
+  "mouth": "#2a2a38",
+  "eye": "#101018",
+  "fin": "#f08a78"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    17.55,
+    -2.7
+   ],
+   "size": [
+    29.7,
+    27.0,
+    45.9
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "bellyW",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    12.15,
+    2.7
+   ],
+   "size": [
+    24.3,
+    16.2,
+    40.5
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    21.6,
+    16.2
+   ],
+   "size": [
+    27.0,
+    24.3,
+    25.65
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "jaw",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    14.85,
+    20.25
+   ],
+   "size": [
+    25.65,
+    10.8,
+    21.6
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0.0,
+    18.23,
+    30.38
+   ],
+   "size": [
+    20.25,
+    1.08,
+    1.08
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "t1",
+   "shape": "cone",
+   "center": [
+    8.1,
+    16.88,
+    29.7
+   ],
+   "size": [
+    2.7,
+    4.05,
+    2.7
+   ],
+   "color": "tooth",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "t2",
+   "shape": "cone",
+   "center": [
+    2.7,
+    16.88,
+    30.24
+   ],
+   "size": [
+    2.7,
+    4.05,
+    2.7
+   ],
+   "color": "tooth",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    11.74,
+    25.65,
+    21.6
+   ],
+   "size": [
+    3.24,
+    4.05,
+    3.24
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crystA",
+   "shape": "cone",
+   "center": [
+    0.0,
+    39.15,
+    13.5
+   ],
+   "size": [
+    9.45,
+    22.95,
+    9.45
+   ],
+   "color": "cry",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crystB",
+   "shape": "cone",
+   "center": [
+    8.1,
+    36.45,
+    8.1
+   ],
+   "size": [
+    9.45,
+    20.25,
+    8.1
+   ],
+   "color": "cry2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crystC",
+   "shape": "cone",
+   "center": [
+    5.4,
+    33.75,
+    20.25
+   ],
+   "size": [
+    5.4,
+    10.8,
+    5.4
+   ],
+   "color": "cry",
+   "group": "head",
+   "rot": [
+    20,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crystD",
+   "shape": "cone",
+   "center": [
+    0.0,
+    33.75,
+    -8.1
+   ],
+   "size": [
+    8.1,
+    12.15,
+    8.1
+   ],
+   "color": "cry2",
+   "group": "body"
+  },
+  {
+   "name": "crystE",
+   "shape": "cone",
+   "center": [
+    8.1,
+    31.05,
+    -16.2
+   ],
+   "size": [
+    6.75,
+    10.8,
+    6.75
+   ],
+   "color": "cry",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "flipper",
+   "shape": "ellipsoid",
+   "center": [
+    14.85,
+    10.8,
+    2.7
+   ],
+   "size": [
+    4.05,
+    12.15,
+    13.5
+   ],
+   "color": "body",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tailfin",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    12.15,
+    -28.35
+   ],
+   "size": [
+    4.05,
+    16.2,
+    16.2
+   ],
+   "color": "fin",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leg_f",
+   "shape": "ellipsoid",
+   "center": [
+    9.45,
+    4.05,
+    10.8
+   ],
+   "size": [
+    8.1,
+    8.1,
+    9.45
+   ],
+   "color": "belly",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_b",
+   "shape": "ellipsoid",
+   "center": [
+    9.45,
+    4.05,
+    -12.15
+   ],
+   "size": [
+    8.1,
+    8.1,
+    9.45
+   ],
+   "color": "belly",
+   "group": "leg_br",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_IceNarwhal_Fire_icon_normal.png",
+   "note": "アイコン: 鮭色/桃色の頭、桃色の氷結晶、白い下あご+歯"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_IceNarwhal_Fire_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  }
+ ]
+}

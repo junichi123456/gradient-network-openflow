@@ -1,0 +1,311 @@
+{
+ "name": "ダイナモフ (Dynamoff)",
+ "gait": "biped",
+ "palette": {
+  "fl": "#3a3a46",
+  "fl2": "#4a4a58",
+  "dk": "#1c1c24",
+  "gold": "#f0c030",
+  "white": "#f2f2f2",
+  "beak": "#2a2a30",
+  "foot": "#d8a030"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    27,
+    22,
+    24
+   ],
+   "color": "fl",
+   "group": "body"
+  },
+  {
+   "name": "lump1",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    10,
+    -4
+   ],
+   "size": [
+    14,
+    14,
+    14
+   ],
+   "color": "fl2",
+   "group": "body"
+  },
+  {
+   "name": "lump2",
+   "shape": "ellipsoid",
+   "center": [
+    -9,
+    10,
+    -4
+   ],
+   "size": [
+    14,
+    14,
+    14
+   ],
+   "color": "fl2",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    9
+   ],
+   "size": [
+    16,
+    12,
+    10
+   ],
+   "color": "fl2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    6
+   ],
+   "size": [
+    17,
+    12,
+    14
+   ],
+   "color": "dk",
+   "group": "head"
+  },
+  {
+   "name": "zz1",
+   "shape": "cone",
+   "center": [
+    6,
+    26,
+    5
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "zz2",
+   "shape": "cone",
+   "center": [
+    3,
+    28,
+    3
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hood_edge",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    10
+   ],
+   "size": [
+    15,
+    3,
+    6
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    15
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "zw1",
+   "shape": "cone",
+   "center": [
+    4,
+    12,
+    13
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "zw2",
+   "shape": "cone",
+   "center": [
+    -1,
+    9,
+    13.5
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "zb1",
+   "shape": "cone",
+   "center": [
+    8,
+    17,
+    -10
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "gold",
+   "group": "body",
+   "rot": [
+    -30,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "zb2",
+   "shape": "cone",
+   "center": [
+    2,
+    12,
+    -12
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "gold",
+   "group": "body",
+   "rot": [
+    -30,
+    0,
+    20
+   ]
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    12,
+    0
+   ],
+   "size": [
+    6,
+    12,
+    14
+   ],
+   "color": "dk",
+   "group": "wing_l",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "box",
+   "center": [
+    4,
+    1,
+    3
+   ],
+   "size": [
+    2,
+    2.4,
+    3
+   ],
+   "color": "foot",
+   "group": "leg_fl",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_ThunderFluffyBird_icon_normal.png",
+   "note": "頭部: 黒灰のフード状の頭、金のギザギザ縁、黒いくちばし、胸に白い稲妻"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Dynamoff_slep.png",
+   "note": "ゲーム内: 黒灰のもこもこの丸い体、黄色の稲妻模様、白い尾の先。球形"
+  },
+  {
+   "url": "https://paldb.cc/ja/Dynamoff",
+   "note": "丸い鳥型"
+  }
+ ]
+}

@@ -1,0 +1,339 @@
+{
+ "name": "パピテフ (Cinnamoth)",
+ "gait": "hover",
+ "palette": {
+  "body": "#f2dd86",
+  "fluff": "#f7edd2",
+  "eye": "#2da898",
+  "eyeb": "#7fe0cf",
+  "orange": "#f58a2a",
+  "orange2": "#ffb24a",
+  "mar": "#8a2d4c",
+  "cream": "#fff1cf",
+  "ear": "#f69a3a",
+  "foot": "#8a5a3a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    11,
+    12,
+    10
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "fluff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    4
+   ],
+   "size": [
+    14,
+    8,
+    9
+   ],
+   "color": "fluff",
+   "group": "body"
+  },
+  {
+   "name": "fluff2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    3
+   ],
+   "size": [
+    11,
+    6,
+    8
+   ],
+   "color": "fluff",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    2
+   ],
+   "size": [
+    14,
+    11,
+    11
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "hfluff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    5
+   ],
+   "size": [
+    14,
+    5,
+    8
+   ],
+   "color": "fluff",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    20,
+    7.2
+   ],
+   "size": [
+    3.6,
+    4.4,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyeb",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    21,
+    8
+   ],
+   "size": [
+    1.6,
+    1.8,
+    0.8
+   ],
+   "color": "eyeb",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    27,
+    0
+   ],
+   "size": [
+    5,
+    10,
+    2.6
+   ],
+   "color": "ear",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earl",
+   "shape": "cone",
+   "center": [
+    8,
+    31,
+    -3
+   ],
+   "size": [
+    3,
+    8,
+    2.4
+   ],
+   "color": "orange",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wmar",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    16,
+    -4
+   ],
+   "size": [
+    24,
+    21,
+    1.6
+   ],
+   "color": "mar",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wor",
+   "shape": "ellipsoid",
+   "center": [
+    14.5,
+    17,
+    -3.3
+   ],
+   "size": [
+    20,
+    17,
+    1.4
+   ],
+   "color": "orange",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wor2",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    17.5,
+    -2.6
+   ],
+   "size": [
+    13,
+    11,
+    1.2
+   ],
+   "color": "orange2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wcream",
+   "shape": "ellipsoid",
+   "center": [
+    21,
+    22,
+    -3
+   ],
+   "size": [
+    8,
+    10,
+    1.2
+   ],
+   "color": "cream",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wlow",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    8,
+    -4
+   ],
+   "size": [
+    14,
+    16,
+    1.4
+   ],
+   "color": "mar",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wlow2",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    8,
+    -3.3
+   ],
+   "size": [
+    10,
+    12,
+    1.2
+   ],
+   "color": "orange2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -6
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "fluff",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Cinnamoth.png",
+   "note": "全身: 黄色い小さな体と白い毛の襟・大きなエメラルドの目・巨大なオレンジの翅に赤紫の縁取りと白い筋・橙の耳"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Cinnamoth_bis.png",
+   "note": "ゲーム内: 翅は大きく橙と栗色の同心状、体は小さい"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_CuteButterfly_icon_normal.png",
+   "note": "正面アップ"
+  }
+ ],
+ "hover": 7
+}

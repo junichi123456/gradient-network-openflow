@@ -1,0 +1,729 @@
+{
+ "name": "ハナミズチ (Ophydia)",
+ "gait": "slither",
+ "palette": {
+  "wh": "#c8c0d8",
+  "wh2": "#b4abc8",
+  "cream": "#d8d0d4",
+  "pink": "#d8587c",
+  "pink2": "#e87c98",
+  "pink3": "#e8a0b4",
+  "gold": "#c89a28",
+  "eye": "#5a3a8c",
+  "spot": "#d86888",
+  "tl": "#a8a0c4",
+  "blk": "#101018"
+ },
+ "parts": [
+  {
+   "name": "coil",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    0
+   ],
+   "size": [
+    14,
+    9,
+    15
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "neck0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    1.5
+   ],
+   "size": [
+    7.5,
+    7,
+    7.5
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "neck1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    3
+   ],
+   "size": [
+    6.5,
+    7,
+    6.5
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "neck2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    3.8
+   ],
+   "size": [
+    6,
+    7,
+    6
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "spot",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    8,
+    6
+   ],
+   "size": [
+    2.5,
+    3,
+    1
+   ],
+   "color": "spot",
+   "group": "body"
+  },
+  {
+   "name": "spotb",
+   "shape": "ellipsoid",
+   "center": [
+    -3.6,
+    8,
+    6
+   ],
+   "size": [
+    2.5,
+    3,
+    1
+   ],
+   "color": "spot",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    5
+   ],
+   "size": [
+    10,
+    8.5,
+    10
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    9.8
+   ],
+   "size": [
+    6,
+    5,
+    4
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    29.5,
+    8.4
+   ],
+   "size": [
+    1.8,
+    2.6,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26.8,
+    10.8
+   ],
+   "size": [
+    4.5,
+    1,
+    1
+   ],
+   "color": "pink2",
+   "group": "head"
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    27,
+    5
+   ],
+   "size": [
+    4,
+    5,
+    3
+   ],
+   "color": "cream",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crownc",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    7.5
+   ],
+   "size": [
+    2.4,
+    4,
+    2
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "crowns",
+   "shape": "ellipsoid",
+   "center": [
+    2.8,
+    33.4,
+    7
+   ],
+   "size": [
+    2.2,
+    3.6,
+    2
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crestback",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    0
+   ],
+   "size": [
+    7,
+    13,
+    3.5
+   ],
+   "color": "pink",
+   "group": "head",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest1",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    35,
+    1.5
+   ],
+   "size": [
+    5,
+    12,
+    3
+   ],
+   "color": "pink2",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crest2",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    31,
+    3
+   ],
+   "size": [
+    4.5,
+    9,
+    3
+   ],
+   "color": "pink3",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -60
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ribbon",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    18,
+    5.5
+   ],
+   "size": [
+    1.8,
+    9,
+    1.8
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "petal0",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    8,
+    12.5
+   ],
+   "size": [
+    8,
+    15,
+    4
+   ],
+   "color": "pink2",
+   "group": "body",
+   "rot": [
+    38.0,
+    0,
+    -0.0
+   ]
+  },
+  {
+   "name": "petal1",
+   "shape": "ellipsoid",
+   "center": [
+    8.838834764831843,
+    8,
+    8.838834764831844
+   ],
+   "size": [
+    8,
+    15,
+    4
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    26.870057685088806,
+    0,
+    -26.870057685088803
+   ]
+  },
+  {
+   "name": "petal2",
+   "shape": "ellipsoid",
+   "center": [
+    12.5,
+    8,
+    7.654042494670958e-16
+   ],
+   "size": [
+    8,
+    15,
+    4
+   ],
+   "color": "pink2",
+   "group": "body",
+   "rot": [
+    2.326828918379971e-15,
+    0,
+    -38.0
+   ]
+  },
+  {
+   "name": "petal3",
+   "shape": "ellipsoid",
+   "center": [
+    8.838834764831844,
+    8,
+    -8.838834764831843
+   ],
+   "size": [
+    8,
+    15,
+    4
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    -26.870057685088803,
+    0,
+    -26.870057685088806
+   ]
+  },
+  {
+   "name": "petal4",
+   "shape": "ellipsoid",
+   "center": [
+    1.5308084989341915e-15,
+    8,
+    -12.5
+   ],
+   "size": [
+    8,
+    15,
+    4
+   ],
+   "color": "pink2",
+   "group": "body",
+   "rot": [
+    -38.0,
+    0,
+    -4.653657836759942e-15
+   ]
+  },
+  {
+   "name": "petal5",
+   "shape": "ellipsoid",
+   "center": [
+    -8.838834764831843,
+    8,
+    -8.838834764831846
+   ],
+   "size": [
+    8,
+    15,
+    4
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    -26.870057685088813,
+    0,
+    26.870057685088803
+   ]
+  },
+  {
+   "name": "petal6",
+   "shape": "ellipsoid",
+   "center": [
+    -12.5,
+    8,
+    -2.296212748401287e-15
+   ],
+   "size": [
+    8,
+    15,
+    4
+   ],
+   "color": "pink2",
+   "group": "body",
+   "rot": [
+    -6.980486755139913e-15,
+    0,
+    38.0
+   ]
+  },
+  {
+   "name": "petal7",
+   "shape": "ellipsoid",
+   "center": [
+    -8.838834764831846,
+    8,
+    8.838834764831843
+   ],
+   "size": [
+    8,
+    15,
+    4
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    26.8700576850888,
+    0,
+    26.870057685088813
+   ]
+  },
+  {
+   "name": "ipetal0",
+   "shape": "ellipsoid",
+   "center": [
+    4.949747468305832,
+    9,
+    4.949747468305833
+   ],
+   "size": [
+    6,
+    11,
+    3
+   ],
+   "color": "pink3",
+   "group": "body",
+   "rot": [
+    14.142135623730951,
+    0,
+    -14.14213562373095
+   ]
+  },
+  {
+   "name": "ipetal1",
+   "shape": "ellipsoid",
+   "center": [
+    4.949747468305833,
+    9,
+    -4.949747468305832
+   ],
+   "size": [
+    6,
+    11,
+    3
+   ],
+   "color": "pink3",
+   "group": "body",
+   "rot": [
+    -14.14213562373095,
+    0,
+    -14.142135623730951
+   ]
+  },
+  {
+   "name": "ipetal2",
+   "shape": "ellipsoid",
+   "center": [
+    -4.949747468305832,
+    9,
+    -4.949747468305834
+   ],
+   "size": [
+    6,
+    11,
+    3
+   ],
+   "color": "pink3",
+   "group": "body",
+   "rot": [
+    -14.142135623730955,
+    0,
+    14.14213562373095
+   ]
+  },
+  {
+   "name": "ipetal3",
+   "shape": "ellipsoid",
+   "center": [
+    -4.949747468305834,
+    9,
+    4.949747468305832
+   ],
+   "size": [
+    6,
+    11,
+    3
+   ],
+   "color": "pink3",
+   "group": "body",
+   "rot": [
+    14.142135623730947,
+    0,
+    14.142135623730955
+   ]
+  },
+  {
+   "name": "tail0",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    2.9,
+    -9
+   ],
+   "size": [
+    5.2,
+    5.2,
+    8
+   ],
+   "color": "tl",
+   "group": "tail"
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    2.65,
+    -15
+   ],
+   "size": [
+    4.7,
+    4.7,
+    8
+   ],
+   "color": "tl",
+   "group": "tail"
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    2.4,
+    -21
+   ],
+   "size": [
+    4.2,
+    4.2,
+    8
+   ],
+   "color": "tl",
+   "group": "tail"
+  },
+  {
+   "name": "tail3",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    2.15,
+    -27
+   ],
+   "size": [
+    3.7,
+    3.7,
+    8
+   ],
+   "color": "tl",
+   "group": "tail"
+  },
+  {
+   "name": "tail4",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    1.9000000000000001,
+    -33
+   ],
+   "size": [
+    3.2,
+    3.2,
+    8
+   ],
+   "color": "tl",
+   "group": "tail"
+  },
+  {
+   "name": "tail5",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    1.6500000000000001,
+    -38
+   ],
+   "size": [
+    2.7,
+    2.7,
+    8
+   ],
+   "color": "tl",
+   "group": "tail"
+  },
+  {
+   "name": "band1",
+   "shape": "ellipsoid",
+   "center": [
+    8.4,
+    2.9,
+    -22
+   ],
+   "size": [
+    4.6,
+    4.6,
+    1.6
+   ],
+   "color": "gold",
+   "group": "tail"
+  },
+  {
+   "name": "band2",
+   "shape": "ellipsoid",
+   "center": [
+    7.6,
+    2.3,
+    -34
+   ],
+   "size": [
+    3.6,
+    3.6,
+    1.6
+   ],
+   "color": "gold",
+   "group": "tail"
+  },
+  {
+   "name": "bud",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    3.5,
+    -41.5
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "pink2",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/175",
+   "note": "ゲーム内SS: 白紫の蛇身が蓮の花弁の中から首をもたげ、頭に桃色の花弁冠、金のリボンとひげ、長い尾が地面を這い先端に桃色のつぼみ"
+  }
+ ]
+}

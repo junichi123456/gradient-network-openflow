@@ -1,0 +1,523 @@
+{
+ "name": "イグニクス (Red Armor Bird)",
+ "gait": "biped",
+ "palette": {
+  "red": "#d8382a",
+  "red2": "#b02a22",
+  "red3": "#ee5a34",
+  "blk": "#25222a",
+  "blk2": "#3c3842",
+  "yel": "#f4d24a",
+  "eye": "#3fc8e8",
+  "beak": "#1c1a20",
+  "leg": "#2a2730"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -2
+   ],
+   "size": [
+    18,
+    20,
+    22
+   ],
+   "color": "red2",
+   "group": "body"
+  },
+  {
+   "name": "back",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    -6
+   ],
+   "size": [
+    15,
+    12,
+    15
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    6
+   ],
+   "size": [
+    15,
+    16,
+    10
+   ],
+   "color": "red",
+   "group": "body"
+  },
+  {
+   "name": "cf0",
+   "shape": "cone",
+   "center": [
+    0,
+    13,
+    8
+   ],
+   "size": [
+    5,
+    8,
+    3
+   ],
+   "color": "red3",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "cf1",
+   "shape": "cone",
+   "center": [
+    -5,
+    14,
+    8
+   ],
+   "size": [
+    5,
+    8,
+    3
+   ],
+   "color": "red3",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    200
+   ]
+  },
+  {
+   "name": "cf2",
+   "shape": "cone",
+   "center": [
+    5,
+    14,
+    8
+   ],
+   "size": [
+    5,
+    8,
+    3
+   ],
+   "color": "red3",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    160
+   ]
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    5
+   ],
+   "size": [
+    9,
+    12,
+    9
+   ],
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37,
+    8
+   ],
+   "size": [
+    12,
+    10,
+    13
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    36,
+    15.5
+   ],
+   "size": [
+    5,
+    7,
+    4
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "beak2",
+   "shape": "cone",
+   "center": [
+    0,
+    34,
+    14.5
+   ],
+   "size": [
+    4,
+    5,
+    3
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.7,
+    38,
+    11
+   ],
+   "size": [
+    2.4,
+    2.6,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "stripe",
+   "shape": "wedge",
+   "center": [
+    5.5,
+    40,
+    10
+   ],
+   "size": [
+    2,
+    8,
+    8
+   ],
+   "color": "yel",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crest0",
+   "shape": "cone",
+   "center": [
+    0.0,
+    45.8,
+    5
+   ],
+   "size": [
+    4,
+    14,
+    3
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest1",
+   "shape": "cone",
+   "center": [
+    -3.6,
+    45.4,
+    5
+   ],
+   "size": [
+    4,
+    12,
+    3
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    25
+   ]
+  },
+  {
+   "name": "crest2",
+   "shape": "cone",
+   "center": [
+    3.6,
+    45.4,
+    5
+   ],
+   "size": [
+    4,
+    12,
+    3
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    -25
+   ]
+  },
+  {
+   "name": "crest3",
+   "shape": "cone",
+   "center": [
+    -6.3,
+    44.8,
+    5
+   ],
+   "size": [
+    4,
+    9,
+    3
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    50
+   ]
+  },
+  {
+   "name": "crest4",
+   "shape": "cone",
+   "center": [
+    6.3,
+    44.8,
+    5
+   ],
+   "size": [
+    4,
+    9,
+    3
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    -50
+   ]
+  },
+  {
+   "name": "wing",
+   "shape": "wedge",
+   "center": [
+    10,
+    28,
+    -3
+   ],
+   "size": [
+    5,
+    16,
+    20
+   ],
+   "color": "red",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing2",
+   "shape": "wedge",
+   "center": [
+    11.5,
+    25,
+    -6
+   ],
+   "size": [
+    4,
+    12,
+    15
+   ],
+   "color": "blk",
+   "group": "wing_l",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    5,
+    7,
+    0
+   ],
+   "size": [
+    4,
+    14,
+    4
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "box",
+   "center": [
+    5,
+    1,
+    3
+   ],
+   "size": [
+    6,
+    2,
+    8
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    14,
+    -1
+   ],
+   "size": [
+    7,
+    8,
+    8
+   ],
+   "color": "red2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail0",
+   "shape": "cone",
+   "center": [
+    0,
+    18,
+    -15
+   ],
+   "size": [
+    5,
+    11,
+    3
+   ],
+   "color": "red",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail1",
+   "shape": "cone",
+   "center": [
+    -4,
+    18,
+    -15
+   ],
+   "size": [
+    5,
+    11,
+    3
+   ],
+   "color": "blk",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    18
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cone",
+   "center": [
+    4,
+    18,
+    -15
+   ],
+   "size": [
+    5,
+    11,
+    3
+   ],
+   "color": "blk",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    -18
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_RedArmorBird_icon_normal.png",
+   "note": "頭部アップ: 黒い頭と嘴、赤いギザギザの冠に黄色の稲妻、水色の目、胸に赤い羽毛"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_RedArmorBird_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799209",
+   "note": "game8 乗用サドル画像のみ。翼・脚は猛禽体型として推定"
+  }
+ ]
+}

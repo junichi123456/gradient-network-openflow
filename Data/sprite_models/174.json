@@ -1,0 +1,363 @@
+{
+ "name": "センコ (Flaracle)",
+ "gait": "biped",
+ "palette": {
+  "or": "#d89018",
+  "or2": "#e8a828",
+  "hair": "#241c30",
+  "hair2": "#322840",
+  "white": "#d4d0cc",
+  "red": "#c0382a",
+  "flame": "#f08a18",
+  "core": "#ffd860",
+  "blk": "#18141c",
+  "spot": "#e0643a",
+  "dk": "#2c2230"
+ },
+ "parts": [
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    3,
+    4.5,
+    0
+   ],
+   "size": [
+    3.6,
+    9,
+    3.6
+   ],
+   "color": "dk",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    1,
+    1.5
+   ],
+   "size": [
+    4,
+    2,
+    5
+   ],
+   "color": "red",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "robe",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    0
+   ],
+   "size": [
+    12,
+    18,
+    8
+   ],
+   "color": "or",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    3.6
+   ],
+   "size": [
+    5,
+    7,
+    2.5
+   ],
+   "color": "or2",
+   "group": "body"
+  },
+  {
+   "name": "spot",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    4.6
+   ],
+   "size": [
+    3.5,
+    4.5,
+    1
+   ],
+   "color": "spot",
+   "group": "body"
+  },
+  {
+   "name": "ruff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23.5,
+    2.6
+   ],
+   "size": [
+    7,
+    6,
+    4.5
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "cloak",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -5
+   ],
+   "size": [
+    19,
+    34,
+    7
+   ],
+   "color": "hair",
+   "group": "body"
+  },
+  {
+   "name": "cloak2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -4.5
+   ],
+   "size": [
+    18,
+    16,
+    7
+   ],
+   "color": "hair2",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    0
+   ],
+   "size": [
+    12,
+    10,
+    10
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29.5,
+    4
+   ],
+   "size": [
+    7.5,
+    6,
+    4.5
+   ],
+   "color": "or2",
+   "group": "head"
+  },
+  {
+   "name": "crest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33.8,
+    3.4
+   ],
+   "size": [
+    6,
+    3.4,
+    3
+   ],
+   "color": "or2",
+   "group": "head"
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    4.2,
+    28.2,
+    4.4
+   ],
+   "size": [
+    3.4,
+    2.2,
+    2.6
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    2.4,
+    30,
+    6
+   ],
+   "size": [
+    1.8,
+    1.2,
+    0.8
+   ],
+   "color": "red",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    4.2,
+    37,
+    -1
+   ],
+   "size": [
+    4.6,
+    7.5,
+    3.6
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sleeve",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    17.5,
+    0.5
+   ],
+   "size": [
+    5.5,
+    15,
+    6.5
+   ],
+   "color": "or",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -7
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    9.5,
+    2.5
+   ],
+   "size": [
+    3,
+    3,
+    3.4
+   ],
+   "color": "white",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "ellipsoid",
+   "center": [
+    10.8,
+    8,
+    4
+   ],
+   "size": [
+    1.8,
+    1.4,
+    2.6
+   ],
+   "color": "red",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "flame",
+   "shape": "ellipsoid",
+   "center": [
+    -13.5,
+    19,
+    5
+   ],
+   "size": [
+    6.5,
+    8,
+    6.5
+   ],
+   "color": "flame",
+   "group": "body"
+  },
+  {
+   "name": "flamecore",
+   "shape": "ellipsoid",
+   "center": [
+    -13.5,
+    17.5,
+    5.5
+   ],
+   "size": [
+    4,
+    4.5,
+    4
+   ],
+   "color": "core",
+   "group": "body"
+  },
+  {
+   "name": "flametip",
+   "shape": "ellipsoid",
+   "center": [
+    -13.5,
+    24,
+    5
+   ],
+   "size": [
+    3,
+    5,
+    3
+   ],
+   "color": "flame",
+   "group": "body"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/174",
+   "note": "ゲーム内SS: 黒い長髪のマントが地面近くまで垂れる、橙の着物状の胴と大きな袖、白い胸毛、黒い猫耳の頭に橙の額飾り、赤い爪、横に浮かぶ炎"
+  }
+ ]
+}

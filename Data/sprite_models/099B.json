@@ -1,0 +1,470 @@
+{
+ "name": "ゴルディング (Dark Scorpion Ground)",
+ "gait": "quad",
+ "palette": {
+  "sil": "#a8a699",
+  "sil2": "#85837a",
+  "dk": "#4a4a46",
+  "gold": "#c9a45a",
+  "gold2": "#e2c378",
+  "plume": "#f2dc3c",
+  "plume2": "#e8b82a",
+  "eye": "#e03030",
+  "claw": "#b39a6a",
+  "stinger": "#d9bd6a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    0
+   ],
+   "size": [
+    18,
+    11,
+    24
+   ],
+   "color": "sil",
+   "group": "body"
+  },
+  {
+   "name": "plate1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -3
+   ],
+   "size": [
+    15,
+    5,
+    10
+   ],
+   "color": "sil2",
+   "group": "body"
+  },
+  {
+   "name": "plate2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    6
+   ],
+   "size": [
+    13,
+    5,
+    8
+   ],
+   "color": "dk",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    0
+   ],
+   "size": [
+    15,
+    5,
+    20
+   ],
+   "color": "dk",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    14
+   ],
+   "size": [
+    11,
+    9,
+    10
+   ],
+   "color": "sil",
+   "group": "head"
+  },
+  {
+   "name": "mask",
+   "shape": "wedge",
+   "center": [
+    0,
+    14,
+    18
+   ],
+   "size": [
+    9,
+    7,
+    7
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    180,
+    0
+   ]
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    17
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "gold2",
+   "group": "head",
+   "rot": [
+    25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    14.5,
+    19
+   ],
+   "size": [
+    2.2,
+    1.8,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "plume",
+   "shape": "cone",
+   "center": [
+    0,
+    23,
+    9
+   ],
+   "size": [
+    10,
+    10,
+    8
+   ],
+   "color": "plume",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "plume2",
+   "shape": "cone",
+   "center": [
+    4,
+    22,
+    8
+   ],
+   "size": [
+    6,
+    9,
+    5
+   ],
+   "color": "plume2",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    12,
+    14
+   ],
+   "size": [
+    5,
+    5,
+    12
+   ],
+   "color": "sil2",
+   "group": "arm_l",
+   "rot": [
+    30,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "pinc",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    12,
+    22
+   ],
+   "size": [
+    8,
+    6,
+    10
+   ],
+   "color": "claw",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "pinc2",
+   "shape": "cone",
+   "center": [
+    13,
+    12,
+    29
+   ],
+   "size": [
+    4,
+    7,
+    4
+   ],
+   "color": "sil",
+   "group": "arm_l",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg0",
+   "shape": "cylinder",
+   "center": [
+    8,
+    5,
+    7
+   ],
+   "size": [
+    3.4,
+    10,
+    3.4
+   ],
+   "color": "dk",
+   "group": "leg_fl",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "foot0",
+   "shape": "cone",
+   "center": [
+    11,
+    0.5,
+    7
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "sil2",
+   "group": "leg_fl",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg1",
+   "shape": "cylinder",
+   "center": [
+    8,
+    5,
+    -8
+   ],
+   "size": [
+    3.4,
+    10,
+    3.4
+   ],
+   "color": "dk",
+   "group": "leg_bl",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "foot1",
+   "shape": "cone",
+   "center": [
+    11,
+    0.5,
+    -8
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "sil2",
+   "group": "leg_bl",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg_m",
+   "shape": "cylinder",
+   "center": [
+    8,
+    5,
+    0
+   ],
+   "size": [
+    3.4,
+    10,
+    3.4
+   ],
+   "color": "dk",
+   "group": "leg_fl",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    -12
+   ],
+   "size": [
+    7,
+    7,
+    7
+   ],
+   "color": "sil2",
+   "group": "tail"
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    -17
+   ],
+   "size": [
+    6.5,
+    6.5,
+    6.5
+   ],
+   "color": "sil2",
+   "group": "tail"
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    -18
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "sil2",
+   "group": "tail"
+  },
+  {
+   "name": "tail3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    -15
+   ],
+   "size": [
+    5.5,
+    5.5,
+    5.5
+   ],
+   "color": "sil2",
+   "group": "tail"
+  },
+  {
+   "name": "sting",
+   "shape": "cone",
+   "center": [
+    0,
+    31,
+    -10
+   ],
+   "size": [
+    3.6,
+    8,
+    3.6
+   ],
+   "color": "stinger",
+   "group": "tail",
+   "rot": [
+    130,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_DarkScorpion_Ground_icon_normal.png",
+   "note": "頭部アップ: 銀灰の装甲、金色の面と角、黄色い炎状の房、赤い目、左に大きな鋏"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_DarkScorpion_Ground_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799217",
+   "note": "game8 ページ（地図のみ）。胴・脚・尾は大型サソリとして推定"
+  }
+ ]
+}

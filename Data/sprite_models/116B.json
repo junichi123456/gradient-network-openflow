@@ -1,0 +1,411 @@
+{
+ "name": "ソワレーヌ (Sibelyx Primo)",
+ "gait": "hover",
+ "palette": {
+  "white": "#e6e1cd",
+  "white2": "#d3cdb3",
+  "grey": "#9b8a5a",
+  "blue": "#8a6f3a",
+  "lblue": "#b99d58",
+  "eye": "#49b2b5",
+  "dark": "#2a2418"
+ },
+ "hover": 6,
+ "parts": [
+  {
+   "name": "abd",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    -3
+   ],
+   "size": [
+    11,
+    13,
+    11
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "abd_s1",
+   "shape": "cylinder",
+   "center": [
+    0,
+    12,
+    -3
+   ],
+   "size": [
+    11.4,
+    1.2,
+    11.4
+   ],
+   "color": "grey",
+   "group": "body"
+  },
+  {
+   "name": "abd_s2",
+   "shape": "cylinder",
+   "center": [
+    0,
+    8.5,
+    -3
+   ],
+   "size": [
+    10,
+    1.2,
+    10
+   ],
+   "color": "grey",
+   "group": "body"
+  },
+  {
+   "name": "tail",
+   "shape": "cylinder",
+   "center": [
+    0,
+    3,
+    -5
+   ],
+   "size": [
+    2,
+    7,
+    2
+   ],
+   "color": "white2",
+   "group": "tail"
+  },
+  {
+   "name": "thorax",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    0
+   ],
+   "size": [
+    15,
+    13,
+    14
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "knot",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    2
+   ],
+   "size": [
+    4,
+    3,
+    4
+   ],
+   "color": "blue",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    3
+   ],
+   "size": [
+    11,
+    9,
+    11
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    8
+   ],
+   "size": [
+    6,
+    4.5,
+    2.5
+   ],
+   "color": "eye",
+   "group": "head"
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    9.2
+   ],
+   "size": [
+    2.4,
+    2.4,
+    1
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "ant",
+   "shape": "cylinder",
+   "center": [
+    3,
+    31,
+    8
+   ],
+   "size": [
+    1,
+    6,
+    1
+   ],
+   "color": "lblue",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hat_ring",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    1
+   ],
+   "size": [
+    31,
+    2,
+    27
+   ],
+   "color": "grey",
+   "group": "head"
+  },
+  {
+   "name": "hat",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    1
+   ],
+   "size": [
+    29,
+    4,
+    25
+   ],
+   "color": "white2",
+   "group": "head"
+  },
+  {
+   "name": "crown",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    0
+   ],
+   "size": [
+    16,
+    5,
+    14
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "hat_spot",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    34,
+    4
+   ],
+   "size": [
+    5.5,
+    1.2,
+    3.5
+   ],
+   "color": "blue",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "leaf",
+   "shape": "wedge",
+   "center": [
+    5,
+    43,
+    -4
+   ],
+   "size": [
+    3,
+    15,
+    8
+   ],
+   "color": "lblue",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leaf_chev",
+   "shape": "box",
+   "center": [
+    6.4,
+    43,
+    -1
+   ],
+   "size": [
+    2.5,
+    5,
+    1
+   ],
+   "color": "blue",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    21,
+    -4
+   ],
+   "size": [
+    28,
+    1.6,
+    20
+   ],
+   "color": "white",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_s1",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    21.9,
+    -4
+   ],
+   "size": [
+    2.5,
+    0.6,
+    17
+   ],
+   "color": "grey",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_s2",
+   "shape": "ellipsoid",
+   "center": [
+    20,
+    22.2,
+    -4
+   ],
+   "size": [
+    2.5,
+    0.6,
+    16
+   ],
+   "color": "grey",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_tip",
+   "shape": "ellipsoid",
+   "center": [
+    29,
+    22.5,
+    -9
+   ],
+   "size": [
+    4,
+    1,
+    6
+   ],
+   "color": "blue",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "cylinder",
+   "center": [
+    10,
+    16,
+    3
+   ],
+   "size": [
+    1.8,
+    13,
+    1.8
+   ],
+   "color": "white2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -28
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_WhiteMoth_Neutral_icon_normal.png",
+   "note": "顔: クリーム〜象牙の体、金茶の触角・帽子の同心円と紋、緑青の目。形はシルキーヌ(116)と同じ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Sibelyx_bis.png",
+   "note": "全身: 白青の蛾。つば広の円盤帽・2連の球体の胴・灰の縞・白青の羽・長い腕と垂れる尾"
+  }
+ ]
+}

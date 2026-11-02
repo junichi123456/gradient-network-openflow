@@ -1,0 +1,386 @@
+{
+ "name": "ペコドン (Relaxaurus)",
+ "gait": "biped",
+ "palette": {
+  "skin": "#33b8d8",
+  "belly": "#f1ecc2",
+  "stripe": "#1f4f8a",
+  "mouth": "#f08a86",
+  "eye": "#101820",
+  "fin": "#2a9ac0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    17,
+    22,
+    17
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    5
+   ],
+   "size": [
+    11,
+    19,
+    10
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    4
+   ],
+   "size": [
+    8,
+    17,
+    8
+   ],
+   "color": "skin",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "neck_b",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    6.5
+   ],
+   "size": [
+    5.5,
+    15,
+    4
+   ],
+   "color": "belly",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    7
+   ],
+   "size": [
+    9.5,
+    8,
+    12
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38.6,
+    12.5
+   ],
+   "size": [
+    8,
+    6,
+    7
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    37,
+    15
+   ],
+   "size": [
+    6,
+    0.8,
+    2
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "nostril",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    15.5
+   ],
+   "size": [
+    4,
+    1.6,
+    1.4
+   ],
+   "color": "stripe",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    41,
+    9.5
+   ],
+   "size": [
+    1.8,
+    2.2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "stripe",
+   "shape": "box",
+   "center": [
+    0,
+    27,
+    -1
+   ],
+   "size": [
+    10,
+    2,
+    12
+   ],
+   "color": "stripe",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "stripe2",
+   "shape": "box",
+   "center": [
+    0,
+    20,
+    -4
+   ],
+   "size": [
+    13,
+    2,
+    11
+   ],
+   "color": "stripe",
+   "group": "body"
+  },
+  {
+   "name": "stripe3",
+   "shape": "box",
+   "center": [
+    0,
+    12,
+    -4
+   ],
+   "size": [
+    14,
+    2,
+    10
+   ],
+   "color": "stripe",
+   "group": "body"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    17,
+    4
+   ],
+   "size": [
+    4,
+    8,
+    5
+   ],
+   "color": "skin",
+   "group": "arm_r",
+   "rot": [
+    -20,
+    0,
+    -15
+   ]
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    -9,
+    17,
+    4
+   ],
+   "size": [
+    4,
+    8,
+    5
+   ],
+   "color": "skin",
+   "group": "arm_l",
+   "rot": [
+    -20,
+    0,
+    15
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    5,
+    4,
+    0
+   ],
+   "size": [
+    7,
+    8,
+    8
+   ],
+   "color": "skin",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    1.2,
+    2.5
+   ],
+   "size": [
+    7,
+    3,
+    9
+   ],
+   "color": "skin",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    8,
+    -14
+   ],
+   "size": [
+    13,
+    26,
+    13
+   ],
+   "color": "skin",
+   "group": "tail",
+   "rot": [
+    -96,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_s",
+   "shape": "box",
+   "center": [
+    0,
+    9,
+    -14
+   ],
+   "size": [
+    11,
+    2,
+    5
+   ],
+   "color": "stripe",
+   "group": "tail"
+  },
+  {
+   "name": "fin",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -26
+   ],
+   "size": [
+    3,
+    12,
+    5
+   ],
+   "color": "fin",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fin2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -30
+   ],
+   "size": [
+    14,
+    3,
+    8
+   ],
+   "color": "fin",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Relaxaurus_bis.png",
+   "note": "正面ポーズ: 水色の長首の恐竜、クリーム色の腹、紺の縞、短い腕、大きな尾に紺の模様"
+  },
+  {
+   "url": "Tools/.refcache/094/icon.png",
+   "note": "頭部: 黒い点目、ピンクの口、水色"
+  },
+  {
+   "url": "Tools/.refcache/094/wiki_Relaxaurus_bis.png",
+   "note": "尾の先に濃青の縞とヒレ"
+  }
+ ]
+}

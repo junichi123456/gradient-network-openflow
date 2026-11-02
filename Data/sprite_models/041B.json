@@ -1,0 +1,340 @@
+{
+ "name": "アズルーナ (Azurobe Cryst)",
+ "gait": "slither",
+ "palette": {
+  "body": "#d8dde4",
+  "body2": "#aab4c0",
+  "belly": "#f4f6fa",
+  "head": "#e4e8ee",
+  "head2": "#f6f8fa",
+  "mane": "#2ea0d4",
+  "mane2": "#5ec0e6",
+  "eye": "#4a5ad0",
+  "whisk": "#9aa6b4",
+  "fin": "#d6f0fa"
+ },
+ "parts": [
+  {
+   "name": "tail3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    -30
+   ],
+   "size": [
+    6,
+    7,
+    12
+   ],
+   "color": "body2",
+   "group": "tail"
+  },
+  {
+   "name": "tail_fin",
+   "shape": "wedge",
+   "center": [
+    0,
+    6,
+    -38
+   ],
+   "size": [
+    2,
+    12,
+    10
+   ],
+   "color": "fin",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -22
+   ],
+   "size": [
+    9,
+    9,
+    16
+   ],
+   "color": "body2",
+   "group": "tail"
+  },
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    -8
+   ],
+   "size": [
+    15,
+    17,
+    28
+   ],
+   "color": "body2",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -8
+   ],
+   "size": [
+    12,
+    10,
+    26
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    6
+   ],
+   "size": [
+    14,
+    18,
+    14
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    8
+   ],
+   "size": [
+    9,
+    20,
+    9
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -8,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "neckb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    9.5
+   ],
+   "size": [
+    6,
+    18,
+    5
+   ],
+   "color": "belly",
+   "group": "head",
+   "rot": [
+    -8,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    4
+   ],
+   "size": [
+    26,
+    22,
+    20
+   ],
+   "color": "mane",
+   "group": "head"
+  },
+  {
+   "name": "mane_top",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    42,
+    3
+   ],
+   "size": [
+    16,
+    10,
+    14
+   ],
+   "color": "mane2",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    12
+   ],
+   "size": [
+    10,
+    9,
+    17
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32.5,
+    20
+   ],
+   "size": [
+    7,
+    5,
+    8
+   ],
+   "color": "head2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    35,
+    16
+   ],
+   "size": [
+    2,
+    2.8,
+    2.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "whisker",
+   "shape": "cone",
+   "center": [
+    8,
+    24,
+    8
+   ],
+   "size": [
+    2.4,
+    22,
+    2.4
+   ],
+   "color": "whisk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fin1",
+   "shape": "wedge",
+   "center": [
+    0,
+    20,
+    -2
+   ],
+   "size": [
+    2,
+    10,
+    8
+   ],
+   "color": "fin",
+   "group": "body"
+  },
+  {
+   "name": "fin2",
+   "shape": "wedge",
+   "center": [
+    0,
+    17,
+    -12
+   ],
+   "size": [
+    2,
+    8,
+    8
+   ],
+   "color": "fin",
+   "group": "body"
+  },
+  {
+   "name": "fin3",
+   "shape": "wedge",
+   "center": [
+    0,
+    14,
+    -20
+   ],
+   "size": [
+    2,
+    6,
+    8
+   ],
+   "color": "fin",
+   "group": "tail"
+  },
+  {
+   "name": "side_fin",
+   "shape": "wedge",
+   "center": [
+    8,
+    12,
+    2
+   ],
+   "size": [
+    10,
+    2,
+    8
+   ],
+   "color": "fin",
+   "group": "wing_l",
+   "rot": [
+    0,
+    -30,
+    -20
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_BlueDragon_Ice_icon_normal.png",
+   "note": "正面: 白灰の頭と体、明るい水色のたてがみ、灰のヒゲ、青い目、氷色のヒレ"
+  }
+ ]
+}

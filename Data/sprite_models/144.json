@@ -1,0 +1,274 @@
+{
+ "name": "ミミドッグ (Mimog)",
+ "gait": "quad",
+ "palette": {
+  "blk": "#25252e",
+  "gold": "#d8b050",
+  "gold2": "#ecd078",
+  "cy": "#58e8f0",
+  "gr": "#6a7088",
+  "tongue": "#e88878",
+  "in": "#0c0c12"
+ },
+ "parts": [
+  {
+   "name": "box",
+   "shape": "box",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    24,
+    16,
+    20
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "lid",
+   "shape": "cylinder",
+   "center": [
+    0,
+    22,
+    0
+   ],
+   "size": [
+    18,
+    24,
+    18
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    90
+   ]
+  },
+  {
+   "name": "band1",
+   "shape": "box",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    24.6,
+    16.6,
+    3
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "band2",
+   "shape": "box",
+   "center": [
+    0,
+    13,
+    6
+   ],
+   "size": [
+    24.6,
+    16.6,
+    3
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "lidband",
+   "shape": "cylinder",
+   "center": [
+    0,
+    22,
+    6.5
+   ],
+   "size": [
+    18.6,
+    24.6,
+    3
+   ],
+   "color": "gold",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    90
+   ]
+  },
+  {
+   "name": "frame",
+   "shape": "box",
+   "center": [
+    0,
+    13,
+    10.0
+   ],
+   "size": [
+    21,
+    12,
+    0.8
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    13,
+    10.2
+   ],
+   "size": [
+    18,
+    10,
+    1.2
+   ],
+   "color": "in",
+   "group": "body"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    14,
+    10.9
+   ],
+   "size": [
+    4.6,
+    4.6,
+    1
+   ],
+   "color": "cy",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "line",
+   "shape": "box",
+   "center": [
+    7.5,
+    8,
+    10.9
+   ],
+   "size": [
+    4,
+    0.8,
+    0.8
+   ],
+   "color": "cy",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    7.5,
+    32,
+    0
+   ],
+   "size": [
+    6,
+    8,
+    3
+   ],
+   "color": "gold2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tongue",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6.5,
+    11.5
+   ],
+   "size": [
+    7,
+    10,
+    2.6
+   ],
+   "color": "tongue",
+   "group": "head"
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    7.5,
+    2.5,
+    6
+   ],
+   "size": [
+    6,
+    5,
+    6
+   ],
+   "color": "gr",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    7.5,
+    2.5,
+    -6
+   ],
+   "size": [
+    6,
+    5,
+    6
+   ],
+   "color": "gr",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    13,
+    -12
+   ],
+   "size": [
+    3,
+    5,
+    3
+   ],
+   "color": "gold",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_MimicDog_icon_normal.png",
+   "note": "正面: 黒い宝箱の顔、金の縁、水色の光る目、ピンクの舌"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Mimog.png",
+   "note": "全身: 宝箱が体、金の帯と猫耳状の角、水色の光る線、灰青の太い短足"
+  }
+ ]
+}

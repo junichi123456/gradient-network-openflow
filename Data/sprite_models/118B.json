@@ -1,0 +1,316 @@
+{
+ "name": "ベノッポ (Shroomer Noct)",
+ "gait": "biped",
+ "palette": {
+  "green": "#8f7fc0",
+  "pale": "#d6dbae",
+  "cap": "#8f3a9a",
+  "spot": "#e6dcb0",
+  "mouth": "#b03a5a",
+  "white": "#ffffff",
+  "black": "#101010"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    0
+   ],
+   "size": [
+    13,
+    26,
+    12
+   ],
+   "color": "green",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    4.5
+   ],
+   "size": [
+    7,
+    23,
+    5
+   ],
+   "color": "pale",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    3
+   ],
+   "size": [
+    12,
+    10,
+    15
+   ],
+   "color": "green",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    10
+   ],
+   "size": [
+    8,
+    7,
+    7
+   ],
+   "color": "green",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    31.5,
+    13
+   ],
+   "size": [
+    5,
+    0.8,
+    1
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "eye_w",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    36,
+    8
+   ],
+   "size": [
+    3,
+    3,
+    1.5
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    36,
+    9
+   ],
+   "size": [
+    1.6,
+    1.6,
+    1
+   ],
+   "color": "black",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "cap_u",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38.5,
+    1
+   ],
+   "size": [
+    31,
+    3,
+    29
+   ],
+   "color": "pale",
+   "group": "head"
+  },
+  {
+   "name": "cap",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41,
+    1
+   ],
+   "size": [
+    30,
+    8,
+    27
+   ],
+   "color": "cap",
+   "group": "head"
+  },
+  {
+   "name": "spot",
+   "shape": "ellipsoid",
+   "center": [
+    -5,
+    44.5,
+    -3
+   ],
+   "size": [
+    9,
+    1.5,
+    6
+   ],
+   "color": "spot",
+   "group": "head"
+  },
+  {
+   "name": "spot2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    43.5,
+    6
+   ],
+   "size": [
+    7,
+    1.5,
+    4
+   ],
+   "color": "spot",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ]
+  },
+  {
+   "name": "spot3",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    42.8,
+    -6
+   ],
+   "size": [
+    4,
+    1.2,
+    3
+   ],
+   "color": "spot",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    13,
+    3
+   ],
+   "size": [
+    5,
+    9,
+    5
+   ],
+   "color": "green",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    8,
+    4
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "green",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    1.8,
+    3
+   ],
+   "size": [
+    6,
+    3.6,
+    9
+   ],
+   "color": "green",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cylinder",
+   "center": [
+    0,
+    5,
+    -9
+   ],
+   "size": [
+    3,
+    10,
+    3
+   ],
+   "color": "green",
+   "group": "tail",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_cap",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    -15
+   ],
+   "size": [
+    2,
+    7,
+    7
+   ],
+   "color": "cap",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Shroomer_Noct.png",
+   "note": "紫の体と赤紫の傘、淡い黄緑の腹帯。形は118と同じ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Shroomer_bis.png",
+   "note": "全身: 緑の細長い体、淡緑の腹の帯、赤い大きなキノコ傘と白斑、丸い短い手足、尾の先に赤い小さなキノコ"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_MushroomDragon_icon_normal.png",
+   "note": "顔: 黒点の小さな目、半開きの口、傘の白斑"
+  }
+ ]
+}

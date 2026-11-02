@@ -1,0 +1,380 @@
+{
+ "name": "ヘルメッコ",
+ "gait": "hover",
+ "palette": {
+  "shell": "#1c52b4",
+  "shell2": "#1e5cc2",
+  "rim": "#e2e2e8",
+  "pink": "#e8788c",
+  "red": "#d02e28",
+  "cream": "#e4dcb4",
+  "tent": "#2c3c4a",
+  "eye": "#c82a30",
+  "dark": "#2a3a60",
+  "horn": "#c8302a",
+  "horn2": "#c8302a",
+  "spike": "#cc3029"
+ },
+ "parts": [
+  {
+   "name": "shell",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    -1
+   ],
+   "size": [
+    31,
+    19,
+    32
+   ],
+   "color": "shell",
+   "group": "body"
+  },
+  {
+   "name": "shell2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -2
+   ],
+   "size": [
+    22,
+    12,
+    22
+   ],
+   "color": "shell2",
+   "group": "body"
+  },
+  {
+   "name": "rim",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15.2,
+    0
+   ],
+   "size": [
+    32,
+    3.6,
+    33
+   ],
+   "color": "rim",
+   "group": "body"
+  },
+  {
+   "name": "under",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14.2,
+    0
+   ],
+   "size": [
+    26,
+    3,
+    27
+   ],
+   "color": "dark",
+   "group": "body"
+  },
+  {
+   "name": "mark",
+   "shape": "box",
+   "center": [
+    10,
+    16,
+    13
+   ],
+   "size": [
+    3.5,
+    3.5,
+    1.4
+   ],
+   "color": "pink",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    45
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "zig",
+   "shape": "box",
+   "center": [
+    0,
+    17,
+    15
+   ],
+   "size": [
+    10,
+    1.2,
+    1.2
+   ],
+   "color": "rim",
+   "group": "body"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    10
+   ],
+   "size": [
+    11,
+    9,
+    9
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    11.6,
+    14.5
+   ],
+   "size": [
+    3,
+    2.8,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6.5,
+    8
+   ],
+   "size": [
+    4.5,
+    8,
+    4
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0,
+    36,
+    3
+   ],
+   "size": [
+    8,
+    16,
+    8
+   ],
+   "color": "horn",
+   "group": "body",
+   "rot": [
+    -8,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    0,
+    33,
+    -6
+   ],
+   "size": [
+    8,
+    13,
+    8
+   ],
+   "color": "horn2",
+   "group": "body",
+   "rot": [
+    12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "sp",
+   "shape": "cone",
+   "center": [
+    18.5,
+    29,
+    2
+   ],
+   "size": [
+    9,
+    15,
+    9
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -58
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "spb",
+   "shape": "cone",
+   "center": [
+    16,
+    26,
+    -11
+   ],
+   "size": [
+    8,
+    13,
+    8
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -70
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tent_a",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    9,
+    2
+   ],
+   "size": [
+    5.5,
+    14,
+    5.5
+   ],
+   "color": "tent",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "tent_b",
+   "shape": "ellipsoid",
+   "center": [
+    12.0,
+    4,
+    5
+   ],
+   "size": [
+    9.0,
+    5,
+    6
+   ],
+   "color": "tent",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "paw",
+   "shape": "ellipsoid",
+   "center": [
+    17.5,
+    5.5,
+    7
+   ],
+   "size": [
+    7,
+    6,
+    6
+   ],
+   "color": "tent",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "claw1",
+   "shape": "cone",
+   "center": [
+    20.5,
+    8.5,
+    9
+   ],
+   "size": [
+    3.5,
+    7,
+    3.5
+   ],
+   "color": "red",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw2",
+   "shape": "cone",
+   "center": [
+    20.5,
+    4,
+    9
+   ],
+   "size": [
+    3.5,
+    7,
+    3.5
+   ],
+   "color": "red",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -80
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw3",
+   "shape": "cone",
+   "center": [
+    17.5,
+    6.5,
+    11.5
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "red",
+   "group": "arm_r",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots",
+   "note": "game screenshots"
+  }
+ ]
+}

@@ -1,0 +1,348 @@
+{
+ "name": "モスローン (Silvance)",
+ "gait": "hover",
+ "palette": {
+  "lav": "#a88cc0",
+  "lav2": "#c0a8d4",
+  "spot": "#7a5a9c",
+  "dark": "#2a2850",
+  "head": "#b89cc8",
+  "ant": "#8a6ca8",
+  "flame": "#6aaee8",
+  "eye": "#5a4a9a"
+ },
+ "hover": 10,
+ "parts": [
+  {
+   "name": "cloak",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    0
+   ],
+   "size": [
+    20,
+    28,
+    16
+   ],
+   "color": "lav",
+   "group": "body"
+  },
+  {
+   "name": "hem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    0
+   ],
+   "size": [
+    30,
+    12,
+    14
+   ],
+   "color": "lav",
+   "group": "body"
+  },
+  {
+   "name": "hemL",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    6,
+    -1
+   ],
+   "size": [
+    9,
+    12,
+    8
+   ],
+   "color": "lav2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    5
+   ],
+   "size": [
+    12,
+    22,
+    6
+   ],
+   "color": "lav2",
+   "group": "body"
+  },
+  {
+   "name": "sp1",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    22,
+    8
+   ],
+   "size": [
+    5,
+    5,
+    1.5
+   ],
+   "color": "spot",
+   "group": "body"
+  },
+  {
+   "name": "sp2",
+   "shape": "ellipsoid",
+   "center": [
+    -2,
+    14,
+    8.5
+   ],
+   "size": [
+    6,
+    6,
+    1.5
+   ],
+   "color": "spot",
+   "group": "body"
+  },
+  {
+   "name": "sp3",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    9,
+    6
+   ],
+   "size": [
+    6,
+    6,
+    1.5
+   ],
+   "color": "spot",
+   "group": "body"
+  },
+  {
+   "name": "sp4",
+   "shape": "ellipsoid",
+   "center": [
+    -9,
+    9,
+    6
+   ],
+   "size": [
+    5,
+    5,
+    1.5
+   ],
+   "color": "spot",
+   "group": "body"
+  },
+  {
+   "name": "sh",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    27,
+    0
+   ],
+   "size": [
+    14,
+    7,
+    10
+   ],
+   "color": "lav2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "shtip",
+   "shape": "ellipsoid",
+   "center": [
+    16,
+    25,
+    2
+   ],
+   "size": [
+    7,
+    4,
+    6
+   ],
+   "color": "lav",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    0
+   ],
+   "size": [
+    7,
+    6,
+    7
+   ],
+   "color": "head",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    1
+   ],
+   "size": [
+    11,
+    10,
+    10
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    35,
+    5.8
+   ],
+   "size": [
+    2.2,
+    2.6,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ant",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    41,
+    0
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ant2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    45,
+    0
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "ant",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -60
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "spike",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    4,
+    -2
+   ],
+   "size": [
+    4,
+    10,
+    5
+   ],
+   "color": "dark",
+   "group": "tail"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    16,
+    1
+   ],
+   "size": [
+    5,
+    18,
+    5
+   ],
+   "color": "lav",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "flame",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38,
+    -4
+   ],
+   "size": [
+    6,
+    30,
+    3
+   ],
+   "color": "flame",
+   "group": "body"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/193",
+   "note": "lavender spotted cloak body, dark spike tail, curled antennae, blue flame aura"
+  }
+ ]
+}

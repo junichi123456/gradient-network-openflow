@@ -1,0 +1,360 @@
+{
+ "name": "コチグリ (Jolthog Cryst)",
+ "gait": "quad",
+ "palette": {
+  "w": "#ddd0c8",
+  "w2": "#e6dcd4",
+  "s1": "#58c8e0",
+  "s2": "#a8e6f2",
+  "disc": "#262660",
+  "ring": "#ddd0c8",
+  "feet": "#2a2a66",
+  "pup": "#1a1a22",
+  "wht": "#ffffff"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    -1
+   ],
+   "size": [
+    17,
+    15,
+    23
+   ],
+   "color": "w",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    10
+   ],
+   "size": [
+    14,
+    12,
+    13
+   ],
+   "color": "w2",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10.5,
+    16
+   ],
+   "size": [
+    6,
+    5,
+    6
+   ],
+   "color": "w2",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    19
+   ],
+   "size": [
+    2,
+    1.6,
+    1.4
+   ],
+   "color": "pup",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    13.5,
+    15.4
+   ],
+   "size": [
+    2.2,
+    3.2,
+    1.2
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyehi",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    14.4,
+    16
+   ],
+   "size": [
+    0.9,
+    1,
+    0.5
+   ],
+   "color": "wht",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ring",
+   "shape": "ellipsoid",
+   "center": [
+    6.8,
+    14,
+    8
+   ],
+   "size": [
+    3,
+    9,
+    9
+   ],
+   "color": "ring",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "disc",
+   "shape": "ellipsoid",
+   "center": [
+    7.6,
+    14,
+    8
+   ],
+   "size": [
+    2.4,
+    6.5,
+    6.5
+   ],
+   "color": "disc",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "sp_a",
+   "shape": "cone",
+   "center": [
+    0,
+    21,
+    6
+   ],
+   "size": [
+    7,
+    12,
+    6
+   ],
+   "color": "s1",
+   "group": "body",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "sp_b",
+   "shape": "cone",
+   "center": [
+    4,
+    20.5,
+    3
+   ],
+   "size": [
+    6,
+    11,
+    5
+   ],
+   "color": "s2",
+   "group": "body",
+   "rot": [
+    -40,
+    0,
+    -22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sp_c",
+   "shape": "cone",
+   "center": [
+    0,
+    21,
+    -2
+   ],
+   "size": [
+    8,
+    12,
+    6
+   ],
+   "color": "s1",
+   "group": "body",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "sp_d",
+   "shape": "cone",
+   "center": [
+    5,
+    19,
+    -3
+   ],
+   "size": [
+    6,
+    10,
+    5
+   ],
+   "color": "s2",
+   "group": "body",
+   "rot": [
+    -60,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sp_e",
+   "shape": "cone",
+   "center": [
+    0,
+    17,
+    -10
+   ],
+   "size": [
+    8,
+    11,
+    6
+   ],
+   "color": "s2",
+   "group": "body",
+   "rot": [
+    -85,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "sp_f",
+   "shape": "cone",
+   "center": [
+    5,
+    15,
+    -8
+   ],
+   "size": [
+    6,
+    9,
+    5
+   ],
+   "color": "s1",
+   "group": "body",
+   "rot": [
+    -80,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fl",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    2.5,
+    6
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "w",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "bl",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    2.5,
+    -8
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "w",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "ffoot",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    0.9,
+    6.4
+   ],
+   "size": [
+    4,
+    2,
+    4.6
+   ],
+   "color": "feet",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "bfoot",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    0.9,
+    -7.6
+   ],
+   "size": [
+    4,
+    2,
+    4.6
+   ],
+   "color": "feet",
+   "group": "leg_bl",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_Hedgehog_Ice_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/JolthogCrystChill.jpg",
+   "note": "ゲーム内: 針が氷の水色結晶、体は灰ベージュ、耳と足は紺色"
+  },
+  {
+   "url": "",
+   "note": "基本種 Jolthog と同形。針は氷結晶"
+  }
+ ]
+}

@@ -1,0 +1,439 @@
+{
+ "name": "ボルカイザー (Blazamut)",
+ "gait": "biped",
+ "palette": {
+  "fur": "#7a7873",
+  "fur2": "#8e8a83",
+  "dark": "#2c2a2e",
+  "head": "#d84a30",
+  "beak": "#e8b030",
+  "eye": "#f0e040",
+  "horn": "#3a3238",
+  "glow": "#ff9a30",
+  "limb": "#d84a30",
+  "rock": "#5a3c2c",
+  "tuft": "#c8c6c0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    -2
+   ],
+   "size": [
+    24,
+    20,
+    22
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    -5
+   ],
+   "size": [
+    28,
+    16,
+    18
+   ],
+   "color": "fur2",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    6
+   ],
+   "size": [
+    16,
+    14,
+    10
+   ],
+   "color": "fur2",
+   "group": "body"
+  },
+  {
+   "name": "feat0",
+   "shape": "cone",
+   "center": [
+    14,
+    22,
+    -8
+   ],
+   "size": [
+    6,
+    12,
+    4
+   ],
+   "color": "dark",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -60
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "feat1",
+   "shape": "cone",
+   "center": [
+    13,
+    17,
+    -10
+   ],
+   "size": [
+    6,
+    12,
+    4
+   ],
+   "color": "dark",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -80
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "feat2",
+   "shape": "cone",
+   "center": [
+    11,
+    27,
+    -6
+   ],
+   "size": [
+    6,
+    12,
+    4
+   ],
+   "color": "dark",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    9
+   ],
+   "size": [
+    12,
+    10,
+    10
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    20,
+    15
+   ],
+   "size": [
+    5,
+    6,
+    5
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    23,
+    13
+   ],
+   "size": [
+    2.2,
+    2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    4.5,
+    33,
+    6
+   ],
+   "size": [
+    5,
+    15,
+    5
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    9,
+    31,
+    4
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "dark",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -45
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hornglow",
+   "shape": "cone",
+   "center": [
+    4.5,
+    32,
+    8.2
+   ],
+   "size": [
+    1.6,
+    13,
+    1.6
+   ],
+   "color": "glow",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    12,
+    5
+   ],
+   "size": [
+    6,
+    10,
+    6
+   ],
+   "color": "limb",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fist",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    6,
+    8
+   ],
+   "size": [
+    11,
+    12,
+    12
+   ],
+   "color": "rock",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "crack0",
+   "shape": "box",
+   "center": [
+    11,
+    6,
+    14
+   ],
+   "size": [
+    0.8,
+    6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crack1",
+   "shape": "box",
+   "center": [
+    14,
+    9,
+    14
+   ],
+   "size": [
+    0.8,
+    6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crack2",
+   "shape": "box",
+   "center": [
+    17,
+    6,
+    14
+   ],
+   "size": [
+    0.8,
+    6,
+    0.8
+   ],
+   "color": "glow",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    5,
+    -3
+   ],
+   "size": [
+    8,
+    9,
+    10
+   ],
+   "color": "limb",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    1.5,
+    2
+   ],
+   "size": [
+    8,
+    3,
+    11
+   ],
+   "color": "dark",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cylinder",
+   "center": [
+    0,
+    5,
+    -15
+   ],
+   "size": [
+    4,
+    18,
+    4
+   ],
+   "color": "limb",
+   "group": "tail",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -27
+   ],
+   "size": [
+    10,
+    9,
+    9
+   ],
+   "color": "tuft",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_KingBahamut_icon_normal.png",
+   "note": "正面: 赤い頭に黄の嘴、黒い角に橙のひび"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Blazamut.png",
+   "note": "全身: 灰色の毛の大きな鬣、赤い手足、茶色の岩の巨大な拳に橙の割れ目、赤い尾の先に灰色の房、黒い羽状の毛先"
+  }
+ ]
+}

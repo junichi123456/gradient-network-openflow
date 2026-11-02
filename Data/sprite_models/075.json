@@ -1,0 +1,393 @@
+{
+ "name": "シーペント (Surfent)",
+ "gait": "slither",
+ "palette": {
+  "body": "#3cbccc",
+  "body2": "#2aa0b8",
+  "belly": "#eadf9c",
+  "fin": "#2a86a8",
+  "spine": "#ee6a50",
+  "eye": "#d83030",
+  "blk": "#1a2030",
+  "horn": "#e0b030"
+ },
+ "parts": [
+  {
+   "name": "seg0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -14
+   ],
+   "size": [
+    12,
+    12,
+    12
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "seg1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -8
+   ],
+   "size": [
+    15,
+    14,
+    12
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "seg2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -1
+   ],
+   "size": [
+    17,
+    15,
+    13
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "seg3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    6
+   ],
+   "size": [
+    15,
+    16,
+    12
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "bel3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10.5,
+    9
+   ],
+   "size": [
+    9.0,
+    14.4,
+    7.199999999999999
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "seg4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    9
+   ],
+   "size": [
+    13,
+    18,
+    11
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "bel4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17.5,
+    12
+   ],
+   "size": [
+    7.8,
+    16.2,
+    6.6
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "seg5",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    10
+   ],
+   "size": [
+    11,
+    15,
+    10
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "bel5",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25.5,
+    13
+   ],
+   "size": [
+    6.6,
+    13.5,
+    6.0
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    5,
+    -24
+   ],
+   "size": [
+    8,
+    14,
+    8
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    -95,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    14
+   ],
+   "size": [
+    10,
+    9,
+    16
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "cone",
+   "center": [
+    0,
+    30,
+    24
+   ],
+   "size": [
+    7,
+    10,
+    5
+   ],
+   "color": "body2",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "jaw",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28.5,
+    17
+   ],
+   "size": [
+    7,
+    3,
+    12
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "crest",
+   "shape": "wedge",
+   "center": [
+    0,
+    37,
+    11
+   ],
+   "size": [
+    2.5,
+    10,
+    12
+   ],
+   "color": "fin",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "earfin",
+   "shape": "wedge",
+   "center": [
+    6,
+    33,
+    10
+   ],
+   "size": [
+    2,
+    8,
+    8
+   ],
+   "color": "fin",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    32,
+    19
+   ],
+   "size": [
+    2.4,
+    2.2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "spine0",
+   "shape": "cone",
+   "center": [
+    0,
+    13.0,
+    -18
+   ],
+   "size": [
+    2.5,
+    7,
+    2.5
+   ],
+   "color": "spine",
+   "group": "body",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "spine1",
+   "shape": "cone",
+   "center": [
+    0,
+    14.5,
+    -8
+   ],
+   "size": [
+    2.5,
+    7,
+    2.5
+   ],
+   "color": "spine",
+   "group": "body",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "spine2",
+   "shape": "cone",
+   "center": [
+    0,
+    16.0,
+    2
+   ],
+   "size": [
+    2.5,
+    7,
+    2.5
+   ],
+   "color": "spine",
+   "group": "body",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "flipper",
+   "shape": "wedge",
+   "center": [
+    8,
+    9,
+    2
+   ],
+   "size": [
+    10,
+    2,
+    10
+   ],
+   "color": "fin",
+   "group": "wing_l",
+   "rot": [
+    0,
+    -30,
+    20
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Serpent_icon_normal.png",
+   "note": "正面: 尖った頭、赤い目、頭頂の鋭いひれ、腹は淡黄"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Surfent",
+   "note": "ゲーム内: 長いうねる体、背に橙の棘、胸びれ"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799261",
+   "note": "頭部の色"
+  }
+ ]
+}

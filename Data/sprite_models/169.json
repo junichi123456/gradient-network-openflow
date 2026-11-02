@@ -1,0 +1,460 @@
+{
+ "name": "オーマンボ (Solmora)",
+ "gait": "hover",
+ "hover": 5,
+ "palette": {
+  "cloak": "#2640a8",
+  "face": "#4a90cc",
+  "white": "#d0d2e0",
+  "dot": "#b89c38",
+  "eyew": "#f0f0f0",
+  "blk": "#101018",
+  "fin": "#2a46b4",
+  "knob": "#a8902c",
+  "crown": "#b89c38"
+ },
+ "parts": [
+  {
+   "name": "cloak",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    13.600000000000001,
+    -3.1500000000000004
+   ],
+   "size": [
+    21.0,
+    20.8,
+    21.0
+   ],
+   "color": "cloak",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    7.2,
+    -1.05
+   ],
+   "size": [
+    23.1,
+    11.200000000000001,
+    23.1
+   ],
+   "color": "cloak",
+   "group": "body"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    16.0,
+    5.775
+   ],
+   "size": [
+    16.8,
+    18.400000000000002,
+    14.700000000000001
+   ],
+   "color": "face",
+   "group": "body"
+  },
+  {
+   "name": "hem0",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    3.04,
+    12.075000000000001
+   ],
+   "size": [
+    6.300000000000001,
+    2.8000000000000003,
+    6.300000000000001
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "hem1",
+   "shape": "ellipsoid",
+   "center": [
+    8.4,
+    3.04,
+    8.4
+   ],
+   "size": [
+    6.300000000000001,
+    2.8000000000000003,
+    6.300000000000001
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "hem2",
+   "shape": "ellipsoid",
+   "center": [
+    -8.4,
+    3.04,
+    8.4
+   ],
+   "size": [
+    6.300000000000001,
+    2.8000000000000003,
+    6.300000000000001
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "hem3",
+   "shape": "ellipsoid",
+   "center": [
+    11.025,
+    3.04,
+    0.0
+   ],
+   "size": [
+    6.300000000000001,
+    2.8000000000000003,
+    6.300000000000001
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "hem4",
+   "shape": "ellipsoid",
+   "center": [
+    -11.025,
+    3.04,
+    0.0
+   ],
+   "size": [
+    6.300000000000001,
+    2.8000000000000003,
+    6.300000000000001
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "hem5",
+   "shape": "ellipsoid",
+   "center": [
+    8.4,
+    3.04,
+    -9.450000000000001
+   ],
+   "size": [
+    6.300000000000001,
+    2.8000000000000003,
+    6.300000000000001
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "hem6",
+   "shape": "ellipsoid",
+   "center": [
+    -8.4,
+    3.04,
+    -9.450000000000001
+   ],
+   "size": [
+    6.300000000000001,
+    2.8000000000000003,
+    6.300000000000001
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "hem7",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    3.04,
+    -12.075000000000001
+   ],
+   "size": [
+    6.300000000000001,
+    2.8000000000000003,
+    6.300000000000001
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "dot0",
+   "shape": "ellipsoid",
+   "center": [
+    4.7250000000000005,
+    6.4,
+    11.025
+   ],
+   "size": [
+    2.1,
+    3.2,
+    2.625
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "dot1",
+   "shape": "ellipsoid",
+   "center": [
+    -4.7250000000000005,
+    6.4,
+    11.025
+   ],
+   "size": [
+    2.1,
+    3.2,
+    2.625
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "dot2",
+   "shape": "ellipsoid",
+   "center": [
+    9.975,
+    6.4,
+    3.1500000000000004
+   ],
+   "size": [
+    2.1,
+    3.2,
+    2.625
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "dot3",
+   "shape": "ellipsoid",
+   "center": [
+    -9.975,
+    6.4,
+    3.1500000000000004
+   ],
+   "size": [
+    2.1,
+    3.2,
+    2.625
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "dot4",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    6.4,
+    -11.55
+   ],
+   "size": [
+    2.1,
+    3.2,
+    2.625
+   ],
+   "color": "dot",
+   "group": "body"
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    1.2000000000000002,
+    0.0
+   ],
+   "size": [
+    6.300000000000001,
+    2.4000000000000004,
+    6.300000000000001
+   ],
+   "color": "cloak",
+   "group": "body"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.9899999999999998,
+    19.200000000000003,
+    12.18
+   ],
+   "size": [
+    3.1500000000000004,
+    2.8800000000000003,
+    1.47
+   ],
+   "color": "eyew",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    3.9899999999999998,
+    19.200000000000003,
+    13.020000000000001
+   ],
+   "size": [
+    1.47,
+    1.4400000000000002,
+    0.8400000000000001
+   ],
+   "color": "blk",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "must",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    14.8,
+    11.76
+   ],
+   "size": [
+    15.75,
+    4.0,
+    4.2
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "mustc",
+   "shape": "ellipsoid",
+   "center": [
+    7.875,
+    13.600000000000001,
+    11.55
+   ],
+   "size": [
+    5.25,
+    3.2,
+    4.2
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "wigband",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    23.200000000000003,
+    2.1
+   ],
+   "size": [
+    19.95,
+    4.0,
+    15.75
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "wigside",
+   "shape": "ellipsoid",
+   "center": [
+    9.975,
+    19.200000000000003,
+    3.1500000000000004
+   ],
+   "size": [
+    5.25,
+    10.4,
+    8.4
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "peak",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    28.0,
+    -1.05
+   ],
+   "size": [
+    10.5,
+    9.600000000000001,
+    10.5
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "peaktip",
+   "shape": "ellipsoid",
+   "center": [
+    1.05,
+    32.800000000000004,
+    -1.05
+   ],
+   "size": [
+    5.25,
+    4.800000000000001,
+    5.25
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "fin",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    13.600000000000001,
+    -14.175
+   ],
+   "size": [
+    3.1500000000000004,
+    14.4,
+    10.5
+   ],
+   "color": "fin",
+   "group": "tail"
+  },
+  {
+   "name": "knob",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    13.600000000000001,
+    -11.55
+   ],
+   "size": [
+    6.300000000000001,
+    4.800000000000001,
+    6.300000000000001
+   ],
+   "color": "knob",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/169",
+   "note": "ゲーム内SS: 魚型、前面に楕円の顔と白い大きな口ひげ、頭に白い渦巻きのカツラ、背に縦の尾びれと丸いこぶ、白いスカラップ縁のマント"
+  }
+ ]
+}

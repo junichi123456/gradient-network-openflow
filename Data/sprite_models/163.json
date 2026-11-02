@@ -1,0 +1,329 @@
+{
+ "name": "デンツム (Snock)",
+ "gait": "slither",
+ "palette": {
+  "body": "#7a4ad0",
+  "belly": "#f0d040",
+  "shell": "#2a2a48",
+  "shell2": "#4a4a78",
+  "bolt": "#50e0f0",
+  "eye": "#201820",
+  "lid": "#7a4ad0",
+  "mouth": "#401830"
+ },
+ "parts": [
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    3.9,
+    -2.6
+   ],
+   "size": [
+    18.2,
+    7.8,
+    36.4
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    3.9,
+    3.9
+   ],
+   "size": [
+    11.7,
+    6.5,
+    26.0
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    16.9,
+    14.3
+   ],
+   "size": [
+    14.3,
+    24.7,
+    14.3
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    14.3,
+    16.9
+   ],
+   "size": [
+    10.4,
+    15.6,
+    6.5
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    29.9,
+    14.3
+   ],
+   "size": [
+    16.9,
+    14.3,
+    15.6
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "stalkL",
+   "shape": "cylinder",
+   "center": [
+    5.2,
+    36.4,
+    13.0
+   ],
+   "size": [
+    3.38,
+    10.4,
+    3.38
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eyeball",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    41.6,
+    13.0
+   ],
+   "size": [
+    7.02,
+    7.02,
+    7.02
+   ],
+   "color": "body",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "lid",
+   "shape": "box",
+   "center": [
+    6.5,
+    41.6,
+    16.64
+   ],
+   "size": [
+    5.98,
+    1.17,
+    1.04
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0.0,
+    27.3,
+    21.84
+   ],
+   "size": [
+    5.2,
+    0.91,
+    0.78
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "shell",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    24.7,
+    -11.7
+   ],
+   "size": [
+    26.0,
+    31.2,
+    26.0
+   ],
+   "color": "shell",
+   "group": "body"
+  },
+  {
+   "name": "shellrim",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    14.3,
+    -9.1
+   ],
+   "size": [
+    27.3,
+    6.5,
+    24.7
+   ],
+   "color": "shell2",
+   "group": "body"
+  },
+  {
+   "name": "bolt1",
+   "shape": "box",
+   "center": [
+    10.4,
+    32.5,
+    -2.6
+   ],
+   "size": [
+    1.82,
+    15.6,
+    2.34
+   ],
+   "color": "bolt",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bolt2",
+   "shape": "box",
+   "center": [
+    13.0,
+    26.0,
+    -13.0
+   ],
+   "size": [
+    1.82,
+    11.7,
+    2.34
+   ],
+   "color": "bolt",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bolt3",
+   "shape": "box",
+   "center": [
+    0.0,
+    42.9,
+    -10.4
+   ],
+   "size": [
+    2.08,
+    9.1,
+    2.34
+   ],
+   "color": "bolt",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -15
+   ]
+  },
+  {
+   "name": "spk",
+   "shape": "cone",
+   "center": [
+    0.0,
+    45.5,
+    -15.6
+   ],
+   "size": [
+    5.2,
+    9.1,
+    5.2
+   ],
+   "color": "shell2",
+   "group": "body"
+  },
+  {
+   "name": "spk2",
+   "shape": "cone",
+   "center": [
+    9.1,
+    40.3,
+    -10.4
+   ],
+   "size": [
+    4.42,
+    7.8,
+    4.42
+   ],
+   "color": "shell2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    3.25,
+    -20.8
+   ],
+   "size": [
+    10.4,
+    6.5,
+    10.4
+   ],
+   "color": "body",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_ElecSnail_icon_normal.png",
+   "note": "アイコン: 紫の体と黄色い腹、触角の先に目、暗紺の殻に水色の稲妻と棘、眠たげな閉じた目"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_ElecSnail_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  }
+ ]
+}

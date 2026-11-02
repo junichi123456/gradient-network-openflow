@@ -1,0 +1,347 @@
+{
+ "name": "ニャンギマリ (Grintale)",
+ "gait": "quad",
+ "palette": {
+  "fur": "#8e3c8c",
+  "fur2": "#6e2a72",
+  "belly": "#d9c9b9",
+  "face": "#d9c9b9",
+  "mouth": "#2a1226",
+  "tooth": "#f2f2f2",
+  "eye": "#f0d640",
+  "pupil": "#3a2030",
+  "tail": "#6a5a62",
+  "leg": "#cdbba8",
+  "claw": "#4a3040"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -1
+   ],
+   "size": [
+    22,
+    17,
+    26
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "back",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -3
+   ],
+   "size": [
+    20,
+    8,
+    24
+   ],
+   "color": "fur2",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    3
+   ],
+   "size": [
+    18,
+    9,
+    20
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    12
+   ],
+   "size": [
+    21,
+    16,
+    13
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "cap",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    10
+   ],
+   "size": [
+    21,
+    9,
+    12
+   ],
+   "color": "fur",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10.5,
+    17
+   ],
+   "size": [
+    15,
+    3,
+    2.4
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "t1",
+   "shape": "box",
+   "center": [
+    -4,
+    10.5,
+    18.2
+   ],
+   "size": [
+    1,
+    1.2,
+    0.6
+   ],
+   "color": "tooth",
+   "group": "head"
+  },
+  {
+   "name": "t2",
+   "shape": "box",
+   "center": [
+    0,
+    10.5,
+    18.2
+   ],
+   "size": [
+    1,
+    1.2,
+    0.6
+   ],
+   "color": "tooth",
+   "group": "head"
+  },
+  {
+   "name": "t3",
+   "shape": "box",
+   "center": [
+    4,
+    10.5,
+    18.2
+   ],
+   "size": [
+    1,
+    1.2,
+    0.6
+   ],
+   "color": "tooth",
+   "group": "head"
+  },
+  {
+   "name": "eyer",
+   "shape": "ellipsoid",
+   "center": [
+    5.4,
+    15.5,
+    17
+   ],
+   "size": [
+    5,
+    5,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    5.4,
+    15.5,
+    18.1
+   ],
+   "size": [
+    2.2,
+    2.8,
+    0.8
+   ],
+   "color": "pupil",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    8,
+    25,
+    10
+   ],
+   "size": [
+    7,
+    10,
+    5
+   ],
+   "color": "fur",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear2",
+   "shape": "cone",
+   "center": [
+    5,
+    24,
+    8
+   ],
+   "size": [
+    4,
+    7,
+    4
+   ],
+   "color": "fur2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -5
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    3,
+    8
+   ],
+   "size": [
+    6,
+    7,
+    6
+   ],
+   "color": "leg",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    3,
+    -9
+   ],
+   "size": [
+    6.5,
+    7,
+    7
+   ],
+   "color": "leg",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cylinder",
+   "center": [
+    0,
+    20,
+    -16
+   ],
+   "size": [
+    2,
+    12,
+    2
+   ],
+   "color": "tail",
+   "group": "tail",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cylinder",
+   "center": [
+    0,
+    27,
+    -20
+   ],
+   "size": [
+    2,
+    10,
+    2
+   ],
+   "color": "tail",
+   "group": "tail",
+   "rot": [
+    -70,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    -26
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "tail",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Grintale.png",
+   "note": "全身: 丸々した紫の毛並みの猫・白灰の腹と顔・黒い口に並んだ歯の大きな笑い・黄色い輪の目・尖った紫の耳・細く曲がった灰色の尾"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/GrintaleSizeComparisonScreenshotFrom2KG.png",
+   "note": "ゲーム内: 横から見ると背が紫のたてがみ状でずんぐり、尾が弓なりに上へ"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_NaughtyCat_icon_normal.png",
+   "note": "正面アップ: ニヤリとした口と黄色い目"
+  }
+ ]
+}

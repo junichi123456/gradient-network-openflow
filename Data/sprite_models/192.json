@@ -1,0 +1,639 @@
+{
+ "name": "シャオロン (Shaolong)",
+ "gait": "slither",
+ "palette": {
+  "body": "#2a74c0",
+  "body2": "#a8d0ea",
+  "dk": "#1a1f4a",
+  "dk2": "#2a3470",
+  "gold": "#c89030",
+  "whisk": "#2ab0b8",
+  "gem": "#5adcc8",
+  "eye": "#e04080",
+  "claw": "#e8e4d8",
+  "fin": "#8a88c8",
+  "white": "#dcdcf0",
+  "white2": "#b8bcd8"
+ },
+ "parts": [
+  {
+   "name": "seg0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -6
+   ],
+   "size": [
+    17,
+    17,
+    17
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "bel0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5.45,
+    -0.9000000000000004
+   ],
+   "size": [
+    11.899999999999999,
+    12.75,
+    10.2
+   ],
+   "color": "body2",
+   "group": "body"
+  },
+  {
+   "name": "fin0",
+   "shape": "cone",
+   "center": [
+    0,
+    17.35,
+    -7
+   ],
+   "size": [
+    3,
+    7,
+    4
+   ],
+   "color": "fin",
+   "group": "body",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "seg1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    2
+   ],
+   "size": [
+    17,
+    17,
+    17
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "bel1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5.45,
+    7.1
+   ],
+   "size": [
+    11.899999999999999,
+    12.75,
+    10.2
+   ],
+   "color": "body2",
+   "group": "body"
+  },
+  {
+   "name": "fin1",
+   "shape": "cone",
+   "center": [
+    0,
+    17.35,
+    1
+   ],
+   "size": [
+    3,
+    7,
+    4
+   ],
+   "color": "fin",
+   "group": "body",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "seg2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    6
+   ],
+   "size": [
+    15,
+    15,
+    15
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "bel2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11.75,
+    10.5
+   ],
+   "size": [
+    10.5,
+    11.25,
+    9.0
+   ],
+   "color": "body2",
+   "group": "body"
+  },
+  {
+   "name": "fin2",
+   "shape": "cone",
+   "center": [
+    0,
+    22.25,
+    5
+   ],
+   "size": [
+    3,
+    7,
+    4
+   ],
+   "color": "fin",
+   "group": "body",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "seg3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    7
+   ],
+   "size": [
+    13,
+    13,
+    13
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "bel3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20.05,
+    10.9
+   ],
+   "size": [
+    9.1,
+    9.75,
+    7.8
+   ],
+   "color": "body2",
+   "group": "body"
+  },
+  {
+   "name": "fin3",
+   "shape": "cone",
+   "center": [
+    0,
+    29.15,
+    6
+   ],
+   "size": [
+    3,
+    7,
+    4
+   ],
+   "color": "fin",
+   "group": "body",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "seg4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    7
+   ],
+   "size": [
+    11,
+    11,
+    11
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "bel4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27.35,
+    10.3
+   ],
+   "size": [
+    7.699999999999999,
+    8.25,
+    6.6
+   ],
+   "color": "body2",
+   "group": "head"
+  },
+  {
+   "name": "fin4",
+   "shape": "cone",
+   "center": [
+    0,
+    35.05,
+    6
+   ],
+   "size": [
+    3,
+    7,
+    4
+   ],
+   "color": "fin",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tseg0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -14
+   ],
+   "size": [
+    13,
+    10.4,
+    8
+   ],
+   "color": "body",
+   "group": "tail"
+  },
+  {
+   "name": "tfin0",
+   "shape": "cone",
+   "center": [
+    0,
+    13.2,
+    -14
+   ],
+   "size": [
+    3,
+    7,
+    4
+   ],
+   "color": "fin",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tseg1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -20
+   ],
+   "size": [
+    10,
+    8.0,
+    8
+   ],
+   "color": "body",
+   "group": "tail"
+  },
+  {
+   "name": "tfin1",
+   "shape": "cone",
+   "center": [
+    0,
+    14.0,
+    -20
+   ],
+   "size": [
+    3,
+    7,
+    4
+   ],
+   "color": "fin",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tseg2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    -24
+   ],
+   "size": [
+    8,
+    6.4,
+    8
+   ],
+   "color": "body",
+   "group": "tail"
+  },
+  {
+   "name": "tfin2",
+   "shape": "cone",
+   "center": [
+    0,
+    17.2,
+    -24
+   ],
+   "size": [
+    3,
+    7,
+    4
+   ],
+   "color": "fin",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -28
+   ],
+   "size": [
+    3,
+    16,
+    7
+   ],
+   "color": "white",
+   "group": "tail",
+   "rot": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    10
+   ],
+   "size": [
+    14,
+    12,
+    15
+   ],
+   "color": "dk",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33.5,
+    16.5
+   ],
+   "size": [
+    9,
+    6,
+    6.5
+   ],
+   "color": "dk2",
+   "group": "head"
+  },
+  {
+   "name": "gem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39.5,
+    12
+   ],
+   "size": [
+    3.6,
+    3.6,
+    2
+   ],
+   "color": "gem",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5.6,
+    36,
+    13
+   ],
+   "size": [
+    2.6,
+    2.4,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    44,
+    2
+   ],
+   "size": [
+    30,
+    22,
+    20
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "crestb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    -4
+   ],
+   "size": [
+    32,
+    24,
+    14
+   ],
+   "color": "white2",
+   "group": "head"
+  },
+  {
+   "name": "crl",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    48,
+    0
+   ],
+   "size": [
+    9,
+    20,
+    9
+   ],
+   "color": "white",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crc",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    52,
+    0
+   ],
+   "size": [
+    10,
+    18,
+    9
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "hy",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    45,
+    10
+   ],
+   "size": [
+    3,
+    12,
+    3
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "hyl",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    50,
+    10
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "whisk",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    30,
+    13
+   ],
+   "size": [
+    2,
+    2,
+    16
+   ],
+   "color": "whisk",
+   "group": "head",
+   "rot": [
+    0,
+    -30,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tl",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    -30
+   ],
+   "size": [
+    3,
+    10,
+    5
+   ],
+   "color": "white",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refcache/192/icon.png",
+   "note": "頭部: 紺青の顔、金の長い角、額の水色の宝珠、桃色の目、水色の長い髭、薄青の体"
+  },
+  {
+   "url": "Tools/.refcache/192/icon.png",
+   "note": "(全身参照なし) 東洋龍として推定: 長い蛇体、薄青の鱗と白い腹、背に青いヒレ"
+  }
+ ],
+ "hover": 5
+}

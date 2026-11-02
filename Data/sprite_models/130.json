@@ -1,0 +1,480 @@
+{
+ "name": "ナイトロット (Night Trot)",
+ "gait": "quad",
+ "palette": {
+  "body": "#30365a",
+  "body2": "#3c4468",
+  "mane": "#2a8ad8",
+  "mane2": "#4aa8ec",
+  "acc": "#2a78d0",
+  "face": "#c8d0e0",
+  "horn": "#141828",
+  "hoof": "#10142a",
+  "eye": "#d84a4a"
+ },
+ "refs": [
+  {
+   "url": "Tools/.refshots/130 (in-game screenshots)",
+   "note": "in-game screenshots, all views"
+  }
+ ],
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -1
+   ],
+   "size": [
+    13,
+    15,
+    24
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    8
+   ],
+   "size": [
+    12,
+    15,
+    10
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "rump",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -10
+   ],
+   "size": [
+    13,
+    14,
+    10
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    10
+   ],
+   "size": [
+    8,
+    16,
+    9
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    15
+   ],
+   "size": [
+    7.5,
+    9,
+    11
+   ],
+   "color": "body2",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31.5,
+    18.5
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "body2",
+   "group": "head"
+  },
+  {
+   "name": "blaze",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    19
+   ],
+   "size": [
+    1.8,
+    5,
+    2
+   ],
+   "color": "face",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    37,
+    16.5
+   ],
+   "size": [
+    1.6,
+    2.2,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    44.5,
+    15
+   ],
+   "size": [
+    1.8,
+    10,
+    2
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    41,
+    12
+   ],
+   "size": [
+    2.6,
+    5,
+    2.2
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "mane1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38,
+    11
+   ],
+   "size": [
+    15,
+    11,
+    13
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mane2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    6
+   ],
+   "size": [
+    14,
+    14,
+    11
+   ],
+   "color": "mane2",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mane3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    1
+   ],
+   "size": [
+    12,
+    10,
+    10
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    -50,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mane4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    -3
+   ],
+   "size": [
+    10,
+    7,
+    9
+   ],
+   "color": "mane2",
+   "group": "head",
+   "rot": [
+    -70,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -14
+   ],
+   "size": [
+    11,
+    10,
+    10
+   ],
+   "color": "mane",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -20
+   ],
+   "size": [
+    10,
+    9,
+    12
+   ],
+   "color": "mane2",
+   "group": "tail",
+   "rot": [
+    -50,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -24
+   ],
+   "size": [
+    8,
+    8,
+    12
+   ],
+   "color": "mane",
+   "group": "tail",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    4.5,
+    -28
+   ],
+   "size": [
+    3.5,
+    4,
+    10
+   ],
+   "color": "mane2",
+   "group": "tail",
+   "rot": [
+    -80,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "flf",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    10,
+    9
+   ],
+   "size": [
+    5.5,
+    20,
+    6.5
+   ],
+   "color": "body",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "flb",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    10,
+    -10
+   ],
+   "size": [
+    6,
+    20,
+    7.5
+   ],
+   "color": "body",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "accf",
+   "shape": "ellipsoid",
+   "center": [
+    5.3,
+    13,
+    9
+   ],
+   "size": [
+    2,
+    5,
+    3
+   ],
+   "color": "acc",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "accb",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    13,
+    -10
+   ],
+   "size": [
+    2.2,
+    5,
+    3
+   ],
+   "color": "acc",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "hf",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    2,
+    9.5
+   ],
+   "size": [
+    7,
+    4,
+    8
+   ],
+   "color": "hoof",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "hb",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    2,
+    -9.5
+   ],
+   "size": [
+    7,
+    4,
+    8
+   ],
+   "color": "hoof",
+   "group": "leg_bl",
+   "mirror_x": true
+  }
+ ]
+}

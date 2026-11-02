@@ -1,0 +1,409 @@
+{
+ "name": "フブキツネ (Foxcicle)",
+ "gait": "quad",
+ "palette": {
+  "white": "#eef2fa",
+  "blue": "#b4cce6",
+  "teal": "#7fd8c4",
+  "dark": "#2a3550"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -1
+   ],
+   "size": [
+    13,
+    13,
+    22
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    7
+   ],
+   "size": [
+    10,
+    13,
+    9
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "tuft",
+   "shape": "cone",
+   "center": [
+    0,
+    13,
+    10
+   ],
+   "size": [
+    9,
+    10,
+    6
+   ],
+   "color": "teal",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "rump",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -9
+   ],
+   "size": [
+    12,
+    12,
+    10
+   ],
+   "color": "blue",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    9
+   ],
+   "size": [
+    8,
+    13,
+    8
+   ],
+   "color": "white",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    12
+   ],
+   "size": [
+    10,
+    9,
+    11
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27.5,
+    18
+   ],
+   "size": [
+    5,
+    4.5,
+    7
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    21.5
+   ],
+   "size": [
+    2,
+    1.8,
+    1.6
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31.5,
+    15
+   ],
+   "size": [
+    8,
+    3,
+    6
+   ],
+   "color": "blue",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    30,
+    16.5
+   ],
+   "size": [
+    2,
+    2.4,
+    1.6
+   ],
+   "color": "dark",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "wedge",
+   "center": [
+    9,
+    34,
+    9
+   ],
+   "size": [
+    13,
+    14,
+    2
+   ],
+   "color": "white",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -62
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_t",
+   "shape": "wedge",
+   "center": [
+    14,
+    36.5,
+    9
+   ],
+   "size": [
+    8,
+    7,
+    2
+   ],
+   "color": "teal",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -62
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hair",
+   "shape": "cone",
+   "center": [
+    0,
+    35,
+    10
+   ],
+   "size": [
+    7,
+    9,
+    6
+   ],
+   "color": "white",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    4,
+    6,
+    6
+   ],
+   "size": [
+    3.6,
+    12,
+    3.6
+   ],
+   "color": "white",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "sockf",
+   "shape": "cylinder",
+   "center": [
+    4,
+    2.5,
+    6
+   ],
+   "size": [
+    4.2,
+    5,
+    4.2
+   ],
+   "color": "blue",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    4,
+    6,
+    -9
+   ],
+   "size": [
+    3.6,
+    12,
+    3.6
+   ],
+   "color": "white",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "sockb",
+   "shape": "cylinder",
+   "center": [
+    4,
+    2.5,
+    -9
+   ],
+   "size": [
+    4.2,
+    5,
+    4.2
+   ],
+   "color": "blue",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -20
+   ],
+   "size": [
+    13,
+    14,
+    22
+   ],
+   "color": "blue",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_t",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    -25
+   ],
+   "size": [
+    12,
+    10,
+    13
+   ],
+   "color": "white",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_z",
+   "shape": "box",
+   "center": [
+    0,
+    26,
+    -22
+   ],
+   "size": [
+    9,
+    2.5,
+    4
+   ],
+   "color": "teal",
+   "group": "tail",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_z2",
+   "shape": "box",
+   "center": [
+    0,
+    23,
+    -29
+   ],
+   "size": [
+    9,
+    2.5,
+    4
+   ],
+   "color": "teal",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Foxcicle.png",
+   "note": "全身: 白青の狐、翼状の大きな耳（先端が青緑）、胸と脚に青緑の毛房、ふさふさの尾に青緑のギザ模様"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Foxcicle_bis.png",
+   "note": "ゲーム内: 雪原で四足、耳が横に広がる"
+  },
+  {
+   "url": "Tools/.refcache/095/icon.png",
+   "note": "頭部: 黒い目、白い毛"
+  }
+ ]
+}

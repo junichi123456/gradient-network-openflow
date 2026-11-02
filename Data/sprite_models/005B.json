@@ -1,0 +1,323 @@
+{
+ "name": "モモノスケ (Fuack Ignis)",
+ "gait": "biped",
+ "palette": {
+  "b": "#e8509a",
+  "b2": "#f066a8",
+  "belly": "#f6e6ee",
+  "beak": "#f0a82c",
+  "beak2": "#fbc04a",
+  "eye": "#5ab0f0",
+  "wht": "#ffffff",
+  "pup": "#1c2a4a",
+  "ruff": "#f4f4f0",
+  "fin": "#e8509a",
+  "tip": "#ffffff"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    0
+   ],
+   "size": [
+    24,
+    22,
+    20
+   ],
+   "color": "b",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    6
+   ],
+   "size": [
+    14,
+    14,
+    10
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    3
+   ],
+   "size": [
+    25,
+    18,
+    20
+   ],
+   "color": "b2",
+   "group": "head"
+  },
+  {
+   "name": "crest",
+   "shape": "cone",
+   "center": [
+    0,
+    33,
+    2
+   ],
+   "size": [
+    6,
+    8,
+    4
+   ],
+   "color": "b",
+   "group": "head",
+   "rot": [
+    -12,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    29,
+    1
+   ],
+   "size": [
+    11,
+    7,
+    3
+   ],
+   "color": "b",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_tip",
+   "shape": "ellipsoid",
+   "center": [
+    17.5,
+    31.5,
+    1
+   ],
+   "size": [
+    5,
+    4,
+    3.2
+   ],
+   "color": "tip",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -28
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye_w",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    24,
+    12
+   ],
+   "size": [
+    7,
+    6.5,
+    3
+   ],
+   "color": "wht",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    23.5,
+    13.4
+   ],
+   "size": [
+    4.4,
+    5,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    23.5,
+    14.2
+   ],
+   "size": [
+    2,
+    3,
+    0.8
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "brow",
+   "shape": "box",
+   "center": [
+    6.5,
+    27.5,
+    13
+   ],
+   "size": [
+    7,
+    1.4,
+    1.4
+   ],
+   "color": "pup",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bill",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18.5,
+    15
+   ],
+   "size": [
+    20,
+    5,
+    12
+   ],
+   "color": "beak",
+   "group": "head"
+  },
+  {
+   "name": "bill_top",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19.5,
+    16
+   ],
+   "size": [
+    17,
+    3,
+    10
+   ],
+   "color": "beak2",
+   "group": "head"
+  },
+  {
+   "name": "ruff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14.5,
+    8
+   ],
+   "size": [
+    15,
+    5,
+    8
+   ],
+   "color": "ruff",
+   "group": "body"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    13.5,
+    12,
+    0
+   ],
+   "size": [
+    8,
+    3,
+    5
+   ],
+   "color": "fin",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    5,
+    1,
+    3
+   ],
+   "size": [
+    5.5,
+    2,
+    8
+   ],
+   "color": "beak",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    6,
+    -11
+   ],
+   "size": [
+    6,
+    6,
+    3
+   ],
+   "color": "b",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_BluePlatypus_Fire_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Fuack1.webp",
+   "note": "基本種 Fuack と同形で桃色(炎): 体・耳が濃いピンク。他の参照はアイコンのみ"
+  }
+ ]
+}

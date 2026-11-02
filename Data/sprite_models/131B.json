@@ -1,0 +1,419 @@
+{
+ "name": "フロスドン (Pierdon Cryst)",
+ "gait": "quad",
+ "palette": {
+  "tan": "#8c98a4",
+  "tan2": "#b4c0cc",
+  "rock": "#7ab4dc",
+  "rock2": "#a8d4ee",
+  "eye": "#38d8f0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -1
+   ],
+   "size": [
+    20,
+    13,
+    22
+   ],
+   "color": "tan",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    1
+   ],
+   "size": [
+    16,
+    8,
+    18
+   ],
+   "color": "tan2",
+   "group": "body"
+  },
+  {
+   "name": "rock0",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    -5
+   ],
+   "size": [
+    6.5,
+    11,
+    6
+   ],
+   "color": "rock",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "rock1",
+   "shape": "cone",
+   "center": [
+    6,
+    17,
+    -8
+   ],
+   "size": [
+    6.5,
+    9,
+    6
+   ],
+   "color": "rock2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "rock2",
+   "shape": "cone",
+   "center": [
+    -6,
+    17,
+    -3
+   ],
+   "size": [
+    6.5,
+    9,
+    6
+   ],
+   "color": "rock",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    30
+   ]
+  },
+  {
+   "name": "rock3",
+   "shape": "cone",
+   "center": [
+    5,
+    18,
+    3
+   ],
+   "size": [
+    6.5,
+    8,
+    6
+   ],
+   "color": "rock2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -25
+   ]
+  },
+  {
+   "name": "rock4",
+   "shape": "cone",
+   "center": [
+    -5,
+    17,
+    5
+   ],
+   "size": [
+    6.5,
+    8,
+    6
+   ],
+   "color": "rock",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    25
+   ]
+  },
+  {
+   "name": "rock5",
+   "shape": "cone",
+   "center": [
+    0,
+    18,
+    -12
+   ],
+   "size": [
+    6.5,
+    8,
+    6
+   ],
+   "color": "rock2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "rock6",
+   "shape": "cone",
+   "center": [
+    9,
+    14,
+    -2
+   ],
+   "size": [
+    6.5,
+    8,
+    6
+   ],
+   "color": "rock",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -55
+   ]
+  },
+  {
+   "name": "rock7",
+   "shape": "cone",
+   "center": [
+    -9,
+    14,
+    -4
+   ],
+   "size": [
+    6.5,
+    8,
+    6
+   ],
+   "color": "rock2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    55
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    11
+   ],
+   "size": [
+    11,
+    9,
+    10
+   ],
+   "color": "rock",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    8.5,
+    17
+   ],
+   "size": [
+    6,
+    8,
+    5
+   ],
+   "color": "rock2",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "brow",
+   "shape": "cone",
+   "center": [
+    0,
+    15,
+    11
+   ],
+   "size": [
+    8,
+    6,
+    7
+   ],
+   "color": "rock2",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.8,
+    11,
+    14
+   ],
+   "size": [
+    2,
+    2.2,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hcrest",
+   "shape": "cone",
+   "center": [
+    5,
+    15,
+    9
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "rock",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    3,
+    6
+   ],
+   "size": [
+    6,
+    7,
+    8
+   ],
+   "color": "rock",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "clawf",
+   "shape": "cone",
+   "center": [
+    8,
+    1.5,
+    11
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "tan2",
+   "group": "leg_fr",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    3,
+    -8
+   ],
+   "size": [
+    7,
+    7,
+    9
+   ],
+   "color": "rock",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "clawb",
+   "shape": "cone",
+   "center": [
+    8,
+    1.5,
+    -3
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "tan2",
+   "group": "leg_br",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    6,
+    -15
+   ],
+   "size": [
+    5,
+    9,
+    5
+   ],
+   "color": "rock2",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_RockBeast_Ice_icon_normal.png",
+   "note": "正面: 青白い氷晶の岩に覆われた頭、水色の目、灰の体"
+  },
+  {
+   "url": "https://i.ytimg.com/vi/2FpmTNKwLKE/hqdefault.jpg",
+   "note": "元種ジオルドンの体形(低い四足、背の岩片)を流用、岩を氷晶の青に"
+  }
+ ]
+}

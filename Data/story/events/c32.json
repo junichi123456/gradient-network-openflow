@@ -1,0 +1,396 @@
+[
+  {
+    "id": "c32_e01_wake",
+    "trigger": {
+      "type": "chart_start",
+      "requires": [],
+      "once": true,
+      "chart": "c32"
+    },
+    "steps": [
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 1.0
+      },
+      {
+        "op": "narration",
+        "text": "夜更けのハコニワは、静まり返っていた。見回り隊の詰め所の灯りだけが、ちらちらと揺れている。"
+      },
+      {
+        "op": "narration",
+        "text": "最初に気づいたのは、{player_name}だった。眠りの浅い耳が、足の下の、かすかな軋みを拾った。"
+      },
+      {
+        "op": "narration",
+        "text": "{player_name}は、隣で眠る{partner}の肩を、そっと揺らした。声は出さない。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "……んん……なに……？　まだ、暗いよ……"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……揺れる。"
+      },
+      {
+        "op": "narration",
+        "text": "次の瞬間、地面が一瞬だけずれた。庭の中ほどに、光の筋が走る。"
+      },
+      {
+        "op": "narration",
+        "text": "筋は、ぱっくりと口を開けて、小さな割れ目になった。淡い光が、そこから漏れている。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "わ、わ……光ってる……！",
+        "face": "surprise"
+      },
+      {
+        "op": "narration",
+        "text": "揺れは、すぐに収まった。けれど、割れ目は庭の隅で、静かに光りつづけていた。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c32_wake_done"
+      }
+    ]
+  },
+  {
+    "id": "c32_e02_command",
+    "trigger": {
+      "type": "chart_start",
+      "requires": [],
+      "once": true,
+      "chart": "c32"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "詰め所の鐘が、一度だけ鳴った。見回り隊の隊長となったヘルガルダが、初めて鳴らした非常の鐘だった。"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "起きな！　全員、庭の外れに集まりな！　走るんじゃないよ、歩いて、手を引いて、だ"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "子どもが先、年寄りが次。アタシらは最後だろうが。筋は通しな"
+      },
+      {
+        "op": "narration",
+        "text": "眠い目をこすりながら、住民たちが列を作っていく。ヘルガルダは、声を張り上げて数を数えた。"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "一、二、三……よし、足りないのはいないね"
+      },
+      {
+        "op": "narration",
+        "text": "数える声は、少しも震えていなかった。震えているのは、強く握りしめた前脚のほうだった。"
+      },
+      {
+        "op": "narration",
+        "text": "診療所のほうから、薬袋を抱えたヴィオレッタが駆けてきた。"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "ヘルガルダ、怪我人はいないみたい。……でも、子どもたちが怖がってるかな"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "よく来た。手が足りないんだ、見てやんな"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "うん。わたしは、みんなの顔を見ていくね。顔を見るのがいちばん効くと思う、たぶん"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c32_command_done"
+      }
+    ]
+  },
+  {
+    "id": "c32_e03_crack",
+    "trigger": {
+      "type": "chart_start",
+      "requires": [],
+      "once": true,
+      "chart": "c32"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "避難が済んだあとも、割れ目は庭の隅で口を開けていた。朝になれば閉じるかもしれない。閉じないかもしれない。"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "割れ目がまだ開いてる。誰かが奥を確かめなきゃならないだろうが。アタシが行くよ。隊長だからね"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "待って。光る欠片が湧いているなら、わたしも見たい。薬になるものか、毒になるものか、見ておきたいかな"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "好きにしな。ただし、アタシの後ろだよ"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "{I}たちも行く！　一緒なら、きっと大丈夫"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……行く。"
+      },
+      {
+        "op": "narration",
+        "text": "見回り隊の灯りを先頭に、四人は庭の割れ目へ降りていった。入口の光が、背後で細くなっていく。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c32_crack_in"
+      }
+    ]
+  },
+  {
+    "id": "c32_e03b_boss",
+    "trigger": {
+      "type": "boss_defeated",
+      "requires": [],
+      "once": true,
+      "dungeon": "d32_s32"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "割れ目の奥には、先客がいた。カバネドリだ。突然開いた割れ目に驚いて、飛び込んでしまったらしい。"
+      },
+      {
+        "op": "narration",
+        "text": "カバネドリは翼を広げて威嚇した。倒れたあとは、出口を探すように、天井の光の筋を見上げている。"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "どきな。荒らしに来たんじゃないんだよ。……閉じる前に、帰りな"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "出口は、あっちかな。翼を傷つけないように、道を空けてあげよう、ね"
+      },
+      {
+        "op": "narration",
+        "text": "ヘルガルダが体をずらして道を空けると、カバネドリはゆっくり羽ばたき、来た道を戻っていった。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c32_boss_done"
+      }
+    ]
+  },
+  {
+    "id": "c32_e03c_spring",
+    "trigger": {
+      "type": "dungeon_clear",
+      "requires": [],
+      "once": true,
+      "dungeon": "d32_s32"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "割れ目の最奥は、小さな空洞になっていた。壁から、淡く光る欠片が、水のように滲み出している。"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "触っても熱くない……。毒の気配も、ないみたい。たぶん、危険はないと思う"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "鉱道で拾った欠片と、光り方が似てるかな。拾った場所は、全然ちがうのに"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "危ないもんがないなら、それでいい。……塞がる前に見ておけて、よかったよ"
+      },
+      {
+        "op": "narration",
+        "text": "壁の割れ目が、少しずつ寄り合っていく。入口の光が、細くなる。"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "戻るよ！　閉じる前にだ！"
+      },
+      {
+        "op": "narration",
+        "text": "四人は、細くなる光を目指して駆け上がった。最後に抜け出した瞬間、背後で、地面がふっと静かになった。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c32_spring_seen"
+      }
+    ]
+  },
+  {
+    "id": "c32_e04_morning",
+    "trigger": {
+      "type": "chart_end",
+      "requires": [],
+      "once": true,
+      "chart": "c32"
+    },
+    "steps": [
+      {
+        "op": "fade",
+        "mode": "out",
+        "sec": 1.0
+      },
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 1.0
+      },
+      {
+        "op": "narration",
+        "text": "朝。庭を見回っても、壊れたものは何ひとつなかった。畑も、寝床も、そのままだ。"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "被害なし、だ。報告は以上だろうが。……なのに、なんで灯りを消さないんだい"
+      },
+      {
+        "op": "narration",
+        "text": "子どもたちは、枕元の灯りを抱くようにして座っていた。消そうとすると、小さな手が、ぎゅっと袖をつかむ。"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "崩れた夜のことを、思い出しちゃうのかな。身体は無事でも、胸のなかは、まだ朝になってないのかも"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "……そうかい。なら、アタシが夜じゅう見回る。灯りは、好きなだけ点けときな"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c32_morning_done"
+      }
+    ]
+  },
+  {
+    "id": "c32_e05_proposal",
+    "trigger": {
+      "type": "chart_end",
+      "requires": [],
+      "once": true,
+      "chart": "c32"
+    },
+    "steps": [
+      {
+        "op": "wait",
+        "sec": 1.0
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "ねえ、ヘルガルダ。あの欠片、どこから来るんだろうって、ずっと考えてたの。原因を探しに行く案、出してもいいかな"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "探しに行く、ね。……誰が行くんだい。見回りは、ハコニワから離れられないんだよ"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "うん、だから、まだ案だけ。明日の会議で、話してみるね"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c32_proposal_done"
+      }
+    ]
+  },
+  {
+    "id": "c32_e05b_trace",
+    "trigger": {
+      "type": "chart_end",
+      "requires": [],
+      "once": true,
+      "chart": "c32"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "昼前、{player_name}と{partner}は、庭の隅に戻ってきた。割れ目は、もう閉じていた。"
+      },
+      {
+        "op": "narration",
+        "text": "継ぎ目のような薄い線が、地面に走っているだけだ。"
+      },
+      {
+        "op": "narration",
+        "text": "その線の真ん中に、かけらが一粒だけ、光ったまま残っていた。"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "by_type": {
+          "INFJ": "……一粒。たぶん、ね、何かある",
+          "INFP": "えっと……光ってる、かも。まだ、ここにいるふぁ",
+          "INTJ": "一粒、か。想定の範囲だ。見ておく",
+          "INTP": "待って……一粒だけ、残ったのか。なぜ、だ",
+          "ISFJ": "一粒、残っていますね。見ていましょう",
+          "ISFP": "残ってるんだよ。……まぁ、いっか、見とこうかなぁ",
+          "ISTJ": "一粒、残っている。記録する",
+          "ISTP": "……残ってる。……見る",
+          "ENFJ": "一粒だけ……みんなに、伝えよう",
+          "ENFP": "ねえねえ聞いて！　一粒、残ってる！",
+          "ENTJ": "一粒残ったわ。段取りはこうよ、会議に出す",
+          "ENTP": "でもさ、逆に。一粒だけ残す、って変じゃね？",
+          "ESFJ": "一粒だけ……ちゃんと、見ててあげなきゃ",
+          "ESFP": "一粒だけ、残ってるぜ。……静かだな",
+          "ESTJ": "一粒残ってるだろうが。放っとけないよ",
+          "ESTP": "一粒、残ってるっす！　調べるっす！"
+        },
+        "key": true
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "ほんとだ……ひとつだけ、置いていったみたい"
+      },
+      {
+        "op": "narration",
+        "text": "昼の光のなかでも、かけらは、かすかに脈を打つように光っていた。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c32_done"
+      }
+    ]
+  }
+]

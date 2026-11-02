@@ -1,0 +1,412 @@
+{
+ "name": "ウラミィ (Bakemi)",
+ "gait": "hover",
+ "hover": 7,
+ "palette": {
+  "pale": "#8c92b0",
+  "pale2": "#7a80a0",
+  "blue": "#3447b0",
+  "blue2": "#26308a",
+  "face": "#4259ae",
+  "eye": "#e8d840",
+  "wisp": "#2e2066",
+  "blk": "#101018"
+ },
+ "parts": [
+  {
+   "name": "wisp",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    3,
+    -1
+   ],
+   "size": [
+    10,
+    10,
+    10
+   ],
+   "color": "wisp",
+   "group": "tail"
+  },
+  {
+   "name": "wisptip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    2,
+    -9
+   ],
+   "size": [
+    5,
+    6,
+    7
+   ],
+   "color": "wisp",
+   "group": "tail"
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    18,
+    14,
+    16
+   ],
+   "color": "pale",
+   "group": "body"
+  },
+  {
+   "name": "skirtblue",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    0
+   ],
+   "size": [
+    22,
+    7,
+    19
+   ],
+   "color": "blue",
+   "group": "body"
+  },
+  {
+   "name": "spike0",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    5,
+    5
+   ],
+   "size": [
+    4.5,
+    5,
+    4.5
+   ],
+   "color": "blue2",
+   "group": "body"
+  },
+  {
+   "name": "spike1",
+   "shape": "ellipsoid",
+   "center": [
+    -9,
+    5,
+    5
+   ],
+   "size": [
+    4.5,
+    5,
+    4.5
+   ],
+   "color": "blue2",
+   "group": "body"
+  },
+  {
+   "name": "spike2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    9
+   ],
+   "size": [
+    4.5,
+    5,
+    4.5
+   ],
+   "color": "blue2",
+   "group": "body"
+  },
+  {
+   "name": "spike3",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    5,
+    -5
+   ],
+   "size": [
+    4.5,
+    5,
+    4.5
+   ],
+   "color": "blue2",
+   "group": "body"
+  },
+  {
+   "name": "spike4",
+   "shape": "ellipsoid",
+   "center": [
+    -8,
+    5,
+    -5
+   ],
+   "size": [
+    4.5,
+    5,
+    4.5
+   ],
+   "color": "blue2",
+   "group": "body"
+  },
+  {
+   "name": "spike5",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    -8
+   ],
+   "size": [
+    4.5,
+    5,
+    4.5
+   ],
+   "color": "blue2",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    1
+   ],
+   "size": [
+    12,
+    4,
+    11
+   ],
+   "color": "blue2",
+   "group": "body"
+  },
+  {
+   "name": "hood",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    -1.5
+   ],
+   "size": [
+    21,
+    17,
+    17
+   ],
+   "color": "pale",
+   "group": "head"
+  },
+  {
+   "name": "hoodball",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    -1
+   ],
+   "size": [
+    8,
+    7,
+    8
+   ],
+   "color": "pale",
+   "group": "head"
+  },
+  {
+   "name": "tuft",
+   "shape": "ellipsoid",
+   "center": [
+    1,
+    38,
+    -1
+   ],
+   "size": [
+    3,
+    4,
+    3
+   ],
+   "color": "blue",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21.5,
+    6.5
+   ],
+   "size": [
+    15,
+    12,
+    9
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    22.5,
+    11
+   ],
+   "size": [
+    4.4,
+    5.4,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    22.5,
+    12
+   ],
+   "size": [
+    1.6,
+    2.4,
+    1
+   ],
+   "color": "blk",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    11.5
+   ],
+   "size": [
+    5,
+    1.6,
+    1
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "horn",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    29,
+    5
+   ],
+   "size": [
+    3.6,
+    7,
+    3.6
+   ],
+   "color": "blue",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "sidecurl",
+   "shape": "ellipsoid",
+   "center": [
+    11.5,
+    21,
+    0
+   ],
+   "size": [
+    3,
+    6,
+    5
+   ],
+   "color": "blue2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ]
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    15,
+    0
+   ],
+   "size": [
+    13,
+    4,
+    4.5
+   ],
+   "color": "pale",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    16,
+    11,
+    2
+   ],
+   "size": [
+    8,
+    8,
+    8
+   ],
+   "color": "pale",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "handrim",
+   "shape": "ellipsoid",
+   "center": [
+    16,
+    7.5,
+    2
+   ],
+   "size": [
+    9,
+    3.5,
+    9
+   ],
+   "color": "blue",
+   "group": "arm_r",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/168",
+   "note": "ゲーム内SS: 淡灰紫のフード+青い顔と黄の大きな目、青い角、青い襟、青いギザ縁のスカート、鈴状の手、暗紫の尾"
+  }
+ ]
+}

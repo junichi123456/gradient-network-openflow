@@ -1,0 +1,456 @@
+{
+ "name": "ムラサメ (Fenglope Lux)",
+ "gait": "quad",
+ "palette": {
+  "body": "#2e2c48",
+  "body2": "#403c5e",
+  "cloud": "#c8dcc0",
+  "cloud2": "#a8d0b0",
+  "gold": "#c8a040",
+  "horn": "#e0d49c",
+  "hornm": "#bcd8a8",
+  "hoof": "#e4e0d0",
+  "eye": "#38c0b0",
+  "hair": "#26243c"
+ },
+ "refs": [
+  {
+   "url": "Tools/.refshots/083B (in-game screenshots)",
+   "note": "in-game screenshots, all views"
+  }
+ ],
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    0
+   ],
+   "size": [
+    11,
+    12,
+    22
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "rump",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -9
+   ],
+   "size": [
+    12,
+    13,
+    10
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    9
+   ],
+   "size": [
+    10,
+    14,
+    9
+   ],
+   "color": "cloud",
+   "group": "body"
+  },
+  {
+   "name": "chest2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    11
+   ],
+   "size": [
+    9,
+    8,
+    7
+   ],
+   "color": "cloud",
+   "group": "body"
+  },
+  {
+   "name": "cloudb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29.5,
+    -2
+   ],
+   "size": [
+    11,
+    5,
+    15
+   ],
+   "color": "cloud",
+   "group": "body"
+  },
+  {
+   "name": "cloudb2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    -8
+   ],
+   "size": [
+    12,
+    5,
+    9
+   ],
+   "color": "cloud2",
+   "group": "body"
+  },
+  {
+   "name": "wisp1",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    29,
+    -12
+   ],
+   "size": [
+    4,
+    4,
+    10
+   ],
+   "color": "cloud2",
+   "group": "body",
+   "rot": [
+    30,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wisp2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    -16
+   ],
+   "size": [
+    6,
+    5,
+    9
+   ],
+   "color": "cloud",
+   "group": "tail",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "gmark",
+   "shape": "ellipsoid",
+   "center": [
+    5.6,
+    20,
+    -5
+   ],
+   "size": [
+    1.4,
+    5,
+    6
+   ],
+   "color": "gold",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    12
+   ],
+   "size": [
+    6,
+    15,
+    7
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -22,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39,
+    16
+   ],
+   "size": [
+    6.5,
+    7,
+    10
+   ],
+   "color": "body",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36.5,
+    20.5
+   ],
+   "size": [
+    4.5,
+    4.5,
+    5
+   ],
+   "color": "body2",
+   "group": "head"
+  },
+  {
+   "name": "hmark",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41,
+    15.5
+   ],
+   "size": [
+    3,
+    1.2,
+    5
+   ],
+   "color": "gold",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    39.5,
+    18
+   ],
+   "size": [
+    1.4,
+    2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tuft",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    36.5,
+    12
+   ],
+   "size": [
+    4,
+    6,
+    5
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    48,
+    11.5
+   ],
+   "size": [
+    3,
+    14,
+    3
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    56,
+    10.5
+   ],
+   "size": [
+    2.6,
+    6,
+    2.6
+   ],
+   "color": "hornm",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hflame",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    45,
+    12
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "hornm",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "legf",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    10.5,
+    9
+   ],
+   "size": [
+    4,
+    21,
+    4.5
+   ],
+   "color": "body",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    10.5,
+    -9
+   ],
+   "size": [
+    4.5,
+    21,
+    5
+   ],
+   "color": "body",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    1.5,
+    9.5
+   ],
+   "size": [
+    5,
+    3,
+    6
+   ],
+   "color": "hoof",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofb",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    1.5,
+    -8.5
+   ],
+   "size": [
+    5,
+    3,
+    6
+   ],
+   "color": "hoof",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "fw",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    4,
+    9
+   ],
+   "size": [
+    4,
+    6,
+    6
+   ],
+   "color": "cloud2",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "fwb",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    4,
+    -9
+   ],
+   "size": [
+    4,
+    6,
+    6
+   ],
+   "color": "cloud2",
+   "group": "leg_bl",
+   "mirror_x": true
+  }
+ ]
+}

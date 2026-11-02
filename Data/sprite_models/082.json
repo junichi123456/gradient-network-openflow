@@ -1,0 +1,309 @@
+{
+ "name": "ミステリア (Lunaris)",
+ "gait": "hover",
+ "palette": {
+  "w": "#e8eef2",
+  "w2": "#c4d0da",
+  "blue": "#2a58a8",
+  "cy": "#30c8e0",
+  "blk": "#1a2030"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    0
+   ],
+   "size": [
+    11,
+    16,
+    9
+   ],
+   "color": "w",
+   "group": "body"
+  },
+  {
+   "name": "lower",
+   "shape": "cone",
+   "center": [
+    0,
+    6,
+    -1
+   ],
+   "size": [
+    10,
+    12,
+    8
+   ],
+   "color": "w2",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "gem2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    4
+   ],
+   "size": [
+    3,
+    4,
+    1.6
+   ],
+   "color": "cy",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    2
+   ],
+   "size": [
+    13,
+    11,
+    11
+   ],
+   "color": "w",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    6
+   ],
+   "size": [
+    9,
+    6,
+    4
+   ],
+   "color": "w2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    30,
+    8
+   ],
+   "size": [
+    2.8,
+    3.2,
+    1.2
+   ],
+   "color": "cy",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "gem",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34.5,
+    7
+   ],
+   "size": [
+    3,
+    4.4,
+    1.6
+   ],
+   "color": "cy",
+   "group": "head"
+  },
+  {
+   "name": "gembase",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    6.4
+   ],
+   "size": [
+    5,
+    6.6,
+    1.6
+   ],
+   "color": "blue",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    34,
+    -1
+   ],
+   "size": [
+    5,
+    17,
+    4
+   ],
+   "color": "w",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eartip",
+   "shape": "cone",
+   "center": [
+    14.5,
+    40,
+    -1
+   ],
+   "size": [
+    3.6,
+    5,
+    3
+   ],
+   "color": "cy",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earblue",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    34,
+    0.5
+   ],
+   "size": [
+    2.6,
+    10,
+    2
+   ],
+   "color": "blue",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    17,
+    2
+   ],
+   "size": [
+    4,
+    12,
+    4
+   ],
+   "color": "w",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    11,
+    3
+   ],
+   "size": [
+    3.6,
+    4,
+    3.6
+   ],
+   "color": "blue",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -13
+   ],
+   "size": [
+    5,
+    5,
+    16
+   ],
+   "color": "w",
+   "group": "tail",
+   "rot": [
+    25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "cone",
+   "center": [
+    0,
+    5,
+    -23
+   ],
+   "size": [
+    4,
+    7,
+    4
+   ],
+   "color": "blue",
+   "group": "tail",
+   "rot": [
+    -125,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Mutant_icon_normal.png",
+   "note": "正面: 銀白の体、額と胸の青い宝石、先端が青い大きな耳、水色の目"
+  },
+  {
+   "url": "https://palworld.wiki.gg/wiki/Lunaris",
+   "note": "ゲーム内: 空中に浮かぶ、長い尾と腕の先が青い"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799248",
+   "note": "全身: 細身で浮遊、尾は長く先が青"
+  }
+ ],
+ "hover": 2
+}

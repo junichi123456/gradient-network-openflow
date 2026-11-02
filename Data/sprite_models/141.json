@@ -1,0 +1,358 @@
+{
+ "name": "ブッサソリ (Prixter)",
+ "gait": "quad",
+ "palette": {
+  "arm1": "#5e3a70",
+  "arm2": "#7a5290",
+  "ring": "#b890c4",
+  "eye": "#f0e040",
+  "horn": "#c8c4cc"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    16,
+    14,
+    20
+   ],
+   "color": "arm1",
+   "group": "body"
+  },
+  {
+   "name": "plate",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    2
+   ],
+   "size": [
+    12,
+    8,
+    14
+   ],
+   "color": "arm2",
+   "group": "body"
+  },
+  {
+   "name": "ring",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    6.5
+   ],
+   "size": [
+    5,
+    5,
+    3
+   ],
+   "color": "ring",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    8
+   ],
+   "size": [
+    12,
+    9,
+    10
+   ],
+   "color": "arm2",
+   "group": "head"
+  },
+  {
+   "name": "hood",
+   "shape": "cone",
+   "center": [
+    0,
+    25,
+    6
+   ],
+   "size": [
+    8,
+    9,
+    8
+   ],
+   "color": "arm1",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    19.5,
+    12.2
+   ],
+   "size": [
+    3,
+    1.6,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    8,
+    22,
+    6
+   ],
+   "size": [
+    2.6,
+    8,
+    2.6
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -70
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw_arm",
+   "shape": "cylinder",
+   "center": [
+    10,
+    12,
+    9
+   ],
+   "size": [
+    4.4,
+    10,
+    4.4
+   ],
+   "color": "arm1",
+   "group": "leg_fr",
+   "rot": [
+    60,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    9,
+    14
+   ],
+   "size": [
+    10,
+    6,
+    12
+   ],
+   "color": "arm2",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "claw_pin",
+   "shape": "cone",
+   "center": [
+    14,
+    8,
+    19.5
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "horn",
+   "group": "leg_fr",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "cone",
+   "center": [
+    8,
+    9,
+    -5
+   ],
+   "size": [
+    3,
+    14,
+    3
+   ],
+   "color": "arm1",
+   "group": "leg_br",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "legtip",
+   "shape": "cone",
+   "center": [
+    11.5,
+    3,
+    -5
+   ],
+   "size": [
+    1.6,
+    6,
+    1.6
+   ],
+   "color": "horn",
+   "group": "leg_br",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    -8
+   ],
+   "size": [
+    5.5,
+    5.5,
+    5.5
+   ],
+   "color": "arm1",
+   "group": "tail"
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -12
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "arm2",
+   "group": "tail"
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    -12
+   ],
+   "size": [
+    4.5,
+    4.5,
+    4.5
+   ],
+   "color": "arm1",
+   "group": "tail"
+  },
+  {
+   "name": "tail3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    -9
+   ],
+   "size": [
+    4.2,
+    4.2,
+    4.2
+   ],
+   "color": "arm2",
+   "group": "tail"
+  },
+  {
+   "name": "tail4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    38,
+    -4
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "arm1",
+   "group": "tail"
+  },
+  {
+   "name": "sting",
+   "shape": "cone",
+   "center": [
+    0,
+    38,
+    2
+   ],
+   "size": [
+    3,
+    7,
+    3
+   ],
+   "color": "horn",
+   "group": "tail",
+   "rot": [
+    110,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_ScorpionMan_icon_normal.png",
+   "note": "正面: 紫の装甲頭、黄色い目"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Prixter.png",
+   "note": "全身: 紫の装甲、大きな鋏、背の上にしなる尾と銀の針、細い銀の脚先、胸の輪の模様"
+  }
+ ]
+}

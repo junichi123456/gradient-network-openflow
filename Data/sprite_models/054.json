@@ -1,0 +1,432 @@
+{
+ "name": "ライコーン (Univolt)",
+ "gait": "quad",
+ "palette": {
+  "gold": "#e8cc2a",
+  "gold2": "#f6e050",
+  "teal": "#1f8a86",
+  "teal2": "#2fa8a0",
+  "horn": "#3a3a50",
+  "horn2": "#1f6a6a",
+  "eye": "#d83a3a",
+  "hoof": "#2a3a3a",
+  "cream": "#f0e8a0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    17,
+    18,
+    30
+   ],
+   "color": "teal",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    0
+   ],
+   "size": [
+    13,
+    10,
+    24
+   ],
+   "color": "teal2",
+   "group": "body"
+  },
+  {
+   "name": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    10
+   ],
+   "size": [
+    16,
+    14,
+    12
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "back_spike",
+   "shape": "cone",
+   "center": [
+    0,
+    29,
+    -2
+   ],
+   "size": [
+    5,
+    9,
+    5
+   ],
+   "color": "gold2",
+   "group": "body",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "back_spike2",
+   "shape": "cone",
+   "center": [
+    0,
+    28,
+    -9
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "gold2",
+   "group": "body",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    14
+   ],
+   "size": [
+    8,
+    17,
+    9
+   ],
+   "color": "teal",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    11
+   ],
+   "size": [
+    5,
+    16,
+    6
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    19
+   ],
+   "size": [
+    9,
+    10,
+    16
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    26
+   ],
+   "size": [
+    7,
+    6,
+    8
+   ],
+   "color": "gold2",
+   "group": "head",
+   "rot": [
+    15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    36,
+    22
+   ],
+   "size": [
+    2,
+    2.6,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0,
+    46,
+    14
+   ],
+   "size": [
+    4.5,
+    20,
+    4.5
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "horn_z",
+   "shape": "cone",
+   "center": [
+    0,
+    55,
+    6
+   ],
+   "size": [
+    3.4,
+    10,
+    3.4
+   ],
+   "color": "horn2",
+   "group": "head",
+   "rot": [
+    -70,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    4,
+    41,
+    15
+   ],
+   "size": [
+    3.4,
+    7,
+    3
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cheek_sp",
+   "shape": "cone",
+   "center": [
+    6,
+    32,
+    21
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "gold2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg_f",
+   "shape": "cylinder",
+   "center": [
+    5.5,
+    8,
+    11
+   ],
+   "size": [
+    5,
+    16,
+    5
+   ],
+   "color": "teal",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_f",
+   "shape": "cylinder",
+   "center": [
+    5.5,
+    1,
+    11
+   ],
+   "size": [
+    5.6,
+    3,
+    5.6
+   ],
+   "color": "gold",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_b",
+   "shape": "cylinder",
+   "center": [
+    5.5,
+    8,
+    -11
+   ],
+   "size": [
+    5.5,
+    16,
+    5.5
+   ],
+   "color": "teal",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_b",
+   "shape": "cylinder",
+   "center": [
+    5.5,
+    1,
+    -11
+   ],
+   "size": [
+    6,
+    3,
+    6
+   ],
+   "color": "gold",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_sp",
+   "shape": "cone",
+   "center": [
+    7.5,
+    15,
+    -12
+   ],
+   "size": [
+    3,
+    7,
+    3
+   ],
+   "color": "gold2",
+   "group": "leg_bl",
+   "rot": [
+    0,
+    0,
+    -80
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    -18
+   ],
+   "size": [
+    5,
+    5,
+    12
+   ],
+   "color": "teal",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_sp",
+   "shape": "cone",
+   "center": [
+    0,
+    22,
+    -25
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "gold2",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Kirin_icon_normal.png",
+   "note": "正面: 黄色い面取りの頭と鼻、暗い青緑の稲妻形の長い角、赤い目、青緑の首、黄色いトゲ"
+  }
+ ]
+}

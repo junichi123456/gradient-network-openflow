@@ -1,0 +1,537 @@
+{
+ "name": "レヴィドラ (Jormuntide)",
+ "gait": "slither",
+ "palette": {
+  "belly": "#e2dcc4",
+  "back": "#1d5f86",
+  "fin": "#f0c53a",
+  "fin2": "#6fb8cc",
+  "horn": "#f0c53a",
+  "eye": "#e02a2a",
+  "whisk": "#e8e4d2"
+ },
+ "parts": [
+  {
+   "name": "seg0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    -22
+   ],
+   "size": [
+    6,
+    6,
+    7
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "back0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5.72,
+    -23.5
+   ],
+   "size": [
+    5.5200000000000005,
+    4.5,
+    5.4
+   ],
+   "color": "back",
+   "group": "body"
+  },
+  {
+   "name": "seg1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -16
+   ],
+   "size": [
+    8,
+    8,
+    9
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "back1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6.96,
+    -17.5
+   ],
+   "size": [
+    7.36,
+    6.0,
+    7.2
+   ],
+   "color": "back",
+   "group": "body"
+  },
+  {
+   "name": "spk1",
+   "shape": "cone",
+   "center": [
+    0,
+    10.4,
+    -18
+   ],
+   "size": [
+    2.2,
+    3.5,
+    2.2
+   ],
+   "color": "fin",
+   "group": "body"
+  },
+  {
+   "name": "seg2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -9
+   ],
+   "size": [
+    10,
+    10,
+    11
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "back2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9.2,
+    -10.5
+   ],
+   "size": [
+    9.200000000000001,
+    7.5,
+    9.0
+   ],
+   "color": "back",
+   "group": "body"
+  },
+  {
+   "name": "spk2",
+   "shape": "cone",
+   "center": [
+    0,
+    13.5,
+    -11
+   ],
+   "size": [
+    2.2,
+    3.5,
+    2.2
+   ],
+   "color": "fin",
+   "group": "body"
+  },
+  {
+   "name": "seg3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    -2
+   ],
+   "size": [
+    12,
+    12,
+    13
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "back3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12.44,
+    -3.5
+   ],
+   "size": [
+    11.040000000000001,
+    9.0,
+    10.8
+   ],
+   "color": "back",
+   "group": "body"
+  },
+  {
+   "name": "spk3",
+   "shape": "cone",
+   "center": [
+    0,
+    17.6,
+    -4
+   ],
+   "size": [
+    2.2,
+    3.5,
+    2.2
+   ],
+   "color": "fin",
+   "group": "body"
+  },
+  {
+   "name": "seg4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    4
+   ],
+   "size": [
+    11.5,
+    11.5,
+    12.5
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "back4",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17.38,
+    2.5
+   ],
+   "size": [
+    10.58,
+    8.625,
+    10.35
+   ],
+   "color": "back",
+   "group": "body"
+  },
+  {
+   "name": "spk4",
+   "shape": "cone",
+   "center": [
+    0,
+    22.325,
+    2
+   ],
+   "size": [
+    2.2,
+    3.5,
+    2.2
+   ],
+   "color": "fin",
+   "group": "body"
+  },
+  {
+   "name": "seg5",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    9
+   ],
+   "size": [
+    10.5,
+    10.5,
+    11.5
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "back5",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23.26,
+    7.5
+   ],
+   "size": [
+    9.66,
+    7.875,
+    9.450000000000001
+   ],
+   "color": "back",
+   "group": "body"
+  },
+  {
+   "name": "spk5",
+   "shape": "cone",
+   "center": [
+    0,
+    27.775,
+    7
+   ],
+   "size": [
+    2.2,
+    3.5,
+    2.2
+   ],
+   "color": "fin",
+   "group": "body"
+  },
+  {
+   "name": "seg6",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    12
+   ],
+   "size": [
+    10,
+    10,
+    11
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "back6",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29.2,
+    10.5
+   ],
+   "size": [
+    9.200000000000001,
+    7.5,
+    9.0
+   ],
+   "color": "back",
+   "group": "body"
+  },
+  {
+   "name": "spk6",
+   "shape": "cone",
+   "center": [
+    0,
+    33.5,
+    10
+   ],
+   "size": [
+    2.2,
+    3.5,
+    2.2
+   ],
+   "color": "fin",
+   "group": "body"
+  },
+  {
+   "name": "tailfin",
+   "shape": "wedge",
+   "center": [
+    0,
+    5,
+    -28
+   ],
+   "size": [
+    2,
+    10,
+    9
+   ],
+   "color": "fin2",
+   "group": "tail"
+  },
+  {
+   "name": "tailfin2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    4,
+    -26
+   ],
+   "size": [
+    11,
+    1.5,
+    7
+   ],
+   "color": "fin2",
+   "group": "tail"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    16
+   ],
+   "size": [
+    10,
+    8,
+    12
+   ],
+   "color": "back",
+   "group": "head"
+  },
+  {
+   "name": "jaw",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    19
+   ],
+   "size": [
+    7,
+    3.5,
+    9
+   ],
+   "color": "belly",
+   "group": "head"
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0,
+    33,
+    22.5
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    70,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37,
+    11
+   ],
+   "size": [
+    3,
+    13,
+    11
+   ],
+   "color": "fin2",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "crest2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    13
+   ],
+   "size": [
+    3,
+    9,
+    8
+   ],
+   "color": "horn",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    33,
+    19
+   ],
+   "size": [
+    1.5,
+    2.4,
+    2.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "whisk",
+   "shape": "cylinder",
+   "center": [
+    5,
+    30,
+    10
+   ],
+   "size": [
+    0.8,
+    15,
+    0.8
+   ],
+   "color": "whisk",
+   "group": "head",
+   "rot": [
+    -70,
+    0,
+    25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "pfin",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    26,
+    9
+   ],
+   "size": [
+    11,
+    1.5,
+    6
+   ],
+   "color": "fin2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Jormuntide_bis.png",
+   "note": "全身: 濃い青緑の龍、黄色い鼻角と顔の縁取り、頭の後ろの薄青のヒレ冠、白〜クリームの節のある腹、長い白い髭、胸びれ、背に黄の棘"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Jormuntide_slep.png",
+   "note": "寝姿: 背に緑の稲妻状の模様、体が長く渦巻く"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_Umihebi_icon_normal.png",
+   "note": "頭アップ: 赤い目、黄色い鼻角"
+  }
+ ]
+}

@@ -1,0 +1,334 @@
+{
+ "name": "トリステップ (Dazemu)",
+ "gait": "biped",
+ "palette": {
+  "red": "#d94a3e",
+  "red2": "#ef6a58",
+  "cream": "#efe6c4",
+  "brown": "#5a4630",
+  "white": "#f4f2ea",
+  "dk": "#2a2622",
+  "beak": "#6a5a48",
+  "yellow": "#d8d04a",
+  "stripe": "#e6b84a",
+  "blue": "#3a6fd0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    0
+   ],
+   "size": [
+    13,
+    13,
+    19
+   ],
+   "color": "dk",
+   "group": "body"
+  },
+  {
+   "name": "cape",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -2
+   ],
+   "size": [
+    16,
+    11,
+    19
+   ],
+   "color": "red",
+   "group": "body"
+  },
+  {
+   "name": "cape_s",
+   "shape": "box",
+   "center": [
+    0,
+    28,
+    -2
+   ],
+   "size": [
+    15,
+    0.8,
+    1.5
+   ],
+   "color": "stripe",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    21,
+    8
+   ],
+   "size": [
+    12,
+    9,
+    7
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "tuft",
+   "shape": "cone",
+   "center": [
+    4,
+    19,
+    10
+   ],
+   "size": [
+    4,
+    5,
+    4
+   ],
+   "color": "white",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "neck",
+   "shape": "cylinder",
+   "center": [
+    0,
+    30,
+    6
+   ],
+   "size": [
+    4,
+    12,
+    4
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37,
+    7
+   ],
+   "size": [
+    9,
+    8,
+    11
+   ],
+   "color": "red",
+   "group": "head"
+  },
+  {
+   "name": "mark",
+   "shape": "box",
+   "center": [
+    0,
+    41,
+    10
+   ],
+   "size": [
+    5,
+    0.8,
+    4
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    35.5,
+    13.5
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    95,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "beak_y",
+   "shape": "box",
+   "center": [
+    0,
+    36.2,
+    11.5
+   ],
+   "size": [
+    3,
+    1,
+    3
+   ],
+   "color": "yellow",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.9,
+    37,
+    9
+   ],
+   "size": [
+    1,
+    2,
+    2.4
+   ],
+   "color": "blue",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "fan",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    42,
+    1
+   ],
+   "size": [
+    26,
+    22,
+    4.5
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "fan_e",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    43,
+    -0.2
+   ],
+   "size": [
+    28,
+    24,
+    2.5
+   ],
+   "color": "brown",
+   "group": "head"
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    3.5,
+    7,
+    0
+   ],
+   "size": [
+    2.2,
+    14,
+    2.2
+   ],
+   "color": "yellow",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    3.5,
+    13,
+    0
+   ],
+   "size": [
+    4.5,
+    6,
+    6
+   ],
+   "color": "dk",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "cone",
+   "center": [
+    3.5,
+    1.2,
+    3
+   ],
+   "size": [
+    2.8,
+    6,
+    2.8
+   ],
+   "color": "yellow",
+   "group": "leg_fr",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    20,
+    -13
+   ],
+   "size": [
+    6,
+    11,
+    6
+   ],
+   "color": "dk",
+   "group": "tail",
+   "rot": [
+    -80,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Dazemu_bis.png",
+   "note": "全身: 赤い頭巾状の頭と白い菱形、背後に大きなクリーム色の扇、長い首、胸の白い羽毛、赤いマント状の背に金の線、黒い腿と細長い脚、黄色い爪"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Dazemu_bis.png",
+   "note": "ゲーム内(桜の中): 同じ構成、背のマントは薄い橙赤"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_FeatherOstrich_icon_normal.png",
+   "note": "顔アップ: 暗い嘴と黄色の基部、青い目、扇の縁は茶色のギザギザ"
+  }
+ ]
+}

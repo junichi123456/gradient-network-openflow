@@ -1,0 +1,472 @@
+{
+ "name": "グランドラー (Cryolinx Terra)",
+ "gait": "quad",
+ "palette": {
+  "sky": "#4e4a50",
+  "sky2": "#625e66",
+  "str": "#34313a",
+  "cream": "#e8e6ea",
+  "spike": "#e0b838",
+  "claw": "#e8c840",
+  "eye": "#f0d040",
+  "dk": "#20304a"
+ },
+ "parts": [
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    0
+   ],
+   "size": [
+    10,
+    20,
+    9
+   ],
+   "color": "sky",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    4.2
+   ],
+   "size": [
+    5,
+    17,
+    4
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    -1
+   ],
+   "size": [
+    13,
+    9,
+    11
+   ],
+   "color": "sky",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    3
+   ],
+   "size": [
+    12,
+    9,
+    11
+   ],
+   "color": "sky2",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22.5,
+    8.5
+   ],
+   "size": [
+    6,
+    4,
+    5
+   ],
+   "color": "sky2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    24.5,
+    8
+   ],
+   "size": [
+    2.6,
+    1.6,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "cone",
+   "center": [
+    0,
+    30,
+    2
+   ],
+   "size": [
+    4,
+    7,
+    4
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    -15,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    4.5,
+    29,
+    1
+   ],
+   "size": [
+    3,
+    7,
+    3
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "cheek",
+   "shape": "cone",
+   "center": [
+    7,
+    23.5,
+    3
+   ],
+   "size": [
+    2.5,
+    6,
+    2.5
+   ],
+   "color": "spike",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "dspike0",
+   "shape": "cone",
+   "center": [
+    0,
+    25,
+    -7
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "dspike1",
+   "shape": "cone",
+   "center": [
+    0,
+    20,
+    -9
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "dspike2",
+   "shape": "cone",
+   "center": [
+    0,
+    15,
+    -9
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "spike",
+   "group": "body",
+   "rot": [
+    -60,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "sh",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    20,
+    1
+   ],
+   "size": [
+    7,
+    7,
+    7
+   ],
+   "color": "sky",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "uarm",
+   "shape": "cylinder",
+   "center": [
+    13,
+    17,
+    2
+   ],
+   "size": [
+    4,
+    13,
+    4
+   ],
+   "color": "sky",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "larm",
+   "shape": "cylinder",
+   "center": [
+    17,
+    9,
+    5
+   ],
+   "size": [
+    3.6,
+    13,
+    3.6
+   ],
+   "color": "str",
+   "group": "leg_fr",
+   "rot": [
+    -15,
+    0,
+    -5
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "fist",
+   "shape": "ellipsoid",
+   "center": [
+    17,
+    2.5,
+    8
+   ],
+   "size": [
+    6,
+    5,
+    9
+   ],
+   "color": "sky",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "claw1",
+   "shape": "cone",
+   "center": [
+    15.5,
+    2,
+    14
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw2",
+   "shape": "cone",
+   "center": [
+    18.5,
+    2,
+    13
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "elbowsp",
+   "shape": "cone",
+   "center": [
+    18,
+    15,
+    1
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "spike",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    0,
+    -80
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    6,
+    -3
+   ],
+   "size": [
+    6,
+    9,
+    8
+   ],
+   "color": "sky",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    1.5,
+    0
+   ],
+   "size": [
+    6,
+    3,
+    8
+   ],
+   "color": "str",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "hclaw",
+   "shape": "cone",
+   "center": [
+    6,
+    1.2,
+    5
+   ],
+   "size": [
+    2,
+    4,
+    2
+   ],
+   "color": "claw",
+   "group": "leg_br",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    4,
+    -11
+   ],
+   "size": [
+    4,
+    12,
+    4
+   ],
+   "color": "sky",
+   "group": "tail",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_WhiteTiger_Ground_icon_normal.png",
+   "note": "正面: 黒灰の頭に黄金のトゲの冠、黄色い目、白い喉の帯"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Cryolinx.png",
+   "note": "元種(氷)の体形を流用: 色を黒灰、トゲ・爪を金に、腹帯を白に"
+  }
+ ]
+}

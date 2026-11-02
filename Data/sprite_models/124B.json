@@ -1,0 +1,422 @@
+{
+ "name": "フォレスキー (Quivern Botan)",
+ "gait": "biped",
+ "palette": {
+  "body": "#e8f0a8",
+  "belly": "#f4f6e8",
+  "fluff": "#f6f8d8",
+  "leaf": "#6fc060",
+  "white": "#ffffff",
+  "eye": "#2a8fe0",
+  "wing": "#8cc870",
+  "wing_e": "#d6ecb0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    0
+   ],
+   "size": [
+    15,
+    17,
+    14
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    4.5
+   ],
+   "size": [
+    10,
+    13,
+    7
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "chest_t",
+   "shape": "cone",
+   "center": [
+    0,
+    17,
+    7
+   ],
+   "size": [
+    6,
+    6,
+    5
+   ],
+   "color": "fluff",
+   "group": "body",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    3
+   ],
+   "size": [
+    12,
+    10,
+    12
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24.5,
+    9
+   ],
+   "size": [
+    7,
+    5,
+    6
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    27,
+    8.5
+   ],
+   "size": [
+    2.6,
+    3.4,
+    1.5
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "iris",
+   "shape": "ellipsoid",
+   "center": [
+    3.9,
+    27,
+    9.2
+   ],
+   "size": [
+    1.8,
+    2.6,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "cheek",
+   "shape": "cone",
+   "center": [
+    6.5,
+    25,
+    2
+   ],
+   "size": [
+    4,
+    6,
+    3
+   ],
+   "color": "fluff",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -80
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    35,
+    -1
+   ],
+   "size": [
+    4,
+    14,
+    2
+   ],
+   "color": "leaf",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "cone",
+   "center": [
+    0,
+    32,
+    -3
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "fluff",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    22,
+    -4
+   ],
+   "size": [
+    30,
+    1.6,
+    18
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing_e",
+   "shape": "ellipsoid",
+   "center": [
+    19,
+    23,
+    -4
+   ],
+   "size": [
+    30,
+    0.8,
+    4
+   ],
+   "color": "wing_e",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    13,
+    6
+   ],
+   "size": [
+    4,
+    8,
+    4
+   ],
+   "color": "body",
+   "group": "arm_r",
+   "rot": [
+    -25,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "cone",
+   "center": [
+    8.5,
+    8,
+    8.5
+   ],
+   "size": [
+    2,
+    3.5,
+    2
+   ],
+   "color": "white",
+   "group": "arm_r",
+   "rot": [
+    120,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    5,
+    -1
+   ],
+   "size": [
+    7,
+    9,
+    10
+   ],
+   "color": "body",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    1.5,
+    3
+   ],
+   "size": [
+    5,
+    3,
+    8
+   ],
+   "color": "belly",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "toe",
+   "shape": "cone",
+   "center": [
+    6.5,
+    1.5,
+    7.5
+   ],
+   "size": [
+    2,
+    3,
+    2
+   ],
+   "color": "white",
+   "group": "leg_fr",
+   "rot": [
+    90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg_t",
+   "shape": "cone",
+   "center": [
+    9.5,
+    8,
+    -1
+   ],
+   "size": [
+    3,
+    5,
+    3
+   ],
+   "color": "fluff",
+   "group": "leg_fr",
+   "rot": [
+    0,
+    0,
+    -90
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cylinder",
+   "center": [
+    0,
+    6,
+    -12
+   ],
+   "size": [
+    4.5,
+    14,
+    4.5
+   ],
+   "color": "body",
+   "group": "tail",
+   "rot": [
+    75,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail_t",
+   "shape": "cone",
+   "center": [
+    0,
+    8,
+    -20
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "belly",
+   "group": "tail",
+   "rot": [
+    100,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Quivern_Botan_bis.png",
+   "note": "全身: 黄緑がかったクリーム色の体、緑の葉の耳、緑の翼、白い腹。形は124と同じ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Quivern_Botan.png",
+   "note": "ゲーム内で体が黄みの白・翼は緑〜淡緑と確認"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Quivern_bis.png",
+   "note": "全身(正面): 白〜薄紫の小竜、青い目、頭に青緑の葉羽2枚、頬・胸・脚に白い毛の房、青の濃淡の大きな羽の翼(縁は白)、太い腿と白い爪、長い尾"
+  }
+ ]
+}

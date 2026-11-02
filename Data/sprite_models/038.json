@@ -1,0 +1,268 @@
+{
+ "name": "シメナワ (Hangyu)",
+ "gait": "hover",
+ "palette": {
+  "body": "#f0e0c0",
+  "cheek": "#f08080",
+  "eye": "#e8d040",
+  "mouth": "#8a6a50",
+  "s1": "#f2e8d8",
+  "s2": "#c8684a",
+  "t1": "#c06a4e",
+  "t2": "#a8503a"
+ },
+ "hover": 0,
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    16,
+    15,
+    14
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    1
+   ],
+   "size": [
+    17,
+    15,
+    15
+   ],
+   "color": "body",
+   "group": "head"
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    5.8,
+    28,
+    7
+   ],
+   "size": [
+    4,
+    4,
+    2
+   ],
+   "color": "cheek",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    30.5,
+    8
+   ],
+   "size": [
+    2,
+    2.4,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0,
+    27.2,
+    8.3
+   ],
+   "size": [
+    3,
+    0.6,
+    0.6
+   ],
+   "color": "mouth",
+   "group": "head"
+  },
+  {
+   "name": "a1",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    26,
+    0
+   ],
+   "size": [
+    6,
+    10,
+    6
+   ],
+   "color": "s1",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -8
+   ]
+  },
+  {
+   "name": "a2",
+   "shape": "ellipsoid",
+   "center": [
+    16,
+    18,
+    0
+   ],
+   "size": [
+    6,
+    10,
+    6
+   ],
+   "color": "s2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -4
+   ]
+  },
+  {
+   "name": "a3",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    10,
+    0
+   ],
+   "size": [
+    6,
+    10,
+    6
+   ],
+   "color": "s1",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    8
+   ]
+  },
+  {
+   "name": "a4",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    4,
+    0
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "s2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    50
+   ]
+  },
+  {
+   "name": "hand_link",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    3,
+    2
+   ],
+   "size": [
+    12,
+    4,
+    6
+   ],
+   "color": "s1",
+   "group": "body"
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    3,
+    2
+   ],
+   "size": [
+    5,
+    3,
+    6
+   ],
+   "color": "body",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    35,
+    -8
+   ],
+   "size": [
+    8,
+    10,
+    8
+   ],
+   "color": "t1",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41,
+    -10
+   ],
+   "size": [
+    10,
+    8,
+    7
+   ],
+   "color": "t2",
+   "group": "tail",
+   "rot": [
+    -50,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_WindChimes_icon_normal.png",
+   "note": "正面: 丸い小さな頭、ピンクの頬、黄の目、頭上に茶橙の尻尾、両腕が長い縞リング状"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Hangyu_carrying_Teafant.png",
+   "note": "ゲーム内: 橙白の縞の長い両腕が輪になり、その上に丸い頭と尻尾が乗る"
+  }
+ ]
+}

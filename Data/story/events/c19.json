@@ -1,0 +1,780 @@
+[
+  {
+    "id": "c19_e01_announce",
+    "trigger": {
+      "type": "chart_start",
+      "requires": [],
+      "once": true,
+      "chart": "c19"
+    },
+    "steps": [
+      {
+        "op": "fade",
+        "mode": "out",
+        "sec": 0.8
+      },
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 1.2
+      },
+      {
+        "op": "narration",
+        "text": "朝のハコニワ。広場には、住民も、各地の長たちも、ほとんど全員が集まっていた。"
+      },
+      {
+        "op": "narration",
+        "text": "夜明け前、世界樹の方角を渡った黒い影のことは、もう皆が知っている。七日の期限は、あと三日を切った。"
+      },
+      {
+        "op": "say",
+        "who": "bushigaeru",
+        "text": "皆、揃ったな。拙者から言うことはない。この場の主役は、あの子だ"
+      },
+      {
+        "op": "narration",
+        "text": "視線が、{I}に集まる。足が少し震えた。けれど、浜で見つけた芯は、まだ胸のなかにある。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "{player_name}。大丈夫、{I}がそばにいるよ"
+      },
+      {
+        "op": "narration",
+        "text": "三つの道が、{I}の前に並んでいる。守るか。譲るか。継ぐか。"
+      },
+      {
+        "op": "choice",
+        "options": [
+          {
+            "text": "守る",
+            "set_flag": "c19_tried_mamoru",
+            "steps": [
+              {
+                "op": "narration",
+                "text": "……今は、まだ決められない。{I}は、胸のなかでもう一度、答えを探した。"
+              },
+              {
+                "op": "choice",
+                "options": [
+                  {
+                    "text": "守る",
+                    "set_flag": "c19_tried_mamoru",
+                    "steps": [
+                      {
+                        "op": "narration",
+                        "text": "……今は、まだ決められない。{I}は、胸のなかでもう一度、答えを探した。"
+                      },
+                      {
+                        "op": "choice",
+                        "options": [
+                          {
+                            "text": "継ぐ",
+                            "set_flag": "c19_path_tsugu"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "text": "譲る",
+                    "set_flag": "c19_tried_yuzuru",
+                    "steps": [
+                      {
+                        "op": "narration",
+                        "text": "……今は、まだ決められない。{I}は、胸のなかでもう一度、答えを探した。"
+                      },
+                      {
+                        "op": "choice",
+                        "options": [
+                          {
+                            "text": "継ぐ",
+                            "set_flag": "c19_path_tsugu"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "text": "継ぐ",
+                    "set_flag": "c19_path_tsugu"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "譲る",
+            "set_flag": "c19_tried_yuzuru",
+            "steps": [
+              {
+                "op": "narration",
+                "text": "……今は、まだ決められない。{I}は、胸のなかでもう一度、答えを探した。"
+              },
+              {
+                "op": "choice",
+                "options": [
+                  {
+                    "text": "守る",
+                    "set_flag": "c19_tried_mamoru",
+                    "steps": [
+                      {
+                        "op": "narration",
+                        "text": "……今は、まだ決められない。{I}は、胸のなかでもう一度、答えを探した。"
+                      },
+                      {
+                        "op": "choice",
+                        "options": [
+                          {
+                            "text": "継ぐ",
+                            "set_flag": "c19_path_tsugu"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "text": "譲る",
+                    "set_flag": "c19_tried_yuzuru",
+                    "steps": [
+                      {
+                        "op": "narration",
+                        "text": "……今は、まだ決められない。{I}は、胸のなかでもう一度、答えを探した。"
+                      },
+                      {
+                        "op": "choice",
+                        "options": [
+                          {
+                            "text": "継ぐ",
+                            "set_flag": "c19_path_tsugu"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "text": "継ぐ",
+                    "set_flag": "c19_path_tsugu"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "継ぐ",
+            "set_flag": "c19_path_tsugu"
+          }
+        ]
+      },
+      {
+        "op": "wait",
+        "sec": 1.0,
+        "introvert": true
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "by_type": {
+          "INFJ": "……継ぐ。ハコニワを、根にする。わたしが決めた",
+          "INFP": "ぼくは……継ぐ。ハコニワで、根を、つなぎたい",
+          "INTJ": "私は継ぐ。ハコニワを根にする。決めた",
+          "INTP": "ぼくは継ぐ。ハコニワを根にする。考えた末だ",
+          "ISFJ": "わたしは継ぎます。ハコニワを、根にします",
+          "ISFP": "ぼくは継ぐんだよ。ハコニワを、根にする",
+          "ISTJ": "自分は継ぐ。ハコニワを根にする。決めた",
+          "ISTP": "おれは継ぐ。ハコニワが、根だ",
+          "ENFJ": "わたしは継ぐ！ハコニワを、根にします",
+          "ENFP": "あたし、継ぐ！ハコニワを根にするじゃん！",
+          "ENTJ": "わたしは継ぐわ。ハコニワを、根にする",
+          "ENTP": "おれは継ぐ。ハコニワを根にする。逆に、それしかねえ",
+          "ESFJ": "あたしは継ぐわよ。ハコニワを根にするの",
+          "ESFP": "おいらは継ぐぜ！ハコニワを根にする！",
+          "ESTJ": "アタシは継ぐ。ハコニワを根にする。筋は通す",
+          "ESTP": "オレは継ぐっす！ハコニワを根にするっす！"
+        },
+        "key": true
+      },
+      {
+        "op": "narration",
+        "text": "広場が、しんと静まった。自分の声が、こんなに遠くまで届いたのは、はじめてだった。"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "……やっぱり。わたしは、その道を支持する。ハコニワなら、根の世話ができると思う"
+      },
+      {
+        "op": "say",
+        "who": "bushigaeru",
+        "text": "根を世話するのは、土地の暮らしだ。拙者も、継ぐ道に賛成する"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "by_type": {
+          "INFJ": "……わたしも行く。{player_name}が決めたこと、だから",
+          "INFP": "ぼくも、行くふぁ。{player_name}と一緒に",
+          "INTJ": "私も行く。{player_name}の判断を支持する",
+          "INTP": "ぼくも行く。{player_name}の結論は、筋が通ってるよね",
+          "ISFJ": "わたしもお供しますよ。{player_name}が決めたのですから",
+          "ISFP": "ぼくも行くんだよ。{player_name}と一緒がいいんだ",
+          "ISTJ": "自分も行く。{player_name}が決めたなら、迷いはない",
+          "ISTP": "おれも行く。……{player_name}が決めたんだろ",
+          "ENFJ": "わたしも行きます！{player_name}と、みんなで！",
+          "ENFP": "あたしも行く！{player_name}が決めたんだもん、最高じゃん！",
+          "ENTJ": "わたしも行くわ。{player_name}が決めたのよ、文句ある？",
+          "ENTP": "おれも行くぜ。{player_name}が決めたんなら、そうだろ？",
+          "ESFJ": "あたしも行くわよ。{player_name}が決めたんだもの、ちゃんと食べてね？",
+          "ESFP": "おいらも行くぜ！{player_name}が決めたんだ、楽しもうぜ！",
+          "ESTJ": "アタシも行くよ。{player_name}が決めたんだ、筋は通るだろうが",
+          "ESTP": "オレも行くっす！{player_name}が決めたなら、いくっす！"
+        },
+        "key": true,
+        "face": "smile"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c19_announce_done"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c19_path_tsugu_confirmed"
+      }
+    ]
+  },
+  {
+    "id": "c19_e01b_dissent",
+    "trigger": {
+      "type": "chart_start",
+      "requires": [],
+      "once": true,
+      "chart": "c19"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "だが、全員が頷いたわけではない。広場の端から、重い声が上がった。"
+      },
+      {
+        "op": "say",
+        "who": "levidra",
+        "text": "待て。我は、守る道が筋だと考える"
+      },
+      {
+        "op": "say",
+        "who": "levidra",
+        "text": "根を延命すれば、世界は今のまま残る。我らの暮らしも、荒野の管理も、続けられる"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "でも、延命は一時のものだって……！"
+      },
+      {
+        "op": "say",
+        "who": "levidra",
+        "text": "承知している。だが、次の崩落を先延ばしにする時間にも、意味はある"
+      },
+      {
+        "op": "say",
+        "who": "suzaku",
+        "text": "わたしも同じよ。力で守るのが、いちばん確かな道だわ。迷っている暇はないの"
+      },
+      {
+        "op": "say",
+        "who": "majoruna",
+        "text": "でもさ、逆に。ほどけたほうが、ゼノ系も迎えられるんじゃね？あたしは譲る側だぜ"
+      },
+      {
+        "op": "say",
+        "who": "mysteria",
+        "text": "えっと、その……ぼくも……かけらの声は、ほどけたがってるふぁ……"
+      },
+      {
+        "op": "narration",
+        "text": "意見は割れたままだ。けれど、誰も{I}の決断そのものを笑わなかった。"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……反対でも、いい。"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "みんなで、行きたい。"
+      },
+      {
+        "op": "say",
+        "who": "levidra",
+        "text": "……我は同意したわけではない。だが、世界樹まで同行はしよう。見届けるのも、務めだ"
+      },
+      {
+        "op": "say",
+        "who": "suzaku",
+        "text": "いいわ。道中の守りは任せなさい。見届けた上で、文句は言うわよ"
+      },
+      {
+        "op": "narration",
+        "text": "反対する者たちも、道は同じ方向を向いている。{I}は胸のなかで、深く息をついた。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c19_dissent_done"
+      }
+    ]
+  },
+  {
+    "id": "c19_e02_orders",
+    "trigger": {
+      "type": "chart_start",
+      "requires": [],
+      "once": true,
+      "chart": "c19"
+    },
+    "steps": [
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "よく聞きな！全員、持ち場に就け。ここからは、アタシが仕切る"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "見回り隊は、属性圏ごとに護衛の列を組むんだよ。筋は通しな！"
+      },
+      {
+        "op": "narration",
+        "text": "見回り隊長の声が、広場に響く。ハコニワの門が、久しぶりに活気づいた。"
+      },
+      {
+        "op": "say",
+        "who": "tsurarajika",
+        "text": "氷の峰の者たちは、荷運びを引き受けます。吹雪の道ならお任せくださいね"
+      },
+      {
+        "op": "say",
+        "who": "sylphia",
+        "text": "竜の空からは、わたしが使者として道案内に立ちましょう！空の風は、味方にします！"
+      },
+      {
+        "op": "say",
+        "who": "hawkwin",
+        "text": "おいらたち流浪の探検隊も、護衛に付くぜ！荒れ地の歩き方なら、任せとけ！"
+      },
+      {
+        "op": "say",
+        "who": "suzaku",
+        "text": "炎山の者たちは、先頭よ。火の粉くらい、わたしが払うわ"
+      },
+      {
+        "op": "say",
+        "who": "anubis",
+        "text": "私は、道中の揉め事を裁く。掟は、旅の途中でも変わらない"
+      },
+      {
+        "op": "say",
+        "who": "violetta",
+        "text": "わたしは薬を用意する……たぶん、必要になるから、ね"
+      },
+      {
+        "op": "say",
+        "who": "lightrot",
+        "text": "お腹が空いたら言ってちょうだい。ちゃんと食べた？夜は冷えるわよ！"
+      },
+      {
+        "op": "say",
+        "who": "nightrot",
+        "text": "ぼくは……かけらの様子を見る係なんだよ。まぁ、いっか、みんなでやれば"
+      },
+      {
+        "op": "narration",
+        "text": "全属性圏の仲間たちが、護衛の列に並んでいく。反対していた者たちも、列のなかにいた。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "すごい……！みんな、同じ道を歩くんだね",
+        "face": "smile"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……うん。"
+      },
+      {
+        "op": "narration",
+        "text": "{I}は、振り返ってハコニワを見た。新しい根になる場所。ここに、必ず戻ってくる。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c19_orders_done"
+      },
+      {
+        "op": "fade",
+        "mode": "out",
+        "sec": 1.0
+      }
+    ]
+  },
+  {
+    "id": "c19_e03_legendia",
+    "trigger": {
+      "type": "boss_defeated",
+      "requires": [],
+      "once": true,
+      "dungeon": "d28_c19"
+    },
+    "steps": [
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 1.0
+      },
+      {
+        "op": "narration",
+        "text": "世界樹への道。全属性の気配が混ざる、長い一本道だった。護衛の列が、ぴたりと止まる。"
+      },
+      {
+        "op": "narration",
+        "text": "道の先で、レジェンディアが立ちふさがっていた。体のあちこちから、かけらの光がこぼれている。"
+      },
+      {
+        "op": "say",
+        "who": "sylphia",
+        "text": "様子が変です！かけらに、当てられています！"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "悪気はないんだ……ただ、苦しいんだよ",
+        "face": "sad"
+      },
+      {
+        "op": "narration",
+        "text": "レジェンディアは、道をふさいだまま動かない。戦うしかなかった。護衛の列が、道を空けてくれる。"
+      },
+      {
+        "op": "narration",
+        "text": "戦いの終わりに、レジェンディアの体から、淡い光が抜けていった。目の色が、静かに戻っていく。"
+      },
+      {
+        "op": "narration",
+        "text": "レジェンディアは、深く頭を下げて、道の脇へ退いた。通れ、と言っているようだった。"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……ありがとう。"
+      },
+      {
+        "op": "say",
+        "who": "helgalda",
+        "text": "ぐずぐずするんじゃないよ！列を詰めな。まだ先は長いだろうが"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c19_legendia_done"
+      }
+    ]
+  },
+  {
+    "id": "c19_e03b_camp",
+    "trigger": {
+      "type": "dungeon_clear",
+      "requires": [],
+      "once": true,
+      "dungeon": "d28_c19"
+    },
+    "steps": [
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 0.8
+      },
+      {
+        "op": "narration",
+        "text": "道を抜けた先で、一行は野営することになった。焚き火のまわりに、護衛の者たちがそれぞれ座っている。"
+      },
+      {
+        "op": "narration",
+        "text": "遠くに、世界樹の幹が見える。夜空に向かって、どこまでも伸びていた。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "ねえ、{player_name}。……こわくない？"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……こわい。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "{I}もだよ。でも、不思議と、足は止まらないんだ"
+      },
+      {
+        "op": "narration",
+        "text": "相棒は、膝を抱えて火を見つめている。いつもより、静かな声だった。"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "一緒に、いてくれる？"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "もちろん。{player_name}が決めたことだもん"
+      },
+      {
+        "op": "narration",
+        "text": "焚き火が、ぱちりと弾けた。ミステリアが、遠くで空を見上げているのが見えた。"
+      },
+      {
+        "op": "say",
+        "who": "mysteria",
+        "text": "かけらが……ざわざわしてるふぁ。もうすぐ、なにか来る……かも"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c19_camp_done"
+      }
+    ]
+  },
+  {
+    "id": "c19_e04_trunk",
+    "trigger": {
+      "type": "boss_defeated",
+      "requires": [],
+      "once": true,
+      "dungeon": "d29_c19"
+    },
+    "steps": [
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 0.8
+      },
+      {
+        "op": "narration",
+        "text": "幹の回廊は、巨大な木の内側に続く螺旋の道だった。草と竜と虚の気配が、層になって重なっている。"
+      },
+      {
+        "op": "narration",
+        "text": "最奥で、モスローンが待っていた。古い樹の番人のように、じっと動かない。"
+      },
+      {
+        "op": "narration",
+        "text": "戦いのあいだ、モスローンは攻撃より、道を守ることを優先しているように見えた。"
+      },
+      {
+        "op": "narration",
+        "text": "倒れたモスローンの後ろから、大きな影が現れた。セイントール。炎の目に、荒々しい色はなかった。"
+      },
+      {
+        "op": "narration",
+        "text": "根もとで暴れていた、あのセイントールだ。けれど今は、静かに{I}たちを見下ろしている。"
+      },
+      {
+        "op": "say",
+        "who": "seintor",
+        "text": "……迷惑を、かけた。もう、乱れてはいない"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "セイントール……！正気に、戻ったんだね",
+        "face": "relieved"
+      },
+      {
+        "op": "say",
+        "who": "seintor",
+        "text": "この先は、梢へ続く。私が道を開こう。グランジーラが、待っている"
+      },
+      {
+        "op": "narration",
+        "text": "セイントールが翼を広げると、回廊の奥の扉が、音もなく開いた。"
+      },
+      {
+        "op": "say",
+        "who": "levidra",
+        "text": "……あの者が道を開くとはな。世界樹も、動き始めているのか"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c19_trunk_boss_done"
+      }
+    ]
+  },
+  {
+    "id": "c19_e04b_ascend",
+    "trigger": {
+      "type": "dungeon_clear",
+      "requires": [],
+      "once": true,
+      "dungeon": "d29_c19"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "螺旋の道を、一行は静かに登っていく。足音だけが、木の内側に響いた。"
+      },
+      {
+        "op": "narration",
+        "text": "窓のような隙間から、下界が見える。ハコニワは、もう豆粒のように小さい。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "text": "あんなに小さいのに、みんなの居場所なんだね"
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "text": "……うん。"
+      },
+      {
+        "op": "narration",
+        "text": "最後の段を踏み越えると、風が吹き込んだ。梢だ。空が、どこまでも近い。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c19_ascend_done"
+      }
+    ]
+  },
+  {
+    "id": "c19_e05_granjira",
+    "trigger": {
+      "type": "chart_end",
+      "requires": [],
+      "once": true,
+      "chart": "c19"
+    },
+    "steps": [
+      {
+        "op": "narration",
+        "text": "梢の中心に、巨大な影があった。根を張るように、世界樹と一体になっている。"
+      },
+      {
+        "op": "narration",
+        "text": "グランジーラ。世界樹を守る、古い守り手。静かな目が、一行を見渡した。"
+      },
+      {
+        "op": "say",
+        "who": "granjila",
+        "text": "よく来ましたね。ハコニワの子たち。そして、その仲間たち"
+      },
+      {
+        "op": "say",
+        "who": "granjila",
+        "text": "わたしの根は、もうすぐ尽きます。世界はまた、崩れるでしょう"
+      },
+      {
+        "op": "say",
+        "who": "bushigaeru",
+        "text": "グランジーラ殿。拙者らは、ある決意を携えて来た。この子の口から、聞いてほしい"
+      },
+      {
+        "op": "narration",
+        "text": "グランジーラの視線が、{I}に落ちた。大きく、深い目だった。"
+      },
+      {
+        "op": "say",
+        "who": "granjila",
+        "text": "あなたの決断は、すでに風が運んできました。『継ぐ』と"
+      },
+      {
+        "op": "say",
+        "who": "granjila",
+        "text": "根を継ぐなら、名乗りなさい。名もなきものに、根は託せません"
+      },
+      {
+        "op": "narration",
+        "text": "名乗り。胸の奥で、言葉が形になる。浜で見つけた芯が、背中を押した。"
+      },
+      {
+        "op": "wait",
+        "sec": 1.0,
+        "introvert": true
+      },
+      {
+        "op": "say",
+        "who": "protagonist",
+        "by_type": {
+          "INFJ": "……わたしは、{player_name}。ハコニワの……",
+          "INFP": "ぼくは……{player_name}。ハコニワの、えっと……",
+          "INTJ": "私は{player_name}。ハコニワの——",
+          "INTP": "ぼくは{player_name}。ハコニワの、その——",
+          "ISFJ": "わたしは{player_name}です。ハコニワの——",
+          "ISFP": "ぼくは{player_name}なんだよ。ハコニワの——",
+          "ISTJ": "自分は{player_name}。ハコニワの——",
+          "ISTP": "おれは{player_name}。ハコニワの——",
+          "ENFJ": "わたしは{player_name}！ハコニワの——",
+          "ENFP": "あたしは{player_name}！ハコニワの——",
+          "ENTJ": "わたしは{player_name}。ハコニワの——",
+          "ENTP": "おれは{player_name}。ハコニワの——",
+          "ESFJ": "あたしは{player_name}よ。ハコニワの——",
+          "ESFP": "おいらは{player_name}だぜ！ハコニワの——",
+          "ESTJ": "アタシは{player_name}。ハコニワの——",
+          "ESTP": "オレは{player_name}っす！ハコニワの——"
+        },
+        "key": true
+      },
+      {
+        "op": "narration",
+        "text": "その声を遮るように、梢の空が暗く陰った。風が、止まった。"
+      },
+      {
+        "op": "narration",
+        "text": "雲の切れ間から、黒い竜が降りてくる。翼がかけらの光を反射して、ゆっくりと梢の上に影を落とした。"
+      },
+      {
+        "op": "say",
+        "who": "partner",
+        "by_type": {
+          "INFJ": "……来た。あれが、黒い竜……",
+          "INFP": "あ、あれ……黒い、竜……ふぁ……",
+          "INTJ": "あれが、ゼノドランか。降りてくる",
+          "INTP": "待って、あれが……ゼノドラン……？",
+          "ISFJ": "あれが……黒い竜。お下がりください",
+          "ISFP": "……大きいなぁ。黒くて、静かなんだよ",
+          "ISTJ": "あれが黒い竜か。自分の後ろに",
+          "ISTP": "……降りてくる",
+          "ENFJ": "黒い竜……！みんな、下がって！",
+          "ENFP": "うそ……黒い竜じゃん！降りてくる！？",
+          "ENTJ": "あれが黒い竜……！下がりなさい！",
+          "ENTP": "あれがゼノドラン……冗談、言えねえな",
+          "ESFJ": "ちょっと、黒い竜が降りてくるわよ！",
+          "ESFP": "黒い竜だぜ……。笑えねえな",
+          "ESTJ": "来たね、黒い竜！下がりな！",
+          "ESTP": "黒い竜っす！来るっす！"
+        },
+        "key": true,
+        "face": "surprise"
+      },
+      {
+        "op": "narration",
+        "text": "グランジーラは動かない。ただ、静かに目を閉じた。名乗りの続きは、まだ終わっていない。"
+      },
+      {
+        "op": "set_flag",
+        "flag": "c19_done"
+      },
+      {
+        "op": "fade",
+        "mode": "out",
+        "sec": 1.0
+      },
+      {
+        "op": "fade",
+        "mode": "in",
+        "sec": 1.0
+      }
+    ]
+  }
+]

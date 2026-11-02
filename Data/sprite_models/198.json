@@ -1,0 +1,470 @@
+{
+ "name": "セイントール (Paladius)",
+ "gait": "quad",
+ "palette": {
+  "cloth": "#34426a",
+  "armor": "#4a6aa0",
+  "trim": "#d4b24a",
+  "hoof": "#c8a840",
+  "eye": "#f4f4ff",
+  "plume": "#f4f2ee",
+  "blue": "#58b0e8",
+  "shield": "#d4b24a",
+  "tailc": "#d8b858"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -3
+   ],
+   "size": [
+    14,
+    14,
+    26
+   ],
+   "color": "cloth",
+   "group": "body"
+  },
+  {
+   "name": "barding",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -2
+   ],
+   "size": [
+    15,
+    10,
+    17
+   ],
+   "color": "armor",
+   "group": "body"
+  },
+  {
+   "name": "rear",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -12
+   ],
+   "size": [
+    13,
+    13,
+    11
+   ],
+   "color": "cloth",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    8
+   ],
+   "size": [
+    11,
+    13,
+    9
+   ],
+   "color": "armor",
+   "group": "body"
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    9
+   ],
+   "size": [
+    10,
+    14,
+    8
+   ],
+   "color": "armor",
+   "group": "body"
+  },
+  {
+   "name": "pauldron",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    33,
+    9
+   ],
+   "size": [
+    6,
+    6,
+    7
+   ],
+   "color": "trim",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    9
+   ],
+   "size": [
+    8,
+    9,
+    9
+   ],
+   "color": "armor",
+   "group": "head"
+  },
+  {
+   "name": "visor",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39.5,
+    12.5
+   ],
+   "size": [
+    6.4,
+    2.2,
+    2
+   ],
+   "color": "eye",
+   "group": "head"
+  },
+  {
+   "name": "helm_crest",
+   "shape": "cone",
+   "center": [
+    0,
+    45,
+    7
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "trim",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "plume",
+   "shape": "cone",
+   "center": [
+    0,
+    48,
+    4
+   ],
+   "size": [
+    4,
+    11,
+    2.4
+   ],
+   "color": "plume",
+   "group": "head",
+   "rot": [
+    -65,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "plume2",
+   "shape": "cone",
+   "center": [
+    3,
+    47,
+    5
+   ],
+   "size": [
+    3,
+    12,
+    2
+   ],
+   "color": "plume",
+   "group": "head",
+   "rot": [
+    -50,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8.5,
+    28,
+    9
+   ],
+   "size": [
+    4,
+    11,
+    4
+   ],
+   "color": "armor",
+   "group": "arm_r",
+   "rot": [
+    -35,
+    0,
+    -10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    23,
+    13
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "trim",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "shield",
+   "shape": "box",
+   "center": [
+    -12,
+    25,
+    13
+   ],
+   "size": [
+    2.4,
+    16,
+    12
+   ],
+   "color": "shield",
+   "group": "arm_l",
+   "rot": [
+    0,
+    10,
+    0
+   ]
+  },
+  {
+   "name": "shield_g",
+   "shape": "box",
+   "center": [
+    -13.4,
+    25,
+    13
+   ],
+   "size": [
+    1,
+    9,
+    7
+   ],
+   "color": "blue",
+   "group": "arm_l",
+   "rot": [
+    0,
+    10,
+    0
+   ]
+  },
+  {
+   "name": "spear",
+   "shape": "cone",
+   "center": [
+    10,
+    20,
+    22
+   ],
+   "size": [
+    3,
+    15,
+    3
+   ],
+   "color": "blue",
+   "group": "arm_r",
+   "rot": [
+    -90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "legf",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    7,
+    8
+   ],
+   "size": [
+    4.2,
+    14,
+    4.6
+   ],
+   "color": "cloth",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "greavef",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    5,
+    8
+   ],
+   "size": [
+    5,
+    8,
+    5.4
+   ],
+   "color": "trim",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "hooff",
+   "shape": "box",
+   "center": [
+    4.5,
+    0.9,
+    8.5
+   ],
+   "size": [
+    4.8,
+    1.8,
+    5
+   ],
+   "color": "hoof",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    7,
+    -13
+   ],
+   "size": [
+    4.2,
+    14,
+    4.6
+   ],
+   "color": "cloth",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "greaveb",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    5,
+    -13
+   ],
+   "size": [
+    5,
+    8,
+    5.4
+   ],
+   "color": "trim",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofb",
+   "shape": "box",
+   "center": [
+    4.5,
+    0.9,
+    -12.5
+   ],
+   "size": [
+    4.8,
+    1.8,
+    5
+   ],
+   "color": "hoof",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    -20
+   ],
+   "size": [
+    5,
+    10,
+    6
+   ],
+   "color": "tailc",
+   "group": "tail",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cone",
+   "center": [
+    0,
+    15,
+    -24
+   ],
+   "size": [
+    4.5,
+    12,
+    4.5
+   ],
+   "color": "tailc",
+   "group": "tail",
+   "rot": [
+    -140,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Paladius.png",
+   "note": "全身: 青鋼の鎧の半人半馬、金の縁取り、兜に白い羽飾り、左に盾、右に青い槍、金の長い尾"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Screenshot_2024-01-16_222730.png",
+   "note": "ゲーム内: 盾の青い紋章、金の尾と脚の飾り"
+  },
+  {
+   "url": "Tools/.refcache/198/icon.png",
+   "note": "頭部: 青鋼の兜、金の角飾り、白い羽"
+  }
+ ]
+}

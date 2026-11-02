@@ -1,0 +1,1066 @@
+[
+  {
+    "id": "c01",
+    "part": 1,
+    "kind": "main",
+    "title": "崩落の明け",
+    "unlock": {
+      "charts": [],
+      "flags": []
+    },
+    "dungeons": [
+      "d01_c1"
+    ],
+    "events": [
+      "c01_e02_surface",
+      "c01_e03_partner",
+      "c01_e04_beach",
+      "c01_e05_cave",
+      "c01_e05_boss",
+      "c01_e06_plain",
+      "c01_e06_stake"
+    ],
+    "hub_changes": [
+      "stake"
+    ]
+  },
+  {
+    "id": "c02",
+    "part": 1,
+    "kind": "main",
+    "title": "はじめのハコニワ",
+    "unlock": {
+      "charts": [
+        "c01"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d02_c2"
+    ],
+    "events": [
+      "c02_e01_gather",
+      "c02_e02_bushigaeru",
+      "c02_e03_hoard",
+      "c02_e04_hill",
+      "c02_e05_helgalda",
+      "c02_e05_after"
+    ],
+    "hub_changes": [
+      "workbench",
+      "bed"
+    ]
+  },
+  {
+    "id": "c03",
+    "part": 1,
+    "kind": "main",
+    "title": "くずれた鉱道",
+    "unlock": {
+      "charts": [
+        "c02"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d03_c3",
+      "d04_c3"
+    ],
+    "events": [
+      "c03_e01_wounded",
+      "c03_e02_news",
+      "c03_e03_mine_in",
+      "c03_e04_rescue",
+      "c03_e04b_return",
+      "c03_e05_violetta",
+      "c03_e06_shard",
+      "c03_e07_clinic",
+      "c03_e08_warehouse"
+    ],
+    "hub_changes": [
+      "warehouse"
+    ]
+  },
+  {
+    "id": "c04",
+    "part": 1,
+    "kind": "main",
+    "title": "いさかいの水辺",
+    "unlock": {
+      "charts": [
+        "c03"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d05_c4",
+      "d06_c4"
+    ],
+    "events": [
+      "c04_e01_quarrel",
+      "c04_e02_split",
+      "c04_e03_inlet",
+      "c04_e04_underpass",
+      "c04_e04b_wall",
+      "c04_e05_well",
+      "c04_e06_shop"
+    ],
+    "hub_changes": [
+      "well",
+      "bushigaeru_shop"
+    ]
+  },
+  {
+    "id": "c05",
+    "part": 1,
+    "kind": "main",
+    "title": "奪う者、分ける者",
+    "unlock": {
+      "charts": [
+        "c04"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d07_c5"
+    ],
+    "events": [
+      "c05_e01_granaries",
+      "c05_e02_tribute",
+      "c05_e03_smoke",
+      "c05_e04_bulferno",
+      "c05_e05_open",
+      "c05_e06_helgalda_join",
+      "c05_e07_diner"
+    ],
+    "hub_changes": [
+      "granary",
+      "bulferno_diner"
+    ]
+  },
+  {
+    "id": "c06",
+    "part": 2,
+    "kind": "main",
+    "title": "三つのきまり",
+    "unlock": {
+      "charts": [
+        "c05"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d08_c6"
+    ],
+    "events": [
+      "c06_e01_quarrel",
+      "c06_e02_bushigaeru",
+      "c06_e03_rules",
+      "c06_e04_roots",
+      "c06_e05_gate",
+      "c06_e06_clinic"
+    ],
+    "hub_changes": [
+      "rules_board",
+      "clinic"
+    ]
+  },
+  {
+    "id": "c07",
+    "part": 2,
+    "kind": "main",
+    "title": "見回り隊と最初の余波",
+    "unlock": {
+      "charts": [
+        "c06"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d09_c7",
+      "d10_c7"
+    ],
+    "events": [
+      "c07_e01_watch",
+      "c07_e02_theft",
+      "c07_e02b_patrol",
+      "c07_e02c_fort",
+      "c07_e03_aftershock",
+      "c07_e04_morning",
+      "c07_e05_expedition",
+      "c07_e05b_sendoff"
+    ],
+    "hub_changes": [
+      "watch_post"
+    ]
+  },
+  {
+    "id": "c08",
+    "part": 2,
+    "kind": "main",
+    "title": "調査の旅 凍てつく峰",
+    "unlock": {
+      "charts": [
+        "c07"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d11_c8",
+      "d12_c8"
+    ],
+    "events": [
+      "c08_e01_depart",
+      "c08_e02_tsurarajika",
+      "c08_e03_sylphia",
+      "c08_e04_trade",
+      "c08_e05_glints",
+      "c08_e06_dragon_sky"
+    ],
+    "hub_changes": [
+      "inn"
+    ]
+  },
+  {
+    "id": "c09",
+    "part": 2,
+    "kind": "main",
+    "title": "調査の旅 裁きの庭",
+    "unlock": {
+      "charts": [
+        "c08"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d13_c9"
+    ],
+    "events": [
+      "c09_e01_arrive",
+      "c09_e02_accused",
+      "c09_e03_prison",
+      "c09_e04a_culprit",
+      "c09_e04b_defense",
+      "c09_e05_share",
+      "c09_e06_pillar"
+    ],
+    "hub_changes": [
+      "court"
+    ]
+  },
+  {
+    "id": "c10",
+    "part": 2,
+    "kind": "main",
+    "title": "ハコニワ祭り",
+    "unlock": {
+      "charts": [
+        "c09"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d14_c10"
+    ],
+    "events": [
+      "c10_e01_festival",
+      "c10_e02_wanderers",
+      "c10_e02b_raizo",
+      "c10_e03_council",
+      "c10_e04_recall",
+      "c10_e05_wasteland",
+      "c10_e06_cry"
+    ],
+    "hub_changes": [
+      "festival_stage"
+    ]
+  },
+  {
+    "id": "c11",
+    "part": 3,
+    "kind": "main",
+    "title": "かけらの正体",
+    "unlock": {
+      "charts": [
+        "c10"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d15_c11"
+    ],
+    "events": [
+      "c11_e01_lab",
+      "c11_e02_analysis",
+      "c11_e03_corridor",
+      "c11_e04_boss",
+      "c11_e05_alarm",
+      "c11_e06_glow"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c12",
+    "part": 3,
+    "kind": "main",
+    "title": "ささやきの洞",
+    "unlock": {
+      "charts": [
+        "c11"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d16_c12",
+      "d17_c12"
+    ],
+    "events": [
+      "c12_e01_forest",
+      "c12_e02_guardians",
+      "c12_e02b_calm",
+      "c12_e03_majoruna",
+      "c12_e04_swarm",
+      "c12_e05_judge",
+      "c12_e06_glow",
+      "c12_e07_lab"
+    ],
+    "hub_changes": [
+      "lab"
+    ]
+  },
+  {
+    "id": "c13",
+    "part": 3,
+    "kind": "main",
+    "title": "確かなこと",
+    "unlock": {
+      "charts": [
+        "c12"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d18_c13",
+      "d19_c13"
+    ],
+    "events": [
+      "c13_e01_conclusion",
+      "c13_e02_wasteland",
+      "c13_e03_alarm",
+      "c13_e04_suzaku",
+      "c13_e04b_cobattle",
+      "c13_e05_mass",
+      "c13_e05b_exit",
+      "c13_e06_point"
+    ],
+    "hub_changes": [
+      "furnace"
+    ]
+  },
+  {
+    "id": "c14",
+    "part": 3,
+    "kind": "main",
+    "title": "かけらの荒野",
+    "unlock": {
+      "charts": [
+        "c13"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d20_c14",
+      "d21_c14",
+      "x_root_base"
+    ],
+    "events": [
+      "c14_e01_levidra",
+      "c14_e02_ascend",
+      "c14_e02b_wastes",
+      "c14_e03_blackdragon",
+      "c14_e04_root",
+      "c14_e05_seintor",
+      "c14_e06_return",
+      "c14_e06b_drawing"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c15",
+    "part": 3,
+    "kind": "main",
+    "title": "ほどく者",
+    "unlock": {
+      "charts": [
+        "c14"
+      ],
+      "flags": [
+        "c14_done"
+      ]
+    },
+    "dungeons": [
+      "d22_c15",
+      "d23_c15"
+    ],
+    "events": [
+      "c15_e01_council",
+      "c15_e02_roots",
+      "c15_e03_outer",
+      "c15_e03b_outer_clear",
+      "c15_e04_glyph",
+      "c15_e05_glyph_told",
+      "c15_e06_return"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c16",
+    "part": 4,
+    "kind": "main",
+    "title": "根と崩落の伝説",
+    "unlock": {
+      "charts": [
+        "c15"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d24_c16",
+      "d25_c16"
+    ],
+    "events": [
+      "c16_e01_stele",
+      "c16_e02a_stage",
+      "c16_e02b_stele_read",
+      "c16_e03a_shrine_boss",
+      "c16_e03b_voice",
+      "c16_e04_xeno",
+      "c16_e05_tell",
+      "c16_x_pick2",
+      "c16_x_pick3",
+      "c16_x_pick4"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c17",
+    "part": 4,
+    "kind": "main",
+    "title": "割れる意見",
+    "unlock": {
+      "charts": [
+        "c16"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d26_c17"
+    ],
+    "events": [
+      "c17_e01_open",
+      "c17_e01b_mamoru",
+      "c17_e01c_yuzuru",
+      "c17_e01d_tsugu",
+      "c17_e02_pass",
+      "c17_e03_split",
+      "c17_e04_helgalda",
+      "c17_e05_night",
+      "c17_x_pick2",
+      "c17_x_pick3",
+      "c17_x_pick4"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c18",
+    "part": 4,
+    "kind": "main",
+    "title": "主人公の沈黙",
+    "unlock": {
+      "charts": [
+        "c17"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d27_c18"
+    ],
+    "events": [
+      "c18_e01_shore",
+      "c18_e02_questions",
+      "c18_e03_silence",
+      "c18_e04_boss",
+      "c18_e05_shadows",
+      "c18_e06_partner",
+      "c18_e07_omen"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c19",
+    "part": 4,
+    "kind": "main",
+    "title": "世界樹へ",
+    "unlock": {
+      "charts": [
+        "c18"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d28_c19",
+      "d29_c19"
+    ],
+    "events": [
+      "c19_e01_announce",
+      "c19_e01b_dissent",
+      "c19_e02_orders",
+      "c19_e03_legendia",
+      "c19_e03b_camp",
+      "c19_e04_trunk",
+      "c19_e04b_ascend",
+      "c19_e05_granjira"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c20",
+    "part": 4,
+    "kind": "main",
+    "title": "決断の朝",
+    "unlock": {
+      "charts": [
+        "c19"
+      ],
+      "flags": []
+    },
+    "dungeons": [
+      "d30_c20"
+    ],
+    "events": [
+      "c20_e01_gather",
+      "c20_e02_name",
+      "c20_e03_boss",
+      "c20_e04_voices",
+      "c20_e05_root",
+      "c20_e06_ending",
+      "x_pillars_hint"
+    ],
+    "hub_changes": [],
+    "ends_game": true
+  },
+  {
+    "id": "c21",
+    "part": 4,
+    "kind": "resident",
+    "title": "七柱の由来",
+    "unlock": {
+      "charts": [
+        "c20"
+      ],
+      "flags": [],
+      "days": 3,
+      "affinity": 10
+    },
+    "dungeons": [],
+    "events": [
+      "c21_e01_pillars"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c22",
+    "part": 2,
+    "kind": "resident",
+    "title": "ブシガエルの昔",
+    "unlock": {
+      "charts": [
+        "c05"
+      ],
+      "flags": [],
+      "days": 6,
+      "affinity": 20
+    },
+    "dungeons": [],
+    "events": [
+      "c22_e01_bushigaeru"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c23",
+    "part": 2,
+    "kind": "resident",
+    "title": "ヘルガルダの帳面",
+    "unlock": {
+      "charts": [
+        "c05"
+      ],
+      "flags": [],
+      "days": 9,
+      "affinity": 30
+    },
+    "dungeons": [],
+    "events": [
+      "c23_e01_helgalda"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c24",
+    "part": 2,
+    "kind": "resident",
+    "title": "ホークウィンの旅路",
+    "unlock": {
+      "charts": [
+        "c09"
+      ],
+      "flags": [],
+      "days": 12,
+      "affinity": 40
+    },
+    "dungeons": [],
+    "events": [
+      "c24_e01_hawkwin"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c25",
+    "part": 2,
+    "kind": "resident",
+    "title": "ヴィオレッタの研究日誌",
+    "unlock": {
+      "charts": [
+        "c11"
+      ],
+      "flags": [],
+      "days": 15,
+      "affinity": 50
+    },
+    "dungeons": [],
+    "events": [
+      "c25_e01_violetta"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c26",
+    "part": 2,
+    "kind": "resident",
+    "title": "ツララジカと氷の峰",
+    "unlock": {
+      "charts": [
+        "c08"
+      ],
+      "flags": [],
+      "days": 18,
+      "affinity": 60
+    },
+    "dungeons": [],
+    "events": [
+      "c26_e01_tsurarajika"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c27",
+    "part": 2,
+    "kind": "resident",
+    "title": "炎山のスザク",
+    "unlock": {
+      "charts": [
+        "c12"
+      ],
+      "flags": [],
+      "days": 21,
+      "affinity": 70
+    },
+    "dungeons": [],
+    "events": [
+      "c27_e01_suzaku"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c28",
+    "part": 2,
+    "kind": "resident",
+    "title": "竜の空の評議",
+    "unlock": {
+      "charts": [
+        "c14"
+      ],
+      "flags": [],
+      "days": 24,
+      "affinity": 80
+    },
+    "dungeons": [],
+    "events": [
+      "c28_e01_council"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c29",
+    "part": 2,
+    "kind": "resident",
+    "title": "住民たちの一日",
+    "unlock": {
+      "charts": [
+        "c05"
+      ],
+      "flags": [],
+      "days": 27,
+      "affinity": 90
+    },
+    "dungeons": [],
+    "events": [
+      "c29_e01_daily"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c30",
+    "part": 4,
+    "kind": "resident",
+    "title": "もう一人の主人公",
+    "unlock": {
+      "charts": [
+        "c20"
+      ],
+      "flags": [],
+      "days": 30,
+      "affinity": 100
+    },
+    "dungeons": [],
+    "events": [
+      "c30_e01_other"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "c31",
+    "part": 1,
+    "kind": "supplement",
+    "title": "ハコニワの最初の夜",
+    "unlock": {
+      "charts": [],
+      "flags": []
+    },
+    "dungeons": [
+      "d31_s31"
+    ],
+    "events": [
+      "c31_e01_dusk",
+      "c31_e02_ledge",
+      "c31_e02b_boss",
+      "c31_e03_fire",
+      "c31_e04_worry",
+      "c31_e05_night",
+      "c31_e05b_morning",
+      "x_mem_c31"
+    ],
+    "hub_changes": [],
+    "insert_after": {
+      "chart": "c01",
+      "event": "chart_end"
+    },
+    "offer": "浜の岩棚へ、夜を越す流木と貝を拾いに行きますか？",
+    "level_chart": 1
+  },
+  {
+    "id": "c32",
+    "part": 2,
+    "kind": "supplement",
+    "title": "余波の夜",
+    "unlock": {
+      "charts": [],
+      "flags": []
+    },
+    "dungeons": [
+      "d32_s32"
+    ],
+    "events": [
+      "c32_e01_wake",
+      "c32_e02_command",
+      "c32_e03_crack",
+      "c32_e03b_boss",
+      "c32_e03c_spring",
+      "c32_e04_morning",
+      "c32_e05_proposal",
+      "c32_e05b_trace",
+      "x_mem_c32"
+    ],
+    "hub_changes": [],
+    "insert_after": {
+      "chart": "c07",
+      "event": "chart_end"
+    },
+    "offer": "あの夜のことを、ひび割れの庭から振り返りますか？",
+    "level_chart": 7
+  },
+  {
+    "id": "c33",
+    "part": 2,
+    "kind": "supplement",
+    "title": "旅の記録帳",
+    "unlock": {
+      "charts": [],
+      "flags": []
+    },
+    "dungeons": [
+      "d33_s33"
+    ],
+    "events": [
+      "c33_e01_return",
+      "c33_e02_notice",
+      "c33_e02b_boss",
+      "c33_e03_wall",
+      "c33_e04_map",
+      "c33_e05_home",
+      "x_mem_c33"
+    ],
+    "hub_changes": [],
+    "insert_after": {
+      "chart": "c09",
+      "event": "chart_end"
+    },
+    "offer": "帰り道の洞で、記録帳を見返しますか？",
+    "level_chart": 9
+  },
+  {
+    "id": "c34",
+    "part": 3,
+    "kind": "supplement",
+    "title": "ゼノの足跡",
+    "unlock": {
+      "charts": [],
+      "flags": []
+    },
+    "dungeons": [
+      "d34_s34"
+    ],
+    "events": [
+      "c34_e01_trace",
+      "c34_e01b_follow",
+      "c34_e02_nest",
+      "c34_e03_reason",
+      "c34_e04_sleep",
+      "c34_e05_report",
+      "x_mem_c34"
+    ],
+    "hub_changes": [],
+    "insert_after": {
+      "chart": "c12",
+      "event": "chart_end"
+    },
+    "offer": "ゼノ系の群れの足跡を追いますか？",
+    "level_chart": 12
+  },
+  {
+    "id": "c35",
+    "part": 3,
+    "kind": "supplement",
+    "title": "根もとへの追走",
+    "unlock": {
+      "charts": [],
+      "flags": []
+    },
+    "dungeons": [
+      "d35_s35"
+    ],
+    "events": [
+      "c35_e01_levidra",
+      "c35_e02_road",
+      "c35_e02b_boss",
+      "c35_e03_presence",
+      "c35_e04_root",
+      "c35_e05_turn",
+      "x_mem_c35"
+    ],
+    "hub_changes": [],
+    "insert_after": {
+      "chart": "c14",
+      "event": "c14_e04"
+    },
+    "offer": "黒い竜を追って、世界樹の外周路を進みますか？",
+    "level_chart": 14
+  },
+  {
+    "id": "x36",
+    "part": 4,
+    "kind": "extra",
+    "title": "伝説の間（セイントール）",
+    "unlock": {
+      "charts": [
+        "c20"
+      ],
+      "flags": [],
+      "post_clear": true
+    },
+    "dungeons": [
+      "x36"
+    ],
+    "events": [
+      "x36_intro"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "x37",
+    "part": 4,
+    "kind": "extra",
+    "title": "伝説の間（ベイントール）",
+    "unlock": {
+      "charts": [
+        "c20"
+      ],
+      "flags": [],
+      "post_clear": true
+    },
+    "dungeons": [
+      "x37"
+    ],
+    "events": [
+      "x37_intro"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "x38",
+    "part": 4,
+    "kind": "extra",
+    "title": "伝説の間（グレイシャル）",
+    "unlock": {
+      "charts": [
+        "c20"
+      ],
+      "flags": [],
+      "post_clear": true
+    },
+    "dungeons": [
+      "x38"
+    ],
+    "events": [
+      "x38_intro"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "x39",
+    "part": 4,
+    "kind": "extra",
+    "title": "伝説の間（グレイシャドウ）",
+    "unlock": {
+      "charts": [
+        "c20"
+      ],
+      "flags": [],
+      "post_clear": true
+    },
+    "dungeons": [
+      "x39"
+    ],
+    "events": [
+      "x39_intro"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "x40",
+    "part": 4,
+    "kind": "extra",
+    "title": "伝説の間（ネプティオス）",
+    "unlock": {
+      "charts": [
+        "c20"
+      ],
+      "flags": [],
+      "post_clear": true
+    },
+    "dungeons": [
+      "x40"
+    ],
+    "events": [
+      "x40_intro"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "x41",
+    "part": 4,
+    "kind": "extra",
+    "title": "伝説の間（ジェッドラン）",
+    "unlock": {
+      "charts": [
+        "c20"
+      ],
+      "flags": [],
+      "post_clear": true
+    },
+    "dungeons": [
+      "x41"
+    ],
+    "events": [
+      "x41_intro"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "x42",
+    "part": 4,
+    "kind": "extra",
+    "title": "伝説の間（グランジーラ）",
+    "unlock": {
+      "charts": [
+        "c20"
+      ],
+      "flags": [],
+      "post_clear": true
+    },
+    "dungeons": [
+      "x42"
+    ],
+    "events": [
+      "x42_intro"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "x43",
+    "part": 4,
+    "kind": "extra",
+    "title": "再挑戦回廊",
+    "unlock": {
+      "charts": [
+        "c20"
+      ],
+      "flags": [],
+      "post_clear": true
+    },
+    "dungeons": [
+      "x43"
+    ],
+    "events": [
+      "x43_intro"
+    ],
+    "hub_changes": []
+  },
+  {
+    "id": "x44",
+    "part": 4,
+    "kind": "extra",
+    "title": "後日談（空き枠）",
+    "unlock": {
+      "charts": [
+        "c20"
+      ],
+      "flags": [],
+      "post_clear": true
+    },
+    "dungeons": [],
+    "events": [],
+    "hub_changes": []
+  }
+]

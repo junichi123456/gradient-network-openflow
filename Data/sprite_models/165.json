@@ -1,0 +1,367 @@
+{
+ "name": "バトラビー (Lapiron)",
+ "gait": "biped",
+ "palette": {
+  "brown": "#8a6a58",
+  "brown2": "#6a4a3a",
+  "cream": "#d8c8b8",
+  "cream2": "#ece0d2",
+  "mask": "#a02828",
+  "mask2": "#c84038",
+  "eye": "#f0a020",
+  "dark": "#2a2020",
+  "scarf": "#5a3a2a",
+  "paw": "#f0e4d4"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    0
+   ],
+   "size": [
+    16,
+    17,
+    13
+   ],
+   "color": "brown",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    5
+   ],
+   "size": [
+    10,
+    11,
+    6
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "scarf",
+   "shape": "cylinder",
+   "center": [
+    0,
+    17,
+    1
+   ],
+   "size": [
+    14,
+    3,
+    12
+   ],
+   "color": "scarf",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    2
+   ],
+   "size": [
+    18,
+    14,
+    15
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "cheekL",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    23,
+    2
+   ],
+   "size": [
+    8,
+    9,
+    10
+   ],
+   "color": "cream2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    7
+   ],
+   "size": [
+    13,
+    7,
+    6
+   ],
+   "color": "mask",
+   "group": "head"
+  },
+  {
+   "name": "maskT",
+   "shape": "wedge",
+   "center": [
+    0,
+    32,
+    3
+   ],
+   "size": [
+    9,
+    5,
+    9
+   ],
+   "color": "mask2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "mask_pt",
+   "shape": "cone",
+   "center": [
+    0,
+    22.6,
+    9
+   ],
+   "size": [
+    5,
+    5,
+    3
+   ],
+   "color": "mask",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    28,
+    10
+   ],
+   "size": [
+    3.2,
+    3.2,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "pupil",
+   "shape": "box",
+   "center": [
+    4.6,
+    28,
+    10.9
+   ],
+   "size": [
+    1.1,
+    2.2,
+    0.5
+   ],
+   "color": "dark",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0,
+    23.5,
+    10.2
+   ],
+   "size": [
+    1.8,
+    1.2,
+    0.8
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "earO",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    37,
+    -1
+   ],
+   "size": [
+    7,
+    17,
+    4.5
+   ],
+   "color": "cream",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earI",
+   "shape": "ellipsoid",
+   "center": [
+    8.6,
+    37,
+    0.6
+   ],
+   "size": [
+    4,
+    13,
+    2.4
+   ],
+   "color": "brown2",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -22
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tuftS",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    31,
+    -1
+   ],
+   "size": [
+    7,
+    6,
+    6
+   ],
+   "color": "cream2",
+   "group": "ear",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    12,
+    3
+   ],
+   "size": [
+    4.6,
+    10,
+    4.6
+   ],
+   "color": "brown2",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "paw",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    6.5,
+    4
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "paw",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    4.5,
+    1
+   ],
+   "size": [
+    7,
+    9,
+    9
+   ],
+   "color": "brown",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    1.2,
+    4
+   ],
+   "size": [
+    6,
+    3,
+    10
+   ],
+   "color": "cream",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    -9
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "cream2",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_BrownRabbit_icon_normal.png",
+   "note": "アイコン: 赤い兜/仮面(鳥の嘴状)が目元を覆う、オレンジの目、ベージュのふわふわの大きな耳と頬、茶の襟巻き"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_BrownRabbit_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  }
+ ]
+}

@@ -1,0 +1,394 @@
+{
+ "name": "ポポフィア (Souffline)",
+ "gait": "biped",
+ "palette": {
+  "skin": "#f2e8d8",
+  "hair": "#6a8a3a",
+  "hair2": "#8aa84a",
+  "dress": "#6a8a3a",
+  "dark": "#3a4a20",
+  "puff": "#f8f8f6",
+  "puff2": "#e4e4e0",
+  "eye": "#d86050",
+  "eyehl": "#ffffff",
+  "blush": "#f0b8a8",
+  "brown": "#5a4a30"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    14.0,
+    0.0
+   ],
+   "size": [
+    15.4,
+    18.2,
+    12.6
+   ],
+   "color": "dress",
+   "group": "body"
+  },
+  {
+   "name": "belt",
+   "shape": "cylinder",
+   "center": [
+    0.0,
+    12.6,
+    0.0
+   ],
+   "size": [
+    16.1,
+    2.24,
+    13.3
+   ],
+   "color": "dark",
+   "group": "body"
+  },
+  {
+   "name": "skirtL",
+   "shape": "cone",
+   "center": [
+    7.0,
+    8.4,
+    2.8
+   ],
+   "size": [
+    8.4,
+    14.0,
+    7.0
+   ],
+   "color": "hair",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "skirtC",
+   "shape": "cone",
+   "center": [
+    0.0,
+    7.0,
+    5.6
+   ],
+   "size": [
+    8.4,
+    12.6,
+    7.0
+   ],
+   "color": "hair2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "puffB",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    37.8,
+    -11.2
+   ],
+   "size": [
+    33.6,
+    33.6,
+    14.0
+   ],
+   "color": "puff",
+   "group": "head"
+  },
+  {
+   "name": "puffB2",
+   "shape": "ellipsoid",
+   "center": [
+    -11.2,
+    43.4,
+    -12.6
+   ],
+   "size": [
+    16.8,
+    16.8,
+    11.2
+   ],
+   "color": "puff2",
+   "group": "head"
+  },
+  {
+   "name": "puffB3",
+   "shape": "ellipsoid",
+   "center": [
+    12.6,
+    44.8,
+    -12.6
+   ],
+   "size": [
+    16.8,
+    16.8,
+    11.2
+   ],
+   "color": "puff",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    30.8,
+    1.4
+   ],
+   "size": [
+    21.0,
+    18.2,
+    18.2
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "hairtop",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    42.0,
+    0.0
+   ],
+   "size": [
+    23.8,
+    8.4,
+    19.6
+   ],
+   "color": "hair",
+   "group": "head"
+  },
+  {
+   "name": "hairL",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    28.0,
+    2.8
+   ],
+   "size": [
+    5.6,
+    19.6,
+    11.2
+   ],
+   "color": "hair",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "leafA",
+   "shape": "cone",
+   "center": [
+    7.0,
+    43.4,
+    2.8
+   ],
+   "size": [
+    4.76,
+    12.6,
+    4.2
+   ],
+   "color": "hair2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leafB",
+   "shape": "cone",
+   "center": [
+    0.0,
+    43.4,
+    1.4
+   ],
+   "size": [
+    4.76,
+    11.2,
+    4.2
+   ],
+   "color": "hair2",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "braid",
+   "shape": "ellipsoid",
+   "center": [
+    14.0,
+    14.0,
+    0.0
+   ],
+   "size": [
+    4.2,
+    22.4,
+    5.6
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "braidtip",
+   "shape": "cone",
+   "center": [
+    15.4,
+    2.8,
+    0.0
+   ],
+   "size": [
+    4.76,
+    9.8,
+    4.76
+   ],
+   "color": "hair2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5.32,
+    30.8,
+    9.52
+   ],
+   "size": [
+    4.76,
+    5.6,
+    2.52
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyehl",
+   "shape": "box",
+   "center": [
+    5.88,
+    32.2,
+    10.92
+   ],
+   "size": [
+    1.68,
+    1.68,
+    0.7
+   ],
+   "color": "eyehl",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "blush",
+   "shape": "box",
+   "center": [
+    8.4,
+    27.72,
+    9.1
+   ],
+   "size": [
+    2.8,
+    1.4,
+    0.7
+   ],
+   "color": "blush",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    0.0,
+    26.6,
+    9.8
+   ],
+   "size": [
+    2.24,
+    0.84,
+    0.84
+   ],
+   "color": "brown",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9.8,
+    14.0,
+    2.8
+   ],
+   "size": [
+    4.76,
+    12.6,
+    4.76
+   ],
+   "color": "skin",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -18
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    3.92,
+    3.5,
+    1.4
+   ],
+   "size": [
+    5.04,
+    7.0,
+    5.6
+   ],
+   "color": "skin",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_DandelionGirl_icon_normal.png",
+   "note": "アイコン: 緑の髪(葉の房/長い三つ編み)、背後に大きな白い綿毛、淡い肌、赤い瞳、緑の服と暗緑の帯"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_DandelionGirl_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  }
+ ]
+}

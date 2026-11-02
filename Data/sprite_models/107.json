@@ -1,0 +1,415 @@
+{
+ "name": "ドリタス (Drill Game)",
+ "gait": "quad",
+ "palette": {
+  "shell": "#5a4038",
+  "shell2": "#7a5a48",
+  "org": "#e8741e",
+  "org2": "#f08a30",
+  "wh": "#f0e8dc",
+  "drill": "#6a5a78",
+  "drill2": "#8a7a98",
+  "dk": "#3a2a30",
+  "eye": "#38d048",
+  "paw": "#6a4a5a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -2
+   ],
+   "size": [
+    24,
+    16,
+    28
+   ],
+   "color": "shell",
+   "group": "body"
+  },
+  {
+   "name": "shell",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -4
+   ],
+   "size": [
+    22,
+    12,
+    24
+   ],
+   "color": "shell2",
+   "group": "body"
+  },
+  {
+   "name": "band",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    7
+   ],
+   "size": [
+    20,
+    13,
+    6
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "stripe",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    -4
+   ],
+   "size": [
+    6,
+    4,
+    24
+   ],
+   "color": "org",
+   "group": "body"
+  },
+  {
+   "name": "drill0",
+   "shape": "cone",
+   "center": [
+    0,
+    28.0,
+    -4
+   ],
+   "size": [
+    4.5,
+    12,
+    4.5
+   ],
+   "color": "drill",
+   "group": "body",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "drill1",
+   "shape": "cone",
+   "center": [
+    7,
+    24.666666666666668,
+    -6
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "drill2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -35
+   ]
+  },
+  {
+   "name": "drill2",
+   "shape": "cone",
+   "center": [
+    -7,
+    24.666666666666668,
+    -6
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "drill",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    35
+   ]
+  },
+  {
+   "name": "drill3",
+   "shape": "cone",
+   "center": [
+    5,
+    24.666666666666668,
+    -13
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "drill2",
+   "group": "body",
+   "rot": [
+    -40,
+    0,
+    -15
+   ]
+  },
+  {
+   "name": "drill4",
+   "shape": "cone",
+   "center": [
+    -5,
+    24.666666666666668,
+    -13
+   ],
+   "size": [
+    3.4,
+    8,
+    3.4
+   ],
+   "color": "drill",
+   "group": "body",
+   "rot": [
+    -40,
+    0,
+    15
+   ]
+  },
+  {
+   "name": "drill5",
+   "shape": "cone",
+   "center": [
+    0,
+    27.0,
+    -14
+   ],
+   "size": [
+    3.4,
+    9,
+    3.4
+   ],
+   "color": "drill2",
+   "group": "body",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    14
+   ],
+   "size": [
+    14,
+    11,
+    12
+   ],
+   "color": "org",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    17
+   ],
+   "size": [
+    12,
+    9,
+    7
+   ],
+   "color": "org2",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "cone",
+   "center": [
+    5.5,
+    20,
+    13
+   ],
+   "size": [
+    4.6,
+    7,
+    4
+   ],
+   "color": "org",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "mask",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    13.5,
+    20
+   ],
+   "size": [
+    5.6,
+    4,
+    2
+   ],
+   "color": "dk",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.8,
+    13.6,
+    21
+   ],
+   "size": [
+    2.8,
+    2.4,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10.5,
+    22
+   ],
+   "size": [
+    3.4,
+    2.4,
+    2
+   ],
+   "color": "dk",
+   "group": "head"
+  },
+  {
+   "name": "legf",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    4.5,
+    8
+   ],
+   "size": [
+    8,
+    9,
+    9
+   ],
+   "color": "shell",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "pawf",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    1.5,
+    10
+   ],
+   "size": [
+    8,
+    3,
+    9
+   ],
+   "color": "paw",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    4.5,
+    -10
+   ],
+   "size": [
+    8,
+    9,
+    9
+   ],
+   "color": "shell",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "pawb",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    1.5,
+    -8
+   ],
+   "size": [
+    8,
+    3,
+    9
+   ],
+   "color": "paw",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    8,
+    -17
+   ],
+   "size": [
+    5,
+    8,
+    5
+   ],
+   "color": "shell2",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_DrillGame_icon_normal.png",
+   "note": "頭部アップ: 橙のキツネ風の兜顔に緑の目、白い首帯、褐色の体、背に紫灰のドリル状のトゲ"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_DrillGame_icon_normal.webp",
+   "note": "paldb icon（同アングル）"
+  },
+  {
+   "url": "https://game8.jp/pal-world/799205",
+   "note": "game8 ページ（地図のみ）。甲羅の亀体型・背のドリルとして推定"
+  }
+ ]
+}

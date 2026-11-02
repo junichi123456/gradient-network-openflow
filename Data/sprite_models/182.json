@@ -1,0 +1,476 @@
+{
+ "name": "モノクローナ",
+ "gait": "hover",
+ "palette": {
+  "wh": "#dcd8e4",
+  "wh2": "#b8b2c6",
+  "blk": "#1d1a24",
+  "blk2": "#34303e",
+  "eye": "#c83040",
+  "skin": "#e4dfea",
+  "pink": "#b88aa0"
+ },
+ "parts": [
+  {
+   "name": "leg_l",
+   "shape": "cylinder",
+   "center": [
+    2,
+    5,
+    0
+   ],
+   "size": [
+    2,
+    10,
+    2
+   ],
+   "color": "blk",
+   "group": "leg_fl",
+   "mirror_x": true
+  },
+  {
+   "name": "skw",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    0
+   ],
+   "size": [
+    12,
+    6,
+    10
+   ],
+   "color": "wh",
+   "group": "body"
+  },
+  {
+   "name": "lf0",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    10.5,
+    5
+   ],
+   "size": [
+    3,
+    15,
+    3
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    -10,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lf1",
+   "shape": "ellipsoid",
+   "center": [
+    11.0,
+    10.5,
+    1
+   ],
+   "size": [
+    3,
+    15,
+    3
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -55
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lf2",
+   "shape": "ellipsoid",
+   "center": [
+    7.700000000000001,
+    10.5,
+    -5
+   ],
+   "size": [
+    3,
+    15,
+    3
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    12,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lf3",
+   "shape": "ellipsoid",
+   "center": [
+    2.2,
+    10.5,
+    -8
+   ],
+   "size": [
+    3,
+    15,
+    3
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    25,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lf4",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    10.5,
+    6
+   ],
+   "size": [
+    3,
+    15,
+    3
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    -18,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "lfw",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14.5,
+    5
+   ],
+   "size": [
+    8,
+    5,
+    4
+   ],
+   "color": "wh",
+   "group": "body",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "lfw2",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    14,
+    2
+   ],
+   "size": [
+    5,
+    5,
+    5
+   ],
+   "color": "wh",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    0
+   ],
+   "size": [
+    8,
+    8,
+    7
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19.5,
+    2
+   ],
+   "size": [
+    6,
+    5,
+    4
+   ],
+   "color": "wh2",
+   "group": "body"
+  },
+  {
+   "name": "arm_l",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    22,
+    3
+   ],
+   "size": [
+    4,
+    5,
+    4.4
+   ],
+   "color": "blk",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "hand_l",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    22,
+    5.5
+   ],
+   "size": [
+    11,
+    5,
+    5
+   ],
+   "color": "blk",
+   "group": "arm_l",
+   "rot": [
+    0,
+    -15,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "spot_l",
+   "shape": "ellipsoid",
+   "center": [
+    12.5,
+    23.5,
+    6.5
+   ],
+   "size": [
+    4.5,
+    1.6,
+    3
+   ],
+   "color": "wh2",
+   "group": "arm_l",
+   "mirror_x": true
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    0
+   ],
+   "size": [
+    14,
+    12.5,
+    12.5
+   ],
+   "color": "wh",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27.5,
+    4.2
+   ],
+   "size": [
+    10,
+    6,
+    5
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "eye_l",
+   "shape": "ellipsoid",
+   "center": [
+    3.3,
+    28,
+    7
+   ],
+   "size": [
+    2.6,
+    2,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "mouth",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24.8,
+    6
+   ],
+   "size": [
+    3,
+    1,
+    1
+   ],
+   "color": "blk2",
+   "group": "head"
+  },
+  {
+   "name": "hood",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31.5,
+    -2.5
+   ],
+   "size": [
+    14.5,
+    10,
+    10
+   ],
+   "color": "wh2",
+   "group": "head"
+  },
+  {
+   "name": "sp0",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    37.666666666666664,
+    -2
+   ],
+   "size": [
+    3.6,
+    8,
+    3.4
+   ],
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0.0
+   ]
+  },
+  {
+   "name": "sp1",
+   "shape": "ellipsoid",
+   "center": [
+    4,
+    36.333333333333336,
+    -2
+   ],
+   "size": [
+    3.6,
+    7,
+    3.4
+   ],
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -14.0
+   ]
+  },
+  {
+   "name": "sp2",
+   "shape": "ellipsoid",
+   "center": [
+    -4,
+    36.333333333333336,
+    -2
+   ],
+   "size": [
+    3.6,
+    7,
+    3.4
+   ],
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    14.0
+   ]
+  },
+  {
+   "name": "sp3",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    34.791666666666664,
+    -2
+   ],
+   "size": [
+    3.6,
+    5,
+    3.4
+   ],
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -26.25
+   ]
+  },
+  {
+   "name": "sp4",
+   "shape": "ellipsoid",
+   "center": [
+    -7.5,
+    34.791666666666664,
+    -2
+   ],
+   "size": [
+    3.6,
+    5,
+    3.4
+   ],
+   "color": "blk",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    26.25
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/182",
+   "note": "ゲーム内スクショ: 白い丸頭に黒いギザ冠、赤い目、黒い大きな腕に白い斑点、白と黒の葉状スカート、細い黒脚、浮遊"
+  }
+ ],
+ "hover": 3
+}

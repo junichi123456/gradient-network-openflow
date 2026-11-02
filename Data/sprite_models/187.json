@@ -1,0 +1,521 @@
+{
+ "name": "ボルゼクス (Orserk)",
+ "gait": "biped",
+ "palette": {
+  "blk": "#2a2a30",
+  "blk2": "#40404a",
+  "white": "#f3f1ec",
+  "gold": "#d6a832",
+  "yel": "#f2c640",
+  "lit": "#fff4b8",
+  "claw": "#efe9d8",
+  "eye": "#f2c230",
+  "mouth": "#6a2a2a"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    0
+   ],
+   "size": [
+    17,
+    20,
+    14
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    4.5
+   ],
+   "size": [
+    11,
+    15,
+    7
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "chest_mark",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    6
+   ],
+   "size": [
+    5,
+    3,
+    3
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    -1
+   ],
+   "size": [
+    15,
+    9,
+    12
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    4
+   ],
+   "size": [
+    14,
+    10,
+    13
+   ],
+   "color": "blk",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    10.5
+   ],
+   "size": [
+    8,
+    5,
+    6
+   ],
+   "color": "blk2",
+   "group": "head"
+  },
+  {
+   "name": "jaw",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27.5,
+    9.5
+   ],
+   "size": [
+    6.5,
+    2.5,
+    5
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    32,
+    9.5
+   ],
+   "size": [
+    2.6,
+    1.8,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    8,
+    38,
+    2
+   ],
+   "size": [
+    5.5,
+    16,
+    5.5
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    -50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "horn2",
+   "shape": "cone",
+   "center": [
+    4,
+    40,
+    -3
+   ],
+   "size": [
+    4,
+    11,
+    4
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    -55,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "cone",
+   "center": [
+    0,
+    38,
+    -3
+   ],
+   "size": [
+    2.6,
+    8,
+    2.6
+   ],
+   "color": "lit",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    9.5,
+    25,
+    0
+   ],
+   "size": [
+    6,
+    6,
+    6
+   ],
+   "color": "blk2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    11.5,
+    19,
+    2
+   ],
+   "size": [
+    5,
+    12,
+    5
+   ],
+   "color": "blk",
+   "group": "arm_r",
+   "rot": [
+    -10,
+    0,
+    -8
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    12.5,
+    12.5,
+    4
+   ],
+   "size": [
+    5.5,
+    4.5,
+    5.5
+   ],
+   "color": "blk2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "cone",
+   "center": [
+    12.5,
+    10,
+    7
+   ],
+   "size": [
+    1.6,
+    4,
+    1.6
+   ],
+   "color": "claw",
+   "group": "arm_r",
+   "rot": [
+    -90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    9,
+    0
+   ],
+   "size": [
+    8,
+    10,
+    9
+   ],
+   "color": "blk",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "shin",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    4.5,
+    2
+   ],
+   "size": [
+    6,
+    7,
+    6
+   ],
+   "color": "yel",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    6.5,
+    1,
+    5
+   ],
+   "size": [
+    7,
+    2.4,
+    8
+   ],
+   "color": "yel",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "toeclaw",
+   "shape": "cone",
+   "center": [
+    6.5,
+    1.2,
+    9.5
+   ],
+   "size": [
+    2,
+    3.5,
+    2
+   ],
+   "color": "claw",
+   "group": "leg_fr",
+   "rot": [
+    -90,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing0",
+   "shape": "cone",
+   "center": [
+    7.0,
+    30,
+    -8
+   ],
+   "size": [
+    5,
+    18,
+    2.4
+   ],
+   "color": "lit",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing1",
+   "shape": "cone",
+   "center": [
+    8.5,
+    25,
+    -9
+   ],
+   "size": [
+    5,
+    16,
+    2.4
+   ],
+   "color": "lit",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -65
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing2",
+   "shape": "cone",
+   "center": [
+    10.0,
+    21,
+    -9
+   ],
+   "size": [
+    5,
+    13,
+    2.4
+   ],
+   "color": "lit",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -95
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tail0",
+   "shape": "cone",
+   "center": [
+    0,
+    14,
+    -9
+   ],
+   "size": [
+    4.5,
+    8,
+    3
+   ],
+   "color": "yel",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail1",
+   "shape": "cone",
+   "center": [
+    0,
+    9,
+    -12
+   ],
+   "size": [
+    3.5,
+    7,
+    3
+   ],
+   "color": "yel",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail2",
+   "shape": "cone",
+   "center": [
+    0,
+    5,
+    -15
+   ],
+   "size": [
+    2.5,
+    6,
+    3
+   ],
+   "color": "yel",
+   "group": "tail",
+   "rot": [
+    -100,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailbase",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -8
+   ],
+   "size": [
+    7,
+    7,
+    8
+   ],
+   "color": "blk",
+   "group": "tail"
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Orserk.png",
+   "note": "全身: 黒い体、白い胸腹、黄色い脚、頭の金色の三日月状の角、背に白黄の稲妻状の翼"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Orserk_charging.png",
+   "note": "ゲーム内: 前傾した四つ足気味の姿勢、背の稲妻スパイク"
+  },
+  {
+   "url": "Tools/.refcache/187/icon.png",
+   "note": "頭部: 金色の大きな角2本、黒い頭"
+  }
+ ]
+}

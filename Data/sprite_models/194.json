@@ -1,0 +1,337 @@
+{
+ "name": "ノクサージュ (Dandilord)",
+ "gait": "biped",
+ "palette": {
+  "blk": "#18141c",
+  "blk2": "#2a2430",
+  "green": "#1c5a48",
+  "green2": "#2a7a60",
+  "purple": "#5a2e7a",
+  "purple2": "#7a4a9a",
+  "blue": "#3a68b8",
+  "blue2": "#5a8ad0",
+  "crown": "#14121a"
+ },
+ "parts": [
+  {
+   "name": "bulb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    48,
+    0
+   ],
+   "size": [
+    17,
+    12,
+    17
+   ],
+   "color": "purple",
+   "group": "head"
+  },
+  {
+   "name": "bulb2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    50,
+    0
+   ],
+   "size": [
+    13,
+    8,
+    13
+   ],
+   "color": "purple2",
+   "group": "head"
+  },
+  {
+   "name": "petal",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    44,
+    0
+   ],
+   "size": [
+    22,
+    5,
+    22
+   ],
+   "color": "blue",
+   "group": "head"
+  },
+  {
+   "name": "petal2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    52,
+    0
+   ],
+   "size": [
+    10,
+    6,
+    10
+   ],
+   "color": "blue2",
+   "group": "head"
+  },
+  {
+   "name": "crown",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    55,
+    0
+   ],
+   "size": [
+    14,
+    5,
+    14
+   ],
+   "color": "crown",
+   "group": "head"
+  },
+  {
+   "name": "crown2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    58,
+    0
+   ],
+   "size": [
+    3,
+    6,
+    3
+   ],
+   "color": "crown",
+   "group": "head"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    42,
+    0
+   ],
+   "size": [
+    12,
+    3,
+    12
+   ],
+   "color": "green2",
+   "group": "head"
+  },
+  {
+   "name": "torso",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    0
+   ],
+   "size": [
+    7,
+    16,
+    6
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    0
+   ],
+   "size": [
+    10,
+    10,
+    8
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "blade",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    2
+   ],
+   "size": [
+    8,
+    26,
+    5
+   ],
+   "color": "blk2",
+   "group": "body"
+  },
+  {
+   "name": "bladeg",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    2.5
+   ],
+   "size": [
+    7.5,
+    14,
+    4.5
+   ],
+   "color": "green",
+   "group": "body"
+  },
+  {
+   "name": "bladeL",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    16,
+    0
+   ],
+   "size": [
+    5,
+    30,
+    5
+   ],
+   "color": "blk",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bladeLg",
+   "shape": "ellipsoid",
+   "center": [
+    11,
+    8,
+    0
+   ],
+   "size": [
+    4.5,
+    14,
+    4.5
+   ],
+   "color": "green2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -14
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bladeB",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -4
+   ],
+   "size": [
+    7,
+    30,
+    4
+   ],
+   "color": "blk",
+   "group": "body"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    37,
+    1
+   ],
+   "size": [
+    4,
+    12,
+    4
+   ],
+   "color": "blk",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -55
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    33,
+    2
+   ],
+   "size": [
+    9,
+    8,
+    8
+   ],
+   "color": "blk",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leaf",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    31,
+    2
+   ],
+   "size": [
+    7,
+    3,
+    3
+   ],
+   "color": "green2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    2,
+    2
+   ],
+   "size": [
+    5,
+    4,
+    6
+   ],
+   "color": "blk",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "Tools/.refshots/194",
+   "note": "purple bulb head with blue petals and black crown, thin black body, green-black leaf blades, bulb hands"
+  }
+ ]
+}

@@ -1,0 +1,305 @@
+{
+ "name": "ヨモギウサ (Ribbuny Botan)",
+ "gait": "biped",
+ "palette": {
+  "body": "#2f8a4a",
+  "belly": "#f4f0d0",
+  "skirt": "#2a7a40",
+  "head": "#2f8a4a",
+  "face": "#f6f2de",
+  "eye": "#e0308a",
+  "white": "#ffffff",
+  "nose": "#4a6a30",
+  "ear": "#2f8a4a",
+  "earin": "#f4e46a",
+  "bow": "#f6d84a",
+  "bow2": "#e0b830",
+  "foot": "#e4d890"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    16,
+    16,
+    14
+   ],
+   "color": "body",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    5
+   ],
+   "size": [
+    11,
+    12,
+    6
+   ],
+   "color": "belly",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5,
+    -1
+   ],
+   "size": [
+    22,
+    8,
+    18
+   ],
+   "color": "skirt",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    23,
+    2
+   ],
+   "size": [
+    20,
+    17,
+    16
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    22,
+    7
+   ],
+   "size": [
+    15,
+    12,
+    6
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.6,
+    23,
+    9.8
+   ],
+   "size": [
+    4,
+    4.6,
+    2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye_hi",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    24.4,
+    11
+   ],
+   "size": [
+    1.4,
+    1.6,
+    0.8
+   ],
+   "color": "white",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0,
+    20.2,
+    10.4
+   ],
+   "size": [
+    1.6,
+    1,
+    0.8
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    36,
+    -1
+   ],
+   "size": [
+    6,
+    20,
+    5
+   ],
+   "color": "ear",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_in",
+   "shape": "ellipsoid",
+   "center": [
+    5.4,
+    36,
+    0.4
+   ],
+   "size": [
+    3.4,
+    16,
+    3
+   ],
+   "color": "earin",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -12
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bow",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    31,
+    3
+   ],
+   "size": [
+    7,
+    6,
+    4
+   ],
+   "color": "bow",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "bow_c",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30.5,
+    3.4
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "bow2",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    11,
+    3
+   ],
+   "size": [
+    4.4,
+    8,
+    4.4
+   ],
+   "color": "body",
+   "group": "arm_r"
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    4.5,
+    2.5,
+    3
+   ],
+   "size": [
+    6,
+    5,
+    9
+   ],
+   "color": "foot",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    9,
+    -10
+   ],
+   "size": [
+    8,
+    8,
+    8
+   ],
+   "color": "belly",
+   "group": "tail"
+  },
+  {
+   "name": "leaf",
+   "shape": "wedge",
+   "center": [
+    8,
+    10,
+    -3
+   ],
+   "size": [
+    8,
+    10,
+    4
+   ],
+   "color": "skirt",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    -40
+   ],
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_PinkRabbit_Grass_icon_normal.png",
+   "note": "正面: 深緑の頭と耳（内側黄）、黄色い大きなリボン、マゼンタの瞳、クリームの顔、緑の葉のケープ"
+  }
+ ]
+}

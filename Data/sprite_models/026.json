@@ -1,0 +1,436 @@
+{
+ "name": "ヒノコジカ (Rooby)",
+ "gait": "quad",
+ "palette": {
+  "cream": "#f4deb4",
+  "red": "#e6481e",
+  "red2": "#c8341a",
+  "fl": "#ff9a30",
+  "fl2": "#ffd34a",
+  "eye": "#46bde4",
+  "bow": "#f2879f",
+  "hoof": "#5a3a2c",
+  "spot": "#fff2d8",
+  "dark": "#3a2a2a"
+ },
+ "parts": [
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16.5,
+    0
+   ],
+   "size": [
+    11,
+    10,
+    21
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "back",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19.5,
+    -1
+   ],
+   "size": [
+    12.4,
+    8,
+    21
+   ],
+   "color": "red",
+   "group": "body"
+  },
+  {
+   "name": "spot",
+   "shape": "ellipsoid",
+   "center": [
+    3.6,
+    21.5,
+    -3
+   ],
+   "size": [
+    1.6,
+    1.2,
+    1.6
+   ],
+   "color": "spot",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "spot2",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    21.5,
+    -8
+   ],
+   "size": [
+    1.4,
+    1.2,
+    1.4
+   ],
+   "color": "spot",
+   "group": "body",
+   "mirror_x": true
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    20,
+    8
+   ],
+   "size": [
+    8,
+    9,
+    7
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    10.5
+   ],
+   "size": [
+    6,
+    13,
+    6.4
+   ],
+   "color": "cream",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    12
+   ],
+   "size": [
+    8.4,
+    8,
+    9
+   ],
+   "color": "red",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31.4,
+    16
+   ],
+   "size": [
+    4.4,
+    4.4,
+    5
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    32,
+    18.4
+   ],
+   "size": [
+    1.8,
+    1.4,
+    1.2
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    33.6,
+    15.6
+   ],
+   "size": [
+    2.6,
+    3,
+    1.2
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "flame",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40.5,
+    10
+   ],
+   "size": [
+    7,
+    12,
+    6
+   ],
+   "color": "fl",
+   "group": "head"
+  },
+  {
+   "name": "flame2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41.5,
+    11
+   ],
+   "size": [
+    4,
+    8,
+    3.6
+   ],
+   "color": "fl2",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    38,
+    9.5
+   ],
+   "size": [
+    10,
+    4.4,
+    2.6
+   ],
+   "color": "red",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earin",
+   "shape": "ellipsoid",
+   "center": [
+    7.2,
+    38,
+    10.6
+   ],
+   "size": [
+    7,
+    2.6,
+    1.2
+   ],
+   "color": "cream",
+   "group": "ear",
+   "rot": [
+    0,
+    0,
+    -50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "bow",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24.5,
+    13
+   ],
+   "size": [
+    9,
+    4.4,
+    3
+   ],
+   "color": "bow",
+   "group": "head"
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    3.4,
+    8,
+    6.5
+   ],
+   "size": [
+    2.8,
+    16,
+    2.8
+   ],
+   "color": "cream",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "band",
+   "shape": "cylinder",
+   "center": [
+    3.4,
+    6,
+    6.5
+   ],
+   "size": [
+    3.2,
+    2,
+    3.2
+   ],
+   "color": "red",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof",
+   "shape": "box",
+   "center": [
+    3.4,
+    0.8,
+    7
+   ],
+   "size": [
+    2.8,
+    1.6,
+    3.4
+   ],
+   "color": "hoof",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    3.4,
+    8,
+    -6.5
+   ],
+   "size": [
+    2.8,
+    16,
+    2.8
+   ],
+   "color": "cream",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "bandb",
+   "shape": "cylinder",
+   "center": [
+    3.4,
+    6,
+    -6.5
+   ],
+   "size": [
+    3.2,
+    2,
+    3.2
+   ],
+   "color": "red",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofb",
+   "shape": "box",
+   "center": [
+    3.4,
+    0.8,
+    -6
+   ],
+   "size": [
+    2.8,
+    1.6,
+    3.4
+   ],
+   "color": "hoof",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    -17
+   ],
+   "size": [
+    9,
+    11,
+    14
+   ],
+   "color": "red2",
+   "group": "tail",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tailtip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -21
+   ],
+   "size": [
+    5,
+    6,
+    8
+   ],
+   "color": "red",
+   "group": "tail",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Rooby.png",
+   "note": "モデル画: クリーム色の胴・脚、橙赤の頭と背、頭の炎、桃色のリボン、大きな橙の尾"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/RoobyPW.webp",
+   "note": "ゲーム内: 脚に赤い輪、茶色の蹄、尾は長くふさふさ"
+  },
+  {
+   "url": "Tools/.refcache/026/icon.png",
+   "note": "頭部: 水色の目、大きな耳（内側クリーム）、炎が頭頂から立つ"
+  }
+ ]
+}

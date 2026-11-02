@@ -1,0 +1,333 @@
+{
+ "name": "プラムルリム (Prunelia)",
+ "gait": "hover",
+ "palette": {
+  "lav": "#b79adb",
+  "lav2": "#cdb4ea",
+  "pet": "#f2eefa",
+  "petsh": "#d9d0ea",
+  "hair": "#4a3a6a",
+  "eye": "#c0405a",
+  "white": "#ffffff",
+  "leaf": "#5aa03a",
+  "leaf2": "#78bc48",
+  "berry": "#2a2a5a",
+  "dark": "#3a3050"
+ },
+ "hover": 6,
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    13,
+    13,
+    11
+   ],
+   "color": "lav",
+   "group": "body"
+  },
+  {
+   "name": "berry",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    11,
+    5
+   ],
+   "size": [
+    4,
+    4,
+    4
+   ],
+   "color": "berry",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "cylinder",
+   "center": [
+    0,
+    15,
+    0
+   ],
+   "size": [
+    15,
+    3,
+    13
+   ],
+   "color": "pet",
+   "group": "body"
+  },
+  {
+   "name": "skirt1",
+   "shape": "cone",
+   "center": [
+    6,
+    5,
+    3
+   ],
+   "size": [
+    7,
+    7,
+    5
+   ],
+   "color": "leaf",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "skirt2",
+   "shape": "cone",
+   "center": [
+    0,
+    4,
+    6
+   ],
+   "size": [
+    7,
+    7,
+    5
+   ],
+   "color": "leaf2",
+   "group": "body",
+   "rot": [
+    0,
+    0,
+    180
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    0
+   ],
+   "size": [
+    22,
+    19,
+    19
+   ],
+   "color": "lav2",
+   "group": "head"
+  },
+  {
+   "name": "hairlock",
+   "shape": "ellipsoid",
+   "center": [
+    -5,
+    26,
+    7
+   ],
+   "size": [
+    11,
+    15,
+    9
+   ],
+   "color": "hair",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -10
+   ]
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    23,
+    9
+   ],
+   "size": [
+    4.5,
+    5,
+    2.5
+   ],
+   "color": "eye",
+   "group": "head"
+  },
+  {
+   "name": "eyehl",
+   "shape": "box",
+   "center": [
+    5.8,
+    24.5,
+    10.4
+   ],
+   "size": [
+    1.2,
+    1.2,
+    0.6
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "mouth",
+   "shape": "box",
+   "center": [
+    1,
+    18,
+    9.5
+   ],
+   "size": [
+    3,
+    0.7,
+    0.6
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "petal_t",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    -2
+   ],
+   "size": [
+    9,
+    10,
+    3
+   ],
+   "color": "pet",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "petal_s",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    31,
+    -3
+   ],
+   "size": [
+    9,
+    10,
+    4
+   ],
+   "color": "pet",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -50
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "petal_e",
+   "shape": "ellipsoid",
+   "center": [
+    14,
+    25,
+    -3
+   ],
+   "size": [
+    9,
+    10,
+    4
+   ],
+   "color": "petsh",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -85
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "petal_b",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -9
+   ],
+   "size": [
+    22,
+    20,
+    3
+   ],
+   "color": "petsh",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    11,
+    2
+   ],
+   "size": [
+    4,
+    9,
+    4
+   ],
+   "color": "hair",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -30
+   ]
+  },
+  {
+   "name": "arml",
+   "shape": "ellipsoid",
+   "center": [
+    -9,
+    11,
+    2
+   ],
+   "size": [
+    4,
+    9,
+    4
+   ],
+   "color": "lav",
+   "group": "arm_l",
+   "rot": [
+    0,
+    0,
+    30
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_BlueberryFairy_icon_normal.png",
+   "note": "アイコン: 薄紫の頭巾+白い花弁の襟、右目に暗紫の前髪、赤紫の目、胸にブルーベリー、緑の葉"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_BlueberryFairy_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Prunelia_icon.png",
+   "note": "wiki icon 同"
+  }
+ ]
+}

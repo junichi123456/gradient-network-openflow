@@ -1,0 +1,275 @@
+{
+ "name": "モコチッチ (Muffly)",
+ "gait": "hover",
+ "palette": {
+  "wool": "#f5f7fb",
+  "wool2": "#dfe6f2",
+  "blue": "#a9cdea",
+  "blue2": "#5c97d3",
+  "beak": "#4f86cc",
+  "eye": "#1a1a22",
+  "foot": "#9aa0aa"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    22,
+    18,
+    20
+   ],
+   "color": "wool",
+   "group": "body"
+  },
+  {
+   "name": "under",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    4,
+    1
+   ],
+   "size": [
+    15,
+    8,
+    15
+   ],
+   "color": "blue",
+   "group": "body"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    8
+   ],
+   "size": [
+    12,
+    10,
+    6
+   ],
+   "color": "blue",
+   "group": "body"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.2,
+    11.5,
+    10.8
+   ],
+   "size": [
+    2.2,
+    2.8,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    9.6,
+    12.6
+   ],
+   "size": [
+    2.6,
+    3,
+    2.6
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "p1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    3
+   ],
+   "size": [
+    12,
+    8,
+    12
+   ],
+   "color": "wool",
+   "group": "head"
+  },
+  {
+   "name": "p2",
+   "shape": "ellipsoid",
+   "center": [
+    7.5,
+    16,
+    4
+   ],
+   "size": [
+    9,
+    9,
+    10
+   ],
+   "color": "wool",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "p3",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    10,
+    3
+   ],
+   "size": [
+    9,
+    10,
+    10
+   ],
+   "color": "wool",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "p4",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    5,
+    4
+   ],
+   "size": [
+    8,
+    7,
+    9
+   ],
+   "color": "wool2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "p5",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    3,
+    9
+   ],
+   "size": [
+    10,
+    6,
+    7
+   ],
+   "color": "wool2",
+   "group": "head"
+  },
+  {
+   "name": "puffb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    12,
+    -9
+   ],
+   "size": [
+    18,
+    14,
+    9
+   ],
+   "color": "wool",
+   "group": "body"
+  },
+  {
+   "name": "fin",
+   "shape": "ellipsoid",
+   "center": [
+    12,
+    6,
+    -1
+   ],
+   "size": [
+    4,
+    5,
+    9
+   ],
+   "color": "blue2",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    3,
+    0.8,
+    3
+   ],
+   "size": [
+    2.2,
+    1.6,
+    3
+   ],
+   "color": "foot",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tailf",
+   "shape": "wedge",
+   "center": [
+    0,
+    6,
+    -12
+   ],
+   "size": [
+    6,
+    7,
+    5
+   ],
+   "color": "blue2",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Muffly_transporting.png",
+   "note": "ゲーム内: 白い羊毛の雲状の体・青い顔と青い小さなくちばし・黒い丸い目・下面と羽は水色"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Muffly_cooling.png",
+   "note": "横から: 丸い綿雲、尾は青い小さなひれ"
+  },
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_FluffyBird_icon_normal.png",
+   "note": "正面アップ: 顔を囲む綿の房の輪"
+  }
+ ],
+ "hover": 5
+}

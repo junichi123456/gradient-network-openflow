@@ -1,0 +1,258 @@
+{
+ "name": "クララン (Jelliette)",
+ "gait": "hover",
+ "palette": {
+  "cap": "#cfd6dc",
+  "cap2": "#a8b4bc",
+  "rim": "#5cc8d8",
+  "spot": "#7ad4e2",
+  "skin": "#f2f4f0",
+  "eye": "#58c8e0",
+  "fur": "#3a8ad0",
+  "tent": "#e4eaee",
+  "tip": "#74d0e0",
+  "loop": "#6cc4dc",
+  "pupil": "#e8f6fa"
+ },
+ "hover": 3,
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    15,
+    0
+   ],
+   "size": [
+    13,
+    14,
+    11
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "collar",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    3
+   ],
+   "size": [
+    14,
+    6,
+    9
+   ],
+   "color": "fur",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27,
+    2
+   ],
+   "size": [
+    14,
+    15,
+    13
+   ],
+   "color": "skin",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    3.4,
+    27,
+    8.6
+   ],
+   "size": [
+    2.4,
+    6.4,
+    0.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "cap",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    1
+   ],
+   "size": [
+    34,
+    16,
+    30
+   ],
+   "color": "cap",
+   "group": "head"
+  },
+  {
+   "name": "cap_rim",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31.5,
+    2
+   ],
+   "size": [
+    35,
+    5,
+    31
+   ],
+   "color": "rim",
+   "group": "head"
+  },
+  {
+   "name": "cap_top",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40,
+    0
+   ],
+   "size": [
+    20,
+    5,
+    18
+   ],
+   "color": "cap2",
+   "group": "head"
+  },
+  {
+   "name": "spot",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    38,
+    6
+   ],
+   "size": [
+    8,
+    4,
+    6
+   ],
+   "color": "spot",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "loop",
+   "shape": "cylinder",
+   "center": [
+    0,
+    44,
+    0
+   ],
+   "size": [
+    5,
+    5,
+    2
+   ],
+   "color": "loop",
+   "group": "head"
+  },
+  {
+   "name": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    15,
+    6
+   ],
+   "size": [
+    3.4,
+    6,
+    3.4
+   ],
+   "color": "skin",
+   "group": "arm_r",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tent_a",
+   "shape": "cone",
+   "center": [
+    7,
+    11,
+    -4
+   ],
+   "size": [
+    7,
+    22,
+    7
+   ],
+   "color": "tent",
+   "group": "tail",
+   "rot": [
+    180,
+    0,
+    0
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tent_a_tip",
+   "shape": "ellipsoid",
+   "center": [
+    7,
+    1.5,
+    -4
+   ],
+   "size": [
+    6,
+    4,
+    6
+   ],
+   "color": "tip",
+   "group": "tail",
+   "mirror_x": true
+  },
+  {
+   "name": "tent_b",
+   "shape": "cone",
+   "center": [
+    0,
+    9,
+    -7
+   ],
+   "size": [
+    6,
+    18,
+    6
+   ],
+   "color": "tent",
+   "group": "tail",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_JellyfishFairy_icon_normal.png",
+   "note": "正面: 灰白の大きな傘、水色の縁と楕円の斑、頭上の水色の輪、白い顔と水色の目、青い毛の襟、白い触手の先が水色"
+  }
+ ]
+}

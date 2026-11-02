@@ -1,0 +1,320 @@
+{
+ "name": "ユキボウ",
+ "gait": "biped",
+ "palette": {
+  "f": "#aaa6bd",
+  "f2": "#c0bccf",
+  "fd": "#8a869f",
+  "ice": "#3f8cc0",
+  "ice2": "#6cb4dc",
+  "dk": "#48425a",
+  "eye": "#e8d878"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    0
+   ],
+   "size": [
+    22,
+    18,
+    20
+   ],
+   "color": "f",
+   "group": "body"
+  },
+  {
+   "name": "belly",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    8,
+    4
+   ],
+   "size": [
+    15,
+    11,
+    12
+   ],
+   "color": "f2",
+   "group": "body"
+  },
+  {
+   "name": "fur1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -5
+   ],
+   "size": [
+    20,
+    10,
+    12
+   ],
+   "color": "fd",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    19,
+    4
+   ],
+   "size": [
+    18,
+    13,
+    14
+   ],
+   "color": "f",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    10
+   ],
+   "size": [
+    12,
+    8,
+    6
+   ],
+   "color": "dk",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    19.5,
+    12.5
+   ],
+   "size": [
+    2.4,
+    2.6,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hornf",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    7
+   ],
+   "size": [
+    4,
+    8,
+    4
+   ],
+   "color": "ice",
+   "group": "head",
+   "rot": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "cheek",
+   "shape": "ellipsoid",
+   "center": [
+    10,
+    19,
+    3
+   ],
+   "size": [
+    4,
+    6,
+    4
+   ],
+   "color": "ice",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    6.5,
+    25,
+    2
+   ],
+   "size": [
+    5,
+    5,
+    4
+   ],
+   "color": "f2",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tuft",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    0
+   ],
+   "size": [
+    14,
+    7,
+    10
+   ],
+   "color": "f2",
+   "group": "head"
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    11.5,
+    10,
+    5
+   ],
+   "size": [
+    5,
+    10,
+    6
+   ],
+   "color": "f",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "claw",
+   "shape": "ellipsoid",
+   "center": [
+    12.5,
+    5,
+    6
+   ],
+   "size": [
+    3.5,
+    5,
+    4
+   ],
+   "color": "ice",
+   "group": "arm_r",
+   "rot": [
+    0,
+    0,
+    -15
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "lg",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    3,
+    2
+   ],
+   "size": [
+    8,
+    6,
+    10
+   ],
+   "color": "f",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    1.2,
+    5
+   ],
+   "size": [
+    7,
+    3,
+    8
+   ],
+   "color": "dk",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "spk1",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    -12
+   ],
+   "size": [
+    4,
+    9,
+    4
+   ],
+   "color": "ice",
+   "group": "tail",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "spk2",
+   "shape": "ellipsoid",
+   "center": [
+    8,
+    11,
+    -9
+   ],
+   "size": [
+    4,
+    8,
+    4
+   ],
+   "color": "ice2",
+   "group": "tail",
+   "rot": [
+    -20,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tl",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    6,
+    -12
+   ],
+   "size": [
+    10,
+    9,
+    8
+   ],
+   "color": "f2",
+   "group": "tail"
+  }
+ ]
+}

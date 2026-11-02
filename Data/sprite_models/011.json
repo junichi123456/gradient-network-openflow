@@ -1,0 +1,263 @@
+{
+ "name": "チョロゾウ (Teafant)",
+ "gait": "quad",
+ "palette": {
+  "cr": "#f6e4a8",
+  "cr2": "#fbeeb8",
+  "bl": "#58b8ec",
+  "bl2": "#8cd0f4",
+  "gem": "#20a898",
+  "pup": "#106058",
+  "leg": "#ecd898"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13,
+    -1
+   ],
+   "size": [
+    22,
+    20,
+    26
+   ],
+   "color": "cr",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    10
+   ],
+   "size": [
+    18,
+    16,
+    14
+   ],
+   "color": "cr2",
+   "group": "head"
+  },
+  {
+   "name": "trunk",
+   "shape": "cylinder",
+   "center": [
+    0,
+    15.5,
+    19
+   ],
+   "size": [
+    5,
+    10,
+    5
+   ],
+   "color": "cr2",
+   "group": "head",
+   "rot": [
+    75,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "trunk_tip",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    13.5,
+    23.5
+   ],
+   "size": [
+    5.4,
+    5,
+    5
+   ],
+   "color": "cr",
+   "group": "head"
+  },
+  {
+   "name": "drop",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27.5,
+    9
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "bl",
+   "group": "head"
+  },
+  {
+   "name": "dropt",
+   "shape": "cone",
+   "center": [
+    0,
+    32.5,
+    9
+   ],
+   "size": [
+    3.6,
+    5,
+    3.6
+   ],
+   "color": "bl2",
+   "group": "head"
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    11.5,
+    19,
+    7
+   ],
+   "size": [
+    3.4,
+    14,
+    12
+   ],
+   "color": "cr2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -6
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "ear_rim",
+   "shape": "ellipsoid",
+   "center": [
+    12.6,
+    18,
+    7
+   ],
+   "size": [
+    1.6,
+    15,
+    13
+   ],
+   "color": "bl",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -6
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    6.4,
+    20,
+    15.6
+   ],
+   "size": [
+    3.2,
+    4.4,
+    1.8
+   ],
+   "color": "gem",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyedot",
+   "shape": "ellipsoid",
+   "center": [
+    6.6,
+    20.4,
+    16.6
+   ],
+   "size": [
+    1,
+    1.6,
+    0.8
+   ],
+   "color": "pup",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "fl",
+   "shape": "cylinder",
+   "center": [
+    6,
+    4,
+    6
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "leg",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "bl",
+   "shape": "cylinder",
+   "center": [
+    6,
+    4,
+    -9
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "leg",
+   "group": "leg_bl",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    10,
+    -15
+   ],
+   "size": [
+    3,
+    8,
+    3
+   ],
+   "color": "cr2",
+   "group": "tail",
+   "rot": [
+    30,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_Ganesha_icon_normal.webp",
+   "note": "palworld アイコン(頭部アップ)"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Teafant_sitting.png",
+   "note": "クリーム色の象型: 頭頂の青い水滴、青縁の大きな耳、青緑の目"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Teafant%2CKelpsea.webp",
+   "note": "草地: 短い脚の丸い体、鼻は短め"
+  }
+ ]
+}

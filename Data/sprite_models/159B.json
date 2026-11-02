@@ -1,0 +1,392 @@
+{
+ "name": "マグナイト (Knocklem Ignis)",
+ "gait": "biped",
+ "palette": {
+  "arm": "#c03028",
+  "arm2": "#e45a40",
+  "trim": "#e0b040",
+  "crest": "#ffb020",
+  "face": "#101018",
+  "wing": "#e8c050",
+  "eye": "#e83030",
+  "dark": "#1c1c28"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    0
+   ],
+   "size": [
+    26,
+    22,
+    18
+   ],
+   "color": "arm",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    18,
+    7
+   ],
+   "size": [
+    16,
+    14,
+    9
+   ],
+   "color": "arm2",
+   "group": "body"
+  },
+  {
+   "name": "belt",
+   "shape": "cylinder",
+   "center": [
+    0,
+    9,
+    0
+   ],
+   "size": [
+    22,
+    2.4,
+    16
+   ],
+   "color": "trim",
+   "group": "body"
+  },
+  {
+   "name": "pelvis",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    7,
+    0
+   ],
+   "size": [
+    20,
+    9,
+    14
+   ],
+   "color": "arm",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    31,
+    3
+   ],
+   "size": [
+    13,
+    10,
+    11
+   ],
+   "color": "dark",
+   "group": "head"
+  },
+  {
+   "name": "helm",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    33,
+    2
+   ],
+   "size": [
+    16,
+    9,
+    14
+   ],
+   "color": "arm",
+   "group": "head"
+  },
+  {
+   "name": "visor",
+   "shape": "box",
+   "center": [
+    0,
+    31,
+    9
+   ],
+   "size": [
+    9,
+    3,
+    1.2
+   ],
+   "color": "face",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    3,
+    31.2,
+    9.8
+   ],
+   "size": [
+    2.6,
+    1.4,
+    0.8
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "hornT",
+   "shape": "cone",
+   "center": [
+    0,
+    38,
+    5
+   ],
+   "size": [
+    4.4,
+    10,
+    4.4
+   ],
+   "color": "trim",
+   "group": "head",
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "hornS",
+   "shape": "cone",
+   "center": [
+    7,
+    37,
+    3
+   ],
+   "size": [
+    3,
+    10,
+    3
+   ],
+   "color": "trim",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    36,
+    -5
+   ],
+   "size": [
+    8,
+    7,
+    12
+   ],
+   "color": "crest",
+   "group": "head"
+  },
+  {
+   "name": "crest2",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    39,
+    -7
+   ],
+   "size": [
+    5,
+    7,
+    9
+   ],
+   "color": "crest",
+   "group": "head"
+  },
+  {
+   "name": "chin",
+   "shape": "box",
+   "center": [
+    0,
+    27.5,
+    9
+   ],
+   "size": [
+    8,
+    3,
+    1.6
+   ],
+   "color": "trim",
+   "group": "head"
+  },
+  {
+   "name": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    15,
+    24,
+    0
+   ],
+   "size": [
+    11,
+    10,
+    12
+   ],
+   "color": "arm2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    17,
+    15,
+    2
+   ],
+   "size": [
+    9,
+    14,
+    9
+   ],
+   "color": "arm",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "fist",
+   "shape": "ellipsoid",
+   "center": [
+    18,
+    6,
+    4
+   ],
+   "size": [
+    11,
+    10,
+    11
+   ],
+   "color": "arm2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "cuff",
+   "shape": "cylinder",
+   "center": [
+    18,
+    10.5,
+    3.4
+   ],
+   "size": [
+    10,
+    1.6,
+    10
+   ],
+   "color": "trim",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "wedge",
+   "center": [
+    14,
+    34,
+    -10
+   ],
+   "size": [
+    3,
+    22,
+    16
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wingB",
+   "shape": "ellipsoid",
+   "center": [
+    13,
+    31,
+    -10
+   ],
+   "size": [
+    3,
+    9,
+    12
+   ],
+   "color": "trim",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -35
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "leg",
+   "shape": "ellipsoid",
+   "center": [
+    6,
+    4,
+    0
+   ],
+   "size": [
+    9,
+    8,
+    10
+   ],
+   "color": "arm",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    6,
+    1.5,
+    3
+   ],
+   "size": [
+    9,
+    3,
+    12
+   ],
+   "color": "arm2",
+   "group": "leg_fr",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_WingGolem_Fire_icon_normal.png",
+   "note": "アイコン: 赤い鎧、金の兜飾り、背に炎(黄橙)"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_WingGolem_Fire_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  }
+ ]
+}

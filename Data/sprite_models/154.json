@@ -1,0 +1,340 @@
+{
+ "name": "キンガゼル (Gildane)",
+ "gait": "quad",
+ "palette": {
+  "white": "#f0f2f4",
+  "white2": "#d8dde6",
+  "gold": "#e8b838",
+  "gold2": "#f4cc50",
+  "gold3": "#c8902a",
+  "eye": "#d02830",
+  "hoof": "#c8902a",
+  "nose": "#303038"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    23.8,
+    -2.8
+   ],
+   "size": [
+    19.6,
+    18.2,
+    33.6
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "capeBack",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    28.0,
+    -4.2
+   ],
+   "size": [
+    16.8,
+    14.0,
+    16.8
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "mane",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    32.2,
+    9.8
+   ],
+   "size": [
+    19.6,
+    26.6,
+    15.4
+   ],
+   "color": "gold",
+   "group": "body"
+  },
+  {
+   "name": "mane2",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    39.2,
+    8.4
+   ],
+   "size": [
+    16.8,
+    14.0,
+    14.0
+   ],
+   "color": "gold2",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    23.8,
+    11.2
+   ],
+   "size": [
+    15.4,
+    16.8,
+    11.2
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    33.6,
+    14.0
+   ],
+   "size": [
+    11.2,
+    18.2,
+    12.6
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    39.2,
+    21.0
+   ],
+   "size": [
+    11.2,
+    14.0,
+    18.2
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "muzzle",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    35.7,
+    28.0
+   ],
+   "size": [
+    8.4,
+    8.4,
+    8.4
+   ],
+   "color": "white2",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "box",
+   "center": [
+    0.0,
+    35.0,
+    32.48
+   ],
+   "size": [
+    4.2,
+    2.8,
+    1.4
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "crest",
+   "shape": "wedge",
+   "center": [
+    0.0,
+    49.0,
+    16.8
+   ],
+   "size": [
+    7.0,
+    12.6,
+    14.0
+   ],
+   "color": "gold2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "horn",
+   "shape": "cone",
+   "center": [
+    0.0,
+    56.0,
+    16.8
+   ],
+   "size": [
+    3.64,
+    14.0,
+    3.64
+   ],
+   "color": "gold3",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "antl",
+   "shape": "cone",
+   "center": [
+    5.6,
+    47.6,
+    16.8
+   ],
+   "size": [
+    3.08,
+    12.6,
+    3.08
+   ],
+   "color": "gold",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -30
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "box",
+   "center": [
+    5.18,
+    41.3,
+    27.3
+   ],
+   "size": [
+    2.24,
+    2.8,
+    1.4
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0.0,
+    25.2,
+    -21.0
+   ],
+   "size": [
+    9.8,
+    16.8,
+    14.0
+   ],
+   "color": "gold",
+   "group": "tail",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leg_f",
+   "shape": "ellipsoid",
+   "center": [
+    6.3,
+    9.8,
+    8.4
+   ],
+   "size": [
+    6.3,
+    21.0,
+    7.7
+   ],
+   "color": "white",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_f",
+   "shape": "box",
+   "center": [
+    6.3,
+    1.12,
+    8.96
+   ],
+   "size": [
+    7.28,
+    2.52,
+    8.12
+   ],
+   "color": "hoof",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "leg_b",
+   "shape": "ellipsoid",
+   "center": [
+    6.3,
+    9.8,
+    -14.0
+   ],
+   "size": [
+    7.0,
+    21.0,
+    9.1
+   ],
+   "color": "white",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof_b",
+   "shape": "box",
+   "center": [
+    6.3,
+    1.12,
+    -13.44
+   ],
+   "size": [
+    7.28,
+    2.52,
+    8.12
+   ],
+   "color": "hoof",
+   "group": "leg_br",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_GoldenHorse_icon_normal.png",
+   "note": "アイコン: 黄金の分厚い鬣/頭飾りと金の冠角、白い顔、赤い目、白い体"
+  },
+  {
+   "url": "https://cdn.paldb.cc/image/Pal/Texture/PalIcon/Normal/T_GoldenHorse_icon_normal.webp",
+   "note": "同アイコンのCDN版。色の確認用"
+  }
+ ]
+}

@@ -1,0 +1,304 @@
+{
+ "name": "ヤミイカ (Killamari)",
+ "gait": "hover",
+ "palette": {
+  "skin": "#d6cdee",
+  "skin2": "#a99cd0",
+  "cap": "#5e4e8c",
+  "cap2": "#4c3e78",
+  "cappale": "#cbc4ea",
+  "ring": "#f0a8e8",
+  "iris": "#7a2a9a"
+ },
+ "hover": 6,
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    14,
+    0
+   ],
+   "size": [
+    18,
+    20,
+    16
+   ],
+   "color": "skin",
+   "group": "body"
+  },
+  {
+   "name": "skirt",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    5.5,
+    0
+   ],
+   "size": [
+    19,
+    6,
+    17
+   ],
+   "color": "skin2",
+   "group": "body"
+  },
+  {
+   "name": "zig",
+   "shape": "cone",
+   "center": [
+    -6.5,
+    3,
+    6
+   ],
+   "size": [
+    5,
+    6,
+    4
+   ],
+   "color": "skin2",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "zig2",
+   "shape": "cone",
+   "center": [
+    0,
+    3,
+    7.4
+   ],
+   "size": [
+    5,
+    6,
+    4
+   ],
+   "color": "skin2",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "zig3",
+   "shape": "cone",
+   "center": [
+    6.5,
+    3,
+    6
+   ],
+   "size": [
+    5,
+    6,
+    4
+   ],
+   "color": "skin2",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "zigb",
+   "shape": "cone",
+   "center": [
+    -4,
+    3,
+    -7
+   ],
+   "size": [
+    5,
+    6,
+    4
+   ],
+   "color": "skin2",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "zigb2",
+   "shape": "cone",
+   "center": [
+    4,
+    3,
+    -7
+   ],
+   "size": [
+    5,
+    6,
+    4
+   ],
+   "color": "skin2",
+   "group": "body",
+   "rot": [
+    180,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "cap",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    0
+   ],
+   "size": [
+    20,
+    8,
+    18
+   ],
+   "color": "cap",
+   "group": "head"
+  },
+  {
+   "name": "brim",
+   "shape": "cylinder",
+   "center": [
+    0,
+    22.4,
+    0.5
+   ],
+   "size": [
+    22,
+    2.6,
+    20
+   ],
+   "color": "cap2",
+   "group": "head"
+  },
+  {
+   "name": "puff",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    27.5,
+    0
+   ],
+   "size": [
+    14,
+    4,
+    12
+   ],
+   "color": "cappale",
+   "group": "head"
+  },
+  {
+   "name": "capear",
+   "shape": "ellipsoid",
+   "center": [
+    9,
+    28,
+    0
+   ],
+   "size": [
+    7,
+    7,
+    4
+   ],
+   "color": "cap",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyew",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    18.5,
+    7.4
+   ],
+   "size": [
+    6.2,
+    6.8,
+    2.4
+   ],
+   "color": "ring",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eyep",
+   "shape": "ellipsoid",
+   "center": [
+    5,
+    18.5,
+    8.6
+   ],
+   "size": [
+    3.4,
+    3.8,
+    1.6
+   ],
+   "color": "iris",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "arm",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    12,
+    0
+   ],
+   "size": [
+    2.6,
+    18,
+    2.6
+   ],
+   "color": "skin2",
+   "group": "arm_r",
+   "mirror_x": true
+  },
+  {
+   "name": "tip",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    3,
+    0
+   ],
+   "size": [
+    3,
+    3.4,
+    3
+   ],
+   "color": "cap",
+   "group": "arm_r",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Killamari.png",
+   "note": "モデル画: 薄紫のイカ頭巾、濃紫の帽子と薄い雲模様の頂、丸い耳状の突起、ピンクの大きな目、ギザギザの裾、長い触手"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Killamari_gliding.png",
+   "note": "滑空: 触手を横に広げる、裾はギザギザ"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Killamari.PNG",
+   "note": "浮遊して移動"
+  },
+  {
+   "url": "Tools/.refcache/030/icon.png",
+   "note": "頭部"
+  }
+ ]
+}

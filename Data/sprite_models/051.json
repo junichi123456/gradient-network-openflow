@@ -1,0 +1,327 @@
+{
+ "name": "ホークウィン (Nitewing)",
+ "gait": "biped",
+ "palette": {
+  "head": "#4a4868",
+  "head2": "#625e82",
+  "white": "#eceaf0",
+  "grey": "#7a7894",
+  "beak": "#e8a838",
+  "beak2": "#c88a28",
+  "red": "#e8562e",
+  "red2": "#f07848",
+  "eye": "#2a1a1a",
+  "talon": "#e8b838",
+  "wing": "#5a5878",
+  "wing2": "#908eb0"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    17,
+    -1
+   ],
+   "size": [
+    17,
+    20,
+    20
+   ],
+   "color": "grey",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    16,
+    5
+   ],
+   "size": [
+    14,
+    16,
+    10
+   ],
+   "color": "white",
+   "group": "body"
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    30,
+    5
+   ],
+   "size": [
+    12,
+    12,
+    13
+   ],
+   "color": "head",
+   "group": "head"
+  },
+  {
+   "name": "face",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    8
+   ],
+   "size": [
+    9,
+    8,
+    7
+   ],
+   "color": "white",
+   "group": "head"
+  },
+  {
+   "name": "beak",
+   "shape": "cone",
+   "center": [
+    0,
+    28,
+    14
+   ],
+   "size": [
+    6,
+    8,
+    6
+   ],
+   "color": "beak",
+   "group": "head",
+   "rot": [
+    90,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "beak_u",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    29,
+    12
+   ],
+   "size": [
+    5,
+    2.6,
+    5
+   ],
+   "color": "beak2",
+   "group": "head"
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    4.4,
+    31,
+    9.5
+   ],
+   "size": [
+    2,
+    2.6,
+    1.6
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "crest",
+   "shape": "cone",
+   "center": [
+    2,
+    38,
+    0
+   ],
+   "size": [
+    5,
+    12,
+    4
+   ],
+   "color": "red",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    10
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "crest2",
+   "shape": "cone",
+   "center": [
+    0,
+    38,
+    1
+   ],
+   "size": [
+    5,
+    12,
+    4
+   ],
+   "color": "wing2",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "feather_c",
+   "shape": "cone",
+   "center": [
+    8,
+    31,
+    2
+   ],
+   "size": [
+    3,
+    10,
+    3
+   ],
+   "color": "red2",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -75
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "wing",
+   "shape": "ellipsoid",
+   "center": [
+    10.5,
+    22,
+    -2
+   ],
+   "size": [
+    5,
+    22,
+    18
+   ],
+   "color": "wing",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -8
+   ]
+  },
+  {
+   "name": "wing_tip",
+   "shape": "cone",
+   "center": [
+    13,
+    12,
+    -6
+   ],
+   "size": [
+    5,
+    12,
+    5
+   ],
+   "color": "red",
+   "group": "wing_r",
+   "rot": [
+    0,
+    0,
+    -5
+   ]
+  },
+  {
+   "name": "wing_tip2",
+   "shape": "cone",
+   "center": [
+    12,
+    14,
+    -10
+   ],
+   "size": [
+    4,
+    10,
+    4
+   ],
+   "color": "red2",
+   "group": "wing_r",
+   "rot": [
+    -30,
+    0,
+    -5
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    4.5,
+    5,
+    1
+   ],
+   "size": [
+    3,
+    9,
+    3
+   ],
+   "color": "talon",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "foot",
+   "shape": "box",
+   "center": [
+    4.5,
+    1,
+    3
+   ],
+   "size": [
+    5,
+    2,
+    7
+   ],
+   "color": "talon",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "tail",
+   "shape": "cone",
+   "center": [
+    0,
+    12,
+    -13
+   ],
+   "size": [
+    8,
+    14,
+    4
+   ],
+   "color": "red",
+   "group": "tail",
+   "rot": [
+    -110,
+    0,
+    0
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.gg/images/full_palicon/T_HawkBird_icon_normal.png",
+   "note": "正面: 紫灰の頭、橙赤の羽飾りが頭と翼から放射状、黄橙のくちばし、白い顔と胸、灰紫の翼"
+  }
+ ]
+}

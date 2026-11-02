@@ -1,0 +1,502 @@
+{
+ "name": "ヤマガミ (Eikthyrdeer Terra)",
+ "gait": "quad",
+ "palette": {
+  "cream": "#f6f4ee",
+  "mane": "#a58a36",
+  "acc": "#7cae48",
+  "nose": "#4a3a46",
+  "dark": "#2a2a30",
+  "eye": "#d8402a",
+  "hoof": "#4f7a34"
+ },
+ "parts": [
+  {
+   "name": "body",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    24,
+    -2
+   ],
+   "size": [
+    12,
+    13,
+    24
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "back",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    28,
+    -5
+   ],
+   "size": [
+    12.6,
+    6,
+    20
+   ],
+   "color": "mane",
+   "group": "body"
+  },
+  {
+   "name": "chest",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    25,
+    9
+   ],
+   "size": [
+    10,
+    15,
+    9
+   ],
+   "color": "cream",
+   "group": "body"
+  },
+  {
+   "name": "feather",
+   "shape": "cone",
+   "center": [
+    0,
+    19,
+    12.5
+   ],
+   "size": [
+    5,
+    6,
+    3
+   ],
+   "color": "cream",
+   "group": "body",
+   "rot": [
+    160,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "neck",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34,
+    12
+   ],
+   "size": [
+    6.4,
+    17,
+    6.4
+   ],
+   "color": "cream",
+   "group": "head",
+   "rot": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "neckb",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    34.5,
+    9.4
+   ],
+   "size": [
+    3.2,
+    16,
+    3.4
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "head",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    42.5,
+    15.5
+   ],
+   "size": [
+    7,
+    8,
+    10
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "snout",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    40.8,
+    20
+   ],
+   "size": [
+    4.4,
+    4,
+    6
+   ],
+   "color": "cream",
+   "group": "head"
+  },
+  {
+   "name": "nose",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    41,
+    23
+   ],
+   "size": [
+    2.2,
+    2,
+    1.4
+   ],
+   "color": "nose",
+   "group": "head"
+  },
+  {
+   "name": "mark",
+   "shape": "box",
+   "center": [
+    3.2,
+    44.4,
+    18
+   ],
+   "size": [
+    2.4,
+    1,
+    3
+   ],
+   "color": "acc",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "eye",
+   "shape": "ellipsoid",
+   "center": [
+    3.4,
+    43.4,
+    18.2
+   ],
+   "size": [
+    1.4,
+    1.6,
+    1
+   ],
+   "color": "eye",
+   "group": "head",
+   "mirror_x": true
+  },
+  {
+   "name": "ear",
+   "shape": "ellipsoid",
+   "center": [
+    5.4,
+    45,
+    12.5
+   ],
+   "size": [
+    6.5,
+    3,
+    2.4
+   ],
+   "color": "cream",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "earin",
+   "shape": "ellipsoid",
+   "center": [
+    5.6,
+    45,
+    13.4
+   ],
+   "size": [
+    4.4,
+    1.8,
+    1.2
+   ],
+   "color": "dark",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "beam",
+   "shape": "cylinder",
+   "center": [
+    0,
+    49,
+    12
+   ],
+   "size": [
+    3.2,
+    11,
+    3.2
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "br1",
+   "shape": "ellipsoid",
+   "center": [
+    5.5,
+    52,
+    8
+   ],
+   "size": [
+    2.6,
+    13,
+    2.6
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    -10,
+    0,
+    -55
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "br2",
+   "shape": "ellipsoid",
+   "center": [
+    3,
+    55,
+    6
+   ],
+   "size": [
+    2.4,
+    11,
+    2.4
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    -25,
+    0,
+    -20
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "br3",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    54,
+    7
+   ],
+   "size": [
+    2.4,
+    10,
+    2.4
+   ],
+   "color": "mane",
+   "group": "head",
+   "rot": [
+    -30,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tip1",
+   "shape": "cone",
+   "center": [
+    10.5,
+    56.5,
+    8
+   ],
+   "size": [
+    2.6,
+    4,
+    2.6
+   ],
+   "color": "acc",
+   "group": "head",
+   "rot": [
+    0,
+    0,
+    -65
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tip2",
+   "shape": "cone",
+   "center": [
+    5,
+    60.5,
+    5
+   ],
+   "size": [
+    2.4,
+    4,
+    2.4
+   ],
+   "color": "acc",
+   "group": "head",
+   "rot": [
+    -20,
+    0,
+    -25
+   ],
+   "mirror_x": true
+  },
+  {
+   "name": "tip3",
+   "shape": "cone",
+   "center": [
+    0,
+    59,
+    6
+   ],
+   "size": [
+    2.4,
+    4,
+    2.4
+   ],
+   "color": "acc",
+   "group": "head",
+   "rot": [
+    -35,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "tail",
+   "shape": "ellipsoid",
+   "center": [
+    0,
+    26,
+    -16
+   ],
+   "size": [
+    6,
+    9,
+    11
+   ],
+   "color": "mane",
+   "group": "tail",
+   "rot": [
+    -40,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "leg",
+   "shape": "cylinder",
+   "center": [
+    3.4,
+    10,
+    6
+   ],
+   "size": [
+    2.8,
+    20,
+    2.8
+   ],
+   "color": "cream",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "hoof",
+   "shape": "box",
+   "center": [
+    3.4,
+    0.9,
+    6.4
+   ],
+   "size": [
+    2.8,
+    1.8,
+    3.4
+   ],
+   "color": "hoof",
+   "group": "leg_fr",
+   "mirror_x": true
+  },
+  {
+   "name": "legb",
+   "shape": "cylinder",
+   "center": [
+    3.4,
+    10,
+    -9
+   ],
+   "size": [
+    3.2,
+    20,
+    3.2
+   ],
+   "color": "cream",
+   "group": "leg_br",
+   "mirror_x": true
+  },
+  {
+   "name": "hoofb",
+   "shape": "box",
+   "center": [
+    3.4,
+    0.9,
+    -8.6
+   ],
+   "size": [
+    3.2,
+    1.8,
+    3.6
+   ],
+   "color": "hoof",
+   "group": "leg_br",
+   "mirror_x": true
+  }
+ ],
+ "refs": [
+  {
+   "url": "https://palworld.wiki.gg/images/Eikthyrdeer_Terra.png",
+   "note": "Terra版: 白い体、角・背・尾は金褐色（樹皮状）、角先と蹄は緑、黒っぽい鼻"
+  },
+  {
+   "url": "https://palworld.wiki.gg/images/Eikthyrdeer.png",
+   "note": "基種との差: 紫→金褐色、水色→緑、桃鼻→黒鼻、蹄黒→緑"
+  }
+ ]
+}
