@@ -665,14 +665,14 @@ public partial class BattleTestScene : Node2D
         GD.Print($"[検証] 物理技は攻撃対防御・特殊技は魔力対精神でダメージが決まる: {(wired ? "OK" : "NG")} "
                  + $"(物理 A100/B40→{p0}, C/D変更後{p1}, A/B下げ後{p2} / 特殊 C30/D100→{q0}, C/D変更後{q1}, A/B変更後{q2} / {physMv.Name}・{specMv.Name} 威力{physMv.Power})");
 
-        // 2. ベンチマーク。(a) DamageCalculator に実数値 攻75/防75 を直接渡して威力35 → 13（式は不変）。
-        //    (b) 001 モコロン(66/64/85/27/46/59)同士 Lv50・突破0、STAB・相性・補正なし、威力35 → 物理10・特殊4。
-        int direct = DamageCalculator.Calculate(new DamageContext { BaseAtk = 75, BaseDef = 75, BasePower = 35 });
+        // 2. ベンチマーク。(a) DamageCalculator に実数値 攻75/防75 を直接渡して威力35 → 13、定数+1後は14。
+        //    (b) 001 モコロン(66/64/85/27/46/59)同士 Lv50・突破0、STAB・相性・補正なし、威力35 → 物理10・特殊4、+1後は物理11・特殊5。
+        int direct = DamageCalculator.ApplyFlatFinalBonus(DamageCalculator.Calculate(new DamageContext { BaseAtk = 75, BaseDef = 75, BasePower = 35 }));
         var moko = _sched.Roster.First(e => e.SpeciesId == "001").Stats;
-        int physBench = DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.Attack, BaseDef = moko.Defense, BasePower = 35 });
-        int specBench = DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.SpAttack, BaseDef = moko.SpDefense, BasePower = 35 });
-        GD.Print($"[検証] ベンチマーク(直接70/70/70→13、モコロン同士 物理10・特殊4): "
-                 + $"{(direct == 13 && physBench == 10 && specBench == 4 ? "OK" : "NG")} "
+        int physBench = DamageCalculator.ApplyFlatFinalBonus(DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.Attack, BaseDef = moko.Defense, BasePower = 35 }));
+        int specBench = DamageCalculator.ApplyFlatFinalBonus(DamageCalculator.Calculate(new DamageContext { BaseAtk = moko.SpAttack, BaseDef = moko.SpDefense, BasePower = 35 }));
+        GD.Print($"[検証] ベンチマーク(+1後 直接70/70/70→14、モコロン同士 物理11・特殊5): "
+                 + $"{(direct == 14 && physBench == 11 && specBench == 5 ? "OK" : "NG")} "
                  + $"(直接{direct} / モコロン 物理{physBench}[攻{moko.Attack}防{moko.Defense}] 特殊{specBench}[魔{moko.SpAttack}精{moko.SpDefense}])");
 
         // 3. 同優先度なら俊敏が高いほうが先: タマコッコ(S61・BST6 320) とブシガエル(S48・BST6 397)。
